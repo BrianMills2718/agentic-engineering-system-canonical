@@ -107,6 +107,11 @@ flowchart LR
   subgraph OTHER[Project brain]
     brain_fresh[brain_fresh: is the project brain stale]
   end
+  subgraph MERGE[Merge path: ported from code2-workspace; the installed ship and lane-sweep still run the workspace copy]
+    ship[ship: run the check, merge only the checked commit]
+    plan_content[plan_content: the plan-content question for the push hook]
+    lane_sweep[lane_sweep: remove finished lanes, fast-forward clean checkouts]
+  end
   systemd --> collect_feedback
   systemd --> label_items
   systemd -.-> problems
@@ -116,6 +121,9 @@ flowchart LR
   problems -.-> alert
   systemd -.-> timers
   systemd --> failed_unit_watch
+  ship --> lane_sweep
+  plan_content --> ship
+  systemd -.-> lane_sweep
   systemd -.-> machine_manifest
   systemd -.-> project_activity
   systemd -.-> refresh_checkouts

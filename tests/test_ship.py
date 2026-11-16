@@ -1,0 +1,1403 @@
+"""Tests for scripts/ship.py against a throwaway repository, a bare remote and a fake gh."""
+
+import json
+import os
+import stat
+import subprocess
+import sys
+from pathlib import Path
+
+import pytest
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))  # AES tests import src/; ship lives in scripts/
+import ship  # noqa: E402
+
+PLAN_LIST = "apps/plan-repos.conf"   # the plan list's path inside its checkout, in these tests
+
+FAKE_GH = """#!/usr/bin/env python3
+import json, os, sys
+log = os.environ["FAKE_GH_LOG"]
+open(log, "a").write(" ".join(sys.argv[1:]) + "\\n")
+args = sys.argv[1:]
+if args[:2] == ["pr", "view"] and "--json" in args and "state,mergeCommit" in args:
+    print(json.dumps({"state": os.environ.get("FAKE_GH_STATE", "MERGED"), "mergeCommit": {"oid": "abc123"}}))
+elif args[:2] == ["pr", "view"]:
+    sys.exit(1)
+elif args[:2] == ["pr", "list"]:
+    # Only an open pull request is ever listed: the fake keeps no merged ones to return.
+    print(os.environ.get("FAKE_GH_OPEN_PR", ""))
+elif args[:2] == ["pr", "create"]:
+    print("https://github.com/o/r/pull/7")
+elif args[:2] == ["pr", "merge"]:
+    # GitHub refuses a method the repository disables, and `merge` where main requires linear history.
+    method = next(a[2:] for a in args if a in ("--merge", "--rebase", "--squash"))
+    if method in os.environ.get("FAKE_GH_DISALLOW", "").split(",") or (
+            method == "merge" and os.environ.get("FAKE_GH_LINEAR")):
+        sys.stderr.write("GraphQL: Merge commits are not allowed on this repository. (mergePullRequest)\\n")
+        sys.exit(1)
+elif args[:2] == ["repo", "view"]:
+    if os.environ.get("FAKE_GH_REPO_FAIL"):
+        sys.exit(1)
+    off = os.environ.get("FAKE_GH_DISALLOW", "").split(",")
+    print(json.dumps({"mergeCommitAllowed": "merge" not in off, "rebaseMergeAllowed": "rebase" not in off,
+                      "squashMergeAllowed": "squash" not in off,
+                      "viewerDefaultMergeMethod": os.environ.get("FAKE_GH_DEFAULT", "MERGE"),
+                      "defaultBranchRef": {"name": "main"}}))
+elif args[:1] == ["api"] and args[1].endswith("/branches/main/protection"):
+    if os.environ.get("FAKE_GH_LINEAR") == "protection":
+        print(json.dumps({"required_linear_history": {"enabled": True}}))
+    else:
+        sys.stderr.write("Branch not protected (HTTP 404)\\n")
+        sys.exit(1)
+elif args[:1] == ["api"] and args[1].endswith("/rules/branches/main"):
+    print(json.dumps([{"type": "required_linear_history"}] if os.environ.get("FAKE_GH_LINEAR") == "ruleset" else []))
+"""
+
+
+def git(repo: Path, *args: str) -> str:
+    return subprocess.run(["git", "-C", str(repo), *args], capture_output=True, text=True, check=True).stdout.strip()
+
+
+def make_repo(tmp_path: Path, monkeypatch, first_commit: str, *, package: bool) -> tuple[Path, Path, Path]:
+    """A clone on a feature branch whose first commit has this date, with a bare remote and a fake gh.
+
+    With package, the first commit holds a planning package that a fake validator passes.
+    """
+    remote = tmp_path / "remote.git"
+    subprocess.run(["git", "init", "-q", "--bare", "-b", "main", str(remote)], check=True)
+    work = tmp_path / "work"
+    subprocess.run(["git", "init", "-q", "-b", "main", str(work)], check=True)
+    git(work, "config", "user.email", "t@example.com")
+    git(work, "config", "user.name", "t")
+    (work / "a.txt").write_text("a\n")
+    if package:
+        (work / ship.PACKAGE).parent.mkdir(parents=True)
+        (work / ship.PACKAGE).write_text("{}\n")
+        fake_validator(tmp_path, monkeypatch, 0)
+    git(work, "add", "-A")
+    dated = {**os.environ, "GIT_AUTHOR_DATE": first_commit, "GIT_COMMITTER_DATE": first_commit}
+    subprocess.run(["git", "-C", str(work), "commit", "-q", "-m", "base"], check=True, env=dated)
+    git(work, "remote", "add", "origin", str(remote))
+    git(work, "push", "-q", "origin", "main")
+    git(work, "checkout", "-q", "-b", "feature")
+    (work / "a.txt").write_text("b\n")
+    git(work, "commit", "-q", "-am", "change")
+    bindir = tmp_path / "bin"
+    bindir.mkdir()
+    gh = bindir / "gh"
+    gh.write_text(FAKE_GH)
+    gh.chmod(gh.stat().st_mode | stat.S_IEXEC)
+    monkeypatch.setenv("PATH", f"{bindir}{os.pathsep}{os.environ['PATH']}")
+    monkeypatch.setenv("FAKE_GH_LOG", str(tmp_path / "gh.log"))
+    monkeypatch.setenv("SHIP_LOG_DIR", str(tmp_path / "logs"))
+    monkeypatch.setenv("LANE_SWEEP_LOG_DIR", str(tmp_path / "sweep-logs"))
+    monkeypatch.setenv("SHIP_STATE_DIR", str(tmp_path / "state"))
+    # No test reads the person's own settings; the plan list path is a test value.
+    monkeypatch.setattr(ship, "CONFIG", tmp_path / "no-config" / "graph-config.yaml")
+    monkeypatch.setenv("SHIP_PLAN_LIST", PLAN_LIST)
+    # The fake validators need no packages; tests of the interpreter choice unset this.
+    monkeypatch.setenv("SHIP_VALIDATOR_PYTHON", sys.executable)
+    return work, remote, tmp_path / "gh.log"
+
+
+@pytest.fixture
+def repo(tmp_path, monkeypatch):
+    """An older repository with a passing planning package: its first commit is one second before a repository counts as new."""
+    return make_repo(tmp_path, monkeypatch, "2026-11-04T23:59:59+00:00", package=True)
+
+
+@pytest.fixture
+def unplanned_repo(tmp_path, monkeypatch):
+    """An older repository with no planning package."""
+    return make_repo(tmp_path, monkeypatch, "2026-11-04T23:59:59+00:00", package=False)
+
+
+@pytest.fixture
+def new_repo(tmp_path, monkeypatch):
+    """A new repository with no planning package: its first commit is the first second that counts."""
+    return make_repo(tmp_path, monkeypatch, "2026-11-05T00:00:00+00:00", package=False)
+
+
+def on_remote(remote: Path, branch: str) -> bool:
+    out = subprocess.run(["git", "-C", str(remote), "branch", "--list", branch], capture_output=True, text=True).stdout
+    return bool(out.strip())
+
+
+@pytest.mark.req("ship/a-failing-check-pushes-nothing")
+def test_a_failing_check_pushes_nothing(repo):
+    work, remote, _ = repo
+    assert ship.main(["--repo", str(work), "--check", "exit 1"]) == 1
+    assert not on_remote(remote, "feature")
+
+
+@pytest.mark.req("ship/a-failing-check-pushes-nothing")
+def test_a_check_that_fails_inside_a_pipe_pushes_nothing(repo):
+    """`cmd | tail -1` used to pass when cmd failed, because only tail's exit status was read."""
+    work, remote, _ = repo
+    assert ship.main(["--repo", str(work), "--check", "false | cat"]) == 1
+    assert not on_remote(remote, "feature")
+
+
+@pytest.mark.req("ship/a-dirty-tree-is-refused-before-the-check")
+def test_a_dirty_tree_is_refused_before_the_check(repo, tmp_path):
+    work, remote, _ = repo
+    (work / "a.txt").write_text("dirty\n")
+    marker = tmp_path / "ran"
+    assert ship.main(["--repo", str(work), "--check", f"touch {marker}"]) == 1
+    assert not marker.exists()
+    assert not on_remote(remote, "feature")
+
+
+@pytest.mark.req("ship/a-passing-check-merges-the-checked-commit")
+def test_a_passing_check_merges_the_checked_commit(repo):
+    work, remote, gh_log = repo
+    head = git(work, "rev-parse", "HEAD")
+    assert ship.main(["--repo", str(work), "--check", "true"]) == 0
+    assert on_remote(remote, "feature")
+    calls = gh_log.read_text()
+    assert "pr create" in calls
+    assert f"pr merge 7 --merge --match-head-commit {head}" in calls
+    assert list((Path(os.environ["SHIP_LOG_DIR"])).glob("*.log")), "the run is appended to the day's log"
+
+
+@pytest.mark.req("ship/a-branch-whose-earlier-pull-request-merged-gets-a-new-pull-request")
+def test_a_branch_whose_earlier_pull_request_merged_gets_a_new_pull_request(repo):
+    work, _, gh_log = repo
+    assert ship.main(["--repo", str(work), "--check", "true"]) == 0
+    calls = gh_log.read_text()
+    assert "pr list --head feature --state open" in calls
+    assert "pr view feature" not in calls, "pr view returns a merged pull request too"
+    assert "pr create" in calls and "pr merge 7 " in calls
+
+
+@pytest.mark.req("ship/a-merge-that-does-not-read-back-as-merged-fails")
+def test_a_merge_that_does_not_read_back_as_merged_fails(repo, monkeypatch):
+    work, _, _ = repo
+    monkeypatch.setenv("FAKE_GH_STATE", "OPEN")
+    assert ship.main(["--repo", str(work), "--check", "true"]) == 1
+
+
+def merge_call(gh_log: Path) -> str:
+    """The `gh pr merge` line the fake gh logged, or an empty string."""
+    return next((line for line in gh_log.read_text().splitlines() if line.startswith("pr merge")), "")
+
+
+@pytest.mark.req("ship/a-repository-that-requires-linear-history-is-merged-by-rebase")
+@pytest.mark.parametrize("how", ["protection", "ruleset"])
+def test_a_repository_that_requires_linear_history_is_merged_by_rebase(repo, monkeypatch, how):
+    """llm_client#321: the default method was merge, main required linear history, and GitHub refused the merge."""
+    work, _, gh_log = repo
+    monkeypatch.setenv("FAKE_GH_LINEAR", how)
+    assert ship.main(["--repo", str(work), "--check", "true"]) == 0
+    assert "--rebase" in merge_call(gh_log) and "--merge" not in merge_call(gh_log)
+
+
+@pytest.mark.req("ship/a-merge-method-that-the-repository-does-not-allow-is-replaced-before-the-check")
+def test_a_merge_method_that_the_repository_does_not_allow_is_replaced(repo, monkeypatch, capsys):
+    work, _, gh_log = repo
+    monkeypatch.setenv("FAKE_GH_LINEAR", "protection")
+    assert ship.main(["--repo", str(work), "--check", "true", "--method", "merge"]) == 0
+    assert "--rebase" in merge_call(gh_log)
+    out = capsys.readouterr().out
+    assert "merge is not allowed" in out and "using rebase" in out
+
+
+@pytest.mark.req("ship/an-allowed-method-that-was-asked-for-is-used", existing=True)   # old ship honored --method too
+def test_an_allowed_method_that_was_asked_for_is_used(repo, monkeypatch):
+    work, _, gh_log = repo
+    assert ship.main(["--repo", str(work), "--check", "true", "--method", "squash"]) == 0
+    assert "--squash" in merge_call(gh_log)
+
+
+@pytest.mark.req("ship/a-ruleset-that-requires-linear-history-is-honored-too")
+def test_a_ruleset_that_requires_linear_history_is_honored_too(repo, monkeypatch):
+    work, _, gh_log = repo
+    monkeypatch.setenv("FAKE_GH_LINEAR", "ruleset")
+    assert ship.main(["--repo", str(work), "--check", "true", "--method", "merge"]) == 0
+    assert "--rebase" in merge_call(gh_log)
+
+
+@pytest.mark.req("ship/a-repository-that-disables-a-method-falls-back-to-the-allowed-ones")
+def test_a_repository_that_disables_a_method_falls_back_to_the_allowed_ones(repo, monkeypatch):
+    work, _, gh_log = repo
+    monkeypatch.setenv("FAKE_GH_DISALLOW", "merge")
+    assert ship.main(["--repo", str(work), "--check", "true"]) == 0
+    assert "--rebase" in merge_call(gh_log)
+
+
+@pytest.mark.req("ship/a-repository-that-disables-a-method-falls-back-to-the-allowed-ones")
+def test_the_repository_default_is_used_when_it_is_allowed(repo, monkeypatch):
+    work, _, gh_log = repo
+    monkeypatch.setenv("FAKE_GH_LINEAR", "protection")
+    monkeypatch.setenv("FAKE_GH_DEFAULT", "SQUASH")
+    assert ship.main(["--repo", str(work), "--check", "true"]) == 0
+    assert "--squash" in merge_call(gh_log)
+
+
+@pytest.mark.req("ship/a-repository-that-allows-no-merge-method-stops-before-the-check")
+def test_a_repository_that_allows_no_merge_method_stops_before_the_check(repo, tmp_path, monkeypatch, capsys):
+    work, remote, _ = repo
+    ran = tmp_path / "check-ran"
+    monkeypatch.setenv("FAKE_GH_LINEAR", "protection")
+    monkeypatch.setenv("FAKE_GH_DISALLOW", "rebase,squash")
+    assert ship.main(["--repo", str(work), "--check", f"touch {ran}"]) == 1
+    assert not ran.exists(), "the check must not run when no method could merge its result"
+    assert not on_remote(remote, "feature")
+    assert "no merge method is allowed" in capsys.readouterr().out
+
+
+@pytest.mark.req("ship/the-merge-settings-are-read-before-the-check")
+def test_the_merge_settings_are_read_before_the_check(repo):
+    work, _, _ = repo
+    # Exits 0 only when the fake gh already logged `repo view`, i.e. the settings were read first.
+    assert ship.main(["--repo", str(work), "--check", 'grep -q "repo view" "$FAKE_GH_LOG"']) == 0
+
+
+@pytest.mark.req("ship/settings-that-cannot-be-read-leave-the-method-unchanged")
+def test_settings_that_cannot_be_read_leave_the_method_unchanged(repo, monkeypatch, capsys):
+    work, _, gh_log = repo
+    monkeypatch.setenv("FAKE_GH_REPO_FAIL", "1")
+    assert ship.main(["--repo", str(work), "--check", "true", "--method", "squash"]) == 0
+    assert "--squash" in merge_call(gh_log)
+    assert "unreadable" in capsys.readouterr().out
+
+
+FAKE_VALIDATOR = """import os, sys
+print("fake validator", " ".join(sys.argv[1:]))
+if "--no-freshness" in sys.argv and os.environ.get("FAKE_VALIDATOR_AGE_ONLY") == "1":
+    sys.exit(0)
+sys.exit(int(os.environ.get("FAKE_VALIDATOR_EXIT", "0")))
+"""
+
+
+def fake_validator(tmp_path: Path, monkeypatch, exit_status: int) -> None:
+    validator = tmp_path / "validate_planning_package.py"
+    validator.write_text(FAKE_VALIDATOR)
+    monkeypatch.setenv("SHIP_PLANNING_VALIDATOR", str(validator))
+    monkeypatch.setenv("FAKE_VALIDATOR_EXIT", str(exit_status))
+
+
+def with_package(work: Path, tmp_path: Path, monkeypatch, exit_status: int) -> None:
+    """Commit a planning package if there is none, and make the fake validator exit with this status."""
+    if not (work / ship.PACKAGE).is_file():
+        (work / ship.PACKAGE).parent.mkdir(parents=True)
+        (work / ship.PACKAGE).write_text("{}\n")
+        git(work, "add", "-A")
+        git(work, "commit", "-q", "-m", "package")
+    fake_validator(tmp_path, monkeypatch, exit_status)
+
+
+@pytest.mark.req("ship/a-failing-planning-package-pushes-nothing")
+def test_a_failing_planning_package_pushes_nothing(repo, tmp_path, monkeypatch):
+    work, remote, _ = repo
+    with_package(work, tmp_path, monkeypatch, 1)
+    marker = tmp_path / "ran"
+    assert ship.main(["--repo", str(work), "--check", f"touch {marker}"]) == 1
+    assert not marker.exists(), "the check does not run after the package fails"
+    assert not on_remote(remote, "feature")
+
+
+@pytest.mark.req("ship/a-package-that-is-only-out-of-date-warns-and-proceeds")
+def test_a_package_that_is_only_out_of_date_warns_and_proceeds(repo, tmp_path, monkeypatch, capsys):
+    work, remote, _ = repo
+    with_package(work, tmp_path, monkeypatch, 1)
+    monkeypatch.setenv("FAKE_VALIDATOR_AGE_ONLY", "1")
+    assert ship.main(["--repo", str(work), "--check", "true"]) == 0
+    assert on_remote(remote, "feature")
+    assert "is out of date" in capsys.readouterr().out
+
+
+@pytest.mark.req("ship/a-compliant-planning-package-lets-the-merge-proceed")
+def test_a_compliant_planning_package_lets_the_merge_proceed(repo, tmp_path, monkeypatch, capsys):
+    work, remote, _ = repo
+    with_package(work, tmp_path, monkeypatch, 0)
+    assert ship.main(["--repo", str(work), "--check", "true"]) == 0
+    assert on_remote(remote, "feature")
+    assert "planning package" in capsys.readouterr().out
+
+
+def plan_list(tmp_path: Path, monkeypatch, text: str) -> None:
+    """A personal-vps clone whose origin/main is behind its remote until fetched, as after a merge on GitHub."""
+    remote = tmp_path / "vps.git"
+    subprocess.run(["git", "init", "-q", "--bare", "-b", "main", str(remote)], check=True)
+    clone, author = tmp_path / "vps", tmp_path / "vps-author"
+    for path in (clone, author):
+        subprocess.run(["git", "clone", "-q", str(remote), str(path)], check=True, capture_output=True)
+    conf = author / PLAN_LIST
+    conf.parent.mkdir(parents=True)
+    conf.write_text(text)
+    git(author, "add", "-A")
+    git(author, "-c", "user.name=t", "-c", "user.email=t@t", "commit", "-q", "-m", "plan list")
+    git(author, "push", "-q", "origin", "HEAD:main")
+    monkeypatch.setenv("SHIP_PERSONAL_VPS", str(clone))
+
+
+@pytest.mark.req("ship/an-older-repository-with-no-package-merges-with-a-warning")
+def test_an_older_repository_with_no_package_merges_with_a_warning(unplanned_repo, tmp_path, monkeypatch, capsys):
+    work, remote, _ = unplanned_repo
+    started = tmp_path / "agent-started"
+    claude = tmp_path / "bin" / "claude"
+    claude.write_text(f"#!/bin/sh\ntouch {started}\n")
+    claude.chmod(claude.stat().st_mode | stat.S_IEXEC)
+    monkeypatch.setenv("SHIP_PERSONAL_VPS", str(tmp_path / "no-such-repo"))   # the plan list is not consulted
+    marker = tmp_path / "ran"
+    assert ship.main(["--repo", str(work), "--check", f"touch {marker}"]) == 0
+    assert marker.exists(), "the check runs"
+    assert on_remote(remote, "feature")
+    out = capsys.readouterr().out
+    assert "warning" in out and "no planning package" in out and "company-planning:planning-compliance" in out
+    assert not started.exists(), "no detached agent is started"
+
+
+@pytest.mark.req("ship/an-older-repository-with-a-passing-package-merges")
+def test_an_older_repository_with_a_passing_package_merges(unplanned_repo, tmp_path, monkeypatch):
+    work, remote, _ = unplanned_repo
+    with_package(work, tmp_path, monkeypatch, 0)
+    assert ship.main(["--repo", str(work), "--check", "true"]) == 0
+    assert on_remote(remote, "feature")
+
+
+@pytest.mark.req("ship/a-new-repository-with-no-package-is-refused")
+def test_a_new_repository_with_no_package_is_refused(new_repo, tmp_path, capsys):
+    work, remote, _ = new_repo
+    marker = tmp_path / "ran"
+    assert ship.main(["--repo", str(work), "--check", f"touch {marker}"]) == 1
+    assert not marker.exists()
+    assert not on_remote(remote, "feature")
+    out = capsys.readouterr().out
+    assert "new repository" in out and "company-planning:planning-compliance" in out
+
+
+@pytest.mark.req("ship/a-new-repository-whose-package-is-not-on-the-plan-list-is-refused")
+def test_a_new_repository_whose_package_is_not_on_the_plan_list_is_refused(new_repo, tmp_path, monkeypatch, capsys):
+    work, remote, _ = new_repo
+    with_package(work, tmp_path, monkeypatch, 0)
+    plan_list(tmp_path, monkeypatch, "# name visibility URL\nother  private  github-plans-other:o/other.git\n"
+                                     "# remote  private  github-plans-remote:o/remote.git\n")
+    assert ship.main(["--repo", str(work), "--check", "true"]) == 1
+    assert not on_remote(remote, "feature")
+    out = capsys.readouterr().out
+    assert "new-repository rule" in out and PLAN_LIST in out
+    assert "private     github-plans-remote:" in out and "/remote.git" in out, "names the exact line to add"
+
+
+@pytest.mark.req("ship/a-new-repository-with-a-package-on-the-plan-list-proceeds")
+def test_a_new_repository_with_a_package_on_the_plan_list_proceeds(new_repo, tmp_path, monkeypatch, capsys):
+    work, remote, _ = new_repo
+    with_package(work, tmp_path, monkeypatch, 0)
+    plan_list(tmp_path, monkeypatch, "remote  private  github-plans-remote:BrianMills2718/remote.git\n")
+    assert ship.main(["--repo", str(work), "--check", "true"]) == 0
+    assert on_remote(remote, "feature")
+    assert "is on the plan list" in capsys.readouterr().out
+
+
+@pytest.mark.req("ship/a-new-repository-with-a-package-on-the-plan-list-proceeds")
+def test_a_new_repository_on_the_plan_list_must_still_pass_the_validator(new_repo, tmp_path, monkeypatch):
+    work, remote, _ = new_repo
+    with_package(work, tmp_path, monkeypatch, 1)
+    plan_list(tmp_path, monkeypatch, "remote  private  github-plans-remote:BrianMills2718/remote.git\n")
+    assert ship.main(["--repo", str(work), "--check", "true"]) == 1
+    assert not on_remote(remote, "feature")
+
+
+@pytest.mark.req("ship/an-unreadable-plan-list-refuses")
+def test_an_unreadable_plan_list_refuses(new_repo, tmp_path, monkeypatch, capsys):
+    work, remote, _ = new_repo
+    with_package(work, tmp_path, monkeypatch, 0)
+    monkeypatch.setenv("SHIP_PERSONAL_VPS", str(tmp_path / "no-such-repo"))
+    assert ship.main(["--repo", str(work), "--check", "true"]) == 1
+    assert not on_remote(remote, "feature")
+    out = capsys.readouterr().out
+    assert "new-repository rule" in out and "could not read" in out
+
+
+@pytest.mark.req("ship/a-compliant-planning-package-lets-the-merge-proceed")
+def test_an_older_repository_with_a_package_needs_no_plan_list(repo, tmp_path, monkeypatch):
+    work, remote, _ = repo
+    with_package(work, tmp_path, monkeypatch, 0)
+    monkeypatch.setenv("SHIP_PERSONAL_VPS", str(tmp_path / "no-such-repo"))
+    assert ship.main(["--repo", str(work), "--check", "true"]) == 0
+    assert on_remote(remote, "feature")
+
+
+@pytest.mark.req("ship/a-validator-that-cannot-run-stops-the-merge")
+def test_a_validator_that_cannot_run_stops_the_merge(repo, tmp_path, monkeypatch):
+    work, remote, _ = repo
+    with_package(work, tmp_path, monkeypatch, 0)
+    monkeypatch.setenv("SHIP_PLANNING_VALIDATOR", str(tmp_path / "missing.py"))
+    assert ship.main(["--repo", str(work), "--check", "true"]) == 1
+    assert not on_remote(remote, "feature")
+
+
+@pytest.mark.req("ship/a-validator-that-cannot-run-stops-the-merge")
+def test_an_unreachable_company_planning_stops_the_merge(repo, tmp_path, monkeypatch):
+    work, remote, _ = repo
+    with_package(work, tmp_path, monkeypatch, 0)
+    monkeypatch.delenv("SHIP_PLANNING_VALIDATOR")
+    monkeypatch.setenv("SHIP_COMPANY_PLANNING", str(tmp_path / "no-such-repo"))
+    assert ship.main(["--repo", str(work), "--check", "true"]) == 1
+    assert not on_remote(remote, "feature")
+
+
+IMPORTING_VALIDATOR = """import sys
+import a_module_that_is_not_installed
+sys.exit(0)
+"""
+
+PROBED_PYTHON = """#!{python}
+import os, sys
+if sys.argv[1] == "-c":
+    sys.exit(0)             # the probe: this interpreter has the validator's packages
+open(os.environ["PROBED_PYTHON_LOG"], "a").write("ran\\n")
+os.execv({python!r}, [{python!r}, *sys.argv[1:]])
+"""
+
+
+def probed_python(tmp_path: Path, name: str) -> Path:
+    """An interpreter stand-in that passes the import probe and logs each validator run to PROBED_PYTHON_LOG."""
+    script = tmp_path / name
+    script.write_text(PROBED_PYTHON.format(python=sys.executable))
+    script.chmod(script.stat().st_mode | stat.S_IEXEC)
+    return script
+
+
+@pytest.mark.req("ship/the-validator-runs-under-an-interpreter-that-has-its-packages")
+def test_the_validator_runs_under_a_fixed_interpreter_not_the_callers(repo, tmp_path, monkeypatch):
+    """ship called from a project venv (uv run) used that venv's python, which lacked jsonschema."""
+    work, remote, _ = repo
+    with_package(work, tmp_path, monkeypatch, 0)
+    log = tmp_path / "interpreter.log"
+    monkeypatch.setenv("PROBED_PYTHON_LOG", str(log))
+    monkeypatch.delenv("SHIP_VALIDATOR_PYTHON")
+    monkeypatch.setattr(ship, "VALIDATOR_PYTHONS", ([str(tmp_path / "not-installed")], [str(probed_python(tmp_path, "good"))]))
+    assert ship.main(["--repo", str(work), "--check", "true"]) == 0
+    assert log.read_text() == "ran\n", "the first candidate that has the packages ran the validator, once"
+    assert on_remote(remote, "feature")
+
+
+@pytest.mark.req("ship/the-validator-runs-under-an-interpreter-that-has-its-packages")
+def test_an_interpreter_named_by_the_environment_runs_the_validator(repo, tmp_path, monkeypatch):
+    work, remote, _ = repo
+    with_package(work, tmp_path, monkeypatch, 0)
+    log = tmp_path / "interpreter.log"
+    monkeypatch.setenv("PROBED_PYTHON_LOG", str(log))
+    monkeypatch.setenv("SHIP_VALIDATOR_PYTHON", str(probed_python(tmp_path, "named")))
+    assert ship.main(["--repo", str(work), "--check", "true"]) == 0
+    assert log.read_text() == "ran\n"
+
+
+@pytest.mark.req("ship/a-validator-that-cannot-run-is-not-reported-as-a-failing-package")
+def test_no_interpreter_with_the_packages_stops_the_merge_as_could_not_run(repo, tmp_path, monkeypatch, capsys):
+    work, remote, _ = repo
+    with_package(work, tmp_path, monkeypatch, 0)
+    monkeypatch.delenv("SHIP_VALIDATOR_PYTHON")
+    monkeypatch.setattr(ship, "VALIDATOR_PYTHONS", ([str(tmp_path / "not-installed")], [sys.executable]))
+    monkeypatch.setattr(ship, "VALIDATOR_IMPORTS", "import a_module_that_is_not_installed")
+    assert ship.main(["--repo", str(work), "--check", "true"]) == 1
+    out = capsys.readouterr().out
+    assert "could not run" in out and "not compliant" not in out
+    assert not on_remote(remote, "feature")
+
+
+@pytest.mark.req("ship/a-validator-that-cannot-run-is-not-reported-as-a-failing-package")
+def test_a_validator_that_fails_to_import_is_not_reported_as_a_failing_package(repo, tmp_path, monkeypatch, capsys):
+    work, remote, _ = repo
+    with_package(work, tmp_path, monkeypatch, 0)
+    validator = tmp_path / "validate_planning_package.py"
+    validator.write_text(IMPORTING_VALIDATOR)
+    assert ship.main(["--repo", str(work), "--check", "true"]) == 1
+    out = capsys.readouterr().out
+    assert "could not run" in out and "a_module_that_is_not_installed" in out
+    assert "not compliant" not in out
+    assert "without the freshness check" not in out, "an import error is not retried as a freshness-only failure"
+    assert not on_remote(remote, "feature")
+
+
+@pytest.mark.req("lane-sweep/a-shipped-lane-is-removed-right-after-merge")
+def test_a_shipped_lane_is_removed_right_after_merge(repo, tmp_path):
+    work, remote, _ = repo
+    git(work, "checkout", "-q", "main")
+    lane = tmp_path / "lane"
+    git(work, "worktree", "add", "-q", "-b", "shipped", str(lane))
+    (lane / "a.txt").write_text("shipped\n")
+    git(lane, "commit", "-q", "-am", "shipped change")
+    # The fake gh merges nothing, so put the lane's commit on the remote main as the real merge would.
+    git(lane, "push", "-q", "origin", "HEAD:main")
+    assert ship.main(["--repo", str(lane), "--check", "true"]) == 0
+    assert not lane.exists()
+    assert not git(work, "branch", "--list", "shipped")
+
+
+def shipped_lane(work: Path, tmp_path: Path, name: str) -> Path:
+    """A lane with one commit, put on the remote main as the real merge would (the fake gh merges nothing)."""
+    lane = tmp_path / name
+    git(work, "worktree", "add", "-q", "-b", name, str(lane), "main")
+    (lane / f"{name}.txt").write_text(name + "\n")
+    git(lane, "add", f"{name}.txt")
+    git(lane, "commit", "-q", "-m", f"{name} change")
+    git(lane, "push", "-q", "origin", "HEAD:main")
+    return lane
+
+
+def make_idle(lane: Path) -> None:
+    """Age the lane's HEAD, index and reflog past the sweep's idle wait."""
+    gitdir = Path(git(lane, "rev-parse", "--absolute-git-dir"))
+    old = os.path.getmtime(gitdir / "HEAD") - 3 * 86400
+    for f in (gitdir / "HEAD", gitdir / "index", gitdir / "logs" / "HEAD"):
+        if f.exists():
+            os.utime(f, (old, old))
+
+
+@pytest.mark.req("ship/keep-lane-leaves-this-lane-and-sweeps-the-others")
+def test_keep_lane_leaves_this_lane_and_sweeps_the_others(repo, tmp_path, capsys):
+    work, remote, _ = repo
+    git(work, "checkout", "-q", "main")
+    other = shipped_lane(work, tmp_path, "other")
+    git(work, "pull", "-q", "--ff-only", "origin", "main")
+    lane = shipped_lane(work, tmp_path, "kept")
+    make_idle(other)
+    assert ship.main(["--repo", str(lane), "--check", "true", "--keep-lane"]) == 0
+    assert "ship: kept this lane (--keep-lane); the periodic sweep removes it once idle" in capsys.readouterr().out
+    assert lane.exists()
+    assert git(work, "branch", "--list", "kept")
+    assert not other.exists()
+    assert not git(work, "branch", "--list", "other")
+
+
+@pytest.mark.req("ship/the-environment-variable-keeps-the-lane-too")
+def test_the_environment_variable_keeps_the_lane_too(repo, tmp_path, monkeypatch):
+    work, remote, _ = repo
+    git(work, "checkout", "-q", "main")
+    lane = shipped_lane(work, tmp_path, "kept")
+    monkeypatch.setenv("SHIP_KEEP_LANE", "1")
+    assert ship.main(["--repo", str(lane), "--check", "true"]) == 0
+    assert lane.exists()
+    assert git(work, "branch", "--list", "kept")
+
+
+@pytest.mark.req("ship/the-lane-sweep-is-found-beside-the-real-ship", existing=True)
+def test_the_lane_sweep_is_found_when_ship_runs_through_its_symlink(tmp_path, monkeypatch):
+    """~/.local/bin/ship is a symlink: the sweep looked for ~/.local/bin/lane_sweep.py and exited 2 (2026-10-25, #39 and #41)."""
+    link = tmp_path / "bin" / "ship"
+    link.parent.mkdir()
+    link.symlink_to(Path(ship.__file__).resolve())
+    monkeypatch.setattr(ship, "__file__", str(link))
+    assert ship.sweep_script() == Path(ship.__file__).resolve().with_name("lane_sweep.py")
+    assert ship.sweep_script().is_file()
+
+
+FAKE_TOOL = """#!/usr/bin/env python3
+import os, sys
+name = os.path.basename(sys.argv[0])
+open(os.environ["FAKE_TOOL_LOG"], "a").write(name + " " + " ".join(sys.argv[1:]) + "\\n")
+code = int(os.environ.get(f"FAKE_{name.upper()}_EXIT", "0"))
+if code == 0:
+    os.makedirs({"uv": ".venv", "npm": "node_modules"}[name], exist_ok=True)
+sys.exit(code)
+"""
+
+
+def fake_env_tools(work: Path, tmp_path: Path, monkeypatch, *, node: bool = True) -> Path:
+    """Commit a Python (and Node) project and put a fake uv and npm first on PATH; return their call log."""
+    (work / "pyproject.toml").write_text("[project]\nname = 'x'\n")
+    (work / ".gitignore").write_text(".venv/\nnode_modules/\n")
+    if node:
+        (work / "package-lock.json").write_text("{}\n")
+    git(work, "add", "-A")
+    git(work, "commit", "-q", "-m", "project files")
+    for name in ("uv", "npm"):
+        tool = tmp_path / "bin" / name
+        tool.write_text(FAKE_TOOL)
+        tool.chmod(tool.stat().st_mode | stat.S_IEXEC)
+    log = tmp_path / "tools.log"
+    monkeypatch.setenv("FAKE_TOOL_LOG", str(log))
+    return log
+
+
+@pytest.mark.req("ship/a-fresh-worktree-gets-its-environment-before-the-check")
+def test_a_fresh_worktree_gets_its_environment_before_the_check(repo, tmp_path, monkeypatch):
+    work, remote, _ = repo
+    log = fake_env_tools(work, tmp_path, monkeypatch)
+    assert ship.main(["--repo", str(work), "--check", "test -d .venv && test -d node_modules"]) == 0
+    assert log.read_text().splitlines() == ["uv sync --all-extras", "npm ci"]
+    assert on_remote(remote, "feature")
+    (work / "a.txt").write_text("c\n")
+    git(work, "commit", "-q", "-am", "another change")
+    assert ship.main(["--repo", str(work), "--check", "true"]) == 0
+    assert log.read_text().splitlines() == ["uv sync --all-extras", "npm ci"], "a present environment is left alone"
+
+
+@pytest.mark.req("ship/a-failing-environment-setup-pushes-nothing")
+def test_a_failing_environment_setup_pushes_nothing(repo, tmp_path, monkeypatch, capsys):
+    work, remote, _ = repo
+    log = fake_env_tools(work, tmp_path, monkeypatch, node=False)
+    monkeypatch.setenv("FAKE_UV_EXIT", "1")
+    marker = tmp_path / "ran"
+    assert ship.main(["--repo", str(work), "--check", f"touch {marker}"]) == 1
+    assert log.read_text().splitlines() == ["uv sync --all-extras"]
+    assert not marker.exists()
+    assert not on_remote(remote, "feature")
+    assert "nothing was pushed" in capsys.readouterr().out
+
+
+def counting_check(tmp_path: Path) -> tuple[str, Path]:
+    """A check that appends a line outside the repository each time it runs."""
+    count = tmp_path / "check-runs"
+    return f"echo run >> {count}", count
+
+
+def runs(count: Path) -> int:
+    return len(count.read_text().splitlines()) if count.exists() else 0
+
+
+@pytest.mark.req("ship/a-tree-that-already-passed-skips-the-check")
+def test_a_tree_that_already_passed_skips_the_check(repo, tmp_path, capsys):
+    work, _, gh_log = repo
+    check, count = counting_check(tmp_path)
+    tree = git(work, "rev-parse", "HEAD^{tree}")
+    assert ship.main(["--repo", str(work), "--check", check]) == 0
+    assert runs(count) == 1
+    record = [json.loads(line) for line in (tmp_path / "state" / "passed.jsonl").read_text().splitlines()]
+    assert record[0]["tree"] == tree and record[0]["check"] == check
+    assert {"repo", "head", "time"} <= set(record[0])
+    git(work, "checkout", "-q", "-b", "feature-again")
+    git(work, "commit", "-q", "--amend", "-m", "same tree, new head")
+    head = git(work, "rev-parse", "HEAD")
+    capsys.readouterr()
+    assert ship.main(["--repo", str(work), "--check", check]) == 0
+    assert runs(count) == 1, "the check did not run again"
+    out = capsys.readouterr().out
+    assert f"ship: check skipped: tree {tree[:12]} already passed `{check}` at" in out
+    assert f"--match-head-commit {head}" in gh_log.read_text()
+    logged = "".join(p.read_text() for p in Path(os.environ["SHIP_LOG_DIR"]).glob("*.log"))
+    assert "check skipped" in logged
+
+
+@pytest.mark.req("ship/recheck-runs-the-check-again")
+def test_recheck_runs_the_check_again(repo, tmp_path):
+    work, _, _ = repo
+    check, count = counting_check(tmp_path)
+    assert ship.main(["--repo", str(work), "--check", check]) == 0
+    assert ship.main(["--repo", str(work), "--check", check, "--recheck"]) == 0
+    assert runs(count) == 2
+
+
+@pytest.mark.req("ship/a-different-check-command-or-a-failed-check-is-not-skipped")
+def test_a_different_check_command_or_a_failed_check_is_not_skipped(repo, tmp_path):
+    work, _, _ = repo
+    check, count = counting_check(tmp_path)
+    assert ship.main(["--repo", str(work), "--check", f"{check}; exit 1"]) == 1
+    assert ship.main(["--repo", str(work), "--check", check]) == 0
+    assert runs(count) == 2, "a failed check recorded nothing"
+    assert ship.main(["--repo", str(work), "--check", f"{check} # other"]) == 0
+    assert runs(count) == 3, "another check command is not skipped"
+    assert ship.main(["--repo", str(work), "--check", check]) == 0
+    assert runs(count) == 3, "the first command is now skipped"
+
+
+@pytest.mark.req("ship/a-plan-repair-merges-while-the-package-fails")
+def test_a_branch_that_only_repairs_the_plan_merges_while_the_package_fails(repo, tmp_path, monkeypatch, capsys):
+    work, remote, _ = repo
+    git(work, "reset", "-q", "--hard", "main")          # drop the fixture's code change on the branch
+    (work / "docs" / "planning" / "open-questions.json").write_text("[]\n")
+    (work / "NOTES.md").write_text("plan notes\n")
+    git(work, "add", "-A")
+    git(work, "commit", "-q", "-m", "repair the plan")
+    with_package(work, tmp_path, monkeypatch, 1)        # the package still fails
+    assert ship.main(["--repo", str(work), "--check", "true"]) == 0
+    assert on_remote(remote, "feature")
+    assert "changes only planning and documentation files (2)" in capsys.readouterr().out
+
+
+@pytest.mark.req("ship/a-plan-repair-never-breaks-a-passing-package")
+def test_a_docs_branch_cannot_make_a_passing_package_fail(repo, tmp_path, monkeypatch):
+    work, remote, _ = repo
+    git(work, "reset", "-q", "--hard", "main")
+    with_package(work, tmp_path, monkeypatch, 0)        # the package passes on the base ...
+    git(work, "push", "-q", "origin", "HEAD:main")
+    git(work, "fetch", "-q", "origin")
+    (work / "docs" / "plan.md").write_text("a docs-only change\n")
+    git(work, "add", "-A")
+    git(work, "commit", "-q", "-m", "docs")
+    # ... and fails once the branch is applied: the fake validator keys off the docs file
+    validator = tmp_path / "v.py"
+    validator.write_text("import sys, pathlib\n"
+                         "repo = sys.argv[sys.argv.index('--repo') + 1]\n"
+                         "sys.exit(1 if (pathlib.Path(repo) / 'docs' / 'plan.md').exists() else 0)\n")
+    monkeypatch.setenv("SHIP_PLANNING_VALIDATOR", str(validator))
+    assert ship.main(["--repo", str(work), "--check", "true"]) == 1
+    assert not on_remote(remote, "feature")
+
+
+@pytest.mark.req("ship/a-failing-planning-package-pushes-nothing")
+def test_a_code_change_beside_a_plan_repair_is_still_refused(repo, tmp_path, monkeypatch):
+    work, remote, _ = repo                              # the fixture's branch changes a.txt
+    (work / "docs" / "planning" / "open-questions.json").write_text("[]\n")
+    git(work, "add", "-A")
+    git(work, "commit", "-q", "-m", "plan and code")
+    with_package(work, tmp_path, monkeypatch, 1)
+    assert ship.main(["--repo", str(work), "--check", "true"]) == 1
+    assert not on_remote(remote, "feature")
+
+
+# A validator with the freshness entry point: plan content here is docs/planning/plan.md and docs/GOAL.md. It logs
+# the revision freshness() was given, and when run as a script behaves like FAKE_VALIDATOR.
+FRESH_VALIDATOR = """#!/usr/bin/env python3
+import os, subprocess, sys
+PLAN = ("docs/planning/plan.md", "docs/GOAL.md")
+def freshness(repo, manifest_path, manifest):
+    rev = ((manifest.get("parts") or {}).get("cold_review") or {}).get("reviewed_revision") or manifest.get("subject_revision")
+    with open(os.environ["FAKE_FRESH_LOG"], "a") as fh:
+        fh.write(str(rev) + "\\n")
+    out = subprocess.run(["git", "-C", str(repo), "diff", "--name-only", rev, "HEAD", "--", *PLAN],
+                         capture_output=True, text=True).stdout.split()
+    return {"ok": not out, "changed": out, "problems": ["changed: " + ", ".join(out)] if out else []}
+if __name__ == "__main__":
+    print("fake validator", " ".join(sys.argv[1:]))
+    sys.exit(int(os.environ.get("FAKE_VALIDATOR_EXIT", "0")))
+"""
+
+
+def fresh_validator(work: Path, tmp_path: Path, monkeypatch, exit_status: int) -> Path:
+    """Use FRESH_VALIDATOR with this exit status; return the log of revisions freshness() was given."""
+    with_package(work, tmp_path, monkeypatch, exit_status)
+    validator = tmp_path / "fresh_validator.py"
+    validator.write_text(FRESH_VALIDATOR)
+    monkeypatch.setenv("SHIP_PLANNING_VALIDATOR", str(validator))
+    log = tmp_path / "fresh.log"
+    monkeypatch.setenv("FAKE_FRESH_LOG", str(log))
+    return log
+
+
+@pytest.mark.req("ship/a-code-only-merge-skips-the-validator")
+def test_a_code_only_merge_skips_the_validator(repo, tmp_path, monkeypatch, capsys):
+    work, remote, _ = repo                              # the fixture's branch changes only a.txt
+    log = fresh_validator(work, tmp_path, monkeypatch, 1)   # the validator would reject the package
+    assert ship.main(["--repo", str(work), "--check", "true"]) == 0
+    out = capsys.readouterr().out
+    assert "skipped the planning validator" in out and "no plan content" in out
+    assert "fake validator" not in out, "the validator does not run"
+    assert on_remote(remote, "feature")
+    assert log.read_text().split() == [git(work, "merge-base", "HEAD", "origin/main")], "asked from the merge base"
+
+
+@pytest.mark.req("ship/a-plan-change-is-validated", existing=True)   # validation already ran on every merge; this guards it
+def test_a_plan_change_is_validated(repo, tmp_path, monkeypatch, capsys):
+    work, remote, _ = repo
+    (work / "docs" / "planning" / "plan.md").write_text("a new plan\n")
+    git(work, "add", "-A")
+    git(work, "commit", "-q", "-m", "plan and code")
+    fresh_validator(work, tmp_path, monkeypatch, 1)
+    assert ship.main(["--repo", str(work), "--check", "true"]) == 1
+    out = capsys.readouterr().out
+    assert "fake validator" in out and "skipped the planning validator" not in out
+    assert not on_remote(remote, "feature")
+
+
+@pytest.mark.req("ship/a-plan-change-is-validated", existing=True)   # validation already ran on every merge; this guards it
+def test_a_plan_change_that_passes_merges(repo, tmp_path, monkeypatch, capsys):
+    work, remote, _ = repo
+    (work / "docs" / "GOAL.md").write_text("goal\n")
+    git(work, "add", "-A")
+    git(work, "commit", "-q", "-m", "goal")
+    fresh_validator(work, tmp_path, monkeypatch, 0)
+    assert ship.main(["--repo", str(work), "--check", "true"]) == 0
+    assert "fake validator" in capsys.readouterr().out
+    assert on_remote(remote, "feature")
+
+
+@pytest.mark.req("ship/a-plan-change-is-validated", existing=True)   # validation already ran on every merge; this guards it
+def test_a_change_to_the_package_itself_is_validated(repo, tmp_path, monkeypatch, capsys):
+    work, remote, _ = repo
+    (work / ship.PACKAGE).write_text('{"initiative": "x"}\n')
+    git(work, "commit", "-q", "-am", "package")
+    fresh_validator(work, tmp_path, monkeypatch, 1)
+    assert ship.main(["--repo", str(work), "--check", "true"]) == 1
+    assert "fake validator" in capsys.readouterr().out
+    assert not on_remote(remote, "feature")
+
+
+@pytest.mark.req("ship/a-validator-without-the-freshness-entry-point-validates-every-merge", existing=True)   # validation already ran on every merge; this guards it
+def test_a_validator_without_the_freshness_entry_point_validates_every_merge(repo, tmp_path, monkeypatch, capsys):
+    work, remote, _ = repo                              # code only, but FAKE_VALIDATOR has no freshness()
+    with_package(work, tmp_path, monkeypatch, 1)
+    assert ship.main(["--repo", str(work), "--check", "true"]) == 1
+    assert "fake validator" in capsys.readouterr().out
+    assert not on_remote(remote, "feature")
+
+
+@pytest.mark.req("ship/a-plan-repair-merges-while-the-package-fails")
+def test_a_plan_repair_still_validates_the_merge_base(repo, tmp_path, monkeypatch, capsys):
+    work, remote, _ = repo
+    git(work, "reset", "-q", "--hard", "main")          # drop the fixture's code change on the branch
+    with_package(work, tmp_path, monkeypatch, 1)
+    git(work, "push", "-q", "origin", "HEAD:main")      # the failing package is on main ...
+    git(work, "fetch", "-q", "origin")
+    (work / "docs" / "planning" / "plan.md").write_text("repaired plan\n")
+    git(work, "add", "-A")
+    git(work, "commit", "-q", "-m", "repair the plan")
+    fresh_validator(work, tmp_path, monkeypatch, 1)     # ... and still fails on the branch
+    # The merge base changes nothing against itself; it must still be validated (and fail), so the repair merges.
+    assert ship.main(["--repo", str(work), "--check", "true"]) == 0
+    assert "changes only planning and documentation files" in capsys.readouterr().out
+    assert on_remote(remote, "feature")
+
+
+CP_VALIDATOR = """#!/usr/bin/env python3
+import sys
+from pathlib import Path
+goals = Path(__file__).resolve().parents[3] / "scripts" / "goal_provenance.py"
+if not goals.is_file():
+    print("Verdict: compliant (validator without goal provenance)")
+    sys.exit(0)
+mark = goals.read_text().strip()
+print(f"{mark} goal provenance: every goal part names its source (required from 2026-11-13) (1 goal page)")
+sys.exit(1 if mark == "FAIL" else 0)
+"""
+
+
+def company_planning(tmp_path: Path, monkeypatch, goal_mark: str | None) -> None:
+    """A company-planning clone whose origin/main holds a validator and, unless goal_mark is None, goal_provenance.py.
+
+    The fake validator finds goal_provenance.py where the real one does (three folders up, then scripts/),
+    prints the goal provenance line with goal_mark, and exits 1 only for FAIL.
+    """
+    origin = tmp_path / "cp-origin.git"
+    subprocess.run(["git", "init", "-q", "--bare", "-b", "main", str(origin)], check=True)
+    cp = tmp_path / "company-planning"
+    subprocess.run(["git", "init", "-q", "-b", "main", str(cp)], check=True)
+    git(cp, "config", "user.email", "t@example.com")
+    git(cp, "config", "user.name", "t")
+    validator = cp / ship.VALIDATOR
+    validator.parent.mkdir(parents=True)
+    validator.write_text(CP_VALIDATOR)
+    if goal_mark is not None:
+        goals = cp / ship.GOAL_PROVENANCE[0]
+        goals.parent.mkdir(parents=True, exist_ok=True)
+        goals.write_text(goal_mark + "\n")
+        (cp / ship.GOAL_PROVENANCE[1]).write_text("name: prompt\n")
+    git(cp, "add", "-A")
+    git(cp, "commit", "-q", "-m", "validator")
+    git(cp, "remote", "add", "origin", str(origin))
+    git(cp, "push", "-q", "origin", "main")
+    monkeypatch.delenv("SHIP_PLANNING_VALIDATOR", raising=False)
+    monkeypatch.setenv("SHIP_COMPANY_PLANNING", str(cp))
+
+
+@pytest.mark.req("ship/the-goal-provenance-check-is-extracted-beside-the-validator")
+def test_the_goal_provenance_check_is_extracted_beside_the_validator(repo, tmp_path, monkeypatch, capsys):
+    work, remote, _ = repo
+    company_planning(tmp_path, monkeypatch, "WAIT")
+    assert ship.main(["--repo", str(work), "--check", "true"]) == 0
+    out = capsys.readouterr().out
+    assert "ship: goal provenance: WAIT (required from 2026-11-13)" in out
+    assert on_remote(remote, "feature")
+
+
+@pytest.mark.req("ship/a-goal-provenance-failure-refuses-the-merge")
+def test_a_goal_provenance_failure_refuses_the_merge(repo, tmp_path, monkeypatch, capsys):
+    work, remote, _ = repo
+    company_planning(tmp_path, monkeypatch, "FAIL")
+    assert ship.main(["--repo", str(work), "--check", "true"]) == 1
+    assert "ship: goal provenance: FAIL (required from 2026-11-13)" in capsys.readouterr().out
+    assert not on_remote(remote, "feature")
+
+
+@pytest.mark.req("ship/an-older-company-planning-without-the-check-still-validates", existing=True)
+def test_an_older_company_planning_without_the_check_still_validates(repo, tmp_path, monkeypatch, capsys):
+    work, remote, _ = repo
+    company_planning(tmp_path, monkeypatch, None)
+    assert ship.main(["--repo", str(work), "--check", "true"]) == 0
+    out = capsys.readouterr().out
+    assert "validator without goal provenance" in out
+    assert "ship: goal provenance:" not in out
+    assert on_remote(remote, "feature")
+
+
+def upkeep_branch(work: Path, new_line: str) -> None:
+    """Put a file naming a model on main, then change it on the feature branch to new_line."""
+    git(work, "checkout", "-q", "main")
+    (work / "llm.py").write_text('MODEL = "openrouter/openai/gpt-5.6-luna"\nTIMEOUT = 30\n')
+    (work / "poetry.lock").write_text("old\n")
+    git(work, "add", "-A")
+    git(work, "commit", "-q", "-m", "model on main")
+    git(work, "push", "-q", "origin", "main")
+    git(work, "checkout", "-q", "feature")
+    git(work, "reset", "-q", "--hard", "main")
+    (work / "llm.py").write_text(new_line)
+    (work / "poetry.lock").write_text("new\n")
+    git(work, "commit", "-q", "-am", "update model")
+
+
+@pytest.mark.req("ship/an-upkeep-only-branch-merges-without-a-package")
+def test_an_upkeep_only_branch_merges_in_a_repository_with_no_package(new_repo, capsys):
+    work, remote, _ = new_repo
+    upkeep_branch(work, 'MODEL = "openrouter/openai/gpt-6-luna"\nTIMEOUT = 30\n')
+    assert ship.main(["--repo", str(work), "--check", "true"]) == 0
+    assert on_remote(remote, "feature")
+    assert "upkeep only (2 files" in capsys.readouterr().out
+
+
+@pytest.mark.req("ship/a-behavior-change-beside-a-model-update-is-still-refused", existing=True)
+def test_a_behavior_change_beside_a_model_update_is_still_refused(new_repo, capsys):
+    work, remote, _ = new_repo
+    upkeep_branch(work, 'MODEL = "openrouter/openai/gpt-6-luna"\nTIMEOUT = 90\n')
+    assert ship.main(["--repo", str(work), "--check", "true"]) == 1
+    assert not on_remote(remote, "feature")
+    assert "no planning package" in capsys.readouterr().out
+
+
+def record_branch(work: Path, extra: str | None) -> None:
+    """On the feature branch, add a case-folder record, and also change extra (a path) when given."""
+    git(work, "checkout", "-q", "main")
+    git(work, "checkout", "-q", "feature")
+    git(work, "reset", "-q", "--hard", "main")
+    case = work / "cases" / "x"
+    case.mkdir(parents=True)
+    (case / "run.py").write_text("print(1)\n")
+    (case / "result.json").write_text("{}\n")
+    if extra:
+        (work / extra).parent.mkdir(parents=True, exist_ok=True)
+        (work / extra).write_text("x = 1\n")
+    git(work, "add", "-A")
+    git(work, "commit", "-q", "-m", "record")
+
+
+@pytest.mark.req("ship/a-branch-that-only-adds-a-case-record-merges-without-a-package")
+def test_a_record_only_branch_merges_in_a_repository_with_no_package(new_repo, capsys):
+    work, remote, _ = new_repo
+    record_branch(work, None)
+    assert ship.main(["--repo", str(work), "--check", "true"]) == 0
+    assert on_remote(remote, "feature")
+    assert "upkeep only (2 files" in capsys.readouterr().out
+
+
+@pytest.mark.req("ship/a-code-change-beside-a-case-record-is-still-refused")
+def test_a_code_change_beside_a_record_is_still_refused(new_repo, capsys):
+    work, remote, _ = new_repo
+    record_branch(work, "src/app.py")
+    assert ship.main(["--repo", str(work), "--check", "true"]) == 1
+    assert not on_remote(remote, "feature")
+    assert "no planning package" in capsys.readouterr().out
+
+
+def hold_slots(tmp_path: Path, count: int) -> list:
+    """Lock `count` check slots the way another ship run would, and return the open files."""
+    import fcntl
+    folder = tmp_path / "state" / "check-slots"
+    folder.mkdir(parents=True, exist_ok=True)
+    held = []
+    for n in range(count):
+        handle = open(folder / f"slot-{n}.lock", "a+", encoding="utf-8")
+        fcntl.flock(handle, fcntl.LOCK_EX | fcntl.LOCK_NB)
+        handle.truncate()
+        handle.write(f"other-repo-{n} (pid 1)")
+        handle.flush()
+        held.append(handle)
+    return held
+
+
+@pytest.mark.req("ship/every-slot-taken-and-none-freed-stops-the-run-with-nothing-pushed")
+def test_every_slot_taken_and_none_freed_stops_the_run_with_nothing_pushed(repo, tmp_path, monkeypatch, capsys):
+    work, remote, _ = repo
+    monkeypatch.setenv("SHIP_CHECK_SLOTS", "2")
+    monkeypatch.setenv("SHIP_SLOT_WAIT", "0.3")
+    monkeypatch.setattr(ship, "SLOT_POLL", 0.05)
+    held = hold_slots(tmp_path, 2)
+    marker = tmp_path / "check-ran"
+    try:
+        assert ship.main(["--repo", str(work), "--check", f"touch {marker}"]) == 1
+    finally:
+        for handle in held:
+            handle.close()
+    out = capsys.readouterr().out
+    assert "all 2 check slots are taken" in out and "other-repo-0" in out and "other-repo-1" in out
+    assert not marker.exists()
+    assert not on_remote(remote, "feature")
+
+
+@pytest.mark.req("ship/a-slot-that-frees-lets-the-check-run")
+def test_a_slot_that_frees_lets_the_check_run(repo, tmp_path, monkeypatch, capsys):
+    work, remote, _ = repo
+    monkeypatch.setenv("SHIP_CHECK_SLOTS", "1")
+    monkeypatch.setenv("SHIP_SLOT_WAIT", "20")
+    monkeypatch.setattr(ship, "SLOT_POLL", 0.05)
+    held = hold_slots(tmp_path, 1)
+    # Free the slot when ship first waits for it, not on a timer: on a loaded machine the steps before the check
+    # took longer than the old 0.4 s timer, so the slot was already free and "taken" was never printed (2026-11-11).
+    real_sleep = ship.time.sleep
+    def sleep_then_free(seconds):
+        if not held[0].closed:
+            held[0].close()
+        real_sleep(seconds)
+    monkeypatch.setattr(ship.time, "sleep", sleep_then_free)
+    assert ship.main(["--repo", str(work), "--check", "true"]) == 0
+    out = capsys.readouterr().out
+    assert "all 1 check slots are taken" in out and "check slot 0 free after" in out
+    assert on_remote(remote, "feature")
+
+
+@pytest.mark.req("ship/the-slot-is-released-after-the-check")
+def test_the_slot_is_released_after_the_check(repo, tmp_path, monkeypatch):
+    import fcntl
+    work, _, _ = repo
+    monkeypatch.setenv("SHIP_CHECK_SLOTS", "1")
+    assert ship.main(["--repo", str(work), "--check", "true"]) == 0
+    with open(tmp_path / "state" / "check-slots" / "slot-0.lock", "a+", encoding="utf-8") as handle:
+        fcntl.flock(handle, fcntl.LOCK_EX | fcntl.LOCK_NB)   # raises BlockingIOError if ship still holds it
+
+
+def plan_content(work: Path, base: str, head: str, validator: Path) -> subprocess.CompletedProcess:
+    """Run scripts/plan_content.py, as the push hook does."""
+    script = Path(ship.__file__).resolve().parent / "plan_content.py"
+    return subprocess.run([sys.executable, str(script), "--repo", str(work), "--base", base, "--head", head,
+                           "--validator", str(validator)], capture_output=True, text=True)
+
+
+@pytest.mark.req("ship/the-push-hook-asks-the-same-question")
+def test_the_push_hook_asks_the_same_question(repo, tmp_path, monkeypatch):
+    work, _, _ = repo                                   # the branch changes only a.txt
+    fresh_validator(work, tmp_path, monkeypatch, 1)
+    validator = tmp_path / "fresh_validator.py"
+    base, head = git(work, "merge-base", "HEAD", "origin/main"), git(work, "rev-parse", "HEAD")
+    done = plan_content(work, base, head, validator)
+    assert done.returncode == 0, done.stdout + done.stderr
+    assert done.stdout.startswith("skip: no plan content changed since")
+    (work / "docs" / "planning" / "plan.md").write_text("a new plan\n")
+    git(work, "add", "-A")
+    git(work, "commit", "-q", "-m", "plan")
+    head = git(work, "rev-parse", "HEAD")
+    done = plan_content(work, base, head, validator)
+    assert done.returncode == 1 and done.stdout.startswith("validate:")
+    assert plan_content(work, base, base, validator).returncode == 1, "a pushed commit that is not HEAD validates"
+    assert plan_content(work, "nope", head, validator).returncode == 1, "a base that is no commit validates"
+
+
+@pytest.mark.req("ship/the-push-hook-asks-the-same-question")
+def test_the_push_hook_question_takes_relative_paths(repo, tmp_path, monkeypatch):
+    work, _, _ = repo
+    fresh_validator(work, tmp_path, monkeypatch, 1)
+    base, head = git(work, "merge-base", "HEAD", "origin/main"), git(work, "rev-parse", "HEAD")
+    script = Path(ship.__file__).resolve().parent / "plan_content.py"
+    done = subprocess.run([sys.executable, str(script), "--repo", ".", "--base", base, "--head", head,
+                           "--validator", "../fresh_validator.py"], cwd=work, capture_output=True, text=True)
+    assert done.returncode == 0, done.stdout + done.stderr
+
+
+# The one-page plan for small planned work (decision record 0010; agents/topics/working-method.md, "Plan size").
+ONE_PAGE = """# Plan: a small thing
+
+Plan size: small
+Independent read: 2026-11-15, pass (a fresh subagent; nothing to fix)
+
+## Goal
+
+Brian, 2026-11-15: "do the small thing".
+
+## How Brian judges it
+
+He opens the page and sees the thing.
+
+## Cost and time
+
+No model spend (worked out: no model calls).
+
+## Scoring fixed beforehand
+
+No run.
+
+## What already exists
+
+Looked in docs/capabilities.md; nothing is reused.
+
+## Steps
+
+1. Do it.
+
+## How to undo
+
+`git revert` the merge.
+"""
+NO_COST_PART = ONE_PAGE.replace("## Cost and time", "## Spend")
+# The heading is on the page, but only as a quotation inside a code block.
+COST_PART_IN_A_FENCE = ONE_PAGE.replace("## Cost and time\n", "```text\n## Cost and time\n```\n")
+# The marker is the first line of the file, behind a byte-order mark.
+WITH_BYTE_ORDER_MARK = "\ufeff" + NO_COST_PART.replace("# Plan: a small thing\n\n", "", 1)
+NOT_UTF8 = NO_COST_PART.encode() + b"\xff\xfe is not UTF-8\n"
+QUOTED_FORMAT = """# How to write a one-page plan
+
+Start the page with these two lines:
+
+```text
+Plan size: small
+Independent read: <YYYY-MM-DD>, pass (<who read it, and what was fixed>)
+```
+"""
+
+
+def add_plan(work: Path, text: str | bytes, name: str = "small-thing.md") -> str:
+    """Commit a plan page on the current branch; return its repository path."""
+    page = work / "docs" / "plans" / name
+    page.parent.mkdir(parents=True, exist_ok=True)
+    if isinstance(text, bytes):
+        page.write_bytes(text)
+    else:
+        page.write_text(text, encoding="utf-8")
+    git(work, "add", "-A")
+    git(work, "commit", "-q", "-m", "plan")
+    return f"docs/plans/{name}"
+
+
+def plan_on_main(work: Path, text: str) -> str:
+    """Put a plan page on the default branch, then restart the feature branch from it with a change to a.txt only."""
+    git(work, "checkout", "-q", "main")
+    path = add_plan(work, text)
+    git(work, "push", "-q", "origin", "main")
+    git(work, "checkout", "-q", "-B", "feature")
+    (work / "a.txt").write_text("c\n")
+    git(work, "commit", "-q", "-am", "change")
+    return path
+
+
+def refused_before_the_check(work: Path, remote: Path, tmp_path: Path) -> None:
+    """ship exits 1, the check never runs and nothing is pushed."""
+    marker = tmp_path / "ran"
+    assert ship.main(["--repo", str(work), "--check", f"touch {marker}"]) == 1
+    assert not marker.exists(), "the check does not run"
+    assert not on_remote(remote, "feature")
+
+
+@pytest.mark.req("ship/a-complete-one-page-plan-merges")
+def test_a_complete_one_page_plan_merges(repo, capsys):
+    work, remote, _ = repo
+    path = add_plan(work, ONE_PAGE)
+    assert ship.main(["--repo", str(work), "--check", "true"]) == 0
+    assert on_remote(remote, "feature")
+    out = capsys.readouterr().out
+    assert f"one-page plan {path} is complete" in out
+    logged = "".join(p.read_text() for p in Path(os.environ["SHIP_LOG_DIR"]).glob("*.log"))
+    assert f"one-page plan {path} is complete" in logged, "the line is logged as well as printed"
+
+
+@pytest.mark.req("ship/a-one-page-plan-missing-a-part-is-refused")
+@pytest.mark.parametrize("text, name", [
+    (NO_COST_PART, "small-thing.md"),
+    (NO_COST_PART, "2026/small-thing.md"),          # a subfolder of docs/plans/
+    (NO_COST_PART, "café plan.md"),                 # git puts such a name in quotes unless asked not to
+    (COST_PART_IN_A_FENCE, "small-thing.md"),
+    (WITH_BYTE_ORDER_MARK, "small-thing.md"),
+    (NOT_UTF8, "small-thing.md"),
+], ids=["plain", "subfolder", "accented-name", "heading-only-in-a-code-block", "byte-order-mark", "not-utf8"])
+def test_a_one_page_plan_missing_a_part_is_refused(repo, tmp_path, capsys, text, name):
+    work, remote, _ = repo
+    path = add_plan(work, text, name)
+    refused_before_the_check(work, remote, tmp_path)
+    out = capsys.readouterr().out
+    assert f"{path} lacks" in out and "`## Cost and time`" in out and "Plan size" in out
+    assert "`## Goal`" not in out, "only what is missing is named"
+
+
+@pytest.mark.req("ship/a-one-page-plan-missing-a-part-is-refused")
+def test_a_renamed_one_page_plan_is_checked_under_its_new_name(repo, tmp_path, capsys):
+    work, remote, _ = repo
+    old = plan_on_main(work, NO_COST_PART)
+    git(work, "mv", old, "docs/plans/renamed.md")
+    git(work, "commit", "-q", "-m", "rename the page")
+    refused_before_the_check(work, remote, tmp_path)
+    assert "docs/plans/renamed.md lacks" in capsys.readouterr().out
+
+
+@pytest.mark.req("ship/a-plan-repair-or-an-upkeep-only-branch-does-not-excuse-an-incomplete-one-page-plan")
+def test_a_plan_repair_does_not_excuse_an_incomplete_one_page_plan(new_repo, tmp_path, capsys):
+    """A new repository with no package fails the planning gate on the branch and on its base, so the plan-repair
+    exception would let a documentation-only branch merge; the page check stops it first."""
+    work, remote, _ = new_repo
+    git(work, "reset", "-q", "--hard", "origin/main")       # drop the a.txt change: the branch adds only the page
+    path = add_plan(work, NO_COST_PART)
+    refused_before_the_check(work, remote, tmp_path)
+    out = capsys.readouterr().out
+    assert f"{path} lacks" in out and "may merge" not in out
+
+
+@pytest.mark.req("ship/a-plan-repair-or-an-upkeep-only-branch-does-not-excuse-an-incomplete-one-page-plan")
+def test_an_upkeep_only_branch_does_not_excuse_an_incomplete_one_page_plan(new_repo, tmp_path, capsys):
+    """A model name, a lock file and a document: the upkeep exception would let this branch merge."""
+    work, remote, _ = new_repo
+    upkeep_branch(work, 'MODEL = "openrouter/openai/gpt-6-luna"\nTIMEOUT = 30\n')
+    path = add_plan(work, NO_COST_PART)
+    refused_before_the_check(work, remote, tmp_path)
+    out = capsys.readouterr().out
+    assert f"{path} lacks" in out and "may merge" not in out
+
+
+@pytest.mark.req("ship/with-no-merge-base-every-committed-one-page-plan-is-checked")
+def test_with_no_merge_base_every_committed_one_page_plan_is_checked(repo, tmp_path, capsys):
+    work, remote, _ = repo
+    path = plan_on_main(work, NO_COST_PART)
+    git(work, "update-ref", "-d", "refs/remotes/origin/main")       # git can no longer say where the branch left main
+    refused_before_the_check(work, remote, tmp_path)
+    assert f"{path} lacks" in capsys.readouterr().out
+
+
+@pytest.mark.req("ship/a-one-page-plan-over-150-lines-is-refused")
+def test_a_one_page_plan_over_150_lines_is_refused(repo, tmp_path, capsys):
+    work, remote, _ = repo
+    long_page = ONE_PAGE + "".join(f"{n}. One more step.\n" for n in range(150))
+    path = add_plan(work, long_page)
+    refused_before_the_check(work, remote, tmp_path)
+    out = capsys.readouterr().out
+    assert path in out and "at most 150 lines" in out and f"it has {len(long_page.splitlines())}" in out
+
+
+@pytest.mark.req("ship/a-one-page-plan-over-150-lines-is-refused")
+def test_a_one_page_plan_of_exactly_150_lines_merges(repo, capsys):
+    work, remote, _ = repo
+    page = ONE_PAGE + "".join("One more line.\n" for _ in range(150 - len(ONE_PAGE.splitlines())))
+    assert len(page.splitlines()) == 150
+    path = add_plan(work, page)
+    assert ship.main(["--repo", str(work), "--check", "true"]) == 0
+    assert on_remote(remote, "feature")
+    assert f"one-page plan {path} is complete" in capsys.readouterr().out
+
+
+@pytest.mark.req("ship/a-one-page-plan-with-no-passing-independent-read-is-refused")
+@pytest.mark.parametrize("read_line", [
+    "",                                                              # no line at all
+    "Independent read: 2026-11-15, revise (two conditions fail)",    # read, and it did not pass
+    "Independent read: pass",                                        # no date
+    "Independent read: pending",
+    "Independent read: 2026-13-45, pass (no such day)",
+    # The page was read again after it changed, and that read did not pass: the last line counts.
+    "Independent read: 2026-11-15, pass (first read)\nIndependent read: 2026-11-16, revise (the cost is a guess)",
+], ids=["no-line", "revise", "no-date", "pending", "no-such-day", "a-later-read-did-not-pass"])
+def test_a_one_page_plan_with_no_passing_independent_read_is_refused(repo, tmp_path, capsys, read_line):
+    work, remote, _ = repo
+    page = ONE_PAGE.replace("Independent read: 2026-11-15, pass (a fresh subagent; nothing to fix)", read_line)
+    path = add_plan(work, page)
+    refused_before_the_check(work, remote, tmp_path)
+    out = capsys.readouterr().out
+    assert path in out and "Independent read: <YYYY-MM-DD>, pass" in out
+
+
+@pytest.mark.req("ship/a-plan-page-that-does-not-call-itself-small-is-not-checked")
+def test_a_plan_page_that_does_not_call_itself_small_is_not_checked(repo, capsys):
+    """The branch adds two pages: only the one that calls itself small is read."""
+    work, remote, _ = repo
+    full = add_plan(work, "# A full plan\n\nPlan size: large\n\nIts package is docs/planning/planning-package.json.\n",
+                    "full-plan.md")
+    small = add_plan(work, ONE_PAGE)
+    assert ship.main(["--repo", str(work), "--check", "true"]) == 0
+    assert on_remote(remote, "feature")
+    out = capsys.readouterr().out
+    assert f"one-page plan {small} is complete" in out and full not in out
+
+
+@pytest.mark.req("ship/a-format-quoted-in-a-code-block-is-not-a-one-page-plan")
+def test_a_format_quoted_in_a_code_block_is_not_a_one_page_plan(repo, capsys):
+    """The branch adds a page that quotes the two opening lines in a code block, and a real one-page plan."""
+    work, remote, _ = repo
+    quoted = add_plan(work, QUOTED_FORMAT, "README.md")
+    small = add_plan(work, ONE_PAGE)
+    assert ship.main(["--repo", str(work), "--check", "true"]) == 0
+    assert on_remote(remote, "feature")
+    out = capsys.readouterr().out
+    assert f"one-page plan {small} is complete" in out and quoted not in out
+
+
+@pytest.mark.req("ship/a-one-page-plan-the-merge-deletes-is-not-checked")
+def test_a_one_page_plan_the_merge_deletes_is_not_checked(repo, capsys):
+    """An incomplete page is on main; the branch deletes it and adds a complete one."""
+    work, remote, _ = repo
+    deleted = plan_on_main(work, NO_COST_PART)
+    git(work, "rm", "-q", deleted)
+    git(work, "commit", "-q", "-m", "drop the page")
+    added = add_plan(work, ONE_PAGE, "another-small-thing.md")
+    assert ship.main(["--repo", str(work), "--check", "true"]) == 0
+    assert on_remote(remote, "feature")
+    out = capsys.readouterr().out
+    assert f"one-page plan {added} is complete" in out and deleted not in out
+
+
+@pytest.mark.req("ship/a-one-page-plan-the-merge-does-not-touch-is-not-checked")
+def test_a_one_page_plan_the_merge_does_not_touch_is_not_checked(repo, capsys):
+    """An incomplete page is already on main; the branch adds a complete one: only the added page is checked."""
+    work, remote, _ = repo
+    untouched = plan_on_main(work, NO_COST_PART)
+    added = add_plan(work, ONE_PAGE, "another-small-thing.md")
+    assert ship.main(["--repo", str(work), "--check", "true"]) == 0
+    assert on_remote(remote, "feature")
+    out = capsys.readouterr().out
+    assert f"one-page plan {added} is complete" in out and untouched not in out
+
+
+@pytest.mark.req("ship/a-new-repository-with-a-one-page-plan-and-no-package-merges")
+def test_a_new_repository_with_a_one_page_plan_and_no_package_merges(new_repo, tmp_path, monkeypatch, capsys):
+    work, remote, _ = new_repo
+    monkeypatch.setenv("SHIP_PERSONAL_VPS", str(tmp_path / "no-such-clone"))   # reading the plan list would fail
+    path = add_plan(work, ONE_PAGE)
+    assert ship.main(["--repo", str(work), "--check", "true"]) == 0
+    assert on_remote(remote, "feature")
+    out = capsys.readouterr().out
+    assert "new repository" in out and f"one-page plan ({path})" in out
+    assert "plan list" not in out
+
+
+@pytest.mark.req("ship/a-new-repository-with-a-one-page-plan-and-no-package-merges")
+def test_a_new_repository_keeps_merging_on_a_one_page_plan_already_on_main(new_repo, capsys):
+    work, remote, _ = new_repo
+    path = plan_on_main(work, ONE_PAGE)
+    assert ship.main(["--repo", str(work), "--check", "true"]) == 0
+    assert on_remote(remote, "feature")
+    assert f"one-page plan ({path})" in capsys.readouterr().out
+
+
+@pytest.mark.req("ship/a-new-repository-whose-only-one-page-plan-is-incomplete-is-refused")
+def test_a_new_repository_whose_only_one_page_plan_is_incomplete_is_refused(new_repo, tmp_path, capsys):
+    work, remote, _ = new_repo
+    path = plan_on_main(work, NO_COST_PART)
+    refused_before_the_check(work, remote, tmp_path)
+    out = capsys.readouterr().out
+    assert "new repository" in out and path in out and "`## Cost and time`" in out
+    assert "company-planning:planning-compliance" in out
+
+
+@pytest.mark.req("ship/an-uncommitted-one-page-plan-does-not-stand-in-for-the-package")
+def test_an_uncommitted_one_page_plan_does_not_stand_in_for_the_package(new_repo, tmp_path, capsys):
+    """git ignores the plans folder, so the complete page in the working tree is not on GitHub for Brian to read."""
+    work, remote, _ = new_repo
+    (work / ".gitignore").write_text("docs/plans/\n")
+    git(work, "add", "-A")
+    git(work, "commit", "-q", "-m", "ignore the plans folder")
+    page = work / "docs" / "plans" / "small-thing.md"
+    page.parent.mkdir(parents=True)
+    page.write_text(ONE_PAGE)
+    refused_before_the_check(work, remote, tmp_path)
+    out = capsys.readouterr().out
+    assert "no complete one-page plan" in out and "is complete" not in out
+
+
+@pytest.mark.req("ship/a-new-repository-with-no-plan-list-named-is-refused")
+def test_a_new_repository_with_no_plan_list_named_is_refused(tmp_path, monkeypatch, capsys):
+    """With neither the environment nor graph-config.yaml naming the plan list, the merge stops and nothing is pushed."""
+    work, remote, _ = make_repo(tmp_path, monkeypatch, "2026-11-06T00:00:00+00:00", package=True)
+    monkeypatch.delenv("SHIP_PLAN_LIST")
+    monkeypatch.delenv("SHIP_PERSONAL_VPS", raising=False)
+    assert ship.main(["--repo", str(work), "--check", "true"]) == 1
+    out = capsys.readouterr().out
+    assert "no plan list is named" in out and "plan_list_checkout" in out
+    assert not on_remote(remote, "feature")
+
+
+@pytest.mark.req("ship/the-plan-list-location-is-read-from-graph-config")
+def test_the_plan_list_location_is_read_from_graph_config(tmp_path, monkeypatch):
+    """graph-config.yaml names the checkout and path; the environment wins over it."""
+    config = tmp_path / "graph-config.yaml"
+    config.write_text("owner: someone\nplan_list_checkout: /srv/plans   # comment\nplan_list_path: a/b.conf\n")
+    monkeypatch.setattr(ship, "CONFIG", config)
+    monkeypatch.delenv("SHIP_PERSONAL_VPS", raising=False)
+    monkeypatch.delenv("SHIP_PLAN_LIST", raising=False)
+    assert ship.setting("plan_list_checkout", "SHIP_PERSONAL_VPS") == "/srv/plans"
+    assert ship.setting("plan_list_path", "SHIP_PLAN_LIST") == "a/b.conf"
+    monkeypatch.setenv("SHIP_PLAN_LIST", "c.conf")
+    assert ship.setting("plan_list_path", "SHIP_PLAN_LIST") == "c.conf"
+    assert ship.setting("missing", "SHIP_NO_SUCH_VARIABLE") is None
