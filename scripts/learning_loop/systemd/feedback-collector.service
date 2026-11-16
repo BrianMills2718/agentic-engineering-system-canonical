@@ -9,14 +9,12 @@ Type=oneshot
 WorkingDirectory=%h/.hive-brain/aes
 # These clones are reset from main every run, so a git lock older than an hour is from a run
 # that died, never live work (a stale one stopped the collector for 9 days, 2026-10-17..26).
-ExecStartPre=/usr/bin/find %h/.hive-brain/aes/.git %h/.hive-brain/project-meta/.git -maxdepth 1 -name index.lock -mmin +60 -delete
+ExecStartPre=/usr/bin/find %h/.hive-brain/aes/.git -maxdepth 1 -name index.lock -mmin +60 -delete
 ExecStartPre=/usr/bin/flock %h/.hive-brain/aes/.git/runtime-update.lock /usr/bin/git -C %h/.hive-brain/aes fetch --quiet --depth 1 origin main
 ExecStartPre=/usr/bin/flock %h/.hive-brain/aes/.git/runtime-update.lock /usr/bin/git -C %h/.hive-brain/aes reset --quiet --hard FETCH_HEAD
-ExecStartPre=/usr/bin/flock %h/.hive-brain/project-meta/.git/runtime-update.lock /usr/bin/git -C %h/.hive-brain/project-meta fetch --quiet --depth 1 origin main
-ExecStartPre=/usr/bin/flock %h/.hive-brain/project-meta/.git/runtime-update.lock /usr/bin/git -C %h/.hive-brain/project-meta reset --quiet --hard FETCH_HEAD
 Environment=FEEDBACK_OUT=%h/projects/data/feedback-collector
 # llm_client from Brian's checkout, through uv's shared cache. The script opens a keyed agent
-# concern itself (notify_operator.py) on exit 1 or 2, so a failed unit is also visible here.
+# concern itself (alert.py) on exit 1 or 2, so a failed unit is also visible here.
 ExecStart=%h/.local/bin/uv run --quiet --no-project --with-editable %h/code/llm_client python %h/.hive-brain/aes/scripts/learning_loop/collect_feedback.py --file --max-file 10
 TimeoutStartSec=2h
 Nice=10

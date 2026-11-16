@@ -20,10 +20,10 @@ The sections below describe what each job does when it is on. Start page for the
 | Labels (`feedback-labels`), **on** | daily 05:00 | `label_items.py issues --other-concern-repo BrianMills2718/agent-skills` (at most 150 issues a run) | a `family:<letter>`, `fact` or `other` label and a comment on each open feedback issue; `labels-<date>.log` | unit fails, keyed agent concern; two or more open `other` items open the `taxonomy:unmatched-failures` concern in agent-skills, so an agent decides whether the failure-mode list needs a new family |
 
 All five, when on, run from `~/.hive-brain/aes`, a clone of AES `main` that each run refreshes first
-(`~/.hive-brain/project-meta` likewise for project-meta tools), with `llm_client` from
+with `llm_client` from
 `~/code/llm_client` through uv's shared cache. Every output goes to `$FEEDBACK_OUT` =
 `~/projects/data/feedback-collector/`. Never commit anything from that folder: it holds private
-transcript quotes. Alerts go through `project-meta/scripts/notify_operator.py`.
+transcript quotes. Alerts are keyed concerns filed by `scripts/learning_loop/alert.py`.
 
 The labels job replaced agent-skills' weekly `taxonomy-feedback` report on 2026-10-26: that
 report re-listed every register entry each week for a repair worker retired on 2026-10-04, so
@@ -39,8 +39,6 @@ lock stopped the collector from 2026-10-17 to 2026-10-26.
 cp scripts/learning_loop/systemd/feedback-*.{service,timer} ~/.config/systemd/user/
 systemctl --user daemon-reload
 for t in collector labels; do systemctl --user enable --now feedback-$t.timer; done
-# one-time setup of the project-meta tools copy
-git clone --depth 1 git@github-personal:BrianMills2718/project-meta.git ~/.hive-brain/project-meta
 
 systemctl --user list-timers 'feedback-*'           # next and last run of each
 systemctl --user start feedback-collector.service    # run one job now
@@ -55,8 +53,7 @@ Reads every Claude Code and Codex session transcript from the last day and turns
 files each report as one issue in the private log `BrianMills2718/agent-feedback-log`
 (`--max-reports`, default 900, paced at `--reports-per-hour` 450 to stay under GitHub's 500
 content-creating requests an hour; filing makes no model call). Raised from 80 on 2026-11-10, when
-80 a night left 10,652 reports deferred against about 450 new ones a day. Filing into the legacy project-meta register is off unless
-`--legacy-register` is passed. Exit 1 means some LLM, Jev or filing calls failed; exit 2 means a
+80 a night left 10,652 reports deferred against about 450 new ones a day. The legacy learnings register is frozen (2026-11-16, Decision 18): `--legacy-register` is refused. Exit 1 means some LLM, Jev or filing calls failed; exit 2 means a
 crash. Both fail the unit.
 
 - **Human corrections.** Corrections and standing directions Brian gave in a transcript also
@@ -90,13 +87,8 @@ unfiled quotes; one instruction text recurred 1,849 times). To recover only that
   wait for the collector. Boundary: [subagent feedback plan](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/proposals/aes-subagent-feedback/PLAN.md).
   This captures evidence only; it does not change roles, router choices or model policy. Native
   Codex was exercised live; Claude capture was checked against an existing trace and fixtures.
-- **Learning register filing (project-meta entries).** At most 10 entries a night, and only lines
-  an agent wrote under its own closeout **Learnings** heading. Lines whose exact text was already
-  filed are skipped (`duplicate_of_filed`). Before filing, the light model checks the line against
-  lessons filed in the last 14 days (`repeats_filed`); if that check fails the item waits as
-  `deferred_repeat_check` instead of being filed unchecked. Entries are written through
-  `~/.hive-brain/project-meta`'s `log_learning.py` into `~/code/project-meta/learnings/entries`
-  (`--store-path`), because the canonical checkout can be read-only or minutes behind a merge.
+- **Learning register filing: retired (2026-11-16, Decision 18).** The collector no longer writes learnings
+  to any register. It reads the frozen copy in the private repository `learnings-archive` to spot repeats.
 
 Why the filing gate looks like this (hand checks, 2026-10-07): closeout Learnings lines were 8/8
 reusable, lines extracted from narration 7/25; Jev's yes/no "reusable?" answer did not separate

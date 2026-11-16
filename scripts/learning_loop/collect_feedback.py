@@ -411,7 +411,7 @@ def file_item(it: dict) -> str:
 def earlier_splits(ids: set[str], out: Path = OUT) -> dict[str, list[dict]]:
     """Records an earlier run already split each of `ids` into, from the first clean split in the
     daily report logs. A report the filing cap deferred is re-read next run; splitting it again with
-    the light model can parse it differently and give one record id two payloads (project-meta #2538)."""
+    the light model can parse it differently and give one record id two payloads (old Project Meta issue 2538)."""
     found: dict[str, list[dict]] = {}
     for path in sorted(out.glob("reports-*.jsonl")):
         with path.open() as fh:
@@ -675,7 +675,7 @@ def main() -> int:
     with ThreadPoolExecutor(args.workers) as ex:
         step("covered", lambda: list(ex.map(covered_one, items)))
 
-    # 7. filing (sequential: each call is one git commit in project-meta)
+    # 7. filing (retired: file_item fails and --legacy-register is refused; this branch is dead code kept for its tests)
     def file_all():
         filed, locked = 0, False
         seen, recent = filed_quotes(), filed_texts()
@@ -793,7 +793,7 @@ def file_pending(path: Path, cap: int, min_reusable: float = 0.6) -> tuple[int, 
                 seen.add(norm(it["quote"]))
                 recent.append(it["quote"].strip())
             except RegisterLocked:
-                log("register locked by a live project-meta lane; the rest wait for the next run")
+                log("register locked; the rest wait for the next run")
                 break
             except Exception as exc:
                 entry = "error"
