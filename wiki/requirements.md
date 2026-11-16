@@ -58,5 +58,6 @@ unverified. A specification's presence is not runtime evidence.
 - [Project graph config](../openspec/specs/project-graph-config/spec.md) governs where the graph and owner come from for `md_file_cap.py`: the person's own files, never a default owner.
 - [Timer config](../openspec/specs/timer-config/spec.md) governs the job list and the installer that writes systemd timer units from it.
 - [Failed unit watch](../openspec/specs/failed-unit-watch/spec.md) governs the 30-minute sweep that turns failed systemd user units into concern issues.
+- [Workspace map check](../openspec/specs/workspace-map-check/spec.md) governs the daily clutter check of `~/code`, `~/projects`, `~/code2` and `~/archive`, filed as one keyed concern and one phone message per change.
 - [Concern repair verifier](../openspec/specs/concern-repair-verifier/spec.md) governs the five-gate check that must pass before a repaired concern closes.
 - [External idea intake](../openspec/specs/external-idea-intake/spec.md) governs the configurable subreddit watch list and the ranked digest command (Brian, 2026-11-16).
