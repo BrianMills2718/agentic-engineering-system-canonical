@@ -1,0 +1,16 @@
+{
+  "schema": "aes-evidence/slice3-verifier/v1",
+  "date": "2026-11-16",
+  "model_calls": 0,
+  "what_ran": "AES scripts/concern_repair_feedback.py recurrence_proof (gate 3 of 5) on Project Meta revisions 1708b51 (observed) and add1dd5 (fix, PM PR 2563), the same pair as evidence/runs/concern-lifecycle-live-20261114.json, plus two negative controls.",
+  "results": {
+    "real_pair": {"gate_passed": true},
+    "reversed_pair": {"gate_passed": false, "detail": "harness path absent in the fix revision, so the gate failed closed (the 2026-11-14 run failed it with 'control does not fail on the observed revision'; different reason, same outcome)"},
+    "no_harness_same_revision": {"gate_passed": false, "detail": "pathspec did not match any file; failed closed"}
+  },
+  "tests": "tests/test_concern_repair.py: 28 passed with llm_client available; 20 passed and 8 skipped without it (the skipped ones call llm_client)",
+  "ported": ["concern_repair_contract.py", "concern_repair_agents.py", "concern_repair_feedback.py", "prompts/concern_repair/repair.yaml", "prompts/concern_repair/review.yaml"],
+  "changes_from_project_meta": "REPO, PROJECT_ID, trace and store names only",
+  "not_ported": "concern_repair_executor.py (repair launcher): it reads the retired claims system (enforced_planning.coordination_claims) and Project Meta's prompts and registration file; its two tests were dropped",
+  "not_run": ["all five gates together on the AES copy (only gate 3 was re-run; the 11-14 run did all five on Project Meta's copy)", "the reviewer gate (needs llm_client and a model call)", "observe and the daily cap against the real concern register"]
+}
