@@ -833,7 +833,7 @@
    "owner": "agent",
    "status": "open",
    "touches": [
-    "lockstep"
+    "lockstep-today"
    ],
    "sources": [
     "wiki/external-ideas.md",
@@ -852,7 +852,7 @@
    "owner": "agent",
    "status": "open",
    "touches": [
-    "lockstep"
+    "lockstep-today"
    ],
    "sources": [
     "wiki/external-ideas.md",
@@ -871,7 +871,7 @@
    "owner": "agent",
    "status": "open",
    "touches": [
-    "lockstep"
+    "lockstep-today"
    ],
    "sources": [
     "wiki/external-ideas.md",
