@@ -3,7 +3,7 @@
 
 Implements: feedback-loop-notices/attention-push-arrives
 
-Replaces the loop's calls to Project Meta's ``operator_notify_router.py`` (retirement plan, slice 2).
+Replaces the loop's attention pushes that went through the old Project Meta router (retirement plan, slice 2).
 The loop needed one route from it: severity ``attention``, a short push to the operator's phone.
 Agent-fixable alerts are concerns (``scripts/concern_issue.py``), not pushes.
 

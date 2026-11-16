@@ -30,3 +30,12 @@ The feedback loop scripts (`problems.py`, `label_items.py`) SHALL call only the 
 
 - **WHEN** no topic is configured, the network fails, or ntfy answers 200 without an `id`
 - **THEN** the result is not delivered and says why
+
+### Requirement: Loop failures are concerns
+
+When a loop script fails (weekly problems, nightly collector, fix owner) or the policy check finds unregistered rules, it SHALL open or update a keyed concern through `scripts/concern_issue.py` and SHALL NOT call a Project Meta script.
+
+#### Scenario: loop-failures-are-concerns
+
+- **WHEN** `file_alert` is called with a key, source, title and body
+- **THEN** it runs the AES concern adapter with `open` for the loop's rule repository, that key and source, and returns the adapter's exit code

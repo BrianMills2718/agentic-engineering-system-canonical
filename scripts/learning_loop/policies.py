@@ -27,11 +27,13 @@ import subprocess
 import sys
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from alert import file_alert  # noqa: E402
+
 HOME = Path.home()
 OUT = Path(os.environ.get("FEEDBACK_OUT", HOME / "projects/data/feedback-collector"))
 AGENTS_MD = Path(os.environ.get("WORKSPACE_AGENTS_MD", HOME / "projects/.claude/AGENTS.md"))
 WORKING_RULES = Path(os.environ.get("WORKING_RULES_MD", HOME / "projects/.claude/WORKING_RULES.md"))
-PROJECT_META = Path(os.environ.get("PROJECT_META", HOME / ".hive-brain/project-meta"))
 RULES_REGISTER = Path(os.environ.get("RULES_REGISTER", Path(__file__).resolve().parents[2] / "docs/rules/register.yaml"))
 POLICY_ID = re.compile(r"Polic(?:y|ies) `([a-z0-9]+(?:-[a-z0-9]+)+)`")
 
@@ -92,14 +94,12 @@ def check(days: int, today: dt.date | None = None) -> dict:
 
 
 def alert(gaps: list[str]) -> None:
-    subprocess.run([sys.executable, str(PROJECT_META / "scripts/notify_operator.py"), "--key", "workspace-policy-unregistered",
-                    "--severity", "agent", "--source", "feedback-policies",
-                    "--title", f"{len(gaps)} workspace rules are not registered or documented",
-                    "--body", "Rules named as Policy `<id>` in the workspace AGENTS.md with no AES docs/rules/register.yaml "
-                              "entry (enforcement, observation, feedback path) or no WORKING_RULES source entry: "
-                              f"{', '.join(gaps)}. Add each entry; rerun "
-                              "`python scripts/learning_loop/policies.py` (AES) until it exits 0."],
-                   timeout=120)
+    file_alert("workspace-policy-unregistered", "feedback-policies",
+               f"{len(gaps)} workspace rules are not registered or documented",
+               "Rules named as Policy `<id>` in the workspace AGENTS.md with no AES docs/rules/register.yaml "
+               "entry (enforcement, observation, feedback path) or no WORKING_RULES source entry: "
+               f"{', '.join(gaps)}. Add each entry; rerun "
+               "`python scripts/learning_loop/policies.py` (AES) until it exits 0.")
 
 
 def main(argv: list[str] | None = None) -> int:

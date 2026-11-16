@@ -12,7 +12,7 @@ Output (never committed; may quote private records):
   $FEEDBACK_OUT/fix-owner-<date>.jsonl   the session's full stream-json trace
   $FEEDBACK_OUT/fix-owner-runs.jsonl     one line per run: items, dispositions, checks
 Exit 0 = every handed item has a valid disposition, 1 = some do not, 2 = crashed.
-Non-zero opens a keyed agent concern via notify_operator.py.
+Non-zero opens a keyed agent concern as a concern via scripts/learning_loop/alert.py.
 
   python scripts/learning_loop/fix_owner.py [--max-items 3] [--issue N] [--dry-run]
 """
@@ -28,11 +28,11 @@ import time
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+from alert import file_alert  # noqa: E402
 import effects as EF  # noqa: E402
 
 RULE_REPO = "BrianMills2718/agentic-engineering-system-canonical"
 OUT = Path(os.environ.get("FEEDBACK_OUT", Path.home() / "projects/data/feedback-collector"))
-PROJECT_META = Path(os.environ.get("PROJECT_META", Path.home() / ".hive-brain/project-meta"))
 CLAIMS_TOOL = Path(os.environ.get("CLAIMS_TOOL", Path.home() / "code/enforced-planning/scripts/check_coordination_claims.py"))
 ATTEMPT = "<!-- fix-owner-attempt "
 DISPOSITION = "<!-- fix-owner-disposition "
@@ -245,11 +245,8 @@ def _log(record: dict) -> None:
 
 
 def alert(code: int, detail: str) -> None:
-    subprocess.run([sys.executable, str(PROJECT_META / "scripts/notify_operator.py"), "--key", "feedback-fix-owner-failed",
-                    "--severity", "agent", "--source", "feedback-fix-owner",
-                    "--title", f"Weekly feedback fix owner exited {code}",
-                    "--body", f"{detail[-1500:]}\nRun log: {OUT}/fix-owner-runs.jsonl; journal: journalctl --user -u feedback-fix-owner"],
-                   timeout=120)
+    file_alert("feedback-fix-owner-failed", "feedback-fix-owner", f"Weekly feedback fix owner exited {code}",
+               f"{detail[-1500:]}\nRun log: {OUT}/fix-owner-runs.jsonl; journal: journalctl --user -u feedback-fix-owner")
 
 
 def main(argv: list[str] | None = None) -> int:

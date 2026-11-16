@@ -41,6 +41,7 @@ from typing import Literal
 from pydantic import BaseModel, Field
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+from alert import file_alert  # noqa: E402
 import label_items as LI  # noqa: E402
 import licences as LC  # noqa: E402
 import relation_check as RC  # noqa: E402
@@ -674,12 +675,8 @@ def main() -> int:
 
 
 def alert(code: int, detail: str) -> None:
-    """A failed weekly run is agent-fixable: it becomes (or reopens) a keyed concern, no push."""
-    subprocess.run([sys.executable, str(CONCERN_ISSUE), "open", "--repo", RULE_REPO, "--key", "feedback-problems-failed",
-                    "--source", "feedback-loop", "--title", f"Weekly feedback loop exited {code}",
-                    "--body", f"{detail[-1500:]}\nRun log: {OUT}/problems-runs.jsonl; journal: journalctl --user -u feedback-problems",
-                    "--occurrence", dt.date.today().isoformat(), "--no-run-claim", "failure of the loop itself; diagnoses no run"],
-                   timeout=120)
+    file_alert("feedback-problems-failed", "feedback-loop", f"Weekly feedback loop exited {code}",
+               f"{detail[-1500:]}\nRun log: {OUT}/problems-runs.jsonl; journal: journalctl --user -u feedback-problems")
 
 
 if __name__ == "__main__":
