@@ -57,16 +57,19 @@ taken from a part file, not re-run.
    debugging task. The three stages that turn lessons into fixes are still switched off. Ten user services are
    failed now (checked, `systemctl --user list-units --failed`), including `gates-nightly` (failed after about
    three hours of CPU) and `local-data-backup` (a "lose nothing" risk), both reviewer's reading.
-2. **The model rule is broken.** Judging agents run on Sonnet where the rule says Opus: 23 breaks in two days
-   (reviewer's reading of `subagent_models.py`).
+2. **Judging agents run on Sonnet** (23 times in two days, `subagent_models.py`). **Checked 2026-11-16: this is by
+   design, not a defect.** The usage-pace level is 2 because the Codex weekly limit reads fully used until its
+   reset on 2026-11-20 (`latest.json`, `usage-pace` journal); the rule in `llm-calls.md` lowers judges to Sonnet
+   under usage pressure. Left open: that reading is two days old and the usage reader currently fails.
 3. **Rules are split across homes.** An old `~/projects/.claude/AGENTS.md` (dated 2026-11-07) is still loaded
    into sessions; its only wrong parts are two stale pointers to Project Meta's workspace map (checked, lines 13
    and 17), and it otherwise defers to `core.md`. 174 memory notes are visible to Claude only (reviewer's reading).
 4. **A clean machine would lose jobs.** 84 timers on this laptop; the AES job list renders 6; 42 timer files are
    linked into git (checked by the independent read).
-5. **What an agent can reach is guarded only by hooks.** The rulebook for them is outside git and three
-   destructive commands passed the 2026-11-07 tests (reviewer's reading of that review; not re-run, as re-running
-   could trigger them). Commit-time checks are also switched off by `~/.config/git/repo-hooks.off` (reviewer's reading).
+5. **What an agent can reach is guarded only by hooks.** (Checked 2026-11-16, corrects the part reviewers' reading:
+   the safety-hook rulebook is in git, `workspace/config/cc-safety-net/`, byte-identical to the installed copy, and
+   already blocks `gh repo delete`, `gh api` DELETE, `rclone` purge and delete, and `ssh` remote removes; whether
+   each block fires today was not re-tested.) Commit-time checks are also switched off by `~/.config/git/repo-hooks.off` (reviewer's reading).
 6. **The two tools every change touches, `ship` and `lane-sweep`, live only in the private workspace repository,**
    not in AES (reviewer's reading).
 7. **Two facts that disagree with what you decided or documented** (reviewer's reading; for you, not for me to
@@ -109,3 +112,13 @@ One independent read was done on 2026-11-16 (verdict: revise). Its findings are 
 overlapping entries and unchecked items stated; the learning-loop item split into debugging and the credit
 decision; the old rulebook described as stale pointers, not a contradiction; the ranking reordered to follow its
 test; missing items added; unlabelled claims labelled. This version has not had a second read.
+
+## Progress, 2026-11-16 (Decision 25: Brian approved items 1 to 5)
+
+| # | Result |
+| ---: | --- |
+| 1 | Cause found (checked, journals): the OpenRouter key has no credit. It stops five of the ten failed services: `feedback-collector` (50 errors), `router-feedback`, `skill-review`, `foia-page-refresh`, and the model step of `projects-refresh`. This is a credit decision for Brian, not code; nothing to fix here. The three repair stages stay off. |
+| 2 | Closed as by design (see "What is wrong today", 2). |
+| 3 | Already done: the rulebook is in git and identical to the installed copy; the delete rules exist. |
+| 4 | Ten failures have six causes: no OpenRouter credit (5); `usage-pace` reads a wrong account login (Brian, 2026-11-11: not a concern); `client-config-drift`: **fixed**, the manifest now lists the Fable models already live (agent-skills #613; `client-config-check` drift=0); `gates-nightly`: four repositories' own checks fail (company-planning, digimon, process_tracing, vision) and `openrouter-bypass` grew by three files; `projects-refresh`: also a missing `code2check` command in the workspace virtual environment; `brent-us-sources` (sources step exit 3) and `foia-tracker` (exit 2 after 15 minutes) belong to other projects and are not diagnosed. |
+| 5 | Done: `~/projects/.claude/AGENTS.md` is an index to the topic files, not a competing rulebook; its two pointers to Project Meta's workspace map now point at the AES workspace check (projects-dotclaude #133). |
