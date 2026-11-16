@@ -25,7 +25,7 @@ flowchart LR
     problems[problems: weekly analysis, off]
     effects[effects: enforcement receipts, off]
     fix_owner[fix_owner: weekly fix owner, off]
-    notify[notify: ntfy phone push, no Project Meta]
+    notify[notify: Telegram message, no Project Meta]
     alert[alert: loop failures as concerns]
     licences[licences: licences for proposed fixes]
     policies[policies: is each rule enforced and observed]

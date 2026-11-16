@@ -1,15 +1,16 @@
 #!/usr/bin/env python3
-"""Phone push for the feedback loop (ntfy), the only notice the loop sends.
+"""Phone notice for the feedback loop: one Telegram message, the only notice the loop sends.
 
 Implements: feedback-loop-notices/attention-push-arrives
 
 Replaces the loop's attention pushes that went through the old Project Meta router (retirement plan, slice 2).
-The loop needed one route from it: severity ``attention``, a short push to the operator's phone.
-Agent-fixable alerts are concerns (``scripts/concern_issue.py``), not pushes.
+Agent-fixable alerts are concerns (``scripts/learning_loop/alert.py``), not messages.
 
-A push counts as sent only when ntfy answers 200 with a JSON ``id`` (the broker accepted it);
-that is arrival at the broker, not the phone showing it. The topic is read from
-``OPERATOR_NTFY_TOPIC`` or that one line of ``~/.secrets/api_keys.env``; it is never printed.
+Uses Telegram's ``sendMessage`` only. The bot's webhook belongs to another service (Paperclip), so this never
+calls ``getUpdates`` or ``deleteWebhook``, which would break it. Plain text, no parse mode. A message counts as
+delivered only when Telegram answers ``ok`` with a ``message_id`` (Telegram holds it for the account; that is not
+the phone showing it). The token and chat id come from the environment or those two lines of
+``~/.secrets/api_keys.env``; neither is ever printed.
 """
 from __future__ import annotations
 
@@ -19,17 +20,18 @@ import os
 import sys
 import urllib.error
 import urllib.request
-from email.header import Header
 from pathlib import Path
 
-HOST = "https://ntfy.sh"
-TOPIC_ENV = "OPERATOR_NTFY_TOPIC"
+API = "https://api.telegram.org"
+TOKEN_ENV = "TELEGRAM_AGENTS_BOT_TOKEN"
+CHAT_ENV = "OPERATOR_TELEGRAM_CHAT_ID"
 SECRETS_ENV = "OPERATOR_SECRETS_FILE"
+MAX_CHARS = 4000
 
 
-def topic() -> str:
-    """The configured topic, or "" when the route is not set up (never printed)."""
-    value = os.environ.get(TOPIC_ENV, "")
+def secret(name: str) -> str:
+    """The named value from the environment, else from that one line of the secrets file, else ""."""
+    value = os.environ.get(name, "")
     if value:
         return value.strip()
     path = Path(os.environ.get(SECRETS_ENV, str(Path.home() / ".secrets" / "api_keys.env")))
@@ -39,39 +41,43 @@ def topic() -> str:
         return ""
     for line in lines:
         key, sep, val = line.strip().removeprefix("export ").partition("=")
-        if sep and key.strip() == TOPIC_ENV:
+        if sep and key.strip() == name:
             return val.strip().strip("'\"")
     return ""
 
 
-def push(title: str, body: str, *, host: str = HOST, timeout: float = 15.0, opener=urllib.request.urlopen) -> dict:
-    """Send one push; return {"delivered": bool, "evidence": str}. Never raises on network errors."""
-    t = topic()
-    if not t:
-        return {"delivered": False, "evidence": f"not_configured: set {TOPIC_ENV}"}
-    # Header values go out as Latin-1; encode other characters as RFC 2047, which ntfy decodes.
-    header = title if title.isascii() else Header(title, "utf-8").encode()
-    req = urllib.request.Request(f"{host}/{t}", data=body.encode("utf-8"),
-                                 headers={"Title": header, "Priority": "default", "Markdown": "no"}, method="POST")
+def push(title: str, body: str, *, host: str = API, timeout: float = 15.0, opener=urllib.request.urlopen) -> dict:
+    """Send one message; return {"delivered": bool, "evidence": str}. Never raises on network errors."""
+    token, chat = secret(TOKEN_ENV), secret(CHAT_ENV)
+    if not token or not chat:
+        missing = [n for n, v in ((TOKEN_ENV, token), (CHAT_ENV, chat)) if not v]
+        return {"delivered": False, "evidence": f"not_configured: set {', '.join(missing)}"}
+    text = f"{title}\n\n{body}"[:MAX_CHARS]
+    req = urllib.request.Request(f"{host}/bot{token}/sendMessage",
+                                 data=json.dumps({"chat_id": chat, "text": text}).encode("utf-8"),
+                                 headers={"Content-Type": "application/json"}, method="POST")
     try:
         with opener(req, timeout=timeout) as resp:
             status, raw = resp.status, resp.read()
+    except urllib.error.HTTPError as exc:
+        return {"delivered": False, "evidence": f"send_failed: HTTP {exc.code}"}
     except (urllib.error.URLError, OSError, TimeoutError) as exc:
         return {"delivered": False, "evidence": f"send_failed: {type(exc).__name__}"}
     try:
-        message_id = json.loads(raw).get("id")
+        answer = json.loads(raw)
+        ok, message_id = answer.get("ok") is True, (answer.get("result") or {}).get("message_id")
     except (ValueError, AttributeError):
-        message_id = None
-    if status == 200 and message_id:
-        return {"delivered": True, "evidence": f"accepted_by_broker id={message_id}"}
-    return {"delivered": False, "evidence": f"send_failed: HTTP {status}, id={'yes' if message_id else 'no'}"}
+        ok, message_id = False, None
+    if status == 200 and ok and message_id:
+        return {"delivered": True, "evidence": f"accepted_by_telegram message_id={message_id}"}
+    return {"delivered": False, "evidence": f"send_failed: HTTP {status}, ok={ok}, message_id={'yes' if message_id else 'no'}"}
 
 
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("--title", required=True)
     ap.add_argument("--body", required=True)
-    result = push(**{k: v for k, v in vars(ap.parse_args(argv)).items()})
+    result = push(**vars(ap.parse_args(argv)))
     print(json.dumps(result))
     return 0 if result["delivered"] else 1
 

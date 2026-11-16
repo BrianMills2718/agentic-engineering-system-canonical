@@ -1,12 +1,12 @@
 # Bounded cold review: feedback-loop notices (AES, 2026-11-16)
 
-Reviewed revision: `329ea47bd9693d9695ed2a8c91949c88268370f4`.
+Reviewed revision: `2370bdb988c86af953f96bec33b8e4ea4c82390d`.
 Verdict: **pass** for the slice 2 change (spec `feedback-loop-notices`, `scripts/learning_loop/notify.py`, `alert.py`,
 the copied `scripts/concern_issue.py`, loop call sites, plan row). This does not re-certify unrelated A1-A8.
 
 Independent planning reviewer: first read at `b391f165f`: revise (plan row claimed the loop had no Project Meta path while
 the nightly collector, fix owner and policy check still called its alert script; weak no-path test; test count 22 vs 19;
-lost de-duplication and notification log unnamed). Second read at `f74ad5048`: pass, 24 tests exit 0. Third read at this revision (spec requirement 1 widened to the six scripts the test checks): pass. Noted, not changed:
+lost de-duplication and notification log unnamed). Second read at `f74ad5048`: pass, 24 tests exit 0. Third read at `329ea47bd` (spec requirement 1 widened to the six scripts the test checks): pass. Fourth read at this revision (notice moved from ntfy to Telegram, Decision 17 A; spec requirement 2, tests, plan row, Q42, `evidence/runs/slice2-live-20261116.json`): pass, 5 tests exit 0. Noted: the no-leak test checks the result, not what `main` prints; the Telegram message was not rechecked by the reviewer. Noted, not changed:
 the `problems.py` digest and revoked push call sites are read, not tested; no live `gh` or ntfy run; `collect_feedback.py`
 still uses the legacy learnings register (a later slice).
 

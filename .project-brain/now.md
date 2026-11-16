@@ -236,4 +236,4 @@ older than the work since.
 
 **Q45 step 1 (2026-11-16):** Claude loads the private profile through a user-level import (proven once). Codex gets a generated `~/.codex/AGENTS.md` from `brian-profile/scripts/build-codex-agents.sh` (PR #1 open: the new-repository rule needs a planning package, Decision 16 A defers it); Codex reading it is unproven until its usage limit resets on 2026-11-20.
 
-**Slice 2 code (2026-11-16):** the loop's concerns, failure alerts and phone push no longer call Project Meta (`scripts/concern_issue.py`, `alert.py`, `notify.py`; spec `feedback-loop-notices`); `collect_feedback.py` still uses the legacy learnings register. The live concern run and one real push are still to do. See the plan's slice 2 row.
+**Slice 2 code (2026-11-16):** the loop's concerns, failure alerts and phone message no longer call Project Meta (`scripts/concern_issue.py`, `alert.py`, `notify.py`; spec `feedback-loop-notices`); `collect_feedback.py` still uses the legacy learnings register. Live run done 2026-11-16 (concern #894 lifecycle; Telegram test message 281); loop scripts not run end to end. See the plan's slice 2 row.
