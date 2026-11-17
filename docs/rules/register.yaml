@@ -16,7 +16,7 @@ rules:
   rule: Settle what checking can settle, then give Brian approvable recommendations with safe defaults, never a
     list of open questions.
   origin: workspace-instructions
-  source: projects-dotclaude AGENTS.md (the workspace instruction file every Claude Code and Codex session loads)
+  source: code2-workspace agents/topics/closeout.md (a topic file of agents/core.md, which every Claude Code and Codex session loads)
   enforcement_status: advisory
   enforcement_mechanism: Instruction only; nothing checks it.
   feedback_path: 'feedback record: an `obs (control)` line naming the Policy id'
