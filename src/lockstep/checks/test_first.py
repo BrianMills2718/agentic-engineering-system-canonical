@@ -45,7 +45,7 @@ import tarfile
 import tempfile
 import xml.etree.ElementTree as ET
 
-from lockstep.checks.changed import change_set, wording_only
+from lockstep.checks.changed import change_set, compare_with, wording_only
 from lockstep.checks.markers import req_markers, source_dirs, test_dirs
 from lockstep.checks.spec import effective_plan, normal, read_plan
 
@@ -124,14 +124,12 @@ def check(root: Path, base: str) -> Result:
         The tests checked and those that already passed on base.
     """
     root = Path(root)
-    found = subprocess.run(
-        ["git", "-C", str(root), "rev-parse", "--verify", "--quiet", f"{base}^{{commit}}"], capture_output=True
-    )
-    if found.returncode != 0:
+    start = compare_with(root, base)  # where the branch started, so merges into base since then are not counted
+    if start is None:
         return Result(skipped=f"base {base} not found")
     with tempfile.TemporaryDirectory() as tmp:
         old = Path(tmp)
-        _extract(root, base, old)
+        _extract(root, start, old)
         new_ids = _scenarios(root) - _scenarios(old)
         nodes = sorted({node for ident, _, node in req_markers(root, existing=False) if ident in new_ids})
         exempt = sorted({node for ident, _, node in req_markers(root, existing=True) if ident in new_ids})
@@ -164,18 +162,22 @@ def check(root: Path, base: str) -> Result:
             detail = (ran.stderr or ran.stdout).strip().splitlines()[-1:] or [f"exit {ran.returncode}"]
             raise PytestUnavailable(f"pytest could not run with {sys.executable}: {detail[0]}. "
                                     "Install pytest in Lockstep's environment.")
-        passed, failed = set(), set()
+        passed, failed, skipped = set(), set(), set()
         for case in ET.parse(report).iter("testcase"):
             path = case.get("file") or case.get("classname", "").replace(".", "/") + ".py"
             node = f"{path}::{case.get('name')}"
-            if len(case) == 0 or all(child.tag in ("system-out", "system-err") for child in case):
+            tags = {child.tag for child in case} - {"system-out", "system-err"}
+            if not tags:
                 passed.add(node)
+            elif tags == {"skipped"}:
+                skipped.add(node.split("[")[0])
             else:
                 failed.add(node.split("[")[0])
         result.passed_before = sorted(n for n in passed if n.split("[")[0] in set(nodes))  # new-scenario tests only
-        # A changed scenario's test counts as passing on the base only when every case of it was reported passing
-        # (all parameters); one that failed, errored or was not reported there counts as failing.
-        passing = {n.split("[")[0] for n in passed} - failed
+        # A changed scenario's test is evidence only when it failed or errored on the base, or was not reported
+        # there at all (its file could not be imported). One whose every case passed (all parameters) or that was
+        # skipped there shows nothing about the old behavior.
+        passing = ({n.split("[")[0] for n in passed} | skipped) - failed
         result.no_failing_test = sorted(
             result.no_failing_test + [sid for sid, tests in changed_tests.items() if tests and set(tests) <= passing]
         )

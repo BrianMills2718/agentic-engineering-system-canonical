@@ -93,6 +93,7 @@ class Result:
     base: str
     requirements: list[Item] = field(default_factory=list)
     skipped: str = ""
+    compared: str = ""  # the commit compared with: the merge base of `base` and HEAD
 
     def counts(self) -> dict[str, int]:
         """Return the numbers the RESULT line prints."""
@@ -111,7 +112,8 @@ class Result:
 
     def as_dict(self) -> dict:
         """Return the result as plain data for `--json`."""
-        return {"base": self.base, "requirements": [asdict(i) for i in self.requirements], "counts": self.counts()}
+        return {"base": self.base, "compared": self.compared,
+                "requirements": [asdict(i) for i in self.requirements], "counts": self.counts()}
 
 
 def _listed(text: str, pattern: re.Pattern[str]) -> list[str]:
@@ -193,6 +195,33 @@ def base_exists(root: Path, base: str) -> bool:
         ["git", "-C", str(root), "rev-parse", "--verify", "--quiet", f"{base}^{{commit}}"], capture_output=True
     )
     return found.returncode == 0
+
+
+def compare_with(root: Path, base: str) -> str | None:
+    """Return the commit a check compares with: where the branch started.
+
+    Implements: lockstep-checks/changed-and-test-first-the-base-is-where-the-branch-started
+
+    Requirement text (generated):
+        lockstep-checks/changed-and-test-first-the-base-is-where-the-branch-started: `lockstep check
+            changed --base <rev>` and `lockstep check test-first --base <rev>` SHALL compare the
+            current revision with the merge base of `<rev>` and the current commit, so that what was
+            merged into `<rev>` after the branch started is not counted as this branch's change.
+            When `<rev>` and the current commit share no history, or the repository has no commit
+            yet, they SHALL compare with `<rev>` itself.
+
+    Args:
+        root: Repository root.
+        base: Git revision given as `--base`, such as `origin/main`.
+
+    Returns:
+        The merge base of base and HEAD; base itself when they share no history or there is no
+        commit yet; None when base names no commit.
+    """
+    if not base_exists(root, base):
+        return None
+    found = subprocess.run(["git", "-C", str(root), "merge-base", base, "HEAD"], capture_output=True, text=True)
+    return found.stdout.strip() if found.returncode == 0 and found.stdout.strip() else base
 
 
 def extract(root: Path, base: str, dest: Path, paths: list[str]) -> None:
@@ -288,13 +317,14 @@ def check(root: Path, base: str) -> Result:
         The result; `skipped` says why when base is not a commit.
     """
     root = Path(root)
-    if not base_exists(root, base):
+    start = compare_with(root, base)
+    if start is None:
         return Result(base, skipped=f"base {base} not found")
     now = effective_plan(root)
-    result = Result(base)
+    result = Result(base, compared=start)
     with tempfile.TemporaryDirectory() as tmp:
         old = Path(tmp)
-        extract(root, base, old, list(PLAN_PATHS))
+        extract(root, start, old, list(PLAN_PATHS))
         diffs = _compare(effective_plan(old), now)
         if not diffs:
             return result
@@ -302,7 +332,7 @@ def check(root: Path, base: str) -> Result:
         scenario_ids = {s for _, _, _, _, scs in diffs for s, _ in scs}
         scenario_ids |= {s for d in diffs for s, p in now.parent.items() if p == d[0]}
         needed = sorted({node.split("::")[0] for ident, _, node in markers if ident in scenario_ids})
-        extract(root, base, old, needed)
+        extract(root, start, old, needed)
         plans = change_set(root, old)
         declared = wording_only(plans)
         links = implementers(root)
