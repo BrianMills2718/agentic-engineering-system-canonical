@@ -224,3 +224,24 @@ def test_the_working_tree_is_not_touched(base):
     code, out = changed(base)
     assert last(out).startswith("RESULT changed requirements=1 ")
     assert git(base, "status", "--porcelain") == before
+
+
+@pytest.mark.req("lockstep-checks/changed-a-requirement-added-on-the-base-branch-after-the-branch-started-is-not-listed")
+def test_a_requirement_added_on_the_base_branch_after_the_branch_started_is_not_listed(base):
+    git(base, "checkout", "-q", "-b", "work")
+    write(base, "README.md", "work\n")
+    commit_all(base, "work that changes no requirement")
+    git(base, "checkout", "-q", "main")
+    write(base, "openspec/specs/core/spec.md", SPEC + """
+    ### Requirement: Do another thing
+    The tool SHALL do another thing.
+
+    #### Scenario: It also works
+    - **WHEN** called again
+    - **THEN** it works again
+""")
+    commit_all(base, "main moved: a requirement added after the branch started")
+    git(base, "checkout", "-q", "work")
+    code, out = changed(base, base="main")
+    assert code == 0
+    assert last(out) == "RESULT changed requirements=0 unplanned=0 no_scenario=0 wording_only=0 exit=0"

@@ -235,3 +235,45 @@ def test_an_existing_behavior_mark_does_not_exempt_a_changed_scenario(repo, caps
     out = capsys.readouterr().out
     assert "no-failing-test core/it-works" in out
     assert "RESULT test-first checked=0 existing=0 passed_before=0 changed=1 no_failing_test=1 exit=1" in out
+
+
+@pytest.mark.req(
+    "lockstep-checks/test-first-a-scenario-reworded-on-the-base-branch-after-the-branch-started-is-not-checked"
+)
+def test_a_scenario_reworded_on_the_base_branch_after_the_branch_started_is_not_checked(repo):
+    make_base_with_test(repo)
+    git(repo, "checkout", "-q", "-b", "work")
+    write(repo, "README.md", "work\n")
+    commit_all(repo, "work that changes no scenario")
+    git(repo, "checkout", "-q", "main")
+    write(repo, "openspec/specs/core/spec.md", CHANGED_SPEC)
+    commit_all(repo, "main moved: the scenario reworded after the branch started")
+    git(repo, "checkout", "-q", "work")
+    result = check(repo, base="main")
+    assert result.changed == []
+    assert result.no_failing_test == []
+    assert result.ok
+
+
+SKIPPED_TEST = '''
+    import pytest
+    from pkg.core import greet
+
+    @pytest.mark.req("core/it-works")
+    @pytest.mark.skipif(greet() == "hello", reason="not for the old greeting")
+    def test_works():
+        assert greet() == "hello there"
+'''
+
+
+@pytest.mark.req("lockstep-checks/test-first-a-changed-scenario-whose-tests-all-pass-on-the-base-fails-the-check")
+def test_a_test_skipped_on_the_base_is_not_a_failing_test(repo):
+    make_base_with_test(repo)
+    write(repo, "openspec/specs/core/spec.md", CHANGED_SPEC)
+    write(repo, "src/pkg/core.py", 'def greet():\n    return "hello there"\n')
+    write(repo, "tests/test_works.py", SKIPPED_TEST)
+    commit_all(repo, "reword the scenario; its only test is skipped on the base source")
+    result = check(repo, base="HEAD~1")
+    assert result.changed == ["core/it-works"]
+    assert result.no_failing_test == ["core/it-works"]
+    assert not result.ok
