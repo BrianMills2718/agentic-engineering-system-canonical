@@ -192,3 +192,18 @@ def test_cli_prints_table_json_and_result_line(linked, capsys):
     assert data["requirements"]["core/do-the-thing"]["state"] == "passing"
     assert data["results"]["valid"] is True
     assert data["plans"][0]["open"] == {}
+
+
+@pytest.mark.req("lockstep-projection/a-requirement-reworded-in-an-active-change-is-open-not-passing")
+def test_a_requirement_reworded_in_an_active_change_is_open_not_passing(linked):
+    write(linked, "openspec/changes/reword/specs/core/spec.md",
+          "## MODIFIED Requirements\n### Requirement: Do the thing\nThe tool SHALL do the thing better.\n\n"
+          "#### Scenario: It works\n- **WHEN** called\n- **THEN** it works\n")
+    write(linked, "openspec/changes/reword/proposal.md", "## Why\n\nCloses: core/do-the-thing\n")
+    sha = commit_all(linked)
+    record(linked, sha, "pass")
+    result = report(linked)
+    assert result.scenarios["core/it-works"].state == "passing"
+    assert result.requirements["core/do-the-thing"].state == "changed, not archived"
+    [plan] = result.plans
+    assert plan.open == {"core/do-the-thing": "changed, not archived"}

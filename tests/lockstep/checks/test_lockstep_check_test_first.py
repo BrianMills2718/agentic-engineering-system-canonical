@@ -159,3 +159,79 @@ def test_the_cli_exits_non_zero_when_pytest_cannot_run(repo, monkeypatch, capsys
     code = run_check(["test-first", "--base", "HEAD~1", "--repo", str(repo)])
     out = capsys.readouterr().out
     assert code == 1 and "pytest could not run" in out and "accepted" not in out
+
+
+CHANGED_SPEC = SPEC.replace("- **THEN** it works", "- **THEN** it says hello there")
+WORKS_TEST = '''
+    import pytest
+    from pkg.core import greet
+
+    @pytest.mark.req("core/it-works"{flag})
+    def test_{name}():
+        assert greet() == "{expected}"
+'''
+
+
+def make_base_with_test(repo, flag=""):
+    """A base commit whose scenario core/it-works has one test that passes on the base source."""
+    make_base(repo)
+    write(repo, "tests/test_works.py", WORKS_TEST.format(flag=flag, name="works", expected="hello"))
+    commit_all(repo, "base test")
+
+
+@pytest.mark.req("lockstep-checks/test-first-a-changed-scenario-whose-tests-all-pass-on-the-base-fails-the-check")
+def test_a_changed_scenario_whose_tests_all_pass_on_the_base_fails_the_check(repo):
+    make_base_with_test(repo)
+    write(repo, "openspec/specs/core/spec.md", CHANGED_SPEC)
+    commit_all(repo, "reword the scenario")
+    result = check(repo, base="HEAD~1")
+    assert result.changed == ["core/it-works"]
+    assert result.no_failing_test == ["core/it-works"]
+    assert result.passed_before == []
+    assert not result.ok
+
+
+@pytest.mark.req("lockstep-checks/test-first-one-test-that-fails-on-the-base-is-enough-for-a-changed-scenario")
+def test_one_test_that_fails_on_the_base_is_enough_for_a_changed_scenario(repo):
+    make_base_with_test(repo)
+    write(repo, "openspec/specs/core/spec.md", CHANGED_SPEC)
+    write(repo, "src/pkg/core.py", 'def greet():\n    return "hello there"\n')
+    write(repo, "tests/test_works.py", WORKS_TEST.format(flag="", name="works", expected="hello there") + """
+    @pytest.mark.req("core/it-works")
+    def test_still_starts_with_hello():
+        assert greet().startswith("hello")
+""")
+    commit_all(repo, "reword the scenario and change the code")
+    result = check(repo, base="HEAD~1")
+    assert result.changed == ["core/it-works"]
+    assert result.no_failing_test == []
+    assert result.ok
+
+
+@pytest.mark.req("lockstep-checks/test-first-a-wording-only-scenario-is-not-checked")
+def test_a_wording_only_scenario_is_not_checked(repo):
+    make_base_with_test(repo)
+    write(repo, "openspec/specs/core/spec.md", CHANGED_SPEC)
+    write(repo, "docs/plans/0001-reword.md", "# Reword\n\nWording-only: core/do-the-thing\n")
+    commit_all(repo, "reword the scenario, wording only")
+    result = check(repo, base="HEAD~1")
+    assert result.changed == []
+    assert result.no_failing_test == []
+    assert result.ok
+
+
+@pytest.mark.req("lockstep-checks/test-first-an-existing-behavior-mark-does-not-exempt-a-changed-scenario")
+def test_an_existing_behavior_mark_does_not_exempt_a_changed_scenario(repo, capsys):
+    make_base_with_test(repo, flag=", existing=True")
+    write(repo, "openspec/specs/core/spec.md", CHANGED_SPEC)
+    commit_all(repo, "reword the scenario")
+    result = check(repo, base="HEAD~1")
+    assert result.changed == ["core/it-works"]
+    assert result.no_failing_test == ["core/it-works"]
+    assert result.existing == []
+    assert not result.ok
+    from lockstep.checks.cli import run as run_check
+    assert run_check(["test-first", "--base", "HEAD~1", "--repo", str(repo)]) == 1
+    out = capsys.readouterr().out
+    assert "no-failing-test core/it-works" in out
+    assert "RESULT test-first checked=0 existing=0 passed_before=0 changed=1 no_failing_test=1 exit=1" in out
