@@ -5,6 +5,38 @@ Implements: lockstep-checks/changed-requirements-that-differ-from-the-base-are-l
     lockstep-checks/changed-a-changed-statement-needs-a-changed-scenario-or-a-wording-only-declaration,
     lockstep-checks/changed-count-line-and-exit-status
 
+Requirement text (generated):
+    lockstep-checks/changed-requirements-that-differ-from-the-base-are-listed-with-their-code-and-tests:
+        `lockstep check changed --base <rev>` SHALL compare the text of every requirement and
+        scenario in the plan at the current revision (`openspec/specs/` with the spec deltas of
+        active changes applied over it) with the plan at the base revision, treating runs of
+        whitespace as one space. It SHALL print, for each requirement that is new, removed, or whose
+        statement or any scenario is new, removed or different: the requirement ID and its kind
+        (`new`, `changed` or `removed`), which parts differ, the symbols whose docstrings implement
+        it, the tests marked for its scenarios, each labelled `changed`, `unchanged` or `new`
+        against the base revision's copy of that test function, and the plan that names it. `--json`
+        SHALL print the same as JSON. It SHALL read the base revision from git without changing the
+        working tree.
+    lockstep-checks/changed-every-listed-requirement-is-named-by-a-plan-in-the-same-change-set: The
+        changed check SHALL report a listed requirement as `unplanned` and exit 1 when no plan that
+        is new or different from the base revision names it. A plan names a requirement when it is
+        an OpenSpec change (active, or archived since the base) whose spec delta has a heading for
+        that requirement, or a page in `docs/plans/` or an OpenSpec change's `proposal.md` whose
+        `Closes:` or `Wording-only:` line lists the requirement ID.
+    lockstep-checks/changed-a-changed-statement-needs-a-changed-scenario-or-a-wording-only-declaration:
+        The changed check SHALL report `no-scenario-changed` and exit 1 when a requirement's
+        statement differs from the base while none of its scenarios is new or different, unless a
+        plan that is new or different from the base lists the requirement ID on a `Wording-only:`
+        line. It SHALL print each wording-only declaration it accepted with the plan's path, and
+        count them in its count line. A `Wording-only:` line MAY list scenario IDs as well as
+        requirement IDs; a requirement ID covers its statement and all its scenarios.
+    lockstep-checks/changed-count-line-and-exit-status: The changed check SHALL end with the line
+        `RESULT changed requirements=<n> unplanned=<n> no_scenario=<n> wording_only=<n> exit=<0|1>`,
+        exiting 1 when `unplanned` or `no_scenario` is above zero. When `<rev>` does not name a
+        commit it SHALL check nothing, print `RESULT changed skipped="base <rev> not found" exit=0`
+        and exit 0. `changed` SHALL be a check name in `lockstep.yaml` with the same `block`, `warn`
+        and `off` modes as the other checks.
+
 Nothing is stored: "changed" is computed on every run from the two revisions. The base is read with
 `git archive` of `openspec/`, `docs/plans/` and the test files the listed requirements need, into a
 temporary folder; the working tree is not touched and no test is run.
@@ -112,6 +144,14 @@ def change_set(root: Path, old: Path) -> list[ChangePlan]:
 
     Implements: lockstep-checks/changed-every-listed-requirement-is-named-by-a-plan-in-the-same-change-set
 
+    Requirement text (generated):
+        lockstep-checks/changed-every-listed-requirement-is-named-by-a-plan-in-the-same-change-set:
+            The changed check SHALL report a listed requirement as `unplanned` and exit 1 when no
+            plan that is new or different from the base revision names it. A plan names a
+            requirement when it is an OpenSpec change (active, or archived since the base) whose
+            spec delta has a heading for that requirement, or a page in `docs/plans/` or an OpenSpec
+            change's `proposal.md` whose `Closes:` or `Wording-only:` line lists the requirement ID.
+
     Args:
         root: Repository root (the working tree).
         old: A folder holding the base revision's `openspec/` and `docs/plans/`.
@@ -218,6 +258,27 @@ def check(root: Path, base: str) -> Result:
 
     Implements: lockstep-checks/changed-requirements-that-differ-from-the-base-are-listed-with-their-code-and-tests,
         lockstep-checks/changed-a-changed-statement-needs-a-changed-scenario-or-a-wording-only-declaration
+
+    Requirement text (generated):
+        lockstep-checks/changed-requirements-that-differ-from-the-base-are-listed-with-their-code-and-tests:
+            `lockstep check changed --base <rev>` SHALL compare the text of every requirement and
+            scenario in the plan at the current revision (`openspec/specs/` with the spec deltas of
+            active changes applied over it) with the plan at the base revision, treating runs of
+            whitespace as one space. It SHALL print, for each requirement that is new, removed, or
+            whose statement or any scenario is new, removed or different: the requirement ID and its
+            kind (`new`, `changed` or `removed`), which parts differ, the symbols whose docstrings
+            implement it, the tests marked for its scenarios, each labelled `changed`, `unchanged`
+            or `new` against the base revision's copy of that test function, and the plan that names
+            it. `--json` SHALL print the same as JSON. It SHALL read the base revision from git
+            without changing the working tree.
+        lockstep-checks/changed-a-changed-statement-needs-a-changed-scenario-or-a-wording-only-declaration:
+            The changed check SHALL report `no-scenario-changed` and exit 1 when a requirement's
+            statement differs from the base while none of its scenarios is new or different, unless
+            a plan that is new or different from the base lists the requirement ID on a
+            `Wording-only:` line. It SHALL print each wording-only declaration it accepted with the
+            plan's path, and count them in its count line. A `Wording-only:` line MAY list scenario
+            IDs as well as requirement IDs; a requirement ID covers its statement and all its
+            scenarios.
 
     Args:
         root: Repository root (the working tree, uncommitted edits included).

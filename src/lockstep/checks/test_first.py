@@ -16,12 +16,22 @@ Requirement text (generated):
         test-first --base <rev>` SHALL, when `<rev>` does not name a commit, check nothing, report
         that the base was missing, and exit 0.
     lockstep-checks/test-first-tests-for-existing-behavior-are-exempt-and-counted: The test-first
-        check SHALL not run a test marked `req(..., existing=True)`, and SHALL report how many such
-        tests it skipped.
+        check SHALL not run a test marked `req(..., existing=True)` for a scenario that is new since
+        the base, and SHALL report how many such tests it skipped. For a scenario whose text changed
+        since the base, `existing=True` SHALL NOT exempt a test: it is run on the base source like
+        any other test marked for that scenario.
     lockstep-checks/test-first-a-test-run-that-cannot-start-fails-the-check: `lockstep check
         test-first` SHALL exit 1 with a message saying pytest could not run when running the new
         tests on the base source produces no test report (pytest missing from Lockstep's
         environment, or a usage error); it SHALL NOT report the tests as not passing before.
+    lockstep-checks/test-first-a-changed-scenario-needs-a-test-that-fails-before-the-change:
+        `lockstep check test-first --base <rev>` SHALL, for each scenario that both revisions define
+        and whose text differs (runs of whitespace counting as one space; text from an active
+        change's spec delta replacing the spec's), run every test marked for it against the base
+        revision's source, and SHALL report `no-failing-test <scenario id>` and exit 1 when none of
+        them fails there. It SHALL NOT check a scenario that a plan new or different from the base
+        declares on a `Wording-only:` line, by its own ID or its requirement's. Its count line SHALL
+        add `changed=<n>`, the number of changed scenarios checked, and `no_failing_test=<n>`.
 """
 
 from dataclasses import dataclass, field

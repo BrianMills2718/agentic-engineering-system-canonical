@@ -14,7 +14,10 @@ Requirement text (generated):
         commit with a clean tree, and SHALL mark it `not run at this revision` otherwise.
     lockstep-projection/a-plan-closes-requirement-ids-only-when-they-pass: `lockstep status` SHALL
         read the `Closes:` line of each plan and OpenSpec change and report each listed ID that is
-        unimplemented, untested or not passing as open for that plan.
+        unimplemented, untested or not passing as open for that plan. It SHALL give a requirement or
+        scenario the state `changed, not archived` when an active change's spec delta holds text for
+        it that differs from the spec's (runs of whitespace counting as one space), whatever its
+        tests' results, and SHALL report it as open for a plan that lists it.
 
 """
 

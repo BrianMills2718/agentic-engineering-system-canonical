@@ -14,6 +14,12 @@ Requirement text (generated):
         default) and `likec4` (default `1.60.0`) settings SHALL be read from the same file.
         `lockstep check` with no name, or only `--repo`, `--base` and `--json`, SHALL keep running
         the whole-tree plan check.
+    lockstep-checks/changed-count-line-and-exit-status: The changed check SHALL end with the line
+        `RESULT changed requirements=<n> unplanned=<n> no_scenario=<n> wording_only=<n> exit=<0|1>`,
+        exiting 1 when `unplanned` or `no_scenario` is above zero. When `<rev>` does not name a
+        commit it SHALL check nothing, print `RESULT changed skipped="base <rev> not found" exit=0`
+        and exit 0. `changed` SHALL be a check name in `lockstep.yaml` with the same `block`, `warn`
+        and `off` modes as the other checks.
 
 Names: `trace`, `arch [gen|check]`, `test-first [--base REV]`, `sources [--json]`, `docmeta`, `project [--check]`,
 `instructions [--chain FILE]`, `changed [--base REV] [--json]`; each takes

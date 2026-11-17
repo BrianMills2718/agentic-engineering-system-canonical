@@ -105,6 +105,19 @@ def effective_plan(root: Path) -> Plan:
 
     Implements: lockstep-checks/changed-requirements-that-differ-from-the-base-are-listed-with-their-code-and-tests
 
+    Requirement text (generated):
+        lockstep-checks/changed-requirements-that-differ-from-the-base-are-listed-with-their-code-and-tests:
+            `lockstep check changed --base <rev>` SHALL compare the text of every requirement and
+            scenario in the plan at the current revision (`openspec/specs/` with the spec deltas of
+            active changes applied over it) with the plan at the base revision, treating runs of
+            whitespace as one space. It SHALL print, for each requirement that is new, removed, or
+            whose statement or any scenario is new, removed or different: the requirement ID and its
+            kind (`new`, `changed` or `removed`), which parts differ, the symbols whose docstrings
+            implement it, the tests marked for its scenarios, each labelled `changed`, `unchanged`
+            or `new` against the base revision's copy of that test function, and the plan that names
+            it. `--json` SHALL print the same as JSON. It SHALL read the base revision from git
+            without changing the working tree.
+
     A requirement in a delta replaces the spec's requirement entirely, scenarios included (an OpenSpec
     delta carries the whole requirement); one under `## REMOVED Requirements` is removed. Deltas apply
     in the order of their change folders' names.
