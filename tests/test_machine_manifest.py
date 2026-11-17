@@ -236,3 +236,16 @@ def test_install_units_backs_up_before_replacing_and_never_writes_through_a_link
     assert "old" in (backup / "differ.service-2026-11-16/differ.service").read_text()
     assert (disk / "extra.service").read_text() == "only on disk\n"
     assert not any((disk / "elsewhere").iterdir()) and (disk / "a.service.d").is_symlink()
+
+
+@pytest.mark.req("machine-manifest/identical-copies-do-not-fail")
+def test_a_recorded_link_to_a_file_outside_git_still_fails(backed_up, tmp_path, capsys):
+    units, repo, manifest = backed_up
+    outside = tmp_path / "outside.service"
+    outside.write_text("[Service]\n")
+    (units / "linked.service").symlink_to(outside)
+    (repo / "linked.service.symlink").write_text(f"{outside}\n")
+    manifest.write_text(m.dump(m.build(units, is_enabled=enabled)))
+    assert run_check(units, repo, manifest) == 1
+    out = capsys.readouterr().out
+    assert "uncommitted: 1\n  linked.service (target not in a git repository)" in out and "(not a failure): 3" in out
