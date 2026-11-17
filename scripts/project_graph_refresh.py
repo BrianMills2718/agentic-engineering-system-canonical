@@ -226,7 +226,8 @@ def land_graph(run, live, staged, s, push, blocked):
     pushed = run("push-graph", git + ["push", "--quiet", "origin", "HEAD:main"], check=False)
     if pushed.returncode != 0:
         # The first line says why (a push hook's refusal); the tail is git's own "failed to push". Keep the first line
-        # in the concern and print the whole reason, so `journalctl -u` shows it (aes-config push, 2026-11-17).
+        # in the concern and print the whole reason to stdout and the day's log (aes-config push, 2026-11-17). Under
+        # `batch` the stdout lands in the journal of its run-*.scope unit, not under `journalctl -u` of the service.
         reason = (pushed.stderr or pushed.stdout).strip()
         run.log(f"push-graph exit {pushed.returncode}, full reason:\n{reason}")
         first = reason.splitlines()[0][:300] if reason else "no output"
