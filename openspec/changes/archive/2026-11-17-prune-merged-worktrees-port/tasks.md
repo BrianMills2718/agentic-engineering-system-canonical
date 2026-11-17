@@ -1,0 +1,3 @@
+- [x] Copy the script and its Project Meta tests; the copied tests pass on the unchanged copy (3)
+- [x] Spec `prune-merged-worktrees`
+- [x] `--dry-run` of the old and new copies on the weekly repository list prints the same output
