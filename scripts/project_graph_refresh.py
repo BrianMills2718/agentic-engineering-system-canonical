@@ -225,7 +225,12 @@ def land_graph(run, live, staged, s, push, blocked):
         return f"graph committed but not pushed: {problem}"
     pushed = run("push-graph", git + ["push", "--quiet", "origin", "HEAD:main"], check=False)
     if pushed.returncode != 0:
-        return f"graph committed but not pushed, exit {pushed.returncode}: {pushed.stderr.strip()[-300:]}"
+        # The first line says why (a push hook's refusal); the tail is git's own "failed to push". Keep the first line
+        # in the concern and print the whole reason, so `journalctl -u` shows it (aes-config push, 2026-11-17).
+        reason = (pushed.stderr or pushed.stdout).strip()
+        run.log(f"push-graph exit {pushed.returncode}, full reason:\n{reason}")
+        first = reason.splitlines()[0][:300] if reason else "no output"
+        return f"graph committed but not pushed, exit {pushed.returncode}: {first}"
     return None
 
 
