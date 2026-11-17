@@ -21,14 +21,40 @@ CFG = {
         "concern_repo": "someone/aes", "needs_human_label": "owner:person",
         "approvals_file": "/nonexistent/requirements.json",
         "quiet_units": {"pace.service": "owner said not a concern"},
+        "quiet_issue_labels": {"source:pace": "owner said not a concern"},
+        "fyi_rules": [{"name": "Records updates", "label": "source:records", "title_prefix": "Records request "}],
+        "shared_causes": [{"name": "Model credit used up", "why": "The model account is empty.",
+                           "units": ["review.service", "page.service"], "issues": ["someone/meta#40"]}],
+        "failures_file": "/nonexistent/failures.json",
         "links": [{"name": "Oversight page", "url": "https://plans.example.invalid/oversight/", "what": "rules"},
                   {"name": "Old front page", "url": "https://plans.example.invalid/front/", "what": "everything"}],
     },
 }
-WAITING = [{"number": 7, "title": "Pick a plan", "url": "https://example.invalid/i/7", "updatedAt": "2026-01-02T10:00:00Z",
-            "repository": {"name": "proj", "nameWithOwner": "someone/proj"}}]
+
+
+def issue(number, title, labels=(), repo="someone/meta"):
+    return {"number": number, "title": title, "url": f"https://example.invalid/{repo}/{number}",
+            "updatedAt": f"2026-01-02T{number % 24:02d}:00:00Z", "repository": {"nameWithOwner": repo},
+            "labels": [{"name": n} for n in ("waiting:person", *labels)]}
+
+
+WAITING = [issue(7, "Pick a plan", repo="someone/proj"),
+           issue(20, "Records request r1: records provided", ["source:records"]),
+           issue(21, "Records request r2: denied", ["source:records"]),
+           issue(22, "Records requests: 2 need you", ["source:other-records"]),  # an ask, not a status notice
+           issue(23, "Records request r3: other", ["source:records"], repo="someone/root"),
+           issue(30, "Timer job failed: backup.service", ["source:unit-watch"]),
+           issue(40, "Model credit is used up", ["source:spend"]),
+           issue(41, "Usage off track", ["source:pace"])]
 FAILED = ("backup.service loaded failed failed Copy data to storage\n"
+          "review.service loaded failed failed Review skills\n"
+          "page.service   loaded failed failed Rebuild a page\n"
           "pace.service   loaded failed failed Weekly usage\n")
+FAILURES = {"checked": "2026-01-02T11:00:00Z", "jobs": {
+    "backup.service": {"unit": "backup.service", "reason": "The source folder was missing.", "first_failed": "2026-01-01",
+                       "issue_url": "https://example.invalid/someone/meta/30"},
+    "review.service": {"unit": "review.service", "reason": "The request needed more credits.", "first_failed": "2026-01-02",
+                       "issue_url": ""}}}
 CONCERNS = [{"number": 3, "title": "Gate is red", "url": "https://example.invalid/a/3", "updatedAt": "2026-01-01T00:00:00Z"}]
 MERGED = [{"number": 9, "title": "Slice one", "url": "https://example.invalid/p/9", "mergedAt": "2026-01-02T09:00:00Z"}]
 APPROVALS = {"generated": "2026-01-01T00:00:00Z", "repos": [
@@ -62,19 +88,36 @@ def approvals(_s):
     return rec, h.source("Approvals waiting (oversight data)", True, count=rec["count"])
 
 
-def build(run=None, previous=None):
-    return h.build_record(h.settings(CFG), run or FakeRun(), NOW, previous, read_approvals_=approvals)
+def failures(_s):
+    return {"checked": FAILURES["checked"], "jobs": FAILURES["jobs"]}, h.source("Failure reasons (failing-jobs page)", True, count=2)
+
+
+def failures_unread(_s):
+    return None, h.source("Failure reasons (failing-jobs page)", False, "failures.json could not be read")
+
+
+def build(run=None, previous=None, read_failures_=failures):
+    return h.build_record(h.settings(CFG), run or FakeRun(), NOW, previous, read_approvals_=approvals,
+                          read_failures_=read_failures_)
+
+
+def needs_keys(rec):
+    return sorted(i["key"] for g in rec["needs_you"].values() for i in g or [])
 
 
 @pytest.mark.req("hub-page/needs-you-comes-first")
 def test_needs_you_is_the_first_section_and_lists_only_what_waits():
     rec = build()
     page = h.render(rec, h.settings(CFG))
-    assert page.index('id="needs"') < page.index('id="changed"') < page.index('id="sources"')
-    assert rec["needs_you_total"] == 3  # one decision, one failed service (the quiet one is not counted), one concern
-    assert "Pick a plan" in page and "backup.service" in page and "Gate is red" in page
-    assert "pace.service (owner said not a concern)" in page
-    assert "Approvals waiting (1)" in page  # a/one counted once across two checkouts; a/two has a source
+    assert page.index('id="needs"') < page.index('id="broken"') < page.index('id="fyi"') < page.index('id="changed"') \
+        < page.index('id="sources"') < page.index('id="approvals"')
+    # one decision, the records ask (no fyi rule matches it), one concern; nothing else
+    assert needs_keys(rec) == ["issue:someone/aes#3", "issue:someone/meta#22", "issue:someone/proj#7"]
+    assert rec["needs_you_total"] == 3
+    needs = page[page.index('id="needs"'):page.index('id="broken"')]
+    assert "Pick a plan" in needs and "Gate is red" in needs and "Records requests: 2 need you" in needs
+    assert "backup.service" not in needs and "Records request r1" not in needs
+    assert "someone/meta#41</a> (owner said not a concern)" in needs  # a quiet label: shown with its reason, not counted
     assert "Rebuilt only when someone runs it." in page
     assert "Rebuilt every hour." in h.render(rec, {**h.settings(CFG), "refresh": "every hour"})
 
@@ -84,7 +127,8 @@ def test_every_colour_comes_with_a_word_and_the_page_fits_a_phone():
     page = h.render(build(), h.settings(CFG))
     assert 'name="viewport"' in page and "max-width:760px" in page
     assert "green" not in page.lower() and "red" not in h.STYLE
-    for tag in ('<span class="tag orange">Waiting</span>', '<span class="tag blue">Read</span>'):
+    for tag in ('<span class="tag orange">Waiting</span>', '<span class="tag blue">Read</span>',
+                '<span class="tag orange">Failing</span>', '<span class="tag grey">FYI</span>', '<span class="tag grey">Count only</span>'):
         assert tag in page
 
 
@@ -92,9 +136,18 @@ def test_every_colour_comes_with_a_word_and_the_page_fits_a_phone():
 def test_a_source_that_cannot_be_read_is_not_checked_never_zero():
     rec = build(FakeRun(fail={"failed-units", "waiting-"}))
     page = h.render(rec, h.settings(CFG))
-    assert rec["needs_you"]["failed"] is None and rec["needs_you"]["decisions"] is None
-    assert "Not checked</span> Failed services" in page and "Failed services (0)" not in page
-    assert "2 sources not checked" in page
+    assert rec["broken"] is None and rec["needs_you"]["decisions"] is None and rec["fyi"] is None
+    assert "Not checked</span> Broken services" in page and "Broken services (0" not in page
+    assert "Not checked</span> FYI: records updates" in page
+    assert "1 source not checked" in page  # of Needs you's two sources, the issue search
+
+
+@pytest.mark.req("hub-page/an-unread-source-is-not-checked")
+def test_unread_failure_reasons_are_not_checked_and_the_services_still_show():
+    rec = build(read_failures_=failures_unread)
+    page = h.render(rec, h.settings(CFG))
+    assert rec["broken_total"] == 3
+    assert "Reason not checked: the failing-jobs page was not read." in page
 
 
 @pytest.mark.req("hub-page/an-unread-source-is-not-checked")
@@ -108,7 +161,10 @@ def test_a_missing_label_is_reported_not_read_as_none():
 @pytest.mark.req("hub-page/what-changed-since-the-last-run")
 def test_what_changed_names_new_and_cleared_items():
     previous = build()
-    previous["needs_you"]["failed"] = [{"key": "unit:old.service", "title": "old.service", "where": "", "url": "", "updated": ""}]
+    previous["tracked"] = [i for i in previous["tracked"] if i["key"] != "unit:backup.service"]
+    previous["tracked"].append({"key": "unit:old.service", "title": "old.service", "where": "", "url": "", "updated": "",
+                                "group": "failed", "source": "Failed services (systemctl)"})
+    previous["seen"] = [i["key"] for i in previous["tracked"]]
     rec = build(previous=json.loads(json.dumps(previous)))
     assert [i["key"] for i in rec["changed"]["new"]] == ["unit:backup.service"]
     assert [i["key"] for i in rec["changed"]["cleared"]] == ["unit:old.service"]
@@ -154,3 +210,71 @@ def test_publish_pushes_only_to_the_data_branch(tmp_path):
     push = next(cmd for name, cmd in run.calls if name == "push-data")
     assert push[-1] == "HEAD:refs/heads/shaping/hub-data"
     assert not any("main" in str(c) for _, cmd in run.calls for c in cmd)
+
+
+@pytest.mark.req("hub-page/what-changed-since-the-last-run")
+def test_an_item_that_only_moved_section_is_neither_new_nor_cleared():
+    # a record from before the split: every failed unit and every waiting issue sat under Needs you
+    rec_now = build()
+    gs = rec_now["group_sources"]
+    old = {"built": "2026-01-02T11:00+00:00", "sources": rec_now["sources"],
+           "group_sources": {"decisions": gs["decisions"], "failed": gs["failed"], "concerns": gs["concerns"]},
+           "needs_you": {"decisions": h.parse_issues(json.dumps(WAITING)),
+                         "failed": h.parse_failed_units(FAILED, CFG["hub_page"]["quiet_units"])[0],
+                         "concerns": rec_now["needs_you"]["concerns"]}}
+    rec = build(previous=json.loads(json.dumps(old)))
+    assert rec["changed"]["compared"] and rec["changed"]["new"] == [] and rec["changed"]["cleared"] == []
+
+
+@pytest.mark.req("hub-page/broken-services-grouped-by-cause")
+def test_failed_services_are_grouped_by_cause_and_not_counted_under_needs_you():
+    rec = build()
+    page = h.render(rec, h.settings(CFG))
+    assert rec["broken_total"] == 3  # the quiet unit is not counted here either
+    causes = {c["name"]: c for c in rec["broken"]}
+    shared = causes["Model credit used up"]
+    assert [u["title"] for u in shared["units"]] == ["review.service", "page.service"]
+    assert [i["where"] for i in shared["issues"]] == ["someone/meta#40"]
+    assert [i["where"] for i in causes["backup.service"]["issues"]] == ["someone/meta#30"]
+    broken = page[page.index('id="broken"'):page.index('id="fyi"')]
+    assert "Broken services (3 services, 2 causes)" in broken
+    assert "Model credit used up: 2 services share one cause" in broken
+    assert "The source folder was missing. Failing since 2026-01-01." in broken
+    assert "Reason not on the failing-jobs page yet." in broken  # page.service has no row there
+    assert "pace.service (owner said not a concern)" in broken
+
+
+@pytest.mark.req("hub-page/broken-services-grouped-by-cause")
+def test_an_issue_that_belongs_to_a_service_is_listed_once():
+    rec = build()
+    page = h.render(rec, h.settings(CFG))
+    assert "issue:someone/meta#30" not in needs_keys(rec) and "issue:someone/meta#40" not in needs_keys(rec)
+    assert page.count('href="https://example.invalid/someone/meta/30"') == 1
+    assert page.count('href="https://example.invalid/someone/meta/40"') == 1
+    # a shared cause none of whose units or issues is present is not shown
+    s = {**h.settings(CFG), "shared_causes": [{"name": "Gone", "units": ["none.service"], "issues": ["x/y#1"]}]}
+    assert all(c["name"] != "Gone" for c in h.build_record(s, FakeRun(), NOW, None, approvals, failures)["broken"])
+
+
+@pytest.mark.req("hub-page/records-updates-are-for-information")
+def test_records_status_notices_go_to_fyi_by_label_and_title_prefix():
+    rec = build()
+    page = h.render(rec, h.settings(CFG))
+    groups = {(g["label"], g["repo"]): [i["where"] for i in g["items"]] for g in rec["fyi"]}
+    assert groups == {("source:records", "someone/meta"): ["someone/meta#21", "someone/meta#20"],
+                      ("source:records", "someone/root"): ["someone/root#23"]}
+    fyi = page[page.index('id="fyi"'):page.index('id="changed"')]
+    assert "FYI: records updates (3)" in fyi and 'title starting &quot;Records request &quot;' in fyi
+    assert "Records updates from someone/root, label source:records (1)" in fyi
+    assert "Records requests: 2 need you" not in fyi
+
+
+@pytest.mark.req("hub-page/approvals-are-a-footer-count")
+def test_approvals_are_a_footer_count_with_no_significance_field():
+    rec = build()
+    page = h.render(rec, h.settings(CFG))
+    footer = page[page.index('id="approvals"'):]
+    assert "Approvals waiting: 1 requirements" in footer  # a/one counted once across two checkouts; a/two has a source
+    assert "Not shown: no significance field" in footer
+    assert "One</" not in page and "approval:" not in json.dumps(rec["needs_you"])
+    assert 'href="https://plans.example.invalid/oversight/"' in footer
