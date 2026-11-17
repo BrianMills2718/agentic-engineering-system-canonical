@@ -10,9 +10,14 @@ list (`scripts/timers.py` generated it), or nowhere (`local-only`).
                                                                  rebuild in memory, list what would be lost; exit 1 if any
     machine_manifest.py check-units [--unit-dir D] [--units-repo R]     compare the disk with the repository copies; exit 1 on a difference
     machine_manifest.py install-units [--apply] [--daemon-reload]       copy repository copies that are missing or differ (dry run unless --apply)
+    machine_manifest.py check-scripts [--manifest FILE] [--config-repo R]   compare the scripts the units run with their recorded source
+    machine_manifest.py install-scripts [--apply]                       copy `copied` scripts that are missing or differ (dry run unless --apply)
 
 `build` and `check` are read-only: they read unit files, runs `git` read commands and `systemctl --user is-enabled`, and changes nothing.
 It never writes an Environment= value or an EnvironmentFile's path or contents, only how many there are.
+
+The manifest's hand-written sections (`scripts`: where each script a unit runs comes from when it is in no git repository;
+`windows_layer`; `other_machines`) are not built from the disk: `build --out FILE` keeps them from the FILE it replaces.
 
 Implements: machine-manifest/every-unit-has-a-source
 Implements: machine-manifest/local-only-units-are-reported
@@ -21,6 +26,8 @@ Implements: machine-manifest/output-is-stable
 Implements: machine-manifest/no-environment-values-are-written
 Implements: machine-manifest/repository-copies-can-be-compared
 Implements: machine-manifest/install-never-deletes-or-writes-through-links
+Implements: machine-manifest/every-script-outside-git-has-a-record
+Implements: machine-manifest/script-copies-can-be-compared-and-installed
 """
 from __future__ import annotations
 
@@ -311,7 +318,7 @@ def findings(current: dict, recorded: dict | None, copied: set[str] | frozenset[
     """
     now = files_of(current)
     result: dict[str, list[str]] = {"local-only": [], "bad-target": [], "gone-from-disk": [], "not-in-manifest": [],
-                                    "copied": []}
+                                    "copied": [], "unrecorded-script": unrecorded_scripts(current, recorded)}
     for name, src in sorted(now.items()):
         kind = src.get("kind")
         if kind in ("local-only", "symlink-outside-git") and name in copied:
@@ -337,8 +344,39 @@ LABELS = {"local-only": "(a) local-only files, lost on a clean machine",
           "bad-target": "(b) symlinks whose target is missing, outside git, untracked or uncommitted",
           "gone-from-disk": "(c) in the manifest, no longer on disk",
           "not-in-manifest": "(d) on disk, not in the manifest",
-          "copied": "(e) local-only files and links with an identical copy in the units repository (not a failure)"}
-FAILING = ("local-only", "bad-target", "gone-from-disk", "not-in-manifest")
+          "copied": "(e) local-only files and links with an identical copy in the units repository (not a failure)",
+          "unrecorded-script": "(f) scripts the units run that are in no git repository and have no `scripts` record"}
+FAILING = ("local-only", "bad-target", "gone-from-disk", "not-in-manifest", "unrecorded-script")
+
+# Sections a person writes; `build` does not derive them from the disk and keeps them from the file it replaces.
+HAND_SECTIONS = ("scripts", "windows_layer", "other_machines")
+# Programs under these folders come from the operating system's packages, so they need no `scripts` record.
+OS_PREFIXES = ("/usr/", "/bin/", "/sbin/", "/lib/")
+OUTSIDE_GIT = ("not-in-git", "no-remote")
+
+
+def unrecorded_scripts(current: dict, recorded: dict | None) -> list[str]:
+    """`script (unit)` for each unit script outside git, not an OS program, with no entry in the recorded `scripts`.
+
+    Implements: machine-manifest/every-script-outside-git-has-a-record
+    """
+    known = {s.get("path") for s in ((recorded or {}).get("scripts") or []) if isinstance(s, dict)}
+    out = set()
+    for unit in current.get("units", []):
+        service = unit.get("service") or {}
+        script = service.get("script")
+        if (script and service.get("script_repo") in OUTSIDE_GIT and not script.startswith(OS_PREFIXES)
+                and script not in known):
+            out.add(f"{script} ({unit['name']})")
+    return sorted(out)
+
+
+def carry_over(manifest: dict, previous: dict | None) -> dict:
+    """The built manifest with the hand-written sections of the file it replaces appended unchanged."""
+    for key in HAND_SECTIONS:
+        if previous and key in previous:
+            manifest[key] = previous[key]
+    return manifest
 
 
 SYMLINK_SUFFIX = ".symlink"
@@ -416,9 +454,107 @@ def install_units(unit_dir: Path, units_repo: Path, apply: bool, backup_root: Pa
     return done
 
 
+DEFAULT_CONFIG_REPO = Path.home() / "code2/aes-config"
+DEFAULT_SCRIPT_BACKUP_ROOT = Path.home() / "archive/machine-scripts-replaced"
+SCRIPT_KINDS = ("copied", "repo-file", "installed-tool", "missing")
+SCRIPT_FAILING = ("differ", "missing-copy", "repo-differ", "repo-unreadable", "bad-record")
+
+
+def _git_bytes(checkout: Path, ref_path: str) -> bytes | None:
+    done = subprocess.run(["git", "-C", str(checkout), "show", ref_path], capture_output=True, check=False)
+    return done.stdout if done.returncode == 0 else None
+
+
+def _link_on_path(path: Path) -> bool:
+    """True when the file or any folder above it is a symlink (an install would write through it)."""
+    return any(q.is_symlink() for q in [path, *path.parents])
+
+
+def compare_scripts(scripts: list[dict], config_repo: Path) -> dict[str, list[str]]:
+    """Each recorded script against its source, read-only.
+
+    `copied`: the disk file against `config_repo/<copy>`. `repo-file`: against `git show <ref>:<repo_path>` in the
+    recorded checkout (`ref` defaults to origin/main; with `refresh: each-run` a difference is `repo-stale`, not a
+    failure, because the unit re-extracts the file before it runs). `installed-tool` and `missing`: whether the path
+    exists. A file absent from the disk is never a failure: a clean machine lacks it until installed.
+
+    Implements: machine-manifest/script-copies-can-be-compared-and-installed
+    """
+    keys = ("same", "differ", "missing-on-disk", "missing-copy", "repo-same", "repo-differ", "repo-stale",
+            "repo-unreadable", "tool-present", "tool-absent", "still-missing", "now-present", "bad-record")
+    out: dict[str, list[str]] = {k: [] for k in keys}
+    for s in scripts:
+        kind, raw = s.get("kind"), s.get("path")
+        if kind not in SCRIPT_KINDS or not raw:
+            out["bad-record"].append(str(raw or s))
+            continue
+        path = Path(_expand(raw))
+        if kind == "copied":
+            copy = config_repo / s.get("copy", "")
+            if not s.get("copy") or not copy.is_file():
+                out["missing-copy"].append(raw)
+            elif not path.exists():
+                out["missing-on-disk"].append(raw)
+            else:
+                out["same" if path.read_bytes() == copy.read_bytes() else "differ"].append(raw)
+        elif kind == "repo-file":
+            blob = _git_bytes(Path(_expand(s.get("checkout", ""))), f"{s.get('ref', 'origin/main')}:{s.get('repo_path', '')}")
+            if blob is None:
+                out["repo-unreadable"].append(raw)
+            elif not path.exists():
+                out["missing-on-disk"].append(raw)
+            elif path.read_bytes() == blob:
+                out["repo-same"].append(raw)
+            else:
+                out["repo-stale" if s.get("refresh") == "each-run" else "repo-differ"].append(raw)
+        elif kind == "installed-tool":
+            out["tool-present" if path.exists() else "tool-absent"].append(raw)
+        else:
+            out["now-present" if path.exists() else "still-missing"].append(raw)
+    return out
+
+
+def install_scripts(scripts: list[dict], config_repo: Path, apply: bool,
+                    backup_root: Path = DEFAULT_SCRIPT_BACKUP_ROOT, today: str | None = None) -> dict[str, list[str]]:
+    """Copy each `copied` script that is missing or differs to its recorded path, keeping its mode.
+
+    A differing disk file is backed up first; nothing is deleted; a path that is a symlink or sits under one is
+    skipped and reported. Only `copied` records are installed: repo files come from their repository, tools from
+    their package.
+    Implements: machine-manifest/script-copies-can-be-compared-and-installed
+    """
+    today = today or datetime.date.today().isoformat()
+    found = compare_scripts(scripts, config_repo)
+    todo = set(found["missing-on-disk"]) | set(found["differ"])
+    done: dict[str, list[str]] = {"installed": [], "replaced": [], "skipped-link": []}
+    for s in scripts:
+        raw = s.get("path")
+        if s.get("kind") != "copied" or raw not in todo:
+            continue
+        dest = Path(_expand(raw))
+        if _link_on_path(dest):
+            done["skipped-link"].append(raw)
+            continue
+        replaced = raw in found["differ"]
+        if apply:
+            if replaced:
+                backup = backup_root / f"{str(dest).strip('/').replace('/', '__')}-{today}"
+                backup.mkdir(parents=True, exist_ok=True)
+                shutil.copy2(dest, backup / dest.name)
+            dest.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(config_repo / s["copy"], dest)
+        done["replaced" if replaced else "installed"].append(raw)
+    return done
+
+
+def _recorded_scripts(manifest: Path) -> list[dict]:
+    data = yaml.safe_load(manifest.read_text()) if manifest.exists() else None
+    return [s for s in ((data or {}).get("scripts") or []) if isinstance(s, dict)]
+
+
 def main(argv: list[str] | None = None, is_enabled: Callable[[str], str] = systemctl_is_enabled) -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("command", choices=["build", "check", "check-units", "install-units"])
+    ap.add_argument("command", choices=["build", "check", "check-units", "install-units", "check-scripts", "install-scripts"])
     ap.add_argument("--unit-dir", type=Path, default=Path.home() / ".config/systemd/user")
     ap.add_argument("--out", type=Path)
     ap.add_argument("--manifest", type=Path, default=Path.home() / "code2/aes-config/machine-layer.yaml")
@@ -426,8 +562,36 @@ def main(argv: list[str] | None = None, is_enabled: Callable[[str], str] = syste
     ap.add_argument("--apply", action="store_true", help="install-units: really copy (the default is a dry run)")
     ap.add_argument("--dry-run", action="store_true", help="install-units: print what would change (the default)")
     ap.add_argument("--daemon-reload", action="store_true", help="install-units --apply: then run systemctl --user daemon-reload")
-    ap.add_argument("--backup-root", type=Path, default=DEFAULT_BACKUP_ROOT)
+    ap.add_argument("--backup-root", type=Path, help="install-units / install-scripts: where replaced files are kept")
+    ap.add_argument("--config-repo", type=Path, default=DEFAULT_CONFIG_REPO,
+                    help="check-scripts / install-scripts: the folder a `copied` record's `copy` path is relative to")
     a = ap.parse_args(argv)
+    if a.command in ("check-scripts", "install-scripts"):
+        scripts = _recorded_scripts(a.manifest)
+        if a.command == "check-scripts":
+            found = compare_scripts(scripts, a.config_repo)
+            print(f"machine_manifest: {len(scripts)} recorded scripts: copied same {len(found['same'])}, differ "
+                  f"{len(found['differ'])}, copy missing {len(found['missing-copy'])}; repo files same "
+                  f"{len(found['repo-same'])}, differ {len(found['repo-differ'])}, stale until next run "
+                  f"{len(found['repo-stale'])}, unreadable {len(found['repo-unreadable'])}; not on disk "
+                  f"{len(found['missing-on-disk'])}; tools present {len(found['tool-present'])}, absent "
+                  f"{len(found['tool-absent'])}; recorded missing {len(found['still-missing'])}, now present "
+                  f"{len(found['now-present'])}; bad records {len(found['bad-record'])}")
+            for key in ("differ", "missing-copy", "repo-differ", "repo-stale", "repo-unreadable", "missing-on-disk",
+                        "tool-absent", "now-present", "bad-record"):
+                for name in found[key]:
+                    print(f"  {key}: {name}")
+            return 1 if any(found[k] for k in SCRIPT_FAILING) else 0
+        real = a.apply and not a.dry_run
+        done = install_scripts(scripts, a.config_repo, real, a.backup_root or DEFAULT_SCRIPT_BACKUP_ROOT)
+        print(f"machine_manifest: install-scripts {'applied' if real else 'dry run, nothing written'}: "
+              f"{len(done['installed'])} new, {len(done['replaced'])} replaced (backed up first), "
+              f"{len(done['skipped-link'])} skipped (symlink)")
+        for key, names in done.items():
+            for name in names:
+                print(f"  {key}: {name}")
+        return 0
+    a.backup_root = a.backup_root or DEFAULT_BACKUP_ROOT
     if a.command == "check-units":
         found = compare_units(a.unit_dir, a.units_repo)
         print(f"machine_manifest: units in {a.units_repo} against {a.unit_dir}: same {len(found['same'])}, "
@@ -451,6 +615,9 @@ def main(argv: list[str] | None = None, is_enabled: Callable[[str], str] = syste
         return 0
     current = build(a.unit_dir, is_enabled)
     if a.command == "build":
+        if a.out and a.out.exists():
+            # Implements: machine-manifest/every-script-outside-git-has-a-record (hand sections survive a rebuild)
+            carry_over(current, yaml.safe_load(a.out.read_text()))
         text = dump(current)
         if a.out:
             a.out.write_text(text)
