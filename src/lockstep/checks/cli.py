@@ -1,6 +1,7 @@
 """`lockstep check <name> [options]`: run one commit check and apply its mode from `lockstep.yaml`.
 
-Implements: lockstep-checks/each-check-can-be-set-to-block-warn-or-off-in-lockstep-yaml
+Implements: lockstep-checks/each-check-can-be-set-to-block-warn-or-off-in-lockstep-yaml,
+    lockstep-checks/changed-count-line-and-exit-status
 
 Requirement text (generated):
     lockstep-checks/each-check-can-be-set-to-block-warn-or-off-in-lockstep-yaml: `lockstep check
@@ -14,7 +15,8 @@ Requirement text (generated):
         `lockstep check` with no name, or only `--repo`, `--base` and `--json`, SHALL keep running
         the whole-tree plan check.
 
-Names: `trace`, `arch [gen|check]`, `test-first [--base REV]`, `sources [--json]`, `docmeta`, `project [--check]`; each takes
+Names: `trace`, `arch [gen|check]`, `test-first [--base REV]`, `sources [--json]`, `docmeta`, `project [--check]`,
+`instructions [--chain FILE]`, `changed [--base REV] [--json]`; each takes
 `--repo PATH` (default the current folder). The output is code2check's, ending in a `RESULT` line.
 Exit: the check's own status when its mode is `block` (the default); 0 with a `warning:` line when
 it fails and its mode is `warn`; 0 with `skipped (off)` and nothing run when `off`; 2 when
@@ -28,7 +30,7 @@ import sys
 
 import yaml
 
-from lockstep.checks import arch, docmeta, instructions, project, show, sources, status, test_first, trace
+from lockstep.checks import arch, changed, docmeta, instructions, project, show, sources, status, test_first, trace
 from lockstep.checks.config import CHECK_NAMES, Config, ConfigError, load
 
 
@@ -88,8 +90,46 @@ def _test_first(root: Path, args: argparse.Namespace, cfg: Config) -> int:
         print(f"passed-before {node}  (it does not prove the new behavior)")
     for node in result.existing:
         print(f"existing      {node}  (marked existing=True; not run on the base)")
+    for ident in result.no_failing_test:
+        print(f"no-failing-test {ident}  (its text changed and no test marked for it fails on the base source; "
+              "change a test, or add `Wording-only: <id>` to the plan)")
     print(f"RESULT test-first checked={len(result.checked)} existing={len(result.existing)} "
-          f"passed_before={len(result.passed_before)} exit={int(not result.ok)}")
+          f"passed_before={len(result.passed_before)} changed={len(result.changed)} "
+          f"no_failing_test={len(result.no_failing_test)} exit={int(not result.ok)}")
+    return int(not result.ok)
+
+
+def _changed(root: Path, args: argparse.Namespace, cfg: Config) -> int:
+    """Print each requirement changed since the base (or JSON), its findings and the count line; return the exit status.
+
+    With `--json` the JSON goes to stdout, the finding lines to stderr and the RESULT line last on stdout,
+    as `sources --json` does.
+    """
+    result = changed.check(root, args.base)
+    if result.skipped:
+        print(f"RESULT changed skipped=\"{result.skipped}\" exit=0")
+        return 0
+    if args.json:
+        print(json.dumps(result.as_dict(), indent=1))
+    else:
+        for item in result.requirements:
+            tests = ", ".join(f"{t['node']} ({t['label']})" for t in item.tests)
+            print(f"{item.kind:13} {item.id}  ({item.where})")
+            print(f"  {'differs':11} {'; '.join(item.differs)}")
+            print(f"  {'code':11} {', '.join(item.implementers) or '-'}")
+            print(f"  {'tests':11} {tests or '-'}")
+            print(f"  {'plan':11} {', '.join(item.plans) or 'none'}")
+    out = sys.stderr if args.json else sys.stdout
+    for item in result.requirements:
+        if "unplanned" in item.findings:
+            print(f"unplanned     {item.id}  (no change or plan page added or edited since {args.base} names it)", file=out)
+        if "no-scenario-changed" in item.findings:
+            print(f"no-scenario-changed  {item.id}  (the statement changed and no scenario under it is new or "
+                  f"different; change a scenario and its test, or add `Wording-only: {item.id}` to the plan)", file=out)
+    for item in result.requirements:
+        if item.wording_only:
+            print(f"wording-only  {item.id}  ({item.wording_only})", file=out)
+    print("RESULT changed " + " ".join(f"{k}={v}" for k, v in result.counts().items()) + f" exit={int(not result.ok)}")
     return int(not result.ok)
 
 
@@ -243,8 +283,10 @@ def run(argv: list[str]) -> int:
         p.add_argument("--repo", type=Path, default=Path.cwd())
         if name == "arch":
             p.add_argument("action", nargs="?", choices=["gen", "check"], default="check")
-        if name == "test-first":
+        if name in ("test-first", "changed"):
             p.add_argument("--base", default="origin/main")
+        if name == "changed":
+            p.add_argument("--json", action="store_true", help="print every listed requirement as JSON")
         if name == "instructions":
             p.add_argument("--chain", action="append", help="file loaded before the repository's own (repeatable; "
                            "`none` for no chain); default: INSTRUCTION_CHAIN, else the workspace core.md and AGENTS.md")
@@ -267,7 +309,7 @@ def run(argv: list[str]) -> int:
         print(f"{args.name}: skipped (off)")
         return 0
     runner = {"trace": _trace, "arch": _arch, "test-first": _test_first, "sources": _sources, "docmeta": _docmeta,
-              "instructions": _instructions, "project": _project}
+              "instructions": _instructions, "project": _project, "changed": _changed}
     try:
         status = runner[args.name](root, args, cfg)
     except (ValueError, TypeError, OSError, SyntaxError, yaml.YAMLError) as err:
