@@ -18,8 +18,10 @@ Each run:
     recovered, and WSL reboots often, so the failed state alone closed issues as "verified green" on jobs that
     were still broken;
   * opens (or comments on) concern key `failed-unit:<unit>` in the repository
-    that owns the unit's ExecStart script (falls back to the configured concern repository), with the
-    unit's last journal lines as the body;
+    that owns the unit's ExecStart script (falls back to the configured concern repository). The body carries one
+    line, the newest the job itself printed, with no host name or process id and redacted by public_text, and the
+    `journalctl` command that shows the full log on the machine: concern repositories can be public (AES #944, #945
+    carried 14 journal lines with the host name, 2026-11-17);
   * closes the concern for a reported unit once a later run succeeded or the unit no longer exists, in the
     repository the concern was opened in (the owner is worked out once, when the unit is first reported);
   * adopts an open `failed-unit:` concern the state has no entry for (one stranded by the owner drift of #2599, a
@@ -39,6 +41,9 @@ carried by the issues), 2 when either sweep could not run or could not file an i
 (including Healthchecks.io unreachable twice, or HEALTHCHECKS_API_KEY missing from
 ~/.secrets/api_keys.env).
 
+Implements: failed-unit-watch/issue-body-carries-one-line-not-the-log
+Implements: failed-unit-watch/ssh-host-alias-remotes-find-their-repository
+
 Usage:
   python3 scripts/failed_unit_watch.py            # sweep and report
   python3 scripts/failed_unit_watch.py --dry-run  # print what it would do
@@ -54,7 +59,11 @@ import sys
 import time
 import urllib.request
 from collections.abc import Callable, Iterable
+from datetime import datetime
 from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from public_text import redact  # noqa: E402
 
 HOME = Path.home()
 CONFIG = Path(os.environ.get("PROJECT_GRAPH") or HOME / "code2/aes-config/PROJECT_GRAPH.json").parent / "graph-config.yaml"
@@ -152,8 +161,8 @@ def failing_units(now_failed: list[str], outcomes: dict[str, bool], previous: It
 
 
 def repo_from_remote(url: str) -> str | None:
-    # github.com, or an SSH host alias such as `github-personal` (git@github-personal:Owner/repo.git)
-    m = re.search(r"github(?:\.com|-[\w.-]+)[:/]([^/]+)/([^/\s]+?)(?:\.git)?$", url.strip())
+    # github.com, or an SSH host alias: `github-personal` or `github.com-personal` (git@github.com-personal:Owner/repo.git)
+    m = re.search(r"github(?:\.com)?(?:-[\w.-]+)?[:/]([^/]+)/([^/\s]+?)(?:\.git)?$", url.strip())
     if m and m.group(1).lower() == OWNER.lower():
         return f"{m.group(1)}/{m.group(2)}"
     return None
@@ -186,11 +195,41 @@ def owning_repo(unit: str) -> str:
     return FALLBACK_REPO
 
 
-def journal_tail(unit: str) -> str:
+def journal_line(unit: str) -> str:
+    """The one journal line an issue body carries for this unit (see pick_line)."""
     try:
-        return run(["journalctl", "--user", "-u", unit, "-n", str(JOURNAL_LINES), "--no-pager", "-o", "short-iso"])
+        return pick_line(run(["journalctl", "--user", "-u", unit, "-n", str(JOURNAL_LINES), "--no-pager", "-o", "json",
+                              "--output-fields=MESSAGE,SYSLOG_IDENTIFIER,__REALTIME_TIMESTAMP"]))
     except subprocess.CalledProcessError as exc:
-        return f"(journal unavailable: {exc})"
+        return f"(journal unavailable: exit {exc.returncode})"
+
+
+def _message(entry: dict) -> str:
+    msg = entry.get("MESSAGE") or ""
+    if isinstance(msg, list):  # journald gives a line that is not valid UTF-8 as a list of byte values
+        msg = bytes(msg).decode("utf-8", "replace")
+    return " ".join(str(msg).split())
+
+
+def pick_line(journal_json: str) -> str:
+    """The newest entry the job printed itself (its SYSLOG_IDENTIFIER is not systemd), else systemd's newest entry,
+    as `time program: message`: no host name, no process id, redacted. Chosen by journal field, never by its words."""
+    entries = [json.loads(ln) for ln in journal_json.splitlines() if ln.strip()]
+    if not entries:
+        return "(no journal lines)"
+    own = [e for e in entries if e.get("SYSLOG_IDENTIFIER") != "systemd"]
+    entry = (own or entries)[-1]
+    try:
+        when = datetime.fromtimestamp(int(entry["__REALTIME_TIMESTAMP"]) / 1e6).strftime("%Y-%m-%d %H:%M:%S ")
+    except (KeyError, ValueError):
+        when = ""
+    line = redact(f"{when}{entry.get('SYSLOG_IDENTIFIER') or '?'}: {_message(entry)}")
+    return line if len(line) <= 300 else line[:299] + "…"
+
+
+def log_pointer(unit: str) -> str:
+    return (f"Full log (private, on the machine that ran it): `journalctl --user -u {unit} -n 100`; "
+            f"this watch's own log is `~/projects/data/logs/failed_unit_watch.log`.")
 
 
 def load_state(path: Path = STATE) -> dict:
@@ -287,7 +326,7 @@ def down_checks(checks: list[dict]) -> dict[str, dict]:
     return {c["slug"]: c for c in checks if c.get("status") == "down" and c.get("slug")}
 
 
-def hc_down_body(check: dict, pings: list[dict], tail: str) -> str:
+def hc_down_body(check: dict, pings: list[dict], line: str) -> str:
     slug = check["slug"]
     unit = f"{slug}.service"
     recent = "\n".join(f"- {p.get('date', '?')} {p.get('type', '?')}" for p in pings[:5]) or "- (pings unavailable)"
@@ -299,7 +338,7 @@ def hc_down_body(check: dict, pings: list[dict], tail: str) -> str:
             f"what failed; fix the cause and let it run (`systemctl --user start {unit}`). This concern closes itself "
             f"once the check is no longer down (a success ping, or the check paused on purpose).\n\n"
             f"Last ping: {check.get('last_ping')}\n\nRecent pings (newest first):\n{recent}\n\n"
-            f"Last journal lines:\n```\n{tail}\n```")
+            f"Last line the job printed: `{line}`\n\n{log_pointer(unit)}")
 
 
 def healthchecks_sweep(dry: bool, state_path: Path = HC_STATE, fetch: Callable[[], list[dict]] | None = None,
@@ -308,7 +347,7 @@ def healthchecks_sweep(dry: bool, state_path: Path = HC_STATE, fetch: Callable[[
     """(opened, recovered, errors). Same lifecycle as failed units: report once, close on recovery, retry a close
     that cannot find its just-opened issue."""
     repo_for = repo_for or owning_repo
-    tail = tail or journal_tail
+    tail = tail or journal_line
     concern_fn = concern_fn or concern
     if fetch is None or pings is None:
         try:
@@ -394,8 +433,7 @@ def main(argv: list[str] | None = None) -> int:
         body = (f"The last run of the systemd --user unit `{unit}` failed on this machine. "
                 f"Fix the cause, then run it (`systemctl --user start {unit}`) or let its next run succeed; "
                 f"this concern closes itself once a run succeeds. Clearing the failed state does not close it.\n\n"
-                f"Last journal lines:\n"
-                f"```\n{journal_tail(unit)}\n```")
+                f"Last line the job printed: `{journal_line(unit)}`\n\n{log_pointer(unit)}")
         try:
             concern("open", repo, f"failed-unit:{unit}", ["--source", "failed-unit-watch",
                                           "--title", f"Timer job failed: {unit}", "--body", body], args.dry_run)

@@ -202,3 +202,17 @@ def test_create_that_returns_no_issue_url_is_loud():
             return "" if list(args)[:2] == ["issue", "create"] else out
     with pytest.raises(RuntimeError, match="no issue URL"):
         ci.open_concern("o/r", "k", "T", "B", "s", SilentGh())
+
+
+def test_main_redacts_the_title_body_and_evidence_it_files(capsys):
+    """Every caller's text reaches a GitHub issue, some of them public (AES #944, #945)."""
+    home = str(Path.home())
+    gh = FakeGh()
+    assert ci.main(["open", "--repo", "o/r", "--key", "k", "--title", f"failed in {home}/x",
+                    "--body", f"see {home}/projects/log and a@b.example", "--source", "s"], run=gh) == 0
+    create = next(c for c in gh.calls if c[:2] == ["issue", "create"])
+    filed = " ".join(create)
+    assert home not in filed and "~/projects/log" in filed and "<email>" in filed
+    gh = FakeGh([issue(4, "OPEN", key="k")])
+    assert ci.main(["close", "--repo", "o/r", "--key", "k", "--evidence", f"clean, trace in {home}/t.log"], run=gh) == 0
+    assert all(home not in " ".join(c) for c in gh.calls)

@@ -44,6 +44,10 @@ import subprocess
 import sys
 from collections.abc import Callable, Sequence
 from dataclasses import dataclass
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from public_text import redact  # noqa: E402
 
 CONCERN_LABEL = "concern:feedback"
 LABEL_COLORS = {"concern": "B60205", "source": "5319E7"}
@@ -260,12 +264,14 @@ def main(argv: list[str] | None = None, run: Runner = gh_runner) -> int:
     cl.add_argument("--evidence", required=True)
     args = parser.parse_args(argv)
 
+    # Concern repositories can be public: every title, body and evidence is redacted (home paths, Windows user
+    # names, email and IP addresses) before it is filed (AES #944, #945; public_text.py).
     if args.command == "open":
         lines = trace_review_lines(args.trace_review, args.no_run_claim)
-        body = f"{args.body}\n\n{lines}" if lines else args.body
-        print(open_concern(args.repo, args.key, args.title, body, args.source, run, occurrence=args.occurrence))
+        body = redact(f"{args.body}\n\n{lines}" if lines else args.body)
+        print(open_concern(args.repo, args.key, redact(args.title), body, args.source, run, occurrence=args.occurrence))
     else:
-        print(close_concern(args.repo, args.key, args.evidence, run))
+        print(close_concern(args.repo, args.key, redact(args.evidence), run))
     return 0
 
 
