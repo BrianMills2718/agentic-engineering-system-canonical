@@ -133,9 +133,27 @@ test; missing items added; unlabelled claims labelled. This version has not had 
 
 Source: inferred by agent, from the 2026-11-17 sweep in row 11. Port these in this order, then ask for the yes:
 
-1. The notify router (`operator_notify_router.py`). Still needed for `usage-pace` (below): AES `notify.py` covers
-   only the Telegram send, not ntfy, the desk toast, the `waiting:brian` concern, the once-per-state stamps or the
-   notification record.
+1. The notify router (`operator_notify_router.py`): **done 2026-11-17** for its one row-11 caller (`usage-pace`).
+   AES `scripts/operator_notify_router.py`, `notify_operator.py` and `operator_notification_record.py` are copies of
+   Project Meta `ee2957b1f` (the two helpers byte-identical, so the stamps `~/.local/state/operator-notify/<key>.json`,
+   `history.log` and the record `notifications.jsonl` are the same files and format), with 66 tests (61 ported,
+   5 new; spec `openspec/specs/operator-notify`; AES #931, `2645295`). The one private value in the code, the concern
+   repository, is now `operator_notify: concern_repo` in aes-config `graph-config.yaml` (aes-config #5, `e6b3438`), set
+   to AES; the Telegram token, chat id and ntfy topic are secrets and stay in `~/.secrets/api_keys.env`, not in the
+   settings. Dedupe: a concern is the same when the repository, the `concern:feedback` label and the hidden marker
+   `<!-- concern-key: KEY -->` match; Project Meta #2713 (key `usage-pace`, `waiting:brian`) was open, so
+   `legacy_concern_repos: [BrianMills2718/project-meta]` keeps an open concern there updated or closed there (moving
+   the issue would give it a new `repo#number`, which `needs-you-push` would send Brian as new). Checked live,
+   read-only: `usage-pace` resolves to project-meta #2713 (OPEN), AES holds none, an unknown key resolves to AES.
+   Side by side on 20 cases (stub ntfy and Telegram on 127.0.0.1, fake `gh`, throwaway home; every non-local URL
+   refused): 12 identical; 8 differ only in the concern repository name and one extra read-only `issue list` in
+   project-meta (the legacy lookup); exit codes equal in all 20; 4 of 6 state files identical, the other 2
+   (`notifications.jsonl`, `latest.txt`) only by repository name; in the 5 cases with #2713 open the new copy
+   comments on or closes #2713 and creates nothing. Not compared: the real toast (stubbed on both sides, code
+   unchanged). Still on Project Meta's copy, by path: ecosystem-ops `attention_push.py` and `scripts/operator_notify.py`,
+   personal-root FOIA `harvest.py` and `tracker.py` (timers `foia-fax`, `foia-page-refresh`, `foia-tracker`),
+   personal-wiki `google_access.py` (`google-personal-access`), and `hvac-credit-alert`'s
+   `~/.local/share/hvac-credit-alert/credit_alert.py` (copy of progressive-air `tools/credit_alert.py`), all enabled.
 2. `usage-pace` and `needs-you-push`, onto the ported router.
    - `needs-you-push`: **done 2026-11-17.** It sends through AES `scripts/learning_loop/notify.py` (loaded from
      `~/.hive-brain/aes`), which gained an opt-in link-preview switch, the message id and Telegram's error text
@@ -146,10 +164,18 @@ Source: inferred by agent, from the 2026-11-17 sweep in row 11. Port these in th
      identical output (26 keys, "no new issues"; with 3 keys removed, the same 2 "would send" lines). No real
      message was sent for the check; `systemctl --user start needs-you-push.service` exited 0 ("no new issues",
      state unchanged).
-   - `usage-pace`: **not done.** Its notices go by ntfy (`attention`, seen at the ntfy server on 2026-11-11) or by
-     toast, Telegram and a `waiting:brian` concern sent once per state (`needs-human`); pointing it at `notify.py`
-     would move them to Telegram and drop the record and stamps. It waits for item 1.
-3. Concern filing (`concern_issue.py`) for the 7 `OnFailure` hooks.
+   - `usage-pace`: **done 2026-11-17.** `NOTIFY` runs `~/.hive-brain/aes/scripts/operator_notify_router.py` with the
+     same arguments (code2-workspace #464, `0927bd8`; OpenSpec change `usage-pace-aes-router`); `test_usage_pace.py`
+     25 passed. A dry run read 0 of 2 accounts (the known wrong-login cause), so no notice was due;
+     `systemctl --user start usage-pace.service` then exited 1 (job exit 2, as before), `notified` none, the record
+     unchanged at 25,605 lines.
+3. Concern filing (`concern_issue.py`) for the 7 `OnFailure` hooks: **done 2026-11-17.** `disk-job-failed@.service`
+   (personal-file-infra #297, `7a3ee72`) and `harness-live-failed.service` (agent-skills #614, `6acd2a6`) run
+   `%h/.hive-brain/aes/scripts/concern_issue.py` with the same `--repo`, key, title, source and occurrence. Project
+   Meta's script only forwarded to the code2-workspace copy, which equals AES's apart from one comment word; with a
+   stub `gh`, old and new made identical calls with identical output and exit codes in 6 of 6 cases (both units; no
+   concern, open, closed). `daemon-reload` exit 0; `systemctl --user cat` shows the new path. Still on Project Meta:
+   `~/.local/bin/rr-public-export` line 15 (not in git; not changed).
 4. The `md_file_cap.py` path in `jev-gate-hook`.
 5. `context-upkeep` (`rule_audit_nightly.py`).
 6. The `skill-review` default path to `policy_friction.md`.
