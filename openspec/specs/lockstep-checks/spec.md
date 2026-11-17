@@ -433,12 +433,15 @@ Source: Brian, 2026-11-11, "i approve single tool desing re d4" (proposals/one-p
 ### Requirement: Instructions: The agent chain fits its budget
 
 The instructions check SHALL report `payload_over_cap` when the byte sizes of the chain files that exist (default
-`~/code2/workspace/agents/core.md` and `~/code2/AGENTS.md`; `--chain FILE`, repeatable, or `INSTRUCTION_CHAIN`
-separated by the path separator, replace them) plus the repository's root `AGENTS.md` add up to more than 32,768
-bytes, and `root_oversized` when the root `AGENTS.md` alone is more than 12,000 bytes.
+`~/code2/AGENTS.md`, the project-root file Codex reads above the repository's own; `--chain FILE`, repeatable, or
+`INSTRUCTION_CHAIN` separated by the path separator, replace it) plus the repository's root `AGENTS.md` add up to more
+than 32,768 bytes, and `root_oversized` when the root `AGENTS.md` alone is more than 12,000 bytes. The global
+`~/.codex/AGENTS.md` SHALL NOT be counted, because Codex's budget (`project_doc_max_bytes`) applies to project files
+only.
 
-Source: Brian, 2026-11-17: "check first." (Decision 19); the 32,768-byte Codex budget and the 12 KB root guidance are
-in `project-meta/docs/ops/SUBTREE_INSTRUCTION_HIERARCHY.md` ("Instruction Size") and the `instruction-surfaces` skill.
+Source: Brian, 2026-11-17: "leets figure this out re core.md this has to be testable and resarch able and might alreayd
+be docuemtned"; Codex source `codex-rs/core/src/agents_md_manager.rs` (openai/codex 8011b92b): "The limit applies only
+to project files." The 12 KB root guidance is in the `instruction-surfaces` skill.
 
 #### Scenario: Instructions: An oversized root fails
 

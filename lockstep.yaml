@@ -1,8 +1,6 @@
 # Narrow documentation self-adoption: no edit guard or unrelated commit policy.
 schema: lockstep.side.v1
 owner: BrianMills2718
-checks:
-  instructions: warn   # the chain is over the 32,768-byte cap today (core.md alone is 21 KB); block once the roots are cut
 governed: []
 layout: []
 projections:

@@ -13,10 +13,12 @@ Implements: lockstep-checks/instructions-the-agent-chain-fits-its-budget,
 Requirement text (generated):
     lockstep-checks/instructions-the-agent-chain-fits-its-budget: The instructions check SHALL
         report `payload_over_cap` when the byte sizes of the chain files that exist (default
-        `~/code2/workspace/agents/core.md` and `~/code2/AGENTS.md`; `--chain FILE`, repeatable, or
-        `INSTRUCTION_CHAIN` separated by the path separator, replace them) plus the repository's
-        root `AGENTS.md` add up to more than 32,768 bytes, and `root_oversized` when the root
-        `AGENTS.md` alone is more than 12,000 bytes.
+        `~/code2/AGENTS.md`, the project-root file Codex reads above the repository's own; `--chain
+        FILE`, repeatable, or `INSTRUCTION_CHAIN` separated by the path separator, replace it) plus
+        the repository's root `AGENTS.md` add up to more than 32,768 bytes, and `root_oversized`
+        when the root `AGENTS.md` alone is more than 12,000 bytes. The global `~/.codex/AGENTS.md`
+        SHALL NOT be counted, because Codex's budget (`project_doc_max_bytes`) applies to project
+        files only.
     lockstep-checks/instructions-no-claude-md-with-its-own-content: The instructions check SHALL
         report `claude_md_content` for every `CLAUDE.md` in the repository (outside `.git`,
         `node_modules`, virtual environments, `worktrees` and `*_worktrees` folders) whose content
@@ -43,7 +45,7 @@ MIN_LINE = 40
 MIN_REPEATED = 3
 POINTER = "@AGENTS.md"
 SKIP = {".git", "node_modules", ".venv", "venv", "__pycache__", "worktrees"}
-DEFAULT_CHAIN = ("~/code2/workspace/agents/core.md", "~/code2/AGENTS.md")
+DEFAULT_CHAIN = ("~/code2/AGENTS.md",)
 KINDS = ("payload_over_cap", "root_oversized", "claude_md_content", "duplicated")
 
 
