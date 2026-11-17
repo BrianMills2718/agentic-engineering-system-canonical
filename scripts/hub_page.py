@@ -73,6 +73,7 @@ def settings(cfg: dict | None = None) -> dict:
     hub.setdefault("waiting_label", "waiting:brian")
     hub.setdefault("quiet_units", {})
     hub.setdefault("links", [])
+    hub.setdefault("refresh", "")
     hub["accounts"] = cfg["github_accounts"]
     hub["identity"] = who
     hub["remote"] = f"git@{cfg['ssh_host_alias']}:{hub['repo']}.git"
@@ -389,10 +390,11 @@ def render(rec: dict, s: dict) -> str:
     unread = [x["name"] for x in rec["sources"] if not x["ok"]]
     note = (f"Not read on this run: {', '.join(unread)} (shown as Not checked, never as none)." if unread
             else "Every source was read.")
+    refresh = f"Rebuilt {s['refresh']}." if s.get("refresh") else "Rebuilt only when someone runs it."
     return f"""<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>AES hub</title><style>{STYLE}</style></head><body><main>
 <h1>AES hub</h1>
-<p class="dim">Built {esc(stamp(rec["built"]))}. {esc(note)} Colours always come with a word: orange means waiting on you or new,
+<p class="dim">Built {esc(stamp(rec["built"]))}. {esc(refresh)} {esc(note)} Colours always come with a word: orange means waiting on you or new,
 blue means none or cleared, grey means not checked or count only.</p>
 {needs_html(rec, s)}
 {changed_html(rec)}

@@ -75,6 +75,8 @@ def test_needs_you_is_the_first_section_and_lists_only_what_waits():
     assert "Pick a plan" in page and "backup.service" in page and "Gate is red" in page
     assert "pace.service (owner said not a concern)" in page
     assert "Approvals waiting (1)" in page  # a/one counted once across two checkouts; a/two has a source
+    assert "Rebuilt only when someone runs it." in page
+    assert "Rebuilt every hour." in h.render(rec, {**h.settings(CFG), "refresh": "every hour"})
 
 
 @pytest.mark.req("hub-page/needs-you-comes-first")
