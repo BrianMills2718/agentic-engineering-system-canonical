@@ -221,5 +221,6 @@ def test_the_lockstep_entry_point_routes_changed_to_the_commit_check(base, monke
 def test_the_working_tree_is_not_touched(base):
     write(base, "openspec/specs/core/spec.md", REWORDED)
     before = git(base, "status", "--porcelain")
-    changed(base)
+    code, out = changed(base)
+    assert last(out).startswith("RESULT changed requirements=1 ")
     assert git(base, "status", "--porcelain") == before
