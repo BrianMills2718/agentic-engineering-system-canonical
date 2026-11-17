@@ -28,7 +28,7 @@ import sys
 
 import yaml
 
-from lockstep.checks import arch, docmeta, project, show, sources, status, test_first, trace
+from lockstep.checks import arch, docmeta, instructions, project, show, sources, status, test_first, trace
 from lockstep.checks.config import CHECK_NAMES, Config, ConfigError, load
 
 
@@ -113,6 +113,16 @@ def _docmeta(root: Path, args: argparse.Namespace, cfg: Config) -> int:
     print(result.count_line())
     for f in result.findings:
         print(f"{f.kind:28} {f.where}  ({f.reason})")
+    return int(bool(result.findings))
+
+
+def _instructions(root: Path, args: argparse.Namespace, cfg: Config) -> int:
+    """Print the instructions count line and one line per finding; return 1 on any finding."""
+    chain = None if args.chain is None else [Path(p).expanduser() for p in args.chain if p != "none"]
+    result = instructions.check(root, chain)
+    print(result.count_line())
+    for f in result.findings:
+        print(f"{f.kind:20} {f.where}  ({f.reason})")
     return int(bool(result.findings))
 
 
@@ -235,6 +245,9 @@ def run(argv: list[str]) -> int:
             p.add_argument("action", nargs="?", choices=["gen", "check"], default="check")
         if name == "test-first":
             p.add_argument("--base", default="origin/main")
+        if name == "instructions":
+            p.add_argument("--chain", action="append", help="file loaded before the repository's own (repeatable; "
+                           "`none` for no chain); default: INSTRUCTION_CHAIN, else the workspace core.md and AGENTS.md")
         if name == "project":
             p.add_argument("--check", action="store_true", help="fail when a generated block is stale, writing nothing")
         if name == "sources":
@@ -254,7 +267,7 @@ def run(argv: list[str]) -> int:
         print(f"{args.name}: skipped (off)")
         return 0
     runner = {"trace": _trace, "arch": _arch, "test-first": _test_first, "sources": _sources, "docmeta": _docmeta,
-              "project": _project}
+              "instructions": _instructions, "project": _project}
     try:
         status = runner[args.name](root, args, cfg)
     except (ValueError, TypeError, OSError, SyntaxError, yaml.YAMLError) as err:
