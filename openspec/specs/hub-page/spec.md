@@ -10,7 +10,7 @@ Source: inferred by agent (AES consolidation plan item 10 and the harness grid r
 
 ### Requirement: needs-you-comes-first
 
-`scripts/hub_page.py` SHALL put the "Needs you" section first. It SHALL list every open issue labelled `waiting_label` in the configured owners' repositories, every failed systemd user unit except those named under `quiet_units` (which are shown below the list with their reason and not counted), and every open issue in `concern_repo` labelled `needs_human_label`; and SHALL show the requirements an agent inferred, read from `approvals_file`, as a separate count with its date and a short list, not counted in the Needs-you total. Every colour SHALL come with a word, using blue, orange and grey only, and the page SHALL be readable at phone width.
+`scripts/hub_page.py` SHALL put the "Needs you" section first. It SHALL list every open issue labelled `waiting_label` in the configured owners' repositories, every failed systemd user unit except those named under `quiet_units` (which are shown below the list with their reason and not counted), and every open issue in `concern_repo` labelled `needs_human_label`; and SHALL show the requirements an agent inferred, read from `approvals_file`, as a separate count with its date and a short list, not counted in the Needs-you total. Every colour SHALL come with a word, using blue, orange and grey only, and the page SHALL be readable at phone width. The page SHALL say how often it is rebuilt (the `refresh` setting), or that it is rebuilt only when someone runs it.
 
 Source: inferred by agent (basis in Purpose above)
 
