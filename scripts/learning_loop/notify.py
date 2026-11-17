@@ -46,21 +46,35 @@ def secret(name: str) -> str:
     return ""
 
 
-def push(title: str, body: str, *, host: str = API, timeout: float = 15.0, opener=urllib.request.urlopen) -> dict:
-    """Send one message; return {"delivered": bool, "evidence": str}. Never raises on network errors."""
+def push(title: str, body: str, *, host: str = API, timeout: float = 15.0, opener=urllib.request.urlopen,
+         no_preview: bool = False) -> dict:
+    """Send one message; return {"delivered": bool, "evidence": str} plus "message_id" when delivered.
+
+    Never raises on network errors. ``no_preview`` turns off Telegram's link preview card (for a body that is a
+    link, as the waiting-issue push sends). An HTTP error carries Telegram's own description, token removed.
+
+    Implements: feedback-loop-notices/link-preview-off-on-request
+    """
     token, chat = secret(TOKEN_ENV), secret(CHAT_ENV)
     if not token or not chat:
         missing = [n for n, v in ((TOKEN_ENV, token), (CHAT_ENV, chat)) if not v]
         return {"delivered": False, "evidence": f"not_configured: set {', '.join(missing)}"}
     text = f"{title}\n\n{body}"[:MAX_CHARS]
+    payload = {"chat_id": chat, "text": text}
+    if no_preview:
+        payload["disable_web_page_preview"] = True
     req = urllib.request.Request(f"{host}/bot{token}/sendMessage",
-                                 data=json.dumps({"chat_id": chat, "text": text}).encode("utf-8"),
+                                 data=json.dumps(payload).encode("utf-8"),
                                  headers={"Content-Type": "application/json"}, method="POST")
     try:
         with opener(req, timeout=timeout) as resp:
             status, raw = resp.status, resp.read()
     except urllib.error.HTTPError as exc:
-        return {"delivered": False, "evidence": f"send_failed: HTTP {exc.code}"}
+        try:
+            description = str(json.loads(exc.read().decode("utf-8")).get("description", ""))[:200]
+        except (ValueError, OSError, AttributeError):
+            description = ""
+        return {"delivered": False, "evidence": f"send_failed: HTTP {exc.code} {description}".strip().replace(token, "<token>")}
     except (urllib.error.URLError, OSError, TimeoutError) as exc:
         return {"delivered": False, "evidence": f"send_failed: {type(exc).__name__}"}
     try:
@@ -69,7 +83,7 @@ def push(title: str, body: str, *, host: str = API, timeout: float = 15.0, opene
     except (ValueError, AttributeError):
         ok, message_id = False, None
     if status == 200 and ok and message_id:
-        return {"delivered": True, "evidence": f"accepted_by_telegram message_id={message_id}"}
+        return {"delivered": True, "evidence": f"accepted_by_telegram message_id={message_id}", "message_id": message_id}
     return {"delivered": False, "evidence": f"send_failed: HTTP {status}, ok={ok}, message_id={'yes' if message_id else 'no'}"}
 
 
