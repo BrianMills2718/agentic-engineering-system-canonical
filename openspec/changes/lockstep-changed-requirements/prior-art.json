@@ -1,0 +1,98 @@
+{
+  "need": "When a requirement's text changes, Lockstep lists the code and tests tied to it as a gap, requires a plan that names the gap, and lets the gap close only on new evidence (a test that fails on the old code), with nothing typed by hand to mark it closed.",
+  "searched": [
+    {
+      "place": "own",
+      "where": "~/code2/agentic-engineering-system-canonical/src/lockstep/ (every module read by name; change_list.py, stale_edit.py, checks/test_first.py, checks/project.py, checks/status.py, checks/trace.py, checks/spec.py read in full) at 6d03c3b2c",
+      "query": "what already detects a changed requirement, lists what is linked to it, or closes a gap from evidence",
+      "found": "checks/test_first.py runs the tests of scenarios NEW since a base revision against the base source and fails when one passes there; checks/project.py copies requirement text into implementing docstrings and its --check fails when a copy is stale; change_list.py lists files linked to changed plan items but reads the retired .aes/target.yaml plan format, not OpenSpec; checks/status.py computes state from links and test results only, so a changed requirement stays passing."
+    },
+    {
+      "place": "own",
+      "where": "~/code2/workspace/docs/capabilities.md (row 16, Lockstep) and ~/code2/workspace/docs/decisions/0006-planning-and-linkage.md; code2-workspace issue 842 (the 2026-11-17 test of each step of the flow)",
+      "query": "which tool owns planning and checking; the design principles for gaps; what was measured about a changed requirement",
+      "found": "Lockstep is the one planning-and-checking tool. Decision 0006: status is computed, never typed; a gap is recomputed on every run; a plan names the gaps it closes; a gap closes only through new evidence. Issue 842: after a requirement's text changed, every check exited 0 and status showed passing."
+    },
+    {
+      "place": "own",
+      "where": "~/code2/company-planning/scripts/durable_docs_check.py and docs/model/trace.yaml",
+      "query": "how Company Planning flags a rule for re-reading when its owner file changes",
+      "found": "Each rule carries a typed reviewed_at date; the check flags a rule whose owner file changed after that date; the flag is cleared by typing a new date."
+    },
+    {
+      "place": "outside",
+      "where": "Doorstop source (github.com/doorstop-dev/doorstop: core/item.py, core/types.py, cli/main.py); OpenFastTrace design document (github.com/itsallcode/openfasttrace doc/spec/design.md); IBM DOORS Next documentation (ibm.com/docs/SSYMRC_7.2 topic c_linkval); Jama Connect help (clear-suspect-links); StrictDoc user guide and release notes; Sphinx-Needs changelog; pytest-bdd and Cucumber documentation; jamb documentation (iec-62304 traceability). Read by a researcher subagent on 2026-11-17.",
+      "query": "suspect links: where the last-checked state is kept, what raises the flag, what clears it, whether code and tests are covered, and whether any tool clears the flag only on evidence",
+      "found": "Four designs. Stored fingerprint at the link (Doorstop, jamb): cleared by `doorstop clear`, in bulk with `all`. Revision number in the item ID (OpenFastTrace): cleared by editing the number in the covering tag. Per-link status on configured fields (DOORS Next, Jama): cleared by a person, Jama offers Clear All. Text binding (Cucumber, pytest-bdd): a changed step no longer matches its step definition. No suspect-link feature was found in StrictDoc or Sphinx-Needs. No tool was found that clears the flag only on evidence; jamb states that tests do not clear it."
+    }
+  ],
+  "candidates": [
+    {
+      "name": "Lockstep test-first check (checks/test_first.py)",
+      "url": "https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/main/src/lockstep/checks/test_first.py",
+      "covers": "Evidence for a NEW scenario: its tests must fail on the base revision's source. Already extracts the base tree and runs pytest there.",
+      "misses": "A scenario whose text CHANGED is not new, so its tests are never run on the base.",
+      "verdict": "combine",
+      "reason": "The same evidence rule answers a changed scenario; extending it costs a few lines and adds no second mechanism."
+    },
+    {
+      "name": "Lockstep docstring copies (checks/project.py, `lockstep check project --check`)",
+      "url": "https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/main/src/lockstep/checks/project.py",
+      "covers": "A changed requirement makes the copy in each implementing docstring stale, and --check fails until the copies are regenerated.",
+      "misses": "Tests carry no copy; regenerating the copy says nothing about whether the code does what the new text says.",
+      "verdict": "combine",
+      "reason": "Kept as it is for the code-side copy; the new check supplies the list and the evidence rule beside it."
+    },
+    {
+      "name": "Lockstep change_list.py",
+      "url": "https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/main/src/lockstep/change_list.py",
+      "covers": "Lists every file and symbol linked to plan items that changed between two revisions of a plan.",
+      "misses": "Reads `.aes/target.yaml`, which is retiring one repository at a time (code2-workspace decision 0009); knows nothing of OpenSpec specs, deltas, test markers or plans.",
+      "verdict": "reject",
+      "reason": "Its input format is being retired; its idea (compare two revisions, list what is linked) is what the new check does for OpenSpec."
+    },
+    {
+      "name": "Doorstop suspect links (stored fingerprint at each link, `doorstop clear`)",
+      "url": "https://github.com/doorstop-dev/doorstop",
+      "covers": "Detects any change to a parent item's text with no author discipline, and persists the flag across commits.",
+      "misses": "`doorstop clear all` clears every flag with no change to the linked item; links are item-to-item, with source files only as references; the stored stamp is typed state.",
+      "verdict": "reject",
+      "reason": "Clearing by command is what decision 0006 excludes (a gap closes only through new evidence). Persistence is not needed here because the check runs before every merge, against the merge target."
+    },
+    {
+      "name": "OpenFastTrace revision numbers in item IDs",
+      "url": "https://github.com/itsallcode/openfasttrace",
+      "covers": "Covers code and tests through tags; a link to an older revision is reported outdated.",
+      "misses": "Detection depends on the author raising the number; clearing is editing the number in the tag.",
+      "verdict": "reject",
+      "reason": "Both the flag and its clearing are typed by hand."
+    },
+    {
+      "name": "IBM DOORS Next link validity and Jama Connect suspect links",
+      "url": "https://www.ibm.com/docs/SSYMRC_7.2/com.ibm.jazz.vvc.doc/topics/c_linkval.html",
+      "covers": "Per-link suspect status raised when configured fields of a linked item change.",
+      "misses": "Hosted products; cleared by a person, Jama with Clear All; no link to test results.",
+      "verdict": "reject",
+      "reason": "Not usable from a commit check in a git repository, and manual clearing."
+    },
+    {
+      "name": "Text binding of scenarios to tests (Cucumber, pytest-bdd)",
+      "url": "https://pytest-bdd.readthedocs.io/en/latest/",
+      "covers": "A changed step text stops matching its step definition, so a changed scenario cannot keep its old test silently.",
+      "misses": "Covers scenario steps only, not the requirement statement; every repository's tests and OpenSpec scenarios would have to be rewritten as feature files and step definitions.",
+      "verdict": "reject",
+      "reason": "The rewrite touches every test in every repository for a property the base-revision test run gives without changing any of them."
+    },
+    {
+      "name": "Company Planning durable_docs_check (reviewed_at dates)",
+      "url": "https://github.com/BrianMills2718/company-planning/blob/main/scripts/durable_docs_check.py",
+      "covers": "Flags a rule for re-reading when the file that owns it changes.",
+      "misses": "The flag is cleared by typing a date.",
+      "verdict": "reject",
+      "reason": "Typed status, the thing decision 0006 excludes."
+    }
+  ],
+  "decision": "combine",
+  "gap": "No candidate closes a changed-requirement flag from evidence: every outside tool clears it by a manual action. The part built here is small: comparing requirement and scenario text between two revisions of OpenSpec specs, naming the plan, and applying the existing test-first rule to changed scenarios.",
+  "decided": "2026-11-17"
+}
