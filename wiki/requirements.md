@@ -59,6 +59,7 @@ unverified. A specification's presence is not runtime evidence.
 - [Timer config](../openspec/specs/timer-config/spec.md) governs the job list and the installer that writes systemd timer units from it.
 - [Failed unit watch](../openspec/specs/failed-unit-watch/spec.md) governs the 30-minute sweep that turns failed systemd user units into concern issues.
 - [Machine manifest](../openspec/specs/machine-manifest/spec.md) governs the list of every systemd user unit with where its file comes from, and the check that names units a clean machine would lose.
+- [Client manifest](../openspec/specs/client-manifest/spec.md) governs the list of every Claude Code and Codex setting on the machine with who owns it (agent-skills, the client at run time, or the manifest itself, which then holds the value), and the check that names settings that changed or that nobody records.
 - [Ship](../openspec/specs/ship/spec.md) governs the merge command: run the repository's check, merge only the commit that passed, hold planning and plan-size rules, then sweep finished lanes (ported from code2-workspace; the installed command still runs that copy).
 - [Lane sweep](../openspec/specs/lane-sweep/spec.md) governs removing finished worktrees and branches without losing local work, and fast-forwarding clean primary checkouts (ported from code2-workspace; the installed command and timer still run that copy).
 - [Project graph taxonomy](../openspec/specs/project-graph-taxonomy/spec.md) governs the shape check of the project graph (the graph path is configuration).
