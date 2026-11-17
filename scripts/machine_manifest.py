@@ -6,7 +6,8 @@ records, for every unit, where its file comes from: a git repository (the file i
 list (`scripts/timers.py` generated it), or nowhere (`local-only`).
 
     machine_manifest.py build [--unit-dir D] [--out FILE]        write the manifest (stdout without --out)
-    machine_manifest.py check [--unit-dir D] [--manifest FILE]   rebuild in memory, list what would be lost; exit 1 if any
+    machine_manifest.py check [--unit-dir D] [--manifest FILE] [--units-repo R]
+                                                                 rebuild in memory, list what would be lost; exit 1 if any
     machine_manifest.py check-units [--unit-dir D] [--units-repo R]     compare the disk with the repository copies; exit 1 on a difference
     machine_manifest.py install-units [--apply] [--daemon-reload]       copy repository copies that are missing or differ (dry run unless --apply)
 
@@ -298,17 +299,24 @@ def files_of(manifest: dict) -> dict[str, dict]:
     return out
 
 
-def findings(current: dict, recorded: dict | None) -> dict[str, list[str]]:
+def findings(current: dict, recorded: dict | None, copied: set[str] | frozenset[str] = frozenset()) -> dict[str, list[str]]:
     """What a clean machine would lose, and how the manifest differs from the disk.
+
+    `copied` holds the paths whose units-repository copy matches the disk (`compare_units` same and link-same):
+    a local-only file or a symlink outside git listed there is reported under `copied`, which does not fail.
 
     Implements: machine-manifest/local-only-units-are-reported
     Implements: machine-manifest/missing-or-untracked-target-is-reported
+    Implements: machine-manifest/identical-copies-do-not-fail
     """
     now = files_of(current)
-    result: dict[str, list[str]] = {"local-only": [], "bad-target": [], "gone-from-disk": [], "not-in-manifest": []}
+    result: dict[str, list[str]] = {"local-only": [], "bad-target": [], "gone-from-disk": [], "not-in-manifest": [],
+                                    "copied": []}
     for name, src in sorted(now.items()):
         kind = src.get("kind")
-        if kind == "local-only":
+        if kind in ("local-only", "symlink-outside-git") and name in copied:
+            result["copied"].append(name)
+        elif kind == "local-only":
             result["local-only"].append(name)
         elif kind == "symlink-missing-target":
             result["bad-target"].append(f"{name} (target missing)")
@@ -328,7 +336,9 @@ def findings(current: dict, recorded: dict | None) -> dict[str, list[str]]:
 LABELS = {"local-only": "(a) local-only files, lost on a clean machine",
           "bad-target": "(b) symlinks whose target is missing, outside git, untracked or uncommitted",
           "gone-from-disk": "(c) in the manifest, no longer on disk",
-          "not-in-manifest": "(d) on disk, not in the manifest"}
+          "not-in-manifest": "(d) on disk, not in the manifest",
+          "copied": "(e) local-only files and links with an identical copy in the units repository (not a failure)"}
+FAILING = ("local-only", "bad-target", "gone-from-disk", "not-in-manifest")
 
 
 SYMLINK_SUFFIX = ".symlink"
@@ -450,13 +460,19 @@ def main(argv: list[str] | None = None, is_enabled: Callable[[str], str] = syste
     recorded = yaml.safe_load(a.manifest.read_text()) if a.manifest.exists() else None
     if recorded is None:
         print(f"machine_manifest: no manifest at {a.manifest}; (c) and (d) not checked")
-    found = findings(current, recorded)
+    copied: set[str] = set()
+    if a.units_repo.is_dir():
+        same = compare_units(a.unit_dir, a.units_repo)
+        copied = set(same["same"]) | set(same["link-same"])
+    else:
+        print(f"machine_manifest: no units repository at {a.units_repo}; no file counts as copied")
+    found = findings(current, recorded, copied)
     print(f"machine_manifest: {len(current['units'])} units, {len(files_of(current))} files in {a.unit_dir}")
     for key, label in LABELS.items():
         print(f"{label}: {len(found[key])}")
         for name in found[key]:
             print(f"  {name}")
-    return 1 if any(found.values()) or recorded is None else 0
+    return 1 if any(found[key] for key in FAILING) or recorded is None else 0
 
 
 if __name__ == "__main__":

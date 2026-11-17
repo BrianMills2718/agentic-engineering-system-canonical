@@ -80,9 +80,66 @@ def test_local_only_files_are_reported_and_fail_the_check(machine, tmp_path, cap
                                    "tracked.timer.d/later.conf"]
     path = tmp_path / "manifest.yaml"
     assert m.main(["build", "--unit-dir", str(machine), "--out", str(path)], is_enabled=enabled) == 0
-    assert m.main(["check", "--unit-dir", str(machine), "--manifest", str(path)], is_enabled=enabled) == 1
+    no_repo = tmp_path / "no-units-repo"
+    assert m.main(["check", "--unit-dir", str(machine), "--manifest", str(path), "--units-repo", str(no_repo)],
+                  is_enabled=enabled) == 1
     out = capsys.readouterr().out
     assert "(a) local-only files, lost on a clean machine: 4" in out and "  handmade.timer" in out
+    assert f"no units repository at {no_repo}" in out and "(e) local-only files" in out
+
+
+@pytest.fixture
+def backed_up(tmp_path):
+    """A unit folder of two local-only files and a /dev/null link, a units repository copying all three, and a manifest."""
+    units, repo = tmp_path / "units", tmp_path / "machine-units"
+    units.mkdir()
+    repo.mkdir()
+    for folder in (units, repo):
+        (folder / "hand.service").write_text("[Service]\nExecStart=/usr/bin/true\n")
+        (folder / "hand.timer").write_text("[Timer]\nOnCalendar=daily\n")
+    (units / "masked.service").symlink_to("/dev/null")
+    (repo / "masked.service.symlink").write_text("/dev/null\n")
+    manifest = tmp_path / "manifest.yaml"
+    manifest.write_text(m.dump(m.build(units, is_enabled=enabled)))
+    return units, repo, manifest
+
+
+def run_check(units, repo, manifest):
+    return m.main(["check", "--unit-dir", str(units), "--manifest", str(manifest), "--units-repo", str(repo)],
+                  is_enabled=enabled)
+
+
+@pytest.mark.req("machine-manifest/identical-copies-do-not-fail")
+def test_identical_repository_copies_are_counted_and_do_not_fail(backed_up, capsys):
+    units, repo, manifest = backed_up
+    assert run_check(units, repo, manifest) == 0
+    out = capsys.readouterr().out
+    assert "(a) local-only files, lost on a clean machine: 0" in out
+    assert "(b) symlinks whose target is missing, outside git, untracked or uncommitted: 0" in out
+    assert "(not a failure): 3" in out and "  hand.timer" in out and "  masked.service" in out
+
+
+@pytest.mark.req("machine-manifest/identical-copies-do-not-fail")
+def test_a_missing_differing_or_absent_copy_still_fails(backed_up, tmp_path, capsys):
+    units, repo, manifest = backed_up
+    (repo / "hand.timer").unlink()
+    assert run_check(units, repo, manifest) == 1
+    assert "(a) local-only files, lost on a clean machine: 1\n  hand.timer" in capsys.readouterr().out
+    (repo / "hand.timer").write_text("[Timer]\nOnCalendar=hourly\n")
+    assert run_check(units, repo, manifest) == 1
+    assert "(a) local-only files, lost on a clean machine: 1\n  hand.timer" in capsys.readouterr().out
+    assert run_check(units, tmp_path / "absent", manifest) == 1
+    out = capsys.readouterr().out
+    assert "(a) local-only files, lost on a clean machine: 2" in out and "(not a failure): 0" in out
+
+
+@pytest.mark.req("machine-manifest/identical-copies-do-not-fail")
+def test_a_recorded_link_counts_only_when_its_target_matches(backed_up, capsys):
+    units, repo, manifest = backed_up
+    (repo / "masked.service.symlink").write_text("/elsewhere\n")
+    assert run_check(units, repo, manifest) == 1
+    out = capsys.readouterr().out
+    assert "uncommitted: 1\n  masked.service (target not in a git repository)" in out and "(not a failure): 2" in out
 
 
 @pytest.mark.req("machine-manifest/missing-or-untracked-target-is-reported")
