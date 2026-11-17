@@ -1023,14 +1023,16 @@ def test_a_slot_that_frees_lets_the_check_run(repo, tmp_path, monkeypatch, capsy
     monkeypatch.setenv("SHIP_SLOT_WAIT", "20")
     monkeypatch.setattr(ship, "SLOT_POLL", 0.05)
     held = hold_slots(tmp_path, 1)
-    # Free the slot when ship first waits for it, not on a timer: on a loaded machine the steps before the check
-    # took longer than the old 0.4 s timer, so the slot was already free and "taken" was never printed (2026-11-11).
-    real_sleep = ship.time.sleep
-    def sleep_then_free(seconds):
-        if not held[0].closed:
+    # Free the slot when ship says it is waiting for it. Not on a timer (on a loaded machine the steps before the
+    # check outlasted a 0.4 s timer, 2026-11-11), and not on the first time.sleep: that patch is process-wide, and
+    # subprocess.run(..., timeout=...) calls time.sleep while it waits for a child, so the slot could be freed
+    # before ship looked and "taken" was never printed (5 failures in the ship logs, 2026-11-09 to 2026-11-16).
+    real_write = ship.Run.write
+    def write_then_free(self, text):
+        real_write(self, text)
+        if "check slots are taken" in text and not held[0].closed:
             held[0].close()
-        real_sleep(seconds)
-    monkeypatch.setattr(ship.time, "sleep", sleep_then_free)
+    monkeypatch.setattr(ship.Run, "write", write_then_free)
     assert ship.main(["--repo", str(work), "--check", "true"]) == 0
     out = capsys.readouterr().out
     assert "all 1 check slots are taken" in out and "check slot 0 free after" in out
