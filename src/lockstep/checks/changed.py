@@ -3,7 +3,8 @@
 Implements: lockstep-checks/changed-requirements-that-differ-from-the-base-are-listed-with-their-code-and-tests,
     lockstep-checks/changed-every-listed-requirement-is-named-by-a-plan-in-the-same-change-set,
     lockstep-checks/changed-a-changed-statement-needs-a-changed-scenario-or-a-wording-only-declaration,
-    lockstep-checks/changed-count-line-and-exit-status
+    lockstep-checks/changed-count-line-and-exit-status,
+    lockstep-checks/changed-documents-that-quote-a-listed-requirement-are-listed-with-it
 
 Requirement text (generated):
     lockstep-checks/changed-requirements-that-differ-from-the-base-are-listed-with-their-code-and-tests:
@@ -36,6 +37,11 @@ Requirement text (generated):
         commit it SHALL check nothing, print `RESULT changed skipped="base <rev> not found" exit=0`
         and exit 0. `changed` SHALL be a check name in `lockstep.yaml` with the same `block`, `warn`
         and `off` modes as the other checks.
+    lockstep-checks/changed-documents-that-quote-a-listed-requirement-are-listed-with-it: The
+        changed check SHALL print, for each requirement it lists, every marked quote of it (`<!--
+        lockstep quote: <id> -->` in a tracked Markdown file outside `openspec/`) as `<path>:<line>`
+        with the label `current` when the passage appears in the requirement's or its scenarios'
+        current text and `stale` when it does not, and SHALL include them in its JSON output.
 
 Nothing is stored: "changed" is computed on every run from the two revisions. The base is read with
 `git archive` of `openspec/`, `docs/plans/` and the test files the listed requirements need, into a
@@ -51,6 +57,7 @@ import subprocess
 import tarfile
 import tempfile
 
+from lockstep.checks import quotes
 from lockstep.checks.markers import implementers, req_markers
 from lockstep.checks.spec import Plan, effective_plan, normal, slug
 from lockstep.checks.status import CLOSES
@@ -81,6 +88,7 @@ class Item:
     differs: list[str] = field(default_factory=list)
     implementers: list[str] = field(default_factory=list)
     tests: list[dict[str, str]] = field(default_factory=list)
+    documents: list[dict[str, str]] = field(default_factory=list)  # marked quotes: {where, label}
     plans: list[str] = field(default_factory=list)
     findings: list[str] = field(default_factory=list)
     wording_only: str | None = None
@@ -336,6 +344,7 @@ def check(root: Path, base: str) -> Result:
         plans = change_set(root, old)
         declared = wording_only(plans)
         links = implementers(root)
+        documents = quotes.check(root, [now])
         for ident, kind, where, statement, scenarios in diffs:
             item = Item(ident, kind, where)
             if kind == "changed":
@@ -351,6 +360,8 @@ def check(root: Path, base: str) -> Result:
                     label = "new" if before is None else (
                         "unchanged" if before == _function_source(root / path, name) else "changed")
                     item.tests.append({"node": node, "scenario": sid, "label": label})
+            item.documents = [{"where": f"{q.path}:{q.line}", "label": "current" if q.state == "current" else "stale"}
+                              for q in documents if q.id == ident]
             item.plans = [p.path for p in plans if ident in p.names]
             if not item.plans:
                 item.findings.append("unplanned")

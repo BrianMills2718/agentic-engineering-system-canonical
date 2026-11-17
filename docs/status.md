@@ -27,6 +27,8 @@ which tests cover each scenario at this commit. For pass or fail, run `make chec
 | `external-idea-intake/a-daily-timer-runs-the-digest-with-the-project-profile` | unimplemented | - |
 | `external-idea-intake/the-profile-may-list-interests-and-the-judge-treats-them-like-projects` | unimplemented | - |
 | `failed-unit-watch/settings-come-from-config` | unimplemented | - |
+| `failed-unit-watch/issue-body-carries-one-line-not-the-log` | unimplemented | - |
+| `failed-unit-watch/ssh-host-alias-remotes-find-their-repository` | unimplemented | - |
 | `feedback-loop-notices/the-loop-runs-without-project-meta` | unimplemented | - |
 | `feedback-loop-notices/a-message-counts-as-sent-only-on-telegram-acceptance` | unimplemented | - |
 | `feedback-loop-notices/loop-failures-are-concerns` | unimplemented | - |
@@ -136,6 +138,7 @@ which tests cover each scenario at this commit. For pass or fail, run `make chec
 | `project-graph-refresh/page-goes-to-data-branch` | unimplemented | - |
 | `project-graph-refresh/failure-opens-one-concern` | unimplemented | - |
 | `project-graph-refresh/no-push-changes-nothing` | unimplemented | - |
+| `project-graph-refresh/concern-body-carries-first-lines-and-log-path` | unimplemented | - |
 | `project-graph-sync/settings-come-from-config` | unimplemented | - |
 | `project-graph-sync/missing-repositories-get-a-record` | unimplemented | - |
 | `project-graph-taxonomy/graph-path-is-configured` | unimplemented | - |
@@ -167,6 +170,9 @@ which tests cover each scenario at this commit. For pass or fail, run `make chec
 | `workspace-map-check/undeclared-dependency-is-a-finding` | unimplemented | - |
 | `workspace-map-check/alert-once-per-state-change` | unimplemented | - |
 | `workspace-map-check/crash-is-not-a-finding` | unimplemented | - |
+| `workspace-map-check/offloaded-archive-entry-is-not-gone` | unimplemented | - |
+| `lockstep-checks/trace-a-marked-quote-matches-its-requirement` | not run at this revision | `lockstep.checks.quotes`, `lockstep.checks.quotes.check`, `lockstep.checks.trace` |
+| `lockstep-checks/changed-documents-that-quote-a-listed-requirement-are-listed-with-it` | not run at this revision | `lockstep.checks.changed` |
 
 | Scenario | Requirement | State | Tests |
 | --- | --- | --- | --- |
@@ -193,6 +199,8 @@ which tests cover each scenario at this commit. For pass or fail, run `make chec
 | `external-idea-intake/interests-listed-and-named` | `external-idea-intake/the-profile-may-list-interests-and-the-judge-treats-them-like-projects` | not run at this revision | `tests/learning/test_external_interests.py::test_profile_loads_interests_and_judge_prompt_lists_them`, `tests/learning/test_external_interests.py::test_no_interests_section_without_interests`, `tests/learning/test_external_interests.py::test_useful_digest_prints_interests_line_separately` |
 | `external-idea-intake/bad-interest-refused` | `external-idea-intake/the-profile-may-list-interests-and-the-judge-treats-them-like-projects` | not run at this revision | `tests/learning/test_external_interests.py::test_interest_without_goal_is_refused` |
 | `failed-unit-watch/settings-come-from-config` | `failed-unit-watch/settings-come-from-config` | not run at this revision | `tests/test_failed_unit_watch.py::test_missing_settings_stop_loudly` |
+| `failed-unit-watch/issue-body-carries-one-line-not-the-log` | `failed-unit-watch/issue-body-carries-one-line-not-the-log` | not run at this revision | `tests/test_failed_unit_watch.py::test_the_line_is_the_newest_one_the_job_printed_without_host_or_pid`, `tests/test_failed_unit_watch.py::test_failed_unit_body_has_the_line_and_the_journalctl_pointer_and_no_log_block`, `tests/test_public_text.py::test_redact_home_paths_windows_users_emails_and_ips` |
+| `failed-unit-watch/ssh-host-alias-remotes-find-their-repository` | `failed-unit-watch/ssh-host-alias-remotes-find-their-repository` | not run at this revision | `tests/test_failed_unit_watch.py::test_repo_from_remote_reads_the_github_com_host_alias` |
 | `feedback-loop-notices/no-project-meta-path` | `feedback-loop-notices/the-loop-runs-without-project-meta` | not run at this revision | `tests/test_feedback_loop_notices.py::test_loop_scripts_call_no_project_meta_script` |
 | `feedback-loop-notices/attention-push-arrives` | `feedback-loop-notices/a-message-counts-as-sent-only-on-telegram-acceptance` | not run at this revision | `tests/test_feedback_loop_notices.py::test_accepted_message_is_delivered_send_only_and_secrets_not_leaked`, `tests/test_feedback_loop_notices.py::test_credentials_read_from_secrets_file_lines` |
 | `feedback-loop-notices/failed-push-is-not-delivered` | `feedback-loop-notices/a-message-counts-as-sent-only-on-telegram-acceptance` | not run at this revision | `tests/test_feedback_loop_notices.py::test_missing_config_network_error_and_bad_answers` |
@@ -408,6 +416,7 @@ which tests cover each scenario at this commit. For pass or fail, run `make chec
 | `project-graph-refresh/page-goes-to-data-branch` | `project-graph-refresh/page-goes-to-data-branch` | not run at this revision | `tests/test_project_graph_refresh.py::test_data_branch_starts_empty_then_adds_commits_without_touching_main` |
 | `project-graph-refresh/failure-opens-one-concern` | `project-graph-refresh/failure-opens-one-concern` | not run at this revision | `tests/test_project_graph_refresh.py::test_concern_arguments_are_accepted_by_the_real_tool` |
 | `project-graph-refresh/no-push-changes-nothing` | `project-graph-refresh/no-push-changes-nothing` | not run at this revision | `tests/test_project_graph_refresh.py::test_no_push_runs_every_step_but_commits_pushes_and_files_nothing` |
+| `project-graph-refresh/concern-body-carries-first-lines-and-log-path` | `project-graph-refresh/concern-body-carries-first-lines-and-log-path` | not run at this revision | `tests/test_project_graph_refresh.py::test_the_concern_body_has_first_lines_and_the_log_path_from_home` |
 | `project-graph-sync/settings-come-from-config` | `project-graph-sync/settings-come-from-config` | not run at this revision | `tests/test_project_graph_sync.py::test_a_missing_setting_stops_loudly_and_writes_nothing`, `tests/test_project_graph_sync.py::test_write_adds_records_using_the_configured_settings` |
 | `project-graph-sync/missing-repositories-get-a-record` | `project-graph-sync/missing-repositories-get-a-record` | not run at this revision | `tests/test_project_graph_sync.py::test_a_new_repo_in_any_account_is_missing`, `tests/test_project_graph_sync.py::test_new_record_is_unreviewed_without_a_checkout_and_names_its_source` |
 | `project-graph-taxonomy/graph-path-is-configured` | `project-graph-taxonomy/graph-path-is-configured` | not run at this revision | `tests/test_check_project_graph_taxonomy.py::test_default_graph_path_comes_from_the_environment` |
@@ -493,3 +502,11 @@ which tests cover each scenario at this commit. For pass or fail, run `make chec
 | `workspace-map-check/alert-once-per-state-change` | `workspace-map-check/alert-once-per-state-change` | not run at this revision | `tests/test_workspace_map.py::test_changed_findings_open_once_then_stay_silent` |
 | `workspace-map-check/clean-run-closes-only-an-open-concern` | `workspace-map-check/alert-once-per-state-change` | not run at this revision | `tests/test_workspace_map.py::test_a_clean_run_closes_nothing_when_no_concern_is_open` |
 | `workspace-map-check/crash-is-not-a-finding` | `workspace-map-check/crash-is-not-a-finding` | not run at this revision | `tests/test_workspace_map.py::test_a_crash_exits_2_not_the_findings_code_1` |
+| `workspace-map-check/offloaded-archive-entry-is-not-gone` | `workspace-map-check/offloaded-archive-entry-is-not-gone` | not run at this revision | `tests/test_workspace_map.py::test_an_offloaded_archive_entry_is_not_reported_gone` |
+| `lockstep-checks/trace-a-quote-that-matches-passes` | `lockstep-checks/trace-a-marked-quote-matches-its-requirement` | not run at this revision | `tests/lockstep/checks/test_lockstep_check_quotes.py::test_a_quote_that_matches_passes` |
+| `lockstep-checks/trace-a-quote-left-behind-by-a-changed-requirement-fails` | `lockstep-checks/trace-a-marked-quote-matches-its-requirement` | not run at this revision | `tests/lockstep/checks/test_lockstep_check_quotes.py::test_a_quote_left_behind_by_a_changed_requirement_fails` |
+| `lockstep-checks/trace-a-quote-of-a-scenario-s-text-passes` | `lockstep-checks/trace-a-marked-quote-matches-its-requirement` | not run at this revision | `tests/lockstep/checks/test_lockstep_check_quotes.py::test_a_quote_of_a_scenarios_text_passes` |
+| `lockstep-checks/trace-a-quote-of-an-unknown-requirement-fails` | `lockstep-checks/trace-a-marked-quote-matches-its-requirement` | not run at this revision | `tests/lockstep/checks/test_lockstep_check_quotes.py::test_a_quote_of_an_unknown_requirement_fails` |
+| `lockstep-checks/trace-a-quote-matching-an-active-change-s-text-passes` | `lockstep-checks/trace-a-marked-quote-matches-its-requirement` | not run at this revision | `tests/lockstep/checks/test_lockstep_check_quotes.py::test_a_quote_matching_an_active_changes_text_passes` |
+| `lockstep-checks/trace-a-start-marker-with-no-end-marker-fails` | `lockstep-checks/trace-a-marked-quote-matches-its-requirement` | not run at this revision | `tests/lockstep/checks/test_lockstep_check_quotes.py::test_a_start_marker_with_no_end_marker_fails` |
+| `lockstep-checks/changed-a-document-quoting-a-changed-requirement-is-listed-as-stale` | `lockstep-checks/changed-documents-that-quote-a-listed-requirement-are-listed-with-it` | not run at this revision | `tests/lockstep/checks/test_lockstep_check_changed.py::test_a_document_quoting_a_changed_requirement_is_listed_as_stale` |

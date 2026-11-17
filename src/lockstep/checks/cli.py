@@ -124,6 +124,8 @@ def _changed(root: Path, args: argparse.Namespace, cfg: Config) -> int:
             print(f"  {'differs':11} {'; '.join(item.differs)}")
             print(f"  {'code':11} {', '.join(item.implementers) or '-'}")
             print(f"  {'tests':11} {tests or '-'}")
+            documents = ", ".join(f"{d['where']} ({d['label']})" for d in item.documents)
+            print(f"  {'documents':11} {documents or '-'}")
             print(f"  {'plan':11} {', '.join(item.plans) or 'none'}")
     out = sys.stderr if args.json else sys.stdout
     for item in result.requirements:
