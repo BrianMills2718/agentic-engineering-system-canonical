@@ -10,7 +10,7 @@ What the statuses mean: **enforced**: a hook, gate or check refuses the violatio
 
 ## Rules in the workspace instructions
 
-The named rules in the instruction file every Claude Code and Codex session loads (projects-dotclaude `AGENTS.md`). That file also holds unnamed rules (merging, privacy, storage, closeout format); read it in full for those.
+The named rules in the instruction files every Claude Code and Codex session uses (code2-workspace `agents/core.md`, always loaded, and the topic files in `agents/topics/` it points to). Those files also hold unnamed rules (merging, privacy, storage, closeout format); read them in full for those.
 
 | Rule | Status | When it applies | How it is enforced |
 | --- | --- | --- | --- |
