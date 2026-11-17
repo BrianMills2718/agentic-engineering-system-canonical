@@ -19,6 +19,9 @@ check: check-doc-facts  ## Run all checks (test, mypy, lint)
 	@echo "Running tests..."
 	@$(PYTHON) -m pytest tests/ -q --tb=short -n auto -m "not slow"
 	@echo ""
+	@echo "Running the instruction-file check..."
+	@PYTHONPATH=src $(PYTHON) -c 'import sys; from lockstep.checks.cli import run; sys.exit(run(["instructions"]))'
+	@echo ""
 	@echo "Running mypy..."
 	@$(PYTHON) -m mypy src/ --ignore-missing-imports
 	@echo ""
