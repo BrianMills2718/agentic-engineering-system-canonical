@@ -1,3 +1,8 @@
+# Lockstep document quotes (2026-11-17, code2-workspace issue 842)
+
+A document marks a passage it copies from a requirement as `<!-- lockstep quote: <requirement id> -->the passage<!-- /lockstep quote -->`. `lockstep check trace` fails with `stale-quote`, `unknown` or `unclosed-quote` (at `<path>:<line>`) when a marked passage in tracked Markdown outside `openspec/` is no longer in its requirement's or scenarios' text; `lockstep check changed` lists the documents quoting each listed requirement as `current` or `stale`.
+A copy that is not marked is not checked. Existing hand-typed copies (such as the seven in issue 842) are found only once someone marks them. Change: `openspec/changes/archive/2026-11-17-lockstep-document-quotes/`.
+
 # Lockstep changed-requirement check (2026-11-17, code2-workspace issue 842)
 
 `lockstep check changed --base <rev>` now lists every requirement whose statement or scenario text differs from the base (new, changed or removed; re-wrapping is not a change), with its implementing code, its tests labelled changed/unchanged/new, and the plan in the same change set that names it. It fails on `unplanned` and `no-scenario-changed`.
