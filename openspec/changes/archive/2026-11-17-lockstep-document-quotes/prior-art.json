@@ -1,0 +1,76 @@
+{
+  "need": "A commit check that knows which passages in hand-written Markdown documents (README, agent rule files read raw) repeat a requirement's wording, and fails when such a passage no longer appears in that requirement's text.",
+  "searched": [
+    {
+      "place": "own",
+      "where": "~/code2/agentic-engineering-system-canonical/src/lockstep/ (doc_projection.py, checks/project.py, checks/trace.py, checks/changed.py read in full) at the revision that holds the changed-requirement check",
+      "query": "what already ties a document's text to a requirement's text",
+      "found": "doc_projection.py writes fact values into Markdown blocks, reading the value from Markdown front matter, a JSON or YAML field or a Python docstring; it cannot read a requirement's text. checks/project.py writes a requirement's whole statement into the docstrings that implement it and into docs/status.md; it writes into no other document. checks/trace.py and checks/changed.py read source files and tests, no document."
+    },
+    {
+      "place": "own",
+      "where": "code2-workspace issue 842 (the 2026-11-17 test of each step of the flow) and ~/code2/workspace/docs/decisions/0006-planning-and-linkage.md",
+      "query": "what was measured about documents after a requirement changed; the design principles",
+      "found": "After a requirement's number changed, seven hand-typed copies of the old number in documents stayed unchanged and every check exited 0. Decision 0006: status is computed, never typed; requirement text is shown where code is edited."
+    },
+    {
+      "place": "outside",
+      "where": "Each tool's own page or source, read by a researcher subagent on 2026-11-17: github.com/campoy/embedmd (README); github.com/zakhenry/embedme (README and src/embedme.ts); github.com/DavidWells/markdown-magic (README); cog.readthedocs.io/en/latest/running.html; facelessuser.github.io/pymdown-extensions/extensions/snippets/; sphinx-doc.org directives page (literalinclude); docs.asciidoctor.org include-tagged-regions; github.com/zimbatm/mdsh; docs.rs/crate/cargo-rdme; sphinx-needs.readthedocs.io roles page; strictdoc.readthedocs.io user guide; a web search for quote-verification and transclusion-check tools. Not opened: Doorstop's documentation, Docutils include options, StrictDoc's section on links and anchors, markdown-magic's source.",
+      "query": "for each tool: how a fragment of the source is selected, whether a check mode exits non-zero without rendering a site, whether the copy can sit inside a sentence, and whether the tool generates the copy or verifies hand-written text",
+      "found": "Every tool with a check mode generates the text and compares its own output (embedme --verify exits 1, cargo-rdme --check exits 3, mdsh --frozen, cog --check, embedmd -d prints a diff). pymdownx.snippets, Sphinx literalinclude, AsciiDoc tagged regions and Sphinx-Needs need_part work only when a site is rendered. Fragments are selected by file, line range, regex or named region in the source file; none selects a requirement by its ID. Only markdown-magic and mdsh allow a copy inside a sentence; markdown-magic documents no check mode. No tool was found that verifies a hand-written passage against a source fragment."
+    }
+  ],
+  "candidates": [
+    {
+      "name": "Lockstep fact projections (doc_projection.py)",
+      "url": "https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/main/src/lockstep/doc_projection.py",
+      "covers": "Keeps a value typed once (a count, a version, a name) the same in every document that shows it, and fails a check when a copy is stale.",
+      "misses": "Reads values from front matter, JSON, YAML and docstrings, not from a requirement's text; writes the whole value, so a phrase inside a requirement cannot be the source.",
+      "verdict": "reject",
+      "reason": "The source here is the requirement's own sentence in an OpenSpec spec. Making it readable would mean marking fragments inside every spec as well as in every document; the quote check needs markers on one side only."
+    },
+    {
+      "name": "Lockstep requirement text in docstrings (checks/project.py)",
+      "url": "https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/main/src/lockstep/checks/project.py",
+      "covers": "Writes a requirement's whole statement beside the code that implements it and fails when the copy is stale.",
+      "misses": "Writes the whole statement. An agent rule or a README sentence repeats a few words of it inside its own wording.",
+      "verdict": "reject",
+      "reason": "Not used for this need: it writes text into code and cannot check a passage a person wrote in a document. It stays in place, unchanged, as the code-side copy."
+    },
+    {
+      "name": "mdsh (--frozen)",
+      "url": "https://github.com/zimbatm/mdsh",
+      "covers": "Inline forms inside a sentence; --frozen fails when the document differs from what its embedded commands print.",
+      "misses": "The copy is the whole output of a command, written by the tool; needs a Rust binary in every repository's commit check; nothing selects a requirement by ID without a new command to print one.",
+      "verdict": "reject",
+      "reason": "It replaces the author's wording with generated text, and adds a second tool and a new Lockstep command where one small module in Lockstep does the job."
+    },
+    {
+      "name": "embedme (--verify) and embedmd (-d)",
+      "url": "https://github.com/zakhenry/embedme",
+      "covers": "A check that fails when an embedded copy differs from its source file or line range.",
+      "misses": "Copies are fenced code blocks, not prose; selection is by file and line range or regex, which moves when the spec is edited.",
+      "verdict": "reject",
+      "reason": "Block-only and written for code samples."
+    },
+    {
+      "name": "markdown-magic",
+      "url": "https://github.com/DavidWells/markdown-magic",
+      "covers": "The same inline HTML-comment marker shape around a passage.",
+      "misses": "No check mode on its page; overwrites the passage; selects by file and line range.",
+      "verdict": "reject",
+      "reason": "No way to fail a commit on a stale copy without running it and diffing the tree."
+    },
+    {
+      "name": "Render-time inclusion (pymdownx.snippets, Sphinx literalinclude, AsciiDoc tagged regions, Sphinx-Needs need_part)",
+      "url": "https://facelessuser.github.io/pymdown-extensions/extensions/snippets/",
+      "covers": "The document holds no copy at all: the source text is pulled in when the site is built.",
+      "misses": "Agent rule files (AGENTS.md, CLAUDE.md) and a README on GitHub are read raw, never rendered by these tools.",
+      "verdict": "reject",
+      "reason": "The files where the stale copies were found are never rendered."
+    }
+  ],
+  "decision": "build",
+  "gap": "No tool found verifies a hand-written passage against a requirement's text selected by its ID; every existing check mode compares a document with text the tool itself generates, as a whole block. What is built is one small module: find the marked passages in tracked Markdown and test whether each appears in its requirement's text.",
+  "decided": "2026-11-17"
+}

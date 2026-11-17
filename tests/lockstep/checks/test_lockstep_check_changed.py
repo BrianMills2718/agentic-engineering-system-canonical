@@ -245,3 +245,17 @@ def test_a_requirement_added_on_the_base_branch_after_the_branch_started_is_not_
     code, out = changed(base, base="main")
     assert code == 0
     assert last(out) == "RESULT changed requirements=0 unplanned=0 no_scenario=0 wording_only=0 exit=0"
+
+
+@pytest.mark.req("lockstep-checks/changed-a-document-quoting-a-changed-requirement-is-listed-as-stale")
+def test_a_document_quoting_a_changed_requirement_is_listed_as_stale(base):
+    write(base, "docs/rules.md", "# Rules\n\n<!-- lockstep quote: core/do-the-thing -->SHALL do the thing<!-- /lockstep quote -->\n")
+    write(base, "docs/other.md", "# Other\n\nAlso: <!-- lockstep quote: core/do-the-thing -->The tool<!-- /lockstep quote -->\n")
+    commit_all(base, "documents quote the requirement")
+    write(base, "openspec/specs/core/spec.md", REWORDED)
+    code, out = changed(base)
+    assert "  documents   docs/other.md:3 (current), docs/rules.md:3 (stale)" in out
+    code, out = changed(base, "--json", stdout_only=True)
+    [req] = json.loads(out.split("\nRESULT")[0])["requirements"]
+    assert req["documents"] == [{"where": "docs/other.md:3", "label": "current"},
+                                {"where": "docs/rules.md:3", "label": "stale"}]

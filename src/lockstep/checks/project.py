@@ -49,8 +49,12 @@ def _docstring_spans(tree: ast.Module) -> list[tuple[int, int, int, int, str]]:
     return sorted(spans, reverse=True)
 
 
-def _project_docstring(lines: list[str], start: int, end: int, text: dict[str, str]) -> None:
-    """Rewrite the generated block after the `Implements:` paragraph of one docstring, in place."""
+def _project_docstring(lines: list[str], start: int, end: int, text: dict[str, str], raw: bool = False) -> None:
+    """Rewrite the generated block after the `Implements:` paragraph of one docstring, in place.
+
+    The lines are written for the literal they go into: backslashes doubled unless it is a raw string,
+    so requirement text such as `C:\\Microsoft\\` decodes to itself and is no invalid escape.
+    """
     at = next((i for i in range(start, end) if lines[i].lstrip().startswith("Implements:")), None)
     if at is None:
         return
@@ -72,8 +76,9 @@ def _project_docstring(lines: list[str], start: int, end: int, text: dict[str, s
         return
     block = ["", indent + HEADER]
     for ident in known:
+        entry = f"{ident}: {text[ident]}"
         block += textwrap.wrap(
-            f"{ident}: {text[ident]}",
+            entry if raw else entry.replace("\\", "\\\\"),
             width=_WIDTH,
             initial_indent=indent + "    ",
             subsequent_indent=indent + "        ",
@@ -88,7 +93,10 @@ def _source_text(path: Path, text: dict[str, str]) -> str:
     original = path.read_text()
     lines = original.split("\n")
     for start, end, column, end_column, value in _docstring_spans(ast.parse(original, filename=str(path))):
+        token = lines[start].encode("utf-8")[column:].decode("utf-8")
+        raw = "r" in token[: len(token) - len(token.lstrip("rRbBuUfF"))].lower()
         if value.split("\n", 1)[0].lstrip().startswith("Implements:"):
+            raw = False  # rewritten below as a plain `"""` literal, its backslashes doubled
             # Decode through the AST, then move opening-line content onto physical
             # lines the existing renderer handles. Preserve code/comments outside
             # the literal and preserve raw-string/backslash values without executing it.
@@ -99,7 +107,7 @@ def _source_text(path: Path, text: dict[str, str]) -> str:
             replacement = [prefix + '"""', indent + body[0], *body[1:], indent + '"""' + suffix]
             lines[start:end + 1] = replacement
             end = start + len(replacement) - 1
-        _project_docstring(lines, start, end, text)
+        _project_docstring(lines, start, end, text, raw)
     return "\n".join(lines)
 
 
