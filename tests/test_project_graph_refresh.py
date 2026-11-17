@@ -127,6 +127,19 @@ def test_a_changed_graph_is_committed_and_pushed_to_main_with_the_configured_ide
     assert git("-C", str(origin), "diff", "--name-only", "main~1", "main").split() == ["PROJECT_GRAPH.json"]
 
 
+def test_a_refused_push_keeps_the_first_line_of_the_reason_and_prints_all_of_it(where, monkeypatch, capsys):
+    origin, clone = settings_repo(where)
+    hook = origin / "hooks" / "pre-receive"
+    hook.write_text("#!/bin/sh\necho 'gate: push refused, the first line says why' >&2\n"
+                    + "".join(f"echo 'filler line {i}' >&2\n" for i in range(40)) + "exit 1\n")
+    hook.chmod(0o755)
+    problems, _ = run_refresh(monkeypatch, where, clone / "PROJECT_GRAPH.json", edit={"register-new-repositories"})
+    assert len(problems) == 1 and problems[0].startswith("graph committed but not pushed, exit 1: ")
+    assert "gate: push refused, the first line says why" in problems[0] and "filler" not in problems[0]
+    out = capsys.readouterr().out
+    assert "gate: push refused, the first line says why" in out and "filler line 39" in out
+
+
 @pytest.mark.req("project-graph-refresh/graph-lands-in-settings-repo")
 def test_a_dirty_settings_repo_is_never_committed_or_pushed(where, monkeypatch):
     origin, clone = settings_repo(where)
