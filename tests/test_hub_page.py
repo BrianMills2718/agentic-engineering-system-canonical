@@ -307,3 +307,29 @@ def test_issues_moved_to_another_repository_are_sorted_by_their_concern_key():
     assert [i["where"] for i in causes["backup.service"]["issues"]] == ["someone/new#51"]
     assert [i["where"] for i in causes["Model credit used up"]["issues"]] == ["someone/new#52"]
     assert h.parse_issues(json.dumps([issue(1, "x")]))[0]["concern_key"] == ""
+
+
+@pytest.mark.req("hub-page/agent-work-is-not-needs-you")
+def test_an_issue_an_agent_owns_goes_to_agent_work_not_needs_you():
+    agent = issue(60, "Wire the new check", ["owner:agent"], repo="someone/proj")
+
+    class WithAgent(FakeRun):
+        def __call__(self, name, cmd, cwd=None, timeout=120):
+            out = super().__call__(name, cmd, cwd, timeout)
+            return subprocess.CompletedProcess(cmd, 0, json.dumps(WAITING + [agent]), "") if name.startswith("waiting-") else out
+
+    before = h.build_record(h.settings(CFG), WithAgent(), NOW, None, approvals, failures)
+    assert "issue:someone/proj#60" in needs_keys(before)  # without the setting nothing changes
+    cfg = {**CFG, "hub_page": {**CFG["hub_page"], "agent_labels": {"owner:agent": "an agent owns the next step"}}}
+    s = h.settings(cfg)
+    rec = h.build_record(s, WithAgent(), NOW, before, approvals, failures)
+    assert "issue:someone/proj#60" not in needs_keys(rec)
+    assert rec["needs_you_total"] == before["needs_you_total"] - 1
+    assert [(i["where"], i["reason"]) for i in rec["agent_work"]] == [("someone/proj#60", "an agent owns the next step")]
+    assert "issue:someone/proj#60" in rec["seen"] and rec["changed"]["cleared"] == []
+    page = h.render(rec, s)
+    assert page.index('id="broken"') < page.index('id="agent"') < page.index('id="fyi"')
+    section = page[page.index('id="agent"'):page.index('id="fyi"')]
+    assert "Agent work (1)" in section and "Wire the new check" in section and "an agent owns the next step" in section
+    needs = page[page.index('id="needs"'):page.index('id="broken"')]
+    assert "Wire the new check" not in needs
