@@ -11,18 +11,26 @@ Implements: lockstep-checks/instructions-the-agent-chain-fits-its-budget,
     lockstep-checks/instructions-count-line-and-exit-status
 
 Requirement text (generated):
-    lockstep-checks/instructions-the-agent-chain-fits-its-budget: The instructions check SHALL report
-        `payload_over_cap` when the byte sizes of the chain files that exist plus the repository's root
-        `AGENTS.md` add up to more than 32,768 bytes, and `root_oversized` when the root `AGENTS.md` alone is
-        more than 12,000 bytes.
-    lockstep-checks/instructions-no-claude-md-with-its-own-content: The instructions check SHALL report
-        `claude_md_content` for every `CLAUDE.md` whose content is anything other than the single line
-        `@AGENTS.md`.
-    lockstep-checks/instructions-a-nested-file-repeats-nothing-from-its-parents: The instructions check SHALL
-        report `duplicated` for a nested `AGENTS.md` with three or more lines of 40 or more characters
-        identical to lines of an `AGENTS.md` above it in the same repository.
-    lockstep-checks/instructions-count-line-and-exit-status: The instructions check SHALL print one count line,
-        then one line per finding, and exit 0 when there is no finding and 1 otherwise.
+    lockstep-checks/instructions-the-agent-chain-fits-its-budget: The instructions check SHALL
+        report `payload_over_cap` when the byte sizes of the chain files that exist (default
+        `~/code2/workspace/agents/core.md` and `~/code2/AGENTS.md`; `--chain FILE`, repeatable, or
+        `INSTRUCTION_CHAIN` separated by the path separator, replace them) plus the repository's
+        root `AGENTS.md` add up to more than 32,768 bytes, and `root_oversized` when the root
+        `AGENTS.md` alone is more than 12,000 bytes.
+    lockstep-checks/instructions-no-claude-md-with-its-own-content: The instructions check SHALL
+        report `claude_md_content` for every `CLAUDE.md` in the repository (outside `.git`,
+        `node_modules`, virtual environments, `worktrees` and `*_worktrees` folders) whose content
+        is anything other than the single line `@AGENTS.md`. A pure pointer is counted, not
+        reported.
+    lockstep-checks/instructions-a-nested-file-repeats-nothing-from-its-parents: The instructions
+        check SHALL report `duplicated` for a nested `AGENTS.md` that has three or more lines of 40
+        or more characters, after trimming, identical to lines of an `AGENTS.md` above it in the
+        same repository.
+    lockstep-checks/instructions-count-line-and-exit-status: The instructions check SHALL print one
+        count line `instructions: files=N payload_bytes=N payload_over_cap=N root_oversized=N
+        claude_md_content=N duplicated=N`, then one line per finding (kind, path, reason), and exit
+        0 when there is no finding and 1 otherwise. A repository with no `AGENTS.md` prints the
+        count line with `files=0` and exits 0.
 """
 
 from dataclasses import dataclass, field
