@@ -17,6 +17,10 @@ SHIP_KEEP_LANE=1) keeps this lane for a caller that still works in it.
 
 Before the check, a fresh worktree gets its environment: `uv sync --all-extras` when the top has
 uv.lock or pyproject.toml and no .venv, `npm ci` when it has package-lock.json and no node_modules.
+The uv sync runs only when the check is the repository's own Makefile check (a `make ...` command, the default
+`make check` included); a `--check` that names some other command is trusted to bring what it needs, so a
+hook-only change ships even where `uv sync` cannot run. A sync or `npm ci` that fails removes the .venv or
+node_modules it just created, so a failed run leaves no empty one for the next run to mistake for an environment.
 A passed check is appended to $SHIP_STATE_DIR/passed.jsonl (default ~/.local/state/ship) by tree hash
 and check command; the same tree and command later skips the check unless --recheck is given.
 
@@ -636,19 +640,45 @@ def upkeep_only_change(repo: Path) -> list[str] | None:
     return changed
 
 
-ENVIRONMENTS = [  # (files that call for it, what it creates, the command that creates it)
-    (("uv.lock", "pyproject.toml"), ".venv", ["uv", "sync", "--all-extras"]),
-    (("package-lock.json",), "node_modules", ["npm", "ci"]),
+DEFAULT_CHECK = "make check"
+
+ENVIRONMENTS = [  # (files that call for it, what it creates, the command that creates it, only for a Makefile check)
+    (("uv.lock", "pyproject.toml"), ".venv", ["uv", "sync", "--all-extras"], True),
+    (("package-lock.json",), "node_modules", ["npm", "ci"], False),
 ]
 
 
-def prepare_environment(run: Run, repo: Path) -> str | None:
-    """Create a missing .venv or node_modules at the repository top; return why it failed, or None."""
-    for markers, made, cmd in ENVIRONMENTS:
+def is_makefile_check(check: str) -> bool:
+    """True when the check is a `make` command, which is the repository's own Makefile check."""
+    try:
+        words = shlex.split(check)
+    except ValueError:
+        return False
+    while words and re.fullmatch(r"[A-Za-z_][A-Za-z0-9_]*=.*", words[0]):  # leading VAR=value words
+        words = words[1:]
+    return bool(words) and words[0] == "make"
+
+
+def prepare_environment(run: Run, repo: Path, check: str = DEFAULT_CHECK) -> str | None:
+    """Create a missing .venv or node_modules at the repository top; return why it failed, or None.
+
+    The Python environment is made only for a Makefile check. A failed command removes the folder it just
+    created, which did not exist before the step, so no empty one is left behind.
+    """
+    for markers, made, cmd, makefile_only in ENVIRONMENTS:
         if any((repo / m).is_file() for m in markers) and not (repo / made).exists():
+            if makefile_only and not is_makefile_check(check):
+                line = f"ship: environment `{' '.join(cmd)}` skipped: the check `{check}` is not a Makefile check"
+                print(line)
+                run.write(line)
+                continue
             result = run.step(f"environment `{' '.join(cmd)}`", cmd)
             if result.returncode != 0:
                 print("\n".join((result.stdout + result.stderr).rstrip().splitlines()[-15:]))
+                leftover = repo / made
+                if leftover.is_dir() and not leftover.is_symlink():  # absent before this step, so the step made it
+                    shutil.rmtree(leftover)
+                    run.write(f"ship: removed the {made} that the failed `{' '.join(cmd)}` left behind")
                 return f"`{' '.join(cmd)}` exited {result.returncode}"
     return None
 
@@ -804,7 +834,7 @@ def main(argv: list[str] | None = None) -> int:
     """Ship the current branch of --repo; return 0 only when its pull request is merged."""
     parser = argparse.ArgumentParser(description=__doc__.split("\n\n")[0])
     parser.add_argument("--repo", type=Path, default=Path.cwd())
-    parser.add_argument("--check", default="make check")
+    parser.add_argument("--check", default=DEFAULT_CHECK)
     parser.add_argument("--method", choices=sorted(METHODS.values()))
     parser.add_argument("--recheck", action="store_true", help="run the check even if this tree already passed it")
     parser.add_argument("--keep-lane", action="store_true",
@@ -856,7 +886,7 @@ def main(argv: list[str] | None = None) -> int:
             if slot is None:
                 return run.fail(f"no check slot came free within {os.environ.get('SHIP_SLOT_WAIT', SLOT_WAIT)} s "
                                 f"(SHIP_CHECK_SLOTS={os.environ.get('SHIP_CHECK_SLOTS', CHECK_SLOTS)}); nothing was pushed")
-            failed = prepare_environment(run, repo)
+            failed = prepare_environment(run, repo, args.check)
             if failed:
                 return run.fail(f"the environment could not be set up: {failed}; nothing was pushed")
             # pipefail: a check written as `cmd | tail -1` must fail when cmd fails, not report tail's 0.

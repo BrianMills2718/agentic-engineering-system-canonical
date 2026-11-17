@@ -591,15 +591,20 @@ import os, sys
 name = os.path.basename(sys.argv[0])
 open(os.environ["FAKE_TOOL_LOG"], "a").write(name + " " + " ".join(sys.argv[1:]) + "\\n")
 code = int(os.environ.get(f"FAKE_{name.upper()}_EXIT", "0"))
-if code == 0:
+if code == 0 or os.environ.get("FAKE_TOOL_LEAVE"):   # a failed uv sync can leave an empty .venv
     os.makedirs({"uv": ".venv", "npm": "node_modules"}[name], exist_ok=True)
 sys.exit(code)
 """
 
 
-def fake_env_tools(work: Path, tmp_path: Path, monkeypatch, *, node: bool = True) -> Path:
-    """Commit a Python (and Node) project and put a fake uv and npm first on PATH; return their call log."""
+def fake_env_tools(work: Path, tmp_path: Path, monkeypatch, *, node: bool = True, make_check: str | None = None) -> Path:
+    """Commit a Python (and Node) project and put a fake uv and npm first on PATH; return their call log.
+
+    With make_check, the project also has a Makefile whose `check` target runs that command.
+    """
     (work / "pyproject.toml").write_text("[project]\nname = 'x'\n")
+    if make_check is not None:
+        (work / "Makefile").write_text(f"check:\n\t{make_check}\n")
     (work / ".gitignore").write_text(".venv/\nnode_modules/\n")
     if node:
         (work / "package-lock.json").write_text("{}\n")
@@ -617,8 +622,8 @@ def fake_env_tools(work: Path, tmp_path: Path, monkeypatch, *, node: bool = True
 @pytest.mark.req("ship/a-fresh-worktree-gets-its-environment-before-the-check")
 def test_a_fresh_worktree_gets_its_environment_before_the_check(repo, tmp_path, monkeypatch):
     work, remote, _ = repo
-    log = fake_env_tools(work, tmp_path, monkeypatch)
-    assert ship.main(["--repo", str(work), "--check", "test -d .venv && test -d node_modules"]) == 0
+    log = fake_env_tools(work, tmp_path, monkeypatch, make_check="test -d .venv && test -d node_modules")
+    assert ship.main(["--repo", str(work)]) == 0   # the default check is the Makefile's `make check`
     assert log.read_text().splitlines() == ["uv sync --all-extras", "npm ci"]
     assert on_remote(remote, "feature")
     (work / "a.txt").write_text("c\n")
@@ -630,14 +635,46 @@ def test_a_fresh_worktree_gets_its_environment_before_the_check(repo, tmp_path, 
 @pytest.mark.req("ship/a-failing-environment-setup-pushes-nothing")
 def test_a_failing_environment_setup_pushes_nothing(repo, tmp_path, monkeypatch, capsys):
     work, remote, _ = repo
-    log = fake_env_tools(work, tmp_path, monkeypatch, node=False)
-    monkeypatch.setenv("FAKE_UV_EXIT", "1")
     marker = tmp_path / "ran"
-    assert ship.main(["--repo", str(work), "--check", f"touch {marker}"]) == 1
+    log = fake_env_tools(work, tmp_path, monkeypatch, node=False, make_check=f"touch {marker}")
+    monkeypatch.setenv("FAKE_UV_EXIT", "1")
+    assert ship.main(["--repo", str(work), "--check", "make check"]) == 1
     assert log.read_text().splitlines() == ["uv sync --all-extras"]
     assert not marker.exists()
     assert not on_remote(remote, "feature")
     assert "nothing was pushed" in capsys.readouterr().out
+
+
+@pytest.mark.req("ship/a-failing-environment-setup-leaves-no-empty-folder")
+def test_a_failing_environment_setup_leaves_no_empty_folder(repo, tmp_path, monkeypatch):
+    work, _, _ = repo
+    fake_env_tools(work, tmp_path, monkeypatch, make_check="true")
+    monkeypatch.setenv("FAKE_UV_EXIT", "1")
+    monkeypatch.setenv("FAKE_TOOL_LEAVE", "1")   # the failing uv leaves an empty .venv, as the real one can
+    assert ship.main(["--repo", str(work)]) == 1
+    assert not (work / ".venv").exists(), "an empty .venv would read as a present environment on the next run"
+    assert (work / "node_modules").exists() is False
+
+
+@pytest.mark.req("ship/a-custom-check-does-not-sync-the-python-environment")
+def test_a_custom_check_does_not_sync_the_python_environment(repo, tmp_path, monkeypatch, capsys):
+    work, remote, _ = repo
+    marker = tmp_path / "ran"
+    log = fake_env_tools(work, tmp_path, monkeypatch, node=False, make_check="false")
+    monkeypatch.setenv("FAKE_UV_EXIT", "1")   # a sync would fail, as it does for a project with an unbuildable extra
+    assert ship.main(["--repo", str(work), "--check", f"touch {marker}"]) == 0
+    assert not log.exists(), "uv was not called"
+    assert marker.exists()
+    assert on_remote(remote, "feature")
+    assert "skipped: the check" in capsys.readouterr().out
+
+
+@pytest.mark.req("ship/a-custom-check-does-not-sync-the-python-environment")
+@pytest.mark.parametrize("check,makefile", [("make check", True), ("make -s check", True), ("CI=1 make check", True),
+                                            ("bash hooks/test.sh", False), ("uv run pytest", False), ("", False),
+                                            ("echo 'unclosed", False)])
+def test_only_a_make_command_is_a_makefile_check(check, makefile):
+    assert ship.is_makefile_check(check) is makefile
 
 
 def counting_check(tmp_path: Path) -> tuple[str, Path]:
