@@ -183,3 +183,39 @@ def test_markers_quoted_in_plan_prose_are_left_alone(linked):
     text = (linked / "docs/plans/0001-x.md").read_text()
     assert text.endswith("<!-- /lockstep status -->\n\n" + prose)
     assert text.count("implemented by") == 1
+
+
+BACKSLASH_SPEC = "## Requirements\n### Requirement: Do the thing\nThe tool SHALL read C:\\Microsoft\\x.\n\n#### Scenario: It works\n- **THEN** ok\n"
+
+
+def compiles_without_warning(text: str) -> None:
+    """Compile text with every warning (such as an invalid escape sequence) raised as an error."""
+    import warnings
+
+    with warnings.catch_warnings():
+        warnings.simplefilter("error")
+        compile(text, "core.py", "exec")
+
+
+@pytest.mark.req("lockstep-projection/projection-rewrites-the-block")
+def test_backslashes_are_escaped_in_a_plain_docstring(repo):
+    write(repo, "openspec/specs/core/spec.md", BACKSLASH_SPEC)
+    path = write(repo, "src/pkg/core.py", '"""Core module.\n\nImplements: core/do-the-thing\n"""\n')
+    project(repo)
+    text = path.read_text()
+    assert "C:\\\\Microsoft\\\\x." in text
+    compiles_without_warning(text)
+    assert "core/do-the-thing: The tool SHALL read C:\\Microsoft\\x." in ast.get_docstring(ast.parse(text))
+    assert project(repo, check=True) == []
+
+
+@pytest.mark.req("lockstep-projection/projection-rewrites-the-block")
+def test_backslashes_are_written_as_they_are_in_a_raw_docstring(repo):
+    write(repo, "openspec/specs/core/spec.md", BACKSLASH_SPEC)
+    path = write(repo, "src/pkg/core.py", 'r"""Core module.\n\nImplements: core/do-the-thing\n"""\n')
+    project(repo)
+    text = path.read_text()
+    assert "C:\\Microsoft\\x." in text and "C:\\\\" not in text
+    compiles_without_warning(text)
+    assert "core/do-the-thing: The tool SHALL read C:\\Microsoft\\x." in ast.get_docstring(ast.parse(text))
+    assert project(repo, check=True) == []
