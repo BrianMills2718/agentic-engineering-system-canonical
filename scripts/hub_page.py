@@ -7,12 +7,16 @@ Each run reads five sources, each on its own so one that cannot be read is shown
 
   * decisions: every open issue labelled `waiting_label` (default `waiting:brian`) in the configured owners'
     repositories, through the gh wrapper `github_accounts` names for that owner (`gh search issues`). They are
-    sorted by labels and fixed title prefixes from the settings, never by reading what the words mean:
-      - an issue carrying a label under `quiet_issue_labels` is shown with its reason and not counted;
-      - an issue matching an `fyi_rules` entry (a label and a title prefix) goes to "FYI: records updates",
-        grouped by rule, label and repository, and is not counted;
-      - an issue that is a failing unit's own issue (the failing-jobs page's `issue_url` for that unit) or that a
-        `shared_causes` entry names is listed once, under Broken services;
+    sorted by labels, fixed title prefixes and each issue's concern key (the `<!-- concern-key: K -->` marker its
+    filing job writes into the body, which survives a move between repositories when labels and numbers do not),
+    never by reading what the words mean:
+      - an issue carrying a label under `quiet_issue_labels`, or a concern key under `quiet_concern_keys`, is shown
+        with its reason and not counted;
+      - an issue matching an `fyi_rules` entry (its label, or a concern key starting with its `concern_key_prefix`,
+        and its title prefix) goes to "FYI: records updates", grouped by rule, label and repository, not counted;
+      - an issue that is a failing unit's own issue (the failing-jobs page's `issue_url` for that unit, or the
+        concern key `failed-unit:<unit>`) or that a `shared_causes` entry names (by `issues` or `concern_keys`) is
+        listed once, under Broken services;
       - the rest are Needs you;
   * failed services: `systemctl --user list-units --failed`; a unit listed under `quiet_units`, with its reason,
     is shown as known and not counted. The others go to "Broken services", not to Needs you: units a
@@ -42,6 +46,7 @@ Implements: hub-page/needs-you-comes-first
 Implements: hub-page/broken-services-grouped-by-cause
 Implements: hub-page/records-updates-are-for-information
 Implements: hub-page/approvals-are-a-footer-count
+Implements: hub-page/moved-issues-are-matched-by-concern-key
 Implements: hub-page/an-unread-source-is-not-checked
 Implements: hub-page/what-changed-since-the-last-run
 Implements: hub-page/links-to-each-source-page
@@ -54,6 +59,7 @@ import datetime as dt
 import html
 import json
 import os
+import re
 import subprocess
 import sys
 import time
@@ -66,6 +72,7 @@ import workspace_map as wm  # noqa: E402
 LOG_DIR = Path(os.environ.get("AES_HUB_LOG_DIR") or Path.home() / "projects/data/logs/aes-hub")
 RUNTIME = Path(os.environ.get("AES_HUB_RUNTIME") or Path.home() / ".local/share/ecosystem-runtime/aes-hub")
 PAGE, DATA = "proposals/aes-hub/review-page/index.html", "proposals/aes-hub/review-page/hub.json"
+CONCERN_KEY = re.compile(r"<!-- concern-key: (\S+) -->")  # a machine marker the filing job writes, not prose
 NEEDED = ("repo", "data_branch", "site_url", "waiting_owners", "concern_repo", "needs_human_label", "approvals_file")
 
 
@@ -89,6 +96,7 @@ def settings(cfg: dict | None = None) -> dict:
     hub.setdefault("links", [])
     hub.setdefault("refresh", "")
     hub.setdefault("quiet_issue_labels", {})
+    hub.setdefault("quiet_concern_keys", {})
     hub.setdefault("fyi_rules", [])
     hub.setdefault("shared_causes", [])
     hub.setdefault("failures_file", "")
@@ -138,7 +146,8 @@ def parse_issues(text: str) -> list[dict]:
         name = repo.get("nameWithOwner") or repo.get("name", "")
         rows.append({"key": f"issue:{name}#{i['number']}", "title": i["title"], "where": f"{name}#{i['number']}",
                      "url": i.get("url", ""), "updated": i.get("updatedAt", ""),
-                     "labels": sorted(x["name"] for x in i.get("labels") or [])})
+                     "labels": sorted(x["name"] for x in i.get("labels") or []),
+                     "concern_key": (CONCERN_KEY.search(i.get("body") or "") or [None, ""])[1]})
     rows.sort(key=lambda r: r["updated"], reverse=True)
     return rows
 
@@ -180,7 +189,7 @@ def read_decisions(s: dict, run) -> tuple[list[dict] | None, dict]:
     for owner in s["waiting_owners"]:
         out = run(f"waiting-{owner}", [gh_for(owner, s["accounts"]), "search", "issues", "--owner", owner, "--label",
                                        s["waiting_label"], "--state", "open", "--limit", "200",
-                                       "--json", "repository,number,title,url,updatedAt,labels"])
+                                       "--json", "repository,number,title,url,updatedAt,labels,body"])
         if out.returncode != 0:
             return None, source(f"Decisions ({s['waiting_label']} issues)", False, f"gh search exit {out.returncode}: {out.stderr.strip()[-200:]}")
         try:
@@ -225,7 +234,7 @@ def read_concerns(s: dict, run) -> tuple[list[dict] | None, dict]:
         except (ValueError, KeyError):
             pass
     out = run("concerns", [gh_for(repo, s["accounts"]), "issue", "list", "--repo", repo, "--label", s["needs_human_label"],
-                           "--state", "open", "--limit", "200", "--json", "number,title,url,updatedAt,labels"])
+                           "--state", "open", "--limit", "200", "--json", "number,title,url,updatedAt,labels,body"])
     if out.returncode != 0:
         return None, source(name, False, f"gh issue list exit {out.returncode}: {out.stderr.strip()[-200:]}")
     try:
@@ -262,9 +271,12 @@ def read_merged(s: dict, run, now: dt.datetime) -> tuple[list[dict] | None, dict
 # ---------------------------------------------------------------- sorting (labels, fixed prefixes, links)
 
 def fyi_rule(issue: dict, rules: list[dict]) -> dict | None:
-    """The first `fyi_rules` entry whose label the issue carries and whose fixed title prefix it starts with."""
+    """The first `fyi_rules` entry whose label the issue carries (or whose `concern_key_prefix` its concern key starts
+    with) and whose fixed title prefix its title starts with."""
     for r in rules:
-        if r.get("label") in issue.get("labels", []) and issue["title"].startswith(r.get("title_prefix", "")):
+        key, prefix = issue.get("concern_key", ""), r.get("concern_key_prefix")
+        marked = r.get("label") in issue.get("labels", []) or bool(prefix and key.startswith(prefix))
+        if marked and issue["title"].startswith(r.get("title_prefix", "")):
             return r
     return None
 
@@ -274,8 +286,9 @@ def sort_decisions(decisions: list[dict], s: dict) -> dict:
     quiet, fyi, rest = [], {}, []
     for i in decisions:
         label = next((x for x in i.get("labels", []) if x in s["quiet_issue_labels"]), None)
-        if label:
-            quiet.append({**i, "reason": s["quiet_issue_labels"][label]})
+        if label or i.get("concern_key") in s["quiet_concern_keys"]:
+            reason = s["quiet_issue_labels"][label] if label else s["quiet_concern_keys"][i["concern_key"]]
+            quiet.append({**i, "reason": reason})
             continue
         rule = fyi_rule(i, s["fyi_rules"])
         if rule:
@@ -305,17 +318,19 @@ def broken_services(units: list[dict], failures: dict | None, issues: list[dict]
     used_units, used_issues, out = set(), set(), []
     for c in causes:
         mine = [r for r in rows if r["title"] in set(c.get("units") or []) and r["title"] not in used_units]
+        keys = set(c.get("concern_keys") or [])
         own = [by_where[w] for w in c.get("issues") or [] if w in by_where and w not in used_issues]
+        own += [i for i in issues if i.get("concern_key") in keys and i["where"] not in used_issues and i not in own]
         if not (mine or own):
             continue
         used_units |= {r["title"] for r in mine}
         used_issues |= {i["where"] for i in own}
         out.append({"key": f"cause:{c['name']}", "name": c["name"], "why": c.get("why", ""), "units": mine, "issues": own})
-    by_url = {i["url"]: i for i in issues if i.get("url")}
     for r in rows:
         if r["title"] in used_units:
             continue
-        own = [by_url[r["issue_url"]]] if r["issue_url"] in by_url and by_url[r["issue_url"]]["where"] not in used_issues else []
+        own = [i for i in issues if i["where"] not in used_issues
+               and ((r["issue_url"] and i.get("url") == r["issue_url"]) or i.get("concern_key") == f"failed-unit:{r['title']}")]
         used_issues |= {i["where"] for i in own}
         out.append({"key": f"cause:{r['title']}", "name": r["title"], "why": "", "units": [r], "issues": own})
     return out, [i for i in issues if i["where"] not in used_issues]

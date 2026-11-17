@@ -22,9 +22,12 @@ CFG = {
         "approvals_file": "/nonexistent/requirements.json",
         "quiet_units": {"pace.service": "owner said not a concern"},
         "quiet_issue_labels": {"source:pace": "owner said not a concern"},
-        "fyi_rules": [{"name": "Records updates", "label": "source:records", "title_prefix": "Records request "}],
+        "quiet_concern_keys": {"pace": "owner said not a concern"},
+        "fyi_rules": [{"name": "Records updates", "label": "source:records", "concern_key_prefix": "records-",
+                       "title_prefix": "Records request "}],
         "shared_causes": [{"name": "Model credit used up", "why": "The model account is empty.",
-                           "units": ["review.service", "page.service"], "issues": ["someone/meta#40"]}],
+                           "units": ["review.service", "page.service"], "issues": ["someone/meta#40"],
+                           "concern_keys": ["credit-low"]}],
         "failures_file": "/nonexistent/failures.json",
         "links": [{"name": "Oversight page", "url": "https://plans.example.invalid/oversight/", "what": "rules"},
                   {"name": "Old front page", "url": "https://plans.example.invalid/front/", "what": "everything"}],
@@ -32,8 +35,9 @@ CFG = {
 }
 
 
-def issue(number, title, labels=(), repo="someone/meta"):
+def issue(number, title, labels=(), repo="someone/meta", key=""):
     return {"number": number, "title": title, "url": f"https://example.invalid/{repo}/{number}",
+            "body": f"Text.\n\n<!-- concern-key: {key} -->\n" if key else "Text.",
             "updatedAt": f"2026-01-02T{number % 24:02d}:00:00Z", "repository": {"nameWithOwner": repo},
             "labels": [{"name": n} for n in ("waiting:person", *labels)]}
 
@@ -278,3 +282,28 @@ def test_approvals_are_a_footer_count_with_no_significance_field():
     assert "Not shown: no significance field" in footer
     assert "One</" not in page and "approval:" not in json.dumps(rec["needs_you"])
     assert 'href="https://plans.example.invalid/oversight/"' in footer
+
+
+MOVED = [issue(50, "Records request r9: denied", repo="someone/new", key="records-r9"),
+         issue(51, "Timer job failed: backup.service", repo="someone/new", key="failed-unit:backup.service"),
+         issue(52, "Model credit is low", repo="someone/new", key="credit-low"),
+         issue(53, "Usage off track", repo="someone/new", key="pace"),
+         issue(54, "Records requests: 1 email matches none", repo="someone/new", key="records-unmatched")]
+
+
+@pytest.mark.req("hub-page/broken-services-grouped-by-cause")
+@pytest.mark.req("hub-page/records-updates-are-for-information")
+def test_issues_moved_to_another_repository_are_sorted_by_their_concern_key():
+    class Moved(FakeRun):
+        def __call__(self, name, cmd, cwd=None, timeout=120):
+            out = super().__call__(name, cmd, cwd, timeout)
+            return subprocess.CompletedProcess(cmd, 0, json.dumps(MOVED), "") if name.startswith("waiting-") else out
+
+    rec = build(Moved())
+    assert needs_keys(rec) == ["issue:someone/aes#3", "issue:someone/new#54"]  # the ask stays: its title has no prefix
+    assert [i["where"] for i in rec["quiet_issues"]] == ["someone/new#53"]
+    assert [i["where"] for g in rec["fyi"] for i in g["items"]] == ["someone/new#50"]
+    causes = {c["name"]: c for c in rec["broken"]}
+    assert [i["where"] for i in causes["backup.service"]["issues"]] == ["someone/new#51"]
+    assert [i["where"] for i in causes["Model credit used up"]["issues"]] == ["someone/new#52"]
+    assert h.parse_issues(json.dumps([issue(1, "x")]))[0]["concern_key"] == ""
