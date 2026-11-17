@@ -17,6 +17,8 @@ Each run reads five sources, each on its own so one that cannot be read is shown
       - an issue that is a failing unit's own issue (the failing-jobs page's `issue_url` for that unit, or the
         concern key `failed-unit:<unit>`) or that a `shared_causes` entry names (by `issues` or `concern_keys`) is
         listed once, under Broken services;
+      - an issue carrying a label under `agent_labels` (an agent owns the next step) goes to "Agent work" with that
+        label's reason, not counted;
       - the rest are Needs you;
   * failed services: `systemctl --user list-units --failed`; a unit listed under `quiet_units`, with its reason,
     is shown as known and not counted. The others go to "Broken services", not to Needs you: units a
@@ -48,6 +50,7 @@ Implements: hub-page/records-updates-are-for-information
 Implements: hub-page/approvals-are-a-footer-count
 Implements: hub-page/moved-issues-are-matched-by-concern-key
 Implements: hub-page/an-unread-source-is-not-checked
+Implements: hub-page/agent-work-is-not-needs-you
 Implements: hub-page/what-changed-since-the-last-run
 Implements: hub-page/links-to-each-source-page
 Implements: hub-page/page-goes-to-a-private-data-branch
@@ -96,6 +99,7 @@ def settings(cfg: dict | None = None) -> dict:
     hub.setdefault("links", [])
     hub.setdefault("refresh", "")
     hub.setdefault("quiet_issue_labels", {})
+    hub.setdefault("agent_labels", {})
     hub.setdefault("quiet_concern_keys", {})
     hub.setdefault("fyi_rules", [])
     hub.setdefault("shared_causes", [])
@@ -307,6 +311,15 @@ def unit_row(unit: dict, failures: dict | None) -> dict:
             "days": job.get("days") if job else None, "issue_url": job.get("issue_url", "") if job else ""}
 
 
+def agent_owned(issues: list[dict], labels: dict) -> tuple[list[dict], list[dict]]:
+    """Waiting issues carrying an `agent_labels` label (with its reason), and the rest; by label only."""
+    mine, rest = [], []
+    for i in issues:
+        label = next((x for x in i.get("labels", []) if x in labels), None)
+        (mine.append({**i, "reason": labels[label]}) if label else rest.append(i))
+    return mine, rest
+
+
 def broken_services(units: list[dict], failures: dict | None, issues: list[dict], causes: list[dict]) -> tuple[list[dict], list[dict]]:
     """Failing units grouped by cause, with the waiting issues that belong to them; returns (causes, issues left).
 
@@ -380,6 +393,7 @@ def build_record(s: dict, run, now: dt.datetime, previous: dict | None = None, r
     causes = None
     if failed is not None:
         causes, left = broken_services(failed[0], failures, left, s["shared_causes"])
+    agent_work, left = agent_owned(left, s["agent_labels"])
     needs = left if decisions is not None else None
     rec = {
         "built": now.isoformat(timespec="minutes"),
@@ -389,6 +403,7 @@ def build_record(s: dict, run, now: dt.datetime, previous: dict | None = None, r
         "needs_you": {"decisions": needs, "concerns": concerns},
         "quiet_issues": split["quiet"] if split else [],
         "fyi": split["fyi"] if split else None,
+        "agent_work": agent_work if decisions is not None else None,
         "broken": causes,
         "known_failed": failed[1] if failed else [],
         "approvals": approvals,
@@ -404,7 +419,8 @@ def build_record(s: dict, run, now: dt.datetime, previous: dict | None = None, r
     rec["tracked"] = track
     rec["seen"] = sorted({i["key"] for i in track}
                          | {i["key"] for i in rec["quiet_issues"]} | {k["key"] for k in rec["known_failed"]}
-                         | {i["key"] for g in rec["fyi"] or [] for i in g["items"]})
+                         | {i["key"] for g in rec["fyi"] or [] for i in g["items"]}
+                         | {i["key"] for i in rec["agent_work"] or []})
     rec["changed"] = changes(previous, rec, {x["name"]: x["ok"] for x in sources})
     rec["needs_you_total"] = sum(len(v) for v in rec["needs_you"].values() if v is not None)
     rec["broken_total"] = None if causes is None else sum(len(c["units"]) for c in causes)
@@ -527,6 +543,22 @@ def fyi_html(rec: dict, s: dict) -> str:
     return "\n".join(out)
 
 
+def agent_html(rec: dict, s: dict) -> str:
+    items = rec.get("agent_work")
+    if items is None:
+        return ('<section id="agent"><h2><span class="tag grey">Not checked</span> Agent work</h2>'
+                '<p class="dim">The waiting issues were not read on this run. Nothing is claimed.</p></section>')
+    labels = ", ".join(s["agent_labels"]) or "none set"
+    out = [f'<section id="agent"><h2><span class="tag grey">FYI</span> Agent work ({len(items)})</h2>',
+           f'<p class="dim">Issues labelled {esc(s["waiting_label"])} that also carry an agent label from the hub settings '
+           f'({esc(labels)}): an agent owns the next step, so they are not counted under Needs you.</p>']
+    if items:
+        out.append("<ul>" + "".join(f'<li><a href="{esc(i["url"])}">{esc(i["title"])}</a> <span class="dim">{esc(i["where"])} '
+                                    f'({esc(i["reason"])})</span></li>' for i in items) + "</ul>")
+    out.append("</section>")
+    return "\n".join(out)
+
+
 def footer_html(rec: dict) -> str:
     by_name = {x["name"]: x for x in rec["sources"]}
     ap, asrc = rec["approvals"], by_name[rec["group_sources"]["approvals"]]
@@ -610,6 +642,7 @@ def render(rec: dict, s: dict) -> str:
 blue means none or cleared, grey means not checked, for information or count only.</p>
 {needs_html(rec, s)}
 {broken_html(rec)}
+{agent_html(rec, s)}
 {fyi_html(rec, s)}
 {changed_html(rec)}
 {links_html(rec)}
@@ -694,7 +727,7 @@ def main(argv: list[str] | None = None) -> int:
         if not args.no_push and not publish(run, data, s, now.strftime("%Y-%m-%d %H:%M")):
             ok = False
     run.log(f"done needs_you={rec['needs_you_total']} broken={rec['broken_total']} "
-            f"fyi={sum(len(g['items']) for g in rec['fyi'] or [])} sources_read={sum(x['ok'] for x in rec['sources'])}/"
+            f"fyi={sum(len(g['items']) for g in rec['fyi'] or [])} agent={len(rec['agent_work'] or [])} sources_read={sum(x['ok'] for x in rec['sources'])}/"
             f"{len(rec['sources'])} new={len(rec['changed']['new'])} cleared={len(rec['changed']['cleared'])} "
             f"seconds={time.time() - start:.1f} page={s['site_url']}")
     return 0 if ok else 1
