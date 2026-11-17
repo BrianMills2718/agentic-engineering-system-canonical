@@ -30,6 +30,7 @@ flowchart LR
     failed_unit_watch[failed_unit_watch: failed units to concern issues]
     machine_manifest[machine_manifest: every unit, where its file comes from, repository copies of local-only files]
     client_manifest[client_manifest: Claude and Codex settings, who owns each, values of the unowned ones]
+    hub_page[hub_page: the hub page, Needs you on top, pushed to a private data branch]
     graph_taxonomy[check_project_graph_taxonomy: shape of the project graph]
     project_activity[build_project_activity: last commit per registered repo]
     refresh_checkouts[refresh_canonical_checkouts: fast-forward registered checkouts]
