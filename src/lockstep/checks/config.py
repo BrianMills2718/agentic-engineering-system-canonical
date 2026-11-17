@@ -32,7 +32,7 @@ import yaml
 from lockstep.checks.arch import LIKEC4
 from lockstep.checks.sources import DEFAULT_HUMAN_PATTERN
 
-CHECK_NAMES = ("trace", "arch", "test-first", "sources", "docmeta", "project", "instructions")
+CHECK_NAMES = ("trace", "arch", "test-first", "sources", "docmeta", "project", "instructions", "changed")
 MODES = ("block", "warn", "off")
 SIDE_FILE = "lockstep.yaml"
 

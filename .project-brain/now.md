@@ -1,3 +1,10 @@
+# Lockstep changed-requirement check (2026-11-17, code2-workspace issue 842)
+
+`lockstep check changed --base <rev>` now lists every requirement whose statement or scenario text differs from the base (new, changed or removed; re-wrapping is not a change), with its implementing code, its tests labelled changed/unchanged/new, and the plan in the same change set that names it. It fails on `unplanned` and `no-scenario-changed`.
+`lockstep check test-first` now also needs one test that fails on the base for each scenario whose text changed (`existing=True` is no exemption there), and `lockstep status` shows `changed, not archived` for text an active change rewords.
+It does not find hand-typed copies of requirement text in documents, and it accepts a `Wording-only:` line as typed (printed and counted, not checked). It compares against the base as given, so against a moved `origin/main` it also lists requirements that landed there since the branch point.
+Nothing runs it here yet: a repository opts in by adding `lockstep check changed --base origin/main` to its `make check`. Change: `openspec/changes/archive/2026-11-17-lockstep-changed-requirements/`.
+
 # Ecosystem consolidation and first predecessor review (2026-11-13)
 
 Tracking: [AES #856](https://github.com/BrianMills2718/agentic-engineering-system-canonical/issues/856).

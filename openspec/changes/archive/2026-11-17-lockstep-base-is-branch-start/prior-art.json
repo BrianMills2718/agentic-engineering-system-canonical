@@ -1,0 +1,37 @@
+{
+  "need": "The changed check and the test-first check compare a branch with the commit it started from, so that merges into the base branch after the branch started are not counted as the branch's own changes.",
+  "searched": [
+    {
+      "place": "own",
+      "where": "~/code2/agentic-engineering-system-canonical: `grep -rn merge-base src/lockstep scripts` at the head of branch lockstep-changed-requirements; src/lockstep/checks/test_first.py and changed.py read in full",
+      "query": "does any Lockstep check already resolve a base revision to the branch's starting commit",
+      "found": "No use in src/lockstep. scripts/lane_sweep.py, prune_merged_worktrees.py and refresh_canonical_checkouts.py call `git merge-base` for other questions (is a branch merged, where did a lane fork). scripts/md_file_cap.py records that the older Lockstep's `make check` passed `--base $(git merge-base ...)` from the Makefile. test_first.py and changed.py unpack the revision exactly as given."
+    },
+    {
+      "place": "outside",
+      "where": "git's own manual on this machine: `git help diff` (the `--merge-base` option and the `<commit>...<commit>` form) and `git help merge-base`",
+      "query": "how git itself compares a branch with the point where it left another branch",
+      "found": "`git diff --merge-base A` is documented as equivalent to `git diff $(git merge-base A HEAD)`; `git merge-base A HEAD` prints that commit and exits non-zero when there is no common ancestor."
+    }
+  ],
+  "candidates": [
+    {
+      "name": "git merge-base",
+      "url": "https://git-scm.com/docs/git-merge-base",
+      "covers": "Returns the commit a branch started from, given the base branch and HEAD; already installed everywhere Lockstep runs.",
+      "misses": "Nothing for this need. It exits non-zero with no shared history; the checks then fall back to the revision as given.",
+      "verdict": "adopt",
+      "reason": "It is the standard answer and one subprocess call."
+    },
+    {
+      "name": "Passing the merge base from each repository's Makefile (`--base $(git merge-base origin/main HEAD)`)",
+      "url": "https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/main/scripts/md_file_cap.py",
+      "covers": "The same comparison, with no change to Lockstep.",
+      "misses": "Every repository's Makefile has to get it right; one that passes `origin/main` plainly fails on every branch behind main, with findings that name other people's requirements.",
+      "verdict": "reject",
+      "reason": "The mistake is easy and its findings are misleading; resolving it once inside the check removes it for every repository."
+    }
+  ],
+  "decision": "adopt",
+  "decided": "2026-11-17"
+}

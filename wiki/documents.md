@@ -1028,6 +1028,8 @@ Added after the 419-file inventory; the ecosystem page owns their interpretation
 
 - **[arch.py](../src/lockstep/checks/arch.py)** — Turn the LikeC4 diagram into import-linter contracts, and check the committed ones are current. **Role:** code. **Disposition:** keep.
 
+- **[changed.py](../src/lockstep/checks/changed.py)** — Changed check: requirements whose text differs from a base revision, with their code, tests (labelled changed/unchanged/new) and the plan in the same change set that names them. **Role:** code. **Disposition:** keep.
+
 - **[cli.py](../src/lockstep/checks/cli.py)** — `lockstep check <name> [options]`: run one commit check and apply its mode from `lockstep.yaml`. **Role:** code. **Disposition:** keep.
 
 - **[config.py](../src/lockstep/checks/config.py)** — Loads and validates commit-check modes, human-source patterns, owner and LikeC4 version from lockstep.yaml with explicit defaults. **Role:** code. **Disposition:** keep.
@@ -1213,6 +1215,8 @@ Added after the 419-file inventory; the ecosystem page owns their interpretation
 - **[lockstep\_checks\_support.py](../tests/lockstep/checks/lockstep_checks_support.py)** — Helpers that build small throwaway repositories for the commit checks to run on (from code2check's conftest). **Role:** test-support. **Disposition:** keep.
 
 - **[test\_lockstep\_check\_arch.py](../tests/lockstep/checks/test_lockstep_check_arch.py)** — Exercises LikeC4 contract generation, stale/invalid diagrams, forbidden/allowed imports and missing import-linter handling. **Role:** test. **Disposition:** keep.
+
+- **[test\_lockstep\_check\_changed.py](../tests/lockstep/checks/test_lockstep_check_changed.py)** — Checks the changed check on throwaway git repositories: reworded, re-wrapped and scenario-changed requirements, deltas in active and archived changes, plan pages, wording-only declarations, the count line, a missing base and mode off. **Role:** test. **Disposition:** keep.
 
 - **[test\_lockstep\_check\_docmeta.py](../tests/lockstep/checks/test_lockstep_check_docmeta.py)** — Checks wiki types, freshness, successors, duplicate topic ownership and navigation depth, with clean/no-wiki controls. **Role:** test. **Disposition:** keep.
 

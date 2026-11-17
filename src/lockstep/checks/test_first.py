@@ -1,9 +1,11 @@
-"""Test-first check: a test for a scenario new since the base revision must fail on the base source.
+"""Test-first check: a test for a scenario new since the base revision must fail on the base source,
+and a scenario whose text changed needs at least one test that fails there.
 
 Implements: lockstep-checks/test-first-new-scenario-tests-fail-before-the-change,
     lockstep-checks/test-first-a-missing-base-revision-is-reported-not-crashed,
     lockstep-checks/test-first-tests-for-existing-behavior-are-exempt-and-counted,
-    lockstep-checks/test-first-a-test-run-that-cannot-start-fails-the-check
+    lockstep-checks/test-first-a-test-run-that-cannot-start-fails-the-check,
+    lockstep-checks/test-first-a-changed-scenario-needs-a-test-that-fails-before-the-change
 
 Requirement text (generated):
     lockstep-checks/test-first-new-scenario-tests-fail-before-the-change: `lockstep check test-first
@@ -14,12 +16,22 @@ Requirement text (generated):
         test-first --base <rev>` SHALL, when `<rev>` does not name a commit, check nothing, report
         that the base was missing, and exit 0.
     lockstep-checks/test-first-tests-for-existing-behavior-are-exempt-and-counted: The test-first
-        check SHALL not run a test marked `req(..., existing=True)`, and SHALL report how many such
-        tests it skipped.
+        check SHALL not run a test marked `req(..., existing=True)` for a scenario that is new since
+        the base, and SHALL report how many such tests it skipped. For a scenario whose text changed
+        since the base, `existing=True` SHALL NOT exempt a test: it is run on the base source like
+        any other test marked for that scenario.
     lockstep-checks/test-first-a-test-run-that-cannot-start-fails-the-check: `lockstep check
         test-first` SHALL exit 1 with a message saying pytest could not run when running the new
         tests on the base source produces no test report (pytest missing from Lockstep's
         environment, or a usage error); it SHALL NOT report the tests as not passing before.
+    lockstep-checks/test-first-a-changed-scenario-needs-a-test-that-fails-before-the-change:
+        `lockstep check test-first --base <rev>` SHALL, for each scenario that both revisions define
+        and whose text differs (runs of whitespace counting as one space; text from an active
+        change's spec delta replacing the spec's), run every test marked for it against the base
+        revision's source, and SHALL report `no-failing-test <scenario id>` and exit 1 when none of
+        them fails there. It SHALL NOT check a scenario that a plan new or different from the base
+        declares on a `Wording-only:` line, by its own ID or its requirement's. Its count line SHALL
+        add `changed=<n>`, the number of changed scenarios checked, and `no_failing_test=<n>`.
 """
 
 from dataclasses import dataclass, field
@@ -33,8 +45,9 @@ import tarfile
 import tempfile
 import xml.etree.ElementTree as ET
 
+from lockstep.checks.changed import change_set, compare_with, wording_only
 from lockstep.checks.markers import req_markers, source_dirs, test_dirs
-from lockstep.checks.spec import read_plan
+from lockstep.checks.spec import effective_plan, normal, read_plan
 
 
 class PytestUnavailable(RuntimeError):
@@ -43,17 +56,20 @@ class PytestUnavailable(RuntimeError):
 
 @dataclass
 class Result:
-    """Which new-scenario tests were run on the base source, and which of them passed there."""
+    """Which new-scenario tests were run on the base source, and which of them passed there; which
+    changed scenarios were checked, and which of them had no test that failed there."""
 
     checked: list[str] = field(default_factory=list)
     passed_before: list[str] = field(default_factory=list)
     skipped: str = ""
     existing: list[str] = field(default_factory=list)
+    changed: list[str] = field(default_factory=list)
+    no_failing_test: list[str] = field(default_factory=list)
 
     @property
     def ok(self) -> bool:
-        """True when no new-scenario test passed on the base source."""
-        return not self.passed_before
+        """True when no new-scenario test passed on the base source and every changed scenario had one that failed."""
+        return not self.passed_before and not self.no_failing_test
 
 
 def _extract(root: Path, base: str, dest: Path) -> None:
@@ -78,8 +94,27 @@ def _scenarios(root: Path) -> set[str]:
     return set(read_plan(root).scenarios) | set(read_plan(root, changes=True).scenarios)
 
 
+def _changed_scenarios(root: Path, old: Path) -> list[str]:
+    """Scenario IDs both revisions' effective plans define with different text, minus those declared wording-only.
+
+    Args:
+        root: Repository root at the current revision.
+        old: The base revision's files.
+
+    Returns:
+        The IDs, sorted.
+    """
+    now, before = effective_plan(root), effective_plan(old)
+    declared = wording_only(change_set(root, old))
+    return sorted(
+        s for s in set(now.scenario_text) & set(before.scenario_text)
+        if normal(now.scenario_text[s]) != normal(before.scenario_text[s])
+        and s not in declared and now.parent.get(s) not in declared
+    )
+
+
 def check(root: Path, base: str) -> Result:
-    """Run tests for scenarios added since base against base's source.
+    """Run tests for scenarios added since base, and every test of a scenario changed since base, against base's source.
 
     Args:
         root: Repository root (the current revision's working tree).
@@ -89,19 +124,21 @@ def check(root: Path, base: str) -> Result:
         The tests checked and those that already passed on base.
     """
     root = Path(root)
-    found = subprocess.run(
-        ["git", "-C", str(root), "rev-parse", "--verify", "--quiet", f"{base}^{{commit}}"], capture_output=True
-    )
-    if found.returncode != 0:
+    start = compare_with(root, base)  # where the branch started, so merges into base since then are not counted
+    if start is None:
         return Result(skipped=f"base {base} not found")
     with tempfile.TemporaryDirectory() as tmp:
         old = Path(tmp)
-        _extract(root, base, old)
+        _extract(root, start, old)
         new_ids = _scenarios(root) - _scenarios(old)
         nodes = sorted({node for ident, _, node in req_markers(root, existing=False) if ident in new_ids})
         exempt = sorted({node for ident, _, node in req_markers(root, existing=True) if ident in new_ids})
-        result = Result(checked=nodes, existing=exempt)
-        if not nodes:
+        changed = _changed_scenarios(root, old)
+        changed_tests = {sid: sorted({node for ident, _, node in req_markers(root) if ident == sid}) for sid in changed}
+        result = Result(checked=nodes, existing=exempt, changed=changed)
+        result.no_failing_test = [sid for sid, tests in changed_tests.items() if not tests]
+        to_run = sorted(set(nodes) | {node for tests in changed_tests.values() for node in tests})
+        if not to_run:
             return result
         for folder in test_dirs(root):
             destination = old / folder.relative_to(root)
@@ -113,7 +150,7 @@ def check(root: Path, base: str) -> Result:
         env = {**os.environ, "PYTHONPATH": os.pathsep.join(str(p) for p in paths)}
         try:
             ran = subprocess.run(
-                [sys.executable, "-m", "pytest", "-p", "no:cacheprovider", f"--junitxml={report}", *nodes],
+                [sys.executable, "-m", "pytest", "-p", "no:cacheprovider", f"--junitxml={report}", *to_run],
                 cwd=old,
                 env=env,
                 capture_output=True,
@@ -125,9 +162,23 @@ def check(root: Path, base: str) -> Result:
             detail = (ran.stderr or ran.stdout).strip().splitlines()[-1:] or [f"exit {ran.returncode}"]
             raise PytestUnavailable(f"pytest could not run with {sys.executable}: {detail[0]}. "
                                     "Install pytest in Lockstep's environment.")
+        passed, failed, skipped = set(), set(), set()
         for case in ET.parse(report).iter("testcase"):
-            if len(case) == 0 or all(child.tag in ("system-out", "system-err") for child in case):
-                path = case.get("file") or case.get("classname", "").replace(".", "/") + ".py"
-                result.passed_before.append(f"{path}::{case.get('name')}")
-        result.passed_before.sort()
+            path = case.get("file") or case.get("classname", "").replace(".", "/") + ".py"
+            node = f"{path}::{case.get('name')}"
+            tags = {child.tag for child in case} - {"system-out", "system-err"}
+            if not tags:
+                passed.add(node)
+            elif tags == {"skipped"}:
+                skipped.add(node.split("[")[0])
+            else:
+                failed.add(node.split("[")[0])
+        result.passed_before = sorted(n for n in passed if n.split("[")[0] in set(nodes))  # new-scenario tests only
+        # A changed scenario's test is evidence only when it failed or errored on the base, or was not reported
+        # there at all (its file could not be imported). One whose every case passed (all parameters) or that was
+        # skipped there shows nothing about the old behavior.
+        passing = ({n.split("[")[0] for n in passed} | skipped) - failed
+        result.no_failing_test = sorted(
+            result.no_failing_test + [sid for sid, tests in changed_tests.items() if tests and set(tests) <= passing]
+        )
         return result

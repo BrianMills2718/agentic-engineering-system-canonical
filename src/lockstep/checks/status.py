@@ -14,7 +14,10 @@ Requirement text (generated):
         commit with a clean tree, and SHALL mark it `not run at this revision` otherwise.
     lockstep-projection/a-plan-closes-requirement-ids-only-when-they-pass: `lockstep status` SHALL
         read the `Closes:` line of each plan and OpenSpec change and report each listed ID that is
-        unimplemented, untested or not passing as open for that plan.
+        unimplemented, untested or not passing as open for that plan. It SHALL give a requirement or
+        scenario the state `changed, not archived` when an active change's spec delta holds text for
+        it that differs from the spec's (runs of whitespace counting as one space), whatever its
+        tests' results, and SHALL report it as open for a plan that lists it.
 
 """
 
@@ -26,12 +29,13 @@ import subprocess
 import xml.etree.ElementTree as ET
 
 from lockstep.checks.markers import implementers, req_markers
-from lockstep.checks.spec import read_plan
+from lockstep.checks.spec import Plan, normal, read_plan
 
 STATUS_PAGE = Path("docs/status.md")
 RESULTS = Path(".code2check/junit.xml")
 RUN = Path(".code2check/run.json")
 NOT_RUN = "not run at this revision"
+CHANGED = "changed, not archived"
 # Worst first: a requirement takes the first of these that any of its scenarios has.
 _ORDER = ["untested", "failing", "skipped", NOT_RUN, "passing"]
 CLOSES = re.compile(r"^Closes:[ \t]*(.+(?:\n[ \t]+\S.*)*)", re.MULTILINE)
@@ -158,6 +162,25 @@ def plan_files(root: Path) -> list[tuple[str, list[str]]]:
     return found
 
 
+def _changed_in_delta(plan: Plan, pending: Plan) -> set[str]:
+    """IDs the specs and an active delta both define with different text.
+
+    A requirement counts when its statement differs or its scenarios differ (set or text); a scenario
+    when its text differs. A requirement under `## REMOVED Requirements` is not counted: it is removed, not
+    reworded. Runs of whitespace count as one space.
+    """
+    found = {
+        s for s in set(plan.scenarios) & set(pending.scenarios)
+        if normal(plan.scenario_text.get(s, "")) != normal(pending.scenario_text.get(s, ""))
+    }
+    for ident in (set(plan.requirements) & set(pending.requirements)) - set(pending.removed):
+        old = {s for s, p in plan.parent.items() if p == ident}
+        new = {s for s, p in pending.parent.items() if p == ident}
+        if normal(plan.text.get(ident, "")) != normal(pending.text.get(ident, "")) or old != new or old & found:
+            found.add(ident)
+    return found
+
+
 def report(root: Path, use_results: bool = True) -> Report:
     """Compute the status of every requirement, scenario and plan from the repository as it is now.
 
@@ -193,6 +216,8 @@ def report(root: Path, use_results: bool = True) -> Report:
             row.state = "unimplemented"
         else:
             row.state = min(states, key=_ORDER.index) if states else "passing"
+    for ident in _changed_in_delta(plan, pending):  # overrides the state from links and tests
+        (requirements.get(ident) or scenarios[ident]).state = CHANGED
     plans = []
     for path, ids in plan_files(root):
         rows = {**requirements, **scenarios}
