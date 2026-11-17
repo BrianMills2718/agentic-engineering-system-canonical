@@ -342,6 +342,7 @@ FAILING = ("local-only", "bad-target", "gone-from-disk", "not-in-manifest")
 
 
 SYMLINK_SUFFIX = ".symlink"
+MASK = "/dev/null"
 DEFAULT_UNITS_REPO = Path.home() / "code2/aes-config/machine-units"
 DEFAULT_BACKUP_ROOT = Path.home() / "archive/systemd-units-replaced"
 
@@ -463,7 +464,9 @@ def main(argv: list[str] | None = None, is_enabled: Callable[[str], str] = syste
     copied: set[str] = set()
     if a.units_repo.is_dir():
         same = compare_units(a.unit_dir, a.units_repo)
-        copied = set(same["same"]) | set(same["link-same"])
+        _, links = repo_copies(a.units_repo)
+        # A recorded link restores only its target text, so only a mask (`/dev/null`) is fully restored.
+        copied = set(same["same"]) | {rel for rel in same["link-same"] if links[rel] == MASK}
     else:
         print(f"machine_manifest: no units repository at {a.units_repo}; no file counts as copied")
     found = findings(current, recorded, copied)
