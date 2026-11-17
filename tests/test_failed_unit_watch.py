@@ -172,7 +172,7 @@ def test_down_body_names_the_unit_and_the_last_pings():
     body = fuw.hc_down_body(_check("offload-cold", "down"),
                             [{"type": "fail", "date": "2026-11-06T01:03:40+00:00"}], "journal line")
     assert "offload-cold.service" in body and "fail" in body and "2026-11-06T01:03:40" in body
-    assert "journal line" in body
+    assert "journal line" in body and "```" not in body and "journalctl --user -u offload-cold.service" in body
 
 
 def test_repo_from_remote_reads_ssh_host_aliases():
@@ -205,7 +205,7 @@ def _sweep_units(monkeypatch, tmp_path, *, failed, repo, scheduled=True, outcome
     monkeypatch.setattr(fuw, "last_outcomes", lambda: outcomes or {})  # default: a rebooted laptop, the journal has no earlier run
     monkeypatch.setattr(fuw, "open_concerns", lambda: issues or [])  # the open issues GitHub holds for this watch
     monkeypatch.setattr(fuw, "owning_repo", lambda unit: repo)
-    monkeypatch.setattr(fuw, "journal_tail", lambda unit: "journal line")
+    monkeypatch.setattr(fuw, "journal_line", lambda unit: "journal line")
     monkeypatch.setattr(fuw, "healthchecks_sweep", lambda dry: (0, 0, 0))
     monkeypatch.setattr(fuw, "run", lambda cmd: f"LoadState={'loaded' if scheduled else 'not-found'}\nUnitFileState=static\nTriggeredBy=\n")
     monkeypatch.setattr(fuw, "concern", lambda action, repo, key, extra, dry: calls.append((action, repo, key)) or "")
@@ -287,7 +287,7 @@ def test_a_failed_issue_search_is_a_sweep_error_but_the_sweep_still_runs(monkeyp
     monkeypatch.setattr(fuw, "failed_units", lambda: ["a.service"])
     monkeypatch.setattr(fuw, "last_outcomes", lambda: {})
     monkeypatch.setattr(fuw, "owning_repo", lambda unit: "o/project-meta")
-    monkeypatch.setattr(fuw, "journal_tail", lambda unit: "journal line")
+    monkeypatch.setattr(fuw, "journal_line", lambda unit: "journal line")
     monkeypatch.setattr(fuw, "healthchecks_sweep", lambda dry: (0, 0, 0))
     monkeypatch.setattr(fuw, "run", lambda cmd: "LoadState=loaded\nUnitFileState=static\nTriggeredBy=\n")
     monkeypatch.setattr(fuw, "open_concerns", boom)
@@ -305,3 +305,57 @@ def test_missing_settings_stop_loudly(monkeypatch, tmp_path):
     (tmp_path / "graph-config.yaml").write_text("owner: Someone\nconcern_repo: Someone/ops\n")
     assert fuw.setting("owner", "PROJECT_GRAPH_OWNER") == "Someone"
     assert fuw.setting("concern_repo", "CONCERN_REPO_UNSET") == "Someone/ops"
+
+
+def _entry(ident, message, ts="1763370486000000", host="WINDOWS-HOST", pid="2295333"):
+    return json.dumps({"SYSLOG_IDENTIFIER": ident, "MESSAGE": message, "__REALTIME_TIMESTAMP": ts,
+                       "_HOSTNAME": host, "_PID": pid})
+
+
+@pytest.mark.req("failed-unit-watch/issue-body-carries-one-line-not-the-log")
+def test_the_line_is_the_newest_one_the_job_printed_without_host_or_pid():
+    """AES #945 (2026-11-17) carried 14 journal lines with the host name; the one that said why was the job's own."""
+    journal = "\n".join([
+        _entry("systemd", "Starting brent-fdot-feed.service - Read FDOT's feed..."),
+        _entry("bash", "could not read the Windows user name"),
+        _entry("systemd", "brent-fdot-feed.service: Main process exited, code=exited, status=1/FAILURE"),
+        _entry("systemd", "brent-fdot-feed.service: Failed with result 'exit-code'."),
+    ])
+    line = fuw.pick_line(journal)
+    assert "could not read the Windows user name" in line
+    assert "WINDOWS-HOST" not in line and "2295333" not in line and "systemd" not in line
+
+
+def test_with_no_line_from_the_job_systemds_newest_line_is_used():
+    journal = "\n".join([_entry("systemd", "x.service: Main process exited, status=1/FAILURE"),
+                         _entry("systemd", "x.service: Failed with result 'exit-code'.")])
+    assert "Failed with result" in fuw.pick_line(journal)
+    assert fuw.pick_line("") == "(no journal lines)"
+
+
+def test_a_line_printed_as_bytes_and_a_home_path_are_made_readable_and_redacted():
+    raw = list(f"wrote {Path.home()}/projects/x.json".encode())
+    assert fuw.pick_line(_entry("python3", raw)).endswith("wrote ~/projects/x.json")
+
+
+@pytest.mark.req("failed-unit-watch/issue-body-carries-one-line-not-the-log")
+def test_failed_unit_body_has_the_line_and_the_journalctl_pointer_and_no_log_block(monkeypatch, tmp_path):
+    bodies = []
+    state_file = tmp_path / "state.json"
+    monkeypatch.setattr(fuw, "STATE", state_file)
+    monkeypatch.setattr(fuw, "load_state", lambda: _REAL_LOAD_STATE(state_file))
+    monkeypatch.setattr(fuw, "failed_units", lambda: ["x.service"])
+    monkeypatch.setattr(fuw, "last_outcomes", lambda: {})
+    monkeypatch.setattr(fuw, "open_concerns", lambda: [])
+    monkeypatch.setattr(fuw, "owning_repo", lambda unit: "o/x")
+    monkeypatch.setattr(fuw, "journal_line", lambda unit: "2026-11-17 09:48:06 bash: boom")
+    monkeypatch.setattr(fuw, "healthchecks_sweep", lambda dry: (0, 0, 0))
+    monkeypatch.setattr(fuw, "concern", lambda action, repo, key, extra, dry: bodies.append(extra[extra.index("--body") + 1]) or "")
+    assert fuw.main([]) == 0
+    assert "bash: boom" in bodies[0] and "journalctl --user -u x.service" in bodies[0]
+    assert "```" not in bodies[0] and "Last journal lines" not in bodies[0]
+
+
+@pytest.mark.req("failed-unit-watch/ssh-host-alias-remotes-find-their-repository")
+def test_repo_from_remote_reads_the_github_com_host_alias():
+    assert fuw.repo_from_remote("git@github.com-personal:BrianMills2718/brent-chatgpt.git\n") == "BrianMills2718/brent-chatgpt"

@@ -222,3 +222,21 @@ def test_a_missing_setting_stops_loudly(where, monkeypatch, capsys):
     assert refresh.main(["--no-push"]) == 2
     err = capsys.readouterr().err
     assert "graph_page.viewer" in err and "git_identity.email" in err
+
+
+@pytest.mark.req("project-graph-refresh/concern-body-carries-first-lines-and-log-path")
+def test_the_concern_body_has_first_lines_and_the_log_path_from_home(where):
+    seen = []
+
+    class Record(refresh.Run):
+        def __call__(self, name, cmd, cwd=None, check=True, timeout=900):
+            seen.append(cmd)
+            return subprocess.CompletedProcess(cmd, 0, "", "")
+
+    run = Record()
+    run.log_path = Path.home() / "projects/data/logs/project-graph-refresh-2026-11-17.log"
+    problem = f"activity exit 3: Traceback\n  File \"{Path.home()}/code2/x.py\", line 1\nValueError: no"
+    refresh.report(run, ["concern"], [problem], S["concern_repo"])
+    body = seen[0][seen[0].index("--body") + 1]
+    assert "activity exit 3: Traceback" in body and "ValueError" not in body
+    assert "~/projects/data/logs/project-graph-refresh-2026-11-17.log" in body and str(Path.home()) not in body

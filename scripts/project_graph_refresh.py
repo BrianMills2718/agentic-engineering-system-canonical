@@ -35,6 +35,7 @@ Implements: project-graph-refresh/step-log
 Implements: project-graph-refresh/graph-lands-in-settings-repo
 Implements: project-graph-refresh/page-goes-to-data-branch
 Implements: project-graph-refresh/failure-opens-one-concern
+Implements: project-graph-refresh/concern-body-carries-first-lines-and-log-path
 """
 
 import argparse
@@ -50,6 +51,7 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
 import workspace_map as wm  # noqa: E402
+from public_text import first_line, redact  # noqa: E402
 
 LOG_DIR = Path(os.environ.get("PROJECT_GRAPH_REFRESH_LOG_DIR") or Path.home() / "projects/data/logs")
 RUNTIME = Path(os.environ.get("PROJECT_GRAPH_REFRESH_RUNTIME") or Path.home() / ".local/share/ecosystem-runtime/project-graph-refresh")
@@ -270,13 +272,15 @@ def refresh(run, push, live, s, scan=True):
 
 def report(run, concern, problems, repo):
     """Open the keyed concern for the problems, or close it after a clean run. A concern that cannot be filed
-    fails the run, so the unit shows as failed and failed-unit-watch still reports it."""
+    fails the run, so the unit shows as failed and failed-unit-watch still reports it. The body carries the first line
+    of each problem and the log path, redacted; the step output stays in the private log."""
     if problems:
         args = ["open", "--repo", repo, "--key", CONCERN, "--title", "Daily project graph refresh failed",
                 "--source", CONCERN, "--no-run-claim", "reports a failed step; the trace is the log named in the body",
-                "--body", "\n".join(problems) + f"\n\nFull trace: {run.log_path}"]
+                "--body", "\n".join(f"- {first_line(p)}" for p in problems)
+                + f"\n\nFull trace (private, on the machine that ran it): `{redact(str(run.log_path))}`"]
     else:
-        args = ["close", "--repo", repo, "--key", CONCERN, "--evidence", f"Clean run, trace in {run.log_path}"]
+        args = ["close", "--repo", repo, "--key", CONCERN, "--evidence", f"Clean run, trace in `{redact(str(run.log_path))}`"]
     return run("concern", concern + args, check=False).returncode == 0
 
 
