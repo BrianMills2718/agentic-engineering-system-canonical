@@ -101,7 +101,10 @@ def social_media_fetch() -> Fetch:
 
 
 def load_profile(path: Path) -> list[dict]:
-    """Projects to judge usefulness against: each needs a name and a one-line goal."""
+    """Projects (and optional interests) to judge usefulness against: each needs a name and a one-line goal.
+
+    Implements: external-idea-intake/interests-listed-and-named. Interest entries come back with kind "interest".
+    """
     try:
         data = YAML(typ="safe").load(Path(path).read_text()) or {}
     except Exception as exc:  # noqa: BLE001
@@ -109,10 +112,16 @@ def load_profile(path: Path) -> list[dict]:
     projects = data.get("projects") if isinstance(data, dict) else None
     if not isinstance(projects, list) or not projects:
         raise ConfigError("profile needs a non-empty `projects` list")
-    for pr in projects:
-        if not (isinstance(pr, dict) and str(pr.get("name", "")).strip() and str(pr.get("goal", "")).strip()):
-            raise ConfigError(f"profile entry needs name and goal: {pr!r}")
-    return projects
+    interests = data.get("interests") or []
+    if not isinstance(interests, list):
+        raise ConfigError("profile `interests` must be a list")
+    entries = []
+    for kind, group in (("project", projects), ("interest", interests)):
+        for pr in group:
+            if not (isinstance(pr, dict) and str(pr.get("name", "")).strip() and str(pr.get("goal", "")).strip()):
+                raise ConfigError(f"profile entry needs name and goal: {pr!r}")
+            entries.append({**pr, "kind": kind})
+    return entries
 
 
 def llm_judge(projects: list[dict]) -> Judge:
@@ -276,9 +285,15 @@ def run(config: Path, out: Path, fetch: Fetch | None = None, now: float | None =
               f"{os.environ.get('EXTERNAL_IDEAS_JUDGE_MODEL', JUDGE_MODEL)}; each post listed once, "
               "score then age.", ""]
         for p in sorted(useful, key=lambda p: (-p["score"], p["age_days"])):
-            ul += [f"- **{p['title']}** (r/{p['subreddit']}, score {p['score']}, {p['age_days']} days old)",
-                   f"  Projects: {', '.join(p['projects']) or '(unassigned)'}", f"  {p['url']}",
-                   f"  How (judged from: {p.get('depth', 'title')}): {p['why']}"]
+            ints = set(getattr(judge, "interests", ()))
+            pj = [n for n in p["projects"] if n not in ints]
+            it = [n for n in p["projects"] if n in ints]
+            ul += [f"- **{p['title']}** (r/{p['subreddit']}, score {p['score']}, {p['age_days']} days old)"]
+            if pj or not it:
+                ul += [f"  Projects: {', '.join(pj) or '(unassigned)'}"]
+            if it:
+                ul += [f"  Interests: {', '.join(it)}"]
+            ul += [f"  {p['url']}", f"  How (judged from: {p.get('depth', 'title')}): {p['why']}"]
         (out / digest.name.replace("digest-", "digest-useful-")).write_text("\n".join(ul) + "\n")
         _log(log, {"step": "useful-digest", "useful": len(useful), "of": len(candidates),
                    "model_cost_usd": round(getattr(judge, "cost", 0.0), 5)})

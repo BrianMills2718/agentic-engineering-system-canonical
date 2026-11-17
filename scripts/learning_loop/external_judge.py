@@ -143,7 +143,12 @@ def make_reader(fetch_post: Callable[[str], dict], page: Callable[[str], str] = 
 def build_judge(projects: list[dict], call: Callable[[str], Verdicts],
                 read_more: Callable[[str, str], str]):
     """`call(prompt) -> Verdicts` runs the model; `read_more` does the reading. Returns a Judge."""
-    plist = "\n".join(f"- {p['name']}: {p['goal']}" for p in projects)
+    plist = "\n".join(f"- {p['name']}: {p['goal']}" for p in projects if p.get("kind") != "interest")
+    ilist = [p for p in projects if p.get("kind") == "interest"]
+    if ilist:  # Implements: external-idea-intake/interests-listed-and-named
+        plist += ("\n\nInterests (things the person cares about; a post is also useful when it concretely serves "
+                  "one, and you name the interest exactly as written, in place of or beside a project):\n"
+                  + "\n".join(f"- {p['name']}: {p['goal']}" for p in ilist))
 
     def judge(sub: str, posts: list) -> dict:
         t0 = time.time()
@@ -180,5 +185,6 @@ def build_judge(projects: list[dict], call: Callable[[str], Verdicts],
     judge.unjudged = set()  # type: ignore[attr-defined]
     judge.log = lambda r: None  # type: ignore[attr-defined]  # run() points this at the run log
     judge.names = [p["name"] for p in projects]  # type: ignore[attr-defined]
+    judge.interests = {p["name"] for p in ilist}  # type: ignore[attr-defined]
     judge.cost = 0.0  # type: ignore[attr-defined]
     return judge
