@@ -1,16 +1,28 @@
 #!/usr/bin/env python3
-"""The AES hub page: one page whose top section, "Needs you", lists only what the owner must do or decide, then
-what changed, then a link to each source page.
+"""The AES hub page: one page whose top section, "Needs you", lists only what the owner must decide or do, then
+broken services grouped by cause, then records updates for information, then what changed, then a link to each
+source page.
 
-Each run reads four sources, each on its own so one that cannot be read is shown as "Not checked" and never as 0:
+Each run reads five sources, each on its own so one that cannot be read is shown as "Not checked" and never as 0:
 
   * decisions: every open issue labelled `waiting_label` (default `waiting:brian`) in the configured owners'
-    repositories, through the gh wrapper `github_accounts` names for that owner (`gh search issues`);
+    repositories, through the gh wrapper `github_accounts` names for that owner (`gh search issues`). They are
+    sorted by labels and fixed title prefixes from the settings, never by reading what the words mean:
+      - an issue carrying a label under `quiet_issue_labels` is shown with its reason and not counted;
+      - an issue matching an `fyi_rules` entry (a label and a title prefix) goes to "FYI: records updates",
+        grouped by rule, label and repository, and is not counted;
+      - an issue that is a failing unit's own issue (the failing-jobs page's `issue_url` for that unit) or that a
+        `shared_causes` entry names is listed once, under Broken services;
+      - the rest are Needs you;
   * failed services: `systemctl --user list-units --failed`; a unit listed under `quiet_units`, with its reason,
-    is shown below the list as known and not counted;
+    is shown as known and not counted. The others go to "Broken services", not to Needs you: units a
+    `shared_causes` entry names are grouped under that cause, every other unit is its own cause;
+  * failure reasons: the failing-jobs page's `failures.json` (`failures_file`), for each unit's reason in plain
+    words, since when it fails, and its issue;
   * AES concerns waiting on a person: open issues in `concern_repo` labelled `needs_human_label`;
-  * approvals waiting: the requirements an agent inferred that wait for a yes, read from the oversight data file
-    `approvals_file` (each item whose `source` is `inferred`); shown as a count, its age and a short list.
+  * approvals waiting: the requirements an agent inferred, read from the oversight data file `approvals_file`
+    (each item whose `source` is `inferred`). The data has no significance field, so none of them can be picked out
+    as one the owner must decide; the page gives their count in its footer and lists none.
 
 "What changed" compares this run's items with the previous run's `hub.json` on the data branch (new, cleared) and
 lists the pull requests merged into `concern_repo` in the last day. The page and `hub.json` are committed to
@@ -27,6 +39,9 @@ Exit 0 when every source was read and the page published, 1 when a source or the
 built), 2 when a setting is missing.
 
 Implements: hub-page/needs-you-comes-first
+Implements: hub-page/broken-services-grouped-by-cause
+Implements: hub-page/records-updates-are-for-information
+Implements: hub-page/approvals-are-a-footer-count
 Implements: hub-page/an-unread-source-is-not-checked
 Implements: hub-page/what-changed-since-the-last-run
 Implements: hub-page/links-to-each-source-page
@@ -51,7 +66,6 @@ import workspace_map as wm  # noqa: E402
 LOG_DIR = Path(os.environ.get("AES_HUB_LOG_DIR") or Path.home() / "projects/data/logs/aes-hub")
 RUNTIME = Path(os.environ.get("AES_HUB_RUNTIME") or Path.home() / ".local/share/ecosystem-runtime/aes-hub")
 PAGE, DATA = "proposals/aes-hub/review-page/index.html", "proposals/aes-hub/review-page/hub.json"
-APPROVALS_SHOWN = 8
 NEEDED = ("repo", "data_branch", "site_url", "waiting_owners", "concern_repo", "needs_human_label", "approvals_file")
 
 
@@ -74,6 +88,10 @@ def settings(cfg: dict | None = None) -> dict:
     hub.setdefault("quiet_units", {})
     hub.setdefault("links", [])
     hub.setdefault("refresh", "")
+    hub.setdefault("quiet_issue_labels", {})
+    hub.setdefault("fyi_rules", [])
+    hub.setdefault("shared_causes", [])
+    hub.setdefault("failures_file", "")
     hub["accounts"] = cfg["github_accounts"]
     hub["identity"] = who
     hub["remote"] = f"git@{cfg['ssh_host_alias']}:{hub['repo']}.git"
@@ -119,7 +137,8 @@ def parse_issues(text: str) -> list[dict]:
         repo = i.get("repository", {})
         name = repo.get("nameWithOwner") or repo.get("name", "")
         rows.append({"key": f"issue:{name}#{i['number']}", "title": i["title"], "where": f"{name}#{i['number']}",
-                     "url": i.get("url", ""), "updated": i.get("updatedAt", "")})
+                     "url": i.get("url", ""), "updated": i.get("updatedAt", ""),
+                     "labels": sorted(x["name"] for x in i.get("labels") or [])})
     rows.sort(key=lambda r: r["updated"], reverse=True)
     return rows
 
@@ -161,14 +180,29 @@ def read_decisions(s: dict, run) -> tuple[list[dict] | None, dict]:
     for owner in s["waiting_owners"]:
         out = run(f"waiting-{owner}", [gh_for(owner, s["accounts"]), "search", "issues", "--owner", owner, "--label",
                                        s["waiting_label"], "--state", "open", "--limit", "200",
-                                       "--json", "repository,number,title,url,updatedAt"])
+                                       "--json", "repository,number,title,url,updatedAt,labels"])
         if out.returncode != 0:
             return None, source(f"Decisions ({s['waiting_label']} issues)", False, f"gh search exit {out.returncode}: {out.stderr.strip()[-200:]}")
         try:
             rows += parse_issues(out.stdout)
         except (ValueError, KeyError) as exc:
             return None, source(f"Decisions ({s['waiting_label']} issues)", False, f"unreadable output: {exc!r}"[:200])
+    rows = list({r["key"]: r for r in reversed(rows)}.values())[::-1]  # one row per issue, first seen kept
     return rows, source(f"Decisions ({s['waiting_label']} issues)", True, count=len(rows))
+
+
+def read_failures(s: dict) -> tuple[dict | None, dict]:
+    """The failing-jobs page's record: unit name to its reason, since when, and its issue."""
+    name = "Failure reasons (failing-jobs page)"
+    if not s["failures_file"]:
+        return None, source(name, False, "no failures_file in the hub_page settings")
+    path = Path(os.path.expanduser(s["failures_file"]))
+    try:
+        data = json.loads(path.read_text())
+        jobs = {j["unit"]: j for j in data["jobs"]}
+    except (OSError, ValueError, KeyError, TypeError) as exc:
+        return None, source(name, False, f"{path.name} could not be read: {exc!r}"[:200])
+    return {"checked": data.get("checked", ""), "jobs": jobs}, source(name, True, count=len(jobs))
 
 
 def read_failed(s: dict, run) -> tuple[tuple[list, list] | None, dict]:
@@ -191,7 +225,7 @@ def read_concerns(s: dict, run) -> tuple[list[dict] | None, dict]:
         except (ValueError, KeyError):
             pass
     out = run("concerns", [gh_for(repo, s["accounts"]), "issue", "list", "--repo", repo, "--label", s["needs_human_label"],
-                           "--state", "open", "--limit", "200", "--json", "number,title,url,updatedAt"])
+                           "--state", "open", "--limit", "200", "--json", "number,title,url,updatedAt,labels"])
     if out.returncode != 0:
         return None, source(name, False, f"gh issue list exit {out.returncode}: {out.stderr.strip()[-200:]}")
     try:
@@ -225,48 +259,140 @@ def read_merged(s: dict, run, now: dt.datetime) -> tuple[list[dict] | None, dict
     return rows, source("Merged into AES (last day)", True, count=len(rows))
 
 
+# ---------------------------------------------------------------- sorting (labels, fixed prefixes, links)
+
+def fyi_rule(issue: dict, rules: list[dict]) -> dict | None:
+    """The first `fyi_rules` entry whose label the issue carries and whose fixed title prefix it starts with."""
+    for r in rules:
+        if r.get("label") in issue.get("labels", []) and issue["title"].startswith(r.get("title_prefix", "")):
+            return r
+    return None
+
+
+def sort_decisions(decisions: list[dict], s: dict) -> dict:
+    """Waiting issues to quiet (a quiet label), fyi (an fyi rule) and the rest; nothing reads what the words mean."""
+    quiet, fyi, rest = [], {}, []
+    for i in decisions:
+        label = next((x for x in i.get("labels", []) if x in s["quiet_issue_labels"]), None)
+        if label:
+            quiet.append({**i, "reason": s["quiet_issue_labels"][label]})
+            continue
+        rule = fyi_rule(i, s["fyi_rules"])
+        if rule:
+            repo = i["where"].split("#")[0]
+            group = fyi.setdefault(f"{rule.get('name', 'Updates')}|{rule['label']}|{repo}",
+                                   {"name": rule.get("name", "Updates"), "label": rule["label"], "repo": repo, "items": []})
+            group["items"].append(i)
+            continue
+        rest.append(i)
+    return {"quiet": quiet, "fyi": list(fyi.values()), "rest": rest}
+
+
+def unit_row(unit: dict, failures: dict | None) -> dict:
+    job = (failures or {}).get("jobs", {}).get(unit["title"])
+    return {**unit, "reason": job.get("reason", "") if job else "", "since": job.get("first_failed", "") if job else "",
+            "days": job.get("days") if job else None, "issue_url": job.get("issue_url", "") if job else ""}
+
+
+def broken_services(units: list[dict], failures: dict | None, issues: list[dict], causes: list[dict]) -> tuple[list[dict], list[dict]]:
+    """Failing units grouped by cause, with the waiting issues that belong to them; returns (causes, issues left).
+
+    A `shared_causes` entry gathers the units and issues it names, and is shown only when one of them is present
+    now. Every other failing unit is its own cause, with the failing-jobs page's reason and that unit's own issue
+    (matched by its `issue_url`) listed under it instead of under Needs you."""
+    rows = [unit_row(u, failures) for u in units]
+    by_where = {i["where"]: i for i in issues}
+    used_units, used_issues, out = set(), set(), []
+    for c in causes:
+        mine = [r for r in rows if r["title"] in set(c.get("units") or []) and r["title"] not in used_units]
+        own = [by_where[w] for w in c.get("issues") or [] if w in by_where and w not in used_issues]
+        if not (mine or own):
+            continue
+        used_units |= {r["title"] for r in mine}
+        used_issues |= {i["where"] for i in own}
+        out.append({"key": f"cause:{c['name']}", "name": c["name"], "why": c.get("why", ""), "units": mine, "issues": own})
+    by_url = {i["url"]: i for i in issues if i.get("url")}
+    for r in rows:
+        if r["title"] in used_units:
+            continue
+        own = [by_url[r["issue_url"]]] if r["issue_url"] in by_url and by_url[r["issue_url"]]["where"] not in used_issues else []
+        used_issues |= {i["where"] for i in own}
+        out.append({"key": f"cause:{r['title']}", "name": r["title"], "why": "", "units": [r], "issues": own})
+    return out, [i for i in issues if i["where"] not in used_issues]
+
+
 # ---------------------------------------------------------------- the record
 
+def tracked(rec: dict) -> list[dict]:
+    """Items whose arrival or clearing is news: Needs you and Broken services, each with the source it came from.
+    A record from before Broken services existed keeps its Needs-you groups."""
+    if "tracked" in rec:
+        return rec["tracked"]
+    gs = rec.get("group_sources", {})
+    return [{**i, "group": g, "source": gs.get(g, "")} for g, items in (rec.get("needs_you") or {}).items() for i in items or []]
+
+
 def changes(previous: dict | None, current: dict, sources_ok: dict) -> dict:
-    """Items new since the previous run, and items gone from it, by key. A source not read on either run is
-    skipped so an unread source never reads as everything cleared."""
+    """Items new since the previous run, and items gone from it, by key. An item that only moved between sections
+    (say from Needs you to FYI) is neither. A source not read on either run is skipped so an unread source never
+    reads as everything cleared."""
     if not previous:
         return {"compared": False, "new": [], "cleared": []}
     prev_ok = {s["name"]: s["ok"] for s in previous.get("sources", [])}
-    groups = ("decisions", "failed", "concerns")
-    new, cleared = [], []
-    for g in groups:
-        name = current["group_sources"][g]
-        if not (sources_ok.get(name) and prev_ok.get(name)):
-            continue
-        before = {i["key"]: i for i in previous.get("needs_you", {}).get(g) or []}
-        after = {i["key"]: i for i in current["needs_you"][g] or []}
-        new += [{**after[k], "group": g} for k in after if k not in before]
-        cleared += [{**before[k], "group": g} for k in before if k not in after]
+    before, after = tracked(previous), tracked(current)
+    seen_before = set(previous.get("seen") or [i["key"] for i in before])
+    seen_now = set(current.get("seen") or [i["key"] for i in after])
+
+    def read_both(i):
+        return bool(sources_ok.get(i.get("source")) and prev_ok.get(i.get("source")))
+
+    new = [i for i in after if i["key"] not in seen_before and read_both(i)]
+    cleared = [i for i in before if i["key"] not in seen_now and read_both(i)]
     return {"compared": True, "since": previous.get("built", ""), "new": new, "cleared": cleared}
 
 
-def build_record(s: dict, run, now: dt.datetime, previous: dict | None = None, read_approvals_=read_approvals) -> dict:
+def build_record(s: dict, run, now: dt.datetime, previous: dict | None = None, read_approvals_=read_approvals,
+                 read_failures_=read_failures) -> dict:
     decisions, dsrc = read_decisions(s, run)
     failed, fsrc = read_failed(s, run)
+    failures, rsrc = read_failures_(s)
     concerns, csrc = read_concerns(s, run)
     approvals, asrc = read_approvals_(s)
     merged, msrc = read_merged(s, run, now)
-    sources = [dsrc, fsrc, csrc, asrc, msrc]
+    sources = [dsrc, fsrc, rsrc, csrc, asrc, msrc]
+    split = sort_decisions(decisions, s) if decisions is not None else None
+    left = split["rest"] if split else []
+    causes = None
+    if failed is not None:
+        causes, left = broken_services(failed[0], failures, left, s["shared_causes"])
+    needs = left if decisions is not None else None
     rec = {
         "built": now.isoformat(timespec="minutes"),
         "sources": sources,
-        "group_sources": {"decisions": dsrc["name"], "failed": fsrc["name"], "concerns": csrc["name"],
-                          "approvals": asrc["name"]},
-        "needs_you": {"decisions": decisions, "failed": failed[0] if failed else None, "concerns": concerns},
+        "group_sources": {"decisions": dsrc["name"], "failed": fsrc["name"], "reasons": rsrc["name"],
+                          "concerns": csrc["name"], "approvals": asrc["name"]},
+        "needs_you": {"decisions": needs, "concerns": concerns},
+        "quiet_issues": split["quiet"] if split else [],
+        "fyi": split["fyi"] if split else None,
+        "broken": causes,
         "known_failed": failed[1] if failed else [],
         "approvals": approvals,
         "merged": merged,
         "links": s["links"],
         "site_url": s["site_url"],
     }
+    track = [{**i, "group": "decisions", "source": dsrc["name"]} for i in needs or []]
+    track += [{**i, "group": "concerns", "source": csrc["name"]} for i in concerns or []]
+    for c in causes or []:
+        track += [{**u, "group": "failed", "source": fsrc["name"]} for u in c["units"]]
+        track += [{**i, "group": "decisions", "source": dsrc["name"]} for i in c["issues"]]
+    rec["tracked"] = track
+    rec["seen"] = sorted({i["key"] for i in track}
+                         | {i["key"] for i in rec["quiet_issues"]} | {k["key"] for k in rec["known_failed"]}
+                         | {i["key"] for g in rec["fyi"] or [] for i in g["items"]})
     rec["changed"] = changes(previous, rec, {x["name"]: x["ok"] for x in sources})
     rec["needs_you_total"] = sum(len(v) for v in rec["needs_you"].values() if v is not None)
+    rec["broken_total"] = None if causes is None else sum(len(c["units"]) for c in causes)
     return rec
 
 
@@ -288,8 +414,7 @@ def item_li(i: dict) -> str:
     return f'<li>{title} <span class="dim">{esc(i["where"])}</span></li>'
 
 
-GROUPS = (("decisions", "Decisions waiting on you", "Open issues labelled {label}: answer on the issue or in a session."),
-          ("failed", "Failed services", "Services on this machine whose last run failed. Most an agent can fix; each needs a yes to fix or retire."),
+GROUPS = (("decisions", "Decisions and actions waiting on you", "Open issues labelled {label}: answer on the issue or in a session."),
           ("concerns", "AES concerns for you", "Open issues in AES labelled {needs}."))
 
 
@@ -299,7 +424,9 @@ def needs_html(rec: dict, s: dict) -> str:
     unread = [g for g, *_ in GROUPS if rec["needs_you"][g] is None]
     head = f"Needs you ({total})" + (f", {len(unread)} source{'s' if len(unread) > 1 else ''} not checked" if unread else "")
     tone, word = ("orange", "Waiting") if total else ("blue", "None")
-    out = [f'<section class="needs" id="needs"><h2><span class="tag {tone}">{word}</span> {esc(head)}</h2>']
+    out = [f'<section class="needs" id="needs"><h2><span class="tag {tone}">{word}</span> {esc(head)}</h2>',
+           '<p class="dim">Only what you must decide or do, each listed once. Broken services, records updates and the '
+           'approvals count are below and not counted here.</p>']
     for g, title, what in GROUPS:
         items, src = rec["needs_you"][g], by_name[rec["group_sources"][g]]
         what = what.format(label=s["waiting_label"], needs=s["needs_human_label"])
@@ -311,22 +438,92 @@ def needs_html(rec: dict, s: dict) -> str:
         out.append(f'<h3>{tag} {esc(title)} ({len(items)})</h3><p class="dim">{esc(what)}</p>')
         if items:
             out.append("<ul>" + "".join(item_li(i) for i in items) + "</ul>")
+    if rec["quiet_issues"]:
+        out.append(f'<p class="dim">Also labelled {esc(s["waiting_label"])}, not counted (you said not to act on these): '
+                   + "; ".join(f'<a href="{esc(i["url"])}">{esc(i["where"])}</a> ({esc(i["reason"])})' for i in rec["quiet_issues"])
+                   + ".</p>")
+    out.append("</section>")
+    return "\n".join(out)
+
+
+def unit_li(u: dict, reasons_read: bool) -> str:
+    if u.get("reason"):
+        since = f' Failing since {esc(u["since"])}.' if u.get("since") else ""
+        why = f'{esc(u["reason"])}{since}'
+    else:
+        why = "Reason not on the failing-jobs page yet." if reasons_read else "Reason not checked: the failing-jobs page was not read."
+    return f'<li><b>{esc(u["title"])}</b> <span class="dim">{esc(u["where"])}</span><br><span class="dim">Why: {why}</span></li>'
+
+
+def broken_html(rec: dict) -> str:
+    by_name = {x["name"]: x for x in rec["sources"]}
+    fsrc, rsrc = by_name[rec["group_sources"]["failed"]], by_name[rec["group_sources"]["reasons"]]
+    out = ['<section id="broken">']
+    causes = rec["broken"]
+    if causes is None:
+        out.append(f'<h2><span class="tag grey">Not checked</span> Broken services</h2>'
+                   f'<p class="dim">Not read on this run: {esc(fsrc["error"])}. Nothing is claimed.</p></section>')
+        return "\n".join(out)
+    n = rec["broken_total"]
+    tone, word = ("orange", "Failing") if causes else ("blue", "None")
+    out.append(f'<h2><span class="tag {tone}">{word}</span> Broken services ({n} service{"" if n == 1 else "s"}, '
+               f'{len(causes)} cause{"" if len(causes) == 1 else "s"})</h2>'
+               '<p class="dim">Services on this machine whose last run failed, grouped by cause. Agents fix these; they '
+               'are not counted under Needs you. A shared cause is named in the hub settings; each other service is its '
+               'own cause, with the reason from the failing-jobs page'
+               + ("" if rsrc["ok"] else f' (not read on this run: {esc(rsrc["error"])})') + '. An issue that belongs to '
+               'a service or cause is listed here once, not under Needs you.</p>')
+    for c in causes:
+        if len(c["units"]) == 1 and not c["why"]:
+            out.append("<ul>" + unit_li(c["units"][0], rsrc["ok"]) + "</ul>")
+            if c["issues"]:
+                out.append('<p class="dim">Its issue: ' + ", ".join(
+                    f'<a href="{esc(i["url"])}">{esc(i["where"])}</a>' for i in c["issues"]) + "</p>")
+            continue
+        count = f'{len(c["units"])} service{"" if len(c["units"]) == 1 else "s"}'
+        out.append(f'<h3>{esc(c["name"])}: {count} share one cause</h3>'
+                   + (f'<p class="dim">{esc(c["why"])}</p>' if c["why"] else ""))
+        if c["units"]:
+            out.append("<ul>" + "".join(unit_li(u, rsrc["ok"]) for u in c["units"]) + "</ul>")
+        if c["issues"]:
+            out.append('<p class="dim">Issues for this cause:</p><ul>' + "".join(item_li(i) for i in c["issues"]) + "</ul>")
     if rec["known_failed"]:
         out.append('<p class="dim">Also failed, not counted (you said not to act on these): '
                    + "; ".join(f"{esc(k['title'])} ({esc(k['reason'])})" for k in rec["known_failed"]) + ".</p>")
-    ap, asrc = rec["approvals"], by_name[rec["group_sources"]["approvals"]]
-    if ap is None:
-        out.append(f'<h3><span class="tag grey">Not checked</span> Approvals waiting</h3><p class="dim">{esc(asrc["error"])}.</p>')
-    else:
-        page = next((link["url"] for link in rec["links"] if "oversight" in link.get("name", "").lower()), "")
-        more = f' <a href="{esc(page)}">All of them on the oversight page</a>.' if page else ""
-        out.append(f'<h3><span class="tag grey">Count only</span> Approvals waiting ({ap["count"]})</h3>'
-                   f'<p class="dim">Requirements an agent inferred that wait for your yes or a cut, from the oversight data '
-                   f'written {esc(stamp(ap["as_of"]))}. Not counted in the number above.{more}</p>')
-        if ap["items"]:
-            out.append("<ul>" + "".join(item_li(i) for i in ap["items"][:APPROVALS_SHOWN]) + "</ul>")
     out.append("</section>")
     return "\n".join(out)
+
+
+def fyi_html(rec: dict, s: dict) -> str:
+    groups = rec["fyi"]
+    if groups is None:
+        return ('<section id="fyi"><h2><span class="tag grey">Not checked</span> FYI: records updates</h2>'
+                '<p class="dim">The waiting issues were not read on this run. Nothing is claimed.</p></section>')
+    n = sum(len(g["items"]) for g in groups)
+    rules = "; ".join(f'label {r.get("label")} with a title starting "{r.get("title_prefix", "")}"' for r in s["fyi_rules"])
+    out = [f'<section id="fyi"><h2><span class="tag grey">FYI</span> FYI: records updates ({n})</h2>',
+           f'<p class="dim">Status notices, not decisions: issues labelled {esc(s["waiting_label"])} that match a rule in the '
+           f'hub settings ({esc(rules) or "no rules set"}). They are sorted by label and title prefix only, grouped by the '
+           f'label and repository they come from, and not counted under Needs you.</p>']
+    for g in groups:
+        out.append(f'<h3>{esc(g["name"])} from {esc(g["repo"])}, label {esc(g["label"])} ({len(g["items"])})</h3>'
+                   "<ul>" + "".join(item_li(i) for i in g["items"]) + "</ul>")
+    out.append("</section>")
+    return "\n".join(out)
+
+
+def footer_html(rec: dict) -> str:
+    by_name = {x["name"]: x for x in rec["sources"]}
+    ap, asrc = rec["approvals"], by_name[rec["group_sources"]["approvals"]]
+    if ap is None:
+        return (f'<p class="dim" id="approvals"><span class="tag grey">Not checked</span> Approvals waiting: '
+                f'{esc(asrc["error"])}.</p>')
+    page = next((link["url"] for link in rec["links"] if "oversight" in link.get("name", "").lower()), "")
+    more = f' <a href="{esc(page)}">All of them are on the oversight page</a>.' if page else ""
+    return (f'<p class="dim" id="approvals"><span class="tag grey">Count only</span> Approvals waiting: {ap["count"]} '
+            f'requirements an agent inferred, from the oversight data written {esc(stamp(ap["as_of"]))}. Not shown: no '
+            f'significance field. The data does not mark which ones are significant (a business, product or priority call, '
+            f'or one that changes what lands on you), so none is listed under Needs you.{more}</p>')
 
 
 def changed_html(rec: dict) -> str:
@@ -394,12 +591,15 @@ def render(rec: dict, s: dict) -> str:
     return f"""<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>AES hub</title><style>{STYLE}</style></head><body><main>
 <h1>AES hub</h1>
-<p class="dim">Built {esc(stamp(rec["built"]))}. {esc(refresh)} {esc(note)} Colours always come with a word: orange means waiting on you or new,
-blue means none or cleared, grey means not checked or count only.</p>
+<p class="dim">Built {esc(stamp(rec["built"]))}. {esc(refresh)} {esc(note)} Colours always come with a word: orange means waiting on you, failing or new,
+blue means none or cleared, grey means not checked, for information or count only.</p>
 {needs_html(rec, s)}
+{broken_html(rec)}
+{fyi_html(rec, s)}
 {changed_html(rec)}
 {links_html(rec)}
 {sources_html(rec)}
+{footer_html(rec)}
 <p class="dim">Built by <code>scripts/hub_page.py</code> in AES. Data for agents: <a href="hub.json">hub.json</a> beside this page.</p>
 </main></body></html>
 """
@@ -478,7 +678,8 @@ def main(argv: list[str] | None = None) -> int:
         write(data, page, rec)
         if not args.no_push and not publish(run, data, s, now.strftime("%Y-%m-%d %H:%M")):
             ok = False
-    run.log(f"done needs_you={rec['needs_you_total']} sources_read={sum(x['ok'] for x in rec['sources'])}/"
+    run.log(f"done needs_you={rec['needs_you_total']} broken={rec['broken_total']} "
+            f"fyi={sum(len(g['items']) for g in rec['fyi'] or [])} sources_read={sum(x['ok'] for x in rec['sources'])}/"
             f"{len(rec['sources'])} new={len(rec['changed']['new'])} cleared={len(rec['changed']['cleared'])} "
             f"seconds={time.time() - start:.1f} page={s['site_url']}")
     return 0 if ok else 1
