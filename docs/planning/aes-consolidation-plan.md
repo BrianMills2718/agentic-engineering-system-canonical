@@ -127,7 +127,7 @@ test; missing items added; unlabelled claims labelled. This version has not had 
 | 8 | Investigation only, nothing changed ([report](item8-rules-and-code2check-20261116.md)). Lockstep has an equivalent for all 8 code2check commands; on 2 repositories 7 gave identical counts and exit codes and 2 differ only by the tool name in generated headers (one regenerate each). 13 repositories already run Lockstep; code2check is still called by 2 Makefiles (`code2-template`, `real-chrome`), 3 lefthook files, the live edit hook in `~/.claude/settings.json` and `~/.codex/hooks.json`, and `workspace/proposals/oversight/requirements.py` (the missing-command cause in row 4). Rules: `core.md` plus the 17 topic files are the one source both clients load; 88 of 174 memory notes are cited from them, 86 are not; 17 contradiction or drift items found between rule files (for example claims still instructed after being retired, WSL wording, `ship` default check) and about 5 memory notes that contradict them. Proposed slice: 7 technical items and 4 decisions for Brian, in the report. **Technical slice (T1, T2, T3, T5 factual part), 2026-11-16:** T2 done: `code2-template`'s own Makefile, lefthook and AGENTS.md call `lockstep check`, Lockstep is a dev dependency, one regenerate changed 5 lines in 3 files (header and marker names); `make check` exit 0 (120 tests), merged code2-template #31 (`00bd28c`). `.compliance-list-page` needs no change: it is a worktree of code2-workspace on the timer's page branch (`shaping/compliance-list`, committed with `--no-verify`, 659 commits behind main), and workspace main already runs Lockstep; shipping it would merge the page branch into main. T3 done: `requirements.py` runs `lockstep check sources --repo R --json` and reads Makefiles with either line; run locally, before exit 1 (no `code2check` in the venv), after `repos=14 items=485 inferred=135 failed=0 exit=0`; merged code2-workspace #460 (`21ce291`). T5 factual part done: `agents/index.md` core.md line count (135 to 257) and `topics/orientation.md` map pointer (to the AES `workspace_map_alert.py` check and `aes-config`), code2-workspace #461 (`2be46e9`); the register's source line and the `RULES.md` intro now name `agents/core.md` and its topic files (this change). T1 blocked: the real-chrome `lockstep-switch` branch passes `make check` (exit 0, 14 passed, 3 skipped) and its regenerate was already in the branch (`rewrote=0`), but `ship` stops at the planning gate (exit 1, nothing pushed): the package fails 5 substance checks added since 2026-11-13 (cost basis, plain baseline, stage effects, stops) and is out of date since its cold review (real-chrome issue #1). It needs a planning-compliance pass first. Left untouched because they state what agents must do: the claims sentences in `authority-and-escalation.md:51-54`, `reviews-pages-and-finishing.md:15-16`, `git-and-repositories.md:91-92` (the named claims script still exists), the "under 200 lines" sentence in `index.md` (core.md now breaks it), and the topic-file banners. Not done: T4, T6, T7. |
 | 9 | Slice 1: most of this was already in git. agent-skills `.rulesync/client-settings.jsonc` holds models, per-model effort, `enabledPlugins`, marketplaces and `pluginConfigs` for Claude and plugin switches for Codex, and rulesync holds hooks and MCP servers (checked: `client_settings_sync.py check` drift 0; MCP names on disk equal `mcp.jsonc` for both clients, 0 extra, 0 missing). What was in no repository: 27 settings, among them Claude `advisorModel` and `disableAllHooks`, Codex `approvals_reviewer`, `service_tier`, `features.hooks`, the three `project_doc_*`/`project_root_markers` keys, the three Codex marketplaces, `skills.config` and the built-in Claude marketplace. New `scripts/client_manifest.py build` and `check` (spec `openspec/specs/client-manifest`, 6 tests): every setting on disk gets an owner (agent-skills client-settings 46, rulesync 20, runtime 5, this manifest 27); the manifest holds a value only for the 27 nobody owns, so no value has two sources; credentials are never written (checked: 0 of 135 key values from `~/.secrets/api_keys.env` in the file). The manifest is `aes-config/client-layer.yaml` (aes-config #2, `b8469f3`); `check`: same 98, differ 0, missing 0, unrecorded 0, exit 0. Settings that look wrong, listed, not changed: Codex `model` is `gpt-6-luna` while the seed and Brian's 2026-11-09 words say `gpt-6.1-sol`; Codex `features.hooks = false` while rulesync installs Codex hooks; Codex `skills.config` switches off 7 skills at `~/code/active/agent-skills/...` paths that no longer exist; Claude `modelSettings` has `claude-fable-5-1`, which `availableModels` lacks; the Safety Net hook runs `~/projects/.agents/hooks/safety_net_cwd_fallback.py` or, without it, the cached copy of the disabled `cc-safety-net` plugin, so a clean machine without that cache or script has no Safety Net. Also noted: Claude `model` is `sonnet` live against the `opus` seed, by design, with three writers (/model, usage-pace, agents); model-router `routeAll=true` against the written Opus rule for judging agents is item 2, closed as by design; the Claude company-planning plugin's version `0.2.0+codex.20261116212227` comes from the company-planning marketplace itself (install path under `cache/inside-success`). Not covered: the 3 claude.ai-synced plugin folders (vendor-pushed), installed Codex plugin versions (only the switches), per-project MCP entries in `~/.claude.json`; owners are read from the agent-skills primary checkout, so an uncommitted edit there moves owners. Still open: no apply step for the 27 (a clean machine reads them from the manifest by hand), no scheduled check, and moving the 27 into agent-skills client-settings so `client_settings_sync.py apply` writes them. |
 | 10 | Slice 1: `scripts/hub_page.py` (spec `openspec/specs/hub-page`, 9 tests in `tests/test_hub_page.py`, every one marked `req`) builds a hub page beside the old front page, which is unchanged. Needs you comes first and reads four sources, each shown as Not checked when unread: open `waiting:brian` issues (25 on 2026-11-17), failed user units (11; `usage-pace` listed as known, not counted, Brian 2026-11-11), open AES issues labelled `owner:brian` (0; AES has no `needs-human` label), and the inferred approvals from the oversight data as a count only (163, data of 2026-11-12 because `projects-refresh` fails). Then what changed since the last run (new and cleared items, AES pull requests merged in the last day) and links to six source pages. Settings are the `hub_page:` section of aes-config `graph-config.yaml`; the page goes only to the private code2-workspace branch `shaping/aes-hub-data`, served behind the one password (checked 2026-11-17 with the login cookie: HTTP 200, title AES hub; without it 303). It is rebuilt every hour by the `hub-page` job in aes-config `timers.yaml`, and the page says so. One run: 5 commands, 4.4 s (the old page: 7.5 min CPU). The old page's Needs you also counts 25 `waiting:brian` issues; 35 overstates the distinct asks (the credit outage appears as 2 issues and 5 failed units; `gates-nightly` as a unit and an issue; `client-config-drift` still failed although row 4 fixed the drift; many `waiting:brian` items are FOIA status notices). Still open: whether failed services and the 163 approvals belong under Needs you, the hive root address, retiring the old page. |
-| 11 | Not ready to ask for the archive yes. Checked by a read-only sweep on 2026-11-17: moving or removing the local Project Meta folder today would break live jobs; archiving it on GitHub alone breaks none of the local clones. Enabled timers found then to run or load Project Meta code: `needs-you-push`, `usage-pace`, `context-upkeep`, `skill-review`, `project-meta-policy-audit` and `lane-sweep`, plus the `OnFailure` hooks of 7 units (`concern_issue.py`) and the Claude and Codex hooks (`jev-gate-hook` calling `md_file_cap.py`). **Updated 2026-11-17 after ports 1 to 6:** `needs-you-push`, `usage-pace`, the `OnFailure` hooks, `jev-gate-hook`, `context-upkeep` and `skill-review` no longer use Project Meta (see "Before item 11"). Still on it: `project-meta-policy-audit` (runs its own clone, `~/.local/share/project-meta-policy-runtime`, which has 5 modified generated files and 6 stashes) and `lane-sweep` (runs `canonical_lock.py --sync` when the aes-config setting says so). `~/.local/bin/prune-merged-worktrees` and `rr-public-export` use it too, and so do about 40 or more scripts and Makefiles tracked in git. The older version of this plan listed 6 timers; these 5, the `OnFailure` chain and the hooks were missing, and `skill-review` was wrongly called "not a Project Meta job". Local-only data: compared and kept on 2026-11-17 (step 8 below): all 42 stashes on the remote as backup refs, the rest in a local archive; one ignored MediaWiki environment file still needs a manual copy. The learnings gap of 11 is 11 non-entry files, not missing entries. |
+| 11 | Not ready to ask for the archive yes. Checked by a read-only sweep on 2026-11-17: moving or removing the local Project Meta folder today would break live jobs; archiving it on GitHub alone breaks none of the local clones. Enabled timers found then to run or load Project Meta code: `needs-you-push`, `usage-pace`, `context-upkeep`, `skill-review`, `project-meta-policy-audit` and `lane-sweep`, plus the `OnFailure` hooks of 7 units (`concern_issue.py`) and the Claude and Codex hooks (`jev-gate-hook` calling `md_file_cap.py`). **Updated 2026-11-17 after ports 1 to 6:** `needs-you-push`, `usage-pace`, the `OnFailure` hooks, `jev-gate-hook`, `context-upkeep` and `skill-review` no longer use Project Meta (see "Before item 11"). Still on it: `project-meta-policy-audit` (runs its own clone, `~/.local/share/project-meta-policy-runtime`, which has 5 modified generated files and 6 stashes) and `lane-sweep` (runs `canonical_lock.py --sync` when the aes-config setting says so). About 40 or more scripts and Makefiles tracked in git use it too. **Updated later on 2026-11-17:** the notify callers, `rr-public-export` and `prune-merged-worktrees` moved to AES, and the policy-audit clone was compared and archived (timer still on; see steps 1, 3 and 7). The older version of this plan listed 6 timers; these 5, the `OnFailure` chain and the hooks were missing, and `skill-review` was wrongly called "not a Project Meta job". Local-only data: compared and kept on 2026-11-17 (step 8 below): all 42 stashes on the remote as backup refs, the rest in a local archive; one ignored MediaWiki environment file still needs a manual copy. The learnings gap of 11 is 11 non-entry files, not missing entries. |
 
 ### Before item 11
 
@@ -150,10 +150,34 @@ Source: inferred by agent, from the 2026-11-17 sweep in row 11. Port these in th
    project-meta (the legacy lookup); exit codes equal in all 20; 4 of 6 state files identical, the other 2
    (`notifications.jsonl`, `latest.txt`) only by repository name; in the 5 cases with #2713 open the new copy
    comments on or closes #2713 and creates nothing. Not compared: the real toast (stubbed on both sides, code
-   unchanged). Still on Project Meta's copy, by path: ecosystem-ops `attention_push.py` and `scripts/operator_notify.py`,
-   personal-root FOIA `harvest.py` and `tracker.py` (timers `foia-fax`, `foia-page-refresh`, `foia-tracker`),
-   personal-wiki `google_access.py` (`google-personal-access`), and `hvac-credit-alert`'s
-   `~/.local/share/hvac-credit-alert/credit_alert.py` (copy of progressive-air `tools/credit_alert.py`), all enabled.
+   unchanged). The other callers moved the same day, each to `~/.hive-brain/aes/scripts/`:
+   - ecosystem-ops `attention_push.py` and `scripts/operator_notify.py`: #208, `4755bfc`; tests 23 passed.
+     - Severities are `attention` and `urgent`, so ntfy only.
+     - The full `make check` fails 25 tests and errors 25 more in parts this change does not touch (a missing repo-graph database, a missing `enforced_planning` module).
+     - The `attention-page` timer is not installed on this laptop.
+   - personal-root FOIA `harvest.py` and `tracker.py`: #107, `5ed0641`; 77 passed, 1 deselected.
+     - The deselected test fails on unchanged `main` too.
+     - The units run `origin/main`.
+   - personal-wiki `google_access.py`: #206, `74758f1`.
+   - progressive-air `tools/credit_alert.py`: #7, `a8751b2`.
+     - The installed `~/.local/share/hvac-credit-alert/credit_alert.py` was replaced by it after a backup.
+     - `--dry-run` exited 0.
+
+   The AES default concern repository is public. The FOIA, Google-access and HVAC notices carry private text, so these
+   three callers set `OPERATOR_CONCERN_REPO` to their own private repository: `personal-root`, `personal-wiki` and
+   `progressive-air-blueprint-poc-work`. A value already in the environment still wins. Concerns still open in Project
+   Meta keep being updated or closed there (the legacy lookup).
+
+   Old and new router, side by side on 13 cases (each caller's real arguments; the stub ntfy and Telegram, fake `gh`
+   and throwaway home used in step 1):
+   - Exit codes are equal in 13 of 13.
+   - HTTP requests, toast calls and the set of state files are identical.
+   - `gh` calls are identical apart from the repository name and one read-only legacy lookup.
+   - State files are identical once time and repository are masked; `notifications.jsonl` differs only in its random id
+     and timestamp.
+
+   The harness and its output are in `~/archive/router-switch-20261117/harness/`. **Open:** `usage-pace` and any
+   caller without the override file concerns in the public AES repository, because aes-config `concern_repo` names it.
 2. `usage-pace` and `needs-you-push`, onto the ported router.
    - `needs-you-push`: **done 2026-11-17.** It sends through AES `scripts/learning_loop/notify.py` (loaded from
      `~/.hive-brain/aes`), which gained an opt-in link-preview switch, the message id and Telegram's error text
@@ -174,8 +198,12 @@ Source: inferred by agent, from the 2026-11-17 sweep in row 11. Port these in th
    `%h/.hive-brain/aes/scripts/concern_issue.py` with the same `--repo`, key, title, source and occurrence. Project
    Meta's script only forwarded to the code2-workspace copy, which equals AES's apart from one comment word; with a
    stub `gh`, old and new made identical calls with identical output and exit codes in 6 of 6 cases (both units; no
-   concern, open, closed). `daemon-reload` exit 0; `systemctl --user cat` shows the new path. Still on Project Meta:
-   `~/.local/bin/rr-public-export` line 15 (not in git; not changed).
+   concern, open, closed). `daemon-reload` exit 0; `systemctl --user cat` shows the new path.
+   `~/.local/bin/rr-public-export` line 15 (not in git) moved the same day:
+   - It now runs `$HOME/.hive-brain/aes/scripts/concern_issue.py`.
+   - The old file is kept in `~/archive/router-switch-20261117/rr-public-export`.
+   - With a stub `gh`, old and new made identical calls with identical output and exit 0 in 2 of 2 cases.
+   - `sh -n` exit 0.
 4. The `md_file_cap.py` path in `jev-gate-hook`: **done 2026-11-17.** The installed hook pair has a git source:
    agent-skills `contracts/client-config/jev/` (`jev-gate-hook` was already identical; the guard's source had been
    pointed at the canonical AES checkout on 2026-11-15, `00e6ff9`, but the installed copy still ran Project Meta's).
@@ -204,7 +232,32 @@ Source: inferred by agent, from the 2026-11-17 sweep in row 11. Port these in th
    (2026-10-05), `stash@{40}` (2026-08-19) and `stash@{41}` (2026-08-18), all older; they stay in Project Meta's git
    and belong to step 8. Read side by side, old and new path gave the same 7 feedback items. The `skill-review` unit's
    own `ExecStartPre` still runs `git checkout --force`, which Safety Net blocks when run by hand.
-7. The `project-meta-policy-audit` runtime clone.
+7. The `project-meta-policy-audit` runtime clone: **compared and kept on 2026-11-17; the timer is still on.**
+
+   What the audit is:
+   - It runs daily at 06:00 for about 52 minutes: about 40 Project Meta checks plus its own steps.
+   - Its 2026-11-16 run exited 0 with 6 steps red.
+   - Its only output is comments on Project Meta concerns: #1976, #1982, #1983, #1984, #1986, #1987, #1979, #1980,
+     #1962 and #1981. None carries `waiting:brian`, and every comment on them is its own, so nobody reads them.
+
+   Coverage:
+   - Already covered by AES: `failed_unit_watch`, `lane_sweep`, `workspace_map`, `machine_manifest`,
+     `client_manifest`, the instruction audit (step 5) and doc freshness.
+   - Obsolete: claims, Project Meta's own ADRs, plans and registry, and its own pytest suite.
+   - Not covered, and small: the stacked-pull-request check and the hook-trigger check. They are proposed for
+     retirement, not porting.
+
+   The clone:
+   - It is 0 commits ahead of `origin/main` and 11 behind.
+   - It has 6 modified files (not 5). All are generated reports except `policy/friction_clusters.yaml`, which holds
+     one cluster found nowhere else and can be rebuilt.
+   - It has 6 stashes. 2 are already on `origin/main`; the other 4 are old generated snapshots.
+
+   Everything unique is copied to `~/archive/policy-runtime-20261117/` (26 files; `sha256sum -c` exit 0). Nothing was
+   discarded.
+
+   Proposed at the archive yes, not run: `systemctl --user disable --now project-meta-policy-audit.timer`, then remove
+   its entry from aes-config `machine-layer.yaml`.
 8. The stashes and uncommitted or ignored data, each kept after a comparison with the copy that stays: **done
    2026-11-17** ([project-meta-local-data-20261117.md](project-meta-local-data-20261117.md); private detail in
    aes-config `docs/project-meta-local-data-20261117.md`, #8). Stashes: 11 of 42 fully contained on the remote, 31
@@ -217,6 +270,20 @@ Source: inferred by agent, from the 2026-11-17 sweep in row 11. Port these in th
    Project Meta `origin/main`; entry ids match both ways (0 differences). `policy/friction_clusters.yaml` has no
    content-identical copy outside Project Meta; the runtime clone's modified copy belongs to step 7.
 
-Also still on Project Meta after steps 1 to 6: `~/.local/bin/prune-merged-worktrees` and `rr-public-export` (not in
-git), the notify callers listed in step 1, the relative script paths in the `instruction-surfaces` skill, and the 40 or
-more tracked scripts and Makefiles named in row 11.
+`~/.local/bin/prune-merged-worktrees` (run weekly through personal-file-infra `prune-all-worktrees`) moved on
+2026-11-17:
+
+- `scripts/prune_merged_worktrees.py` is in AES, unchanged from Project Meta `b743c308a`, with its 3 tests (spec
+  `openspec/specs/prune-merged-worktrees`; AES #938, `2a6cdcd`).
+- The link now points at `~/.hive-brain/aes/scripts/prune_merged_worktrees.py`.
+- The old link target and script are kept in `~/archive/router-switch-20261117/prune-merged-worktrees/`.
+- Old and new `--dry-run` on all 169 entries of the weekly repository list: 161 byte-identical with equal exit codes
+  (158 exit 0, 3 exit 2 on folders that are not repositories). The other 8 are not git checkouts. Comparison kept in
+  `~/archive/router-switch-20261117/prune-cmp/`.
+
+Still on Project Meta after steps 1 to 8:
+
+- the `project-meta-policy-audit` timer (step 7; switch it off at the archive yes);
+- `lane-sweep`'s `canonical_lock.py --sync` setting;
+- the relative script paths in the `instruction-surfaces` skill;
+- the 40 or more tracked scripts and Makefiles named in row 11.
