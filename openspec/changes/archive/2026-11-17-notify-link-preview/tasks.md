@@ -1,0 +1,3 @@
+- [x] Test first: `test_no_preview_sets_the_flag_and_message_id_is_returned`
+- [x] `push(no_preview=...)`, `message_id` in the result, HTTP error description
+- [x] Spec delta for `feedback-loop-notices`

@@ -67,6 +67,24 @@ def test_missing_config_network_error_and_bad_answers(monkeypatch):
     assert "401" in notify.push("t", "b", opener=http401)["evidence"]
 
 
+@pytest.mark.req("feedback-loop-notices/link-preview-off-on-request")
+def test_no_preview_sets_the_flag_and_message_id_is_returned(monkeypatch):
+    configure(monkeypatch)
+    seen = []
+    def opener(req, timeout):
+        seen.append(json.loads(req.data))
+        return Resp(200, OK)
+    out = notify.push("Needs you: x", "https://github.com/o/r/issues/1", opener=opener, no_preview=True)
+    assert seen[0] == {"chat_id": "chat-555", "text": "Needs you: x\n\nhttps://github.com/o/r/issues/1",
+                       "disable_web_page_preview": True}
+    assert out["delivered"] and out["message_id"] == 77
+    def http400(req, timeout):
+        raise urllib.error.HTTPError("u", 400, "x", None, io.BytesIO(b'{"description":"Bad Request: tok-SECRET chat not found"}'))
+    failed = notify.push("t", "b", opener=http400, no_preview=True)
+    assert not failed["delivered"] and "chat not found" in failed["evidence"] and "tok-SECRET" not in failed["evidence"]
+    assert "message_id" not in failed
+
+
 @pytest.mark.req("feedback-loop-notices/no-project-meta-path")
 def test_loop_scripts_call_no_project_meta_script():
     for name in ("problems.py", "label_items.py", "fix_owner.py", "policies.py", "alert.py", "notify.py"):
