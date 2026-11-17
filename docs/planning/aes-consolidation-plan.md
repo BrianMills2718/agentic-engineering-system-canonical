@@ -133,8 +133,22 @@ test; missing items added; unlabelled claims labelled. This version has not had 
 
 Source: inferred by agent, from the 2026-11-17 sweep in row 11. Port these in this order, then ask for the yes:
 
-1. The notify router (`operator_notify_router.py`).
+1. The notify router (`operator_notify_router.py`). Still needed for `usage-pace` (below): AES `notify.py` covers
+   only the Telegram send, not ntfy, the desk toast, the `waiting:brian` concern, the once-per-state stamps or the
+   notification record.
 2. `usage-pace` and `needs-you-push`, onto the ported router.
+   - `needs-you-push`: **done 2026-11-17.** It sends through AES `scripts/learning_loop/notify.py` (loaded from
+     `~/.hive-brain/aes`), which gained an opt-in link-preview switch, the message id and Telegram's error text
+     (AES #929, `de931c1`); the caller changed in code2-workspace #462 (`ef0b722`). Checked: against a local stub
+     Telegram server the old and new sender sent the same request (chat id, text, preview off), wrote the same
+     state and gave the same exit code in 4 cases (accepted, HTTP 400, `ok` false, connection refused); only the
+     failure detail wording in the log line differs. Dry runs before and after on copies of the live state:
+     identical output (26 keys, "no new issues"; with 3 keys removed, the same 2 "would send" lines). No real
+     message was sent for the check; `systemctl --user start needs-you-push.service` exited 0 ("no new issues",
+     state unchanged).
+   - `usage-pace`: **not done.** Its notices go by ntfy (`attention`, seen at the ntfy server on 2026-11-11) or by
+     toast, Telegram and a `waiting:brian` concern sent once per state (`needs-human`); pointing it at `notify.py`
+     would move them to Telegram and drop the record and stamps. It waits for item 1.
 3. Concern filing (`concern_issue.py`) for the 7 `OnFailure` hooks.
 4. The `md_file_cap.py` path in `jev-gate-hook`.
 5. `context-upkeep` (`rule_audit_nightly.py`).
