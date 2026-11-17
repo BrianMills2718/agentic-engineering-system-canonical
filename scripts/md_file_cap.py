@@ -9,6 +9,8 @@ Counted on each repo's default branch as last fetched (origin/HEAD), not the
 checked-out branch. Which repositories: every PROJECT_GRAPH.json entry whose github_repo owner is
 BrianMills2718 and whose local path is a git checkout. Entries that resolve to the
 same checkout are counted once.
+Markdown files under generated/ are generator output, not documents anyone keeps: they are not counted
+(Brian, 2026-11-17, "skip generated").
 
 Exception: a file named .md-file-cap.yaml at the repository root:
 
@@ -140,7 +142,8 @@ def count_md(top, ref="HEAD"):
     out = git(top, "ls-tree", "-r", "-z", "--name-only", ref)
     if out is None:
         return None
-    return sum(1 for f in out.split("\0") if f.lower().endswith(".md"))
+    return sum(1 for f in out.split("\0")
+               if f.lower().endswith(".md") and not f.startswith("generated/"))
 
 
 def read_exception(top, ref="HEAD"):

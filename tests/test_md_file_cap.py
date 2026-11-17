@@ -441,3 +441,15 @@ def test_no_owner_named_fails_loudly(tmp_path, monkeypatch):
     monkeypatch.delenv("PROJECT_GRAPH_OWNER")
     with pytest.raises(SystemExit, match="PROJECT_GRAPH_OWNER"):
         m.graph_owner(str(tmp_path / "PROJECT_GRAPH.json"))
+
+
+def test_generated_md_not_counted(tmp_path):
+    """Generator output under generated/ is not counted; a docs/ file is (Brian, 2026-11-17)."""
+    path = make_repo(tmp_path, "gen", 0)
+    (path / "generated").mkdir()
+    (path / "generated" / "x.md").write_text("x")
+    (path / "docs").mkdir()
+    (path / "docs" / "x.md").write_text("x")
+    subprocess.run(["git", "-C", str(path), "add", "-A"], check=True)
+    subprocess.run(["git", "-C", str(path), "-c", "user.name=t", "-c", "user.email=t@t", "commit", "-qm", "more"], check=True)
+    assert m.count_md(str(path)) == 1
