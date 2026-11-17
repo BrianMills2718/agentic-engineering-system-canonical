@@ -2,7 +2,8 @@
 """archive_map: the check that keeps ~/archive explained.
 
   archive_map.py --check         report archive entries the registry does not explain (exit 1 if any), and
-                                 archives that hold the ONLY copy of something
+                                 archives that hold the ONLY copy of something. An entry whose folder was
+                                 offloaded to Drive names the exact tar in `offloaded:` and is not "gone".
 
 Implements: workspace-map-check/settings-come-from-config
 
@@ -150,6 +151,14 @@ def entries():
     return reg, items, names
 
 
+def offloaded(item):
+    """The exact Drive tar an offloaded entry names, or "" (offload-cold moves idle ~/archive folders to Drive).
+
+    Implements: workspace-map-check/offloaded-archive-entry-is-not-gone"""
+    tar = (item or {}).get("offloaded") or ""
+    return tar if isinstance(tar, str) and tar.endswith(".tar.gz") else ""
+
+
 def check():
     reg, items, names = entries()
     findings = collections.defaultdict(list)
@@ -161,8 +170,8 @@ def check():
                 if not items[n].get(k):
                     findings[f"archive registry entry missing '{k}'"].append(n)
     for n in items:
-        if n not in names:
-            findings["registry lists an archive that is gone from ~/archive (remove it, or restore it)"].append(n)
+        if n not in names and not offloaded(items[n]):
+            findings["registry lists an archive that is gone from ~/archive (name its offloaded: tar, remove it, or restore it)"].append(n)
     only = []
     for n in names:
         f = facts(n, items.get(n, {}))

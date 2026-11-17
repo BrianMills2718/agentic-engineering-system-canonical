@@ -229,3 +229,21 @@ def test_missing_concern_repo_is_a_crash_not_a_finding(alert, monkeypatch, tmp_p
 
 if __name__ == "__main__":
     sys.exit(pytest.main([__file__, "-q"]))
+
+
+@pytest.mark.req("workspace-map-check/offloaded-archive-entry-is-not-gone")
+def test_an_offloaded_archive_entry_is_not_reported_gone(tmp_path, monkeypatch):
+    am = _load("archive_map")
+    archive = tmp_path / "archive"
+    archive.mkdir()
+    registry = tmp_path / "archive_map_registry.yaml"
+    entry = {"purpose": "bare mirror", "why": "left the org", "restore": "rclone copyto the tar"}
+    registry.write_text(yaml.safe_dump({"entries": {
+        "offloaded-mirror": {**entry, "offloaded": "google_brian:Data/90_Archive/offloaded/archive/202610/offloaded-mirror-20261008T021053Z.tar.gz"},
+        "really-gone": entry,
+        "named-folder-not-tar": {**entry, "offloaded": "google_brian:Data/90_Archive/offloaded/archive/202610/"},
+    }}))
+    monkeypatch.setenv("ARCHIVE_MAP_REGISTRY", str(registry))
+    monkeypatch.setattr(am, "ARCHIVE", str(archive))
+    gone = [v for k, v in am.check().items() if "gone from ~/archive" in k]
+    assert gone == [["really-gone", "named-folder-not-tar"]] or sorted(gone[0]) == ["named-folder-not-tar", "really-gone"]
