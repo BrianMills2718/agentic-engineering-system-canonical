@@ -4,7 +4,8 @@ Implements: lockstep-checks/changed-requirements-that-differ-from-the-base-are-l
     lockstep-checks/changed-every-listed-requirement-is-named-by-a-plan-in-the-same-change-set,
     lockstep-checks/changed-a-changed-statement-needs-a-changed-scenario-or-a-wording-only-declaration,
     lockstep-checks/changed-count-line-and-exit-status,
-    lockstep-checks/changed-documents-that-quote-a-listed-requirement-are-listed-with-it
+    lockstep-checks/changed-documents-that-quote-a-listed-requirement-are-listed-with-it,
+    lockstep-checks/changed-every-plan-that-names-a-listed-requirement-states-its-size
 
 Requirement text (generated):
     lockstep-checks/changed-requirements-that-differ-from-the-base-are-listed-with-their-code-and-tests:
@@ -32,16 +33,30 @@ Requirement text (generated):
         count them in its count line. A `Wording-only:` line MAY list scenario IDs as well as
         requirement IDs; a requirement ID covers its statement and all its scenarios.
     lockstep-checks/changed-count-line-and-exit-status: The changed check SHALL end with the line
-        `RESULT changed requirements=<n> unplanned=<n> no_scenario=<n> wording_only=<n> exit=<0|1>`,
-        exiting 1 when `unplanned` or `no_scenario` is above zero. When `<rev>` does not name a
-        commit it SHALL check nothing, print `RESULT changed skipped="base <rev> not found" exit=0`
-        and exit 0. `changed` SHALL be a check name in `lockstep.yaml` with the same `block`, `warn`
-        and `off` modes as the other checks.
+        `RESULT changed requirements=<n> unplanned=<n> no_scenario=<n> wording_only=<n> small=<n>
+        full=<n> no_plan_size=<n> no_planning_package=<n> exit=<0|1>`, exiting 1 when `unplanned`,
+        `no_scenario`, `no_plan_size` or `no_planning_package` is above zero. `small` and `full`
+        SHALL count the listed requirements of each size. When `<rev>` does not name a commit it
+        SHALL check nothing, print `RESULT changed skipped="base <rev> not found" exit=0` and exit
+        0. `changed` SHALL be a check name in `lockstep.yaml` with the same `block`, `warn` and
+        `off` modes as the other checks.
     lockstep-checks/changed-documents-that-quote-a-listed-requirement-are-listed-with-it: The
         changed check SHALL print, for each requirement it lists, every marked quote of it (`<!--
         lockstep quote: <id> -->` in a tracked Markdown file outside `openspec/`) as `<path>:<line>`
         with the label `current` when the passage appears in the requirement's or its scenarios'
         current text and `stale` when it does not, and SHALL include them in its JSON output.
+    lockstep-checks/changed-every-plan-that-names-a-listed-requirement-states-its-size: The changed
+        check SHALL read, in each plan that names a listed requirement, every line `Plan size:
+        small` or `Plan size: full` that stands outside a fenced code block: in the `proposal.md` of
+        an OpenSpec change, or in the page itself for a page in `docs/plans/`. A listed
+        requirement's size SHALL be `full` when any plan naming it says `full`, otherwise `small`
+        when one says `small`. The check SHALL report `no-plan-size` and exit 1 for a listed
+        requirement that a plan names when no plan naming it gives a size, and the finding SHALL
+        name the file the line belongs in. For a requirement whose size is `full` it SHALL report
+        `no-planning-package` and exit 1 unless a plan naming it has, outside a fenced code block, a
+        line `Planning package: <path>` (the path with or without backticks) whose path is a file in
+        the repository. It SHALL print each listed requirement's size in its text block and include
+        it in its JSON output. A requirement reported `unplanned` SHALL get no size finding.
 
 Nothing is stored: "changed" is computed on every run from the two revisions. The base is read with
 `git archive` of `openspec/`, `docs/plans/` and the test files the listed requirements need, into a
@@ -66,6 +81,28 @@ from lockstep.checks.status import CLOSES
 WORDING_ONLY = re.compile(r"^Wording-only:[ \t]*(.+(?:\n[ \t]+\S.*)*)", re.MULTILINE)
 _REQUIREMENT = re.compile(r"^###\s+Requirement:\s*(.+?)\s*$", re.MULTILINE)
 PLAN_PATHS = ("openspec", "docs/plans")
+# The size line `ship` already reads in docs/plans pages, with the value `full` added.
+PLAN_SIZE = re.compile(r"^Plan size:[ \t]*(small|full)[ \t]*$", re.MULTILINE)
+# The pointer line Company Planning's plan check reads (method_conformance/planning_package.py, LINE_RE).
+PLANNING_PACKAGE = re.compile(r"^(?:\*\*)?Planning package:(?:\*\*)?[ \t]+`?(?P<path>[^`\s]+)`?[ \t]*$", re.MULTILINE)
+_FENCE = re.compile(r"^ {0,3}(`{3,}|~{3,})")
+
+
+def outside_fences(text: str) -> str:
+    """Return text with the lines inside fenced code blocks (and the fence lines) blanked."""
+    kept, fence = [], ""
+    for line in text.splitlines():
+        m = _FENCE.match(line)
+        if fence:
+            if m and m.group(1)[0] == fence[0] and len(m.group(1)) >= len(fence) and not line.strip(" `~"):
+                fence = ""
+            kept.append("")
+        elif m:
+            fence = m.group(1)
+            kept.append("")
+        else:
+            kept.append(line)
+    return "\n".join(kept)
 
 
 @dataclass
@@ -76,6 +113,14 @@ class ChangePlan:
     names: set[str] = field(default_factory=set)
     wording_only: list[str] = field(default_factory=list)
     declared_in: str = ""
+    sizes: set[str] = field(default_factory=set)  # `small` and/or `full`, read outside fenced code blocks
+    packages: list[str] = field(default_factory=list)  # paths on `Planning package:` lines
+
+    def read_size(self, text: str) -> None:
+        """Record the `Plan size:` values and `Planning package:` paths in text, outside fenced code blocks."""
+        plain = outside_fences(text)
+        self.sizes = {m.group(1) for m in PLAN_SIZE.finditer(plain)}
+        self.packages = [m.group("path") for m in PLANNING_PACKAGE.finditer(plain)]
 
 
 @dataclass
@@ -92,6 +137,9 @@ class Item:
     plans: list[str] = field(default_factory=list)
     findings: list[str] = field(default_factory=list)
     wording_only: str | None = None
+    size: str | None = None  # `full` when any plan naming it says full, else `small` when one says small
+    size_files: list[str] = field(default_factory=list)  # where the `Plan size:` line belongs
+    missing_packages: list[str] = field(default_factory=list)  # `Planning package:` paths that are not files
 
 
 @dataclass
@@ -110,13 +158,17 @@ class Result:
             "unplanned": sum("unplanned" in i.findings for i in self.requirements),
             "no_scenario": sum("no-scenario-changed" in i.findings for i in self.requirements),
             "wording_only": sum(i.wording_only is not None for i in self.requirements),
+            "small": sum(i.size == "small" for i in self.requirements),
+            "full": sum(i.size == "full" for i in self.requirements),
+            "no_plan_size": sum("no-plan-size" in i.findings for i in self.requirements),
+            "no_planning_package": sum("no-planning-package" in i.findings for i in self.requirements),
         }
 
     @property
     def ok(self) -> bool:
-        """True when no requirement is unplanned and none changed its statement without a scenario."""
+        """True when no requirement is unplanned, changed its statement without a scenario, or lacks a size or package."""
         counts = self.counts()
-        return not counts["unplanned"] and not counts["no_scenario"]
+        return not any(counts[k] for k in ("unplanned", "no_scenario", "no_plan_size", "no_planning_package"))
 
     def as_dict(self) -> dict:
         """Return the result as plain data for `--json`."""
@@ -145,6 +197,9 @@ def _change(root: Path, folder: Path) -> ChangePlan:
         text = proposal.read_text()
         plan.wording_only = _listed(text, WORDING_ONLY)
         plan.names |= set(_listed(text, CLOSES)) | set(plan.wording_only)
+        plan.declared_in = str(proposal.relative_to(root))
+        plan.read_size(text)
+    else:
         plan.declared_in = str(proposal.relative_to(root))
     return plan
 
@@ -184,7 +239,9 @@ def change_set(root: Path, old: Path) -> list[ChangePlan]:
             text = page.read_text()
             wording = _listed(text, WORDING_ONLY)
             rel = str(page.relative_to(root))
-            plans.append(ChangePlan(rel, set(_listed(text, CLOSES)) | set(wording), wording, rel))
+            plan = ChangePlan(rel, set(_listed(text, CLOSES)) | set(wording), wording, rel)
+            plan.read_size(text)
+            plans.append(plan)
     return plans
 
 
@@ -290,6 +347,44 @@ def _compare(before: Plan, now: Plan) -> list[tuple[str, str, str, bool, list[tu
     return found
 
 
+def _size(root: Path, item: Item, naming: list[ChangePlan]) -> None:
+    """Set item's size from the plans naming it, with `no-plan-size` or `no-planning-package` when due.
+
+    Implements: lockstep-checks/changed-every-plan-that-names-a-listed-requirement-states-its-size
+
+    Requirement text (generated):
+        lockstep-checks/changed-every-plan-that-names-a-listed-requirement-states-its-size: The
+            changed check SHALL read, in each plan that names a listed requirement, every line `Plan
+            size: small` or `Plan size: full` that stands outside a fenced code block: in the
+            `proposal.md` of an OpenSpec change, or in the page itself for a page in `docs/plans/`.
+            A listed requirement's size SHALL be `full` when any plan naming it says `full`,
+            otherwise `small` when one says `small`. The check SHALL report `no-plan-size` and exit
+            1 for a listed requirement that a plan names when no plan naming it gives a size, and
+            the finding SHALL name the file the line belongs in. For a requirement whose size is
+            `full` it SHALL report `no-planning-package` and exit 1 unless a plan naming it has,
+            outside a fenced code block, a line `Planning package: <path>` (the path with or without
+            backticks) whose path is a file in the repository. It SHALL print each listed
+            requirement's size in its text block and include it in its JSON output. A requirement
+            reported `unplanned` SHALL get no size finding.
+
+    Args:
+        root: Repository root.
+        item: A listed requirement that at least one plan names.
+        naming: The plans in the change set that name it.
+    """
+    sizes = set().union(*(p.sizes for p in naming))
+    item.size = "full" if "full" in sizes else ("small" if "small" in sizes else None)
+    if item.size is None:
+        item.findings.append("no-plan-size")
+        item.size_files = sorted({p.declared_in for p in naming})
+        return
+    if item.size == "full":
+        paths = [path for p in naming for path in p.packages]
+        if not any((root / path).is_file() for path in paths):
+            item.findings.append("no-planning-package")
+            item.missing_packages = sorted(set(paths))
+
+
 def check(root: Path, base: str) -> Result:
     """List every requirement that is new, removed or changed since base, with its links, plans and findings.
 
@@ -362,9 +457,12 @@ def check(root: Path, base: str) -> Result:
                     item.tests.append({"node": node, "scenario": sid, "label": label})
             item.documents = [{"where": f"{q.path}:{q.line}", "label": "current" if q.state == "current" else "stale"}
                               for q in documents if q.id == ident]
-            item.plans = [p.path for p in plans if ident in p.names]
+            naming = [p for p in plans if ident in p.names]
+            item.plans = [p.path for p in naming]
             if not item.plans:
                 item.findings.append("unplanned")
+            else:
+                _size(root, item, naming)
             item.wording_only = declared.get(ident)
             moved = any(lab in ("new", "changed") for _, lab in scenarios)
             if kind == "changed" and statement and not moved and item.wording_only is None:

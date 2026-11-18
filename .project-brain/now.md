@@ -1,3 +1,7 @@
+# Lockstep plan size (2026-11-18, code2-workspace issue 853)
+
+Every plan that names a requirement `lockstep check changed` lists now states `Plan size: small` or `Plan size: full`. The check fails with `no-plan-size` when none does, and with `no-planning-package` when a full plan names no planning package file that exists. The count line adds `small`, `full`, `no_plan_size` and `no_planning_package`. Change: `openspec/changes/archive/2026-11-18-lockstep-plan-size/`. code2-workspace is the one repository that runs the check, and it picks this up when its pin moves.
+
 # Lockstep document quotes (2026-11-17, code2-workspace issue 842)
 
 A document marks a passage it copies from a requirement as `<!-- lockstep quote: <requirement id> -->the passage<!-- /lockstep quote -->`. `lockstep check trace` fails with `stale-quote`, `unknown` or `unclosed-quote` (at `<path>:<line>`) when a marked passage in tracked Markdown outside `openspec/` is no longer in its requirement's or scenarios' text; `lockstep check changed` lists the documents quoting each listed requirement as `current` or `stale`.
