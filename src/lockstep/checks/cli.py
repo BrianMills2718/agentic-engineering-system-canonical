@@ -54,6 +54,10 @@ def _arch(root: Path, args: argparse.Namespace, cfg: Config) -> int:
     action = args.action
     try:
         text = arch.generate(root, cfg.likec4)
+    except arch.DiagramToolUnavailable as err:
+        print(err)
+        print(f"RESULT arch-{action} tool_unavailable=1 exit=1")
+        return 1
     except arch.DiagramInvalid as err:
         print(err)
         print(f"RESULT arch-{action} invalid_diagram=1 exit=1")
