@@ -1,7 +1,8 @@
 """Turn the LikeC4 diagram into import-linter contracts, and check the committed ones are current.
 
 Implements: lockstep-checks/arch-diagram-becomes-import-contracts, lockstep-checks/arch-committed-contracts-match-the-diagram,
-    lockstep-checks/arch-code-imports-match-the-diagram
+    lockstep-checks/arch-code-imports-match-the-diagram,
+    lockstep-checks/arch-a-diagram-check-that-cannot-run-fails-as-a-tool-failure
 
 Requirement text (generated):
     lockstep-checks/arch-diagram-becomes-import-contracts: `lockstep check arch gen` SHALL write one
@@ -15,6 +16,14 @@ Requirement text (generated):
         import-linter and exit 1 when any contract is broken, printing the broken contract and the
         importing module. When import-linter is not installed it SHALL print that and exit 1; it
         SHALL NOT pass.
+    lockstep-checks/arch-a-diagram-check-that-cannot-run-fails-as-a-tool-failure: `lockstep check
+        arch` SHALL report that LikeC4 could not be run, and SHALL NOT report the diagram invalid,
+        when `npx` is absent or cannot be started, when `npx likec4 validate` exits non-zero without
+        LikeC4 having run, or when the JSON export of an already-validated diagram fails. Whether
+        LikeC4 ran SHALL be decided by running it against no diagram, not by matching words in its
+        output. Each of these SHALL print `RESULT arch-<action> tool_unavailable=1 exit=1` and exit
+        1: a check that did not run must fail, not pass. A diagram LikeC4 read and rejected SHALL
+        still be reported `invalid_diagram=1`.
 """
 
 import json
@@ -41,6 +50,52 @@ class DiagramInvalid(RuntimeError):
     """LikeC4 could not parse the diagram; its report is the message."""
 
 
+class DiagramToolUnavailable(RuntimeError):
+    """LikeC4 could not be run, so the diagram was not checked; the check must fail, not pass, and the
+    diagram must not be reported invalid."""
+
+
+def _npx(args: list[str], likec4: str) -> subprocess.CompletedProcess:
+    """Run the pinned LikeC4 package through npx and return the completed process.
+
+    Args:
+        args: The LikeC4 arguments after the package name.
+        likec4: The pinned `likec4@<version>` package.
+
+    Returns:
+        The completed process; its exit status is the caller's to interpret.
+
+    Raises:
+        DiagramToolUnavailable: `npx` is not on PATH, or it could not be started.
+    """
+    if shutil.which("npx") is None:
+        raise DiagramToolUnavailable(
+            "npx is not installed in Lockstep's environment, so LikeC4 did not check the diagram; the "
+            "diagram is not reported invalid. Install Node.js, which provides npx.")
+    try:
+        return subprocess.run(["npx", "--yes", likec4, *args], capture_output=True, text=True)
+    except OSError as err:
+        raise DiagramToolUnavailable(
+            f"npx could not be started, so LikeC4 did not check the diagram: {err}") from err
+
+
+def _likec4_ran(likec4: str) -> bool:
+    """Whether npx can start LikeC4 at all, asked by running `--version`, which reads no diagram.
+
+    A non-zero `validate` is only a verdict on the diagram when LikeC4 itself ran. The failures that
+    stop it before that — no network, an unwritable npm cache, a yanked version — also exit non-zero,
+    and their output is npm's rather than a LikeC4 diagnostic. `--version` touches no diagram, so its
+    exit status separates the two without depending on either tool's wording.
+
+    Args:
+        likec4: The pinned `likec4@<version>` package.
+
+    Returns:
+        True when `--version` exits 0.
+    """
+    return _npx(["--version"], likec4).returncode == 0
+
+
 def export_model(root: Path, likec4: str = LIKEC4) -> dict:
     """Export the LikeC4 model under docs/architecture as JSON.
 
@@ -55,18 +110,23 @@ def export_model(root: Path, likec4: str = LIKEC4) -> dict:
         The parsed LikeC4 JSON export.
 
     Raises:
-        DiagramInvalid: LikeC4 reports the diagram invalid.
+        DiagramInvalid: LikeC4 ran and reports the diagram invalid.
+        DiagramToolUnavailable: LikeC4 could not be run, so the diagram was not checked.
     """
     arch = str(root / "docs/architecture")
-    checked = subprocess.run(["npx", "--yes", likec4, "validate", arch], capture_output=True, text=True)
+    checked = _npx(["validate", arch], likec4)
     if checked.returncode != 0:
-        raise DiagramInvalid(f"LikeC4 reports {arch} Invalid:\n{checked.stdout}{checked.stderr}")
+        report = f"{checked.stdout}{checked.stderr}"
+        if not _likec4_ran(likec4):
+            raise DiagramToolUnavailable(
+                f"LikeC4 could not be run, so {arch} was not checked; it is not reported invalid:\n{report}")
+        raise DiagramInvalid(f"LikeC4 reports {arch} Invalid:\n{report}")
     with tempfile.TemporaryDirectory() as out:
-        subprocess.run(
-            ["npx", "--yes", likec4, "export", "json", "-o", f"{out}/model.json", str(root / "docs/architecture")],
-            check=True,
-            capture_output=True,
-        )
+        exported = _npx(["export", "json", "-o", f"{out}/model.json", arch], likec4)
+        if exported.returncode != 0:
+            raise DiagramToolUnavailable(
+                f"LikeC4 found {arch} valid but its JSON export failed, so no contracts were "
+                f"generated:\n{exported.stdout}{exported.stderr}")
         return json.loads(Path(out, "model.json").read_text())
 
 
