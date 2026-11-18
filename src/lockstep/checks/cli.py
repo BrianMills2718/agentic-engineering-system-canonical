@@ -15,11 +15,13 @@ Requirement text (generated):
         `lockstep check` with no name, or only `--repo`, `--base` and `--json`, SHALL keep running
         the whole-tree plan check.
     lockstep-checks/changed-count-line-and-exit-status: The changed check SHALL end with the line
-        `RESULT changed requirements=<n> unplanned=<n> no_scenario=<n> wording_only=<n> exit=<0|1>`,
-        exiting 1 when `unplanned` or `no_scenario` is above zero. When `<rev>` does not name a
-        commit it SHALL check nothing, print `RESULT changed skipped="base <rev> not found" exit=0`
-        and exit 0. `changed` SHALL be a check name in `lockstep.yaml` with the same `block`, `warn`
-        and `off` modes as the other checks.
+        `RESULT changed requirements=<n> unplanned=<n> no_scenario=<n> wording_only=<n> small=<n>
+        full=<n> no_plan_size=<n> no_planning_package=<n> exit=<0|1>`, exiting 1 when `unplanned`,
+        `no_scenario`, `no_plan_size` or `no_planning_package` is above zero. `small` and `full`
+        SHALL count the listed requirements of each size. When `<rev>` does not name a commit it
+        SHALL check nothing, print `RESULT changed skipped="base <rev> not found" exit=0` and exit
+        0. `changed` SHALL be a check name in `lockstep.yaml` with the same `block`, `warn` and
+        `off` modes as the other checks.
 
 Names: `trace`, `arch [gen|check]`, `test-first [--base REV]`, `sources [--json]`, `docmeta`, `project [--check]`,
 `instructions [--chain FILE]`, `changed [--base REV] [--json]`; each takes
@@ -131,6 +133,7 @@ def _changed(root: Path, args: argparse.Namespace, cfg: Config) -> int:
             documents = ", ".join(f"{d['where']} ({d['label']})" for d in item.documents)
             print(f"  {'documents':11} {documents or '-'}")
             print(f"  {'plan':11} {', '.join(item.plans) or 'none'}")
+            print(f"  {'size':11} {item.size or '-'}")
     out = sys.stderr if args.json else sys.stdout
     for item in result.requirements:
         if "unplanned" in item.findings:
@@ -138,6 +141,14 @@ def _changed(root: Path, args: argparse.Namespace, cfg: Config) -> int:
         if "no-scenario-changed" in item.findings:
             print(f"no-scenario-changed  {item.id}  (the statement changed and no scenario under it is new or "
                   f"different; change a scenario and its test, or add `Wording-only: {item.id}` to the plan)", file=out)
+        if "no-plan-size" in item.findings:
+            print(f"no-plan-size  {item.id}  (no plan naming it states its size; add the line `Plan size: small` "
+                  f"or `Plan size: full` to {', '.join(item.size_files)})", file=out)
+        if "no-planning-package" in item.findings:
+            named = ", ".join(item.missing_packages)
+            why = f"the planning package it names is not a file: {named}" if named else "no plan naming it has a `Planning package: <path>` line"
+            print(f"no-planning-package  {item.id}  (its plan size is full and {why}; add the line "
+                  f"`Planning package: <path>` naming the package file, or state `Plan size: small`)", file=out)
     for item in result.requirements:
         if item.wording_only:
             print(f"wording-only  {item.id}  ({item.wording_only})", file=out)

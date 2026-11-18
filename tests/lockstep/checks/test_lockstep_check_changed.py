@@ -98,7 +98,7 @@ def test_re_wrapped_text_is_not_a_change(base):
     write(base, "openspec/specs/core/spec.md", SPEC.replace("The tool SHALL do the thing.", "The tool   SHALL\n    do the thing."))
     code, out = changed(base)
     assert code == 0
-    assert last(out) == "RESULT changed requirements=0 unplanned=0 no_scenario=0 wording_only=0 exit=0"
+    assert last(out) == "RESULT changed requirements=0 unplanned=0 no_scenario=0 wording_only=0 small=0 full=0 no_plan_size=0 no_planning_package=0 exit=0"
 
 
 @pytest.mark.req("lockstep-checks/changed-a-changed-scenario-marks-its-requirement-changed")
@@ -113,7 +113,7 @@ def test_a_changed_scenario_marks_its_requirement_changed(base):
 @pytest.mark.req("lockstep-checks/changed-text-in-an-active-change-counts-before-it-is-archived")
 def test_text_in_an_active_change_counts_before_it_is_archived(base):
     write(base, "openspec/changes/reword/specs/core/spec.md", DELTA.format(how="better", then=" twice"))
-    write(base, "openspec/changes/reword/proposal.md", "## Why\n\nBecause.\n")
+    write(base, "openspec/changes/reword/proposal.md", "## Why\n\nBecause.\n\nPlan size: small\n")
     code, out = changed(base)
     assert "changed       core/do-the-thing" in out
     assert "plan        openspec/changes/reword" in out
@@ -143,7 +143,7 @@ def test_a_spec_edited_with_no_plan_is_unplanned(base):
 def test_an_archived_change_in_the_same_change_set_is_its_plan(base):
     write(base, "openspec/specs/core/spec.md", SCENARIO_CHANGED.replace("do the thing.", "do the thing better."))
     write(base, "openspec/changes/archive/2026-11-17-reword/specs/core/spec.md", DELTA.format(how="better", then=" twice"))
-    write(base, "openspec/changes/archive/2026-11-17-reword/proposal.md", "## Why\n\nBecause.\n")
+    write(base, "openspec/changes/archive/2026-11-17-reword/proposal.md", "## Why\n\nBecause.\n\nPlan size: small\n")
     code, out = changed(base)
     assert "plan        openspec/changes/archive/2026-11-17-reword" in out
     assert "unplanned     " not in out
@@ -176,11 +176,11 @@ def test_a_statement_changed_with_no_scenario_changed_fails(base):
 @pytest.mark.req("lockstep-checks/changed-a-wording-only-declaration-is-accepted-and-printed")
 def test_a_wording_only_declaration_is_accepted_and_printed(base):
     write(base, "openspec/changes/reword/specs/core/spec.md", DELTA.format(how="better", then=""))
-    write(base, "openspec/changes/reword/proposal.md", "## Why\n\nBecause.\n\nWording-only: core/do-the-thing\n")
+    write(base, "openspec/changes/reword/proposal.md", "## Why\n\nBecause.\n\nPlan size: small\n\nWording-only: core/do-the-thing\n")
     code, out = changed(base)
     assert code == 0, out
     assert "wording-only  core/do-the-thing  (openspec/changes/reword/proposal.md)" in out
-    assert last(out) == "RESULT changed requirements=1 unplanned=0 no_scenario=0 wording_only=1 exit=0"
+    assert last(out) == "RESULT changed requirements=1 unplanned=0 no_scenario=0 wording_only=1 small=1 full=0 no_plan_size=0 no_planning_package=0 exit=0"
 
 
 @pytest.mark.req("lockstep-checks/changed-nothing-changed-gives-a-zero-count-and-exit-0")
@@ -188,7 +188,7 @@ def test_nothing_changed_gives_a_zero_count_and_exit_0(base):
     write(base, "README.md", "unrelated\n")
     code, out = changed(base)
     assert code == 0
-    assert last(out) == "RESULT changed requirements=0 unplanned=0 no_scenario=0 wording_only=0 exit=0"
+    assert last(out) == "RESULT changed requirements=0 unplanned=0 no_scenario=0 wording_only=0 small=0 full=0 no_plan_size=0 no_planning_package=0 exit=0"
 
 
 @pytest.mark.req("lockstep-checks/changed-a-missing-base-is-reported-not-crashed")
@@ -244,7 +244,7 @@ def test_a_requirement_added_on_the_base_branch_after_the_branch_started_is_not_
     git(base, "checkout", "-q", "work")
     code, out = changed(base, base="main")
     assert code == 0
-    assert last(out) == "RESULT changed requirements=0 unplanned=0 no_scenario=0 wording_only=0 exit=0"
+    assert last(out) == "RESULT changed requirements=0 unplanned=0 no_scenario=0 wording_only=0 small=0 full=0 no_plan_size=0 no_planning_package=0 exit=0"
 
 
 @pytest.mark.req("lockstep-checks/changed-a-document-quoting-a-changed-requirement-is-listed-as-stale")
@@ -259,3 +259,99 @@ def test_a_document_quoting_a_changed_requirement_is_listed_as_stale(base):
     [req] = json.loads(out.split("\nRESULT")[0])["requirements"]
     assert req["documents"] == [{"where": "docs/other.md:3", "label": "current"},
                                 {"where": "docs/rules.md:3", "label": "stale"}]
+
+
+PROPOSAL = "## Why\n\nBecause.\n\n{body}\n"
+FENCED_SMALL = "```text\nPlan size: small\n```"
+
+
+def planned(root: Path, body: str, name: str = "reword") -> None:
+    """Add an active change that rewords the requirement and changes its scenario, with body in its proposal."""
+    write(root, f"openspec/changes/{name}/specs/core/spec.md", DELTA.format(how="better", then=" twice"))
+    write(root, f"openspec/changes/{name}/proposal.md", PROPOSAL.format(body=body))
+
+
+@pytest.mark.req("lockstep-checks/changed-a-plan-marked-small-passes")
+def test_a_plan_marked_small_passes(base):
+    planned(base, "Plan size: small")
+    code, out = changed(base)
+    assert "  size        small" in out
+    assert "no-plan-size" not in out
+    assert last(out) == ("RESULT changed requirements=1 unplanned=0 no_scenario=0 wording_only=0 "
+                         "small=1 full=0 no_plan_size=0 no_planning_package=0 exit=0")
+    assert code == 0, out
+    code, out = changed(base, "--json", stdout_only=True)
+    [req] = json.loads(out.split("\nRESULT")[0])["requirements"]
+    assert req["size"] == "small"
+
+
+@pytest.mark.req("lockstep-checks/changed-a-plan-with-no-size-line-fails")
+def test_a_plan_with_no_size_line_fails(base):
+    planned(base, "Closes: core/do-the-thing")
+    code, out = changed(base)
+    assert code == 1
+    assert "no-plan-size  core/do-the-thing" in out
+    assert "openspec/changes/reword/proposal.md" in [l for l in out.splitlines() if l.startswith("no-plan-size")][0]
+    assert "no_plan_size=1" in last(out) and last(out).endswith("exit=1")
+    code, out = changed(base, "--json", stdout_only=True)
+    [req] = json.loads(out.split("\nRESULT")[0])["requirements"]
+    assert req["size"] is None and "no-plan-size" in req["findings"]
+
+
+@pytest.mark.req("lockstep-checks/changed-a-size-line-inside-a-code-block-does-not-count")
+def test_a_size_line_inside_a_code_block_does_not_count(base):
+    planned(base, FENCED_SMALL)
+    code, out = changed(base)
+    assert code == 1
+    assert "no-plan-size  core/do-the-thing" in out
+
+
+@pytest.mark.req("lockstep-checks/changed-a-full-plan-that-names-an-existing-planning-package-passes")
+def test_a_full_plan_that_names_an_existing_planning_package_passes(base):
+    write(base, "docs/planning/planning-package.json", "{}\n")
+    planned(base, "Plan size: full\n\nPlanning package: `docs/planning/planning-package.json`")
+    code, out = changed(base)
+    assert "  size        full" in out
+    assert "no-planning-package" not in out
+    assert "full=1" in last(out)
+    assert code == 0, out
+
+
+@pytest.mark.req("lockstep-checks/changed-a-full-plan-with-no-planning-package-line-fails")
+def test_a_full_plan_with_no_planning_package_line_fails(base):
+    planned(base, "Plan size: full")
+    code, out = changed(base)
+    assert code == 1
+    assert "no-planning-package  core/do-the-thing" in out
+    assert "no_planning_package=1" in last(out)
+
+
+@pytest.mark.req("lockstep-checks/changed-a-full-plan-naming-a-planning-package-that-does-not-exist-fails")
+def test_a_full_plan_naming_a_planning_package_that_does_not_exist_fails(base):
+    planned(base, "Plan size: full\n\nPlanning package: docs/planning/missing.json")
+    code, out = changed(base)
+    assert code == 1
+    [line] = [l for l in out.splitlines() if l.startswith("no-planning-package")]
+    assert "core/do-the-thing" in line and "docs/planning/missing.json" in line
+
+
+@pytest.mark.req("lockstep-checks/changed-small-in-one-plan-and-full-in-another-counts-as-full")
+def test_small_in_one_plan_and_full_in_another_counts_as_full(base):
+    write(base, "docs/planning/planning-package.json", "{}\n")
+    planned(base, "Plan size: small")
+    write(base, "docs/plans/0002-bigger.md",
+          "# Bigger\n\nPlan size: full\n\n**Planning package:** docs/planning/planning-package.json\n\n"
+          "Closes: core/do-the-thing\n")
+    code, out = changed(base)
+    assert "  size        full" in out
+    assert "small=0 full=1" in last(out)
+    assert code == 0, out
+
+
+@pytest.mark.req("lockstep-checks/changed-an-unplanned-requirement-gets-no-size-finding")
+def test_an_unplanned_requirement_gets_no_size_finding(base):
+    write(base, "openspec/specs/core/spec.md", REWORDED)
+    code, out = changed(base)
+    assert "unplanned     core/do-the-thing" in out
+    assert "no-plan-size" not in out
+    assert "no_plan_size=0" in last(out)
