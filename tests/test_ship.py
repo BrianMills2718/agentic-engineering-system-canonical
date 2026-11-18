@@ -53,6 +53,15 @@ elif args[:1] == ["api"] and args[1].endswith("/rules/branches/main"):
     print(json.dumps([{"type": "required_linear_history"}] if os.environ.get("FAKE_GH_LINEAR") == "ruleset" else []))
 """
 
+FAKE_PRIOR_ART = """import os, sys
+open(os.environ["FAKE_PRIOR_ART_LOG"], "a").write(" ".join(sys.argv[1:]) + "\\n")
+code = int(os.environ.get("FAKE_PRIOR_ART_EXIT", "0"))
+if code == 1:
+    print("add-x: no prior-art record; create openspec/changes/add-x/prior-art.json")
+print(f"prior-art: 1 changes looked at, 1 need a record, {int(code == 0)} passes, {int(code == 1)} fails")
+sys.exit(code)
+"""
+
 
 def git(repo: Path, *args: str) -> str:
     return subprocess.run(["git", "-C", str(repo), *args], capture_output=True, text=True, check=True).stdout.strip()
@@ -97,6 +106,13 @@ def make_repo(tmp_path: Path, monkeypatch, first_commit: str, *, package: bool) 
     monkeypatch.setenv("SHIP_PLAN_LIST", PLAN_LIST)
     # The fake validators need no packages; tests of the interpreter choice unset this.
     monkeypatch.setenv("SHIP_VALIDATOR_PYTHON", sys.executable)
+    # A fake code2-workspace whose prior-art check logs its arguments and exits with FAKE_PRIOR_ART_EXIT (default 0).
+    script = tmp_path / "workspace" / "scripts" / "prior_art_check.py"
+    script.parent.mkdir(parents=True)
+    script.write_text(FAKE_PRIOR_ART)
+    monkeypatch.setenv("SHIP_WORKSPACE", str(tmp_path / "workspace"))
+    monkeypatch.setenv("SHIP_PRIOR_ART_PYTHON", sys.executable)
+    monkeypatch.setenv("FAKE_PRIOR_ART_LOG", str(tmp_path / "prior-art.log"))
     return work, remote, tmp_path / "gh.log"
 
 
@@ -1440,3 +1456,71 @@ def test_the_plan_list_location_is_read_from_graph_config(tmp_path, monkeypatch)
     monkeypatch.setenv("SHIP_PLAN_LIST", "c.conf")
     assert ship.setting("plan_list_path", "SHIP_PLAN_LIST") == "c.conf"
     assert ship.setting("missing", "SHIP_NO_SUCH_VARIABLE") is None
+
+
+# The prior-art record at the merge point (code2-workspace issue 833, slice 1).
+def add_change(work: Path, name: str = "add-x") -> str:
+    """Commit an OpenSpec change folder on the current branch; return the path of its proposal."""
+    folder = work / "openspec" / "changes" / name
+    folder.mkdir(parents=True)
+    (folder / "proposal.md").write_text("## Why\n\nBecause.\n")
+    git(work, "add", "-A")
+    git(work, "commit", "-q", "-m", "change")
+    return f"openspec/changes/{name}/proposal.md"
+
+
+def prior_art_calls(tmp_path: Path) -> list[str]:
+    log = tmp_path / "prior-art.log"
+    return log.read_text().splitlines() if log.exists() else []
+
+
+@pytest.mark.req("ship/a-change-with-no-record-is-refused")
+def test_a_change_with_no_record_is_refused(repo, tmp_path, monkeypatch, capsys):
+    work, remote, _ = repo
+    add_change(work)
+    monkeypatch.setenv("FAKE_PRIOR_ART_EXIT", "1")
+    refused_before_the_check(work, remote, tmp_path)
+    out = capsys.readouterr().out
+    assert "add-x: no prior-art record" in out
+
+
+@pytest.mark.req("ship/a-change-with-a-record-merges")
+def test_a_change_with_a_record_merges(repo, tmp_path, capsys):
+    work, remote, _ = repo
+    proposal = add_change(work)
+    assert ship.main(["--repo", str(work), "--check", "true"]) == 0
+    assert on_remote(remote, "feature")
+    [call] = prior_art_calls(tmp_path)
+    assert f"--repo {work}" in call and f"--files {proposal}" in call
+    out = capsys.readouterr().out
+    assert "prior-art: 1 changes looked at" in out
+    logged = "".join(p.read_text() for p in Path(os.environ["SHIP_LOG_DIR"]).glob("*.log"))
+    assert "prior-art: 1 changes looked at" in logged
+
+
+@pytest.mark.req("ship/a-merge-that-touches-no-change-runs-nothing")
+def test_a_merge_that_touches_no_change_runs_nothing(repo, tmp_path, monkeypatch, capsys):
+    work, remote, _ = repo
+    monkeypatch.setenv("FAKE_PRIOR_ART_EXIT", "1")
+    assert ship.main(["--repo", str(work), "--check", "true"]) == 0
+    assert prior_art_calls(tmp_path) == []
+    assert "prior-art check not run: this merge adds or changes no OpenSpec change" in capsys.readouterr().out
+
+
+@pytest.mark.req("ship/a-missing-prior-art-check-refuses")
+def test_a_missing_prior_art_check_refuses(repo, tmp_path, monkeypatch, capsys):
+    work, remote, _ = repo
+    add_change(work)
+    monkeypatch.setenv("SHIP_WORKSPACE", str(tmp_path / "no-workspace"))
+    refused_before_the_check(work, remote, tmp_path)
+    assert f"git -C {tmp_path / 'no-workspace'} pull --ff-only" in capsys.readouterr().out
+
+
+@pytest.mark.req("ship/a-prior-art-check-that-cannot-run-refuses")
+def test_a_prior_art_check_that_cannot_run_refuses(repo, tmp_path, monkeypatch, capsys):
+    work, remote, _ = repo
+    add_change(work)
+    monkeypatch.setenv("FAKE_PRIOR_ART_EXIT", "2")
+    refused_before_the_check(work, remote, tmp_path)
+    out = capsys.readouterr().out
+    assert "exit 2" in out and "not a verdict on the record" in out
