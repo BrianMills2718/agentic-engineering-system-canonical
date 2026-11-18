@@ -186,6 +186,75 @@ def test_a_branch_whose_earlier_pull_request_merged_gets_a_new_pull_request(repo
     assert "pr create" in calls and "pr merge 7 " in calls
 
 
+def advance_main(work: Path, path: str, text: str, *, prepend: bool = False) -> None:
+    """Commit to main on the remote after the feature branch was cut, then return to the branch."""
+    git(work, "checkout", "-q", "main")
+    target = work / path
+    old = target.read_text() if target.exists() else ""
+    target.write_text(text + old if prepend else text)
+    git(work, "add", "-A")
+    git(work, "commit", "-q", "-m", "main moved")
+    git(work, "push", "-q", "origin", "main")
+    git(work, "checkout", "-q", "feature")
+
+
+@pytest.mark.req("ship/a-branch-behind-the-default-branch-is-rebased-and-merged")
+def test_a_branch_behind_the_default_branch_is_rebased_and_merged(repo):
+    work, remote, gh_log = repo
+    advance_main(work, "other.txt", "other\n")
+    assert ship.main(["--repo", str(work), "--check", "true"]) == 0
+    head = git(work, "rev-parse", "HEAD")
+    assert git(work, "merge-base", "--is-ancestor", "origin/main", "HEAD") == ""
+    assert f"--match-head-commit {head}" in gh_log.read_text()
+    assert (work / "other.txt").exists()
+
+
+@pytest.mark.req("ship/two-top-entries-in-a-union-log-both-survive")
+def test_two_top_entries_in_a_union_log_both_survive(repo):
+    work, remote, _ = repo
+    git(work, "checkout", "-q", "main")
+    (work / ".gitattributes").write_text("log.md merge=union\n")
+    (work / "log.md").write_text("# Log\n\n## old entry\n")
+    git(work, "add", "-A")
+    git(work, "commit", "-q", "-m", "log")
+    git(work, "push", "-q", "origin", "main")
+    git(work, "checkout", "-q", "-B", "feature")
+    (work / "log.md").write_text("# Log\n\n## mine\n\n## old entry\n")
+    git(work, "commit", "-q", "-am", "my entry")
+    git(work, "checkout", "-q", "main")
+    (work / "log.md").write_text("# Log\n\n## theirs\n\n## old entry\n")
+    git(work, "commit", "-q", "-am", "their entry")
+    git(work, "push", "-q", "origin", "main")
+    git(work, "checkout", "-q", "feature")
+    assert ship.main(["--repo", str(work), "--check", "true"]) == 0
+    log = (work / "log.md").read_text()
+    assert "## mine" in log and "## theirs" in log and "## old entry" in log
+
+
+@pytest.mark.req("ship/a-conflicting-rebase-pushes-nothing")
+def test_a_conflicting_rebase_pushes_nothing(repo, capsys):
+    work, remote, _ = repo
+    before = git(work, "rev-parse", "HEAD")
+    advance_main(work, "a.txt", "c\n")
+    assert ship.main(["--repo", str(work), "--check", "true"]) == 1
+    assert "a.txt" in capsys.readouterr().out
+    assert git(work, "rev-parse", "HEAD") == before
+    assert git(work, "status", "--porcelain") == ""
+    assert not (work / ".git" / "rebase-merge").exists() and not (work / ".git" / "rebase-apply").exists()
+    assert not on_remote(remote, "feature")
+
+
+@pytest.mark.req("ship/a-branch-already-on-the-remote-is-not-rebased")
+def test_a_branch_already_on_the_remote_is_not_rebased(repo, capsys):
+    work, remote, gh_log = repo
+    git(work, "push", "-q", "origin", "feature")
+    before = git(work, "rev-parse", "HEAD")
+    advance_main(work, "other.txt", "other\n")
+    assert ship.main(["--repo", str(work), "--check", "true"]) == 0
+    assert git(work, "rev-parse", "HEAD") == before
+    assert "on the remote" in capsys.readouterr().out
+
+
 @pytest.mark.req("ship/a-merge-that-does-not-read-back-as-merged-fails")
 def test_a_merge_that_does_not_read_back_as_merged_fails(repo, monkeypatch):
     work, _, _ = repo
@@ -1290,6 +1359,8 @@ def test_with_no_merge_base_every_committed_one_page_plan_is_checked(repo, tmp_p
     work, remote, _ = repo
     path = plan_on_main(work, NO_COST_PART)
     git(work, "update-ref", "-d", "refs/remotes/origin/main")       # git can no longer say where the branch left main
+    # ship fetches origin first; fetch nothing back into origin/main so the merge base stays unknown.
+    git(work, "config", "remote.origin.fetch", "+refs/heads/none:refs/remotes/origin/none")
     refused_before_the_check(work, remote, tmp_path)
     assert f"{path} lacks" in capsys.readouterr().out
 

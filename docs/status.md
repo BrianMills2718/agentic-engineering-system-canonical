@@ -169,6 +169,7 @@ which tests cover each scenario at this commit. For pass or fail, run `make chec
 | `ship/check-every-one-page-plan-a-merge-adds-or-changes` | unimplemented | - |
 | `ship/settings-come-from-config` | unimplemented | - |
 | `ship/refuse-a-merge-whose-openspec-change-lacks-a-prior-art-record` | unimplemented | - |
+| `ship/rebase-a-branch-that-is-behind-the-default-branch-before-checking-it` | unimplemented | - |
 | `timer-config/each-job-in-the-list-becomes-a-service-and-a-timer-unit` | unimplemented | - |
 | `timer-config/installing-never-deletes` | unimplemented | - |
 | `workspace-map-check/settings-come-from-config` | unimplemented | - |
@@ -519,6 +520,10 @@ which tests cover each scenario at this commit. For pass or fail, run `make chec
 | `ship/a-merge-that-touches-no-change-runs-nothing` | `ship/refuse-a-merge-whose-openspec-change-lacks-a-prior-art-record` | not run at this revision | `tests/test_ship.py::test_a_merge_that_touches_no_change_runs_nothing` |
 | `ship/a-missing-prior-art-check-refuses` | `ship/refuse-a-merge-whose-openspec-change-lacks-a-prior-art-record` | not run at this revision | `tests/test_ship.py::test_a_missing_prior_art_check_refuses` |
 | `ship/a-prior-art-check-that-cannot-run-refuses` | `ship/refuse-a-merge-whose-openspec-change-lacks-a-prior-art-record` | not run at this revision | `tests/test_ship.py::test_a_prior_art_check_that_cannot_run_refuses` |
+| `ship/a-branch-behind-the-default-branch-is-rebased-and-merged` | `ship/rebase-a-branch-that-is-behind-the-default-branch-before-checking-it` | not run at this revision | `tests/test_ship.py::test_a_branch_behind_the_default_branch_is_rebased_and_merged` |
+| `ship/two-top-entries-in-a-union-log-both-survive` | `ship/rebase-a-branch-that-is-behind-the-default-branch-before-checking-it` | not run at this revision | `tests/test_ship.py::test_two_top_entries_in_a_union_log_both_survive` |
+| `ship/a-conflicting-rebase-pushes-nothing` | `ship/rebase-a-branch-that-is-behind-the-default-branch-before-checking-it` | not run at this revision | `tests/test_ship.py::test_a_conflicting_rebase_pushes_nothing` |
+| `ship/a-branch-already-on-the-remote-is-not-rebased` | `ship/rebase-a-branch-that-is-behind-the-default-branch-before-checking-it` | not run at this revision | `tests/test_ship.py::test_a_branch_already_on_the_remote_is_not_rebased` |
 | `timer-config/jobs-become-units` | `timer-config/each-job-in-the-list-becomes-a-service-and-a-timer-unit` | not run at this revision | `tests/test_timers.py::test_job_becomes_a_oneshot_service_and_a_scheduled_timer`, `tests/test_timers.py::test_hourly_after_finish_schedule_and_log_name_are_rendered` |
 | `timer-config/incomplete-job-is-refused` | `timer-config/each-job-in-the-list-becomes-a-service-and-a-timer-unit` | not run at this revision | `tests/test_timers.py::test_incomplete_or_unknown_job_is_refused`, `tests/test_timers.py::test_repeated_name_is_refused` |
 | `timer-config/install-backs-up-first` | `timer-config/installing-never-deletes` | not run at this revision | `tests/test_timers.py::test_install_backs_up_the_old_file_then_writes_then_reloads` |
