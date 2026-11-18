@@ -55,6 +55,7 @@ who holds them and waits up to $SHIP_SLOT_WAIT seconds (default 1800), then stop
 turns the limit off.
 
 Implements: ship/merge-only-the-commit-whose-check-passed
+Implements: ship/rebase-a-branch-that-is-behind-the-default-branch-before-checking-it
 Implements: ship/refuse-a-new-repository-with-no-planning-package
 Implements: ship/check-every-one-page-plan-a-merge-adds-or-changes
 Implements: ship/a-plan-repair-is-never-refused
@@ -881,6 +882,45 @@ def choose_method(run: Run, requested: str | None) -> str | None:
     return chosen
 
 
+def catch_up(run: Run, repo: Path, branch: str) -> str | None:
+    """Rebase an unpushed branch onto the default branch when it is behind; return why it cannot, or None.
+
+    GitHub's merge ignores `.gitattributes` merge drivers, so two branches that each add a top entry to one log
+    file conflict there; a local rebase applies `merge=union` and keeps both (code2-workspace issue 472).
+    """
+    def note(text: str) -> None:
+        print(f"ship: {text}")
+        run.write(f"ship: {text}")
+    if run.step("fetch origin", ["git", "-C", str(repo), "fetch", "-q", "origin"]).returncode != 0:
+        note("not rebased: the fetch failed, so the branch is merged as it is")
+        return None
+    head_ref = subprocess.run(["git", "-C", str(repo), "symbolic-ref", "-q", "--short", "refs/remotes/origin/HEAD"],
+                              capture_output=True, text=True)
+    default = head_ref.stdout.strip() if head_ref.returncode == 0 and head_ref.stdout.strip() else "origin/main"
+    behind = subprocess.run(["git", "-C", str(repo), "merge-base", "--is-ancestor", default, "HEAD"],
+                            capture_output=True, text=True)
+    if behind.returncode == 0:
+        return None
+    if behind.returncode != 1:
+        note(f"not rebased: git cannot compare the branch with {default}")
+        return None
+    pushed = subprocess.run(["git", "-C", str(repo), "ls-remote", "--exit-code", "--heads", "origin", branch],
+                            capture_output=True, text=True)
+    if pushed.returncode == 0:
+        note(f"not rebased onto {default}: {branch} is already on the remote and rebasing it would need a force-push")
+        return None
+    rebased = run.step(f"rebase onto {default}", ["git", "-C", str(repo), "rebase", "-q", default])
+    if rebased.returncode == 0:
+        note(f"rebased onto {default} ({git(repo, 'rev-parse', '--short', default)})")
+        return None
+    conflicts = subprocess.run(["git", "-C", str(repo), "diff", "--name-only", "--diff-filter=U"],
+                               capture_output=True, text=True).stdout.split()
+    run.step("abort the rebase", ["git", "-C", str(repo), "rebase", "--abort"])
+    return (f"{branch} conflicts with {default} in: {', '.join(conflicts) or 'paths git did not name'}; the branch is "
+            f"unchanged. Rebase it onto {default} and resolve these (a log file may take `merge=union` in "
+            ".gitattributes), then ship again")
+
+
 def main(argv: list[str] | None = None) -> int:
     """Ship the current branch of --repo; return 0 only when its pull request is merged."""
     parser = argparse.ArgumentParser(description=__doc__.split("\n\n")[0])
@@ -898,6 +938,9 @@ def main(argv: list[str] | None = None) -> int:
         return run.fail(f"on {branch or 'a detached HEAD'}; ship works from a feature branch")
     if git(repo, "status", "--porcelain"):
         return run.fail("the tree has uncommitted changes; commit them first")
+    behind = catch_up(run, repo, branch)
+    if behind:
+        return run.fail(f"{behind}; nothing was pushed")
     head = git(repo, "rev-parse", "HEAD")
     incomplete = one_page_plan_refusal(run, repo)
     if incomplete:
