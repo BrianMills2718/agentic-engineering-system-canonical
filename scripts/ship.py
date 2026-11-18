@@ -2,7 +2,8 @@
 """Run a repository's check and merge its pull request only if the check passed.
 
 Steps, each printing its exit status and time, stopping at the first that fails:
-clean tree on a non-default branch; the planning gate; the check (default `make check`), skipped when
+clean tree on a non-default branch; the one-page plans and the prior-art record of each OpenSpec change the
+merge touches (code2-workspace scripts/prior_art_check.py, from $SHIP_WORKSPACE); the planning gate; the check (default `make check`), skipped when
 this tree already passed the same check; the tree still clean and HEAD unchanged; push; open the pull request when the branch has none; merge pinned to the checked commit
 (`gh pr merge --match-head-commit`); read the state back and require MERGED.
 The merge method is chosen before the check, from what the repository allows: --method when allowed, else the
@@ -58,6 +59,7 @@ Implements: ship/refuse-a-new-repository-with-no-planning-package
 Implements: ship/check-every-one-page-plan-a-merge-adds-or-changes
 Implements: ship/a-plan-repair-is-never-refused
 Implements: ship/an-upkeep-only-change-is-never-refused
+Implements: ship/refuse-a-merge-whose-openspec-change-lacks-a-prior-art-record
 Implements: ship/a-record-only-change-is-never-refused
 Implements: ship/refuse-a-planning-package-the-validator-rejects
 Implements: ship/hold-a-new-repository-to-a-deployed-plan
@@ -103,6 +105,7 @@ GOAL_LINE = re.compile(r"^(ok|WAIT|FAIL)\s+goal provenance:.*?\(required from (\
 NEW_FROM = "2026-11-05"   # a first commit on or after this date is a new repository (Brian, 2026-11-04)
 # Where the plan list (the repositories whose review pages deploy) lives is a person's setting, not code.
 CONFIG = Path(os.environ.get("PROJECT_GRAPH") or Path.home() / "code2/aes-config/PROJECT_GRAPH.json").parent / "graph-config.yaml"
+PRIOR_ART_RULE = "prior-art rule (code2-workspace agents/topics/working-method.md, \"The per-feature prior-art record\")"
 PLANNING_RULE = "planning rule (agents/topics/working-method.md, \"Starting work on a project\")"
 NEW_RULE = "new-repository rule (agents/topics/working-method.md, \"Starting work on a project\")"
 # The one-page plan for small planned work (Brian, 2026-11-15, "6 all": decision record 0010). The marker line, the
@@ -424,6 +427,54 @@ def one_page_plan_refusal(run: Run, repo: Path) -> str | None:
         return (f"{SIZE_RULE}: a one-page plan this merge adds or changes is incomplete: {incomplete_pages(pages)}. "
                 "Complete the page, or remove the line `Plan size: small` when the work needs the full planning package")
     return None
+
+
+PRIOR_ART_SCRIPT = "scripts/prior_art_check.py"   # in code2-workspace
+PRIOR_ART_PYTHON = ["uv", "run", "--no-project", "--with", "jsonschema", "python"]
+CHANGES_DIR = "openspec/changes/"
+
+
+def prior_art_refusal(run: Run, repo: Path) -> str | None:
+    """Return why the prior-art rule stops the merge, or None when every change the merge touches passes.
+
+    Runs code2-workspace's prior-art check on the files under openspec/changes/ that the merge adds or changes
+    (every unarchived change when there is no merge base). Anything other than exit 0 refuses: a check that is
+    missing or cannot run is not taken as a pass.
+
+    Implements: ship/refuse-a-merge-whose-openspec-change-lacks-a-prior-art-record
+    """
+    base = merge_base(repo)
+    files: list[str] | None = None
+    if base:
+        changed = subprocess.run(["git", "-C", str(repo), "diff", "-z", "--name-only", "--diff-filter=d", base, "HEAD",
+                                  "--", CHANGES_DIR], capture_output=True, text=True)
+        if changed.returncode == 0:
+            files = [path for path in changed.stdout.split("\0") if path]
+            if not files:
+                line = "ship: prior-art check not run: this merge adds or changes no OpenSpec change"
+                print(line)
+                run.write(line)
+                return None
+    workspace = Path(os.environ.get("SHIP_WORKSPACE", Path.home() / "code2" / "workspace"))
+    script = workspace / PRIOR_ART_SCRIPT
+    if not script.is_file():
+        return (f"{PRIOR_ART_RULE}: the prior-art check {script} is missing, so this merge's OpenSpec changes cannot "
+                f"be checked; run `git -C {workspace} pull --ff-only` (or set SHIP_WORKSPACE) and ship again")
+    python = os.environ.get("SHIP_PRIOR_ART_PYTHON")
+    command = [*(python.split() if python else PRIOR_ART_PYTHON), str(script), "--repo", str(repo)]
+    if files is not None:
+        command += ["--files", *files]
+    result = run.step("prior-art check", command)
+    said = (result.stdout + result.stderr).strip()
+    if result.returncode == 0:
+        line = f"ship: {said.splitlines()[-1] if said else 'prior-art check passed'}"
+        print(line)
+        run.write(line)
+        return None
+    if result.returncode == 1:
+        return f"{PRIOR_ART_RULE}: an OpenSpec change this merge adds or changes has no decided prior-art record:\n{said}"
+    return (f"{PRIOR_ART_RULE}: the prior-art check could not run (exit {result.returncode}); this is not a verdict "
+            f"on the record. Its output:\n{said}")
 
 
 def planning_gate(run: Run, repo: Path, *, always_validate: bool = False) -> str | None:
@@ -851,6 +902,9 @@ def main(argv: list[str] | None = None) -> int:
     incomplete = one_page_plan_refusal(run, repo)
     if incomplete:
         return run.fail(f"{incomplete}; nothing was pushed")
+    no_record = prior_art_refusal(run, repo)
+    if no_record:
+        return run.fail(f"{no_record}\nnothing was pushed")
     refused = planning_gate(run, repo)
     if refused:
         changed = plan_only_change(repo)

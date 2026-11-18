@@ -168,6 +168,7 @@ which tests cover each scenario at this commit. For pass or fail, run `make chec
 | `ship/answer-the-plan-content-question-for-the-push-hook` | unimplemented | - |
 | `ship/check-every-one-page-plan-a-merge-adds-or-changes` | unimplemented | - |
 | `ship/settings-come-from-config` | unimplemented | - |
+| `ship/refuse-a-merge-whose-openspec-change-lacks-a-prior-art-record` | unimplemented | - |
 | `timer-config/each-job-in-the-list-becomes-a-service-and-a-timer-unit` | unimplemented | - |
 | `timer-config/installing-never-deletes` | unimplemented | - |
 | `workspace-map-check/settings-come-from-config` | unimplemented | - |
@@ -513,6 +514,11 @@ which tests cover each scenario at this commit. For pass or fail, run `make chec
 | `ship/with-no-merge-base-every-committed-one-page-plan-is-checked` | `ship/check-every-one-page-plan-a-merge-adds-or-changes` | not run at this revision | `tests/test_ship.py::test_with_no_merge_base_every_committed_one_page_plan_is_checked` |
 | `ship/a-new-repository-with-no-plan-list-named-is-refused` | `ship/settings-come-from-config` | not run at this revision | `tests/test_ship.py::test_a_new_repository_with_no_plan_list_named_is_refused` |
 | `ship/the-plan-list-location-is-read-from-graph-config` | `ship/settings-come-from-config` | not run at this revision | `tests/test_ship.py::test_the_plan_list_location_is_read_from_graph_config` |
+| `ship/a-change-with-no-record-is-refused` | `ship/refuse-a-merge-whose-openspec-change-lacks-a-prior-art-record` | not run at this revision | `tests/test_ship.py::test_a_change_with_no_record_is_refused` |
+| `ship/a-change-with-a-record-merges` | `ship/refuse-a-merge-whose-openspec-change-lacks-a-prior-art-record` | not run at this revision | `tests/test_ship.py::test_a_change_with_a_record_merges` |
+| `ship/a-merge-that-touches-no-change-runs-nothing` | `ship/refuse-a-merge-whose-openspec-change-lacks-a-prior-art-record` | not run at this revision | `tests/test_ship.py::test_a_merge_that_touches_no_change_runs_nothing` |
+| `ship/a-missing-prior-art-check-refuses` | `ship/refuse-a-merge-whose-openspec-change-lacks-a-prior-art-record` | not run at this revision | `tests/test_ship.py::test_a_missing_prior_art_check_refuses` |
+| `ship/a-prior-art-check-that-cannot-run-refuses` | `ship/refuse-a-merge-whose-openspec-change-lacks-a-prior-art-record` | not run at this revision | `tests/test_ship.py::test_a_prior_art_check_that_cannot_run_refuses` |
 | `timer-config/jobs-become-units` | `timer-config/each-job-in-the-list-becomes-a-service-and-a-timer-unit` | not run at this revision | `tests/test_timers.py::test_job_becomes_a_oneshot_service_and_a_scheduled_timer`, `tests/test_timers.py::test_hourly_after_finish_schedule_and_log_name_are_rendered` |
 | `timer-config/incomplete-job-is-refused` | `timer-config/each-job-in-the-list-becomes-a-service-and-a-timer-unit` | not run at this revision | `tests/test_timers.py::test_incomplete_or_unknown_job_is_refused`, `tests/test_timers.py::test_repeated_name_is_refused` |
 | `timer-config/install-backs-up-first` | `timer-config/installing-never-deletes` | not run at this revision | `tests/test_timers.py::test_install_backs_up_the_old_file_then_writes_then_reloads` |
