@@ -228,7 +228,7 @@ and 47) cover every session in every repository, so they cannot show an effect o
   one integration repository, plan last changed 2026-11-03) also have plans in the old `.aes/target.yaml` format, which current
   Lockstep still reads (`src/lockstep/aes_bridge.py:180-191`). The brain pull-request runner in Team-Brains
   checks a change against the plan only when the base has `.aes/project.yaml` or `.aes/target.yaml`
-  (`deploy/organizational-brains/brain_pr_runner.py:21-23`), so a repository planned only in `lockstep.yaml`
+  (`deploy/organizational-brains/brain_pr_runner.py:22-24`), so a repository planned only in `lockstep.yaml`
   would go unchecked by it (inferred from the code, not run). Finding 2 stands for the `lockstep.yaml` format.
   Lessons from the older systems: [lessons-from-older-systems-20261119.md](lessons-from-older-systems-20261119.md).
 
