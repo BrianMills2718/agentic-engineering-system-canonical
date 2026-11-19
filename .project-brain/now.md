@@ -1,3 +1,7 @@
+# AES assessment (2026-11-19)
+
+Brian asked for an audit. [The assessment](../docs/planning/aes-assessment-20261119.md) is read-only. It finds no measure yet of whether AES makes agents more effective. Lockstep's trace check fails in world-substrate (196 findings) and digimon (228) and runs at merge nowhere. The feedback log holds 8,624 unread reports, and the reading jobs have been off since about 2026-10-12. Three decisions are open for Brian (what AES is, a two-week world-substrate pilot, the feedback collector). The 2026-10-12 adopt-issue line further down is out of date: 192 of 226 adopt issues are open.
+
 # Lockstep plan size (2026-11-18, code2-workspace issue 853)
 
 Every plan that names a requirement `lockstep check changed` lists now states `Plan size: small` or `Plan size: full`. The check fails with `no-plan-size` when none does, and with `no-planning-package` when a full plan names no planning package file that exists. The count line adds `small`, `full`, `no_plan_size` and `no_planning_package`. Change: `openspec/changes/archive/2026-11-18-lockstep-plan-size/`. code2-workspace is the one repository that runs the check, and it picks this up when its pin moves.
