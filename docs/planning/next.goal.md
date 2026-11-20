@@ -156,6 +156,26 @@ Results as of 2026-11-20:
     pilot commit `e2a6397` with `make check` exit 0.
   - The guard logged 82 decisions that day: 61 pass, 9 allow, 12 deny, of which 6 were the bug.
 
+Plan-fidelity proof (added 2026-11-20). Brian, 2026-11-20: "the goal is to give a well specified plan to an agent on
+some proejct nad have it faithfulyy and successfully impelemnt it"; "this has nothing to do wihnt the brains. we need
+to prove it out elswhere first". So the steps above measure the wrong thing for that goal, and this test replaces
+step 2's mistake count as the question:
+
+- Setup: three world-substrate issues (#282, #241, #225). For each, a headless agent wrote an OpenSpec plan and a
+  separate agent wrote hidden acceptance tests from the plan. Two agents then built each plan, one with the Lockstep
+  checks on and one with them off (`--setting-sources user`, `LEFTHOOK=0`). Implementers never saw the hidden tests.
+- Result: all 6 builds were faithful and successful.
+  - Hidden tests: 6/6, 7/8 and 6/6 per plan. The one failure was a fault in the hidden test itself.
+  - Every changed file outside the plan was reported, and so was every skipped step.
+  - `make check` exited 0 for every build.
+  - The checks-on builds merged as world-substrate #490, #491 and #492.
+- Checks on vs off: no difference. The edit guard had nothing to govern, because every plan touched only `scripts/`
+  and `tests/`. Its one deny was correct, sending a shell write of a planned file to the Edit tool.
+- What Lockstep did catch, only as a warning: two of the three builds wrote wrong requirement ids in `Implements:`
+  lines, in both arms. A trace check that blocks new findings only would have refused these at commit.
+- The planner wrote an invalid prior-art record that the commit check passed and `ship` refused (code2-workspace#895).
+- Commit checks took 10 to 32 seconds with six sessions running at once.
+
 Thresholds in step 2 (3 mistakes, 15 seconds) are agent guesses Brian said yes to as proposed; he
 can change them. Not in scope: adding any Project Brain to the runner; that waits for both proofs.
 
