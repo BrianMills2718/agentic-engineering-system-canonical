@@ -1,0 +1,146 @@
+# Minimal core: what Brian wants, what exists off the shelf, what to keep
+
+Status: proposal, 2026-11-20. One file on purpose; no proposal folder.
+
+Source: Brian, 2026-11-20, Claude session 5651a525 (no file): "the whole thing should be configurable and
+shareable/protable. we shoudl start with the minimal core than add on other things as needed after the first
+minimal core milestone. we should udnersand wall the capabilties and constrats that we want and have them clearly
+lsited and have a landscape survey of what is off the shelf". Same day: "the goal is to give a well specified plan
+to an agent on some proejct nad have it faithfulyy and successfully impelemnt it"
+([next.goal.md](next.goal.md)).
+
+## 1. What the system must do (capabilities)
+
+| Id | Capability | Core or add-on | Brian's words |
+|---|---|---|---|
+| C1 | A plan with WHEN/THEN examples and a task list that names the files | core | 2026-11-20, above |
+| C2 | Hand the plan to a Claude or Codex agent, which implements it | core | 2026-11-20, above |
+| C3 | Acceptance check the implementer did not write: hidden tests from the plan alone | core | 2026-11-20, "faithfully and successfully" |
+| C4 | Departures reported: changed files not in tasks, skipped tasks | core | 2026-11-20, "faithfully" |
+| C5 | One merge path that merges only the commit whose check passed | core | 2026-11-05: "i should never have to approve a pr/deploy" (core.md) |
+| C6 | Secrets and `.env` never committed | core | rule in core.md; no quote found |
+| C7 | Full trace of every run | core | 2026-10-16: "every plan should have a requirement to have visibility for the full trace and that you should be examining this" (rule-sources.md:548) |
+| C8 | Prior-art record per feature | open (Decision 1) | 2026-11-17: "every cpaability/featuer shoul dhave a prior art search ... that needs to be ienforced" (rule-sources.md:782) |
+| C9 | Requirement ids named in code and tests exist | core (existence only) | agent inference: today's test (section 4) |
+| C10 | Docs conventions (links, format, reachability, arc42, LikeC4) | add-on | workspace decision 0002 |
+| C11 | Session log, feedback lines, cost basis, nightly prompt-size check | add-on | core.md, Records |
+
+## 2. What the system must be (constraints)
+
+| Id | Constraint | Brian's words |
+|---|---|---|
+| K1 | Configurable, portable and shareable | 2026-11-11: "configurable and protable/sharebale" ([DESIGN.md:8](../../proposals/one-planning-tool/DESIGN.md)); 2026-11-20 above |
+| K2 | Minimal core first; add-ons only after the first core milestone | 2026-11-20 above |
+| K3 | Off the shelf before custom | 2026-10-13: "find off the shelf stuff instead of building my own system" (workspace AGENTS.md); 2026-10-01: "novelty and building ourself is always assumed to be bad" (rule-sources.md:139) |
+| K4 | Every check finishes in seconds | 2026-10-13: "every check should finish in seconds" (workspace AGENTS.md) |
+| K5 | Measured before mandatory | 2026-10-26: "i guess i feel like we are overusing heavy checks to being with" (rule-sources.md:551) |
+| K6 | Same behaviour in Claude and Codex | 2026-09-14: "the answer is always yes" (rule-sources.md:346) |
+| K7 | Speed to a working version | 2026-10-01: "we are always speedrunning" (rule-sources.md:132) |
+| K8 | One home per rule | 2026-10-11: "yes we should get rid of repitition" (rule-sources.md:11) |
+| K9 | Failures loud and visible | 2026-09-29: "we always want maximum observability in logs and in output" (rule-sources.md:184) |
+
+Conflicts: C8 enforced vs K4/K2 (Decision 1). C7 full trace vs K4: the trace is recorded during the run, not
+checked at commit, so they do not collide.
+
+## 3. Off-the-shelf landscape (checked 2026-11-20)
+
+Release and push dates from `gh api repos/<r>` on 2026-11-20.
+
+| Tool | Latest release | Covers | Verdict |
+|---|---|---|---|
+| OpenSpec (Fission-AI) | v2.1.1, 2026-11-19 | C1, C2; skills for Claude and Codex | **adopt** (already in use) |
+| Spec Kit (GitHub) | v1.4.3, 2026-11-19 | C1, C2, more files per feature | reject: same job as OpenSpec, heavier |
+| Superpowers (obra) | v7.0.2, 2026-11-03 | C1, C2, test-first and worktree skills, both agents | alternative to OpenSpec; use one, not both |
+| Kiro specs (AWS) | n/a (editor) | C1 format (EARS WHEN/THEN SHALL) | reject the tool; copy the format |
+| Tessl | closed beta | library specs | reject: not generally available |
+| BMAD Method | v6.12 | full agile persona workflow | reject: far beyond a minimal core |
+| Task Master | n/a | PRD to task list via MCP | reject: duplicates OpenSpec tasks |
+| Agent OS | v3.0.0, 2026-01-20 | C10 only | reject: `AGENTS.md` does it |
+| lefthook | v2.2.2, 2026-10-13 | commit and push hook runner, one file | **adopt** (already in use) |
+| pre-commit | n/a | hook runner, clones hook repos | reject in favour of lefthook |
+| gitleaks | v8.30.1, 2026-03-21 (code pushed 2026-10-28) | C6 | **adopt** |
+| copier | v9.19.1, 2026-10-13 | install into a repo and `copier update` later | **adopt** (code2-template already uses it) |
+| GitHub merge queue / branch protection | server feature | C5 | reject: no hosted CI here, per-repo setup |
+| Claude Code OpenTelemetry | beta traces | C7 | possible later; exporter must be set per user, not per repo |
+| Langfuse hook plugin | n/a | C7 for both agents | add-on if a trace UI is wanted |
+| Spec-to-test tools | none found with independent evaluation | C3 | build (small) |
+
+Codex limit that decides where checks live: Codex's PreToolUse hook does not see every shell path
+([source](https://raw.githubusercontent.com/Dicklesworthstone/destructive_command_guard/main/docs/codex-integration.md)),
+so any check that must hold lives in git hooks and the merge step, not in agent hooks (K6).
+
+## 4. What today's test shows and does not show
+
+Plan-fidelity test, 2026-11-20 ([next.goal.md](next.goal.md), "Plan-fidelity proof"): 3 OpenSpec plans, 6 builds
+(3 with Lockstep's edit guard and commit checks on, 3 off). All 6 implemented their plan faithfully.
+
+- Shows: an agent given an OpenSpec plan builds it; the hidden acceptance tests (written by a separate session
+  from the plan alone, held outside the repo) are the check that actually measured success.
+- Shows: the edit guard and commit checks made no difference on these plans.
+- Does not show that the prior-art or requirement-id checks are useless. Neither was varied: the off arm still
+  merged through `ship`, and all three plans touched only ungoverned `scripts/` and `tests/`.
+- Shows the opposite for two checks: `ship`'s prior-art check refused an invalid `prior-art.json` that both #241
+  builds inherited (code2-workspace#895), and the trace check (warn mode) flagged wrong `Implements:` ids in both
+  arms (196 to 203 findings).
+
+## 5. Current mechanisms: keep, merge, cut or add-on
+
+| Mechanism | Where | Verdict | Why |
+|---|---|---|---|
+| OpenSpec plan (proposal, spec delta, tasks) | each repo `openspec/` | **core** | C1 |
+| Repo's own `make check` | each repo | **core** | C3, K4 |
+| `ship` merge | `~/.local/bin/ship` | **core, trimmed** | C5; drop the gates below that move to add-ons |
+| Secret scan at commit + `.env` refusal | `hooks/base.yml` | **core** | C6; one place |
+| Secret scan at push | `hooks/base.yml` | merge into commit scan | duplicate (K8) |
+| Requirement-id existence (`Implements:` / `req(...)` name a real requirement) | `lockstep check trace` | **core, new findings only** | C9; caught wrong ids today |
+| Prior-art check at commit | `hooks/base.yml` | Decision 1 | passed a record `ship` refused (code2-workspace#895) |
+| Prior-art check at `ship` | `ship` | Decision 1 | caught today's invalid record |
+| Planning-package gate | `ship` and global pre-push | add-on, one place | duplicate (K8) |
+| Goal provenance gate | `ship` | add-on | not C1-C7 |
+| `Source:` lines check | `lockstep check sources`, run 3 times | add-on, one place | duplicate (K8) |
+| Docs: links, markdown format, reachability, docmeta | `hooks/base.yml`, `lockstep check docmeta` | add-on | C10 |
+| Lockstep file layout (`lockstep.yaml` file list) | `lockstep check` | merge into departure report | same list as `tasks.md` (K8) |
+| Lockstep edit guard | PreToolUse hook | add-on, off by default | 0 defects caught; Codex hook cannot enforce it (section 3) |
+
+## 6. The minimal core
+
+1. **Plan**: OpenSpec change with WHEN/THEN scenarios and a `tasks.md` naming files. A "Test seam" section names
+   the observable behaviour each scenario is checked through.
+2. **Hidden acceptance (new, C3)**: a separate agent session writes tests from the plan alone into a folder
+   outside the implementer's worktree; they are copied in only after the implementer's final commit, and must pass
+   before `ship`. This is the procedure that worked today, packaged as one script.
+3. **Implement**: any Claude or Codex agent, one worktree, instructions from one `AGENTS.md` (`CLAUDE.md` imports it).
+4. **Departure report (new, C4)**: `git diff --name-only` against `tasks.md` files plus unchecked tasks; report only,
+   not blocking (K5).
+5. **Commit hooks (lefthook)**: gitleaks on staged files, `.env` refusal, requirement-id existence on new findings.
+6. **Merge**: `ship` with only `make check` and the core checks above.
+7. **Trace (C7)**: keep each run's agent transcript under a run id; a trace UI (Langfuse) is an add-on.
+
+Everything else in section 5 marked add-on is off until a logged failure justifies it.
+
+## 7. Configurable and portable (K1): what is tied to this machine today
+
+"Configured from one file" is a design goal here, not something a tool provides.
+
+| Tied to this machine | Replacement |
+|---|---|
+| `ship` is a symlink to `~/.hive-brain/aes/scripts/ship.py` | install from the public repo with `uvx`, like `lockstep` already is |
+| Shared hooks come from a private repo through the `github-personal` SSH alias | a public hooks file, or copied in by copier |
+| `storage-policy`, `~/projects/data` paths in rules and scripts | out of the core; personal add-ons |
+| core.md and topic files use home-directory paths | core rules move into the template's `AGENTS.md`; personal rules stay in core.md |
+| Which add-ons are on | copier answers file (`.copier-answers.yml`) as the one switch; `lefthook.yml` and `AGENTS.md` generated from it |
+
+## 8. First core milestone and the rule against new sprawl
+
+Milestone: a new repo made from the template runs one plan through steps 1-6 in both Claude and Codex, on a
+second machine or a clean user, with the hidden tests passing and the departure report produced.
+
+Rule for add-ons (inferred by agent; Brian can veto): each rule lives in one place; an add-on becomes mandatory
+only after an on/off comparison shows it catches something; a mandatory check with no logged catch in 2 weeks is
+switched off.
+
+## 9. Decisions
+
+1. **Prior-art record (C8).** Options: (a) checked at `ship` only, commit-time copy removed; (b) checked at both;
+   (c) add-on, off in the core. Recommendation: (a), medium confidence: it keeps Brian's 2026-11-17 "needs to be
+   enforced" with one check that caught a real defect today, and removes the copy that let it through.
