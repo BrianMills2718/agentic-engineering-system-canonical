@@ -109,6 +109,7 @@ which tests cover each scenario at this commit. For pass or fail, run `make chec
 | `lockstep-plan-check/each-plan-requirement-is-sourced-in-brian-s-words-and-covered` | unimplemented | - |
 | `lockstep-plan-check/the-command-is-reached-as-lockstep-plan-check` | unimplemented | - |
 | `lockstep-plan-check/work-units-form-a-checked-dag` | unimplemented | - |
+| `lockstep-plan-check/a-citation-may-name-the-text-it-points-at` | not run at this revision | `lockstep.citation_anchor` |
 | `lockstep-plan-format/the-plan-is-openspec-plus-layout-rows` | not run at this revision | `lockstep.layout_plan` |
 | `lockstep-plan-format/a-planned-file-without-a-cog-plan-copy-is-judged-by-its-implements-block` | unimplemented | - |
 | `lockstep-plan-format/every-refusal-in-a-layout-repository-names-a-layout-command` | unimplemented | - |
@@ -179,7 +180,6 @@ which tests cover each scenario at this commit. For pass or fail, run `make chec
 | `workspace-map-check/alert-once-per-state-change` | unimplemented | - |
 | `workspace-map-check/crash-is-not-a-finding` | unimplemented | - |
 | `workspace-map-check/offloaded-archive-entry-is-not-gone` | unimplemented | - |
-| `lockstep-plan-check/a-citation-may-name-the-text-it-points-at` | not run at this revision | `lockstep.citation_anchor` |
 
 | Scenario | Requirement | State | Tests |
 | --- | --- | --- | --- |
@@ -397,6 +397,10 @@ which tests cover each scenario at this commit. For pass or fail, run `make chec
 | `lockstep-plan-check/a-dependency-on-a-missing-unit-fails` | `lockstep-plan-check/work-units-form-a-checked-dag` | untested | - |
 | `lockstep-plan-check/independent-units-touching-one-file-are-flagged` | `lockstep-plan-check/work-units-form-a-checked-dag` | untested | - |
 | `lockstep-plan-check/a-merged-unit-needs-evidence` | `lockstep-plan-check/work-units-form-a-checked-dag` | untested | - |
+| `lockstep-plan-check/an-anchored-citation-survives-a-line-move` | `lockstep-plan-check/a-citation-may-name-the-text-it-points-at` | not run at this revision | `tests/lockstep/test_lockstep_citation_anchor.py::test_an_anchored_citation_survives_a_line_move` |
+| `lockstep-plan-check/an-anchored-citation-whose-text-is-gone-fails` | `lockstep-plan-check/a-citation-may-name-the-text-it-points-at` | not run at this revision | `tests/lockstep/test_lockstep_citation_anchor.py::test_an_anchored_citation_whose_text_is_gone_fails`, `tests/lockstep/test_lockstep_citation_anchor.py::test_text_containing_a_url_scheme_is_still_an_anchor` |
+| `lockstep-plan-check/text-found-twice-fails` | `lockstep-plan-check/a-citation-may-name-the-text-it-points-at` | not run at this revision | `tests/lockstep/test_lockstep_citation_anchor.py::test_text_found_twice_fails` |
+| `lockstep-plan-check/a-malformed-anchor-fails-instead-of-being-skipped` | `lockstep-plan-check/a-citation-may-name-the-text-it-points-at` | not run at this revision | `tests/lockstep/test_lockstep_citation_anchor.py::test_a_malformed_anchor_fails_instead_of_being_skipped`, `tests/lockstep/test_lockstep_citation_anchor.py::test_a_wrong_directive_fails_instead_of_being_skipped` |
 | `lockstep-plan-format/the-layout-is-laid-out-with-first-docstrings` | `lockstep-plan-format/the-plan-is-openspec-plus-layout-rows` | not run at this revision | `tests/lockstep/test_lockstep_layout_plan.py::test_lockstep_layout_creates_each_file_with_its_requirement_criteria_and_tests` |
 | `lockstep-plan-format/an-unplanned-file-is-refused-against-the-layout` | `lockstep-plan-format/the-plan-is-openspec-plus-layout-rows` | not run at this revision | `tests/lockstep/test_lockstep_layout_plan.py::test_the_edit_hook_refuses_an_unplanned_file_and_names_the_layout`, `tests/lockstep/test_lockstep_layout_plan.py::test_the_shell_guard_reads_the_layout_too` |
 | `lockstep-plan-format/a-planned-file-s-edit-hands-over-its-requirement` | `lockstep-plan-format/the-plan-is-openspec-plus-layout-rows` | not run at this revision | `tests/lockstep/test_lockstep_layout_plan.py::test_the_edit_hook_hands_over_the_openspec_requirement` |
@@ -543,7 +547,3 @@ which tests cover each scenario at this commit. For pass or fail, run `make chec
 | `workspace-map-check/clean-run-closes-only-an-open-concern` | `workspace-map-check/alert-once-per-state-change` | not run at this revision | `tests/test_workspace_map.py::test_a_clean_run_closes_nothing_when_no_concern_is_open` |
 | `workspace-map-check/crash-is-not-a-finding` | `workspace-map-check/crash-is-not-a-finding` | not run at this revision | `tests/test_workspace_map.py::test_a_crash_exits_2_not_the_findings_code_1` |
 | `workspace-map-check/offloaded-archive-entry-is-not-gone` | `workspace-map-check/offloaded-archive-entry-is-not-gone` | not run at this revision | `tests/test_workspace_map.py::test_an_offloaded_archive_entry_is_not_reported_gone` |
-| `lockstep-plan-check/an-anchored-citation-survives-a-line-move` | `lockstep-plan-check/a-citation-may-name-the-text-it-points-at` | not run at this revision | `tests/lockstep/test_lockstep_citation_anchor.py::test_an_anchored_citation_survives_a_line_move` |
-| `lockstep-plan-check/an-anchored-citation-whose-text-is-gone-fails` | `lockstep-plan-check/a-citation-may-name-the-text-it-points-at` | not run at this revision | `tests/lockstep/test_lockstep_citation_anchor.py::test_an_anchored_citation_whose_text_is_gone_fails`, `tests/lockstep/test_lockstep_citation_anchor.py::test_text_containing_a_url_scheme_is_still_an_anchor` |
-| `lockstep-plan-check/text-found-twice-fails` | `lockstep-plan-check/a-citation-may-name-the-text-it-points-at` | not run at this revision | `tests/lockstep/test_lockstep_citation_anchor.py::test_text_found_twice_fails` |
-| `lockstep-plan-check/a-malformed-anchor-fails-instead-of-being-skipped` | `lockstep-plan-check/a-citation-may-name-the-text-it-points-at` | not run at this revision | `tests/lockstep/test_lockstep_citation_anchor.py::test_a_malformed_anchor_fails_instead_of_being_skipped`, `tests/lockstep/test_lockstep_citation_anchor.py::test_a_wrong_directive_fails_instead_of_being_skipped` |
