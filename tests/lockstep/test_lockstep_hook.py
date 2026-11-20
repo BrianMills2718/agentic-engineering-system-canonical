@@ -331,6 +331,44 @@ def test_a_worktree_logs_under_its_main_repository_name(tmp_path):
     assert log_dir(lane) == log_dir(main_repo) == tmp_path / "state" / "lockstep" / "myrepo"
 
 
+@pytest.mark.req("lockstep-init/a-worktree-logs-under-its-repository-name")
+@pytest.mark.parametrize("layout", ["relative-claude-worktree", "bare"])
+def test_other_worktree_layouts_find_the_main_checkout(tmp_path, layout):
+    if layout == "bare":
+        common, lane = tmp_path / "myrepo.git", tmp_path / "lane"
+        lane.mkdir()
+        (common / "worktrees" / "lane").mkdir(parents=True)
+        (lane / ".git").write_text(f"gitdir: {common / 'worktrees' / 'lane'}\n")
+    else:
+        main_repo = tmp_path / "myrepo"
+        lane = main_repo / ".claude" / "worktrees" / "x"
+        (main_repo / ".git" / "worktrees" / "x").mkdir(parents=True)
+        lane.mkdir(parents=True)
+        (lane / ".git").write_text("gitdir: ../../../.git/worktrees/x\n")
+    assert log_dir(lane) == tmp_path / "state" / "lockstep" / "myrepo"
+
+
+def test_an_unwritable_log_folder_does_not_stop_the_call(proj, tmp_path, monkeypatch, capsys):
+    blocker = tmp_path / "not-a-folder"
+    blocker.write_text("")
+    monkeypatch.setenv("LOCKSTEP_LOG_DIR", str(blocker / "logs"))
+    call = {"tool_name": "Write", "tool_input": {"file_path": str(proj / "src/greeter/extra.py")}, "cwd": str(proj)}
+    monkeypatch.setattr(sys, "stdin", io.StringIO(json.dumps(call)))
+    monkeypatch.setattr(sys, "argv", ["pcw-hook"])
+    assert main() == 0
+    out = capsys.readouterr()
+    assert json.loads(out.out)["hookSpecificOutput"]["permissionDecision"] == "allow"
+    assert "could not write the guard log" in out.err and "LOCKSTEP_LOG_DIR" in out.err
+
+
+def test_a_same_named_repository_sharing_the_folder_is_not_counted(proj, monkeypatch, capsys):
+    run_hook(proj, "Write", {"file_path": str(proj / "src/greeter/extra.py")}, monkeypatch, capsys)
+    today = dt.date.today().isoformat()
+    with open(log_dir(proj) / f"hook-{today}.jsonl", "a") as fh:
+        fh.write(json.dumps({"decision": "would_block", "repository": "/elsewhere/" + proj.name}) + "\n")
+    assert would_block_counts(proj, days=14) == {today: 1}
+
+
 @pytest.mark.req("lockstep-init/an-override-names-the-folder")
 def test_lockstep_log_dir_overrides_the_folder(proj, tmp_path, monkeypatch, capsys):
     monkeypatch.setenv("LOCKSTEP_LOG_DIR", str(proj / ".lockstep"))

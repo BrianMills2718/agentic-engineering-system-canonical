@@ -31,7 +31,7 @@
       "name": "Log under $XDG_STATE_HOME/lockstep/<repository name>/ with a LOCKSTEP_LOG_DIR override",
       "url": "https://specifications.freedesktop.org/basedir-spec/latest/",
       "covers": "Survives worktree removal; never inside a checkout, so never committed; the override keeps the Team-Brains runner's mounted folder working.",
-      "misses": "Two repositories with the same folder name share a folder; each record's project field separates them.",
+      "misses": "Two repositories with the same folder name share a folder; each record's repository field keeps their counts apart.",
       "verdict": "adopt",
       "reason": "Fixes both effects in #974 with the standard location and no new dependency."
     },

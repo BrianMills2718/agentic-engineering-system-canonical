@@ -27,7 +27,7 @@ By default (decision D7, Brian 2026-11-07) it only warns: the edit goes through,
 the refusal text after WARN_PREFIX, and the log records `"decision": "would_block"`. It refuses
 for a file matching a glob in the side file's `fixed` list, or everywhere with PCW_MODE=block
 (`blocks`). `pcw-hook --would-block [--days 14]` prints the would-block count per day.
-Every call the hook sees is appended to `.lockstep/hook-<date>.jsonl` in the project: each decision, a
+Every call the hook sees is appended to `hook-<date>.jsonl` in `log_dir()`, outside the project (#974): each decision, a
 shell write the plan has no rule for, and a call it lets through with nothing to say (`"decision":
 "pass"`), with the first characters of a shell command (Q21). Shell parsing misses a write whose path is built at run
 time; `pcw check` before the commit stays the guarantee.
@@ -174,11 +174,12 @@ OLD_LOG_DIR = ".pcw"  # where it logged before that; still counted
 LOG_DIR_ENV = "LOCKSTEP_LOG_DIR"  # override: log exactly in this folder
 
 
-def _repo_name(root: Path) -> str:
-    """The repository's own folder name, the same for every worktree of it (issue #974).
+def _main_checkout(root: Path) -> Path:
+    """The repository's main checkout, the same for every worktree of it (issue #974).
 
-    A worktree's `.git` is a file `gitdir: <main>/.git/worktrees/<name>`; the main checkout's name is read
-    from that path, so a log survives the worktree being removed after merge.
+    A worktree's `.git` is a file `gitdir: <main>/.git/worktrees/<name>` (or `<main>.git/worktrees/<name>`
+    for a bare repository); the main checkout is read from that path without running git, so a log
+    survives the worktree being removed after merge. Anything else is its own main checkout.
     """
     dot_git = root / ".git"
     if dot_git.is_file():
@@ -187,19 +188,25 @@ def _repo_name(root: Path) -> str:
             gitdir = Path(line.removeprefix("gitdir:").strip())
             if not gitdir.is_absolute():
                 gitdir = (root / gitdir).resolve()
-            if gitdir.parent.name == "worktrees" and gitdir.parent.parent.name == ".git":
-                return gitdir.parent.parent.parent.name
-    return root.resolve().name
+            common = gitdir.parent.parent
+            if gitdir.parent.name == "worktrees":
+                if common.name == ".git":
+                    return common.parent
+                if common.name.endswith(".git"):
+                    return common.parent / common.name.removesuffix(".git")
+    return root.resolve()
 
 
 def log_dir(root: Path) -> Path:
-    """Where the guard logs for project `root`: `$LOCKSTEP_LOG_DIR` when set, else
-    `${XDG_STATE_HOME:-~/.local/state}/lockstep/<repository name>/`, outside the checkout (issue #974)."""
+    """Where the guard logs for project `root`: `$LOCKSTEP_LOG_DIR` when set (a relative value is read from
+    `root`), else `${XDG_STATE_HOME:-~/.local/state}/lockstep/<main checkout's folder name>/`, outside the
+    checkout (issue #974)."""
     override = os.environ.get(LOG_DIR_ENV, "").strip()
     if override:
-        return Path(override).expanduser()
+        folder = Path(override).expanduser()
+        return folder if folder.is_absolute() else root / folder
     state = os.environ.get("XDG_STATE_HOME", "").strip() or str(Path.home() / ".local" / "state")
-    return Path(state).expanduser() / "lockstep" / _repo_name(root)
+    return Path(state).expanduser() / "lockstep" / _main_checkout(root).name
 
 
 def log(root: Path, record: dict) -> None:
@@ -208,13 +215,17 @@ def log(root: Path, record: dict) -> None:
 
 
 def _write_log(root: Path, record: dict) -> None:
-    folder = log_dir(root)
-    folder.mkdir(parents=True, exist_ok=True)
-    day = dt.date.today().isoformat()
+    """Append the record; a folder that cannot be written is reported on stderr and never stops the call."""
     record = {"at": dt.datetime.now(dt.timezone.utc).isoformat(), "tool_use_id": _CALL_ID,
-              "project": str(root), **record}
-    with open(folder / f"hook-{day}.jsonl", "a", encoding="utf-8") as fh:
-        fh.write(json.dumps(record) + "\n")
+              "project": str(root), "repository": str(_main_checkout(root)), **record}
+    try:
+        folder = log_dir(root)
+        folder.mkdir(parents=True, exist_ok=True)
+        with open(folder / f"hook-{dt.date.today().isoformat()}.jsonl", "a", encoding="utf-8") as fh:
+            fh.write(json.dumps(record) + "\n")
+    except (OSError, RuntimeError) as exc:
+        print(f"lockstep-hook: could not write the guard log ({exc}); set {LOG_DIR_ENV} to a writable folder",
+              file=sys.stderr)
 
 
 def blocks(root: Path, rel: str) -> bool:
@@ -461,6 +472,7 @@ def would_block_counts(root: Path, days: int = 14) -> dict[str, int]:
     """Per day (ISO date), how many hook decisions in the last `days` days were would_block; days with none are left out."""
     since = dt.date.today() - dt.timedelta(days=days - 1)
     counts: dict[str, int] = {}
+    repository = str(_main_checkout(root))
     folders = dict.fromkeys(f.resolve() for f in (log_dir(root), root / LOG_DIR, root / OLD_LOG_DIR))
     for path in sorted(p for folder in folders for p in folder.glob("hook-*.jsonl")):
         day = path.stem.removeprefix("hook-")
@@ -471,7 +483,9 @@ def would_block_counts(root: Path, days: int = 14) -> dict[str, int]:
             continue
         for line in path.read_text(encoding="utf-8").splitlines():
             try:
-                if json.loads(line).get("decision") == "would_block":
+                rec = json.loads(line)
+                # a shared folder holds every worktree and any same-named repository; count this one only
+                if rec.get("decision") == "would_block" and rec.get("repository", repository) == repository:
                     counts[day] = counts.get(day, 0) + 1
             except (ValueError, AttributeError):
                 continue

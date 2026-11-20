@@ -42,7 +42,7 @@ It writes only what is missing, never overwrites, and prints one line per file (
 - `lockstep.yaml`: the one settings file. `checks:` sets each commit check to `block`, `warn` or `off`; `owner:` is `--owner NAME`, else the owner of the git `origin`, else a placeholder to edit; `sources.human_pattern` is the text a `Source:` line starts with to count as a person's word (default `brian`, the same default the checks use; `--human-pattern REGEX` sets another); `governed:` and `layout:` start empty and hold the plan.
 - `.claude/settings.json` and `.codex/hooks.json`: a PreToolUse hook that runs the edit guard (`lockstep-hook`) before each edit or shell command. An existing file keeps its other settings.
 - `lefthook.yml`: a `lockstep` pre-commit command. Run `lefthook install` once (see [lefthook](https://lefthook.dev/)) so git calls it.
-- `.gitignore`: a `.lockstep/` line; the guard logs each decision to `.lockstep/hook-<date>.jsonl`.
+- `.gitignore`: a `.lockstep/` line, for older logs. The guard logs each decision outside the checkout, to `${XDG_STATE_HOME:-~/.local/state}/lockstep/<repository>/hook-<date>.jsonl`, or to `$LOCKSTEP_LOG_DIR` when set.
 
 No written file holds an absolute path: the hooks install Lockstep from the git address above on any machine.
 
