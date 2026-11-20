@@ -30,6 +30,8 @@ import sys
 from pathlib import Path
 from typing import Any
 
+from lockstep.citation_anchor import anchor_problem
+
 DEFAULT_ACCEPTANCE = "docs/planning/acceptance-criteria.json"
 ACCEPTANCE_FIELDS = ("criterion", "demonstration", "expected", "failure_example", "representation",
                      "entrypoint", "status")
@@ -54,6 +56,22 @@ def _load(path: Path) -> Any:
 
 # --- the acceptance-criteria file -------------------------------------------------------------------------------
 
+def _anchored(repo: Path, ref: str) -> tuple[bool, str | None]:
+    """`path#:~:text=...`: the file exists in the repository and the quoted text is in it exactly once."""
+    raw, _, fragment = ref.partition("#")
+    if not re.fullmatch(r"[\w./-]+", raw or "") or raw.startswith("/") or ".." in Path(raw).parts:
+        return True, f"{ref}: malformed anchor: the part before # is not a repository-relative file path"
+    path = repo / raw
+    if not path.is_file():
+        return True, f"{ref}: {raw} does not exist"
+    try:
+        text = path.read_text(encoding="utf-8", errors="replace")
+    except OSError as exc:
+        return True, f"{ref}: cannot read ({exc})"
+    problem = anchor_problem(text, fragment)
+    return True, (f"{ref}: {problem}" if problem else None)
+
+
 def _citation(repo: Path, ref: object) -> tuple[bool, str | None]:
     """(is a file citation, problem). A string that is not `path[:line]` (a URL, a quote) is not a citation.
 
@@ -62,6 +80,8 @@ def _citation(repo: Path, ref: object) -> tuple[bool, str | None]:
     """
     if not isinstance(ref, str):
         return False, None
+    if "#:~:" in ref and "://" not in ref.partition("#")[0]:
+        return _anchored(repo, ref.strip())
     m = CITATION.match(ref.strip())
     if not m or "://" in ref:
         return False, None

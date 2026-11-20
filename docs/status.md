@@ -102,7 +102,7 @@ which tests cover each scenario at this commit. For pass or fail, run `make chec
 | `lockstep-guard/a-refusal-lists-the-files-the-plan-allows` | unimplemented | - |
 | `lockstep-init/init-installs-lockstep-in-a-repository-without-overwriting` | not run at this revision | `lockstep.init_repo` |
 | `lockstep-init/installed-files-name-no-machine-and-read-their-settings-from-lockstep-yaml` | not run at this revision | `lockstep.init_repo` |
-| `lockstep-init/the-edit-guard-logs-to-lockstep` | unimplemented | - |
+| `lockstep-init/the-edit-guard-logs-outside-the-checkout` | unimplemented | - |
 | `lockstep-package/lockstep-installs-from-aes-canonical` | unimplemented | - |
 | `lockstep-package/the-old-pcw-names-keep-working` | unimplemented | - |
 | `lockstep-plan-check/the-acceptance-criteria-file-is-validated` | unimplemented | - |
@@ -110,6 +110,8 @@ which tests cover each scenario at this commit. For pass or fail, run `make chec
 | `lockstep-plan-check/the-command-is-reached-as-lockstep-plan-check` | unimplemented | - |
 | `lockstep-plan-check/work-units-form-a-checked-dag` | unimplemented | - |
 | `lockstep-plan-format/the-plan-is-openspec-plus-layout-rows` | not run at this revision | `lockstep.layout_plan` |
+| `lockstep-plan-format/a-planned-file-without-a-cog-plan-copy-is-judged-by-its-implements-block` | unimplemented | - |
+| `lockstep-plan-format/every-refusal-in-a-layout-repository-names-a-layout-command` | unimplemented | - |
 | `lockstep-projection/requirement-text-is-written-into-the-implementing-docstring` | not run at this revision | `lockstep.checks.project` |
 | `lockstep-projection/status-flows-back-into-the-plan` | not run at this revision | `lockstep.checks.project` |
 | `lockstep-projection/the-docs-site-shows-coverage-at-its-commit` | not run at this revision | `lockstep.checks.status.markdown` |
@@ -177,6 +179,7 @@ which tests cover each scenario at this commit. For pass or fail, run `make chec
 | `workspace-map-check/alert-once-per-state-change` | unimplemented | - |
 | `workspace-map-check/crash-is-not-a-finding` | unimplemented | - |
 | `workspace-map-check/offloaded-archive-entry-is-not-gone` | unimplemented | - |
+| `lockstep-plan-check/a-citation-may-name-the-text-it-points-at` | not run at this revision | `lockstep.citation_anchor` |
 
 | Scenario | Requirement | State | Tests |
 | --- | --- | --- | --- |
@@ -369,7 +372,9 @@ which tests cover each scenario at this commit. For pass or fail, run `make chec
 | `lockstep-init/no-written-file-holds-an-absolute-path` | `lockstep-init/installed-files-name-no-machine-and-read-their-settings-from-lockstep-yaml` | not run at this revision | `tests/lockstep/test_lockstep_init.py::test_no_written_file_holds_an_absolute_path` |
 | `lockstep-init/owner-lands-in-lockstep-yaml` | `lockstep-init/installed-files-name-no-machine-and-read-their-settings-from-lockstep-yaml` | not run at this revision | `tests/lockstep/test_lockstep_init.py::test_owner_lands_in_lockstep_yaml` |
 | `lockstep-init/a-lockstep-yaml-copied-to-another-repository-is-read-there` | `lockstep-init/installed-files-name-no-machine-and-read-their-settings-from-lockstep-yaml` | not run at this revision | `tests/lockstep/test_lockstep_init.py::test_a_lockstep_yaml_copied_to_another_repository_is_read_there` |
-| `lockstep-init/a-decision-is-logged-under-lockstep` | `lockstep-init/the-edit-guard-logs-to-lockstep` | not run at this revision | `tests/lockstep/test_lockstep_hook.py::test_a_decision_is_logged_under_dot_lockstep_and_old_logs_still_count` |
+| `lockstep-init/a-decision-is-logged-outside-the-checkout` | `lockstep-init/the-edit-guard-logs-outside-the-checkout` | not run at this revision | `tests/lockstep/test_lockstep_hook.py::test_a_decision_is_logged_outside_the_checkout_and_old_logs_still_count` |
+| `lockstep-init/a-worktree-logs-under-its-repository-name` | `lockstep-init/the-edit-guard-logs-outside-the-checkout` | not run at this revision | `tests/lockstep/test_lockstep_hook.py::test_a_worktree_logs_under_its_main_repository_name`, `tests/lockstep/test_lockstep_hook.py::test_other_worktree_layouts_find_the_main_checkout` |
+| `lockstep-init/an-override-names-the-folder` | `lockstep-init/the-edit-guard-logs-outside-the-checkout` | not run at this revision | `tests/lockstep/test_lockstep_hook.py::test_lockstep_log_dir_overrides_the_folder` |
 | `lockstep-package/the-check-runs-from-an-install` | `lockstep-package/lockstep-installs-from-aes-canonical` | not run at this revision | `tests/lockstep/test_lockstep_package.py::test_the_lockstep_command_runs_the_check` |
 | `lockstep-package/an-old-module-path-runs-the-new-code` | `lockstep-package/the-old-pcw-names-keep-working` | not run at this revision | `tests/lockstep/test_lockstep_package.py::test_python_m_pcw_runs_the_lockstep_module` |
 | `lockstep-package/an-old-cog-block-is-still-a-valid-plan-copy` | `lockstep-package/the-old-pcw-names-keep-working` | not run at this revision | `tests/lockstep/test_lockstep_package.py::test_a_pcw_cog_block_is_judged_like_a_lockstep_one` |
@@ -398,6 +403,10 @@ which tests cover each scenario at this commit. For pass or fail, run `make chec
 | `lockstep-plan-format/the-whole-tree-check-reads-the-layout` | `lockstep-plan-format/the-plan-is-openspec-plus-layout-rows` | not run at this revision | `tests/lockstep/test_lockstep_layout_plan.py::test_lockstep_check_allows_the_laid_out_tree_and_blocks_an_unplanned_file` |
 | `lockstep-plan-format/a-layout-row-must-name-real-requirements` | `lockstep-plan-format/the-plan-is-openspec-plus-layout-rows` | not run at this revision | `tests/lockstep/test_lockstep_layout_plan.py::test_a_row_naming_an_unknown_requirement_or_no_purpose_is_reported` |
 | `lockstep-plan-format/an-aes-plan-is-still-read` | `lockstep-plan-format/the-plan-is-openspec-plus-layout-rows` | not run at this revision | `tests/lockstep/test_lockstep_layout_plan.py::test_a_repository_with_an_aes_plan_is_read_as_before` |
+| `lockstep-plan-format/an-existing-file-with-a-current-implements-block-can-be-edited` | `lockstep-plan-format/a-planned-file-without-a-cog-plan-copy-is-judged-by-its-implements-block` | not run at this revision | `tests/lockstep/test_lockstep_layout_plan.py::test_a_file_written_before_its_layout_row_can_be_edited` |
+| `lockstep-plan-format/a-stale-implements-block-names-the-command-that-fixes-it` | `lockstep-plan-format/a-planned-file-without-a-cog-plan-copy-is-judged-by-its-implements-block` | not run at this revision | `tests/lockstep/test_lockstep_layout_plan.py::test_a_stale_implements_block_is_refused_until_lockstep_check_project_runs` |
+| `lockstep-plan-format/the-commit-check-judges-an-implements-block-the-same-way` | `lockstep-plan-format/every-refusal-in-a-layout-repository-names-a-layout-command` | not run at this revision | `tests/lockstep/test_lockstep_layout_plan.py::test_the_commit_check_allows_a_current_implements_block_and_blocks_a_stale_one` |
+| `lockstep-plan-format/an-undeclared-public-symbol-names-the-layout-exports` | `lockstep-plan-format/every-refusal-in-a-layout-repository-names-a-layout-command` | not run at this revision | `tests/lockstep/test_lockstep_layout_plan.py::test_an_undeclared_public_function_points_to_the_layout_row` |
 | `lockstep-projection/opening-quote-line-declarations-receive-canonical-text` | `lockstep-projection/requirement-text-is-written-into-the-implementing-docstring` | not run at this revision | `tests/lockstep/checks/test_lockstep_check_project.py::test_opening_quote_line_is_projected_without_losing_source`, `tests/lockstep/checks/test_lockstep_check_project.py::test_inline_function_literal_keeps_unicode_prefix_and_following_statement` |
 | `lockstep-projection/projection-rewrites-the-block` | `lockstep-projection/requirement-text-is-written-into-the-implementing-docstring` | not run at this revision | `tests/lockstep/checks/test_lockstep_check_project.py::test_projection_writes_the_requirement_text_under_implements`, `tests/lockstep/checks/test_lockstep_check_project.py::test_projection_rewrites_the_block`, `tests/lockstep/checks/test_lockstep_check_project.py::test_module_docstring_and_long_text_wrap`, `tests/lockstep/checks/test_lockstep_check_project.py::test_backslashes_are_escaped_in_a_plain_docstring`, `tests/lockstep/checks/test_lockstep_check_project.py::test_backslashes_are_written_as_they_are_in_a_raw_docstring` |
 | `lockstep-projection/stale-requirement-text-fails-the-check` | `lockstep-projection/requirement-text-is-written-into-the-implementing-docstring` | not run at this revision | `tests/lockstep/checks/test_lockstep_check_project.py::test_stale_requirement_text_fails_the_check`, `tests/lockstep/checks/test_lockstep_check_project.py::test_cli_check_exits_1_when_stale` |
@@ -534,3 +543,7 @@ which tests cover each scenario at this commit. For pass or fail, run `make chec
 | `workspace-map-check/clean-run-closes-only-an-open-concern` | `workspace-map-check/alert-once-per-state-change` | not run at this revision | `tests/test_workspace_map.py::test_a_clean_run_closes_nothing_when_no_concern_is_open` |
 | `workspace-map-check/crash-is-not-a-finding` | `workspace-map-check/crash-is-not-a-finding` | not run at this revision | `tests/test_workspace_map.py::test_a_crash_exits_2_not_the_findings_code_1` |
 | `workspace-map-check/offloaded-archive-entry-is-not-gone` | `workspace-map-check/offloaded-archive-entry-is-not-gone` | not run at this revision | `tests/test_workspace_map.py::test_an_offloaded_archive_entry_is_not_reported_gone` |
+| `lockstep-plan-check/an-anchored-citation-survives-a-line-move` | `lockstep-plan-check/a-citation-may-name-the-text-it-points-at` | not run at this revision | `tests/lockstep/test_lockstep_citation_anchor.py::test_an_anchored_citation_survives_a_line_move` |
+| `lockstep-plan-check/an-anchored-citation-whose-text-is-gone-fails` | `lockstep-plan-check/a-citation-may-name-the-text-it-points-at` | not run at this revision | `tests/lockstep/test_lockstep_citation_anchor.py::test_an_anchored_citation_whose_text_is_gone_fails`, `tests/lockstep/test_lockstep_citation_anchor.py::test_text_containing_a_url_scheme_is_still_an_anchor` |
+| `lockstep-plan-check/text-found-twice-fails` | `lockstep-plan-check/a-citation-may-name-the-text-it-points-at` | not run at this revision | `tests/lockstep/test_lockstep_citation_anchor.py::test_text_found_twice_fails` |
+| `lockstep-plan-check/a-malformed-anchor-fails-instead-of-being-skipped` | `lockstep-plan-check/a-citation-may-name-the-text-it-points-at` | not run at this revision | `tests/lockstep/test_lockstep_citation_anchor.py::test_a_malformed_anchor_fails_instead_of_being_skipped`, `tests/lockstep/test_lockstep_citation_anchor.py::test_a_wrong_directive_fails_instead_of_being_skipped` |

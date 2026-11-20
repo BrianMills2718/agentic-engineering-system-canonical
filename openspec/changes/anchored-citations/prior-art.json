@@ -1,0 +1,45 @@
+{
+  "need": "A citation in a planning package that names the text it points at, so a line move does not leave it pointing at other text while still passing.",
+  "searched": [
+    {
+      "place": "own",
+      "where": "src/lockstep/checks/quotes.py and src/lockstep/plan_check.py (_citation) in this repository; company-planning plugins/company-planning/skills/planning-compliance/scripts/validate_planning_package.py (_citation, line 719 on the feature branch), read 2026-11-20",
+      "query": "what resolves a citation by its text, and what a line citation checks",
+      "found": "quotes.py compares marked passages inside Markdown with requirement text in specs; it takes no file citation. Both _citation functions check only that the file exists and that the cited line is not past the end of the file; neither compares text."
+    },
+    {
+      "place": "outside",
+      "where": "W3C Web Annotation Data Model (TextQuoteSelector: exact, prefix, suffix) and the WICG Text Fragments proposal (#:~:text=prefix-,text,-suffix), from the agent's knowledge and Skipper's own capability-sourcing note naming Web Annotation (Q10); the specifications were not re-opened on 2026-11-20",
+      "query": "a standard way to point at a passage of a file by its text",
+      "found": "Both define exact text with optional surrounding context; the text-fragment form is a single string that fits a path citation field."
+    }
+  ],
+  "candidates": [
+    {
+      "name": "WICG text-fragment syntax in the citation string",
+      "url": "https://wicg.github.io/scroll-to-text-fragment/",
+      "covers": "exact text with optional prefix and suffix as one string after # in a path",
+      "misses": "defines matching for a browser (first match, case-insensitive word boundaries); here the rule is stricter: exactly once, whitespace collapsed, no fuzzy match, so a duplicate fails",
+      "verdict": "adopt",
+      "reason": "the string form needs no schema change in records that already hold a citation string; only the match rule is ours"
+    },
+    {
+      "name": "W3C Web Annotation TextQuoteSelector as a JSON object",
+      "url": "https://www.w3.org/TR/annotation-model/#text-quote-selector",
+      "covers": "the same exact, prefix and suffix as an object",
+      "misses": "every field that holds a citation string would have to accept an object",
+      "verdict": "reject",
+      "reason": "same information as the text-fragment string with a schema change in each record type"
+    },
+    {
+      "name": "lockstep quotes.py marked quote",
+      "url": "https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/main/src/lockstep/checks/quotes.py",
+      "covers": "text comparison against requirement text, whitespace collapsed",
+      "misses": "compares a passage inside a Markdown file with a spec, not a citation in a record with a file",
+      "verdict": "reject",
+      "reason": "different job; its whitespace rule (runs count as one space) is the same, written separately"
+    }
+  ],
+  "decision": "adopt",
+  "decided": "2026-11-20"
+}
