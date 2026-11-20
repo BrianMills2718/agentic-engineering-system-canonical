@@ -1,5 +1,5 @@
 ---
-description: Next plan for AES canonical -- Lockstep, the one planning-and-checking tool, built in six slices (merged 2026-11-11 and 2026-11-12); what remains is Brian's judgment of A1 to A5, Q24's second projector and the feedback loop
+description: Next plan for AES canonical -- Lockstep, the one planning-and-checking tool, built in six slices (merged 2026-11-11 and 2026-11-12); next, two local proofs (retrofit and from scratch) adopted 2026-11-20
 ---
 
 # Plan: build the one planning-and-checking tool
@@ -90,6 +90,35 @@ feedback loop's nightly calls are already running and measured: USD 0.127 over t
 --days 2 --group-by project,task`, project aes, 2026-11-11; investigation.json). Each slice's tests and lifelike's hook replays record their
 inputs and results in `.lockstep/` (src/lockstep/hook.py:172; Q23 resolved) and the pull request; the Lockstep session reads every
 failing run in full before marking a slice done.
+
+## Next plan: prove Lockstep on two local repositories (adopted 2026-11-20)
+
+Status: adopted. Source: Brian, 2026-11-20, "yes" to running both proofs before any further
+Project Brain gets the brain pull-request runner (session 5651a525; question asked in the same
+session: "dont we need to prove this on a local project both started from scratch and retrofitting
+an existing fproejct into the aes format?"). Size: full plan, because Lockstep is read by other
+repositories; this section is the one authority for it, under the same planning package.
+
+1. **Guard log outside the checkout (issue #974).** The edit guard writes `.lockstep/` inside the
+   checkout it edits (src/lockstep/hook.py:172-187), so a worktree deleted after `ship` takes its log
+   with it and guard use cannot be counted. Fix first: write the log under a per-user state folder
+   with an override, and have `--would-block` read it there. Done when a guarded edit in a worktree
+   leaves a log line that survives the worktree's removal. Coupling: the Team-Brains runner reads
+   refusals from a mounted `.lockstep/` and pins `LOCKSTEP_SHA`, so bumping that pin needs the mount
+   moved in the same change.
+2. **Retrofit proof (world-substrate, two weeks).** Turn on the checks that its `lefthook.yml`
+   already configures but that never run (no hook installed), with `trace` set to warn because it
+   has 196 findings today. Record the seconds a commit takes before and after. Define a "real
+   mistake" (a check finding that led to a code or doc change an agent kept, judged from the commit
+   that followed) before collecting any data; ordinary work only, no edits made to trip the guard.
+   Passes if the checks catch at least 3 real mistakes and add under 15 seconds per commit. Also
+   recorded: hours and tokens spent working down the trace findings. Review on 2026-12-04.
+3. **From-scratch proof.** A new repository from code2-template: `make check` passes before any
+   feature, then one small real feature is built with `trace` passing and the guard log showing its
+   decisions on every commit. A guard log with zero decisions fails the proof.
+
+Thresholds in step 2 (3 mistakes, 15 seconds) are agent guesses Brian said yes to as proposed; he
+can change them. Not in scope: adding any Project Brain to the runner; that waits for both proofs.
 
 ## Authorized source-fact upkeep follow-on
 
