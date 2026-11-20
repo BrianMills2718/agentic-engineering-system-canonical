@@ -12,6 +12,12 @@
       "where": "proposals/one-planning-tool/DESIGN.md, What goes where, read 2026-11-20",
       "query": "which projector the one-tool design keeps",
       "found": "One projector (Lockstep's), fed from OpenSpec; the merge of the two is not done yet."
+    },
+    {
+      "place": "outside",
+      "where": "cog (nedbatchelder.com/code/cog) documented behavior, from known behavior, not re-opened 2026-11-20",
+      "query": "can the cog regenerator add a block to a file that has none",
+      "found": "cog -r only re-runs blocks already marked in a file; it never inserts one, so `make project` (cog -r -c) cannot cure a missing plan copy."
     }
   ],
   "candidates": [
