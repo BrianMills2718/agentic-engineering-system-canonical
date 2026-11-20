@@ -132,8 +132,8 @@ OpenSpec requirements plus `layout:` rows in `lockstep.yaml` (`src/lockstep/layo
 (`src/lockstep/side_file.py:126-127`, `SideFile` at `:136`). Its commit checks and their block, warn or off modes come from
 `src/lockstep/checks/config.py:23-24` (`Config` at `:33`). Its writes are source and test files that begin with a docstring
 copy of the plan (`src/lockstep/scaffold.py`), the append-only change log (`src/lockstep/change_log.py`), generated wiki pages
-(`src/lockstep/wiki.py`) and a hook log under `.lockstep/` in the installing repository (`src/lockstep/hook.py:172`, resolved Q23), and, when `lockstep init` runs, the config file and the Claude Code and Codex hook entries it installs (`src/lockstep/init_repo.py`). These live in the repositories that
-install Lockstep; none is stored here, except what the tests build under `tests/lockstep/`.
+(`src/lockstep/wiki.py`) and a hook log outside the installing repository, under `${XDG_STATE_HOME:-~/.local/state}/lockstep/<repository>/` (`log_dir` in `src/lockstep/hook.py`; Q23, moved by #974), and, when `lockstep init` runs, the config file and the Claude Code and Codex hook entries it installs (`src/lockstep/init_repo.py`). These live in the repositories that
+install Lockstep (the hook log in the user's state folder); none is stored here, except what the tests build under `tests/lockstep/`.
 
 The source-fact projection slice adds the following persisted records in an installing
 repository. The source retains authority; generated blocks carry selected facts and a

@@ -766,7 +766,7 @@ Added after the 419-file inventory; the ecosystem page owns their interpretation
 
 ## openspec/specs/lockstep-init
 
-- **[spec.md](../openspec/specs/lockstep-init/spec.md)** — Defines additive idempotent native-hook/lefthook setup without machine paths, owner configuration and .lockstep decision logs. This is the merged current capability specification. **Role:** normative. **Disposition:** keep.
+- **[spec.md](../openspec/specs/lockstep-init/spec.md)** — Defines additive idempotent native-hook/lefthook setup without machine paths, owner configuration and decision logs kept outside the checkout. This is the merged current capability specification. **Role:** normative. **Disposition:** keep.
 
 ## openspec/specs/lockstep-package
 

@@ -1,0 +1,49 @@
+{
+  "need": "Keep the edit guard's per-decision log where it survives a worktree's removal and cannot be committed by accident, while one command still counts a repository's would-block decisions.",
+  "searched": [
+    {
+      "place": "own",
+      "where": "src/lockstep/hook.py:172-187 and src/lockstep/init_repo.py:144-149 at d7f2eabfc; issue #974; read 2026-11-20",
+      "query": "where the guard logs today and what keeps that log out of git",
+      "found": "The guard writes <checkout>/.lockstep/hook-<date>.jsonl; only `lockstep init` adds `.lockstep/` to .gitignore. No environment override exists. The issue lists two fixes: log outside the checkout, or add the folder to .git/info/exclude."
+    },
+    {
+      "place": "own",
+      "where": "Team-Brains deploy/organizational-brains brain pull-request runner and its test test_hook_refusals_reach_the_record_and_the_pull_request, read 2026-11-19",
+      "query": "who reads the guard log",
+      "found": "The runner mounts the checkout's .lockstep/ as ignored and reads refusals from it; it pins LOCKSTEP_SHA, so it keeps the old location until the pin moves."
+    },
+    {
+      "place": "outside",
+      "where": "XDG Base Directory Specification 0.8 (specifications.freedesktop.org/basedir-spec), from memory of the published text, not re-opened 2026-11-20",
+      "query": "standard per-user place for state that should persist but is not configuration or cache",
+      "found": "$XDG_STATE_HOME, default ~/.local/state, is for state data that persists between restarts, such as logs and history."
+    },
+    {
+      "place": "outside",
+      "where": "pre-commit (cache in ~/.cache/pre-commit) and git's own worktree layout (`gitdir:` file pointing to <main>/.git/worktrees/<name>), from known behavior, not re-opened 2026-11-20",
+      "query": "how tools that run inside many checkouts keep their data out of them, and how to find the main checkout from a worktree",
+      "found": "pre-commit keeps per-user data outside every checkout; a worktree's .git file names its main repository's .git directory, which gives the main checkout's name without running git."
+    }
+  ],
+  "candidates": [
+    {
+      "name": "Log under $XDG_STATE_HOME/lockstep/<repository name>/ with a LOCKSTEP_LOG_DIR override",
+      "url": "https://specifications.freedesktop.org/basedir-spec/latest/",
+      "covers": "Survives worktree removal; never inside a checkout, so never committed; the override keeps the Team-Brains runner's mounted folder working.",
+      "misses": "Two repositories with the same folder name share a folder; each record's repository field keeps their counts apart.",
+      "verdict": "adopt",
+      "reason": "Fixes both effects in #974 with the standard location and no new dependency."
+    },
+    {
+      "name": "Add .lockstep/ to .git/info/exclude on first write",
+      "url": "https://git-scm.com/docs/gitignore",
+      "covers": "Stops the accidental commit.",
+      "misses": "Logs written in a worktree are still deleted with it, so guard use stays uncountable, which is what both proofs need.",
+      "verdict": "reject",
+      "reason": "Leaves the undercount, the effect the proofs depend on."
+    }
+  ],
+  "decision": "adopt",
+  "decided": "2026-11-20"
+}

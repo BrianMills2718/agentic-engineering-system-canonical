@@ -74,7 +74,8 @@ def run(proj: Path) -> None:
     # PCW_MODE=block: the example shows the hook refusing (what a fixed file gets); the default only warns (D7).
     env = {**os.environ, "PCW_MODE": "block", "PATH": f"{BIN}{os.pathsep}{os.environ['PATH']}", "GIT_AUTHOR_NAME": "example",
            "GIT_AUTHOR_EMAIL": "example@example.invalid", "GIT_COMMITTER_NAME": "example",
-           "GIT_COMMITTER_EMAIL": "example@example.invalid", "PYTHONDONTWRITEBYTECODE": "1"}
+           "GIT_COMMITTER_EMAIL": "example@example.invalid", "PYTHONDONTWRITEBYTECODE": "1",
+           "LOCKSTEP_LOG_DIR": str(proj / ".lockstep")}  # the run shows the log in the project it built
     commit = "git add -A && git commit -q -m"
 
     # ---- PLAN

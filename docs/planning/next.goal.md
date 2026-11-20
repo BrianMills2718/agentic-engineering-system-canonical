@@ -88,7 +88,7 @@ and agent rules, as defined in [DOMAIN.md](DOMAIN.md).
 No step of this plan calls a model to produce its answer: the tool's checks are deterministic code, and the
 feedback loop's nightly calls are already running and measured: USD 0.127 over two nights for 1,443 calls (`llm-cost cost
 --days 2 --group-by project,task`, project aes, 2026-11-11; investigation.json). Each slice's tests and lifelike's hook replays record their
-inputs and results in `.lockstep/` (src/lockstep/hook.py:172; Q23 resolved) and the pull request; the Lockstep session reads every
+inputs and results in the guard log, outside the checkout since #974 (src/lockstep/hook.py, `log_dir`) and the pull request; the Lockstep session reads every
 failing run in full before marking a slice done.
 
 ## Next plan: prove Lockstep on two local repositories (adopted 2026-11-20)
