@@ -132,7 +132,15 @@ def changed_files(repo: Path, base: str = "HEAD") -> list[tuple[str, bool]]:
 
 def docstring_mismatch(root: Path, rel: str) -> str | None:
     """Why the docstring copies in a planned file differ from the plan, or None. Executes nothing."""
-    lines = (root / rel).read_text(encoding="utf-8").splitlines()
+    source = (root / rel).read_text(encoding="utf-8")
+    if has_layout(root) and OPEN not in source:
+        # A layout repository's file with no cog plan copy carries the `Implements:` block that
+        # `lockstep check project` writes (a file made before its layout row, or by code2-template);
+        # it is current when that command would leave it unchanged.
+        from lockstep.checks.project import stale_copy
+        return ("its generated `Implements:` requirement text differs from OpenSpec"
+                if stale_copy(root, root / rel) else None)
+    lines = source.splitlines()
     artifact = next((art for art in target(root).get("planned_artifacts", [])
                      if (art.get("locator") or {}).get("exact_path") == rel), None)
     required = artifact is not None and artifact.get("kind") == "source"
@@ -257,6 +265,8 @@ def _missing_copy(root: Path, base: str, rel: str, art: str) -> str | None:
     """
     if not rel.endswith(".py") or _git(root, "ls-tree", "--name-only", base, "--", rel).strip():
         return None
+    if has_layout(root) and OPEN not in (root / rel).read_text(encoding="utf-8"):
+        return None  # a layout file may carry the `Implements:` block instead; `docstring_mismatch` judges it
     for line in (root / rel).read_text(encoding="utf-8").splitlines():
         m = COG_CALL.fullmatch(line)
         if m and m["id"] == art:
@@ -343,8 +353,10 @@ def check(repo: Path, base: str = "HEAD") -> dict:
         missing = None if stale else _missing_copy(root, base, rel, art)
         if stale:
             files.append({"path": rel, "kind": "stale", "artifact": art, "blocks": True,
-                          "reason": f"The docstring in {rel} no longer matches its plan ({art}) in .aes/target.yaml: "
-                                    f"{stale}. The copy is regenerated from the plan (`cog -r -c`), not edited by hand."})
+                          "reason": (f"The generated requirement text in {rel} is out of date with the plan ({stale}). "
+                                     "Run `uv run lockstep check project` to regenerate it." if has_layout(root) else
+                                     f"The docstring in {rel} no longer matches its plan ({art}) in .aes/target.yaml: "
+                                     f"{stale}. The copy is regenerated from the plan (`cog -r -c`), not edited by hand.")})
         elif missing:
             files.append({"path": rel, "kind": "stale", "artifact": art, "blocks": True, "reason": missing})
         elif added := _added_symbols(root, base, rel):

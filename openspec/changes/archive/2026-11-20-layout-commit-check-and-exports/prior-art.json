@@ -1,0 +1,29 @@
+{
+  "need": "A layout repository's commit check and symbol refusals must judge and word things the way #977's edit hook does, so an agent that follows the hook can also commit.",
+  "searched": [
+    {
+      "place": "own",
+      "where": "src/lockstep/check.py:249 _missing_copy and :342, src/lockstep/symbol_gate.py:60-95, read 2026-11-20",
+      "query": "which other callers judge docstrings by the cog copy or name aes plan commands",
+      "found": "The whole-tree check calls docstring_mismatch and _missing_copy (cog only) and words its reason for .aes/target.yaml; symbol_gate words three refusals for `aes plan prepare/validate/accept`."
+    },
+    {
+      "place": "outside",
+      "where": "cog (nedbatchelder.com/code/cog) documented behavior, from known behavior, not re-opened 2026-11-20",
+      "query": "can the cog regenerator add a block to a file that has none",
+      "found": "cog -r only re-runs blocks already marked in a file; it never inserts one, so the commit check's `cog -r -c` advice cannot cure a missing plan copy."
+    }
+  ],
+  "candidates": [
+    {
+      "name": "Move the layout rule into docstring_mismatch and pass a route string to the symbol refusals",
+      "url": "src/lockstep/check.py",
+      "covers": "One judgment for hook and commit check; every refusal names a command that exists in a layout repository.",
+      "misses": "Other `aes plan` wordings (plan-file edits, declared reasons) remain; they apply to `.aes/` plan files, which layout repositories do not have.",
+      "verdict": "adopt",
+      "reason": "Smallest change that lets the proof's agent commit."
+    }
+  ],
+  "decision": "adopt",
+  "decided": "2026-11-20"
+}

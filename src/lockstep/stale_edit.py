@@ -39,22 +39,11 @@ import os
 from pathlib import Path
 
 from lockstep.check import docstring_mismatch
-from lockstep.checks.project import stale_copy
-from lockstep.cogtext import OPEN
-from lockstep.layout_plan import has_layout
 
 
 def projection_stale(root: Path, relpath: str) -> str | None:
     """Why a file's projection is missing or differs from its plan; executes no checked-tree code."""
-    path = root / relpath
-    if not path.is_file():
-        return None
-    if has_layout(root) and OPEN not in path.read_text(encoding="utf-8"):
-        # A layout repository's file with no cog plan copy carries the `Implements:` block that
-        # `lockstep check project` writes (a file made before its layout row, or by code2-template);
-        # it is current when that command would leave it unchanged.
-        if stale_copy(root, path):
-            return "its generated `Implements:` requirement text differs from OpenSpec"
+    if not (root / relpath).is_file():
         return None
     return docstring_mismatch(root, relpath)
 

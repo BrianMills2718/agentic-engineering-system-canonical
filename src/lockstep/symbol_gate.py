@@ -54,9 +54,11 @@ from pathlib import Path
 from agentic_engineering_system.characterize_python import analyze, parse_export
 
 from lockstep.aes_bridge import target
+from lockstep.layout_plan import has_layout
 
 
-def _problems(path: str, art: str, exports: list[str], text: str) -> dict[str, str]:
+def _problems(path: str, art: str, exports: list[str], text: str,
+              route: str = "`aes plan prepare/validate/accept`") -> dict[str, str]:
     """Problem key -> plain-words problem, for one file's text against its declared exports."""
     declared: dict[str, str | None] = {}
     for entry in exports:
@@ -76,7 +78,7 @@ def _problems(path: str, art: str, exports: list[str], text: str) -> dict[str, s
             # Q38: the plan names it and the text lacks it; counted only when the text before had it.
             out[f"missing:{name}"] = (
                 f"{path} would no longer define {name}, which the plan declares in {art}'s exports. "
-                "Keep it, or remove it from the plan through `aes plan prepare/validate/accept` first.")
+                f"Keep it, or remove it from the plan through {route} first.")
     for sym in symbols:
         if sym.kind not in ("function", "class"):
             continue
@@ -84,12 +86,12 @@ def _problems(path: str, art: str, exports: list[str], text: str) -> dict[str, s
         if sym.name not in declared:
             out[f"undeclared:{sym.name}"] = (
                 f"{path} would define the {sym.kind} {shown}, which the plan does not declare in {art}'s exports. "
-                "Add it with its types through `aes plan prepare/validate/accept` first, or make it private "
+                f"Add it with its types through {route} first, or make it private "
                 "(a name starting with _).")
         elif sym.kind == "function" and declared[sym.name] is not None and sym.signature != declared[sym.name]:
             out[f"signature:{sym.name}:{sym.signature}"] = (
                 f"{path} would give {sym.name} the signature {sym.signature}, but the plan ({art}) declares "
-                f"{sym.name}{declared[sym.name]}. Change the declared types through `aes plan prepare/validate/accept` "
+                f"{sym.name}{declared[sym.name]}. Change the declared types through {route} "
                 "first, or keep the declared signature.")
     return out
 
@@ -101,8 +103,10 @@ def added_symbol_problems(root: Path, rel: str, after: str, before: str | None) 
     for art in target(root).get("planned_artifacts") or []:
         if art.get("kind") == "source" and (art.get("locator") or {}).get("exact_path") == rel:
             exports = [str(e) for e in art.get("exports") or []]
-            now = _problems(rel, art.get("id") or rel, exports, after)
-            was = _problems(rel, art.get("id") or rel, exports, before) if before is not None else {}
+            route = ("its layout row's `exports:` in lockstep.yaml" if has_layout(root)
+                     else "`aes plan prepare/validate/accept`")
+            now = _problems(rel, art.get("id") or rel, exports, after, route)
+            was = _problems(rel, art.get("id") or rel, exports, before, route) if before is not None else {}
             # A new file is judged whole for what it adds; an export it does not define yet is unwritten, not removed.
             return [text for key, text in now.items() if key not in was and (before is not None or not key.startswith("missing:"))]
     return []
