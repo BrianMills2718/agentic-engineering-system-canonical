@@ -15,7 +15,7 @@ import sys
 
 import pytest
 
-from lockstep.hook import WARN_PREFIX, decide, main, paths_from_call, shell_command, would_block_counts
+from lockstep.hook import WARN_PREFIX, decide, log_dir, main, paths_from_call, shell_command, would_block_counts
 
 
 def test_codex_registration_matches_native_normalized_shell_and_delivers_plan(proj):
@@ -110,7 +110,7 @@ def run_hook(proj, tool: str, tool_input: dict, monkeypatch, capsys) -> dict:
 
 
 def log_lines(proj) -> list[dict]:
-    path = proj / ".lockstep" / f"hook-{dt.date.today().isoformat()}.jsonl"
+    path = log_dir(proj) / f"hook-{dt.date.today().isoformat()}.jsonl"
     return [json.loads(line) for line in path.read_text().splitlines()]
 
 
@@ -210,7 +210,7 @@ def test_would_block_counts_per_day(proj, monkeypatch, capsys):
     run_hook(proj, "Write", {"file_path": str(proj / "src/greeter/extra.py")}, monkeypatch, capsys)
     run_hook(proj, "Write", {"file_path": str(proj / "src/greeter/more.py")}, monkeypatch, capsys)
     run_hook(proj, "Edit", {"file_path": str(proj / "src/greeter/__init__.py")}, monkeypatch, capsys)  # allowed, not counted
-    old = proj / ".lockstep" / "hook-2000-01-01.jsonl"
+    old = log_dir(proj) / "hook-2000-01-01.jsonl"
     old.write_text(json.dumps({"decision": "would_block", "why": "unplanned"}) + "\n")
     today = dt.date.today().isoformat()
     assert would_block_counts(proj, days=14) == {today: 2}
@@ -307,17 +307,36 @@ def test_a_call_outside_any_project_is_not_logged(tmp_path, monkeypatch, capsys)
                                                               "cwd": str(tmp_path)})))
     monkeypatch.setattr(sys, "argv", ["pcw-hook"])
     assert main() == 0 and capsys.readouterr().out == ""
-    assert not (tmp_path / ".lockstep").exists()
+    assert not (tmp_path / ".lockstep").exists() and not (tmp_path / "state").exists()
 
 
-@pytest.mark.req("lockstep-init/a-decision-is-logged-under-lockstep")
-def test_a_decision_is_logged_under_dot_lockstep_and_old_logs_still_count(proj, monkeypatch, capsys):
+@pytest.mark.req("lockstep-init/a-decision-is-logged-outside-the-checkout")
+def test_a_decision_is_logged_outside_the_checkout_and_old_logs_still_count(proj, tmp_path, monkeypatch, capsys):
     run_hook(proj, "Write", {"file_path": str(proj / "src/greeter/extra.py")}, monkeypatch, capsys)
-    assert not (proj / ".pcw").exists()
-    old = proj / ".pcw"
-    old.mkdir()
-    (old / f"hook-{dt.date.today().isoformat()}.jsonl").write_text(json.dumps({"decision": "would_block"}) + "\n")
-    assert would_block_counts(proj, days=14) == {dt.date.today().isoformat(): 2}
+    today = dt.date.today().isoformat()
+    assert (tmp_path / "state" / "lockstep" / proj.name / f"hook-{today}.jsonl").exists()
+    assert not (proj / ".lockstep").exists() and not (proj / ".pcw").exists()
+    for old in (proj / ".pcw", proj / ".lockstep"):  # logs from before the move still count
+        old.mkdir()
+        (old / f"hook-{today}.jsonl").write_text(json.dumps({"decision": "would_block"}) + "\n")
+    assert would_block_counts(proj, days=14) == {today: 3}
+
+
+@pytest.mark.req("lockstep-init/a-worktree-logs-under-its-repository-name")
+def test_a_worktree_logs_under_its_main_repository_name(tmp_path):
+    main_repo, lane = tmp_path / "myrepo", tmp_path / "myrepo-lane"
+    (main_repo / ".git" / "worktrees" / "myrepo-lane").mkdir(parents=True)
+    lane.mkdir()
+    (lane / ".git").write_text(f"gitdir: {main_repo / '.git' / 'worktrees' / 'myrepo-lane'}\n")
+    assert log_dir(lane) == log_dir(main_repo) == tmp_path / "state" / "lockstep" / "myrepo"
+
+
+@pytest.mark.req("lockstep-init/an-override-names-the-folder")
+def test_lockstep_log_dir_overrides_the_folder(proj, tmp_path, monkeypatch, capsys):
+    monkeypatch.setenv("LOCKSTEP_LOG_DIR", str(proj / ".lockstep"))
+    run_hook(proj, "Write", {"file_path": str(proj / "src/greeter/extra.py")}, monkeypatch, capsys)
+    assert (proj / ".lockstep" / f"hook-{dt.date.today().isoformat()}.jsonl").exists()
+    assert would_block_counts(proj, days=14) == {dt.date.today().isoformat(): 1}
 
 
 @pytest.mark.req("lockstep-guard/a-refusal-lists-the-files-the-plan-allows")

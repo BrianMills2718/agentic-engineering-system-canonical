@@ -169,8 +169,37 @@ _LAST: dict = {}
 _PENDING: list = []
 
 
-LOG_DIR = ".lockstep"  # the guard's log folder (the design's name, Q23)
-OLD_LOG_DIR = ".pcw"  # where it logged before; `--would-block` still counts what is there
+LOG_DIR = ".lockstep"  # the guard's old in-checkout log folder (Q23); `--would-block` still counts what is there
+OLD_LOG_DIR = ".pcw"  # where it logged before that; still counted
+LOG_DIR_ENV = "LOCKSTEP_LOG_DIR"  # override: log exactly in this folder
+
+
+def _repo_name(root: Path) -> str:
+    """The repository's own folder name, the same for every worktree of it (issue #974).
+
+    A worktree's `.git` is a file `gitdir: <main>/.git/worktrees/<name>`; the main checkout's name is read
+    from that path, so a log survives the worktree being removed after merge.
+    """
+    dot_git = root / ".git"
+    if dot_git.is_file():
+        line = dot_git.read_text(encoding="utf-8", errors="replace").strip()
+        if line.startswith("gitdir:"):
+            gitdir = Path(line.removeprefix("gitdir:").strip())
+            if not gitdir.is_absolute():
+                gitdir = (root / gitdir).resolve()
+            if gitdir.parent.name == "worktrees" and gitdir.parent.parent.name == ".git":
+                return gitdir.parent.parent.parent.name
+    return root.resolve().name
+
+
+def log_dir(root: Path) -> Path:
+    """Where the guard logs for project `root`: `$LOCKSTEP_LOG_DIR` when set, else
+    `${XDG_STATE_HOME:-~/.local/state}/lockstep/<repository name>/`, outside the checkout (issue #974)."""
+    override = os.environ.get(LOG_DIR_ENV, "").strip()
+    if override:
+        return Path(override).expanduser()
+    state = os.environ.get("XDG_STATE_HOME", "").strip() or str(Path.home() / ".local" / "state")
+    return Path(state).expanduser() / "lockstep" / _repo_name(root)
 
 
 def log(root: Path, record: dict) -> None:
@@ -179,10 +208,11 @@ def log(root: Path, record: dict) -> None:
 
 
 def _write_log(root: Path, record: dict) -> None:
-    folder = root / LOG_DIR
-    folder.mkdir(exist_ok=True)
+    folder = log_dir(root)
+    folder.mkdir(parents=True, exist_ok=True)
     day = dt.date.today().isoformat()
-    record = {"at": dt.datetime.now(dt.timezone.utc).isoformat(), "tool_use_id": _CALL_ID, **record}
+    record = {"at": dt.datetime.now(dt.timezone.utc).isoformat(), "tool_use_id": _CALL_ID,
+              "project": str(root), **record}
     with open(folder / f"hook-{day}.jsonl", "a", encoding="utf-8") as fh:
         fh.write(json.dumps(record) + "\n")
 
@@ -431,7 +461,8 @@ def would_block_counts(root: Path, days: int = 14) -> dict[str, int]:
     """Per day (ISO date), how many hook decisions in the last `days` days were would_block; days with none are left out."""
     since = dt.date.today() - dt.timedelta(days=days - 1)
     counts: dict[str, int] = {}
-    for path in sorted(p for folder in (LOG_DIR, OLD_LOG_DIR) for p in (root / folder).glob("hook-*.jsonl")):
+    folders = dict.fromkeys(f.resolve() for f in (log_dir(root), root / LOG_DIR, root / OLD_LOG_DIR))
+    for path in sorted(p for folder in folders for p in folder.glob("hook-*.jsonl")):
         day = path.stem.removeprefix("hook-")
         try:
             if dt.date.fromisoformat(day) < since:
@@ -459,7 +490,7 @@ def _print_counts(argv: list[str]) -> int:
     for back in range(args.days - 1, -1, -1):
         day = (today - dt.timedelta(days=back)).isoformat()
         print(f"{day} {counts.get(day, 0)}")
-    print(f"total {sum(counts.values())} would_block in {args.days} days ({root / LOG_DIR})")
+    print(f"total {sum(counts.values())} would_block in {args.days} days ({log_dir(root)})")
     return 0
 
 
