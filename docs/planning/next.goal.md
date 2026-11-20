@@ -131,11 +131,22 @@ Results as of 2026-11-20:
     the next commit fixed them by hand. The `markdown-format` check fixes these at commit time, so a
     count of refused commits cannot see what auto-fixing checks catch.
   - 35 of 50 commits would have been refused, mostly for problems inherited from earlier commits
-    (whole-tree checks: page reachability 35, prior-art record 13, Lockstep 7). Still on main: 7
-    unreachable pages and 3 OpenSpec changes without a prior-art record made after that rule started.
-  - Live sessions not started. The commit checks are switched off machine-wide
-    (`~/.config/git/repo-hooks.off` makes the global git hooks skip each repository's own pre-commit);
-    setting world-substrate's own hooks path is waiting on Brian.
+    (whole-tree checks: page reachability 35, prior-art record 13, Lockstep 7). Still on main then:
+    7 unreachable pages. (An earlier count of 3 OpenSpec changes missing a prior-art record was wrong:
+    those changes are dated 2026-11-17, and the check covers changes from 2026-11-18.)
+  - Setup (Brian said yes to the hooks path): world-substrate's own hooks path now runs the checks
+    on every commit. Its cleanup commits (#481, #482) linked the 7 pages, governed
+    `src/world_substrate/` with 24 layout rows (an addition beyond this step's text), and set `trace`
+    to warn.
+  - Live sessions done: 3 headless Sonnet sessions on open issues #457, #245 and #231, all merged.
+    They cost $1.29 in total (measured: the sessions' reported `total_cost_usd`).
+    - Commit checks: 0 refusals. Time per commit was 4.5 to 8.3 seconds.
+    - Edit guard: 51 decisions. 32 were `no_rule`, because the work landed in `scripts/`, `tests/` and
+      `spikes/`, which are not governed.
+    - Its one deny was false (#986): a heredoc writing an ungoverned script named a governed path in
+      a comment.
+  - Step 2 result: time passes; mistakes fail, with 1 real mistake (replay 1, live 0) against the bar
+    of 3. Rolling out to Project Brains waits on Brian's call.
 - Step 3 passes, in the local repository `lockstep-pilot-report`:
   - The first feature passed the literal test (25 guard decisions, `make check` exit 0). But
     `lockstep init` writes `governed: []`, so the guard had nothing it could refuse.
