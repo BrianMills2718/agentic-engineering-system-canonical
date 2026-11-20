@@ -106,13 +106,17 @@ repositories; this section is the one authority for it, under the same planning 
    leaves a log line that survives the worktree's removal. Coupling: the Team-Brains runner reads
    refusals from a mounted `.lockstep/` and pins `LOCKSTEP_SHA`, so bumping that pin needs the mount
    moved in the same change.
-2. **Retrofit proof (world-substrate, two weeks).** Turn on the checks that its `lefthook.yml`
+2. **Retrofit proof (world-substrate, replay plus live sessions).** Turn on the checks that its `lefthook.yml`
    already configures but that never run (no hook installed), with `trace` set to warn because it
    has 196 findings today. Record the seconds a commit takes before and after. Define a "real
    mistake" (a check finding that led to a code or doc change an agent kept, judged from the commit
    that followed) before collecting any data; ordinary work only, no edits made to trip the guard.
    Passes if the checks catch at least 3 real mistakes and add under 15 seconds per commit. Also
-   recorded: hours and tokens spent working down the trace findings. Review on 2026-12-04.
+   recorded: hours and tokens spent working down the trace findings. The evidence comes from two
+   sources instead of a two-week watch (Brian, 2026-11-20: "i want to finish in a couple days"):
+   a replay, which runs the configured commit checks over past commits to measure time and find
+   mistakes they would have caught; then 2 or 3 live agent sessions on real open issues with the
+   checks on, for mistakes caught as work happens.
 3. **From-scratch proof.** A new repository from code2-template: `make check` passes before any
    feature, then one small real feature is built with `trace` passing and the guard log showing its
    decisions on every commit. A guard log with zero decisions fails the proof.
@@ -121,9 +125,17 @@ Results as of 2026-11-20:
 
 - Step 1 done: #976. A guarded edit in a removed worktree left its log line under
   `~/.local/state/lockstep/<repository>/`.
-- Step 2 not started. Its commit checks are switched off machine-wide: `~/.config/git/repo-hooks.off`
-  makes the global git hooks skip each repository's own pre-commit. Setting world-substrate's own hooks
-  path is waiting on Brian.
+- Step 2 replay done over the last 50 non-merge commits on world-substrate main:
+  - Time passes: median 3.5 seconds, maximum 9.1, none over 15 (wall time with a warm cache).
+  - Real mistakes under the stated test: 1. One commit left 4 Markdown formatting problems in 3 files;
+    the next commit fixed them by hand. The `markdown-format` check fixes these at commit time, so a
+    count of refused commits cannot see what auto-fixing checks catch.
+  - 35 of 50 commits would have been refused, mostly for problems inherited from earlier commits
+    (whole-tree checks: page reachability 35, prior-art record 13, Lockstep 7). Still on main: 7
+    unreachable pages and 3 OpenSpec changes without a prior-art record made after that rule started.
+  - Live sessions not started. The commit checks are switched off machine-wide
+    (`~/.config/git/repo-hooks.off` makes the global git hooks skip each repository's own pre-commit);
+    setting world-substrate's own hooks path is waiting on Brian.
 - Step 3 passes, in the local repository `lockstep-pilot-report`:
   - The first feature passed the literal test (25 guard decisions, `make check` exit 0). But
     `lockstep init` writes `governed: []`, so the guard had nothing it could refuse.
