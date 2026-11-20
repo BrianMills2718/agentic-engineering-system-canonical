@@ -219,3 +219,43 @@ def test_a_stale_implements_block_is_refused_until_lockstep_check_project_runs(l
     out = _edit_existing(lay, monkeypatch, capsys)
     assert out["permissionDecision"] == "allow", out
     assert "with the name trimmed" in out["additionalContext"]
+
+
+def _existing_committed(lay: Path) -> None:
+    (lay / "openspec/specs/greeting/spec.md").write_text(SPEC)
+    (lay / "src/greeter").mkdir(parents=True)
+    (lay / "src/greeter/__init__.py").write_text(EXISTING)
+    sh(f"{BIN / 'lockstep'} check project", lay)
+    sh("git add -A && git commit -q -m existing", lay)
+
+
+@pytest.mark.req("lockstep-plan-format/the-commit-check-judges-an-implements-block-the-same-way")
+def test_the_commit_check_allows_a_current_implements_block_and_blocks_a_stale_one(lay):
+    _existing_committed(lay)
+    path = lay / "src/greeter/__init__.py"
+    path.write_text(path.read_text().replace("    return f", "    return  f"))
+    out = check(lay)
+    assert out["decision"] == "allow", out
+    change = lay / "openspec/changes/trim-name/specs/greeting"
+    change.mkdir(parents=True)
+    (change / "spec.md").write_text(CHANGED)
+    out = check(lay)
+    stale = [f for f in out["files"] if f["path"] == "src/greeter/__init__.py"]
+    assert out["decision"] == "block" and stale[0]["kind"] == "stale", out
+    assert "lockstep check project" in stale[0]["reason"] and ".aes/target.yaml" not in stale[0]["reason"]
+    sh(f"{BIN / 'lockstep'} check project", lay)
+    assert check(lay)["decision"] == "allow"
+
+
+@pytest.mark.req("lockstep-plan-format/an-undeclared-public-symbol-names-the-layout-exports")
+def test_an_undeclared_public_function_points_to_the_layout_row(lay, monkeypatch, capsys):
+    _existing_committed(lay)
+    path = lay / "src/greeter/__init__.py"
+    call = {"hook_event_name": "PreToolUse", "cwd": str(lay), "tool_name": "Edit",
+            "tool_input": {"file_path": str(path), "old_string": "    return f\"Hello, {name}!\"\n",
+                           "new_string": "    return f\"Hello, {name}!\"\n\n\ndef wave(name: str) -> str:\n"
+                                         "    \"\"\"Wave.\"\"\"\n    return name\n"}}
+    out = _hook(call, monkeypatch, capsys)
+    assert out["permissionDecision"] == "deny", out
+    reason = out["permissionDecisionReason"]
+    assert "exports:" in reason and "lockstep.yaml" in reason and "aes plan" not in reason, reason
