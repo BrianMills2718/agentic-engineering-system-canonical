@@ -107,6 +107,7 @@ from pathlib import Path
 from lockstep.aes_bridge import artifact_for_path, context, find_root, plan_name
 from lockstep.change_log import entry_edit_reason
 from lockstep.cogtext import render
+from lockstep.layout_plan import has_layout
 from lockstep.change_list import change_list
 from lockstep.change_list import render as render_changes
 from lockstep.openspec_text import find_spec_root, requirement_packet
@@ -418,14 +419,18 @@ def decide(call: dict) -> dict | None:
             log(root, {"file": rel, "decision": "allow", "why": "openspec_text", "requirements": spec_ids})
             return _out("allow", None, spec_text)
         ctx = context(root, art)
-        after = ("After editing: `make project` (regenerate docstrings) and "
+        layout = has_layout(root)
+        after = ("After editing: `uv run lockstep check project` (regenerate docstrings)" if layout else
+                 "After editing: `make project` (regenerate docstrings) and "
                  + " ".join(f"`aes evidence record {vs['id']}`" for vs in ctx.get("verification_subjects", [])))
         # Behavior 3.7: the requirement text is OpenSpec's when the file implements one, else the plan's.
         packet = "\n".join([spec_text or f"Plan for {rel} ({art}), from {plan_name(root)}:\n" + "\n".join(render(ctx)[2:]), "", after])
         stale = projection_stale(root, rel)
         if stale and stops_edits():
-            return _refuse_or_warn(root, [rel], {"file": rel, "artifact": art, "why": "stale_projection"},
-                                   stale_reason(rel, stale, packet) + "\n\n" + _changes(root))
+            reason = (f"The generated requirement text in {rel} is out of date with the plan ({stale}). Run "
+                      f"`uv run lockstep check project` to regenerate it, then retry.\n\n{packet}" if layout
+                      else stale_reason(rel, stale, packet) + "\n\n" + _changes(root))
+            return _refuse_or_warn(root, [rel], {"file": rel, "artifact": art, "why": "stale_projection"}, reason)
         added = _added_symbols(call, root, rel, path)
         if added:
             return _refuse_or_warn(root, [rel], {"file": rel, "artifact": art, "why": "symbols"}, " ".join(added), packet)

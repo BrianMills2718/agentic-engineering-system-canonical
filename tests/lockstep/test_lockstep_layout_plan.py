@@ -128,3 +128,94 @@ def test_a_repository_with_an_aes_plan_is_read_as_before(proj):
     assert (proj / ".aes/target.yaml").is_file()
     assert artifact_for_path(proj, "src/greeter/__init__.py") == "ART-GREET"
     assert check(proj)["decision"] == "allow"
+
+
+EXISTING = '''"""The greet function, written before its layout row.
+
+Implements: greeting/greet-by-name
+"""
+
+
+def greet(name: str) -> str:
+    """Return the greeting."""
+    return f"Hello, {name}!"
+'''
+
+# `lockstep check project` collects a requirement's text until its `Source:` line, so these put the text first.
+SPEC = """# greeting Specification
+
+## Purpose
+
+Greet a person by name.
+
+## Requirements
+
+### Requirement: Greet by name
+
+`greet(name)` SHALL return `Hello, <name>!`.
+
+Source: inferred by agent, the smallest example for Lockstep's layout plan.
+
+#### Scenario: A name is greeted
+
+- **GIVEN** the name `Ada`
+- **WHEN** `greet` is called with it
+- **THEN** it returns `Hello, Ada!`
+"""
+
+CHANGED = """## MODIFIED Requirements
+
+### Requirement: Greet by name
+
+`greet(name)` SHALL return `Hello, <name>!` with the name trimmed.
+
+Source: inferred by agent, the smallest example for Lockstep's layout plan.
+
+#### Scenario: A name is greeted
+
+- **GIVEN** the name `Ada`
+- **WHEN** `greet` is called with it
+- **THEN** it returns `Hello, Ada!`
+"""
+
+
+def _edit_existing(lay: Path, monkeypatch, capsys) -> dict:
+    path = lay / "src/greeter/__init__.py"
+    call = {"hook_event_name": "PreToolUse", "cwd": str(lay), "tool_name": "Edit",
+            "tool_input": {"file_path": str(path), "old_string": "    return", "new_string": "    return  "}}
+    return _hook(call, monkeypatch, capsys)
+
+
+@pytest.mark.req("lockstep-plan-format/an-existing-file-with-a-current-implements-block-can-be-edited")
+def test_a_file_written_before_its_layout_row_can_be_edited(lay, monkeypatch, capsys):
+    (lay / "openspec/specs/greeting/spec.md").write_text(SPEC)
+    (lay / "src/greeter").mkdir(parents=True)
+    (lay / "src/greeter/__init__.py").write_text(EXISTING)
+    sh(f"{BIN / 'lockstep'} check project", lay)
+    assert "Requirement text (generated)" in (lay / "src/greeter/__init__.py").read_text()
+    sh("git add -A && git commit -q -m existing", lay)
+    out = _edit_existing(lay, monkeypatch, capsys)
+    assert out["permissionDecision"] == "allow", out
+    assert "SHALL return `Hello, <name>!`" in out["additionalContext"]
+
+
+@pytest.mark.req("lockstep-plan-format/a-stale-implements-block-names-the-command-that-fixes-it")
+def test_a_stale_implements_block_is_refused_until_lockstep_check_project_runs(lay, monkeypatch, capsys):
+    (lay / "openspec/specs/greeting/spec.md").write_text(SPEC)
+    (lay / "src/greeter").mkdir(parents=True)
+    (lay / "src/greeter/__init__.py").write_text(EXISTING)
+    sh(f"{BIN / 'lockstep'} check project", lay)
+    change = lay / "openspec/changes/trim-name/specs/greeting"
+    change.mkdir(parents=True)
+    (change / "spec.md").write_text(CHANGED)
+    (lay / "openspec/changes/trim-name/proposal.md").write_text("## Why\n\nTrim names.\n\n## What Changes\n\n- trim\n")
+    sh("git add -A && git commit -q -m change", lay)
+    out = _edit_existing(lay, monkeypatch, capsys)
+    assert out["permissionDecision"] == "deny", out
+    reason = out["permissionDecisionReason"]
+    assert "lockstep check project" in reason and "make project" not in reason, reason
+    sh(f"{BIN / 'lockstep'} check project", lay)
+    assert "with the name trimmed" in (lay / "src/greeter/__init__.py").read_text()
+    out = _edit_existing(lay, monkeypatch, capsys)
+    assert out["permissionDecision"] == "allow", out
+    assert "with the name trimmed" in out["additionalContext"]
