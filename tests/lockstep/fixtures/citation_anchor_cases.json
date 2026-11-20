@@ -1,0 +1,89 @@
+{
+  "comment": "Shared by Company Planning's validator (citation_anchor.py) and Lockstep's plan check (lockstep.citation_anchor). The two repositories hold the same file; each has a test that fails when its copy differs from this table's expectations. expect: ok | not_found | ambiguous | malformed.",
+  "cases": [
+    {
+      "name": "exact text once",
+      "file": "Slice 0 costs $1.04 in model calls.\nSlice 1 is free.",
+      "fragment": ":~:text=costs%20%241.04",
+      "expect": "ok"
+    },
+    {
+      "name": "whitespace runs and line breaks count as one space",
+      "file": "Slice 0 costs\n   $1.04  in model calls.",
+      "fragment": ":~:text=costs%20%241.04%20in",
+      "expect": "ok"
+    },
+    {
+      "name": "text moved or edited away",
+      "file": "Slice 0 costs $0.52.",
+      "fragment": ":~:text=costs%20%241.04",
+      "expect": "not_found"
+    },
+    {
+      "name": "text appears twice",
+      "file": "cost $1.04. And again cost $1.04.",
+      "fragment": ":~:text=cost%20%241.04",
+      "expect": "ambiguous"
+    },
+    {
+      "name": "prefix picks one of two",
+      "file": "slice 0 cost $1.04. slice 1 cost $1.04.",
+      "fragment": ":~:text=slice%201%20-,cost%20%241.04",
+      "expect": "ok"
+    },
+    {
+      "name": "suffix picks one of two",
+      "file": "cost $1.04 in slice 0. cost $1.04 in slice 1.",
+      "fragment": ":~:text=cost%20%241.04,-%20in%20slice%201",
+      "expect": "ok"
+    },
+    {
+      "name": "prefix that does not match",
+      "file": "slice 0 cost $1.04.",
+      "fragment": ":~:text=slice%209%20-,cost%20%241.04",
+      "expect": "not_found"
+    },
+    {
+      "name": "encoded comma is part of the text",
+      "file": "one, two, three",
+      "fragment": ":~:text=one%2C%20two",
+      "expect": "ok"
+    },
+    {
+      "name": "empty text",
+      "file": "anything",
+      "fragment": ":~:text=",
+      "expect": "malformed"
+    },
+    {
+      "name": "range form is not supported",
+      "file": "alpha beta gamma",
+      "fragment": ":~:text=alpha,gamma",
+      "expect": "malformed"
+    },
+    {
+      "name": "bad percent encoding",
+      "file": "anything",
+      "fragment": ":~:text=%FF%FE",
+      "expect": "malformed"
+    },
+    {
+      "name": "wrong directive",
+      "file": "anything",
+      "fragment": ":~:selector=foo",
+      "expect": "malformed"
+    },
+    {
+      "name": "stray percent sign is malformed",
+      "file": "100%x",
+      "fragment": ":~:text=100%25x%",
+      "expect": "malformed"
+    },
+    {
+      "name": "percent not followed by hex is malformed",
+      "file": "100%x",
+      "fragment": ":~:text=100%x",
+      "expect": "malformed"
+    }
+  ]
+}
