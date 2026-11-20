@@ -117,6 +117,22 @@ repositories; this section is the one authority for it, under the same planning 
    feature, then one small real feature is built with `trace` passing and the guard log showing its
    decisions on every commit. A guard log with zero decisions fails the proof.
 
+Results as of 2026-11-20:
+
+- Step 1 done: #976. A guarded edit in a removed worktree left its log line under
+  `~/.local/state/lockstep/<repository>/`.
+- Step 2 not started. Its commit checks are switched off machine-wide: `~/.config/git/repo-hooks.off`
+  makes the global git hooks skip each repository's own pre-commit. Setting world-substrate's own hooks
+  path is waiting on Brian.
+- Step 3 passes, in the local repository `lockstep-pilot-report`:
+  - The first feature passed the literal test (25 guard decisions, `make check` exit 0). But
+    `lockstep init` writes `governed: []`, so the guard had nothing it could refuse.
+  - With `src/` governed, a second feature showed the guard refusing every edit to files that existed
+    before their layout row: the template's own files, and every file in a retrofit.
+  - Fixed in #977 (edit hook) and #979 (commit check, exports wording). The feature then landed in
+    pilot commit `e2a6397` with `make check` exit 0.
+  - The guard logged 82 decisions that day: 61 pass, 9 allow, 12 deny, of which 6 were the bug.
+
 Thresholds in step 2 (3 mistakes, 15 seconds) are agent guesses Brian said yes to as proposed; he
 can change them. Not in scope: adding any Project Brain to the runner; that waits for both proofs.
 
