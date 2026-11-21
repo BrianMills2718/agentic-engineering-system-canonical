@@ -135,6 +135,24 @@ Everything else in section 5 marked add-on is off until a logged failure justifi
 Milestone: a new repo made from the template runs one plan through steps 1-6 in both Claude and Codex, on a
 second machine or a clean user, with the hidden tests passing and the departure report produced.
 
+**Result, 2026-11-21: met, with one stated compromise.** Run in a clean home folder (no `~/code2`, no global git
+hooks, no tool wrappers, no `ship` link; real `uv`, `git`, `gh`, `node`, `openspec`, `lefthook`, `gitleaks`, `claude`,
+`codex`), in a new private repository made with `copier copy gh:BrianMills2718/code2-template` and default answers:
+
+| Agent | Hidden tests before / after | `make check` | Read the hidden tests | Departures named by the agent | Merged by `uv run ship` |
+| --- | --- | --- | --- | --- | --- |
+| Claude | 0/3 / 3/3 | 0 | no (peek_reads 0) | 3 of 3 | yes, "hidden tests passed" |
+| Codex | 0/10 / 10/10 | 0 | no (peek_reads 0) | 5 of 5 | yes, "hidden tests passed" |
+
+Both plans also merged through `ship` with the prior-art gate passing and both add-on gates printed off. `ship`
+refused a branch whose hidden-test run was for the commit before a rebase, as specified. Compromise: the agents
+used their own login folders (`CLAUDE_CONFIG_DIR`, `CODEX_HOME`), so they read the owner's global agent
+instructions; everything under test used nothing from the machine. Found and fixed: Node.js missing from the
+template's prerequisites (code2-template #36). Found and filed: the generated `docs/status.md` (and the spec list in
+`docs/index.md`) conflict whenever two plans merge one after the other (code2-template#37); `run-plan` prints
+`ship` where a template repository needs `uv run ship` (#994); `ship` and the lane sweep still default their logs to
+`~/code2/`.
+
 Rule for add-ons (inferred by agent; Brian can veto): each rule lives in one place; an add-on becomes mandatory
 only after an on/off comparison shows it catches something; a mandatory check with no logged catch in 2 weeks is
 switched off.
