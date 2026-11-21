@@ -77,6 +77,7 @@ flowchart LR
     shell_targets[shell_targets: which paths a shell command writes]
     stale_edit[stale_edit: refuse an edit while the docstring copy is stale]
     unplanned_files[unplanned_files: files the plan does not name]
+    plan_run[plan_run: hidden acceptance tests, departure report, run-plan]
     unplanned_symbols[unplanned_symbols: symbols the plan does not declare]
     symbol_gate[symbol_gate: symbols a change adds]
     layout_plan[layout_plan: OpenSpec plus layout rows]
@@ -171,6 +172,7 @@ flowchart LR
   ls_cli --> aes_bridge
   ls_cli --> declared_reason
   ls_cli --> unplanned_files
+  ls_cli --> plan_run
   ls_cli --> symbol_gate
   ls_cli --> init_repo
   ls_cli --> doc_projection
