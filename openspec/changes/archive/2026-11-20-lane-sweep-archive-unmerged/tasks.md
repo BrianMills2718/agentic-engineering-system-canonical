@@ -5,4 +5,4 @@
 - [x] Keep a lane whose ignored non-cache files total 1 MiB or more (tests first), 2026-11-20
 - [x] Run `make check`
 - [x] Archive the change, `lockstep check project`, `ship`
-- [x] Follow-up outside this repository (not done here): add `lane_sweep_archive_after_hours: 72` to aes-config `graph-config.yaml` (the code defaults to 72 without it)
+- [ ] Follow-up outside this repository (not done here): add `lane_sweep_archive_after_hours: 72` to aes-config `graph-config.yaml` (the code defaults to 72 without it)

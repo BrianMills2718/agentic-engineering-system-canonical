@@ -565,7 +565,10 @@ def _non_cache_bytes(path: Path, limit: int) -> int:
     except OSError:
         return limit
     total = 0
-    for folder, dirs, files in os.walk(path, followlinks=False, onerror=lambda _e: None):
+    errors: list[OSError] = []  # a folder os.walk cannot list (another user's database volume) is not 0 bytes
+    for folder, dirs, files in os.walk(path, followlinks=False, onerror=errors.append):
+        if errors:
+            return limit
         dirs[:] = [d for d in dirs if d not in REBUILDABLE and not d.endswith(".egg-info")]
         for name in files:
             try:
@@ -574,7 +577,7 @@ def _non_cache_bytes(path: Path, limit: int) -> int:
                 return limit
             if total >= limit:
                 return total
-    return total
+    return limit if errors else total
 
 
 def ignored_entries(lane: Lane, limit: int = IGNORED_KEEP_BYTES) -> tuple[list[str], int]:
@@ -586,8 +589,10 @@ def ignored_entries(lane: Lane, limit: int = IGNORED_KEEP_BYTES) -> tuple[list[s
     out = git(lane.path, "status", "--porcelain", "-z", "--ignored")
     if out.returncode != 0:
         return ["(git status --ignored failed)"], limit
-    found: list[str] = []
-    total = 0
+    # git leaves out a folder it cannot open and only warns (exit 0); what it holds cannot be measured, so it counts
+    # as reaching the limit (another user's database volume would make the removal stop partway).
+    found = [p for p in re.findall(r"could not open directory '([^']+)'", out.stderr) if not _is_cache(p)]
+    total = limit if found else 0
     for entry in out.stdout.split("\0"):
         if not entry.startswith("!! ") or _is_cache(entry[3:]):
             continue

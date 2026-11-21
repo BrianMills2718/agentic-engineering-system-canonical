@@ -855,3 +855,20 @@ def test_regenerable_caches_do_not_keep_a_lane(repo):
     age(wt)
     assert sweep(repo, "--apply") == 0
     assert not wt.exists()
+
+
+@pytest.mark.req("lane-sweep/a-lane-holding-ignored-non-cache-files-is-kept")
+def test_an_unreadable_ignored_folder_keeps_the_lane(repo, capsys):
+    ignore_in(repo, "data/")
+    wt = lane(repo, "unreadable-data")
+    (wt / "data" / "pg").mkdir(parents=True)
+    (wt / "data" / "pg" / "base").write_text("small\n")
+    land_on_main(repo, "unreadable-data")
+    age(wt)
+    os.chmod(wt / "data" / "pg", 0)
+    try:
+        assert sweep(repo, "--apply") == 0
+        assert wt.exists()
+        assert f"keep {wt} [unreadable-data]: holds ignored non-cache files: data/" in capsys.readouterr().out
+    finally:
+        os.chmod(wt / "data" / "pg", 0o755)
