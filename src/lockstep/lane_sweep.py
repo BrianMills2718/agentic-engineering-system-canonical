@@ -85,6 +85,15 @@ ASIDE_SUFFIX = ".lane-sweep-removing"
 CONFIG = Path(os.environ.get("PROJECT_GRAPH") or Path.home() / "code2/aes-config/PROJECT_GRAPH.json").parent / "graph-config.yaml"
 
 
+def default_log_dir(name: str) -> Path:
+    """~/code2/.<name>-logs where the ~/code2 workspace exists (its scripts read it), else
+    ${XDG_STATE_HOME:-~/.local/state}/<name>/logs, so another machine gets no ~/code2 folder."""
+    workspace = Path.home() / "code2"
+    if workspace.is_dir():
+        return workspace / f".{name}-logs"
+    return Path(os.environ.get("XDG_STATE_HOME") or Path.home() / ".local" / "state") / name / "logs"
+
+
 def config_text() -> str:
     """The text of graph-config.yaml beside the project graph, or "" when there is none."""
     try:
@@ -752,7 +761,7 @@ def sweep_repo(repo: Path, apply: bool, fetch: bool, ignore: set[int], limits: t
     """
     lines: list[str] = []
     tally: Counter = Counter()
-    log_dir = log_dir or Path.home() / "code2" / ".lane-sweep-logs"
+    log_dir = log_dir or default_log_dir("lane-sweep")
     found = lanes(repo)
     if apply and any(l.prunable for l in found):
         git(repo, "worktree", "prune")
@@ -795,7 +804,7 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--repo", action="append", type=Path, help="repository to sweep (repeatable)")
     ap.add_argument("--root", type=Path, default=Path.home() / "code2", help="sweep every repository under this folder")
     ap.add_argument("--no-fetch", action="store_true", help="do not fetch the remote default branch first")
-    ap.add_argument("--log-dir", type=Path, default=Path(os.environ.get("LANE_SWEEP_LOG_DIR", Path.home() / "code2" / ".lane-sweep-logs")))
+    ap.add_argument("--log-dir", type=Path, default=Path(os.environ.get("LANE_SWEEP_LOG_DIR") or default_log_dir("lane-sweep")))
     ap.add_argument("--idle-minutes", type=float, default=IDLE_MINUTES)
     ap.add_argument("--idle-minutes-no-commits", type=float, default=IDLE_MINUTES_NO_COMMITS)
     ap.add_argument("--archive-after-hours", type=float, default=None,

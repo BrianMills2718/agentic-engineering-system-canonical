@@ -1743,3 +1743,16 @@ def test_the_old_import_path_is_the_moved_module():
     assert sys.modules["lane_sweep"] is lockstep.lane_sweep
     assert ship.PRIOR_ART_CHECK == Path(lockstep.ship.__file__).resolve().with_name("prior_art.py")
     assert ship.PRIOR_ART_CHECK.is_file()
+
+
+def test_log_folders_leave_no_code2_folder_on_another_machine(tmp_path, monkeypatch):
+    """A second user's home gets logs under the XDG state folder; Brian's ~/code2 keeps its log folders."""
+    import lockstep.lane_sweep
+
+    monkeypatch.setenv("HOME", str(tmp_path))
+    monkeypatch.delenv("XDG_STATE_HOME", raising=False)
+    assert ship.default_log_dir("ship") == tmp_path / ".local" / "state" / "ship" / "logs"
+    assert lockstep.lane_sweep.default_log_dir("lane-sweep") == tmp_path / ".local" / "state" / "lane-sweep" / "logs"
+    (tmp_path / "code2").mkdir()
+    assert ship.default_log_dir("ship") == tmp_path / "code2" / ".ship-logs"
+    assert lockstep.lane_sweep.default_log_dir("lane-sweep") == tmp_path / "code2" / ".lane-sweep-logs"
