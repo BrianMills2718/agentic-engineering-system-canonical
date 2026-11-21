@@ -1,0 +1,14 @@
+{
+  "need": "Idle git worktrees whose work was never merged are preserved (ref and verified bundle) and their worktree removed automatically, keeping the branch, so they stop filling the disk.",
+  "searched": [
+    {"place": "own", "where": "scripts/lane_sweep.py, scripts/prune_merged_worktrees.py (openspec/specs/prune-merged-worktrees), ~/code2/.lane-sweep-logs/world-substrate-old-lanes-2026-11-09.remove.sh, code2-workspace docs/capabilities.md", "query": "remove unmerged worktree, archive ref, git bundle", "found": "lane_sweep removes only lanes whose content is on main; prune-merged-worktrees likewise needs proof the branch landed; the 2026-11-09 world-substrate script did refs/archive/<date>/<branch> plus a verified bundle by hand, the procedure adopted here."},
+    {"place": "outside", "where": "git documentation (git-worktree, git-bundle, git-update-ref) and common worktree managers, from the agent's knowledge, not looked up on 2026-11-19", "query": "expire stale worktrees, archive unmerged branches", "found": "git worktree prune only drops records of folders already deleted; git gc keeps unreachable commits only for the reflog expiry; no stock tool archives and removes idle unmerged worktrees."}
+  ],
+  "candidates": [
+    {"name": "git bundle and git update-ref (built into git)", "url": "https://git-scm.com/docs/git-bundle", "covers": "A verifiable offline copy of the unmerged commits and a ref that keeps them reachable.", "misses": "Deciding which lanes are idle, unused and clean; lane_sweep already does that.", "verdict": "combine", "reason": "Both parts exist; lane_sweep adds one step before its removal."},
+    {"name": "git worktree prune / gc.worktreePruneExpire", "url": "https://git-scm.com/docs/git-worktree", "covers": "Removing worktree records whose folders are gone.", "misses": "Removing folders that still exist, and preserving their commits.", "verdict": "reject", "reason": "Does not remove existing worktrees."},
+    {"name": "Push every lane branch to GitHub instead", "url": "https://docs.github.com/en/repositories", "covers": "An off-machine copy of every tip.", "misses": "Public repositories would publish work never chosen for publication; other owners' remotes are not Brian's to write to.", "verdict": "reject", "reason": "Kept only as the optional push to a private repository of the configured owner."}
+  ],
+  "decision": "combine",
+  "decided": "2026-11-19"
+}

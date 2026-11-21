@@ -57,6 +57,8 @@ which tests cover each scenario at this commit. For pass or fail, run `make chec
 | `lane-sweep/keep-lanes-git-will-not-remove-without-force` | unimplemented | - |
 | `lane-sweep/keep-locked-worktrees` | unimplemented | - |
 | `lane-sweep/settings-come-from-config` | unimplemented | - |
+| `lane-sweep/archive-then-remove-idle-unmerged-lanes` | unimplemented | - |
+| `lane-sweep/count-kept-lanes-per-repository` | unimplemented | - |
 | `learnings-register-frozen/the-collector-reads-the-frozen-copy-and-never-writes-to-a-register` | unimplemented | - |
 | `lockstep-checks/trace-every-requirement-has-an-implementer` | not run at this revision | `lockstep.checks.trace` |
 | `lockstep-checks/trace-every-scenario-has-a-test` | not run at this revision | `lockstep.checks.trace` |
@@ -250,6 +252,9 @@ which tests cover each scenario at this commit. For pass or fail, run `make chec
 | `lane-sweep/a-removal-that-fails-partway-leaves-no-half-tree-at-the-lane-s-path` | `lane-sweep/remove-finished-lanes-and-report-the-rest` | not run at this revision | `tests/test_lane_sweep.py::test_a_removal_that_fails_partway_leaves_no_half_tree_at_the_lanes_path` |
 | `lane-sweep/a-lane-with-a-folder-that-cannot-be-written-is-kept-whole` | `lane-sweep/remove-finished-lanes-and-report-the-rest` | not run at this revision | `tests/test_lane_sweep.py::test_a_lane_with_a_folder_that_cannot_be_written_is_kept_whole` |
 | `lane-sweep/a-removal-that-times-out-leaves-the-lane-whole` | `lane-sweep/remove-finished-lanes-and-report-the-rest` | not run at this revision | `tests/test_lane_sweep.py::test_a_removal_that_times_out_leaves_the_lane_whole` |
+| `lane-sweep/a-lane-holding-ignored-non-cache-files-is-kept` | `lane-sweep/remove-finished-lanes-and-report-the-rest` | not run at this revision | `tests/test_lane_sweep.py::test_a_lane_holding_ignored_non_cache_files_is_kept` |
+| `lane-sweep/ignored-non-cache-files-under-1-mib-do-not-keep-a-lane` | `lane-sweep/remove-finished-lanes-and-report-the-rest` | not run at this revision | `tests/test_lane_sweep.py::test_ignored_non_cache_files_under_1_mib_do_not_keep_a_lane` |
+| `lane-sweep/regenerable-caches-do-not-keep-a-lane` | `lane-sweep/remove-finished-lanes-and-report-the-rest` | not run at this revision | `tests/test_lane_sweep.py::test_regenerable_caches_do_not_keep_a_lane` |
 | `lane-sweep/a-clean-idle-primary-checkout-is-fast-forwarded` | `lane-sweep/fast-forward-primary-checkouts-that-are-clean-and-idle` | not run at this revision | `tests/test_lane_sweep.py::test_a_clean_idle_primary_checkout_is_fast_forwarded` |
 | `lane-sweep/a-primary-checkout-with-uncommitted-changes-is-not-moved` | `lane-sweep/fast-forward-primary-checkouts-that-are-clean-and-idle` | not run at this revision | `tests/test_lane_sweep.py::test_a_primary_checkout_with_uncommitted_changes_is_not_moved` |
 | `lane-sweep/a-primary-checkout-on-another-branch-is-not-moved` | `lane-sweep/fast-forward-primary-checkouts-that-are-clean-and-idle` | not run at this revision | `tests/test_lane_sweep.py::test_a_primary_checkout_on_another_branch_is_not_moved` |
@@ -266,6 +271,18 @@ which tests cover each scenario at this commit. For pass or fail, run `make chec
 | `lane-sweep/a-locked-worktree-is-kept` | `lane-sweep/keep-locked-worktrees` | not run at this revision | `tests/test_lane_sweep.py::test_a_locked_worktree_is_kept`, `tests/test_lane_sweep.py::test_the_same_worktree_unlocked_is_removed` |
 | `lane-sweep/the-gh-wrapper-comes-from-graph-config` | `lane-sweep/settings-come-from-config` | not run at this revision | `tests/test_lane_sweep.py::test_the_gh_wrapper_comes_from_graph_config` |
 | `lane-sweep/no-config-uses-plain-gh-and-no-canonical-lock` | `lane-sweep/settings-come-from-config` | not run at this revision | `tests/test_lane_sweep.py::test_no_config_uses_plain_gh_and_no_canonical_lock` |
+| `lane-sweep/an-unmerged-lane-holding-ignored-non-cache-files-is-kept-and-not-archived` | `lane-sweep/archive-then-remove-idle-unmerged-lanes` | not run at this revision | `tests/test_lane_sweep.py::test_an_unmerged_lane_holding_ignored_non_cache_files_is_kept_and_not_archived` |
+| `lane-sweep/a-clean-idle-unmerged-lane-is-archived-and-removed-with-its-branch-kept` | `lane-sweep/archive-then-remove-idle-unmerged-lanes` | not run at this revision | `tests/test_lane_sweep.py::test_a_clean_idle_unmerged_lane_is_archived_and_removed_with_its_branch_kept` |
+| `lane-sweep/a-detached-unmerged-lane-gets-an-archive-ref` | `lane-sweep/archive-then-remove-idle-unmerged-lanes` | not run at this revision | `tests/test_lane_sweep.py::test_a_detached_unmerged_lane_gets_an_archive_ref` |
+| `lane-sweep/an-unmerged-lane-whose-tip-is-on-a-remote-branch-needs-no-bundle` | `lane-sweep/archive-then-remove-idle-unmerged-lanes` | not run at this revision | `tests/test_lane_sweep.py::test_an_unmerged_lane_whose_tip_is_on_a_remote_branch_needs_no_bundle` |
+| `lane-sweep/a-dirty-unmerged-lane-is-kept` | `lane-sweep/archive-then-remove-idle-unmerged-lanes` | not run at this revision | `tests/test_lane_sweep.py::test_a_dirty_unmerged_lane_is_kept` |
+| `lane-sweep/a-locked-unmerged-lane-is-kept` | `lane-sweep/archive-then-remove-idle-unmerged-lanes` | not run at this revision | `tests/test_lane_sweep.py::test_a_locked_unmerged_lane_is_kept` |
+| `lane-sweep/an-unmerged-lane-idle-less-than-the-limit-is-kept` | `lane-sweep/archive-then-remove-idle-unmerged-lanes` | not run at this revision | `tests/test_lane_sweep.py::test_an_unmerged_lane_idle_less_than_the_limit_is_kept` |
+| `lane-sweep/without-apply-an-unmerged-lane-is-only-reported` | `lane-sweep/archive-then-remove-idle-unmerged-lanes` | not run at this revision | `tests/test_lane_sweep.py::test_without_apply_an_unmerged_lane_is_only_reported` |
+| `lane-sweep/a-bundle-that-fails-to-verify-keeps-the-lane` | `lane-sweep/archive-then-remove-idle-unmerged-lanes` | not run at this revision | `tests/test_lane_sweep.py::test_a_bundle_that_fails_to_verify_keeps_the_lane` |
+| `lane-sweep/an-archive-ref-is-pushed-only-to-a-private-repository-of-the-configured-owner` | `lane-sweep/archive-then-remove-idle-unmerged-lanes` | not run at this revision | `tests/test_lane_sweep.py::test_an_archive_ref_is_pushed_only_to_a_private_repository_of_the_configured_owner` |
+| `lane-sweep/the-archive-limit-comes-from-graph-config` | `lane-sweep/archive-then-remove-idle-unmerged-lanes` | not run at this revision | `tests/test_lane_sweep.py::test_the_archive_limit_comes_from_graph_config` |
+| `lane-sweep/the-sweep-counts-kept-lanes-per-repository` | `lane-sweep/count-kept-lanes-per-repository` | not run at this revision | `tests/test_lane_sweep.py::test_the_sweep_counts_kept_lanes_per_repository` |
 | `learnings-register-frozen/register-read-only` | `learnings-register-frozen/the-collector-reads-the-frozen-copy-and-never-writes-to-a-register` | not run at this revision | `tests/test_feedback_loop_notices.py::test_collector_reads_frozen_copy_and_refuses_writes` |
 | `lockstep-checks/trace-requirement-without-implementer-fails` | `lockstep-checks/trace-every-requirement-has-an-implementer` | not run at this revision | `tests/lockstep/checks/test_lockstep_check_trace.py::test_requirement_without_implementer_fails` |
 | `lockstep-checks/trace-implemented-requirement-passes` | `lockstep-checks/trace-every-requirement-has-an-implementer` | not run at this revision | `tests/lockstep/checks/test_lockstep_check_trace.py::test_implemented_requirement_passes`, `tests/lockstep/checks/test_lockstep_check_trace.py::test_implements_line_may_wrap` |

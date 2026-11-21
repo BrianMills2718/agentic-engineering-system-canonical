@@ -35,6 +35,8 @@ def repo(tmp_path, monkeypatch):
     monkeypatch.setenv("LANE_SWEEP_UNITS_DIR", str(tmp_path / "no-units"))
     # No test reads the person's own settings (gh wrappers, canonical lock).
     monkeypatch.setattr(lane_sweep, "CONFIG", tmp_path / "no-config" / "graph-config.yaml")
+    for name in ("PROJECT_GRAPH_OWNER", "LANE_SWEEP_ARCHIVE_AFTER_HOURS", "LANE_SWEEP_GH"):
+        monkeypatch.delenv(name, raising=False)
     return work
 
 
@@ -600,3 +602,273 @@ def test_no_config_uses_plain_gh_and_no_canonical_lock(tmp_path, monkeypatch):
         monkeypatch.delenv(name, raising=False)
     assert lane_sweep.gh_for("Anyone/repo") == "gh"
     assert lane_sweep.canonical_lock() is None
+
+
+# --- Idle unmerged lanes: archive, then remove only the worktree ---------------------------------------------
+# 2026-11-19: 136 lanes under ~/code2 held about 23 GB; 47 were unmerged and untouched since 2026-11-13, and the
+# sweep kept every one ("work not on origin/main") until they were archived and removed by hand.
+
+ARCHIVE_IDLE = 73 * 60  # minutes: past the 72 h default
+
+
+def day() -> str:
+    return lane_sweep.dt.date.today().strftime("%Y%m%d")
+
+
+def ref_at(work: Path, ref: str) -> str:
+    return subprocess.run(["git", "-C", str(work), "rev-parse", "-q", "--verify", ref], capture_output=True, text=True).stdout.strip()
+
+
+def day_log(tmp_path: Path) -> str:
+    return next((tmp_path / "logs").glob("????-??-??.log")).read_text()
+
+
+@pytest.mark.req("lane-sweep/a-clean-idle-unmerged-lane-is-archived-and-removed-with-its-branch-kept")
+def test_a_clean_idle_unmerged_lane_is_archived_and_removed_with_its_branch_kept(repo, tmp_path):
+    wt = lane(repo, "abandoned")
+    tip = git(wt, "rev-parse", "HEAD")
+    age(wt, ARCHIVE_IDLE)
+    assert sweep(repo, "--apply") == 0
+    assert not wt.exists()
+    assert branch_exists(repo, "abandoned") and git(repo, "rev-parse", "abandoned") == tip
+    ref = f"refs/archive/{day()}/abandoned"
+    assert ref_at(repo, ref) == tip
+    bundles = list((tmp_path / "logs").glob("*.bundle"))
+    assert len(bundles) == 1
+    subprocess.run(["git", "-C", str(repo), "bundle", "verify", "-q", str(bundles[0])], check=True, capture_output=True)
+    log = day_log(tmp_path)
+    restore = f"git -C {repo.resolve()} worktree add {wt.resolve()} abandoned"
+    assert f"branch=abandoned tip={tip} bundle={bundles[0]}" in log and restore in log
+    subprocess.run(restore, shell=True, check=True, capture_output=True)
+    assert (wt / "a.txt").read_text() == "b\n"
+
+
+@pytest.mark.req("lane-sweep/a-detached-unmerged-lane-gets-an-archive-ref")
+def test_a_detached_unmerged_lane_gets_an_archive_ref(repo, tmp_path):
+    wt = repo.parent / "loose"
+    git(repo, "worktree", "add", "-q", "--detach", str(wt), "main")
+    (wt / "a.txt").write_text("detached work\n")
+    git(wt, "commit", "-q", "-am", "detached work")
+    tip = git(wt, "rev-parse", "HEAD")
+    age(wt, ARCHIVE_IDLE)
+    assert sweep(repo, "--apply") == 0
+    assert not wt.exists()
+    ref = f"refs/archive/{day()}/loose"
+    assert ref_at(repo, ref) == tip
+    restore = f"git -C {repo.resolve()} worktree add {wt.resolve()} {ref}"
+    assert restore in day_log(tmp_path)
+    subprocess.run(restore, shell=True, check=True, capture_output=True)
+    assert git(wt, "rev-parse", "HEAD") == tip
+
+
+@pytest.mark.req("lane-sweep/an-unmerged-lane-whose-tip-is-on-a-remote-branch-needs-no-bundle")
+def test_an_unmerged_lane_whose_tip_is_on_a_remote_branch_needs_no_bundle(repo, tmp_path):
+    wt = lane(repo, "pushed")
+    git(wt, "push", "-q", "origin", "pushed")
+    age(wt, ARCHIVE_IDLE)
+    assert sweep(repo, "--apply") == 0
+    assert not wt.exists() and branch_exists(repo, "pushed")
+    assert not list((tmp_path / "logs").glob("*.bundle"))
+    assert not git(repo, "for-each-ref", "refs/archive/")
+    assert "already on origin/pushed" in day_log(tmp_path)
+
+
+@pytest.mark.req("lane-sweep/a-dirty-unmerged-lane-is-kept", existing=True)  # guard: dirty lanes were always kept
+def test_a_dirty_unmerged_lane_is_kept(repo, tmp_path, capsys):
+    wt = lane(repo, "dirty-unmerged")
+    (wt / "a.txt").write_text("edit in progress\n")
+    age(wt, ARCHIVE_IDLE)
+    assert sweep(repo, "--apply") == 0
+    assert wt.exists() and (wt / "a.txt").read_text() == "edit in progress\n"
+    assert f"keep {wt} [dirty-unmerged]: uncommitted changes" in capsys.readouterr().out
+    assert not git(repo, "for-each-ref", "refs/archive/")
+
+
+@pytest.mark.req("lane-sweep/a-locked-unmerged-lane-is-kept", existing=True)  # guard: locked worktrees were always kept
+def test_a_locked_unmerged_lane_is_kept(repo, capsys):
+    wt = lane(repo, "locked-unmerged")
+    git(repo, "worktree", "lock", "--reason", "pinned", str(wt))
+    age(wt, ARCHIVE_IDLE)
+    assert sweep(repo, "--apply") == 0
+    assert wt.exists()
+    assert "locked: pinned" in capsys.readouterr().out
+    assert not git(repo, "for-each-ref", "refs/archive/")
+
+
+@pytest.mark.req("lane-sweep/an-unmerged-lane-idle-less-than-the-limit-is-kept")
+def test_an_unmerged_lane_idle_less_than_the_limit_is_kept(repo, capsys):
+    wt = lane(repo, "fresh-unmerged")
+    age(wt, 71 * 60)
+    assert sweep(repo, "--apply", "--merged-lane", str(wt)) == 0  # --merged-lane does not shorten this wait
+    assert wt.exists()
+    assert "work not on origin/main; archived and removed after 72 h idle" in capsys.readouterr().out
+
+
+@pytest.mark.req("lane-sweep/without-apply-an-unmerged-lane-is-only-reported")
+def test_without_apply_an_unmerged_lane_is_only_reported(repo, tmp_path, capsys):
+    wt = lane(repo, "report-unmerged")
+    age(wt, ARCHIVE_IDLE)
+    assert sweep(repo) == 0
+    assert wt.exists()
+    assert not git(repo, "for-each-ref", "refs/archive/")
+    assert not list((tmp_path / "logs").glob("*.bundle"))
+    out = capsys.readouterr().out
+    assert f"archivable {wt} [report-unmerged]" in out and "archivable 1" in out
+
+
+@pytest.mark.req("lane-sweep/a-bundle-that-fails-to-verify-keeps-the-lane")
+def test_a_bundle_that_fails_to_verify_keeps_the_lane(repo, tmp_path, monkeypatch):
+    wt = lane(repo, "bad-bundle")
+    age(wt, ARCHIVE_IDLE)
+    real_run = subprocess.run
+
+    def run(cmd, *a, **kw):
+        if "bundle" in cmd and "verify" in cmd:
+            return subprocess.CompletedProcess(cmd, 1, "", "error: not a valid bundle")
+        return real_run(cmd, *a, **kw)
+
+    monkeypatch.setattr(lane_sweep.subprocess, "run", run)
+    assert sweep(repo, "--apply") == 1
+    assert wt.exists() and (wt / "a.txt").read_text() == "b\n" and branch_exists(repo, "bad-bundle")
+    assert "bundle verify failed, lane kept" in day_log(tmp_path)
+
+
+FAKE_GH_REPO = """#!/usr/bin/env python3
+import json, os, sys
+if "pr" in sys.argv:
+    print("[]")
+else:
+    print(json.dumps({"isPrivate": os.environ.get("FAKE_PRIVATE") == "1"}))
+"""
+
+
+@pytest.mark.req("lane-sweep/an-archive-ref-is-pushed-only-to-a-private-repository-of-the-configured-owner")
+@pytest.mark.parametrize("owner,private,pushed", [("Me", "1", True), ("Other", "1", False), ("Me", "0", False)])
+def test_an_archive_ref_is_pushed_only_to_a_private_repository_of_the_configured_owner(repo, tmp_path, monkeypatch, owner, private, pushed):
+    config = tmp_path / "graph-config.yaml"
+    config.write_text("owner: Me\n")
+    monkeypatch.setattr(lane_sweep, "CONFIG", config)
+    url = f"git@github.com:{owner}/r.git"
+    git(repo, "config", "remote.origin.url", url)
+    git(repo, "config", f"url.{repo.parent / 'remote.git'}.insteadOf", url)
+    gh = tmp_path / "fake-gh"
+    gh.write_text(FAKE_GH_REPO)
+    gh.chmod(0o755)
+    monkeypatch.setenv("LANE_SWEEP_GH", str(gh))
+    monkeypatch.setenv("FAKE_PRIVATE", private)
+    wt = lane(repo, "to-archive")
+    tip = git(wt, "rev-parse", "HEAD")
+    age(wt, ARCHIVE_IDLE)
+    assert sweep(repo, "--apply") == 0
+    assert not wt.exists()
+    on_remote = git(repo.parent / "remote.git", "for-each-ref", "--format=%(objectname)", "refs/archive/")
+    assert on_remote == (tip if pushed else "")
+    assert ("pushed refs/archive/" in day_log(tmp_path)) is pushed
+
+
+@pytest.mark.req("lane-sweep/the-sweep-counts-kept-lanes-per-repository")
+def test_the_sweep_counts_kept_lanes_per_repository(repo, tmp_path, capsys):
+    for n in range(9):
+        lane(repo, f"many-{n}")
+    assert sweep(repo, "--apply") == 0
+    line = f"lanes kept per repository: {repo.name} 9 (more than 8)"
+    assert line in capsys.readouterr().out and line in day_log(tmp_path)
+
+
+@pytest.mark.req("lane-sweep/the-archive-limit-comes-from-graph-config")
+def test_the_archive_limit_comes_from_graph_config(repo, tmp_path, monkeypatch, capsys):
+    assert lane_sweep.archive_idle_hours() == 72
+    config = tmp_path / "graph-config.yaml"
+    config.write_text("lane_sweep_archive_after_hours: 0   # off\n")
+    monkeypatch.setattr(lane_sweep, "CONFIG", config)
+    assert lane_sweep.archive_idle_hours() == 0
+    wt = lane(repo, "never-archived")
+    age(wt, ARCHIVE_IDLE)
+    assert sweep(repo, "--apply") == 0
+    assert wt.exists()
+    assert f"keep {wt} [never-archived]: work not on origin/main\n" in capsys.readouterr().out
+
+
+def ignore_in(work: Path, *patterns: str) -> None:
+    """Ignore patterns through the shared info/exclude, so no lane's tracked content changes."""
+    common = Path(git(work, "rev-parse", "--path-format=absolute", "--git-common-dir"))
+    (common / "info").mkdir(exist_ok=True)
+    with (common / "info" / "exclude").open("a") as fh:
+        fh.write("".join(f"{p}\n" for p in patterns))
+
+
+def big(path: Path, size: int = 2 * 1024 * 1024) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_bytes(b"x" * size)
+
+
+@pytest.mark.req("lane-sweep/a-lane-holding-ignored-non-cache-files-is-kept")
+def test_a_lane_holding_ignored_non_cache_files_is_kept(repo, capsys):
+    ignore_in(repo, "*.db", "data/", "var/", "results/")
+    wt = lane(repo, "with-data")
+    big(wt / "data" / "x.db")
+    (wt / "var").mkdir()
+    (wt / "var" / "state.db-wal").write_text("wal\n")
+    land_on_main(repo, "with-data")
+    age(wt)
+    assert sweep(repo, "--apply") == 0
+    assert wt.exists() and branch_exists(repo, "with-data")
+    out = capsys.readouterr().out
+    assert f"keep {wt} [with-data]: holds ignored non-cache files: " in out
+    assert "data/" in out and "var/" in out
+
+
+@pytest.mark.req("lane-sweep/an-unmerged-lane-holding-ignored-non-cache-files-is-kept-and-not-archived")
+def test_an_unmerged_lane_holding_ignored_non_cache_files_is_kept_and_not_archived(repo, tmp_path, capsys):
+    ignore_in(repo, "site/", ".claude/hook_log.jsonl")
+    wt = lane(repo, "unmerged-with-site")
+    big(wt / "site" / "index.html")
+    age(wt, ARCHIVE_IDLE)
+    assert sweep(repo, "--apply") == 0
+    assert wt.exists()
+    assert "work not on origin/main; holds ignored non-cache files: site/" in capsys.readouterr().out
+    assert not git(repo, "for-each-ref", "refs/archive/")
+    assert not list((tmp_path / "logs").glob("*.bundle"))
+
+
+@pytest.mark.req("lane-sweep/ignored-non-cache-files-under-1-mib-do-not-keep-a-lane")
+def test_ignored_non_cache_files_under_1_mib_do_not_keep_a_lane(repo, tmp_path):
+    ignore_in(repo, ".claude/hook_log.jsonl")
+    wt = lane(repo, "small-log")
+    (wt / ".claude").mkdir()
+    (wt / ".claude" / "hook_log.jsonl").write_text('{"event": 1}\n')
+    land_on_main(repo, "small-log")
+    age(wt)
+    assert sweep(repo, "--apply") == 0
+    assert not wt.exists()
+    assert "under 1 MiB): .claude/" in day_log(tmp_path)
+
+
+@pytest.mark.req("lane-sweep/regenerable-caches-do-not-keep-a-lane")
+def test_regenerable_caches_do_not_keep_a_lane(repo):
+    ignore_in(repo, ".venv/", "__pycache__/", "pkg/")
+    wt = lane(repo, "caches-only")
+    big(wt / ".venv" / "lib" / "big.so")
+    big(wt / "pkg" / "__pycache__" / "mod.pyc")
+    big(wt / "build" / "out.bin")
+    land_on_main(repo, "caches-only")
+    age(wt)
+    assert sweep(repo, "--apply") == 0
+    assert not wt.exists()
+
+
+@pytest.mark.req("lane-sweep/a-lane-holding-ignored-non-cache-files-is-kept")
+def test_an_unreadable_ignored_folder_keeps_the_lane(repo, capsys):
+    ignore_in(repo, "data/")
+    wt = lane(repo, "unreadable-data")
+    (wt / "data" / "pg").mkdir(parents=True)
+    (wt / "data" / "pg" / "base").write_text("small\n")
+    land_on_main(repo, "unreadable-data")
+    age(wt)
+    os.chmod(wt / "data" / "pg", 0)
+    try:
+        assert sweep(repo, "--apply") == 0
+        assert wt.exists()
+        assert f"keep {wt} [unreadable-data]: holds ignored non-cache files: data/" in capsys.readouterr().out
+    finally:
+        os.chmod(wt / "data" / "pg", 0o755)
