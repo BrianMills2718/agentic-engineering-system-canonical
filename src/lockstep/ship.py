@@ -10,7 +10,8 @@ The merge method is chosen before the check, from what the repository allows: --
 repository's default method when allowed, else the first allowed of rebase, squash, merge. Allowed means the
 repository's settings enable it and, for `merge`, the default branch does not require linear history (branch
 protection or a ruleset). A replaced --method is printed; a repository that allows none stops the run before the check.
-Every run is appended to one log per day under $SHIP_LOG_DIR (default ~/code2/.ship-logs).
+Every run is appended to one log per day under $SHIP_LOG_DIR (default ~/code2/.ship-logs where ~/code2 exists, else
+${XDG_STATE_HOME:-~/.local/state}/ship/logs).
 Usage: ship [--repo DIR] [--check CMD] [--method merge|rebase|squash] [--recheck] [--keep-lane]
 
 After the merge, the repository's finished lanes are swept, this lane included; --keep-lane (or
@@ -114,6 +115,15 @@ GOAL_LINE = re.compile(r"^(ok|WAIT|FAIL)\s+goal provenance:.*?\(required from (\
 NEW_FROM = "2026-11-05"   # a first commit on or after this date is a new repository (Brian, 2026-11-04)
 # Where the plan list (the repositories whose review pages deploy) lives is a person's setting, not code.
 CONFIG = Path(os.environ.get("PROJECT_GRAPH") or Path.home() / "code2/aes-config/PROJECT_GRAPH.json").parent / "graph-config.yaml"
+
+
+def default_log_dir(name: str) -> Path:
+    """~/code2/.<name>-logs where the ~/code2 workspace exists (its scripts read it), else
+    ${XDG_STATE_HOME:-~/.local/state}/<name>/logs, so another machine gets no ~/code2 folder."""
+    workspace = Path.home() / "code2"
+    if workspace.is_dir():
+        return workspace / f".{name}-logs"
+    return Path(os.environ.get("XDG_STATE_HOME") or Path.home() / ".local" / "state") / name / "logs"
 PRIOR_ART_RULE = "prior-art rule (every OpenSpec change that adds a requirement holds a decided prior-art.json; rules: lockstep/prior-art.schema.json)"
 PLANNING_RULE = "planning rule (agents/topics/working-method.md, \"Starting work on a project\")"
 NEW_RULE = "new-repository rule (agents/topics/working-method.md, \"Starting work on a project\")"
@@ -140,7 +150,7 @@ class Run:
     def __init__(self, repo: Path):
         """Open the day's log and record the start of the run."""
         self.repo = repo
-        log_dir = Path(os.environ.get("SHIP_LOG_DIR", Path.home() / "code2" / ".ship-logs"))
+        log_dir = Path(os.environ.get("SHIP_LOG_DIR") or default_log_dir("ship"))
         log_dir.mkdir(parents=True, exist_ok=True)
         self.log = log_dir / f"{datetime.date.today().isoformat()}.log"
         self.write(f"\n=== ship {repo} at {datetime.datetime.now().isoformat(timespec='seconds')}")
