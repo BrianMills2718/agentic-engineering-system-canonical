@@ -73,3 +73,16 @@ def test_cli_status_md(documented, capsys):
     out = capsys.readouterr().out
     assert out.startswith("# Requirement status")
     assert "| `core/do-the-thing` |" in out
+
+
+@pytest.mark.req("lockstep-projection/an-ignored-status-page-is-not-reported-stale")
+def test_an_ignored_status_page_is_not_reported_stale(documented):
+    import subprocess
+
+    subprocess.run(["git", "init", "-q", str(documented)], check=True)
+    write(documented, ".gitignore", "docs/status.md\n")
+    project(documented)
+    write(documented, "tests/test_more.py", TEST.replace("test_works", "test_again"))
+    assert "docs/status.md" not in project(documented, check=True)
+    assert "docs/status.md" in project(documented)
+    assert "`tests/test_more.py::test_again`" in (documented / STATUS_PAGE).read_text()

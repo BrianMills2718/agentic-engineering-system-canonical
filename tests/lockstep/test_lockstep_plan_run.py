@@ -235,3 +235,17 @@ def test_driver_does_not_merge(repo: Path, capsys) -> None:
 def test_pytest_counts_parsed() -> None:
     assert plan_run.pytest_counts("2 failed, 3 passed, 1 error in 0.1s") == {"passed": 3, "failed": 2, "errors": 1}
     assert plan_run.pytest_counts("no summary") == {"passed": None, "failed": None, "errors": None}
+
+
+@pytest.mark.req("plan-run/the-printed-ship-command-matches-the-repository")
+def test_the_printed_ship_command_matches_the_repository(tmp_path: Path) -> None:
+    with_dep = tmp_path / "a"
+    with_dep.mkdir()
+    (with_dep / "pyproject.toml").write_text(
+        '[project]\nname = "a"\n[dependency-groups]\ndev = ["agentic-engineering-system", "pytest"]\n')
+    without = tmp_path / "b"
+    without.mkdir()
+    (without / "pyproject.toml").write_text('[project]\nname = "b"\ndependencies = ["requests"]\n')
+    assert plan_run.ship_command(with_dep) == "uv run ship"
+    assert plan_run.ship_command(without) == "ship"
+    assert plan_run.ship_command(tmp_path / "missing") == "ship"

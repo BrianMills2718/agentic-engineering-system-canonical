@@ -158,6 +158,17 @@ def _plan_text(path: Path, ids: list[str], status: Report) -> str:
     return f"{head}\n\n{block}\n\n{tail}" if tail else f"{head}\n\n{block}\n"
 
 
+def _ignored(root: Path, rel: Path) -> bool:
+    """Whether git ignores rel in root: an ignored status page is build output, so --check does not report it."""
+    import subprocess
+
+    try:
+        done = subprocess.run(["git", "-C", str(root), "check-ignore", "-q", str(rel)], capture_output=True)
+    except OSError:
+        return False
+    return done.returncode == 0
+
+
 def project(root: Path, check: bool = False) -> list[str]:
     """Bring every generated block up to date, or with check, only list the files that are stale.
 
@@ -183,6 +194,6 @@ def project(root: Path, check: bool = False) -> list[str]:
     for rel, ids in plan_files(root):
         path = root / rel
         contents[path] = _plan_text(path, ids, status)
-    if page.parent.is_dir():
+    if page.parent.is_dir() and not (check and _ignored(root, STATUS_PAGE)):
         contents[page] = markdown(report(root, use_results=False))
     return project_facts(root, check=check, rendered=render(root, contents))
