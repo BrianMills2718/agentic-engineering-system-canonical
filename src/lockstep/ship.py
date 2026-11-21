@@ -748,7 +748,9 @@ def _upkeep_file(repo: Path, base: str, path: str) -> bool:
         """Mask model names (and, in dependency manifests, versions) so only other differences remain."""
         line = _MODEL_ID.sub("<model>", line)
         return _VERSION.sub("<version>", line) if is_dep else line
-    removed, added, raw = [], [], []
+    removed: list[str] = []
+    added: list[str] = []
+    raw: list[str] = []
     for line in shown.stdout.splitlines():
         if line.startswith(("---", "+++")) or not line or line[0] not in "-+":
             continue
