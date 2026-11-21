@@ -29,6 +29,25 @@ no product behavior and does not certify every consumer's hooks or generated vie
 - `make check` runs the AGENTS.md sync check, pytest without slow tests, and mypy ([Makefile:19-29](Makefile#L19-L29)).
 - `make check-full` adds the slow end-to-end tests ([Makefile:31-33](Makefile#L31-L33)).
 
+## Run one plan and merge it
+
+A new repository made from [code2-template](https://github.com/BrianMills2718/code2-template) already depends on
+this package. To have an agent build one OpenSpec change and merge it:
+
+```
+uv run lockstep run-plan <change> --agent claude    # or --agent codex
+cd <the worktree it prints> && uv run ship
+```
+
+`run-plan` has a separate session write hidden acceptance tests from the plan, runs the implementer, then runs those
+tests, `make check` and a departure report (files changed outside `tasks.md`). `ship` merges only when `make check`
+passed on that commit, the newest hidden-test run for the branch passed at that commit, and every OpenSpec change
+that adds a requirement holds a decided `prior-art.json` (`lockstep check prior-art`). Outside such a repository,
+install `ship` with `uvx --from git+https://github.com/BrianMills2718/agentic-engineering-system-canonical ship`.
+It needs `git`, `uv` and a logged-in [GitHub CLI](https://cli.github.com/). Specs:
+[plan-run](openspec/specs/plan-run/spec.md), [ship](openspec/specs/ship/spec.md),
+[prior-art-check](openspec/specs/prior-art-check/spec.md).
+
 ## Install Lockstep in a repository
 
 In the root of any git repository (needs [uv](https://docs.astral.sh/uv/); the repository is public):
