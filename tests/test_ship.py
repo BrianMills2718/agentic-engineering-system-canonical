@@ -1595,3 +1595,122 @@ def test_a_prior_art_check_that_cannot_run_refuses(repo, tmp_path, monkeypatch, 
     refused_before_the_check(work, remote, tmp_path)
     out = capsys.readouterr().out
     assert "exit 2" in out and "not a verdict on the record" in out
+
+
+# ---- add-on switches from the copier answers, and the hidden acceptance gate (2026-11-20) -------------------------
+
+
+def answers_on_main(work: Path, text: str) -> None:
+    """Put .copier-answers.yml on the default branch, then restart the feature branch from it with a change to a.txt."""
+    git(work, "checkout", "-q", "main")
+    (work / ".copier-answers.yml").write_text(text)
+    git(work, "add", "-A")
+    git(work, "commit", "-q", "-m", "answers")
+    git(work, "push", "-q", "origin", "main")
+    git(work, "checkout", "-q", "-B", "feature")
+    (work / "a.txt").write_text("c\n")
+    git(work, "commit", "-q", "-am", "change")
+
+
+@pytest.mark.req("ship/the-planning-gate-is-switched-off")
+def test_the_planning_gate_is_switched_off(new_repo, capsys):
+    work, remote, _ = new_repo
+    answers_on_main(work, "_src_path: gh:o/template\nship_planning_gate: false\n")
+    assert ship.main(["--repo", str(work), "--check", "true"]) == 0
+    assert on_remote(remote, "feature")
+    assert "ship: planning gate: off (.copier-answers.yml ship_planning_gate: false)" in capsys.readouterr().out
+
+
+@pytest.mark.req("ship/the-one-page-plan-check-is-switched-off")
+def test_the_one_page_plan_check_is_switched_off(repo, capsys):
+    work, remote, _ = repo
+    answers_on_main(work, "ship_one_page_plans: false\n")
+    add_plan(work, NO_COST_PART)
+    assert ship.main(["--repo", str(work), "--check", "true"]) == 0
+    assert on_remote(remote, "feature")
+    assert "ship: one-page plans: off (.copier-answers.yml ship_one_page_plans: false)" in capsys.readouterr().out
+
+
+@pytest.mark.req("ship/no-answers-file-keeps-every-gate-on")
+def test_no_answers_file_keeps_every_gate_on(new_repo, tmp_path):
+    work, remote, _ = new_repo
+    refused_before_the_check(work, remote, tmp_path)
+
+
+@pytest.mark.req("ship/no-answers-file-keeps-every-gate-on")
+def test_a_branch_cannot_switch_its_own_gate_off(new_repo, tmp_path):
+    """The switches are read from the default branch, so a branch that adds `false` is still gated."""
+    work, remote, _ = new_repo
+    (work / ".copier-answers.yml").write_text("ship_planning_gate: false\n")
+    git(work, "add", "-A")
+    git(work, "commit", "-q", "-m", "turn the gate off on the branch")
+    refused_before_the_check(work, remote, tmp_path)
+
+
+def run_record(tmp_path: Path, monkeypatch, work: Path, **fields) -> None:
+    """Write a `lockstep accept check` summary for the feature branch at HEAD, overridden by fields."""
+    monkeypatch.setenv("XDG_STATE_HOME", str(tmp_path / "xdg"))
+    rec = {"run_id": "20261120T000000Z-0001", "change": "add-x", "branch": "feature",
+           "head": git(work, "rev-parse", "HEAD"), "accept": {"exit": 0, "passed": 2, "failed": 0, "errors": 0},
+           "check_exit": 0, "collisions": [], "uncommitted": 0, **fields}
+    d = tmp_path / "xdg" / "lockstep-runs" / work.name / rec["run_id"]
+    d.mkdir(parents=True)
+    (d / "summary.json").write_text(json.dumps(rec))
+
+
+@pytest.mark.req("ship/a-passing-record-at-head-merges")
+def test_a_passing_hidden_test_record_at_head_merges(repo, tmp_path, monkeypatch, capsys):
+    work, remote, _ = repo
+    run_record(tmp_path, monkeypatch, work)
+    assert ship.main(["--repo", str(work), "--check", "true"]) == 0
+    assert on_remote(remote, "feature")
+    assert "hidden tests passed" in capsys.readouterr().out
+
+
+@pytest.mark.req("ship/a-failing-or-out-of-date-record-is-refused")
+@pytest.mark.parametrize("fields", [
+    {"accept": {"exit": 1, "passed": 1, "failed": 1, "errors": 0}},
+    {"head": "0" * 40},
+    {"uncommitted": 2},
+    {"accept": None, "collisions": ["tests/test_accept_1.py"]},
+], ids=["failed", "other-commit", "uncommitted", "no-hidden-tests-ran"])
+def test_a_failing_or_out_of_date_hidden_test_record_is_refused(repo, tmp_path, monkeypatch, capsys, fields):
+    work, remote, _ = repo
+    run_record(tmp_path, monkeypatch, work, **fields)
+    refused_before_the_check(work, remote, tmp_path)
+    assert "lockstep accept check add-x" in capsys.readouterr().out
+
+
+@pytest.mark.req("ship/a-failing-or-out-of-date-record-is-refused")
+def test_the_newest_record_counts(repo, tmp_path, monkeypatch):
+    work, remote, _ = repo
+    run_record(tmp_path, monkeypatch, work)  # passing, older
+    run_record(tmp_path, monkeypatch, work, run_id="20261120T010000Z-0002", accept={"exit": 1})
+    refused_before_the_check(work, remote, tmp_path)
+
+
+@pytest.mark.req("ship/no-record-goes-on")
+def test_no_hidden_test_record_goes_on(repo, tmp_path, monkeypatch, capsys):
+    work, remote, _ = repo
+    monkeypatch.setenv("XDG_STATE_HOME", str(tmp_path / "xdg"))
+    assert ship.main(["--repo", str(work), "--check", "true"]) == 0
+    assert "ship: no hidden-test run recorded for this branch" in capsys.readouterr().out
+
+
+@pytest.mark.req("ship/a-passing-record-at-head-merges")
+def test_a_record_made_on_a_detached_head_is_found_by_its_commit(repo, tmp_path, monkeypatch, capsys):
+    work, remote, _ = repo
+    run_record(tmp_path, monkeypatch, work, branch="HEAD", accept={"exit": 1})
+    refused_before_the_check(work, remote, tmp_path)
+
+
+@pytest.mark.req("ship/a-failing-or-out-of-date-record-is-refused")
+def test_an_unreadable_record_is_skipped_with_a_warning(repo, tmp_path, monkeypatch, capsys):
+    work, remote, _ = repo
+    monkeypatch.setenv("XDG_STATE_HOME", str(tmp_path / "xdg"))
+    d = tmp_path / "xdg" / "lockstep-runs" / work.name / "20261120T000000Z-0001"
+    d.mkdir(parents=True)
+    (d / "summary.json").write_text("{half")
+    assert ship.main(["--repo", str(work), "--check", "true"]) == 0
+    out = capsys.readouterr().out
+    assert "unreadable run record" in out and "no hidden-test run recorded" in out
