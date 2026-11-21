@@ -323,6 +323,26 @@ def _impl_env() -> dict[str, str]:
     return {k: v for k, v in os.environ.items() if RUNS not in v}
 
 
+def ship_command(repo: Path) -> str:
+    """`uv run ship` when the repository's pyproject.toml depends on agentic-engineering-system (which installs
+    `ship`), else `ship`.
+
+    Implements: plan-run/one-driver-runs-a-plan-with-claude-or-codex
+    """
+    import tomllib
+
+    try:
+        data = tomllib.loads((repo / "pyproject.toml").read_text(encoding="utf-8"))
+    except (OSError, tomllib.TOMLDecodeError):
+        return "ship"
+    project = data.get("project", {})
+    lists = [project.get("dependencies", []), *project.get("optional-dependencies", {}).values(),
+             *data.get("dependency-groups", {}).values()]
+    names = [re.split(r"[\s\[<>=!~;@]", item, maxsplit=1)[0].lower()
+             for group in lists for item in group if isinstance(item, str)]
+    return "uv run ship" if "agentic-engineering-system" in names else "ship"
+
+
 def run_plan(repo: Path, change: str, ref: str = "HEAD", agent: str = "claude", runner: Runner = default_runner,
              test_cmd: str = DEFAULT_TEST_CMD, check_cmd: str = DEFAULT_CHECK_CMD,
              timeout: int = DEFAULT_TIMEOUT) -> dict[str, Any]:
@@ -339,7 +359,7 @@ def run_plan(repo: Path, change: str, ref: str = "HEAD", agent: str = "claude", 
     s["implementer_exit"] = runner(agent, prompt, wt, run_dir / "implementer.jsonl", timeout, env=_impl_env(), persist=True)
     _save(run_dir, s)
     s = accept_check(wt, change, run_dir, s["ref"], test_cmd, check_cmd)
-    print(f"next: review the record, then merge with `cd {wt} && ship` (run-plan does not merge)")
+    print(f"next: review the record, then merge with `cd {wt} && {ship_command(repo)}` (run-plan does not merge)")
     return s
 
 
