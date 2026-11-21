@@ -1,0 +1,16 @@
+# {{ project_name }} goal
+
+What this repository is for, in the form Company Planning's goal check reads
+(`goal_provenance.py --repo .`, from the company-planning plugin). Each part of the goal ends with its
+source, `(source: <locator>)`, or says it is agent judgment. A locator's quote, speaker, date and, for a
+meeting, Slack or web source, its fetch receipt go in [GOAL.sources.json](GOAL.sources.json) beside this
+page; `review` there records the requirements the goal was last checked against, by sha256, so the check
+fails when they change and the goal was not re-read.
+
+Replace the starter goal below with the stakeholder's own words once you have them (the
+`company-planning:source-sweep` skill finds them), and cite each one.
+
+## Goal
+
+For {{ goal_actor }}, change {{ goal_job }} into {{ goal_result | trim | trim(".") }}. (agent judgment, unconfirmed: the
+starter goal written when the repository was made; replace it with the stakeholder's words and cite them)

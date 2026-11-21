@@ -29,10 +29,25 @@ no product behavior and does not certify every consumer's hooks or generated vie
 - `make check` runs the AGENTS.md sync check, pytest without slow tests, and mypy ([Makefile:19-29](Makefile#L19-L29)).
 - `make check-full` adds the slow end-to-end tests ([Makefile:31-33](Makefile#L31-L33)).
 
+## Make a repository
+
+This repository holds the starter template (`copier.yml` and [template/](template/)). Make a new repository with:
+
+```
+uvx copier copy --trust gh:BrianMills2718/agentic-engineering-system-canonical <dir>
+```
+
+It needs `git`, [uv](https://docs.astral.sh/uv/), [OpenSpec](https://github.com/Fission-AI/OpenSpec) (`openspec`),
+[lefthook](https://github.com/evilmartians/lefthook), [gitleaks](https://github.com/gitleaks/gitleaks) and
+[Node.js](https://nodejs.org/) (`npx`); `ship` and `run-plan` also need a logged-in GitHub CLI and Claude Code or
+Codex. The copy asks a few questions (`--defaults` takes them all), installs Lockstep and generates its docs.
+Spec: [portable-template](openspec/specs/portable-template/spec.md); why this layout:
+[decision 0015](docs/decisions/0015-off-the-shelf-documentation-stack.md).
+
 ## Run one plan and merge it
 
-A new repository made from [code2-template](https://github.com/BrianMills2718/code2-template) already depends on
-this package. To have an agent build one OpenSpec change and merge it:
+A repository made from the template already depends on this package. To have an agent build one OpenSpec change and
+merge it:
 
 ```
 uv run lockstep run-plan <change> --agent claude    # or --agent codex

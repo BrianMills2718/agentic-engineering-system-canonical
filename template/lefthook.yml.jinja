@@ -1,0 +1,32 @@
+{% if code2_workspace -%}
+remotes:
+  - git_url: git@github-personal:BrianMills2718/code2-workspace.git
+    ref: main
+    # lefthook never refreshes its cached copy of the shared config on its own; re-fetch it once a day.
+    refetch_frequency: 24h
+    configs:
+      - hooks/base.yml
+{% endif -%}
+pre-commit:
+  jobs:
+{%- if not code2_workspace %}
+    - name: no-env-file
+      # Refuse a staged .env or .env.* file at any depth; templates (.example, .sample, .template, .dist) are allowed.
+      run: |
+        bad=$(git diff --cached --name-only --diff-filter=ACM | grep -E '(^|/)\.env($|\.)' | grep -vE '\.(example|sample|template|dist)$' || true)
+        [ -z "$bad" ] && exit 0
+        printf 'refusing to commit an environment file:\n%s\nCommit a .env.example instead.\n' "$bad" >&2
+        exit 1
+    - name: secrets-staged
+      # gitleaks (https://github.com/gitleaks/gitleaks) on the staged changes only. False positive: add the
+      # finding's fingerprint to .gitleaksignore.
+      run: gitleaks git --staged --no-banner --redact --exit-code 1
+{%- endif %}
+    - name: lockstep-fast
+      # First rewrites generated docstring and plan blocks and stages them, as a formatter does.
+      run: uv run lockstep check project | sed -n 's/^rewrote //p' | xargs -r git add -- && make fast
+pre-push:
+  jobs:
+    # The full check runs at merge (ship); a push runs only the fast one.
+    - name: lockstep-fast
+      run: make fast

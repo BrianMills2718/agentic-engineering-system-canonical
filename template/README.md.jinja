@@ -1,0 +1,17 @@
+# {{ project_name }}
+
+{{ description }}
+
+Start with the [documentation index](docs/index.md). Agents: [AGENTS.md](AGENTS.md).
+
+- Check everything: `make check` (runs before every push).
+- Read the docs as a site: `make docs`.
+- Run one OpenSpec plan with hidden acceptance tests: `uv run lockstep run-plan <change> --agent claude` (or
+  `codex`), then merge with `uv run ship` from the worktree it prints. `ship` runs `make check`, refuses a branch
+  whose hidden tests failed, and refuses an OpenSpec change that adds a requirement without a decided
+  `prior-art.json` (check one with `uv run lockstep check prior-art`).
+
+Needs on the machine: [uv](https://docs.astral.sh/uv/), [OpenSpec](https://github.com/Fission-AI/OpenSpec)
+(`openspec`), [lefthook](https://github.com/evilmartians/lefthook), [gitleaks](https://github.com/gitleaks/gitleaks), [Node.js](https://nodejs.org/) (`npx`, for the diagram check),
+[GitHub CLI](https://cli.github.com/) (`gh`, logged in, for `ship`), Claude Code or Codex (for `run-plan`), and a
+git user name and email (global, or answered when the repository was made).

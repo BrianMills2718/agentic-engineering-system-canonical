@@ -1,0 +1,69 @@
+# Copier template for a code2 repository. Use: uvx copier copy --trust gh:BrianMills2718/agentic-engineering-system-canonical <path>
+_subdirectory: template
+_min_copier_version: "9.4.0"
+_answers_file: .copier-answers.yml
+_tasks:
+  - git init -q -b main
+  - command: git config --local user.name "{{ git_user_name }}"
+    when: "{{ git_user_name != '' }}"
+  - command: git config --local user.email "{{ git_user_email }}"
+    when: "{{ git_user_email != '' }}"
+  - uv lock -q --upgrade-package agentic-engineering-system
+  - uv sync -q
+  - openspec init --tools claude,codex --no-animation . > /dev/null
+  - make docs-specs
+  - uv run lockstep check arch gen
+  - uv run lockstep check project
+  - git config --local core.hooksPath "$(cd "$(git rev-parse --git-common-dir)" && pwd)/hooks"
+  - lefthook install --force
+
+project_name:
+  type: str
+  help: Repository name (lowercase letters, digits and dashes)
+package_name:
+  type: str
+  help: Python package name
+  default: "{{ project_name | replace('-', '_') }}"
+description:
+  type: str
+  help: One sentence saying what it does
+lockstep_git:
+  type: str
+  help: Where uv installs Lockstep (the agentic-engineering-system package) from
+  default: https://github.com/BrianMills2718/agentic-engineering-system-canonical.git
+goal_actor:
+  type: str
+  help: Who this repository is for (the person or team whose work it changes)
+  default: "the people who will use {{ project_name }}"
+goal_job:
+  type: str
+  help: The recurring job it changes, and how they do it today
+  default: "the job {{ project_name }} takes over, done by hand today"
+goal_result:
+  type: str
+  help: What that job becomes once it works
+  default: "{{ description }}"
+author:
+  type: str
+  help: Author name for pyproject.toml (leave empty to omit)
+  default: ""
+code2_workspace:
+  type: bool
+  help: Is this repository part of Brian's ~/code2 workspace (shared hooks from code2-workspace, workspace rules)?
+  default: false
+git_user_name:
+  type: str
+  help: Git user name to set for this repository only (empty uses your global git settings)
+  default: "{% if code2_workspace %}BrianMills2718{% endif %}"
+git_user_email:
+  type: str
+  help: Git user email to set for this repository only (empty uses your global git settings)
+  default: "{% if code2_workspace %}69022071+BrianMills2718@users.noreply.github.com{% endif %}"
+ship_planning_gate:
+  type: bool
+  help: Should `ship` run the Company Planning package gate (an add-on)?
+  default: false
+ship_one_page_plans:
+  type: bool
+  help: Should `ship` check one-page plans under docs/plans/ (an add-on)?
+  default: false

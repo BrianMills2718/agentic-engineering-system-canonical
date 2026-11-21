@@ -1,0 +1,23 @@
+// Structure of {{ project_name }}. Each component maps to a Python module (metadata python).
+// An arrow means "may import". `lockstep check arch gen` turns missing arrows into
+// import-linter contracts (.importlinter), so a commit that breaks this diagram fails.
+specification {
+  element component
+}
+model {
+  cli = component 'Command line' {
+    description 'Parses arguments and prints results'
+    metadata { python '{{ package_name }}.cli' }
+  }
+  core = component 'Core' {
+    description 'What the package does'
+    metadata { python '{{ package_name }}.core' }
+  }
+  cli -> core 'calls'
+}
+views {
+  view index {
+    title '{{ project_name }} components'
+    include *
+  }
+}

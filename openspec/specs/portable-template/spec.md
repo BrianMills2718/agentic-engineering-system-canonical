@@ -1,0 +1,43 @@
+# portable-template Specification
+
+## Purpose
+
+This repository holds the starter template. A repository made from it works for anyone with the defaults (no private hooks remote, owner identity or home-folder paths), and keeps the shared code2 hooks and rules when it belongs to Brian's workspace.
+
+## Requirements
+
+### Requirement: A repository made with the defaults works for anyone
+
+A repository made with `copier copy --defaults` SHALL have a `lefthook.yml` with no `remotes:` block, whose pre-commit jobs refuse a staged `.env` file and run `gitleaks` on the staged changes; an `AGENTS.md`, `pyproject.toml` and `lefthook.yml` that name no home-folder path (`~/`), SSH alias, person or e-mail address of the template's owner, other than the public URL Lockstep installs from; no `authors` line when `author` is empty; no local git `user.name` or `user.email` unless `git_user_name` and `git_user_email` were answered; and `.copier-answers.yml` with `code2_workspace: false`, `ship_planning_gate: false` and `ship_one_page_plans: false`. Its `make check` SHALL exit 0.
+
+Source: Brian, 2026-11-20: "the whole thing should be configurable and shareable/protable. we shoudl start with the minimal core than add on other things as needed after the first minimal core milestone". The specific blockers and defaults inferred by agent from a fresh copy on 2026-11-20 (agentic-engineering-system-canonical docs/planning/minimal-core-2026-11-20.md section 7).
+
+#### Scenario: Default copy has no machine-bound parts
+
+- **GIVEN** the template rendered with `--defaults`, a project name and a description
+- **WHEN** its files are read
+- **THEN** `lefthook.yml` has no `remotes:` and has the jobs `no-env-file` and `secrets-staged`, `AGENTS.md`, `pyproject.toml` and `lefthook.yml` contain no `~/`, `github-personal`, `Brian` (outside the Lockstep URL) or e-mail address, the local git config has no `user.name`, the answers file has the three `false` answers, and `make check` exits 0
+
+### Requirement: A workspace repository keeps the shared hooks
+
+With `code2_workspace: true`, the template SHALL write today's `lefthook.yml` (the `code2-workspace` remote with `hooks/base.yml`) an `AGENTS.md` that links the workspace rules, and set the local git identity to Brian's GitHub name and no-reply address unless other values are answered.
+
+Source: inferred by agent: Brian's own repositories keep the shared hooks and rules they use today (code2-workspace AGENTS.md, "Checks").
+
+#### Scenario: Workspace copy keeps the remote
+
+- **GIVEN** the template rendered with `code2_workspace=true`
+- **WHEN** `lefthook.yml` and `AGENTS.md` are read
+- **THEN** `lefthook.yml` names the `code2-workspace` remote and `hooks/base.yml`, `AGENTS.md` links `~/code2/AGENTS.md`, and a commit succeeds on a machine with no global git identity
+
+### Requirement: Make a repository from this repository
+
+This repository SHALL hold the template, so `copier copy --trust gh:BrianMills2718/agentic-engineering-system-canonical <dir>` makes a repository: `copier.yml` at the root with `_subdirectory: template`, and the README naming that command.
+
+Source: Brian, 2026-11-21: "i thoguht as canoncial was one repo that contained all this stuff?", then "yes" to moving code2-template into this repository (session 5651a525).
+
+#### Scenario: The template is served from here
+
+- **GIVEN** this repository
+- **WHEN** `copier.yml` and `README.md` are read
+- **THEN** `copier.yml` sets `_subdirectory: template` and names `gh:BrianMills2718/agentic-engineering-system-canonical`, and the README gives the `copier copy` command with that address
