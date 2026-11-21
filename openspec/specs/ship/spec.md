@@ -4,7 +4,7 @@
 
 Merge a pull request only when the repository's own check passed on the exact commit being merged, so a failing check can never merge.
 
-Ported into AES from code2-workspace commit eafa8e06894917f0d297e281202b60e86b12f819 (2026-11-16) under the AES consolidation plan, item 7 (Brian, 2026-11-16, Decision 25). The installed `ship` command (`~/.local/bin/ship`) runs this copy from `~/.hive-brain/aes`, a clone of AES main refreshed by `hive-controls.service` (observed 2026-11-20). In the port, where the plan list lives became the person's setting (`graph-config.yaml`), not code. Since 2026-11-20 two add-on gates switch off from `.copier-answers.yml`, and a hidden acceptance run recorded by `lockstep accept check` must pass (minimal core, docs/planning/minimal-core-2026-11-20.md).
+Ported into AES from code2-workspace commit eafa8e06894917f0d297e281202b60e86b12f819 (2026-11-16) under the AES consolidation plan, item 7 (Brian, 2026-11-16, Decision 25). Since 2026-11-20 the code is `src/lockstep/ship.py`, installed as the `ship` command of the package (`uvx --from git+https://github.com/BrianMills2718/agentic-engineering-system-canonical ship`); on Brian's machine `~/.local/bin/ship` still links to the shim `scripts/ship.py` in `~/.hive-brain/aes`, a clone of AES main refreshed by `hive-controls.service`. In the port, where the plan list lives became the person's setting (`graph-config.yaml`), not code. Since 2026-11-20 two add-on gates switch off from `.copier-answers.yml`, and a hidden acceptance run recorded by `lockstep accept check` must pass (minimal core, docs/planning/minimal-core-2026-11-20.md).
 
 ## Requirements
 
@@ -623,9 +623,9 @@ Source: inferred by agent from the AES consolidation plan item 7 task: AES is pu
 
 ### Requirement: Refuse a merge whose OpenSpec change lacks a prior-art record
 
-Before the planning gate and the check, `scripts/ship.py` SHALL run code2-workspace's `scripts/prior_art_check.py` (from `$SHIP_WORKSPACE`, default `~/code2/workspace`) with `--repo` set to the repository and `--files` set to every file under `openspec/changes/` that the merge (from the merge base with the default branch to HEAD) adds or changes; when no merge base is found it SHALL run it without `--files`. When the merge adds or changes no file under `openspec/changes/` it SHALL run nothing and print and log one line saying so. It SHALL refuse the merge, with nothing pushed, when the script exits 1, showing what the script printed. When the script is missing it SHALL refuse the merge and say to run `git -C <workspace> pull --ff-only`; when the script exits with any status other than 0 or 1 it SHALL refuse the merge, show the exit status and say this is not a verdict on the record. When the script exits 0 it SHALL print and log its summary line.
+Before the planning gate and the check, `ship` SHALL run Lockstep's prior-art check (`src/lockstep/prior_art.py`, the file beside ship's own module) with `--repo` set to the repository and `--files` set to every file under `openspec/changes/` that the merge (from the merge base with the default branch to HEAD) adds or changes; when no merge base is found it SHALL run it without `--files`. When the merge adds or changes no file under `openspec/changes/` it SHALL run nothing and print and log one line saying so. It SHALL refuse the merge, with nothing pushed, when the check exits 1, showing what the check printed. When the check file is missing it SHALL refuse the merge and say to reinstall `ship`; when the check exits with any status other than 0 or 1 it SHALL refuse the merge, show the exit status and say this is not a verdict on the record. When the check exits 0 it SHALL print and log its summary line.
 
-Source: Brian, 2026-11-17: "every cpaability/featuer shoul dhave a prior art search so that we are only buidling what we need to. that needs to be ienforced" (code2-workspace Policy `prior-art-per-feature`; issue 833, slice 1, names `ship` as the merge point). Inferred by agent: running nothing when no change is touched, reading the script from the workspace checkout, and refusing when it is missing or cannot run (the merge rules fail closed).
+Source: Brian, 2026-11-17: "every cpaability/featuer shoul dhave a prior art search so that we are only buidling what we need to. that needs to be ienforced" (code2-workspace Policy `prior-art-per-feature`; issue 833, slice 1, names `ship` as the merge point). Inferred by agent: running nothing when no change is touched, and refusing when the check is missing or cannot run (the merge rules fail closed). Inferred by agent, 2026-11-20 (minimal core, section 7): the check ships inside the public package instead of being read from the private workspace checkout, so `ship` works on another machine.
 
 #### Scenario: A change with no record is refused
 
@@ -647,9 +647,9 @@ Source: Brian, 2026-11-17: "every cpaability/featuer shoul dhave a prior art sea
 
 #### Scenario: A missing prior-art check refuses
 
-- **GIVEN** a branch that adds an OpenSpec change, and no `scripts/prior_art_check.py` in the workspace folder
+- **GIVEN** a branch that adds an OpenSpec change, and no prior-art check beside ship's module
 - **WHEN** `ship` runs
-- **THEN** it exits 1 with nothing pushed and says to run `git -C <workspace> pull --ff-only`
+- **THEN** it exits 1 with nothing pushed and says to reinstall `ship`
 
 #### Scenario: A prior-art check that cannot run refuses
 
@@ -734,3 +734,21 @@ Source: minimal-core-2026-11-20.md section 6 step 2, hidden tests "must pass bef
 - **GIVEN** no run record for the branch
 - **WHEN** ship runs with a passing check
 - **THEN** it merges and prints `ship: no hidden-test run recorded for this branch`
+
+### Requirement: Install ship as a command from the public repository
+
+The package SHALL install a `ship` command (`lockstep.ship:main`), so `uvx --from git+https://github.com/BrianMills2718/agentic-engineering-system-canonical ship` runs it on any machine with `uv`, `git` and `gh`. The files `scripts/ship.py` and `scripts/lane_sweep.py` SHALL keep working as before, run as files or imported from `scripts/`, by loading the modules in `src/lockstep/`.
+
+Source: Brian, 2026-11-20: "the whole thing should be configurable and shareable/protable". Inferred by agent (minimal core, section 7: "install from the public repo with `uvx`, like `lockstep` already is"): keeping the old paths, because `~/.local/bin/ship` and the daily refresh point at them.
+
+#### Scenario: The command and the old file both run
+
+- **GIVEN** the package installed, and the file `scripts/ship.py`
+- **WHEN** `python -m lockstep.ship --help` and `python scripts/ship.py --help` run
+- **THEN** both exit 0 and print ship's usage
+
+#### Scenario: The old import path is the moved module
+
+- **GIVEN** `scripts/` on the import path
+- **WHEN** `import ship` runs
+- **THEN** the module is `lockstep.ship`

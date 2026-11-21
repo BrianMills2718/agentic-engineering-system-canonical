@@ -1,0 +1,98 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/main/src/lockstep/prior-art.schema.json",
+  "title": "Prior-art record",
+  "description": "The record an OpenSpec change that adds a requirement must hold as prior-art.json: what must exist, where the author looked in our own work and outside it, a verdict and reason for every candidate found, and the decision. Every rule about the record lives here and nowhere else; src/lockstep/prior_art.py only decides which changes need one. Brian, 2026-11-17: \"every cpaability/featuer shoul dhave a prior art search so that we are only buidling what we need to. that needs to be ienforced\".",
+  "type": "object",
+  "required": ["need", "searched", "candidates", "decision", "decided"],
+  "properties": {
+    "need": {
+      "description": "One sentence: what must exist after this change that does not exist now.",
+      "type": "string",
+      "minLength": 1
+    },
+    "searched": {
+      "description": "Where the author looked. At least one search in our own work (place own) and at least one outside it (place outside).",
+      "type": "array",
+      "items": {
+        "description": "One search: the place, where exactly, the query used, and what was found.",
+        "type": "object",
+        "required": ["place", "where", "query", "found"],
+        "properties": {
+          "place": {
+            "description": "own for our own repositories, documents and tools; outside for PyPI, standards, other projects and the web.",
+            "enum": ["own", "outside"]
+          },
+          "where": {"description": "The source searched, named so another person can repeat the search.", "type": "string", "minLength": 1},
+          "query": {"description": "The words or question searched for.", "type": "string", "minLength": 1},
+          "found": {"description": "What the search returned, including that it returned nothing.", "type": "string", "minLength": 1}
+        }
+      },
+      "allOf": [
+        {"contains": {"type": "object", "required": ["place"], "properties": {"place": {"const": "own"}}}},
+        {"contains": {"type": "object", "required": ["place"], "properties": {"place": {"const": "outside"}}}}
+      ]
+    },
+    "candidates": {
+      "description": "Every existing thing found that might do the job. May be empty when the searches found nothing. Each carries a verdict; none is left undecided.",
+      "type": "array",
+      "items": {
+        "description": "One candidate and what was decided about it.",
+        "type": "object",
+        "required": ["name", "url", "covers", "verdict", "reason"],
+        "properties": {
+          "name": {"description": "What the candidate is called.", "type": "string", "minLength": 1},
+          "url": {"description": "Where to read about it.", "type": "string", "minLength": 1},
+          "covers": {"description": "What of the need it already does.", "type": "string", "minLength": 1},
+          "misses": {"description": "What of the need it does not do.", "type": "string"},
+          "verdict": {
+            "description": "adopt: use it as it is. combine: use it together with something else. fork: copy it and change the copy. reject: do not use it. No other word is valid, so a candidate cannot be left as 'candidate' or 'not yet evaluated'.",
+            "enum": ["adopt", "combine", "fork", "reject"]
+          },
+          "reason": {"description": "Why that verdict.", "type": "string", "minLength": 1}
+        }
+      }
+    },
+    "decision": {
+      "description": "What the change does about the need: adopt, combine or fork a candidate, or build something new.",
+      "enum": ["adopt", "combine", "fork", "build"]
+    },
+    "gap": {
+      "description": "What no candidate does. Required, and not empty, when the decision is build.",
+      "type": "string"
+    },
+    "decided": {
+      "description": "The day the decision was made, as YYYY-MM-DD.",
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+    }
+  },
+  "allOf": [
+    {
+      "description": "A decision to adopt needs a candidate whose verdict is adopt.",
+      "if": {"required": ["decision"], "properties": {"decision": {"const": "adopt"}}},
+      "then": {"properties": {"candidates": {"contains": {"type": "object", "required": ["verdict"], "properties": {"verdict": {"const": "adopt"}}}}}}
+    },
+    {
+      "description": "A decision to combine needs a candidate whose verdict is combine.",
+      "if": {"required": ["decision"], "properties": {"decision": {"const": "combine"}}},
+      "then": {"properties": {"candidates": {"contains": {"type": "object", "required": ["verdict"], "properties": {"verdict": {"const": "combine"}}}}}}
+    },
+    {
+      "description": "A decision to fork needs a candidate whose verdict is fork.",
+      "if": {"required": ["decision"], "properties": {"decision": {"const": "fork"}}},
+      "then": {"properties": {"candidates": {"contains": {"type": "object", "required": ["verdict"], "properties": {"verdict": {"const": "fork"}}}}}}
+    },
+    {
+      "description": "A decision to build needs a stated gap and every candidate rejected.",
+      "if": {"required": ["decision"], "properties": {"decision": {"const": "build"}}},
+      "then": {
+        "required": ["gap"],
+        "properties": {
+          "gap": {"minLength": 1},
+          "candidates": {"items": {"properties": {"verdict": {"const": "reject"}}}}
+        }
+      }
+    }
+  ]
+}
