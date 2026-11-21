@@ -550,6 +550,7 @@ Added after the 419-file inventory; the ecosystem page owns their interpretation
 
 - **[investigation.json](../docs/planning/investigation.json)** — Retains a revision-bound investigation of whole-AES scope, one-tool design, corrections filing, policy coverage and engine dependencies, including then-failed findings later resolved. **Role:** evidence. **Disposition:** keep.
 
+- **[second-user.goal.md](../docs/planning/second-user.goal.md)** — The goal after the first minimal-core milestone: a second user runs the core with nothing of Brian's, agents included; holds the roadmap of goals. **Role:** plan. **Disposition:** keep.
 - **[next.goal.md](../docs/planning/next.goal.md)** — Records the adopted six-slice one-tool build and remaining review/follow-up work; identifies the design as authority and this document as its planning-package view. **Role:** plan. **Disposition:** update.
 
 - **[open-questions.graph.json](../docs/planning/open-questions.graph.json)** — Generated graph of open ledger questions, responsible actors and domain relationships; it is a derived reading view rather than another question authority. **Role:** generated. **Disposition:** generated.
