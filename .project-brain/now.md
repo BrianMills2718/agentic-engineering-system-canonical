@@ -1,3 +1,21 @@
+# Minimal core met; template and ship live here (2026-11-21)
+
+Brian, 2026-11-20: "the whole thing should be configurable and shareable/protable. we shoudl start with the minimal
+core". The first milestone is met: a repository made from the template ran one plan each in Claude and Codex in a
+clean home folder (hidden tests 0/3 then 3/3, and 0/10 then 10/10) and merged with `ship`
+([result](../docs/planning/minimal-core-2026-11-20.md), section 8; #996). Since then:
+
+- `ship` is a console script of this package, with the prior-art check inside Lockstep (`lockstep check prior-art`)
+  (#993); logs go under XDG state when there is no `~/code2` (#998); `run-plan` prints `uv run ship` and the status
+  page is build output (#997).
+- The starter template moved here from code2-template (Brian, 2026-11-21: "yes"; #999): `copier.yml` and
+  `template/`. Make a repository with `uvx copier copy --trust gh:BrianMills2718/agentic-engineering-system-canonical <dir>`
+  (tested from that address in the clean home: copy, `make check` and first commit all exit 0). code2-template still
+  works but is no longer updated; six existing repositories still name it as their copier source.
+- code2-workspace's own copy of the prior-art check retired (code2-workspace #904).
+
+**Next:** add-ons after the minimal core, as needed.
+
 # AES assessment (2026-11-19)
 
 Brian asked for an audit. [The assessment](../docs/planning/aes-assessment-20261119.md) is read-only. It finds no measure yet of whether AES makes agents more effective. Lockstep's trace check fails in world-substrate (196 findings) and digimon (228) and runs at merge nowhere. The feedback log holds 8,624 unread reports, and the reading jobs have been off since about 2026-10-12. Three decisions are open for Brian (what AES is, a two-week world-substrate pilot, the feedback collector). The 2026-10-12 adopt-issue line further down is out of date: 192 of 226 adopt issues are open.
