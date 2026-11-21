@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Finished git worktrees (lanes) and their branches are removed automatically, minutes after their work reaches the remote default branch, without ever removing work that exists only locally.
+Finished git worktrees (lanes) and their branches are removed automatically, minutes after their work reaches the remote default branch. A lane whose work was never merged is removed only after 72 hours idle, and only after its tip is kept in a local archive ref and a verified bundle, with its branch kept. A lane holding uncommitted changes, or 1 MiB or more of ignored files that are not regenerable caches, is never removed.
 
 Ported into AES from code2-workspace commit eafa8e06894917f0d297e281202b60e86b12f819 (2026-11-16) under the AES consolidation plan, item 7 (Brian, 2026-11-16, Decision 25). The installed `lane-sweep` command and its timer still run the workspace copy until a side-by-side run switches them over. In the port, the gh wrapper per GitHub account and the canonical-lock tool became the person's settings (`graph-config.yaml`), not code.
 
@@ -16,7 +16,14 @@ has no uncommitted changes (ignored files do not count); its content is on the r
 meaning the branch tip is an ancestor of it, or every file the branch changed has the same content there, or a merged pull request's head on GitHub is exactly the branch tip;
 no running process outside the sweep's own ancestors and session (the command that launched it) uses the worktree, meaning its working directory, a command-line argument, an open or mapped file, a code search path in its environment (`PYTHONPATH`, `VIRTUAL_ENV` and similar) or an absolute path in a `.pth` file of the Python environment it runs from is inside the worktree;
 and the worktree has been idle for at least 30 minutes, or 24 hours when the branch has no commits of
-its own. Every other lane SHALL be kept and listed with the reason. Each removal SHALL append the branch
+its own; and its ignored files that are not regenerable caches total under 1 MiB (1048576 bytes), where a cache
+is anything under a folder named `.venv`, `venv`, `node_modules`, `__pycache__`, `.pytest_cache`, `.mypy_cache`,
+`.ruff_cache`, `.tox`, `dist`, `build`, `.cache`, `.next`, `target`, `.lockstep`, `.code2check` or `.work`, or an
+`.egg-info` folder, at any depth; a size that cannot be read SHALL count as reaching the limit. A lane failing
+only this check SHALL be kept with the reason `holds ignored non-cache files: <up to 5 paths>`, because
+`git worktree remove` deletes ignored files even without `--force`; a removed lane's smaller ignored non-cache
+files SHALL be listed in the day's log. Every other lane SHALL be kept and listed with the reason, except an idle lane whose content is not on the
+remote default branch, which the requirement "Archive then remove idle unmerged lanes" governs. Each removal SHALL append the branch
 name, its tip and the command that restores the branch to one log file per day. Removal SHALL first
 move the worktree aside with `git worktree move` to the hidden sibling `.<name>.lane-sweep-removing`, so
 the lane's own path disappears in one step, and SHALL then run `git worktree remove` without `--force`.
@@ -30,6 +37,8 @@ the sweep for its repository right after the pull request reads back MERGED, pas
 `--merged-lane` so that lane skips only the idle wait; a failed sweep SHALL NOT fail the ship.
 
 Source: Brian, 2026-10-25, "i guess if thats th ebest way to do it but i feel like there should be a way to do it more immeidately" (approving automatic removal of clean worktrees whose content is on main, after "i dont udnerstand why we always ahve these old branches that arent celanedup and handled automatically")
+
+Source: inferred by agent from the coordinating session's brief of 2026-11-20 for this change: the 2026-11-19 manual removal of 86 lanes found ignored work that a removal would have deleted in real lanes (`.claude/hook_log.jsonl`, `*.db`, `*-wal`, `*-shm`, `var/`, `results/`, `data/`, `openspec/changes/archive/`, `site/`); the 1 MiB allowance and the cache list are from that brief.
 
 Source: inferred by agent from the 2026-10-27 lane-sweep log: the sweep removed `~/code2/data-contracts-wt/claimant` (03:01:04) and `~/code2/claim-extraction-wt/efficiency` (03:58:49) while live greer runs imported from them through `PYTHONPATH`, and the second removal stopped partway, leaving a registered worktree with its tracked files deleted.
 
@@ -53,7 +62,7 @@ Source: inferred by agent from the 2026-10-27 lane-sweep log: the sweep removed 
 
 #### Scenario: A lane with work not on main is kept
 
-- **GIVEN** a clean worktree with a commit whose change is not on origin/main
+- **GIVEN** a clean worktree with a commit whose change is not on origin/main, idle for less than the archive limit
 - **WHEN** the sweep runs with `--apply`
 - **THEN** the worktree and branch stay and the lane is reported as not on main
 
@@ -140,6 +149,24 @@ Source: inferred by agent from the 2026-10-27 lane-sweep log: the sweep removed 
 - **GIVEN** a finished worktree whose `git worktree remove` times out before deleting anything
 - **WHEN** the sweep runs with `--apply`
 - **THEN** it exits 1 after logging its summary line, and the worktree is back at its path with its files and branch
+
+#### Scenario: A lane holding ignored non-cache files is kept
+
+- **GIVEN** a finished, idle worktree holding ignored `data/x.db` (2 MiB) and `var/state.db-wal`
+- **WHEN** the sweep runs with `--apply`
+- **THEN** the worktree and branch stay and it is reported as `holds ignored non-cache files:` naming `data/` and `var/`
+
+#### Scenario: Ignored non-cache files under 1 MiB do not keep a lane
+
+- **GIVEN** a finished, idle worktree whose only ignored non-cache file is a small `.claude/hook_log.jsonl`
+- **WHEN** the sweep runs with `--apply`
+- **THEN** the worktree is removed and the day's log lists `.claude/` among the ignored files the removal deletes
+
+#### Scenario: Regenerable caches do not keep a lane
+
+- **GIVEN** a finished, idle worktree holding 2 MiB each under `.venv/`, `pkg/__pycache__/` and `build/`
+- **WHEN** the sweep runs with `--apply`
+- **THEN** the worktree is removed
 
 ### Requirement: Fast-forward primary checkouts that are clean and idle
 
@@ -302,3 +329,117 @@ Source: inferred by agent from the AES consolidation plan item 7 task: AES is pu
 - **GIVEN** no `graph-config.yaml`
 - **WHEN** the sweep picks a gh command and the lock tool
 - **THEN** it uses `gh`, and no lock tool
+
+### Requirement: Archive then remove idle unmerged lanes
+
+`scripts/lane_sweep.py` SHALL remove the worktree of a lane whose content is not on the remote default branch
+when it passes every other check of "Remove finished lanes and report the rest" (clean, ignored non-cache files under 1 MiB, not in use by a process
+or a systemd user unit, not locked, not passed as `--keep-lane`, no submodules) and has been idle for at least
+the archive limit: 72 hours, or the number of hours in `lane_sweep_archive_after_hours:` in `graph-config.yaml`
+(`$LANE_SWEEP_ARCHIVE_AFTER_HOURS`, `--archive-after-hours`); 0 or less SHALL turn this off. `--merged-lane`
+SHALL NOT shorten this wait. Before any move it SHALL preserve the tip: when no remote-tracking branch holds the
+tip, it SHALL create the local ref `refs/archive/<YYYYMMDD>/<lane folder name>` at the tip with `git update-ref`
+refusing to overwrite (a name already taken by another commit gets `-<tip>` appended), write a `git bundle` of
+that ref and the lane's branch holding only the commits not on the remote default branch into the log folder,
+and run `git bundle verify` on it. A detached lane SHALL get the local ref even when a remote-tracking branch
+holds its tip. When creating the ref, the bundle or its verification fails, the lane SHALL be kept whole and
+the sweep SHALL exit 1. The ref SHALL be pushed to origin only when origin's GitHub owner is the `owner:` setting
+and GitHub, asked through that owner's gh wrapper, reports the repository private; a failed push SHALL be logged
+and SHALL NOT stop the removal. The removal SHALL then run as in "Remove finished lanes and report the rest",
+except that the local branch SHALL be kept. The day's log SHALL name the branch, the tip, the bundle and the
+command `git -C <repo> worktree add <path> <branch, or the archive ref when detached>` that restores the lane, and
+SHALL list the ignored files the removal deletes, other than rebuildable caches such as `.venv`. Without
+`--apply` the lane SHALL only be listed as archivable, with no ref and no bundle written.
+
+Source: inferred by agent (the coordinating session's brief of 2026-11-19 for this change, with what it measured on Brian's machine that day: `~/code2`
+had 136 worktrees using about 23 GB (mostly a `.venv` per lane), the 21:00 sweep kept 188 lanes and removed 0
+because each was "work not on origin/main", and 47 lanes had their last commit on 2026-11-13 (one fan-out day,
+29 of them in one repository) and were never merged; 86 were removed by hand with this procedure, which this
+requirement automates). Also inferred by agent: that a ref is pushed only to a private repository (a tip no remote
+branch holds was never published; the 2026-11-09 world-substrate archive, `~/code2/.lane-sweep-logs/
+world-substrate-old-lanes-2026-11-09.remove.sh`, pushed its refs only because every tip was already public), that
+the owner is the `owner:` setting rather than a name in code (requirement "settings-come-from-config"), that the
+bundle holds only the commits not on the default branch (a full-history bundle per lane would spend the disk this
+change frees), and that a detached lane always gets its local ref (the sweep fetches without `--prune`, so a
+remote-tracking ref may name a branch GitHub no longer has).
+
+#### Scenario: An unmerged lane holding ignored non-cache files is kept and not archived
+
+- **GIVEN** a clean worktree with a commit not on origin/main, idle past the archive limit, holding ignored `site/index.html` (2 MiB)
+- **WHEN** the sweep runs with `--apply`
+- **THEN** the worktree stays, reported as `work not on origin/main; holds ignored non-cache files: site/`, and no archive ref or bundle is written
+
+#### Scenario: A clean idle unmerged lane is archived and removed with its branch kept
+
+- **GIVEN** a clean worktree with a commit not on origin/main, on no remote branch, idle past the archive limit
+- **WHEN** the sweep runs with `--apply`
+- **THEN** the worktree folder is gone, the branch stays at its tip, `refs/archive/<YYYYMMDD>/<name>` points at the tip, a verified bundle is in the log folder, and the logged `git worktree add` command brings the lane back
+
+#### Scenario: A detached unmerged lane gets an archive ref
+
+- **GIVEN** a clean, idle, detached worktree with a commit not on origin/main
+- **WHEN** the sweep runs with `--apply`
+- **THEN** the worktree folder is gone, `refs/archive/<YYYYMMDD>/<name>` points at its tip, and the logged command restores it from that ref
+
+#### Scenario: An unmerged lane whose tip is on a remote branch needs no bundle
+
+- **GIVEN** a clean, idle worktree whose branch tip is pushed to origin but not on origin/main
+- **WHEN** the sweep runs with `--apply`
+- **THEN** the worktree folder is gone, the branch stays, no archive ref or bundle is written, and the log names the remote branch
+
+#### Scenario: A dirty unmerged lane is kept
+
+- **GIVEN** an idle worktree with a commit not on origin/main and an uncommitted edit
+- **WHEN** the sweep runs with `--apply`
+- **THEN** the worktree and its edit stay, it is listed as having uncommitted changes, and no archive ref is written
+
+#### Scenario: A locked unmerged lane is kept
+
+- **GIVEN** an idle worktree with a commit not on origin/main, locked with `git worktree lock`
+- **WHEN** the sweep runs with `--apply`
+- **THEN** the worktree stays, it is listed as locked, and no archive ref is written
+
+#### Scenario: An unmerged lane idle less than the limit is kept
+
+- **GIVEN** a clean worktree with a commit not on origin/main, idle 71 hours, passed as `--merged-lane`
+- **WHEN** the sweep runs with `--apply`
+- **THEN** the worktree stays and is listed as not on main, to be archived after 72 hours idle
+
+#### Scenario: Without apply an unmerged lane is only reported
+
+- **GIVEN** a clean worktree with a commit not on origin/main, idle past the archive limit
+- **WHEN** the sweep runs without `--apply`
+- **THEN** the worktree stays, it is listed as archivable and counted in the summary, and no ref or bundle is written
+
+#### Scenario: A bundle that fails to verify keeps the lane
+
+- **GIVEN** a clean, idle unmerged worktree whose bundle `git bundle verify` rejects
+- **WHEN** the sweep runs with `--apply`
+- **THEN** it exits 1, the worktree, its files and its branch stay, and the log says the verify failed
+
+#### Scenario: An archive ref is pushed only to a private repository of the configured owner
+
+- **GIVEN** a clean, idle unmerged lane, `owner:` set, and origin a GitHub repository
+- **WHEN** the sweep runs with `--apply`
+- **THEN** the archive ref reaches origin when origin's owner is `owner:` and the repository is private, and not when the owner differs or the repository is not private; the lane is removed in every case
+
+#### Scenario: The archive limit comes from graph-config
+
+- **GIVEN** `graph-config.yaml` with `lane_sweep_archive_after_hours: 0`
+- **WHEN** the sweep runs with `--apply` over a clean unmerged lane idle 73 hours
+- **THEN** the lane stays and is listed as not on main; with no setting the limit is 72 hours
+
+### Requirement: Count kept lanes per repository
+
+After the kept lanes, `scripts/lane_sweep.py` SHALL print, and append to the day's log and `last-report.txt`, one
+line `lanes kept per repository:` naming each repository that keeps at least one lane with its count, largest
+first, and marking each count over 8 `(more than 8)`, so a repository where lanes pile up is visible in every run.
+
+Source: inferred by agent (the coordinating session's brief of 2026-11-19: 29 of the 47 lanes left unmerged
+since 2026-11-13 were in one repository, and nothing in the sweep's output showed it).
+
+#### Scenario: The sweep counts kept lanes per repository
+
+- **GIVEN** a repository with nine kept lanes
+- **WHEN** the sweep runs
+- **THEN** its output and the day's log have the line `lanes kept per repository: <repository> 9 (more than 8)`
