@@ -1,0 +1,11 @@
+{
+  "record_type": "goal_sources",
+  "version": 1,
+  "quotes": [],
+  "review": {
+    "revision": "",
+    "requirements": {
+      "openspec/specs/core/spec.md": "8ff59b1076fd8d5ce7fc83d4819b014cac66ab3c21f147d1594e14a7ee4e6793"
+    }
+  }
+}

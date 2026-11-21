@@ -1,0 +1,46 @@
+[project]
+name = "{{ project_name }}"
+version = "0.1.0"
+description = "{{ description | replace("\\", "\\\\") | replace("\"", "\\\"") }}"
+readme = "README.md"
+{% if author %}authors = [{ name = "{{ author }}" }]
+{% endif %}requires-python = ">=3.12"
+dependencies = []
+
+[project.scripts]
+{{ project_name }} = "{{ package_name }}.cli:main"
+
+[dependency-groups]
+dev = [
+    "agentic-engineering-system",
+    "pytest>=9.1",
+    "import-linter>=2.15",
+    "pydoclint>=0.11.1",
+    "interrogate>=1.7.0",
+    "zensical==0.0.70",
+    "mkdocstrings-python>=2.0.9",
+    "mkdocs-llmstxt>=0.5.1",
+]
+
+[tool.uv.sources]
+agentic-engineering-system = { git = "{{ lockstep_git }}", branch = "main" }
+
+[build-system]
+requires = ["uv_build>=0.12.5,<0.13.0"]
+build-backend = "uv_build"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.pydoclint]
+style = "google"
+arg-type-hints-in-docstring = false
+check-return-types = false
+skip-checking-short-docstrings = true
+exclude = "tests"
+
+[tool.interrogate]
+fail-under = 100
+exclude = ["tests"]
+ignore-init-module = true
+verbose = 1

@@ -1,0 +1,15 @@
+"""What {{ project_name }} does. Replace this starter with the first real capability.
+
+Implements: core/reports-its-version
+"""
+
+from importlib.metadata import version as _installed_version
+
+
+def version() -> str:
+    """Return the installed version of {{ project_name }}.
+
+    Returns:
+        The version string, such as `0.1.0`.
+    """
+    return _installed_version("{{ project_name }}")

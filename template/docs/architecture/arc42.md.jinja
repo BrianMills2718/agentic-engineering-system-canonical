@@ -1,0 +1,53 @@
+# {{ project_name }} architecture
+
+Sections follow [arc42](https://arc42.org). Sections whose content another tool owns point there
+instead of repeating it, so each fact lives in one place.
+
+## 1. Introduction and goals
+
+{{ description }} Who it is for and what it changes for them: [GOAL.md](../GOAL.md).
+
+## 2. Constraints
+
+Off-the-shelf tools first; commit-hook checks finish in seconds.
+
+## 3. Context and scope
+
+What goes in and what comes out; name each outside system it talks to.
+
+## 4. Solution strategy
+
+The few choices that shape everything else, each with its reason.
+
+## 5. Building block view
+
+The components and which may import which: [model.c4](model.c4). The code reference is generated from
+docstrings: [API reference](../reference/api.md).
+
+## 6. Runtime view
+
+See the arrows in [model.c4](model.c4).
+
+## 7. Deployment view
+
+Where it runs; one line until there is more than one place.
+
+## 8. Crosscutting concepts
+
+Rules that hold across components.
+
+## 9. Architecture decisions
+
+Decision records: [docs/decisions](../decisions/0001-use-the-code2-layout.md).
+
+## 10. Quality requirements
+
+Owned by OpenSpec: [specs](../specs/core/spec.md).
+
+## 11. Risks and technical debt
+
+Known weak points, each with what would show it is hurting.
+
+## 12. Glossary
+
+Not kept until a reader needs one.

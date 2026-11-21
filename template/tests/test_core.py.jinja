@@ -1,0 +1,10 @@
+"""Tests for the starter capability."""
+
+import pytest
+
+from {{ package_name }}.core import version
+
+
+@pytest.mark.req("core/version-matches-the-package")
+def test_version_matches_the_package():
+    assert version() == "0.1.0"

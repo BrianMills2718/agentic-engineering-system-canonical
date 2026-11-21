@@ -26,6 +26,19 @@ flags a remaining correction, `consolidate` proposes a content-preserving merge,
 and `generated` identifies derived/tool-owned material.
 They do not authorize policy retirement, code removal or deletion of history.
 
+## Starter template moved from code2-template (2026-11-21)
+
+Brian said yes on 2026-11-21 to holding the template here, so one public address makes a repository and installs
+Lockstep and `ship`. Copied from code2-template `6e15ab3`.
+
+- **[copier.yml](../copier.yml)** — Copier questions and setup tasks for a new repository; files come from `template/`. **Role:** configuration. **Disposition:** keep.
+- **[template/](../template/)** — The 23 starter files a new repository gets: `AGENTS.md`, `Makefile`, `pyproject.toml`, `lefthook.yml`, docs (goal, arc42, LikeC4 model, decision 0001, index), an OpenSpec `core` spec, a package with a CLI and its test. **Role:** template. **Disposition:** keep.
+  - **[template decision 0001](../template/docs/decisions/0001-use-the-code2-layout.md)** — The decision record each new repository starts with; points at decision 0015 here. **Role:** template. **Disposition:** keep.
+  - **[template core spec](../template/openspec/specs/core/spec.md)** — The starter OpenSpec requirement each new repository's example code and test implement. **Role:** template. **Disposition:** keep.
+- **[0015-off-the-shelf-documentation-stack.md](../docs/decisions/0015-off-the-shelf-documentation-stack.md)** — Why the template uses OpenSpec, LikeC4, MADR, import-linter and Zensical (moved from code2-template decision 0001). **Role:** decision. **Disposition:** keep.
+- **[test\_template\_portable.py](../tests/test_template_portable.py)** — Renders the template with copier and checks a default copy names nothing of the owner's machine and a workspace copy keeps the shared hooks. **Role:** test. **Disposition:** keep.
+- **[portable-template spec](../openspec/specs/portable-template/spec.md)** — What a rendered repository must and must not contain, and that the template is served from here. **Role:** specification. **Disposition:** keep.
+
 ## Subsequent archived change (2026-11-14)
 
 These records were added after the 419-file inventory above. They record

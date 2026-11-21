@@ -1,0 +1,25 @@
+site_name: {{ project_name }}
+site_url: http://localhost:8000/
+docs_dir: docs
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          paths: [src]
+          options:
+            docstring_style: google
+            show_source: false
+  - llmstxt:
+      markdown_description: '{{ description | replace("'", "''") }}'
+      sections:
+        Start:
+          - index.md
+          - architecture/arc42.md
+          - status.md
+        Requirements:
+          - specs/*/spec.md
+        Decisions:
+          - decisions/*.md
+        Reference:
+          - reference/api.md

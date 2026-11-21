@@ -1,0 +1,13 @@
+"""Command line for {{ project_name }}."""
+
+from {{ package_name }}.core import version
+
+
+def main() -> int:
+    """Print the version and return the exit status.
+
+    Returns:
+        0 on success.
+    """
+    print(f"{{ project_name }} {version()}")
+    return 0

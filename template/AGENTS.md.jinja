@@ -1,0 +1,30 @@
+# {{ project_name }} instructions
+
+Index for agents. Read [docs/index.md](docs/index.md) first; it lists the architecture, diagram,
+requirements and decisions.{% if code2_workspace %} Workspace rules: `~/code2/AGENTS.md`.{% endif %}
+
+- Behavior changes go through OpenSpec (`openspec/changes/<name>/`), then archive with
+  `openspec archive <name> --yes`.
+- Each change's `proposal.md` states its size on one line: `Plan size: small` (the change is the plan;
+  the checks are the gate) or `Plan size: full` with a line `Planning package: <path>` naming its package
+{% if code2_workspace %}  (`~/code2/workspace/agents/topics/working-method.md`, "A requirement change states its size").
+{% endif %}  `lockstep check changed` in `make check` fails without it.
+{% if code2_workspace -%}
+- Every requirement and decision record carries a `Source:` line: `Source: Brian, <date>: "<his words>"`
+  or `Source: inferred by agent (<basis>)`. Implementation (code, tests, diagram) is the agent's call; a
+  significant requirement or decision an agent inferred is a working default: apply it and list it under
+  "Decided by me, you can veto" in the reply. It waits for Brian's yes only when it is also uncertain and
+  high-impact (`~/code2/AGENTS.md`, "Who decided"; Brian, 2026-11-16: "i approve 7 tight").
+  `lockstep check sources` enforces the line.
+{% else -%}
+- Every requirement and decision record carries a `Source:` line: `Source: <owner>, <date>: "<their words>"`
+  or `Source: inferred by agent (<basis>)`. Implementation (code, tests, diagram) is the agent's call; a
+  significant requirement or decision an agent inferred is a working default: apply it and say so in the
+  reply, so the owner can undo it. `lockstep check sources` enforces the line.
+{% endif -%}
+- Write the failing test before the code, marked `@pytest.mark.req("<capability>/<scenario>")`.
+- The module that implements a requirement says `Implements: <capability>/<requirement>` in its
+  docstring; continuation lines are indented.
+- Change structure in `docs/architecture/model.c4`, then run `uv run lockstep check arch gen`.
+  Never edit `.importlinter` by hand.
+- `make fast` runs on commit; `make check` runs on push and must exit 0 before merging.
