@@ -106,11 +106,11 @@ def make_repo(tmp_path: Path, monkeypatch, first_commit: str, *, package: bool) 
     monkeypatch.setenv("SHIP_PLAN_LIST", PLAN_LIST)
     # The fake validators need no packages; tests of the interpreter choice unset this.
     monkeypatch.setenv("SHIP_VALIDATOR_PYTHON", sys.executable)
-    # A fake code2-workspace whose prior-art check logs its arguments and exits with FAKE_PRIOR_ART_EXIT (default 0).
-    script = tmp_path / "workspace" / "scripts" / "prior_art_check.py"
+    # A fake prior-art check in place of the bundled one; it logs its arguments and exits with FAKE_PRIOR_ART_EXIT (default 0).
+    script = tmp_path / "fake-lockstep" / "prior_art.py"
     script.parent.mkdir(parents=True)
     script.write_text(FAKE_PRIOR_ART)
-    monkeypatch.setenv("SHIP_WORKSPACE", str(tmp_path / "workspace"))
+    monkeypatch.setattr(ship, "PRIOR_ART_CHECK", script)
     monkeypatch.setenv("SHIP_PRIOR_ART_PYTHON", sys.executable)
     monkeypatch.setenv("FAKE_PRIOR_ART_LOG", str(tmp_path / "prior-art.log"))
     return work, remote, tmp_path / "gh.log"
@@ -1173,7 +1173,7 @@ def test_the_slot_is_released_after_the_check(repo, tmp_path, monkeypatch):
 
 def plan_content(work: Path, base: str, head: str, validator: Path) -> subprocess.CompletedProcess:
     """Run scripts/plan_content.py, as the push hook does."""
-    script = Path(ship.__file__).resolve().parent / "plan_content.py"
+    script = Path(__file__).resolve().parents[1] / "scripts" / "plan_content.py"
     return subprocess.run([sys.executable, str(script), "--repo", str(work), "--base", base, "--head", head,
                            "--validator", str(validator)], capture_output=True, text=True)
 
@@ -1202,7 +1202,7 @@ def test_the_push_hook_question_takes_relative_paths(repo, tmp_path, monkeypatch
     work, _, _ = repo
     fresh_validator(work, tmp_path, monkeypatch, 1)
     base, head = git(work, "merge-base", "HEAD", "origin/main"), git(work, "rev-parse", "HEAD")
-    script = Path(ship.__file__).resolve().parent / "plan_content.py"
+    script = Path(__file__).resolve().parents[1] / "scripts" / "plan_content.py"
     done = subprocess.run([sys.executable, str(script), "--repo", ".", "--base", base, "--head", head,
                            "--validator", "../fresh_validator.py"], cwd=work, capture_output=True, text=True)
     assert done.returncode == 0, done.stdout + done.stderr
@@ -1582,9 +1582,9 @@ def test_a_merge_that_touches_no_change_runs_nothing(repo, tmp_path, monkeypatch
 def test_a_missing_prior_art_check_refuses(repo, tmp_path, monkeypatch, capsys):
     work, remote, _ = repo
     add_change(work)
-    monkeypatch.setenv("SHIP_WORKSPACE", str(tmp_path / "no-workspace"))
+    monkeypatch.setattr(ship, "PRIOR_ART_CHECK", tmp_path / "no-lockstep" / "prior_art.py")
     refused_before_the_check(work, remote, tmp_path)
-    assert f"git -C {tmp_path / 'no-workspace'} pull --ff-only" in capsys.readouterr().out
+    assert "reinstall ship" in capsys.readouterr().out
 
 
 @pytest.mark.req("ship/a-prior-art-check-that-cannot-run-refuses")
@@ -1714,3 +1714,32 @@ def test_an_unreadable_record_is_skipped_with_a_warning(repo, tmp_path, monkeypa
     assert ship.main(["--repo", str(work), "--check", "true"]) == 0
     out = capsys.readouterr().out
     assert "unreadable run record" in out and "no hidden-test run recorded" in out
+
+
+# ---- ship installs as a command from the public package (2026-11-20) ----------------------------------------------
+
+ROOT = Path(__file__).resolve().parents[1]
+
+
+@pytest.mark.req("ship/the-command-and-the-old-file-both-run")
+def test_the_command_and_the_old_file_both_run():
+    bare = subprocess.run(["/usr/bin/python3", "-I", str(ROOT / "scripts" / "ship.py"), "--help"],
+                          capture_output=True, text=True)
+    assert bare.returncode == 0, bare.stderr
+    assert "usage" in bare.stdout.lower()
+    module = subprocess.run([sys.executable, "-m", "lockstep.ship", "--help"], capture_output=True, text=True,
+                            cwd=ROOT, env={**os.environ, "PYTHONPATH": str(ROOT / "src")})
+    assert module.returncode == 0, module.stderr
+    assert bare.stdout == module.stdout
+
+
+@pytest.mark.req("ship/the-old-import-path-is-the-moved-module")
+def test_the_old_import_path_is_the_moved_module():
+    import lockstep.ship
+    import lane_sweep  # noqa: F401  (scripts/ is on the path above)
+    import lockstep.lane_sweep
+
+    assert ship is lockstep.ship
+    assert sys.modules["lane_sweep"] is lockstep.lane_sweep
+    assert ship.PRIOR_ART_CHECK == Path(lockstep.ship.__file__).resolve().with_name("prior_art.py")
+    assert ship.PRIOR_ART_CHECK.is_file()

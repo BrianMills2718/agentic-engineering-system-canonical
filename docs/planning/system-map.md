@@ -111,10 +111,11 @@ flowchart LR
   subgraph OTHER[Project brain]
     brain_fresh[brain_fresh: is the project brain stale]
   end
-  subgraph MERGE[Merge path: ported from code2-workspace; the installed ship and lane-sweep still run the workspace copy]
+  subgraph MERGE[Merge path: src/lockstep since 2026-11-20, installed as the ship command; scripts/ keeps shims]
     ship[ship: run the check, merge only the checked commit]
     plan_content[plan_content: the plan-content question for the push hook]
     lane_sweep[lane_sweep: remove finished lanes, fast-forward clean checkouts]
+    prior_art[prior_art: refuse an OpenSpec change with no decided prior-art record]
   end
   systemd --> collect_feedback
   systemd --> label_items
@@ -126,6 +127,8 @@ flowchart LR
   systemd -.-> timers
   systemd --> failed_unit_watch
   ship --> lane_sweep
+  ship --> prior_art
+  ls_cli --> prior_art
   plan_content --> ship
   systemd -.-> lane_sweep
   systemd -.-> machine_manifest

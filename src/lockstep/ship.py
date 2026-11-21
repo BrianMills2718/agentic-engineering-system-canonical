@@ -3,7 +3,7 @@
 
 Steps, each printing its exit status and time, stopping at the first that fails:
 clean tree on a non-default branch; the one-page plans and the prior-art record of each OpenSpec change the
-merge touches (code2-workspace scripts/prior_art_check.py, from $SHIP_WORKSPACE); the planning gate; the check (default `make check`), skipped when
+merge touches (Lockstep's prior_art.py, beside this module); the planning gate; the check (default `make check`), skipped when
 this tree already passed the same check; the tree still clean and HEAD unchanged; push; open the pull request when the branch has none; merge pinned to the checked commit
 (`gh pr merge --match-head-commit`); read the state back and require MERGED.
 The merge method is chosen before the check, from what the repository allows: --method when allowed, else the
@@ -114,7 +114,7 @@ GOAL_LINE = re.compile(r"^(ok|WAIT|FAIL)\s+goal provenance:.*?\(required from (\
 NEW_FROM = "2026-11-05"   # a first commit on or after this date is a new repository (Brian, 2026-11-04)
 # Where the plan list (the repositories whose review pages deploy) lives is a person's setting, not code.
 CONFIG = Path(os.environ.get("PROJECT_GRAPH") or Path.home() / "code2/aes-config/PROJECT_GRAPH.json").parent / "graph-config.yaml"
-PRIOR_ART_RULE = "prior-art rule (code2-workspace agents/topics/working-method.md, \"The per-feature prior-art record\")"
+PRIOR_ART_RULE = "prior-art rule (every OpenSpec change that adds a requirement holds a decided prior-art.json; rules: lockstep/prior-art.schema.json)"
 PLANNING_RULE = "planning rule (agents/topics/working-method.md, \"Starting work on a project\")"
 NEW_RULE = "new-repository rule (agents/topics/working-method.md, \"Starting work on a project\")"
 # The one-page plan for small planned work (Brian, 2026-11-15, "6 all": decision record 0010). The marker line, the
@@ -438,7 +438,8 @@ def one_page_plan_refusal(run: Run, repo: Path) -> str | None:
     return None
 
 
-PRIOR_ART_SCRIPT = "scripts/prior_art_check.py"   # in code2-workspace
+# Lockstep's prior-art check, beside this module (ported from code2-workspace 2026-11-20 so ship needs no private checkout).
+PRIOR_ART_CHECK = Path(__file__).resolve().with_name("prior_art.py")
 PRIOR_ART_PYTHON = ["uv", "run", "--no-project", "--with", "jsonschema", "python"]
 CHANGES_DIR = "openspec/changes/"
 
@@ -446,7 +447,7 @@ CHANGES_DIR = "openspec/changes/"
 def prior_art_refusal(run: Run, repo: Path) -> str | None:
     """Return why the prior-art rule stops the merge, or None when every change the merge touches passes.
 
-    Runs code2-workspace's prior-art check on the files under openspec/changes/ that the merge adds or changes
+    Runs Lockstep's prior-art check (prior_art.py beside this module) on the files under openspec/changes/ that the merge adds or changes
     (every unarchived change when there is no merge base). Anything other than exit 0 refuses: a check that is
     missing or cannot run is not taken as a pass.
 
@@ -464,11 +465,11 @@ def prior_art_refusal(run: Run, repo: Path) -> str | None:
                 print(line)
                 run.write(line)
                 return None
-    workspace = Path(os.environ.get("SHIP_WORKSPACE", Path.home() / "code2" / "workspace"))
-    script = workspace / PRIOR_ART_SCRIPT
+    script = PRIOR_ART_CHECK
     if not script.is_file():
         return (f"{PRIOR_ART_RULE}: the prior-art check {script} is missing, so this merge's OpenSpec changes cannot "
-                f"be checked; run `git -C {workspace} pull --ff-only` (or set SHIP_WORKSPACE) and ship again")
+                "be checked; reinstall ship (uvx --from git+https://github.com/BrianMills2718/agentic-engineering-system-canonical "
+                "ship, or pull the checkout it runs from) and ship again")
     python = os.environ.get("SHIP_PRIOR_ART_PYTHON")
     command = [*(python.split() if python else PRIOR_ART_PYTHON), str(script), "--repo", str(repo)]
     if files is not None:

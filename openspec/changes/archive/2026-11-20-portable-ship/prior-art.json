@@ -1,0 +1,50 @@
+{
+  "need": "Install ship on any machine from the public repository, with the prior-art check it runs included, instead of a symlink into a clone and a script read from a private repository.",
+  "searched": [
+    {
+      "place": "own",
+      "where": "pyproject.toml [project.scripts] and src/lockstep at 4b07196a, read 2026-11-20",
+      "query": "how Lockstep is already installed on other machines",
+      "found": "lockstep and lockstep-hook are console scripts of the same package; uvx --from git+https://github.com/BrianMills2718/agentic-engineering-system-canonical lockstep works (verified 2026-11-20). ship and lane_sweep live in scripts/, outside the package."
+    },
+    {
+      "place": "own",
+      "where": "code2-workspace scripts/prior_art_check.py and hooks/prior-art.schema.json at ec500633",
+      "query": "is there a public copy of the prior-art check",
+      "found": "No: the only copy is in code2-workspace, which is a private repository."
+    },
+    {
+      "place": "outside",
+      "where": "uv tools documentation (uvx / uv tool run), from known behavior, not re-opened 2026-11-20",
+      "query": "standard way to run a Python command from a git repository without a clone",
+      "found": "uvx --from git+<url> <command> builds the package and runs any console script it declares."
+    },
+    {
+      "place": "outside",
+      "where": "setuptools package-data documentation, from known behavior, not re-opened 2026-11-20",
+      "query": "ship a non-Python file inside a package",
+      "found": "[tool.setuptools.package-data] includes matching files in the wheel."
+    }
+  ],
+  "candidates": [
+    {
+      "name": "Console script in the existing package, installed with uvx",
+      "url": "https://docs.astral.sh/uv/guides/tools/",
+      "covers": "Install and run from the public repository on any machine with uv, the same way lockstep already is.",
+      "misses": "Needs ship's code inside the package, so the files move into src/lockstep/ with shims left at the old paths.",
+      "verdict": "adopt",
+      "reason": "Same route Lockstep already uses; no new tool."
+    },
+    {
+      "name": "Keep reading the prior-art check from code2-workspace via $SHIP_WORKSPACE",
+      "url": "https://github.com/BrianMills2718/code2-workspace",
+      "covers": "Works on this machine today.",
+      "misses": "The repository is private, so no other person or machine can run ship.",
+      "verdict": "reject",
+      "reason": "Fails the portability requirement (minimal core, section 7)."
+    }
+  ],
+  "decision": "adopt",
+  "gap": "none: the change moves existing code into the package and copies the existing check",
+  "decided": "2026-11-20"
+}

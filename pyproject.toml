@@ -17,6 +17,8 @@ dependencies = [
   # Both fail loudly when missing, so a Lockstep install must carry them.
   "import-linter>=2",
   "pytest>=8",
+  # `lockstep check prior-art` (and `ship`, which runs it) apply the prior-art record's JSON schema.
+  "jsonschema>=4",
 ]
 
 [project.optional-dependencies]
@@ -44,6 +46,8 @@ lockstep = "lockstep.check:cli"
 lockstep-hook = "lockstep.hook:main"
 pcw = "lockstep.check:cli"
 pcw-hook = "lockstep.hook:main"
+# The merge command (moved from scripts/ship.py on 2026-11-20 so uvx installs it from the public repository).
+ship = "lockstep.ship:main"
 
 # Registers the `req` marker in any project that installs Lockstep (ported from code2check).
 [project.entry-points.pytest11]
@@ -51,6 +55,10 @@ lockstep = "lockstep.checks.plugin"
 
 [tool.setuptools.packages.find]
 where = ["src"]
+
+# The prior-art record schema ships beside lockstep/prior_art.py.
+[tool.setuptools.package-data]
+lockstep = ["*.json"]
 
 [tool.setuptools_scm]
 # No tags yet: every commit builds as 0.1.devN+g<sha>, so a git-pinned consumer
