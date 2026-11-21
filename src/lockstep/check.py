@@ -409,7 +409,8 @@ def main(argv: list[str] | None = None) -> int:
 
 def cli() -> int:
     """`lockstep <command>`: `init` (install Lockstep in a repository), `check` (the whole-tree plan check; `check <name>` runs one commit check), `layout`
-    (create the planned files), `plan check` (validate the acceptance and plan files), `status` (each
+    (create the planned files), `plan check` (validate the acceptance and plan files), `accept write|check` and `run-plan`
+    (hidden acceptance tests and a departure report for one OpenSpec plan), `status` (each
     requirement's code, tests and result) or `show FILE` (what a file must keep true)."""
     args = sys.argv[1:]
     if args and args[0] == "refresh":
@@ -421,6 +422,12 @@ def cli() -> int:
     if args and args[0] == "layout":
         from lockstep.scaffold import layout
         return layout()
+    if args and args[0] == "accept" and len(args) > 1 and args[1] in ("write", "check"):
+        from lockstep.plan_run import cli as plan_run_cli
+        return plan_run_cli(args[1:])
+    if args and args[0] == "run-plan":
+        from lockstep.plan_run import cli as plan_run_cli
+        return plan_run_cli(args)
     if args and args[0] == "plan":
         from lockstep.plan_check import plan_cli
         return plan_cli(args[1:])

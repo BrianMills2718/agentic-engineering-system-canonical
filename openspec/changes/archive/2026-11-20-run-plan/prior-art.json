@@ -1,0 +1,49 @@
+{
+  "need": "Run one written OpenSpec plan through an agent, with acceptance tests written from the plan by a separate session and hidden from the implementer until its last commit, and report where the implementation left the plan's tasks.",
+  "searched": [
+    {
+      "place": "own",
+      "where": "src/lockstep/unplanned_files.py at 2c7552bb8, read 2026-11-20",
+      "query": "does Lockstep already report files outside a plan",
+      "found": "It judges files against the AES plan and lockstep.yaml layout, not against an OpenSpec change's tasks.md, and has no notion of a run or hidden tests."
+    },
+    {
+      "place": "own",
+      "where": "~/projects/data/lockstep-proofs/fidelity/grade.sh and PLAN.md (plan-fidelity test, 2026-11-20)",
+      "query": "the hand-run procedure this packages",
+      "found": "Hidden tests written by a separate headless session into a folder outside the repository, copied in after the final commit; departures by basename match against tasks.md; transcripts grepped for peeks. 6 of 6 runs graded with it."
+    },
+    {
+      "place": "outside",
+      "where": "docs/planning/minimal-core-2026-11-20.md section 3 (landscape survey with release dates from gh api, 2026-11-20)",
+      "query": "off-the-shelf spec-driven tools that write acceptance tests from a spec and keep them from the implementer",
+      "found": "OpenSpec, Spec Kit, Kiro, Superpowers, BMAD, Task Master and Agent OS plan and drive implementation; none writes hidden acceptance tests in a separate session or reports departures from the task list. The survey's row for spec-to-test is build."
+    },
+    {
+      "place": "outside",
+      "where": "openspec 2.1.1 CLI: `openspec list` and `openspec show <change> --json`, run 2026-11-20",
+      "query": "does OpenSpec already report task progress or changed files",
+      "found": "`openspec list` prints a done/total task count per active change; `show --json` has no task list; neither reads an archived change's tasks or compares changed files with tasks."
+    }
+  ],
+  "candidates": [
+    {
+      "name": "Package the fidelity procedure as lockstep accept write / accept check / run-plan",
+      "url": "https://github.com/BrianMills2718/agentic-engineering-system-canonical",
+      "covers": "Hidden tests, departure report, Claude and Codex, run folder trace; installed everywhere lockstep already is, through uvx.",
+      "misses": "Hiding is placement plus detection, not a sandbox.",
+      "verdict": "adopt",
+      "reason": "Measured on 6 runs on 2026-11-20 and no off-the-shelf tool covers it."
+    },
+    {
+      "name": "OpenSpec task count only (openspec list)",
+      "url": "https://github.com/Fission-AI/OpenSpec",
+      "covers": "Unticked task count for an active change.",
+      "misses": "Archived changes, the task lines themselves, files outside the tasks, hidden tests.",
+      "verdict": "reject",
+      "reason": "Covers one number of the report and none of the hidden-test step."
+    }
+  ],
+  "decision": "adopt",
+  "decided": "2026-11-20"
+}

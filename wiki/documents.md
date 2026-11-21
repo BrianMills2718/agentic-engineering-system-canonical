@@ -1017,6 +1017,7 @@ Added after the 419-file inventory; the ecosystem page owns their interpretation
 
 - **[symbol\_gate.py](../src/lockstep/symbol_gate.py)** — Report the public functions and classes, and the declared signatures, that a change to a planned file adds against the plan (behavior 5.5). **Role:** code. **Disposition:** keep.
 
+- **[plan\_run.py](../src/lockstep/plan_run.py)** — `lockstep accept write`, `accept check` and `run-plan`: hidden acceptance tests written from an OpenSpec plan by a separate session, run after the implementer's last commit, plus a departure report (spec plan-run). **Role:** code. **Disposition:** keep.
 - **[unplanned\_files.py](../src/lockstep/unplanned_files.py)** — Report a file the plan does not declare (behavior 1.1). **Role:** code. **Disposition:** keep.
 
 - **[unplanned\_symbols.py](../src/lockstep/unplanned_symbols.py)** — Report a top-level function or class the plan does not declare with its types (behavior 1.2). **Role:** code. **Disposition:** keep.
@@ -1205,6 +1206,7 @@ Added after the 419-file inventory; the ecosystem page owns their interpretation
 
 - **[test\_lockstep\_unplanned\_documents.py](../tests/lockstep/test_lockstep_unplanned_documents.py)** — Tests a document Lockstep's side file does not declare is reported. **Role:** test. **Disposition:** keep.
 
+- **[test\_lockstep\_plan\_run.py](../tests/lockstep/test_lockstep_plan_run.py)** — Tests the departure report, hidden acceptance tests and the run-plan driver with a fake agent runner. **Role:** test. **Disposition:** keep.
 - **[test\_lockstep\_unplanned\_files.py](../tests/lockstep/test_lockstep_unplanned_files.py)** — Tests a file the plan does not declare is reported (code and tests under governed folders). **Role:** test. **Disposition:** keep.
 
 - **[test\_lockstep\_unplanned\_other\_files.py](../tests/lockstep/test_lockstep_unplanned_other_files.py)** — Tests with a `files` section in the side file, every tracked file outside the governed folders that is not a document must be declared there. **Role:** test. **Disposition:** keep.
