@@ -1,0 +1,43 @@
+{
+  "need": "Let a repository turn ship's add-on gates off from one answers file, and refuse a merge whose recorded hidden acceptance run failed or is out of date.",
+  "searched": [
+    {
+      "place": "own",
+      "where": "scripts/ship.py at ca563099 (setting(), planning_gate, one_page_plan_refusal), read 2026-11-20",
+      "query": "does ship already have per-repository switches",
+      "found": "No: setting() reads machine-wide graph-config.yaml and environment variables for the plan list only; every gate runs in every repository."
+    },
+    {
+      "place": "outside",
+      "where": "copier 9.19 documentation, answers file (.copier-answers.yml), from known behavior, not re-opened 2026-11-20",
+      "query": "standard place for per-repository choices made at template time",
+      "found": "copier writes every answer to .copier-answers.yml in the generated repository and reads it back on `copier update`; other tools may read it."
+    },
+    {
+      "place": "outside",
+      "where": "GitHub required status checks and merge queue, from known behavior, not re-opened 2026-11-20",
+      "query": "off-the-shelf way to require a passing result for the exact commit being merged",
+      "found": "Required checks bind a result to a commit, but need hosted CI; this workspace has none (Decision 0008, local checks first)."
+    }
+  ],
+  "candidates": [
+    {
+      "name": "Keys in .copier-answers.yml read by ship, and a gate on lockstep accept check run records",
+      "url": "https://copier.readthedocs.io/en/stable/configuring/#answers_file",
+      "covers": "One switch file per repository from the template; hidden-test result bound to the merged commit with no hosted CI.",
+      "misses": "A run under another user or XDG_STATE_HOME is not found; ship prints that no run was recorded.",
+      "verdict": "adopt",
+      "reason": "Uses the file copier already writes and the record #990 already writes."
+    },
+    {
+      "name": "GitHub required status checks",
+      "url": "https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-protected-branches/about-protected-branches",
+      "covers": "Result bound to a commit, enforced by GitHub.",
+      "misses": "Needs hosted CI and a runner able to start agent sessions.",
+      "verdict": "reject",
+      "reason": "No hosted CI here (Decision 0008)."
+    }
+  ],
+  "decision": "adopt",
+  "decided": "2026-11-20"
+}

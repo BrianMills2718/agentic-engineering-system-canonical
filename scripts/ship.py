@@ -49,6 +49,12 @@ ship extracts it beside the validator at its own path, so the validator runs it,
 `ship: goal provenance: <mark> (required from <date>)` from the validator's line: the date an existing
 repository's unsourced goals start refusing the merge.
 
+Switches (2026-11-20): `ship_planning_gate: false` or `ship_one_page_plans: false` in `.copier-answers.yml` on the
+default branch at origin turns that gate off for the repository; a missing file or key leaves it on. The prior-art
+check has no switch. Hidden acceptance gate: after catching up and before the check, the newest run record
+`lockstep accept check` wrote for this branch (spec plan-run) must show the hidden tests passed, nothing
+uncommitted, and the HEAD being merged; with no record ship says so and goes on.
+
 A check takes one of $SHIP_CHECK_SLOTS (default 3) machine-wide slots (flock files under $SHIP_STATE_DIR/check-slots),
 so a dozen agents merging at once do not run a dozen suites on the 20 cores; a run that finds all slots taken says
 who holds them and waits up to $SHIP_SLOT_WAIT seconds (default 1800), then stops with nothing pushed. 0 slots
@@ -58,6 +64,8 @@ Implements: ship/merge-only-the-commit-whose-check-passed
 Implements: ship/rebase-a-branch-that-is-behind-the-default-branch-before-checking-it
 Implements: ship/refuse-a-new-repository-with-no-planning-package
 Implements: ship/check-every-one-page-plan-a-merge-adds-or-changes
+Implements: ship/add-on-gates-switch-off-from-the-copier-answers
+Implements: ship/refuse-a-branch-whose-hidden-acceptance-run-failed-or-is-out-of-date
 Implements: ship/a-plan-repair-is-never-refused
 Implements: ship/an-upkeep-only-change-is-never-refused
 Implements: ship/refuse-a-merge-whose-openspec-change-lacks-a-prior-art-record
@@ -596,6 +604,80 @@ def merge_base(repo: Path) -> str:
     return read("merge-base", "HEAD", default)
 
 
+ANSWERS = ".copier-answers.yml"
+
+
+def addon_on(repo: Path, key: str) -> bool:
+    """False only when `.copier-answers.yml` on the default branch at origin says `key: false`; else True.
+
+    Read from the default branch, never the branch being shipped, so a branch cannot turn its own gate off.
+
+    Implements: ship/add-on-gates-switch-off-from-the-copier-answers
+    """
+    def read(*args: str) -> str:
+        done = subprocess.run(["git", "-C", str(repo), *args], capture_output=True, text=True)
+        return done.stdout if done.returncode == 0 else ""
+    default = read("symbolic-ref", "-q", "--short", "refs/remotes/origin/HEAD").strip() or "origin/main"
+    found = re.search(rf"^{re.escape(key)}:[ \t]*(\S+)[ \t]*$", read("show", f"{default}:{ANSWERS}"), re.M)
+    return not (found and found.group(1).strip("'\"").lower() == "false")
+
+
+def addon_off_line(run: "Run", gate: str, key: str) -> None:
+    line = f"ship: {gate}: off ({ANSWERS} {key}: false)"
+    print(line)
+    run.write(line)
+
+
+def accept_refusal(run: "Run", repo: Path, branch: str) -> str | None:
+    """Return why the newest hidden-test run recorded for this branch stops the merge, or None.
+
+    Run records are the `summary.json` files `lockstep accept check` writes (spec plan-run) under
+    ${XDG_STATE_HOME:-~/.local/state}/lockstep-runs/<main checkout folder name>/<run id>/. A record belongs to this
+    branch when its `branch` is this branch's name or its `head` is a commit on this branch (reachable from HEAD,
+    not from the default branch). The newest must show the hidden tests ran and passed, nothing uncommitted, and
+    its head equal to HEAD as it will be merged.
+
+    Implements: ship/refuse-a-branch-whose-hidden-acceptance-run-failed-or-is-out-of-date
+    """
+    common = Path(git(repo, "rev-parse", "--path-format=absolute", "--git-common-dir"))
+    state = os.environ.get("XDG_STATE_HOME") or str(Path.home() / ".local" / "state")
+    root = Path(state) / "lockstep-runs" / common.parent.name
+    head = git(repo, "rev-parse", "HEAD")
+    base = merge_base(repo)
+    on_branch = set(subprocess.run(["git", "-C", str(repo), "rev-list", f"{base}..HEAD" if base else "HEAD"],
+                                   capture_output=True, text=True).stdout.split())
+    records = []
+    for path in sorted(root.glob("*/summary.json")) if root.is_dir() else []:
+        try:
+            rec = json.loads(path.read_text(encoding="utf-8"))
+        except (OSError, ValueError):
+            line = f"ship: warning: skipped an unreadable run record {path}"
+            print(line)
+            run.write(line)
+            continue
+        if isinstance(rec, dict) and (rec.get("branch") == branch or rec.get("head") in on_branch):
+            records.append((str(rec.get("run_id") or path.parent.name), rec))
+    if not records:
+        line = "ship: no hidden-test run recorded for this branch"
+        print(line)
+        run.write(line)
+        return None
+    run_id, rec = max(records, key=lambda item: item[0])
+    accept = rec.get("accept") or {}
+    again = f"run `lockstep accept check {rec.get('change', '<change>')}` in this worktree to record a new run"
+    if accept.get("exit") != 0:
+        return f"hidden acceptance tests did not pass in run {run_id} ({accept or 'no hidden test ran'}); fix the code, then {again}"
+    if rec.get("uncommitted"):
+        return f"run {run_id} counted {rec['uncommitted']} uncommitted file(s); commit them, then {again}"
+    if rec.get("head") != head:
+        return (f"run {run_id} checked {str(rec.get('head'))[:12]}, but the branch is now at {head[:12]} "
+                f"(new commits or a rebase); {again}")
+    line = f"ship: hidden tests passed in run {run_id} at {head[:12]} ({accept.get('passed')} passed)"
+    print(line)
+    run.write(line)
+    return None
+
+
 def base_planning_refusal(run: Run, repo: Path) -> str | None:
     """Why the planning gate refuses the merge base, or None when the base passes (or cannot be judged).
 
@@ -942,13 +1024,23 @@ def main(argv: list[str] | None = None) -> int:
     if behind:
         return run.fail(f"{behind}; nothing was pushed")
     head = git(repo, "rev-parse", "HEAD")
-    incomplete = one_page_plan_refusal(run, repo)
-    if incomplete:
-        return run.fail(f"{incomplete}; nothing was pushed")
+    hidden = accept_refusal(run, repo, branch)
+    if hidden:
+        return run.fail(f"{hidden}; nothing was pushed")
+    if addon_on(repo, "ship_one_page_plans"):
+        incomplete = one_page_plan_refusal(run, repo)
+        if incomplete:
+            return run.fail(f"{incomplete}; nothing was pushed")
+    else:
+        addon_off_line(run, "one-page plans", "ship_one_page_plans")
     no_record = prior_art_refusal(run, repo)
     if no_record:
         return run.fail(f"{no_record}\nnothing was pushed")
-    refused = planning_gate(run, repo)
+    refused = None
+    if addon_on(repo, "ship_planning_gate"):
+        refused = planning_gate(run, repo)
+    else:
+        addon_off_line(run, "planning gate", "ship_planning_gate")
     if refused:
         changed = plan_only_change(repo)
         if changed is not None and base_planning_refusal(run, repo) is None:
