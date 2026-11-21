@@ -40,7 +40,8 @@ uvx copier copy --trust gh:BrianMills2718/agentic-engineering-system-canonical <
 It needs `git`, [uv](https://docs.astral.sh/uv/), [OpenSpec](https://github.com/Fission-AI/OpenSpec) (`openspec`),
 [lefthook](https://github.com/evilmartians/lefthook), [gitleaks](https://github.com/gitleaks/gitleaks) and
 [Node.js](https://nodejs.org/) (`npx`); `ship` and `run-plan` also need a logged-in GitHub CLI and Claude Code or
-Codex. The copy asks a few questions (`--defaults` takes them all), installs Lockstep and generates its docs.
+Codex. The copy asks for a name and a one-sentence description, and a few questions `--defaults` answers; then it installs
+Lockstep and generates its docs. New copies take this repository's `main` as it stands (there are no version tags).
 Spec: [portable-template](openspec/specs/portable-template/spec.md); why this layout:
 [decision 0015](docs/decisions/0015-off-the-shelf-documentation-stack.md).
 
