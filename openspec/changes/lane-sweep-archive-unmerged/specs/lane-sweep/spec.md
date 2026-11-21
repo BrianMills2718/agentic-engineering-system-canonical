@@ -8,7 +8,13 @@ has no uncommitted changes (ignored files do not count); its content is on the r
 meaning the branch tip is an ancestor of it, or every file the branch changed has the same content there, or a merged pull request's head on GitHub is exactly the branch tip;
 no running process outside the sweep's own ancestors and session (the command that launched it) uses the worktree, meaning its working directory, a command-line argument, an open or mapped file, a code search path in its environment (`PYTHONPATH`, `VIRTUAL_ENV` and similar) or an absolute path in a `.pth` file of the Python environment it runs from is inside the worktree;
 and the worktree has been idle for at least 30 minutes, or 24 hours when the branch has no commits of
-its own. Every other lane SHALL be kept and listed with the reason, except an idle lane whose content is not on the
+its own; and its ignored files that are not regenerable caches total under 1 MiB (1048576 bytes), where a cache
+is anything under a folder named `.venv`, `venv`, `node_modules`, `__pycache__`, `.pytest_cache`, `.mypy_cache`,
+`.ruff_cache`, `.tox`, `dist`, `build`, `.cache`, `.next`, `target`, `.lockstep`, `.code2check` or `.work`, or an
+`.egg-info` folder, at any depth; a size that cannot be read SHALL count as reaching the limit. A lane failing
+only this check SHALL be kept with the reason `holds ignored non-cache files: <up to 5 paths>`, because
+`git worktree remove` deletes ignored files even without `--force`; a removed lane's smaller ignored non-cache
+files SHALL be listed in the day's log. Every other lane SHALL be kept and listed with the reason, except an idle lane whose content is not on the
 remote default branch, which the requirement "Archive then remove idle unmerged lanes" governs. Each removal SHALL append the branch
 name, its tip and the command that restores the branch to one log file per day. Removal SHALL first
 move the worktree aside with `git worktree move` to the hidden sibling `.<name>.lane-sweep-removing`, so
@@ -23,6 +29,8 @@ the sweep for its repository right after the pull request reads back MERGED, pas
 `--merged-lane` so that lane skips only the idle wait; a failed sweep SHALL NOT fail the ship.
 
 Source: Brian, 2026-10-25, "i guess if thats th ebest way to do it but i feel like there should be a way to do it more immeidately" (approving automatic removal of clean worktrees whose content is on main, after "i dont udnerstand why we always ahve these old branches that arent celanedup and handled automatically")
+
+Source: inferred by agent from the coordinating session's brief of 2026-11-20 for this change: the 2026-11-19 manual removal of 86 lanes found ignored work that a removal would have deleted in real lanes (`.claude/hook_log.jsonl`, `*.db`, `*-wal`, `*-shm`, `var/`, `results/`, `data/`, `openspec/changes/archive/`, `site/`); the 1 MiB allowance and the cache list are from that brief.
 
 Source: inferred by agent from the 2026-10-27 lane-sweep log: the sweep removed `~/code2/data-contracts-wt/claimant` (03:01:04) and `~/code2/claim-extraction-wt/efficiency` (03:58:49) while live greer runs imported from them through `PYTHONPATH`, and the second removal stopped partway, leaving a registered worktree with its tracked files deleted.
 
@@ -134,12 +142,30 @@ Source: inferred by agent from the 2026-10-27 lane-sweep log: the sweep removed 
 - **WHEN** the sweep runs with `--apply`
 - **THEN** it exits 1 after logging its summary line, and the worktree is back at its path with its files and branch
 
+#### Scenario: A lane holding ignored non-cache files is kept
+
+- **GIVEN** a finished, idle worktree holding ignored `data/x.db` (2 MiB) and `var/state.db-wal`
+- **WHEN** the sweep runs with `--apply`
+- **THEN** the worktree and branch stay and it is reported as `holds ignored non-cache files:` naming `data/` and `var/`
+
+#### Scenario: Ignored non-cache files under 1 MiB do not keep a lane
+
+- **GIVEN** a finished, idle worktree whose only ignored non-cache file is a small `.claude/hook_log.jsonl`
+- **WHEN** the sweep runs with `--apply`
+- **THEN** the worktree is removed and the day's log lists `.claude/` among the ignored files the removal deletes
+
+#### Scenario: Regenerable caches do not keep a lane
+
+- **GIVEN** a finished, idle worktree holding 2 MiB each under `.venv/`, `pkg/__pycache__/` and `build/`
+- **WHEN** the sweep runs with `--apply`
+- **THEN** the worktree is removed
+
 ## ADDED Requirements
 
 ### Requirement: Archive then remove idle unmerged lanes
 
 `scripts/lane_sweep.py` SHALL remove the worktree of a lane whose content is not on the remote default branch
-when it passes every other check of "Remove finished lanes and report the rest" (clean, not in use by a process
+when it passes every other check of "Remove finished lanes and report the rest" (clean, ignored non-cache files under 1 MiB, not in use by a process
 or a systemd user unit, not locked, not passed as `--keep-lane`, no submodules) and has been idle for at least
 the archive limit: 72 hours, or the number of hours in `lane_sweep_archive_after_hours:` in `graph-config.yaml`
 (`$LANE_SWEEP_ARCHIVE_AFTER_HOURS`, `--archive-after-hours`); 0 or less SHALL turn this off. `--merged-lane`
@@ -168,6 +194,12 @@ the owner is the `owner:` setting rather than a name in code (requirement "setti
 bundle holds only the commits not on the default branch (a full-history bundle per lane would spend the disk this
 change frees), and that a detached lane always gets its local ref (the sweep fetches without `--prune`, so a
 remote-tracking ref may name a branch GitHub no longer has).
+
+#### Scenario: An unmerged lane holding ignored non-cache files is kept and not archived
+
+- **GIVEN** a clean worktree with a commit not on origin/main, idle past the archive limit, holding ignored `site/index.html` (2 MiB)
+- **WHEN** the sweep runs with `--apply`
+- **THEN** the worktree stays, reported as `work not on origin/main; holds ignored non-cache files: site/`, and no archive ref or bundle is written
 
 #### Scenario: A clean idle unmerged lane is archived and removed with its branch kept
 

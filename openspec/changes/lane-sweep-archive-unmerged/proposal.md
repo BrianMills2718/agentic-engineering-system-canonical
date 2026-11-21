@@ -8,6 +8,7 @@ Lanes whose work was never merged pile up: on 2026-11-19 `~/code2` had 136 workt
 - Archive: unless a remote branch already holds the tip, the sweep creates `refs/archive/<YYYYMMDD>/<lane>` at the tip, writes a `git bundle` of the commits not on the default branch into `~/code2/.lane-sweep-logs/`, and verifies it. A failed verify keeps the lane and makes the run exit 1. The ref is pushed to origin only when origin's owner is the `owner:` setting and GitHub reports the repository private, so work nobody pushed is never published.
 - The day's log names the branch, tip, bundle, the `git worktree add` command that restores the lane, and any ignored non-cache files the removal deletes.
 - Dirty, locked, in-use and `--keep-lane` lanes are kept as before.
+- Any lane, merged or not, whose ignored files outside regenerable caches (`.venv`, `node_modules`, `__pycache__`, `build`, `dist`, `.cache` and the like) total 1 MiB or more is kept with the reason `holds ignored non-cache files: <up to 5 paths>`: `git worktree remove` deletes ignored files, and the 2026-11-19 manual cleanup found databases, `data/`, `results/`, `site/` and hook logs in real lanes.
 - One new output line, `lanes kept per repository:`, counts kept lanes per repository and marks a count over 8.
 
 ## Impact

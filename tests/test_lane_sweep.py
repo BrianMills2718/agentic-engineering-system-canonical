@@ -787,3 +787,71 @@ def test_the_archive_limit_comes_from_graph_config(repo, tmp_path, monkeypatch, 
     assert sweep(repo, "--apply") == 0
     assert wt.exists()
     assert f"keep {wt} [never-archived]: work not on origin/main\n" in capsys.readouterr().out
+
+
+def ignore_in(work: Path, *patterns: str) -> None:
+    """Ignore patterns through the shared info/exclude, so no lane's tracked content changes."""
+    common = Path(git(work, "rev-parse", "--path-format=absolute", "--git-common-dir"))
+    (common / "info").mkdir(exist_ok=True)
+    with (common / "info" / "exclude").open("a") as fh:
+        fh.write("".join(f"{p}\n" for p in patterns))
+
+
+def big(path: Path, size: int = 2 * 1024 * 1024) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_bytes(b"x" * size)
+
+
+@pytest.mark.req("lane-sweep/a-lane-holding-ignored-non-cache-files-is-kept")
+def test_a_lane_holding_ignored_non_cache_files_is_kept(repo, capsys):
+    ignore_in(repo, "*.db", "data/", "var/", "results/")
+    wt = lane(repo, "with-data")
+    big(wt / "data" / "x.db")
+    (wt / "var").mkdir()
+    (wt / "var" / "state.db-wal").write_text("wal\n")
+    land_on_main(repo, "with-data")
+    age(wt)
+    assert sweep(repo, "--apply") == 0
+    assert wt.exists() and branch_exists(repo, "with-data")
+    out = capsys.readouterr().out
+    assert f"keep {wt} [with-data]: holds ignored non-cache files: " in out
+    assert "data/" in out and "var/" in out
+
+
+@pytest.mark.req("lane-sweep/an-unmerged-lane-holding-ignored-non-cache-files-is-kept-and-not-archived")
+def test_an_unmerged_lane_holding_ignored_non_cache_files_is_kept_and_not_archived(repo, tmp_path, capsys):
+    ignore_in(repo, "site/", ".claude/hook_log.jsonl")
+    wt = lane(repo, "unmerged-with-site")
+    big(wt / "site" / "index.html")
+    age(wt, ARCHIVE_IDLE)
+    assert sweep(repo, "--apply") == 0
+    assert wt.exists()
+    assert "work not on origin/main; holds ignored non-cache files: site/" in capsys.readouterr().out
+    assert not git(repo, "for-each-ref", "refs/archive/")
+    assert not list((tmp_path / "logs").glob("*.bundle"))
+
+
+@pytest.mark.req("lane-sweep/ignored-non-cache-files-under-1-mib-do-not-keep-a-lane")
+def test_ignored_non_cache_files_under_1_mib_do_not_keep_a_lane(repo, tmp_path):
+    ignore_in(repo, ".claude/hook_log.jsonl")
+    wt = lane(repo, "small-log")
+    (wt / ".claude").mkdir()
+    (wt / ".claude" / "hook_log.jsonl").write_text('{"event": 1}\n')
+    land_on_main(repo, "small-log")
+    age(wt)
+    assert sweep(repo, "--apply") == 0
+    assert not wt.exists()
+    assert "under 1 MiB): .claude/" in day_log(tmp_path)
+
+
+@pytest.mark.req("lane-sweep/regenerable-caches-do-not-keep-a-lane")
+def test_regenerable_caches_do_not_keep_a_lane(repo):
+    ignore_in(repo, ".venv/", "__pycache__/", "pkg/")
+    wt = lane(repo, "caches-only")
+    big(wt / ".venv" / "lib" / "big.so")
+    big(wt / "pkg" / "__pycache__" / "mod.pyc")
+    big(wt / "build" / "out.bin")
+    land_on_main(repo, "caches-only")
+    age(wt)
+    assert sweep(repo, "--apply") == 0
+    assert not wt.exists()

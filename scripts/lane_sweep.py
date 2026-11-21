@@ -21,10 +21,13 @@ A lane is removed, with its local branch, only when every check passes:
   folders, with its path in WorkingDirectory, ExecStart, Environment or any other line (a pending timer's job
   is no process until it starts, code2-workspace#76);
 - it has been idle 30 minutes, or 24 hours when the branch has no commits of its own; a lane
-  passed as --merged-lane (ship, right after its pull request merged) skips only this wait.
+  passed as --merged-lane (ship, right after its pull request merged) skips only this wait;
+- its ignored files that are not regenerable caches (anything under .venv, node_modules, __pycache__, build,
+  dist, .cache and the other REBUILDABLE names) total under 1 MiB; otherwise it is kept with the reason
+  "holds ignored non-cache files: <up to 5 paths>", since `git worktree remove` deletes ignored files.
 A lane whose content is not on the remote default branch, and that passes every other check, is archived and
 its worktree removed once it has been idle 72 hours (`lane_sweep_archive_after_hours:` in graph-config.yaml;
-0 turns this off): unless a remote branch already holds the tip, the local ref refs/archive/<YYYYMMDD>/<lane>
+0 turns this off; the ignored-files check above applies too): unless a remote branch already holds the tip, the local ref refs/archive/<YYYYMMDD>/<lane>
 is created at it, a `git bundle` of that ref (only the commits not on the default branch) is written beside the
 day's log and verified, and the ref is pushed to origin only when origin's owner is the `owner:` setting and
 GitHub reports the repository private. Then only the worktree is removed; the local branch stays. The log names
@@ -425,6 +428,9 @@ def judge(repo: Path, lane: Lane, base: str, ignore: set[int], limits: tuple[flo
         pid = busy(lane.path, ignore)
         if pid:
             return f"work not on {base}; in use by process {pid}", False
+        held = ignored_keep_reason(lane)
+        if held:
+            return f"work not on {base}; {held}", False
         return None, True
     pid = busy(lane.path, ignore)
     if pid:
@@ -433,13 +439,13 @@ def judge(repo: Path, lane: Lane, base: str, ignore: set[int], limits: tuple[flo
     # lanes look the same as brand-new ones by ancestry alone.
     reflog = git(repo, "reflog", "show", "--format=%H", f"refs/heads/{lane.branch}").stdout.split() if lane.branch else []
     has_commits = len(reflog) > 1 or git(repo, "merge-base", "--is-ancestor", lane.head, base).returncode != 0
-    if lane.path.resolve() in merged:
-        return None, False
-    limit = limits[0] if has_commits else limits[1]
-    idle = idle_minutes(repo, lane)
-    if idle < limit:
-        return f"recently active ({idle:.0f} min idle, limit {limit:.0f})", False
-    return None, False
+    if lane.path.resolve() not in merged:
+        limit = limits[0] if has_commits else limits[1]
+        idle = idle_minutes(repo, lane)
+        if idle < limit:
+            return f"recently active ({idle:.0f} min idle, limit {limit:.0f})", False
+    # git worktree remove deletes ignored files too, without --force; a merged lane's data is lost the same way.
+    return ignored_keep_reason(lane), False
 
 
 def _unwritable_folder(path: Path) -> Path | None:
@@ -462,6 +468,10 @@ def remove(repo: Path, lane: Lane, log, ignore: set[int] | None = None, keep_bra
     if not keep_branch:
         restore = f"git -C {repo} branch {lane.branch} {lane.head}" if lane.branch else f"git -C {repo} worktree add {lane.path} {lane.head}"
         log(f"remove {lane.path} branch={lane.branch} tip={lane.head} restore: {restore}")
+        extra, _size = ignored_entries(lane)
+        if extra:
+            log(f"  ignored files the removal deletes (not in git, not rebuildable caches, under 1 MiB): {', '.join(extra[:20])}"
+                + (" ..." if len(extra) > 20 else ""))
     aside = lane.path.with_name(f".{lane.path.name}{ASIDE_SUFFIX}")
     moved = git(repo, "worktree", "move", str(lane.path), str(aside))
     if moved.returncode != 0:
@@ -498,9 +508,14 @@ def remove(repo: Path, lane: Lane, log, ignore: set[int] | None = None, keep_bra
     return True
 
 
-# Ignored entries a removal deletes that are rebuildable, so the log does not list them.
+# Ignored folders that are regenerable caches: anything under one of these names (at any depth) neither keeps a
+# lane nor is listed in the log. Everything else ignored (.claude/hook_log.jsonl, *.db, *-wal, *-shm, var/,
+# results/, data/, openspec/changes/archive/, site/, all found in real lanes by the 2026-11-19 manual cleanup)
+# is work a removal would destroy.
 REBUILDABLE = {".venv", "venv", "node_modules", "__pycache__", ".pytest_cache", ".mypy_cache", ".ruff_cache",
-               ".tox", ".nox", ".cache", ".hypothesis", "build", "dist", ".coverage", ".work"}
+               ".tox", "dist", "build", ".cache", ".next", "target", ".lockstep", ".code2check", ".work"}
+# A lane whose ignored non-cache files reach this many bytes in total is kept; below it they are logged and removed.
+IGNORED_KEEP_BYTES = 1024 * 1024
 
 
 def repo_is_private(repo: Path, slug: str) -> bool:
@@ -533,11 +548,65 @@ def push_archive_ref(repo: Path, ref: str, log) -> None:
     log(f"  pushed {ref} to {slug}" if pushed.returncode == 0 else f"  push of {ref} failed (bundle and local refs keep the tip): {pushed.stderr.strip()[:200]}")
 
 
-def ignored_entries(lane: Lane) -> list[str]:
-    """Ignored files and folders in the lane that a removal deletes, leaving out rebuildable ones."""
-    out = git(lane.path, "status", "--porcelain", "--ignored").stdout.splitlines()
-    found = [line[3:] for line in out if line.startswith("!! ")]
-    return [p for p in found if Path(p.rstrip("/")).name not in REBUILDABLE and not p.endswith(".egg-info/")]
+def _is_cache(rel: str) -> bool:
+    """True when a lane-relative path lies under a regenerable cache folder (any component) or an .egg-info."""
+    return any(part in REBUILDABLE or part.endswith(".egg-info") for part in Path(rel.rstrip("/")).parts)
+
+
+def _non_cache_bytes(path: Path, limit: int) -> int:
+    """Bytes of the non-cache files at path (a file or folder), stopping once limit is reached.
+
+    Cache folders nested inside are skipped; symbolic links are not followed. A file whose size cannot be read
+    counts as limit, so an unreadable tree keeps the lane rather than letting it go unmeasured.
+    """
+    try:
+        if not path.is_dir() or path.is_symlink():
+            return path.lstat().st_size
+    except OSError:
+        return limit
+    total = 0
+    for folder, dirs, files in os.walk(path, followlinks=False, onerror=lambda _e: None):
+        dirs[:] = [d for d in dirs if d not in REBUILDABLE and not d.endswith(".egg-info")]
+        for name in files:
+            try:
+                total += os.lstat(os.path.join(folder, name)).st_size
+            except OSError:
+                return limit
+            if total >= limit:
+                return total
+    return total
+
+
+def ignored_entries(lane: Lane, limit: int = IGNORED_KEEP_BYTES) -> tuple[list[str], int]:
+    """(ignored non-cache paths a removal deletes, their total bytes, counted only up to limit).
+
+    -z keeps paths with spaces or non-ASCII characters unquoted, so each one can be measured. A folder holding
+    only caches is not listed. A failed `git status` returns ["(git status --ignored failed)"] at limit bytes.
+    """
+    out = git(lane.path, "status", "--porcelain", "-z", "--ignored")
+    if out.returncode != 0:
+        return ["(git status --ignored failed)"], limit
+    found: list[str] = []
+    total = 0
+    for entry in out.stdout.split("\0"):
+        if not entry.startswith("!! ") or _is_cache(entry[3:]):
+            continue
+        size = _non_cache_bytes(lane.path / entry[3:], max(limit - total, 1))
+        if size or not entry.endswith("/"):
+            found.append(entry[3:])
+            total = min(total + size, limit)
+    return found, total
+
+
+def ignored_keep_reason(lane: Lane) -> str | None:
+    """Why a lane must stay because removing it deletes ignored files that are not caches, or None.
+
+    Implements: lane-sweep/remove-finished-lanes-and-report-the-rest
+    """
+    found, total = ignored_entries(lane)
+    if total < IGNORED_KEEP_BYTES:
+        return None
+    return "holds ignored non-cache files: " + ", ".join(found[:5]) + (" ..." if len(found) > 5 else "")
 
 
 def archive_and_remove(repo: Path, lane: Lane, base: str, log, log_dir: Path, ignore: set[int] | None = None) -> bool:
@@ -587,7 +656,7 @@ def archive_and_remove(repo: Path, lane: Lane, base: str, log, log_dir: Path, ig
         log(f"archive {lane.path}: created {ref} at {lane.head}, bundle {bundle} verified; offline restore: "
             f"git -C {repo} fetch {bundle} {ref}:{ref}")
         push_archive_ref(repo, ref, log)
-    extra = ignored_entries(lane)
+    extra, _size = ignored_entries(lane)
     if extra:
         log(f"  ignored files the removal deletes (not in git, not rebuildable caches): {', '.join(extra[:20])}" + (" ..." if len(extra) > 20 else ""))
     log(f"archive-remove {lane.path} branch={lane.branch} tip={lane.head} bundle={bundle or 'none (tip on a remote branch)'} "
