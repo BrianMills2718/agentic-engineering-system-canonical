@@ -153,7 +153,8 @@ template's prerequisites (code2-template #36). Found and filed: the generated `d
 `ship` where a template repository needs `uv run ship` (#994); `ship` and the lane sweep still default their logs to
 `~/code2/`.
 
-Next goal: remove the compromise above ([second-user.goal.md](second-user.goal.md)).
+Next goal: remove the compromise above ([second-user.goal.md](second-user.goal.md)). Deferred by Brian on
+2026-11-22; the compromise stands as a known, accepted gap until a second person or machine uses the template.
 
 Rule for add-ons (inferred by agent; Brian can veto): each rule lives in one place; an add-on becomes mandatory
 only after an on/off comparison shows it catches something; a mandatory check with no logged catch in 2 weeks is
