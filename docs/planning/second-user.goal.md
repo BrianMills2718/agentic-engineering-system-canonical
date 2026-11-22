@@ -65,6 +65,20 @@ a copy from `code2-template` or a local path instead of the public address.
   owner and what would resume it.
 - Revalidate after three increments or about four hours.
 
+## Current state
+
+**Blocked on Brian (2026-11-21 18:30 EST): agent logins in the fresh config folders.** Increment 1 is done: the empty
+folders exist (`/home/brian/projects/data/lockstep-milestone/home/agent-config/claude` and `.../codex`; `ls -A` shows
+nothing). `codex login status` there prints "Not logged in"; the Claude folder holds no login. The agent cannot log
+in for Brian: copying an existing login file is refused by the Safety Net (rule `secret.cli.claude-code`, 2026-11-21,
+"Do not retry this operation or attempt any workaround"), and a login is a browser step only Brian can take.
+Resume event: Brian runs these two commands once in a terminal, then says "continue".
+
+```text
+D=/home/brian/projects/data/lockstep-milestone; env -i HOME=$D/home PATH=$D/home/bin:/usr/local/bin:/usr/bin:/bin TERM=xterm-256color CLAUDE_CONFIG_DIR=$D/home/agent-config/claude claude   # then /login, /exit
+D=/home/brian/projects/data/lockstep-milestone; env -i HOME=$D/home PATH=$D/home/bin:/usr/local/bin:/usr/bin:/bin TERM=xterm-256color CODEX_HOME=$D/home/agent-config/codex codex login
+```
+
 ## Non-gating next actions
 
 - Brian: archive code2-template; decide whether the six repositories made from it move to this template.
