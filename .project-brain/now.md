@@ -14,6 +14,9 @@ clean home folder (hidden tests 0/3 then 3/3, and 0/10 then 10/10) and merged wi
   works but is no longer updated; six existing repositories still name it as their copier source.
 - code2-workspace's own copy of the prior-art check retired (code2-workspace #904).
 
+**Known gap (accepted, Brian 2026-11-22):** the milestone's agents read Brian's global instructions; the rerun with
+empty agent config folders is deferred ([second-user.goal.md](../docs/planning/second-user.goal.md)).
+
 **Next:** add-ons after the minimal core, as needed.
 
 # AES assessment (2026-11-19)

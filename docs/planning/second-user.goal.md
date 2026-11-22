@@ -67,17 +67,16 @@ a copy from `code2-template` or a local path instead of the public address.
 
 ## Current state
 
-**Blocked on Brian (2026-11-21 18:30 EST): agent logins in the fresh config folders.** Increment 1 is done: the empty
-folders exist (`/home/brian/projects/data/lockstep-milestone/home/agent-config/claude` and `.../codex`; `ls -A` shows
-nothing). `codex login status` there prints "Not logged in"; the Claude folder holds no login. The agent cannot log
-in for Brian: copying an existing login file is refused by the Safety Net (rule `secret.cli.claude-code`, 2026-11-21,
-"Do not retry this operation or attempt any workaround"), and a login is a browser step only Brian can take.
-Resume event: Brian runs these two commands once in a terminal, then says "continue".
+**Deferred by Brian (2026-11-22): "docuemnt the gap thne lets come back to it later".** Known, accepted gap: the
+milestone's agents read Brian's global instructions, so it is not shown that the template's own `AGENTS.md` is
+enough for a stranger. Agent's judgment (not measured): the result is likely the same, because no step of the run
+depended on Brian's instructions and the template's `AGENTS.md` names the same core steps.
 
-```text
-D=/home/brian/projects/data/lockstep-milestone; env -i HOME=$D/home PATH=$D/home/bin:/usr/local/bin:/usr/bin:/bin TERM=xterm-256color CLAUDE_CONFIG_DIR=$D/home/agent-config/claude claude   # then /login, /exit
-D=/home/brian/projects/data/lockstep-milestone; env -i HOME=$D/home PATH=$D/home/bin:/usr/local/bin:/usr/bin:/bin TERM=xterm-256color CODEX_HOME=$D/home/agent-config/codex codex login
-```
+Ready when it resumes: empty agent config folders (`/home/brian/projects/data/lockstep-milestone/home/agent-config/`),
+repository `BrianMills2718/second-user` (copied from the public address, `make check` 0) with plans `add-greeting`
+and `add-farewell` merged as #1. Left: the two agent logins (browser approval by the account owner; Codex device
+codes last 15 minutes, three expired unused on 2026-11-22), then the two `run-plan` runs and `ship` merges.
+Resume when a second person or machine uses the template, or when Brian says so.
 
 ## Non-gating next actions
 
@@ -88,5 +87,5 @@ D=/home/brian/projects/data/lockstep-milestone; env -i HOME=$D/home PATH=$D/home
 | Row | Goal | Depends on | Status |
 | --- | --- | --- | --- |
 | 1 | First minimal-core milestone (minimal-core plan, section 8) | none | done 2026-11-21 |
-| 2 | A second user runs the core with nothing of Brian's (this file) | row 1 | active |
+| 2 | A second user runs the core with nothing of Brian's (this file) | row 1 | deferred 2026-11-22 (gap accepted) |
 | 3 | Add-ons, each only after a logged failure justifies it (section 8, "Rule for add-ons") | row 2 | open |
