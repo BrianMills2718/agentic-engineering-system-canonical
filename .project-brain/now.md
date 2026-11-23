@@ -68,7 +68,8 @@ step 0 is merged: the trace check reads `Implements:` comment lines in `[tool.lo
 (AES: `copier.yml`, `template`), so the 6 template requirements trace and `trace-accepted.txt` is at 10 (Q50
 resolved). Steps 3-4 merged: `run-plan` counts a file with a layout row at the plan's base as planned, and
 `docs/links.json` shows each layout file and export as `planned` or `exists`. Steps 1, 2 and 5 built: a fresh copy
-ships `lockstep.yaml` (rows for its three starter files; `copier update` of an older copy adds none), its starter files
+ships `lockstep.yaml` (rows for its three starter files; `copier update` of an older copy adds none and leaves its starter files alone,
+tested against the real pre-#1027 template), its starter files
 carry cog blocks filled from the rows, its edit hook refuses an unplanned file under `src/<package>/`, and its
 `make check` runs the whole-tree check (#1027). Step 6 proof done: in a fresh copy, Claude `run-plan` ran
 `lockstep layout` before writing the planned file, the hook refused its shell write and handed the requirement on its

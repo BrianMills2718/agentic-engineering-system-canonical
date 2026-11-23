@@ -8,10 +8,13 @@ _min_copier_version: "9.4.0"
 _answers_file: .copier-answers.yml
 # Implements: portable-template/updating-an-older-copy-adds-no-layout-plan
 # A fresh copy gets lockstep.yaml; `copier update` of an older copy does not, since a plan added to existing files
-# would refuse them (`_skip_if_exists` protects only a file that already exists). With `_subdirectory` set, copier's
-# default exclude list is empty, so this list replaces nothing.
+# would refuse them (`_skip_if_exists` protects only a file that already exists). The starter source files are left
+# alone on update too: they belong to the copy, and their new cog blocks name layout rows an older copy lacks (the
+# pattern matches the rendered path). With `_subdirectory` set, copier's default exclude list is empty, so this list
+# replaces nothing.
 _exclude:
   - "{% if _copier_operation == 'update' %}lockstep.yaml{% endif %}"
+  - "{% if _copier_operation == 'update' %}src/{{ package_name }}/*.py{% endif %}"
 _tasks:
   - git init -q -b main
   - command: git config --local user.name "{{ git_user_name }}"

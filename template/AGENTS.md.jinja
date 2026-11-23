@@ -22,7 +22,7 @@ requirements and decisions.{% if code2_workspace %} Workspace rules: `~/code2/AG
   significant requirement or decision an agent inferred is a working default: apply it and say so in the
   reply, so the owner can undo it. `lockstep check sources` enforces the line.
 {% endif -%}
-- A plan is the OpenSpec change plus a `layout:` row in `lockstep.yaml` for every new or changed file under
+- Where `lockstep.yaml` holds `layout:` rows, a plan is the OpenSpec change plus a row for every new or changed file under
   `src/{{ package_name }}/` (path, purpose, the requirements it implements, its tests, its typed `exports`),
   committed together, spec first: a row naming an unknown requirement is refused. After the plan commit, run
   `uv run lockstep layout`: it creates each planned file with its requirement text in the docstring. The edit
@@ -30,7 +30,8 @@ requirements and decisions.{% if code2_workspace %} Workspace rules: `~/code2/AG
   is fixed by `uv run lockstep check project`.
 - Write the failing test before the code, marked `@pytest.mark.req("<capability>/<scenario>")`.
 - The module that implements a requirement says `Implements: <capability>/<requirement>` in its
-  docstring; the generated plan text between the cog lines carries it from the layout row.
+  docstring; in a planned file the generated plan text between the cog lines carries it from the layout row, and
+  elsewhere continuation lines are indented.
 - Change structure in `docs/architecture/model.c4`, then run `uv run lockstep check arch gen`.
   Never edit `.importlinter` by hand.
 - `make fast` runs on commit; `make check` runs on push and must exit 0 before merging.

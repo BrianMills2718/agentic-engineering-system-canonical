@@ -199,18 +199,18 @@ def test_a_fresh_copy_refuses_an_unplanned_source_file(tmp_path):
 @pytest.mark.slow
 @pytest.mark.req("portable-template/an-update-of-an-older-copy-keeps-it-without-a-plan")
 def test_an_update_of_an_older_copy_keeps_it_without_a_plan(tmp_path):
+    import sys
+
     if not shutil.which("uvx"):
         pytest.skip("uvx is not installed")
+    old_ref = "2e8791447"  # the template just before it shipped lockstep.yaml (#1027)
+    if subprocess.run(["git", "-C", str(ROOT), "cat-file", "-e", f"{old_ref}^{{commit}}"]).returncode != 0:
+        pytest.skip(f"commit {old_ref} is not in this clone")
     src = tmp_path / "src"
     src.mkdir()
-    copier = (ROOT / "copier.yml").read_text()
-    old = re.sub(r"_exclude:\n(  - .*\n)+", "", copier)
-    assert old != copier
-    (src / "copier.yml").write_text(old)
-    shutil.copytree(ROOT / "template", src / "template", ignore=shutil.ignore_patterns(".venv", "__pycache__"))
-    (src / "template/lockstep.yaml.jinja").unlink()
-    agents = src / "template/AGENTS.md.jinja"
-    agents.write_text(agents.read_text().replace("`uv run lockstep layout`", "the layout command"))
+    archive = subprocess.run(["git", "-C", str(ROOT), "archive", old_ref, "copier.yml", "template"],
+                             check=True, capture_output=True)
+    subprocess.run(["tar", "-x", "-C", str(src)], input=archive.stdout, check=True)
     _git(src, "init", "-q", "-b", "main")
     _git(src, "add", "-A")
     _git(src, "commit", "-qm", "old")
@@ -221,19 +221,26 @@ def test_an_update_of_an_older_copy_keeps_it_without_a_plan(tmp_path):
                     "project_name=demo", "--data", "description=Demo", str(src), str(out)],
                    check=True, capture_output=True, text=True, timeout=300)
     assert not (out / "lockstep.yaml").exists()
+    starters = {p.name: p.read_text() for p in (out / "src/demo").glob("*.py")}
+    assert "Implements: core/reports-its-version" in starters["core.py"]
     _git(out, "init", "-q", "-b", "main")
     _git(out, "add", "-A")
     _git(out, "commit", "-qm", "copy")
-    (src / "copier.yml").write_text(copier)
-    shutil.copy(ROOT / "template/lockstep.yaml.jinja", src / "template/lockstep.yaml.jinja")
-    shutil.copy(ROOT / "template/AGENTS.md.jinja", agents)
+    shutil.rmtree(src / "template")
+    shutil.copy(ROOT / "copier.yml", src / "copier.yml")
+    shutil.copytree(ROOT / "template", src / "template", ignore=shutil.ignore_patterns(".venv", "__pycache__"))
     _git(src, "add", "-A")
     _git(src, "commit", "-qm", "new")
     _git(src, "tag", "v2")
     subprocess.run([*base, "update", "--trust", "--defaults", "--skip-tasks", "--vcs-ref", "v2"], cwd=out,
                    check=True, capture_output=True, text=True, timeout=300)
     assert not (out / "lockstep.yaml").exists()
+    assert {p.name: p.read_text() for p in (out / "src/demo").glob("*.py")} == starters
     assert "uv run lockstep layout" in (out / "AGENTS.md").read_text()
+    trace = subprocess.run([sys.executable, "-c", "import sys; from lockstep.check import cli; "
+                            "sys.argv = ['lockstep', 'check', 'trace', '--repo', '.']; raise SystemExit(cli())"],
+                           cwd=out, capture_output=True, text=True, timeout=120)
+    assert trace.returncode == 0, trace.stdout + trace.stderr
 
 
 @pytest.mark.slow
@@ -254,3 +261,9 @@ def test_a_default_copy_with_no_remote_passes_make_check(tmp_path):
     done = subprocess.run(["make", "check"], cwd=out, capture_output=True, text=True, env=env, timeout=900)
     assert done.returncode == 0, done.stdout[-3000:] + done.stderr[-3000:]
     assert "OUTCOME decision=allow" in done.stdout
+    (out / "src/demo/extra.py").write_text('"""A file no layout row names."""\n')
+    _git(out, "add", "-A")
+    _git(out, "commit", "-qm", "unplanned", "--no-verify")
+    refused = subprocess.run(["make", "check"], cwd=out, capture_output=True, text=True, env=env, timeout=900)
+    assert refused.returncode != 0
+    assert "src/demo/extra.py" in refused.stdout + refused.stderr
