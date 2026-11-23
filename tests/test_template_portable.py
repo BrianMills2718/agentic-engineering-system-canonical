@@ -241,6 +241,15 @@ def test_an_update_of_an_older_copy_keeps_it_without_a_plan(tmp_path):
                             "sys.argv = ['lockstep', 'check', 'trace', '--repo', '.']; raise SystemExit(cli())"],
                            cwd=out, capture_output=True, text=True, timeout=120)
     assert trace.returncode == 0, trace.stdout + trace.stderr
+    _git(out, "add", "-A")
+    _git(out, "commit", "-qm", "update")
+    (out / "src/demo/extra.py").write_text("x = 1\n")
+    _git(out, "add", "-A")
+    _git(out, "commit", "-qm", "change")
+    whole = subprocess.run([sys.executable, "-c", "import sys; from lockstep.check import cli; "
+                            "sys.argv = ['lockstep', 'check', '--repo', '.', '--base', 'HEAD~1']; raise SystemExit(cli())"],
+                           cwd=out, capture_output=True, text=True, timeout=120)
+    assert whole.returncode == 0 and "decision=allow" in whole.stdout, whole.stdout + whole.stderr
 
 
 @pytest.mark.slow
