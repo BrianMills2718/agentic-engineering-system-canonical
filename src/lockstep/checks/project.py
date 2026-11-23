@@ -9,6 +9,9 @@ Requirement text (generated):
         a marked block under its `Implements:` line, and `lockstep check project --check` SHALL fail
         when a block differs from the spec, writing nothing. It SHALL print one `rewrote <path>`
         line per file it rewrote. It SHALL preserve unrelated Python source and remain idempotent.
+        In a repository with a layout plan it SHALL also rewrite each planned file's cog plan copy
+        from the plan, SHALL write no block inside that copy, and SHALL do both even when no
+        requirement statement text was read.
     lockstep-projection/status-flows-back-into-the-plan: `lockstep check project` SHALL write a
         generated status block into each plan that has a `Closes:` line, listing each ID with its
         implementers and tests, and `--check` SHALL fail when the block is stale. A block written by
@@ -34,6 +37,8 @@ END = "<!-- /lockstep status -->"
 # A block written by code2check (the tool this replaces) is replaced too, not left beside the new one.
 _BLOCK = re.compile(r"\A\n*<!-- (?:lockstep|code2check) status:[^\n]*-->\n.*?\n<!-- /(?:lockstep|code2check) status -->\n*", re.DOTALL)
 _WIDTH = 100
+COG_OPEN = "[[[" + "cog"  # cog's markers, split so cog run over this source does not read them
+COG_END = "[[[" + "end" + "]]]"
 
 
 def _docstring_spans(tree: ast.Module) -> list[tuple[int, int, int, int, str]]:
@@ -56,7 +61,12 @@ def _project_docstring(lines: list[str], start: int, end: int, text: dict[str, s
     The lines are written for the literal they go into: backslashes doubled unless it is a raw string,
     so requirement text such as `C:\\Microsoft\\` decodes to itself and is no invalid escape.
     """
-    at = next((i for i in range(start, end) if lines[i].lstrip().startswith("Implements:")), None)
+    inside, outside = False, []
+    for i in range(start, end):  # an `Implements:` line inside a cog plan copy belongs to that copy, not to this block
+        inside = (inside or COG_OPEN in lines[i]) and COG_END not in lines[i]
+        if not inside and COG_END not in lines[i]:
+            outside.append(i)
+    at = next((i for i in outside if lines[i].lstrip().startswith("Implements:")), None)
     if at is None:
         return
     stop = at + 1
@@ -89,9 +99,43 @@ def _project_docstring(lines: list[str], start: int, end: int, text: dict[str, s
     lines[stop:stop] = block
 
 
-def _source_text(path: Path, text: dict[str, str]) -> str:
+def _plan_copies(root: Path, source: str) -> str:
+    """Return source with each cog plan copy re-rendered from the plan, in a repository with a layout.
+
+    The edit hook judges a planned file stale when its copy differs from the plan; this is the rewrite its refusal
+    names. A copy whose ID the plan does not have is left alone.
+    """
+    from lockstep.aes_bridge import context
+    from lockstep.check import COG_CALL
+    from lockstep.cogtext import render as render_copy
+    from lockstep.layout_plan import has_layout
+
+    if not has_layout(root) or COG_OPEN not in source:
+        return source
+    lines, i = source.split("\n"), 0
+    while i < len(lines):
+        m = COG_CALL.fullmatch(lines[i]) if COG_OPEN in lines[i] else None
+        end = next((k for k in range(i + 1, len(lines)) if COG_END in lines[k]), None) if m else None
+        if m is None or end is None:
+            i += 1
+            continue
+        try:
+            ctx = context(root, m["id"])
+        except RuntimeError:
+            i = end + 1
+            continue
+        pad = " " * int(m["indent"] or 4)
+        body = [(pad + line).rstrip() for line in render_copy(ctx)]
+        lines[i + 1:end] = body
+        i += len(body) + 2
+    return "\n".join(lines)
+
+
+def _source_text(path: Path, text: dict[str, str], root: Path | None = None) -> str:
     """Return the file's content with every generated docstring block rewritten."""
     original = path.read_text()
+    if root is not None:
+        original = _plan_copies(root, original)
     lines = original.split("\n")
     for start, end, column, end_column, value in _docstring_spans(ast.parse(original, filename=str(path))):
         token = lines[start].encode("utf-8")[column:].decode("utf-8")
@@ -129,7 +173,7 @@ def stale_copy(root: Path, path: Path) -> bool:
         return False
     text = {**read_plan(root).text, **read_plan(root, changes=True).text}
     try:
-        return _source_text(path, text) != path.read_text()
+        return _source_text(path, text, root) != path.read_text()
     except SyntaxError:
         return False
 
@@ -199,8 +243,10 @@ def _project_once(root: Path, check: bool = False) -> list[str]:
     Returns:
         Paths relative to root of the files rewritten (or stale), source files first, then plans, then `docs/status.md` and `docs/links.json`.
     """
+    from lockstep.layout_plan import has_layout
+
     text = {**read_plan(root).text, **read_plan(root, changes=True).text}
-    if not text:
+    if not text and not has_layout(root):
         return project_facts(root, check=check)
     page = root / STATUS_PAGE
     if any((root / row['target']).resolve() == page.resolve() for row in declarations(root)):
@@ -209,7 +255,7 @@ def _project_once(root: Path, check: bool = False) -> list[str]:
     # source docstring facts see the new requirement copy, and errors leave no partial output.
     contents: dict[Path, str] = {}
     for path in sorted(p for d in source_dirs(root) for p in d.rglob("*.py")):
-        contents[path] = _source_text(path, text)
+        contents[path] = _source_text(path, text, root)
     status = report(root)
     for rel, ids in plan_files(root):
         path = root / rel
