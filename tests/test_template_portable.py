@@ -148,3 +148,11 @@ def test_a_rendered_copy_has_both_hook_files(tmp_path):
         assert any("Edit" in g["matcher"] or "apply_patch" in g["matcher"] for g in config["hooks"]["PreToolUse"])
     assert "--client codex" in (out / ".codex/hooks.json").read_text()
     assert "docs/links.json" in (out / ".gitignore").read_text().splitlines()
+
+
+@pytest.mark.req("portable-template/a-rendered-copy-s-decision-governs-a-real-file")
+def test_a_rendered_copy_s_decision_governs_a_real_file(tmp_path):
+    from lockstep.decisions import read
+    out = render(tmp_path)
+    (first,) = read(out)
+    assert first.raw == ["docs/architecture/model.c4"] and first.paths == ["docs/architecture/model.c4"]

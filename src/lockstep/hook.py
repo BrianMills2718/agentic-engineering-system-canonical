@@ -110,6 +110,7 @@ from lockstep.cogtext import render
 from lockstep.layout_plan import has_layout
 from lockstep.change_list import change_list
 from lockstep.change_list import render as render_changes
+from lockstep.decisions import packet as decision_packet
 from lockstep.openspec_text import find_spec_root, requirement_packet
 from lockstep.shell_targets import shell_write_words, written_paths
 from lockstep.side_file import load_side_file
@@ -340,7 +341,8 @@ def _shell_spec_text(call: dict, cwd: Path, command: str) -> dict | None:
             specs and no layout plan, the edit hook SHALL answer a shell command that names or
             writes a file whose docstrings carry `Implements:` lines with those requirements' text,
             without a `permissionDecision`, and SHALL log the call as `openspec_text` with the
-            requirement IDs; a command naming no such file SHALL get no answer.
+            requirement IDs; a command naming no such file and no file a decision governs SHALL get
+            no answer.
     """
     spec_root = find_spec_root(cwd)
     if spec_root is None:
@@ -353,16 +355,18 @@ def _shell_spec_text(call: dict, cwd: Path, command: str) -> dict | None:
             if path.is_file() and path.is_relative_to(spec_root.resolve()):
                 names.add(path.relative_to(spec_root.resolve()).as_posix())
     ids: list[str] = []
+    decisions: list[str] = []
     texts: list[str] = []
     for rel in sorted(names):
         found, text = requirement_packet(spec_root, spec_root / rel)
-        if found:
-            ids += [i for i in found if i not in ids]
-            texts.append(text)
+        governing, governed = decision_packet(spec_root, rel, found)
+        ids += [i for i in found if i not in ids]
+        decisions += [d for d in governing if d not in decisions]
+        texts += [x for x in (text, governed) if x]
     if not texts:
         return None
     log(spec_root, {"tool": call.get("tool_name"), "files": sorted(names), "decision": "allow",
-                    "why": "openspec_text", "requirements": ids})
+                    "why": "openspec_text", "requirements": ids, **({"decisions": decisions} if decisions else {})})
     return _out("allow", None, "\n\n".join(texts))
 
 
@@ -438,12 +442,17 @@ def decide(call: dict) -> dict | None:
         spec_root, spec_ids, spec_text = _spec_packet(start, path)
         if root is None:
             # OpenSpec specs and no AES plan: the requirement text is all there is to hand over.
-            if spec_root is None or not spec_ids:
+            if spec_root is None:
                 continue
             rel = path.resolve().relative_to(spec_root.resolve()).as_posix()
-            log(spec_root, {"file": rel, "decision": "allow", "why": "openspec_text", "requirements": spec_ids})
-            return _out("allow", None, spec_text)
+            governing, governed = decision_packet(spec_root, rel, spec_ids)
+            if not spec_ids and not governing:
+                continue
+            log(spec_root, {"file": rel, "decision": "allow", "why": "openspec_text", "requirements": spec_ids,
+                            **({"decisions": governing} if governing else {})})
+            return _out("allow", None, "\n\n".join(x for x in (spec_text, governed) if x))
         rel = path.resolve().relative_to(root.resolve()).as_posix()
+        governing, governed = decision_packet(spec_root, rel, spec_ids) if spec_root is not None else ([], "")
         entry = entry_edit_reason(root, rel)
         if entry:
             log(root, {"file": rel, "decision": "deny", "why": "log_entry"})
@@ -457,17 +466,19 @@ def decide(call: dict) -> dict | None:
                                    spec_text or None)
         art = artifact_for_path(root, rel)
         if art is None:
-            if not spec_ids:
+            if not spec_ids and not governing:
                 continue
-            log(root, {"file": rel, "decision": "allow", "why": "openspec_text", "requirements": spec_ids})
-            return _out("allow", None, spec_text)
+            log(root, {"file": rel, "decision": "allow", "why": "openspec_text", "requirements": spec_ids,
+                       **({"decisions": governing} if governing else {})})
+            return _out("allow", None, "\n\n".join(x for x in (spec_text, governed) if x))
         ctx = context(root, art)
         layout = has_layout(root)
         after = ("After editing: `uv run lockstep check project` (regenerate docstrings)" if layout else
                  "After editing: `make project` (regenerate docstrings) and "
                  + " ".join(f"`aes evidence record {vs['id']}`" for vs in ctx.get("verification_subjects", [])))
         # Behavior 3.7: the requirement text is OpenSpec's when the file implements one, else the plan's.
-        packet = "\n".join([spec_text or f"Plan for {rel} ({art}), from {plan_name(root)}:\n" + "\n".join(render(ctx)[2:]), "", after])
+        packet = "\n".join([spec_text or f"Plan for {rel} ({art}), from {plan_name(root)}:\n" + "\n".join(render(ctx)[2:]),
+                            *(["", governed] if governed else []), "", after])
         stale = projection_stale(root, rel)
         if stale and stops_edits():
             reason = (f"The generated requirement text in {rel} is out of date with the plan ({stale}). Run "
@@ -478,7 +489,8 @@ def decide(call: dict) -> dict | None:
         if added:
             return _refuse_or_warn(root, [rel], {"file": rel, "artifact": art, "why": "symbols"}, " ".join(added), packet)
         log(root, {"file": rel, "artifact": art, "decision": "allow", "stale": bool(stale),
-                   "text_from": "openspec" if spec_ids else "aes", **({"requirements": spec_ids} if spec_ids else {})})
+                   "text_from": "openspec" if spec_ids else "aes", **({"requirements": spec_ids} if spec_ids else {}),
+                   **({"decisions": governing} if governing else {})})
         return _out("allow", None, packet)
     return None
 

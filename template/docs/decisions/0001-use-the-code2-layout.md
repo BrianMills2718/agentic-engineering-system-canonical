@@ -1,6 +1,7 @@
 # Use the code2 repository layout
 
 - Status: accepted
+- Governs: docs/architecture/model.c4
 - Source: Brian, 2026-10-15: "yes lets make sure that our plans and docuemtnation for code2 dogfood what we are going to requrie repos/proejcts in code2 to comply with"
 - Date: made from the code2 copier template in agentic-engineering-system-canonical
 

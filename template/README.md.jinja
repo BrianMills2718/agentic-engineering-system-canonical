@@ -11,6 +11,9 @@ Start with the [documentation index](docs/index.md). Agents: [AGENTS.md](AGENTS.
 - Agents editing code are handed the requirement it implements: `.claude/settings.json` and `.codex/hooks.json`
   run `lockstep-hook` on each edit. Codex runs project hooks only with hooks turned on: add `hooks = true` under
   `[features]` in `~/.codex/config.toml`, then trust the hook when Codex asks.
+- The hook also hands over each decision record that governs the file: a `- Governs:` line in
+  `docs/decisions/` names paths, folders (ending in `/`) or requirement and capability IDs. A superseded decision is
+  flagged. Decisions are in `docs/links.json` too.
 - Run one OpenSpec plan with hidden acceptance tests: `uv run lockstep run-plan <change> --agent claude` (or
   `codex`), then merge with `uv run ship` from the worktree it prints. `ship` runs `make check`, refuses a branch
   whose hidden tests failed, and refuses an OpenSpec change that adds a requirement without a decided
