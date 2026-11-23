@@ -153,6 +153,12 @@ template's prerequisites (code2-template #36). Found and filed: the generated `d
 `ship` where a template repository needs `uv run ship` (#994); `ship` and the lane sweep still default their logs to
 `~/code2/`.
 
+All four are fixed: a new copy's `docs/status.md` is build output and its spec list is generated (code2-template#37,
+2026-11-21); `run-plan` prints `uv run ship` (#994); logs default to `${XDG_STATE_HOME:-~/.local/state}` where
+`~/code2` does not exist. Found and fixed on 2026-11-22: a moved copy or a worktree ran no hooks (#1004, #1007), and
+`ship` now settles a conflict confined to a committed `docs/status.md` and reruns hidden tests after its own rebase
+(#1006).
+
 Next goal: remove the compromise above ([second-user.goal.md](second-user.goal.md)). Deferred by Brian on
 2026-11-22; the compromise stands as a known, accepted gap until a second person or machine uses the template.
 
