@@ -259,3 +259,21 @@ def test_an_undeclared_public_function_points_to_the_layout_row(lay, monkeypatch
     assert out["permissionDecision"] == "deny", out
     reason = out["permissionDecisionReason"]
     assert "exports:" in reason and "lockstep.yaml" in reason and "aes plan" not in reason, reason
+
+
+@pytest.mark.req("lockstep-projection/a-planned-file-s-plan-copy-follows-a-reworded-requirement")
+def test_a_planned_file_s_plan_copy_follows_a_reworded_requirement(lay):
+    from lockstep.check import docstring_mismatch
+    from lockstep.checks.project import project
+    _layout(lay)
+    rel = "src/greeter/__init__.py"
+    sh("git add -A && git commit -q -m laid-out", lay)
+    assert project(lay, check=True) == [] or rel not in project(lay, check=True)  # no block written into the copy
+    spec = lay / "openspec/specs/greeting/spec.md"
+    spec.write_text(spec.read_text().replace("SHALL return `Hello, <name>!`.", "SHALL return `Hello, <name>!` exactly."))
+    assert docstring_mismatch(lay, rel)                                   # the edit hook would refuse it now
+    assert rel in project(lay)
+    assert docstring_mismatch(lay, rel) is None                           # the named recovery works
+    assert "SHALL return `Hello, <name>!` exactly." in (lay / rel).read_text()
+    assert "Requirement text (generated):" not in (lay / rel).read_text()
+    assert rel not in project(lay)                                        # idempotent

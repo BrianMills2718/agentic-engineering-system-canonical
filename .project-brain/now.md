@@ -50,6 +50,10 @@ so an unplanned file there is refused (spec lockstep-plan-format, `lockstep-gove
 Found on the way: `work_units.py` named a requirement ID no spec defined, and 12 of 193 requirements have empty
 statement text because their `Source:` line comes first.
 
+A session audit then found the edit hook's named recovery for a stale planned file (`lockstep check project`) did
+not rewrite cog plan copies, so any requirement rewording would have locked agents out of the implementing file in
+`src/lockstep/`; `project` now rewrites them (spec lockstep-projection).
+
 **Next:** slice 2, the template ships the layout and `lockstep layout` creates planned files before code.
 
 # AES assessment (2026-11-19)
