@@ -67,10 +67,12 @@ route have no requirement (Q54, retiring any needs Brian).
 step 0 is merged: the trace check reads `Implements:` comment lines in `[tool.lockstep] comment_sources`
 (AES: `copier.yml`, `template`), so the 6 template requirements trace and `trace-accepted.txt` is at 10 (Q50
 resolved). Steps 3-4 merged: `run-plan` counts a file with a layout row at the plan's base as planned, and
-`docs/links.json` shows each layout file and export as `planned` or `exists`. Next: the template ships `lockstep.yaml`
-(fresh copies only, via `_exclude` on update) and a fresh-copy proof.
+`docs/links.json` shows each layout file and export as `planned` or `exists`. Steps 1, 2 and 5 built: a fresh copy
+ships `lockstep.yaml` (rows for its three starter files; `copier update` of an older copy adds none), its starter files
+carry cog blocks filled from the rows, its edit hook refuses an unplanned file under `src/<package>/`, and its
+`make check` runs the whole-tree check. Next: the fresh-copy proof with Claude `run-plan` (step 6).
 
-**Next:** slice 2, the template ships the layout and `lockstep layout` creates planned files before code.
+**Next:** slice 2 step 6, the proof that an agent in a fresh copy lays out a planned file before code.
 
 # AES assessment (2026-11-19)
 

@@ -1,0 +1,26 @@
+{# Implements: portable-template/a-fresh-copy-ships-its-planned-file-layout #}
+# The planned file layout: every file under src/{{ package_name }}/ is a row here, and the edit hook refuses a file
+# that has none. A plan adds rows for its new or changed files in the same commit as its OpenSpec change; then
+# `uv run lockstep layout` creates them with their requirement text. See AGENTS.md.
+schema: lockstep.side.v1
+governed: [src/{{ package_name }}/]
+fixed: ["src/{{ package_name }}/*"]
+layout:
+- path: src/{{ package_name }}/__init__.py
+  purpose: The package; its docstring says what {{ project_name }} does
+  implements: []
+  tests: []
+- path: src/{{ package_name }}/core.py
+  purpose: The starter capability; replace it with the first real one
+  implements:
+  - core/reports-its-version
+  tests:
+  - tests/test_core.py
+  exports:
+  - "version() -> str"
+- path: src/{{ package_name }}/cli.py
+  purpose: The command line
+  implements: []
+  tests: []
+  exports:
+  - "main() -> int"

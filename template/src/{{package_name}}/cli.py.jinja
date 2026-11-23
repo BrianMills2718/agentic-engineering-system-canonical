@@ -1,4 +1,8 @@
-"""Command line for {{ project_name }}."""
+"""Command line for {{ project_name }}.
+
+[[[cog import lockstep.cogtext as c; c.docstring("src:{{ package_name }}:cli.py", indent=0)]]]
+[[[end]]]
+"""
 
 from {{ package_name }}.core import version
 

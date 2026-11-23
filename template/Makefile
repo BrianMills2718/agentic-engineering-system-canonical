@@ -21,6 +21,9 @@ check: docs-specs fast
 	uv run lockstep check arch check
 	uv run lockstep check test-first --base origin/main
 	uv run lockstep check changed --base origin/main
+	@# Whole-tree check: every file under a governed folder has a layout row in lockstep.yaml (Codex has no refusing hook).
+	@base=$$(git merge-base origin/main HEAD 2>/dev/null || git rev-list --max-parents=0 HEAD 2>/dev/null | tail -n 1); \
+	if [ -z "$$base" ]; then echo "whole-tree check skipped: no commit yet"; else uv run lockstep check --repo . --base "$$base"; fi
 	uv run lockstep check project
 	uv run zensical build --strict
 # docs/status.md is build output (ignored by git): `lockstep check project` writes it before each docs build.

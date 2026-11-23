@@ -41,7 +41,7 @@ layout rows declare no exports, so a new public function there is refused by its
    `[tool.lockstep] comment_sources`; AES lists `copier.yml` and `template`. The six `portable-template` lines left
    `docs/planning/trace-accepted.txt` (16 to 10). In `.jinja` files the line is a Jinja comment, which copier strips,
    so copies carry no AES IDs. Spec `lockstep-checks`.
-1. Template `lockstep.yaml`, rendered only by `copier copy`: `copier.yml` gets
+1. Done (spec `portable-template`, archived change `2026-11-23-template-ships-layout`). Template `lockstep.yaml`, rendered only by `copier copy`: `copier.yml` gets
    `_exclude: ["{% if _copier_operation == 'update' %}lockstep.yaml{% endif %}"]` (tried on copier 9.19.1: a
    fresh copy gets the file, an update of an older copy adds the template's other new files but not this one;
    `_copier_operation` is empty inside file names and contents, so a conditional file name does not work), so `copier update` on an older copy adds no plan that would refuse its
@@ -51,7 +51,7 @@ layout rows declare no exports, so a new public function there is refused by its
    gate's signature text in a test). The starter `.py.jinja` files ship the cog open, end and close lines in their
    docstrings, because `lockstep check project` only refreshes blocks that exist; the copier task fills them. The
    hand-written `Implements:` line in `core.py.jinja` goes (the generated text carries it).
-2. Template `AGENTS.md`: a plan is the OpenSpec change plus the layout rows for every new or changed file
+2. Done. Template `AGENTS.md`: a plan is the OpenSpec change plus the layout rows for every new or changed file
    (with exports), committed together, spec first (`layout_problems` refuses a row naming an unknown requirement);
    after the plan commit, `uv run lockstep layout` creates the files with their requirement text, then tests first;
    a refusal for a stale plan copy is fixed by `uv run lockstep check project`. Template `make check` adds the
@@ -64,10 +64,10 @@ layout rows declare no exports, so a new public function there is refused by its
 4. `docs/links.json`: one `file` node per layout row and one `symbol` node per declared export, each with `state`
    `planned` (not there yet) or `exists`, linked to the requirements the row implements and its tests. Spec
    `lockstep-projection`.
-5. Spec `portable-template`: a fresh copy ships a layout plan that refuses an unplanned source file; `copier
+5. Done (tests in `tests/test_template_portable.py`; the two slow ones pass). Spec `portable-template`: a fresh copy ships a layout plan that refuses an unplanned source file; `copier
    update` of a copy made before this change adds no `lockstep.yaml`; `make check` in a default copy with no remote
    exits 0 after its first commit. The update and `make check` tests need a committed copy and the Lockstep source
-   from this branch (`lockstep_git` pointed at the worktree), so they are slow-marked.
+   from this branch so they are slow-marked. As built, the update test builds two template versions in a throwaway git repository and the `make check` test installs Lockstep from the default address (the tool changes it needs merged first).
 6. Prove it in a fresh copy with Claude: a plan that adds one requirement and one new file through a layout row.
    The proof script saves into a committed evidence folder: `docs/links.json` at the plan commit, the hook log
    lines for the run window, the transcript's tool calls (layout before the first edit of the new file), the new
