@@ -13,7 +13,7 @@ that names a criterion the plan does not hold. `python -m lockstep.criterion_che
 [[[cog import lockstep.cogtext as c; c.docstring("src:lockstep:criterion_checks.py", indent=0)]]]
 Plan (generated from lockstep.yaml layout and OpenSpec; edit the spec or the layout row, not this text):
 
-Implements: (no requirement)
+Names no requirement; the layout row says why.
 [[[end]]]
 """
 

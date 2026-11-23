@@ -275,6 +275,11 @@ def build(unit_dir: Path, is_enabled: Callable[[str], str] = systemctl_is_enable
     """The manifest as data, sorted by unit name; no timestamp, so an unchanged machine gives the same bytes.
 
     Implements: machine-manifest/output-is-stable
+
+    Requirement text (generated):
+        machine-manifest/output-is-stable: The manifest SHALL carry no timestamp and SHALL list
+            units and drop-ins in sorted order, so an unchanged machine produces the same bytes and
+            a change shows as a small diff.
     """
     git = Git()
     families, dropins = scan(unit_dir)
@@ -358,6 +363,20 @@ def unrecorded_scripts(current: dict, recorded: dict | None) -> list[str]:
     """`script (unit)` for each unit script outside git, not an OS program, with no entry in the recorded `scripts`.
 
     Implements: machine-manifest/every-script-outside-git-has-a-record
+
+    Requirement text (generated):
+        machine-manifest/every-script-outside-git-has-a-record: The manifest SHALL carry a
+            hand-written `scripts` list, one record per script a unit (or a Windows scheduled task)
+            runs that is in no git repository, each with its original `path` and a `kind`: `copied`
+            (a verbatim copy at `copy`, relative to the configuration repository), `repo-file`
+            (byte-identical to `repo_path` in the recorded `checkout`, optionally `refresh:
+            each-run` when the unit re-extracts it before running), `installed-tool` (the package
+            and version that provide it) or `missing` (gone from disk, with the reason). `build
+            --out FILE` SHALL keep the `scripts`, `windows_layer` and `other_machines` sections of
+            the FILE it replaces unchanged. `check` SHALL list under "(f) scripts the units run that
+            are in no git repository and have no `scripts` record" every unit script outside git
+            whose path is not under `/usr/`, `/bin/`, `/sbin/` or `/lib/` and has no record, and
+            exit 1 when there is any.
     """
     known = {s.get("path") for s in ((recorded or {}).get("scripts") or []) if isinstance(s, dict)}
     out = set()
@@ -409,6 +428,15 @@ def compare_units(unit_dir: Path, units_repo: Path) -> dict[str, list[str]]:
     """Disk against repository copies: same, differ, missing, and `linked` (disk path is a symlink or under one).
 
     Implements: machine-manifest/repository-copies-can-be-compared
+
+    Requirement text (generated):
+        machine-manifest/repository-copies-can-be-compared: `check-units` SHALL compare each file
+            under the units repository folder (default `~/code2/aes-config/machine-units`, laid out
+            as the unit folder is) with the same path in the unit folder, print counts of same,
+            differ, missing and under-a-symlink files and of recorded symlinks (a `NAME.symlink`
+            file holds the link target text), list the differing ones, and exit 1 when any file or
+            recorded symlink differs. Missing files do not fail it: a clean machine is expected to
+            lack them. It changes nothing.
     """
     files, links = repo_copies(units_repo)
     out: dict[str, list[str]] = {"same": [], "differ": [], "missing": [], "linked": [], "link-same": [], "link-differ": []}
@@ -434,6 +462,15 @@ def install_units(unit_dir: Path, units_repo: Path, apply: bool, backup_root: Pa
 
     A destination that is a symlink, or sits under one, is skipped and reported, never written through.
     Implements: machine-manifest/install-never-deletes-or-writes-through-links
+
+    Requirement text (generated):
+        machine-manifest/install-never-deletes-or-writes-through-links: `install-units` SHALL be a
+            dry run unless `--apply` is given, printing what it would install or replace. With
+            `--apply` it SHALL copy only files that are missing or differ, first copying each
+            differing disk file to `~/archive/systemd-units-replaced/<path>-<date>/`; it SHALL never
+            delete a file and SHALL skip, and report, any destination that is a symlink or sits
+            under one. It SHALL run `systemctl --user daemon-reload` only when `--daemon-reload` is
+            also given.
     """
     today = today or datetime.date.today().isoformat()
     files, _ = repo_copies(units_repo)
@@ -478,6 +515,21 @@ def compare_scripts(scripts: list[dict], config_repo: Path) -> dict[str, list[st
     exists. A file absent from the disk is never a failure: a clean machine lacks it until installed.
 
     Implements: machine-manifest/script-copies-can-be-compared-and-installed
+
+    Requirement text (generated):
+        machine-manifest/script-copies-can-be-compared-and-installed: `check-scripts` SHALL compare
+            each `scripts` record with its source without changing anything: a `copied` script with
+            its copy, a `repo-file` with `git show <ref>:<repo_path>` (ref default `origin/main`) in
+            its checkout, and report presence for `installed-tool` and `missing` records. It SHALL
+            exit 1 when a copy differs or is missing from the configuration repository, or a
+            repository file differs or cannot be read; a difference for a `refresh: each-run` record
+            is reported as stale and does not fail; a script absent from disk does not fail.
+            `install-scripts` SHALL be a dry run unless `--apply` is given; with it, it SHALL copy
+            each `copied` script that is missing or differs to its path, keeping the file's mode,
+            first copying a differing disk file to
+            `~/archive/machine-scripts-replaced/<path>-<date>/`; it SHALL never delete a file, never
+            install another kind, and skip, and report, any path that is a symlink or sits under
+            one.
     """
     keys = ("same", "differ", "missing-on-disk", "missing-copy", "repo-same", "repo-differ", "repo-stale",
             "repo-unreadable", "tool-present", "tool-absent", "still-missing", "now-present", "bad-record")
@@ -521,6 +573,21 @@ def install_scripts(scripts: list[dict], config_repo: Path, apply: bool,
     skipped and reported. Only `copied` records are installed: repo files come from their repository, tools from
     their package.
     Implements: machine-manifest/script-copies-can-be-compared-and-installed
+
+    Requirement text (generated):
+        machine-manifest/script-copies-can-be-compared-and-installed: `check-scripts` SHALL compare
+            each `scripts` record with its source without changing anything: a `copied` script with
+            its copy, a `repo-file` with `git show <ref>:<repo_path>` (ref default `origin/main`) in
+            its checkout, and report presence for `installed-tool` and `missing` records. It SHALL
+            exit 1 when a copy differs or is missing from the configuration repository, or a
+            repository file differs or cannot be read; a difference for a `refresh: each-run` record
+            is reported as stale and does not fail; a script absent from disk does not fail.
+            `install-scripts` SHALL be a dry run unless `--apply` is given; with it, it SHALL copy
+            each `copied` script that is missing or differs to its path, keeping the file's mode,
+            first copying a differing disk file to
+            `~/archive/machine-scripts-replaced/<path>-<date>/`; it SHALL never delete a file, never
+            install another kind, and skip, and report, any path that is a symlink or sits under
+            one.
     """
     today = today or datetime.date.today().isoformat()
     found = compare_scripts(scripts, config_repo)

@@ -7,7 +7,7 @@ a planned file exists yet is behavior 5.3's question (src/pcw/plan_to_code.py), 
 [[[cog import lockstep.cogtext as c; c.docstring("src:lockstep:behavior_check.py", indent=0)]]]
 Plan (generated from lockstep.yaml layout and OpenSpec; edit the spec or the layout row, not this text):
 
-Implements: (no requirement)
+Names no requirement; the layout row says why.
 [[[end]]]
 """
 

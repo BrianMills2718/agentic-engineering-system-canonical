@@ -456,6 +456,15 @@ def _dependency_path(root: Path, value: str) -> PurePosixPath:
     """Normalize a literal repository path and reject traversal, patterns and outside symlinks.
 
     Implements: required-evidence-inputs/literal-repository-path-coverage
+
+    Requirement text (generated):
+        required-evidence-inputs/literal-repository-path-coverage: Required-input qualification
+            SHALL normalize lexical path components, permit a declared directory to cover descendant
+            inputs, and reject unsafe, absolute, traversal, wildcard and repository-escaping paths.
+            A child file SHALL NOT cover its ancestor directory. For observations with a dependency
+            basis, explicit declared dependencies SHALL supply coverage; discovered imports SHALL
+            NOT substitute for required declarations. Legacy observations without a dependency basis
+            SHALL use their recorded dependency paths.
     """
     if (not isinstance(value, str) or not value.strip() or "\\" in value
             or PurePosixPath(value).is_absolute() or PureWindowsPath(value).drive
@@ -518,6 +527,16 @@ def assess(root: Path, required_dependency_paths: dict[str, list[str]] | None = 
     records without dependency_basis use their dependency_paths as declared coverage.
 
     Implements: required-evidence-inputs/required-declared-input-coverage
+
+    Requirement text (generated):
+        required-evidence-inputs/required-declared-input-coverage: The evidence and reconciliation
+            library APIs SHALL accept an optional mapping from existing verification-subject ids to
+            literal repository-relative required file or directory paths. Omitting the mapping SHALL
+            preserve current behavior. When ordinary freshness is CURRENT but applicable required
+            paths lack recorded declared coverage, the observation SHALL be UNKNOWN and SHALL NOT
+            support or refute criterion standing. Its original record and assessments SHALL remain
+            unchanged. Existing revision, target-entry, supersession and qualified-refutation rules
+            SHALL remain authoritative.
     """
     from .trace_review import check_source_review
     root = Path(root).resolve()

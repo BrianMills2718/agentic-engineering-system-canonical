@@ -8,6 +8,14 @@ Exit 0 and print the reason when no plan content changed between B and H; exit 1
 when anything is uncertain (H is not the checkout's HEAD, B is not a commit, the validator has no freshness()).
 
 Implements: ship/answer-the-plan-content-question-for-the-push-hook
+
+Requirement text (generated):
+    ship/answer-the-plan-content-question-for-the-push-hook: `scripts/plan_content.py --repo R
+        --base B --head H --validator V` SHALL answer whether the commits from B to H change plan
+        content, using the same function `ship` uses, so the push hook and `ship` decide alike. It
+        SHALL exit 0 and print a line starting `skip:` when nothing changed, and exit 1 with a line
+        starting `validate:` when plan content changed or anything is uncertain: B is not a commit,
+        H is not the checkout's HEAD, or the validator has no `freshness()`.
 """
 from __future__ import annotations
 

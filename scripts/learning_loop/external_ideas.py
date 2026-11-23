@@ -116,6 +116,14 @@ def load_profile(path: Path) -> list[dict]:
     Interest entries come back with kind "interest".
 
     Implements: external-idea-intake/the-profile-may-list-interests-and-the-judge-treats-them-like-projects
+
+    Requirement text (generated):
+        external-idea-intake/the-profile-may-list-interests-and-the-judge-treats-them-like-projects:
+            The private profile MAY carry an `interests` list whose entries each need a name and a
+            one-line goal. The judge SHALL list interests after projects, SHALL accept an interest
+            name as a useful post's target, and the useful digest SHALL print projects and interests
+            on separate lines. A profile without `interests` SHALL behave as before. An interest
+            entry without a name or goal SHALL make the command refuse the profile.
     """
     try:
         data = YAML(typ="safe").load(Path(path).read_text()) or {}

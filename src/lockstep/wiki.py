@@ -7,7 +7,7 @@ pages use mkdocstrings, which renders the same docstrings `cog` projected.
 [[[cog import lockstep.cogtext as c; c.docstring("src:lockstep:wiki.py", indent=0)]]]
 Plan (generated from lockstep.yaml layout and OpenSpec; edit the spec or the layout row, not this text):
 
-Implements: (no requirement)
+Names no requirement; the layout row says why.
 [[[end]]] (sum: HR42zobiWc)
 """
 

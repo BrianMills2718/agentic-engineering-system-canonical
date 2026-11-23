@@ -15,7 +15,7 @@ hook (`lockstep.hook`) refuses any write to a record, by an edit tool or the she
 [[[cog import lockstep.cogtext as c; c.docstring("src:lockstep:change_log.py", indent=0)]]]
 Plan (generated from lockstep.yaml layout and OpenSpec; edit the spec or the layout row, not this text):
 
-Implements: (no requirement)
+Names no requirement; the layout row says why.
 [[[end]]]
 """
 

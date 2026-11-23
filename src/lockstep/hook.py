@@ -35,7 +35,7 @@ time; `pcw check` before the commit stays the guarantee.
 [[[cog import lockstep.cogtext as c; c.docstring("src:lockstep:hook.py", indent=0)]]]
 Plan (generated from lockstep.yaml layout and OpenSpec; edit the spec or the layout row, not this text):
 
-Implements: lockstep-guard/agents-get-requirement-text-from-the-shell-too
+Implements: lockstep-guard/agents-get-requirement-text-from-the-shell-too, lockstep-guard/handing-over-text-never-approves-an-edit, lockstep-init/the-edit-guard-logs-outside-the-checkout, lockstep-package/lockstep-installs-from-aes-canonical, lockstep-guard/a-refusal-lists-the-files-the-plan-allows
 
 ### Requirement: Agents get requirement text from the shell too
 
@@ -48,6 +48,67 @@ Source: inferred by agent from the 2026-11-23 linked-chain acceptance run (Claud
 - **GIVEN** a file whose docstring says `Implements: ship/<requirement>`
 - **WHEN** the agent runs `cat` on it, writes it with a heredoc, or edits it with `sed -i`
 - **THEN** the hook's answer holds that requirement's text and no decision
+
+### Requirement: Handing over text never approves an edit
+
+When the edit hook lets a call through with only context (requirement text, a plan, a warning), its answer to Claude Code and to Codex SHALL carry that context without a `permissionDecision`, so the agent's own permission settings still decide whether the edit runs; a refusal SHALL keep `permissionDecision: deny` and its reason.
+
+Source: inferred by agent: Claude Code treats a PreToolUse `allow` as approving the call without the user's prompt (probe 2026-11-23: a context-only answer with no decision still reaches the model); the template now installs the hook in every copy (plan docs/planning/linked-chain-core-2026-11-23.md).
+
+#### Scenario: A context-only answer carries no decision
+
+- **GIVEN** an edit the hook lets through with requirement text
+- **WHEN** the hook answers for Claude Code
+- **THEN** the answer has `additionalContext` and no `permissionDecision`
+
+### Requirement: The edit guard logs outside the checkout
+
+The edit guard SHALL append its decision log to `hook-<date>.jsonl` in the folder named by `LOCKSTEP_LOG_DIR` when that is set, and otherwise in `${XDG_STATE_HOME:-~/.local/state}/lockstep/<repository name>/`, where the repository name is the main checkout's folder name for every worktree of it; `lockstep-hook --would-block` SHALL count records there and in the project's older `.lockstep/` and `.pcw/` folders.
+
+Source: Brian, 2026-11-11: "i approve single tool desing re d4" (proposals/one-planning-tool/DESIGN.md named `.lockstep/`); moved outside the checkout by issue #974, inferred by agent: logs inside a worktree were deleted with it after merge and a repository without the `.gitignore` line committed them (2026-11-19). Brian, 2026-11-20, "yes" to the local proofs, whose step 1 is this fix (docs/planning/next.goal.md).
+
+#### Scenario: A decision is logged outside the checkout
+
+- **GIVEN** a project with the edit guard installed and `LOCKSTEP_LOG_DIR` unset
+- **WHEN** it decides on an edit
+- **THEN** `${XDG_STATE_HOME}/lockstep/<repository name>/hook-<date>.jsonl` holds the record, the project gains no `.lockstep/` or `.pcw/` folder, and records already in the project's `.lockstep/` and `.pcw/` are still counted
+
+#### Scenario: A worktree logs under its repository name
+
+- **GIVEN** a worktree whose `.git` file points into `<main>/.git/worktrees/<name>`
+- **WHEN** the guard picks its log folder
+- **THEN** it is the same folder as the main checkout's, so the log survives the worktree's removal
+
+#### Scenario: An override names the folder
+
+- **GIVEN** `LOCKSTEP_LOG_DIR` names a folder
+- **WHEN** the guard decides on an edit
+- **THEN** the record is written in that folder and `--would-block` counts it
+
+### Requirement: Lockstep installs from AES canonical
+
+Source: Brian, 2026-11-11, approving the one-tool design as written ("i approve single tool desing re d4"; `proposals/one-planning-tool/DESIGN.md`, slice 1).
+
+Installing this repository SHALL provide the Python package `lockstep` and the commands `lockstep` and
+`lockstep-hook`, which run Lockstep's whole-tree check and its agent edit hook.
+
+#### Scenario: The check runs from an install
+
+- **GIVEN** this repository installed into a fresh environment
+- **WHEN** `lockstep check --help` runs
+- **THEN** it exits 0 and prints the check's usage
+
+### Requirement: A refusal lists the files the plan allows
+
+When the edit hook refuses (or warns about) a write to a file the plan does not name, its message SHALL also list the files the plan does allow, read from whichever plan is in use (`lockstep.yaml` `layout:` rows or the planned artifacts of `.aes/target.yaml`): those in the refused file's folder first, at most 15, then "and N more".
+
+Source: Brian, 2026-11-11, "i approve single tool desing re d4" (proposals/one-planning-tool/DESIGN.md); acceptance entries A2 and A3 in docs/planning/acceptance-criteria.json
+
+#### Scenario: A refusal lists the files the plan allows
+
+- **GIVEN** a plan that names `src/greeter/__init__.py` and PCW_MODE=block
+- **WHEN** an agent writes `src/greeter/extra.py`, by an edit or by a shell command
+- **THEN** the refusal message lists `src/greeter/__init__.py` under "The plan does allow these files" and no more than 15 paths, with "and N more" for the rest
 
 Tested by: tests/lockstep/test_lockstep_openspec_text.py
 [[[end]]]

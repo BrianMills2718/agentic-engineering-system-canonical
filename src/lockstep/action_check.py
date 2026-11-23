@@ -20,7 +20,7 @@ decision as JSON and exits 0 on allow, 1 on hold, 2 when it could not judge.
 [[[cog import lockstep.cogtext as c; c.docstring("src:lockstep:action_check.py", indent=0)]]]
 Plan (generated from lockstep.yaml layout and OpenSpec; edit the spec or the layout row, not this text):
 
-Implements: (no requirement)
+Names no requirement; the layout row says why.
 [[[end]]]
 """
 

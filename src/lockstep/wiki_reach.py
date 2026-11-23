@@ -10,7 +10,7 @@ link's own line or table row). A hand-written wiki is held to the same rule by t
 [[[cog import lockstep.cogtext as c; c.docstring("src:lockstep:wiki_reach.py", indent=0)]]]
 Plan (generated from lockstep.yaml layout and OpenSpec; edit the spec or the layout row, not this text):
 
-Implements: (no requirement)
+Names no requirement; the layout row says why.
 [[[end]]] (sum: hE+kCOD6/c)
 """
 

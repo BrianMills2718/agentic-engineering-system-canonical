@@ -11,6 +11,17 @@ installed on its own, so the file is held in both repositories and each runs the
 (`tests/lockstep/fixtures/citation_anchor_cases.json`). A change to the rules is made in both.
 
 Implements: lockstep-plan-check/a-citation-may-name-the-text-it-points-at
+
+Requirement text (generated):
+    lockstep-plan-check/a-citation-may-name-the-text-it-points-at: A repository file cited in the
+        acceptance file MAY be written `path#:~:text=<percent-encoded text>`, with an optional
+        `prefix-,` before the text and `,-suffix` after it. `lockstep plan check` SHALL accept it
+        only when the file exists and the text, with runs of whitespace counting as one space and
+        the prefix and suffix if given, appears in the file exactly once. It SHALL exit 1 naming the
+        citation when the text is not found, is found more than once, or the anchor is malformed
+        (empty text, invalid percent-encoding, the range form `text,text`, or a directive other than
+        `text=`); a malformed anchor SHALL NOT be skipped as a non-citation. A plain `path` or
+        `path:line` citation SHALL behave as before.
 """
 
 from __future__ import annotations

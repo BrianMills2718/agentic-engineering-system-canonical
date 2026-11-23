@@ -65,6 +65,13 @@ Prints one line per over-cap repository, a summary with counts, and exits 1 when
 repository breaks the rule (0 when none do).
 
 Implements: project-graph-config/the-checks-read-the-graph-and-owner-from-the-person-s-own-files
+
+Requirement text (generated):
+    project-graph-config/the-checks-read-the-graph-and-owner-from-the-person-s-own-files:
+        `md_file_cap.py` SHALL read the project graph from the `PROJECT_GRAPH` environment variable,
+        else from `~/code2/aes-config/PROJECT_GRAPH.json`, and the GitHub owner to check from
+        `PROJECT_GRAPH_OWNER`, else from `owner:` in `graph-config.yaml` beside the graph. It SHALL
+        exit with a message naming both when no owner is set, and SHALL NOT assume a default owner.
 """
 import argparse, hashlib, json, os, re, shutil, signal, subprocess, sys, tempfile, time
 from urllib.parse import unquote

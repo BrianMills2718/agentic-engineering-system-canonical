@@ -880,6 +880,132 @@
     "raw/sources/2026-11-14-reddit-1xo5oc0-bansat-blueprint-skill/source.json",
     "raw/sources/2026-11-16-repo-bansat/source.json"
    ]
+  },
+  {
+   "id": "Q49",
+   "short": "One order for statement and Source",
+   "question": "Should every requirement put its statement first and its `Source:` line after it, checked by `lockstep check`?",
+   "blocks": "reliable requirement text for the trace check and the edit hook",
+   "resolves_with": "Count requirements in each order and run the spec reader test on both.",
+   "recommendation": "Yes: one order, checked; the reader accepts both today only as a repair.",
+   "default": "The reader keeps accepting both orders.",
+   "evidence": "12 requirements put `Source:` first and read as empty (#1019); one had no blank line between them (external-idea-intake).",
+   "owner": "agent",
+   "status": "open",
+   "touches": [
+    "lockstep-today"
+   ],
+   "sources": [
+    "docs/planning/alignment-cleanup-2026-11-23.md (To discuss item 3)"
+   ]
+  },
+  {
+   "id": "Q50",
+   "short": "Trace check reads template files",
+   "question": "Should the trace check read `Implements:` comment lines in configured non-Python files such as `copier.yml` and `template/`?",
+   "blocks": "6 portable-template requirements show as unimplemented while built",
+   "resolves_with": "Try a `[tool.lockstep] comment_sources` setting on this repository and see whether the 6 findings clear.",
+   "recommendation": "Yes, for configured paths only; the tests already exist (`tests/test_template_portable.py`).",
+   "default": "The 6 stay on `docs/planning/trace-accepted.txt`.",
+   "evidence": "`lockstep check trace` lists portable-template/* as unimplemented; the code is in `copier.yml` and `template/`.",
+   "owner": "agent",
+   "status": "open",
+   "touches": [
+    "lockstep-today"
+   ],
+   "sources": [
+    "docs/planning/alignment-cleanup-2026-11-23.md (To discuss item 5)"
+   ]
+  },
+  {
+   "id": "Q51",
+   "short": "Drop the AES copy of doc facts",
+   "question": "Should `aes-documentation-projection` be removed in favor of the general `lockstep-doc-facts` capability?",
+   "blocks": "5 trace findings and a duplicate spec",
+   "resolves_with": "Compare the two specs scenario by scenario; move anything unique into lockstep-doc-facts.",
+   "recommendation": "Keep only the general spec and state in AES config that AES uses it.",
+   "default": "The 5 stay on the accepted list.",
+   "evidence": "Its 3 scenarios have no tests and its 2 requirements repeat lockstep-doc-facts.",
+   "owner": "agent",
+   "status": "open",
+   "touches": [
+    "lockstep-today"
+   ],
+   "sources": [
+    "docs/planning/alignment-cleanup-2026-11-23.md (To discuss item 6)"
+   ]
+  },
+  {
+   "id": "Q52",
+   "short": "Concern-title requirement lives in another repo",
+   "question": "Should the requirement 'An open concern's title follows the repository's current status' move from code2-workspace's compliance-list spec into an AES spec, since the script that does it is in AES?",
+   "blocks": "6 unknown findings",
+   "resolves_with": "One change across both repositories that moves the requirement and renames the IDs.",
+   "recommendation": "Move it; leave the list-making requirements in code2-workspace.",
+   "default": "The 6 stay on the accepted list.",
+   "evidence": "`scripts/concern_issue.py:8` and `tests/test_concern_issue.py:112-158` name compliance-list IDs; the spec is only in ~/code2/workspace/openspec/specs/compliance-list/.",
+   "owner": "agent",
+   "status": "open",
+   "touches": [
+    "ecosystem-consolidation"
+   ],
+   "sources": [
+    "docs/planning/alignment-cleanup-2026-11-23.md (To discuss item 13)"
+   ]
+  },
+  {
+   "id": "Q53",
+   "short": "Stale plan copies fail make check",
+   "question": "Should `make check` fail when a docstring's plan copy is stale or a `fixed:` file has no copy block?",
+   "blocks": "agents being handed old requirement text",
+   "resolves_with": "Add `cog --check` over `fixed:` files to make check and time it.",
+   "recommendation": "Yes; cog's own check does the first part in seconds.",
+   "default": "Copies are refreshed only when someone runs `lockstep check project`.",
+   "evidence": "`lockstep check project` rewrote 49 files on 2026-11-23 and the trace findings fell from 55 to 23; plan_check.py had no block at all.",
+   "owner": "agent",
+   "status": "open",
+   "touches": [
+    "edit-guard"
+   ],
+   "sources": [
+    "docs/planning/alignment-cleanup-2026-11-23.md (To discuss item 14)"
+   ]
+  },
+  {
+   "id": "Q54",
+   "short": "14 Lockstep files with no requirement",
+   "question": "For the 14 Lockstep files that carry behavior from the retired .aes/target.yaml route, which serve the minimal core (write a requirement) and which retire?",
+   "blocks": "a complete layout where every file names its requirement",
+   "resolves_with": "List which of the 14 the five core checks import or call; propose a requirement for those and a retirement record for the rest.",
+   "recommendation": "Write one requirement for the ones the core calls; retire the rest through docs/retired/ (a deletion, so Brian's yes).",
+   "default": "They stay planned with no requirement.",
+   "evidence": "action_check, behavior_check, change_list, change_log, criterion_checks, declared_reason, docstring_up, linked_tests, plan_edit, plan_to_code, requirement_status, unplanned_symbols, wiki, wiki_reach; their layout rows in lockstep.yaml have `implements: []`.",
+   "owner": "brian",
+   "status": "open",
+   "touches": [
+    "legacy-review"
+   ],
+   "sources": [
+    "docs/planning/alignment-cleanup-2026-11-23.md (To discuss item 15)"
+   ]
+  },
+  {
+   "id": "Q55",
+   "short": "Design review lists departures",
+   "question": "Should the 'one independent read' for a plan list every departure from the project's settled design documents, with file and line?",
+   "blocks": "plans drifting from the settled design unnoticed",
+   "resolves_with": "Add one sentence to code2-workspace agents/topics/working-method.md 'plan size'.",
+   "recommendation": "Yes; that is where the minimal-core plan dropped the file layout without anyone checking.",
+   "default": "The review stays written only in back-on-design item 5.",
+   "evidence": "docs/planning/back-on-design-2026-11-23.md item 5; minimal-core-2026-11-20.md:103 folded the file list as an agent inference.",
+   "owner": "agent",
+   "status": "open",
+   "touches": [
+    "agent-rules"
+   ],
+   "sources": [
+    "docs/planning/alignment-cleanup-2026-11-23.md (To discuss item 17)"
+   ]
   }
  ]
 }

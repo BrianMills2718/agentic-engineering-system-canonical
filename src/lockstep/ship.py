@@ -61,6 +61,7 @@ so a dozen agents merging at once do not run a dozen suites on the 20 cores; a r
 who holds them and waits up to $SHIP_SLOT_WAIT seconds (default 1800), then stops with nothing pushed. 0 slots
 turns the limit off.
 
+Implements: ship/install-ship-as-a-command-from-the-public-repository
 Implements: ship/merge-only-the-commit-whose-check-passed
 Implements: ship/rebase-a-branch-that-is-behind-the-default-branch-before-checking-it
 Implements: ship/refuse-a-new-repository-with-no-planning-package

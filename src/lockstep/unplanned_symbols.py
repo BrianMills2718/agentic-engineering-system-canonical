@@ -13,7 +13,7 @@ part of `make check`.
 [[[cog import lockstep.cogtext as c; c.docstring("src:lockstep:unplanned_symbols.py", indent=0)]]]
 Plan (generated from lockstep.yaml layout and OpenSpec; edit the spec or the layout row, not this text):
 
-Implements: (no requirement)
+Names no requirement; the layout row says why.
 [[[end]]] (sum: S/hQ+kJlRj)
 """
 

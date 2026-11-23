@@ -407,7 +407,7 @@ Source: Brian, 2026-11-11, approving the one-tool design ("i approve single tool
 
 ### Requirement: Arch: Code imports match the diagram
 
-`lockstep check arch check`, when the committed contracts file matches the diagram, SHALL run the contracts against the code with import-linter and exit 1 when any contract is broken, printing the broken contract and the importing module. When import-linter is not installed it SHALL print that and exit 1; it SHALL NOT pass.
+`lockstep check arch check`, when the committed contracts file matches the diagram, SHALL run the contracts against the code with import-linter and exit 1 when any contract is broken, printing the broken contract and the importing module. When import-linter is not installed it SHALL print that and exit 1; it SHALL NOT pass. When the diagram maps no Python packages there is nothing to check, and it SHALL pass without running import-linter.
 
 Source: Brian, 2026-11-11, "i approve single tool desing re d4" (proposals/one-planning-tool/DESIGN.md); acceptance entries A2 and A3 in docs/planning/acceptance-criteria.json
 
@@ -422,6 +422,12 @@ Source: Brian, 2026-11-11, "i approve single tool desing re d4" (proposals/one-p
 - **GIVEN** a current contracts file and no `lint-imports` command
 - **WHEN** the check runs
 - **THEN** it prints that import-linter is not installed and exits 1
+
+#### Scenario: Arch: A diagram that maps no packages passes
+
+- **GIVEN** a diagram whose elements map no Python packages
+- **WHEN** the check runs
+- **THEN** it passes without running import-linter
 
 ### Requirement: Arch: A diagram check that cannot run fails as a tool failure
 
@@ -686,7 +692,7 @@ Source: inferred by agent, from the first run of the changed check on a branch b
 
 ### Requirement: Trace: A marked quote matches its requirement
 
-The trace check SHALL read, in every Markdown file tracked by git outside `openspec/`, each passage between `<!-- lockstep quote: <requirement id> -->` and `<!-- /lockstep quote -->`. It SHALL report `stale-quote` and fail when the passage, with runs of whitespace counting as one space, does not appear in the text of that requirement or of one of its scenarios, in `openspec/specs/` or in an active change's spec delta. It SHALL report `unknown` when no spec or active change defines the ID, and `unclosed-quote` when a start marker has no end marker after it in the same file. Each finding SHALL name the file and line of the start marker. In a folder that is not a git repository it SHALL read every Markdown file outside `openspec/` and folders whose name starts with a dot.
+The trace check SHALL read, in every Markdown file tracked by git outside `openspec/`, each passage between `<!-- lockstep quote: <requirement id> -->` and `<!-- /lockstep quote -->`. It SHALL report `stale-quote` and fail when the passage, with runs of whitespace counting as one space, does not appear in the text of that requirement or of one of its scenarios, in `openspec/specs/` or in an active change's spec delta. It SHALL report `unknown` when no spec or active change defines the ID, and `unclosed-quote` when a start marker has no end marker after it in the same file. Each finding SHALL name the file and line of the start marker. A marker inside a code span or a fenced code block is shown as code, not used as a marker, and SHALL be skipped; a passage SHALL be compared with its code words kept. In a folder that is not a git repository it SHALL read every Markdown file outside `openspec/` and folders whose name starts with a dot.
 
 Source: Brian, 2026-10-22: "this doc string linkage system where the normative and docs tring stuff and gaps and planns would stay algined over time" (code2-workspace decision 0006); Brian, 2026-11-17: "if there is a change in the nromative docuemtnation ..." (code2-workspace issue 842, where seven hand-typed copies of one requirement's number stayed unchanged after the requirement changed). The marker form is inferred by agent.
 
@@ -725,6 +731,18 @@ Source: Brian, 2026-10-22: "this doc string linkage system where the normative a
 - **GIVEN** a Markdown file with a start marker and no end marker after it
 - **WHEN** the trace check runs
 - **THEN** it reports `unclosed-quote` with the file and line, and exits 1
+
+#### Scenario: Trace: A marker written as code is not a quote
+
+- **GIVEN** a Markdown file that shows the marker inside backticks and inside a fenced block
+- **WHEN** the trace check runs
+- **THEN** it reports no finding for those lines
+
+#### Scenario: Trace: A quoted passage keeps its code words
+
+- **GIVEN** a marked passage containing a backticked command that appears in its requirement's statement
+- **WHEN** the trace check runs
+- **THEN** it reports no finding for the passage
 
 ### Requirement: Changed: Documents that quote a listed requirement are listed with it
 

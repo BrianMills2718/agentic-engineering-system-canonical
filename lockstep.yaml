@@ -7,7 +7,8 @@ layout:
 - path: src/lockstep/__init__.py
   purpose: 'Lockstep (package `lockstep` in AES canonical since 2026-11-11; before that repository lockstep, package `pcw`):
     keep a plan, code docstrings and a wiki in step'
-  implements: []
+  implements:
+  - lockstep-plan-format/lockstep-governs-its-own-package
   tests: []
 - path: src/lockstep/action_check.py
   purpose: Judge a proposed non-code action against the actions Lockstep's side file declares (behavior 5.4)

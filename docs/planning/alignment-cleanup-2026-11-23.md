@@ -19,14 +19,20 @@ nothing, so a plan that drops or invents a requirement merges cleanly. That is o
 1. Search the folders that hold code: `[tool.lockstep] source = ["src", "scripts"]` in `pyproject.toml` (the check read
    only `src/`, while `scripts/` carries its own `Implements:` lines). Done: 142 -> 108 findings; the parser fix and
    the first marks took it to 86.
+   Step 2 result: 86 -> 16. Of the drop from 55 to 23, 32 findings came from one thing: the plan copies in
+   docstrings had never been regenerated after their layout rows changed (item 14).
 2. For each remaining finding, read the requirement and the code, then: mark the code that does it; correct a wrong
    ID; add a missing test; or, when nothing implements it, record it under "To discuss" (removing a requirement is a
    product call, not mine).
 3. Fix #1019 (requirements with empty statement text). Done (item 3 below).
-4. Make the check block merges: `lockstep check trace` in `make check`. Requirements recorded as not built stay
-   visible without failing every merge only through a committed list that may shrink and never grow (inferred by
-   agent; see "To discuss").
-5. Mark the plans this replaces as replaced; make the design review a step before a Lockstep plan is adopted.
+4. Done: `make check-trace` (run by `make check`) compares the findings with `docs/planning/trace-accepted.txt`
+   (16 lines: items 5, 6 and 13). A new finding fails, and so does a fixed one still on the list, so the list can
+   only shrink (the list is inferred by agent: it keeps the known gaps visible without failing every
+   merge).
+5. Done, corrected: the earlier wording "mark the plans this replaces as replaced" was wrong. `linked-chain-core` and
+   `links-existing-lines` are built (#1011 to #1017) and now say so; `minimal-core` now says its milestone was met and
+   that one inference in it (file list folded into `tasks.md`) is reversed by `back-on-design`. The design review
+   before adoption is item 5 of `back-on-design`; it lives only there (item 17).
 
 ## Acceptance
 
@@ -36,7 +42,7 @@ nothing, so a plan that drops or invents a requirement merges cleanly. That is o
 
 ## To discuss (concerns, open questions, inconsistencies, recommendations)
 
-Each item: what, evidence, my recommendation. Added as found.
+Each item: what, evidence, my recommendation. Added as found. The open ones are also Q49 to Q55 in `docs/planning/open-questions.json`.
 
 1. **The trace check never searched `scripts/`.** No `[tool.lockstep] source` was set, so 45 requirements implemented
    in `scripts/` read as unimplemented and 11 wrong IDs there went unseen. Fixed in step 1.
@@ -50,7 +56,9 @@ Each item: what, evidence, my recommendation. Added as found.
    the order is a habit, not a rule.
 4. **29 of the 57 plan rows for Lockstep's own files name no requirement.** The generated docstring then says
    `Implements: (no requirement)`, which the trace check reads as a bad ID. Either the code serves requirements
-   nobody linked, or Lockstep has code with no written requirement. Being classified in step 2.
+   nobody linked, or Lockstep has code with no written requirement. Classified in step 2: 15 rows now name the
+   requirements they serve; the generated line for the rest now reads "Names no requirement; the layout row says
+   why." so it is no longer parsed as an ID. The 14 rows left are item 15.
 5. **Six template requirements are built where the trace check cannot see them.** `portable-template` is
    implemented in `copier.yml` and `template/` files, which are not Python and not under `src` or `scripts`.
    Question: should the check read `Implements:` lines in template files (comments in YAML and shell), or should
@@ -78,3 +86,35 @@ Each item: what, evidence, my recommendation. Added as found.
    through a duplicate line and an unexpected commit, agreed by message that one stops, and every edit was checked
    against the readers' findings. Recommendation: resuming a session that is already running should be refused or
    warned about; worktrees give no protection when both writers are the same session.
+13. **Six requirements for one script live in another repository's spec.** `scripts/concern_issue.py` and
+   `tests/test_concern_issue.py` name `compliance-list/...` IDs, but the `compliance-list` spec exists only in
+   `~/code2/workspace/openspec/specs/compliance-list/`, so this repository's check reads them as unknown. They are
+   on the accepted list. Recommendation: the requirement "An open concern's title follows the repository's current
+   status" describes this script, so move that one requirement into an AES spec named for the script, and leave the
+   list-making requirements in code2-workspace. Moving it renames the IDs in both repositories, so it waits for
+   one change that touches both.
+14. **Plan copies in docstrings went stale with no check failing.** After layout rows gained requirement IDs, the
+   docstrings still held the old copies until `lockstep check project` was run by hand (it rewrote 49 files). The
+   copies are what an editing agent reads, so a stale copy hands it the wrong requirement. Also, a planned file
+   with no cog block (`src/lockstep/plan_check.py`, now fixed) is never given a copy, and nothing reports that.
+   Recommendation: `make check` should fail when a copy is stale or a `fixed:` file has no block (cog's own
+   `--check` does the first).
+15. **14 Lockstep files carry behavior from the retired `.aes/target.yaml` route with no OpenSpec requirement.**
+   `action_check`, `behavior_check`, `change_list`, `change_log`, `criterion_checks`, `declared_reason`,
+   `docstring_up`, `linked_tests`, `plan_edit`, `plan_to_code`, `requirement_status`, `unplanned_symbols`, `wiki`,
+   `wiki_reach`. Their docstrings cite "behavior N.N" from the old plan; some say they are "part of make check",
+   which the Makefile does not call. Also `unplanned_symbols` and `stale_edit` still word their messages in
+   `.aes` plan terms. Either they serve the minimal core and need requirements, or they belong to the route
+   decision 0009 retires. Recommendation: list which ones the five-check minimal core actually calls; write one
+   requirement for those, and retire the rest through `docs/retired/` (a deletion, so it needs your yes).
+16. **`make check` did not run the trace check before this change**, though `docs/architecture/LOCKSTEP.md` and
+   the back-on-design plan treat trace as one of the core checks. That is how 142 findings built up unseen.
+   Fixed by step 4.
+17. **The design review before a plan is adopted is written in one plan, not in the rule agents read.**
+   `back-on-design-2026-11-23.md` item 5 says every later Lockstep plan gets a cold read against the settled
+   documents that lists each departure. Agents planning new work read code2-workspace
+   `agents/topics/working-method.md` ("plan size": one independent read), which does not ask for departures from
+   the settled documents. Drift came in exactly there: the minimal-core plan folded the file list away as an
+   agent inference and no reader checked it against `LOCKSTEP.md`. Recommendation: add one sentence to that
+   "independent read": it lists every departure from the project's settled design documents, with file and line.
+   That changes a rule every agent follows, so it is not made in this change.

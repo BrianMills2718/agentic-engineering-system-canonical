@@ -123,7 +123,7 @@ def test_a_start_marker_with_no_end_marker_fails(traced, capsys):
     assert "unclosed-quote" in out and out.strip().endswith("exit=1")
 
 
-@pytest.mark.req("lockstep-checks/trace-a-start-marker-with-no-end-marker-fails")
+@pytest.mark.req("lockstep-checks/trace-a-marker-written-as-code-is-not-a-quote")
 def test_a_marker_written_as_code_is_not_a_quote(traced):
     write(traced, "docs/notes.md", """
         # Notes
@@ -138,7 +138,7 @@ def test_a_marker_written_as_code_is_not_a_quote(traced):
     assert quotes_read(traced) == []
 
 
-@pytest.mark.req("lockstep-checks/trace-a-quote-that-matches-passes")
+@pytest.mark.req("lockstep-checks/trace-a-quoted-passage-keeps-its-code-words")
 def test_a_quoted_passage_keeps_its_code_words(traced):
     write(traced, "openspec/specs/extra/spec.md", "## Requirements\n### Requirement: Coded\nThe tool SHALL run `make check`.\n")
     write(traced, "src/pkg/extra.py", '"""Implements: extra/coded"""\n')
