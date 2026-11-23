@@ -182,6 +182,24 @@ so the first core milestone is not met until the linked chain works in a fresh c
 requirement text, and the link file lists the changed requirement's scenarios, tests, file and symbol
 ([linked-chain-core-2026-11-23.md](linked-chain-core-2026-11-23.md), acceptance).
 
+**Linked chain accepted, 2026-11-23 (C12; milestone met for Claude).** Clean home with empty agent login folders,
+private repository `chain-test` copied from the template at #1011, three plans, all built by Claude through
+`run-plan` and merged by `ship`:
+
+| Plan | Hidden tests before / after | `make check` | Read the hidden tests | Merged |
+| --- | --- | --- | --- | --- |
+| add-greeting (new requirement) | 4 failed / 4 passed | 0 | no (peek_reads 0) | chain-test #1 |
+| greet-several (changes it) | 5 failed, 1 passed / 6 passed | 0 | no | #2 |
+| greet-with-word (changes it again, Lockstep at #1012) | 3 failed, 1 passed / 4 passed | 0 | no | #3 |
+
+In plans 1 and 2 Claude changed files only through Bash, and the hook's shell route handed over nothing in a
+repository without a layout plan; fixed in #1012. In plan 3 the hook log shows two `openspec_text` hand-overs
+naming `greeting/greets-a-person-by-name` for `src/chain_test/greeting.py`, and a probe in the same copy showed
+Claude quoting the hook's header line, which is not in the file. After plan 3, `docs/links.json` links that
+requirement to all 6 scenarios, their 8 tests and `chain_test.greeting` (`src/chain_test/greeting.py:1`), the
+same scenarios the test markers name. Not shown: Codex (its stored API key had no quota; Codex hooks are off by
+default and need trusting).
+
 Rule for add-ons (inferred by agent; Brian can veto): each rule lives in one place; an add-on becomes mandatory
 only after an on/off comparison shows it catches something; a mandatory check with no logged catch in 2 weeks is
 switched off.

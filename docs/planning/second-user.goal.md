@@ -87,5 +87,5 @@ Resume when a second person or machine uses the template, or when Brian says so.
 | Row | Goal | Depends on | Status |
 | --- | --- | --- | --- |
 | 1 | First minimal-core milestone (minimal-core plan, section 8) | none | done 2026-11-21 |
-| 2 | A second user runs the core with nothing of Brian's (this file) | row 1 | done 2026-11-22 for C1-C11 (minimal-core section 8); rerun for the linked chain (C12) open |
+| 2 | A second user runs the core with nothing of Brian's (this file) | row 1 | done 2026-11-22 for C1-C11 (minimal-core section 8); linked chain (C12) done 2026-11-23 for Claude (minimal-core section 8); Codex not shown |
 | 3 | Add-ons, each only after a logged failure justifies it (section 8, "Rule for add-ons") | row 2 | open |

@@ -27,8 +27,8 @@ check no longer stages the git-ignored `docs/status.md` (#1009).
 **Milestone reopened 2026-11-23:** the core list missed the linked chain (requirement -> scenario -> test -> file
 -> symbol), which AES's goal page makes central. New copies now ship the edit hook that hands an agent the
 requirement text (never approving an edit), and `lockstep check project` writes `docs/links.json`; the status
-page shows each implementer's file and line. Next: rerun the second-user test on a plan that changes an existing
-requirement ([linked-chain-core-2026-11-23.md](../docs/planning/linked-chain-core-2026-11-23.md)).
+page shows each implementer's file and line. Accepted 2026-11-23 for Claude in a clean home (three plans, `chain-test` #1-#3; minimal-core section 8):
+the hook's shell route was added in #1012 after Claude edited only through Bash. Codex not shown (no API quota).
 
 **Next:** add-ons after the minimal core, as needed.
 
