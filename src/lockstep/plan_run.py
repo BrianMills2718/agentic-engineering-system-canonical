@@ -328,6 +328,15 @@ def ship_command(repo: Path) -> str:
     `ship`), else `ship`.
 
     Implements: plan-run/one-driver-runs-a-plan-with-claude-or-codex
+
+    Requirement text (generated):
+        plan-run/one-driver-runs-a-plan-with-claude-or-codex: `lockstep run-plan <change> --agent
+            claude|codex` SHALL run `accept write`, then one headless implementer session in a new
+            worktree on branch `impl/<change>-<run id>`, then `accept check`, saving each session's
+            JSON event stream as its transcript, and SHALL print the `ship` command to run next
+            without running it: `uv run ship` when the repository's `pyproject.toml` depends on
+            `agentic-engineering-system` (which installs `ship`), else `ship`. The agent choice
+            SHALL change only the command that starts each session.
     """
     import tomllib
 

@@ -7,6 +7,102 @@ Implements: lane-sweep/remove-finished-lanes-and-report-the-rest, lane-sweep/kee
 Implements: lane-sweep/settings-come-from-config, lane-sweep/archive-then-remove-idle-unmerged-lanes,
     lane-sweep/count-kept-lanes-per-repository
 
+Requirement text (generated):
+    lane-sweep/remove-finished-lanes-and-report-the-rest: `scripts/lane_sweep.py` SHALL, for every
+        linked worktree of each repository it is given (default: every repository under `~/code2`),
+        remove the worktree and delete its local branch only when all hold: the tree has no
+        uncommitted changes (ignored files do not count); its content is on the remote default
+        branch, meaning the branch tip is an ancestor of it, or every file the branch changed has
+        the same content there, or a merged pull request's head on GitHub is exactly the branch tip;
+        no running process outside the sweep's own ancestors and session (the command that launched
+        it) uses the worktree, meaning its working directory, a command-line argument, an open or
+        mapped file, a code search path in its environment (`PYTHONPATH`, `VIRTUAL_ENV` and similar)
+        or an absolute path in a `.pth` file of the Python environment it runs from is inside the
+        worktree; and the worktree has been idle for at least 30 minutes, or 24 hours when the
+        branch has no commits of its own; and its ignored files that are not regenerable caches
+        total under 1 MiB (1048576 bytes), where a cache is anything under a folder named `.venv`,
+        `venv`, `node_modules`, `__pycache__`, `.pytest_cache`, `.mypy_cache`, `.ruff_cache`,
+        `.tox`, `dist`, `build`, `.cache`, `.next`, `target`, `.lockstep`, `.code2check` or `.work`,
+        or an `.egg-info` folder, at any depth; a size that cannot be read SHALL count as reaching
+        the limit. A lane failing only this check SHALL be kept with the reason `holds ignored
+        non-cache files: <up to 5 paths>`, because `git worktree remove` deletes ignored files even
+        without `--force`; a removed lane's smaller ignored non-cache files SHALL be listed in the
+        day's log. Every other lane SHALL be kept and listed with the reason, except an idle lane
+        whose content is not on the remote default branch, which the requirement "Archive then
+        remove idle unmerged lanes" governs. Each removal SHALL append the branch name, its tip and
+        the command that restores the branch to one log file per day. Removal SHALL first move the
+        worktree aside with `git worktree move` to the hidden sibling `.<name>.lane-sweep-removing`,
+        so the lane's own path disappears in one step, and SHALL then run `git worktree remove`
+        without `--force`. When the move fails nothing is changed. When a process uses the moved
+        tree, a folder in it cannot be written, or the removal fails while the moved tree's tracked
+        files are intact, it SHALL be moved back. When the removal fails after deleting files, the
+        remains SHALL stay at the hidden path, the branch SHALL be kept, and the log SHALL name the
+        command that recreates the lane; a later sweep SHALL keep and list such a hidden path. A git
+        command that times out SHALL count as a failed step and SHALL NOT stop the sweep. Without
+        `--apply` it SHALL only report. Worktree records whose folder is gone SHALL be pruned.
+        `scripts/ship.py` SHALL run the sweep for its repository right after the pull request reads
+        back MERGED, passing its own lane as `--merged-lane` so that lane skips only the idle wait;
+        a failed sweep SHALL NOT fail the ship.
+    lane-sweep/keep-lanes-git-will-not-remove-without-force: The sweep SHALL keep a lane whose
+        worktree contains a `.gitmodules` file and report it with the reason that git moves and
+        removes such a worktree only with --force, instead of attempting the removal and counting a
+        failure.
+    lane-sweep/fast-forward-primary-checkouts-that-are-clean-and-idle: After judging a repository's
+        lanes, `scripts/lane_sweep.py` SHALL fast-forward the repository's primary checkout (the
+        main worktree, the parent of `--git-common-dir`) to the remote default branch with `git
+        merge --ff-only`, and only when all hold: the checkout is on the branch that the remote
+        default branch tracks; `git status --porcelain` is empty (ignored files do not count); the
+        local branch is a strict ancestor of the remote default branch after the sweep's fetch; no
+        git command holds the checkout's `index.lock`; and no running process outside the sweep's
+        own ancestors and session has its working directory inside the checkout, not counting
+        processes inside a linked worktree nested in it. It SHALL never reset or rebase the
+        checkout. Each fast-forward SHALL append the checkout, branch, old commit and new commit to
+        the day's log. A checkout that is behind but not moved SHALL be listed with the reason.
+        Without `--apply` it SHALL only list the checkout as fast-forwardable. Repositories with no
+        lanes SHALL be fetched and judged too. A checkout whose root folder is read-only
+        (`canonical_lock.py` locked it while a lane claim is live) SHALL be moved with
+        `canonical_lock.py --sync` (unlock, `git pull --ff-only`, re-lock) instead of `git merge`.
+    lane-sweep/keep-lanes-that-a-systemd-user-unit-runs-from: `scripts/lane_sweep.py` SHALL keep a
+        lane, and report it with the unit's name, when any systemd user unit names a path inside it
+        in a unit file or a drop-in (`<unit>.service.d/*.conf`), on any line (for example
+        `WorkingDirectory`, `ExecStart` or `Environment`), whether or not a process is running from
+        it. It SHALL read every folder systemd loads user units from: `~/.config/systemd/user`, the
+        transient folder `$XDG_RUNTIME_DIR/systemd/transient` (`/run/user/<uid>` when the variable
+        is unset), the runtime `$XDG_RUNTIME_DIR/systemd/user`, `~/.local/share/systemd/user` and
+        `/etc/systemd/user`. A timer's job is no process until the timer fires, and `systemd-run
+        --user --on-calendar` writes its unit only to the transient folder, so reading
+        `~/.config/systemd/user` alone lets the sweep remove a lane that a scheduled run will start
+        from.
+    lane-sweep/archive-then-remove-idle-unmerged-lanes: `scripts/lane_sweep.py` SHALL remove the
+        worktree of a lane whose content is not on the remote default branch when it passes every
+        other check of "Remove finished lanes and report the rest" (clean, ignored non-cache files
+        under 1 MiB, not in use by a process or a systemd user unit, not locked, not passed as
+        `--keep-lane`, no submodules) and has been idle for at least the archive limit: 72 hours, or
+        the number of hours in `lane_sweep_archive_after_hours:` in `graph-config.yaml`
+        (`$LANE_SWEEP_ARCHIVE_AFTER_HOURS`, `--archive-after-hours`); 0 or less SHALL turn this off.
+        `--merged-lane` SHALL NOT shorten this wait. Before any move it SHALL preserve the tip: when
+        no remote-tracking branch holds the tip, it SHALL create the local ref
+        `refs/archive/<YYYYMMDD>/<lane folder name>` at the tip with `git update-ref` refusing to
+        overwrite (a name already taken by another commit gets `-<tip>` appended), write a `git
+        bundle` of that ref and the lane's branch holding only the commits not on the remote default
+        branch into the log folder, and run `git bundle verify` on it. A detached lane SHALL get the
+        local ref even when a remote-tracking branch holds its tip. When creating the ref, the
+        bundle or its verification fails, the lane SHALL be kept whole and the sweep SHALL exit 1.
+        The ref SHALL be pushed to origin only when origin's GitHub owner is the `owner:` setting
+        and GitHub, asked through that owner's gh wrapper, reports the repository private; a failed
+        push SHALL be logged and SHALL NOT stop the removal. The removal SHALL then run as in
+        "Remove finished lanes and report the rest", except that the local branch SHALL be kept. The
+        day's log SHALL name the branch, the tip, the bundle and the command `git -C <repo> worktree
+        add <path> <branch, or the archive ref when detached>` that restores the lane, and SHALL
+        list the ignored files the removal deletes, other than rebuildable caches such as `.venv`.
+        Without `--apply` the lane SHALL only be listed as archivable, with no ref and no bundle
+        written.
+    lane-sweep/count-kept-lanes-per-repository: After the kept lanes, `scripts/lane_sweep.py` SHALL
+        print, and append to the day's log and `last-report.txt`, one line `lanes kept per
+        repository:` naming each repository that keeps at least one lane with its count, largest
+        first, and marking each count over 8 `(more than 8)`, so a repository where lanes pile up is
+        visible in every run.
+
 A lane is removed, with its local branch, only when every check passes:
 - the tree has no uncommitted changes (ignored files do not count);
 - its content is on the remote default branch: the tip is an ancestor of it, or
@@ -616,6 +712,45 @@ def ignored_keep_reason(lane: Lane) -> str | None:
     """Why a lane must stay because removing it deletes ignored files that are not caches, or None.
 
     Implements: lane-sweep/remove-finished-lanes-and-report-the-rest
+
+    Requirement text (generated):
+        lane-sweep/remove-finished-lanes-and-report-the-rest: `scripts/lane_sweep.py` SHALL, for
+            every linked worktree of each repository it is given (default: every repository under
+            `~/code2`), remove the worktree and delete its local branch only when all hold: the tree
+            has no uncommitted changes (ignored files do not count); its content is on the remote
+            default branch, meaning the branch tip is an ancestor of it, or every file the branch
+            changed has the same content there, or a merged pull request's head on GitHub is exactly
+            the branch tip; no running process outside the sweep's own ancestors and session (the
+            command that launched it) uses the worktree, meaning its working directory, a
+            command-line argument, an open or mapped file, a code search path in its environment
+            (`PYTHONPATH`, `VIRTUAL_ENV` and similar) or an absolute path in a `.pth` file of the
+            Python environment it runs from is inside the worktree; and the worktree has been idle
+            for at least 30 minutes, or 24 hours when the branch has no commits of its own; and its
+            ignored files that are not regenerable caches total under 1 MiB (1048576 bytes), where a
+            cache is anything under a folder named `.venv`, `venv`, `node_modules`, `__pycache__`,
+            `.pytest_cache`, `.mypy_cache`, `.ruff_cache`, `.tox`, `dist`, `build`, `.cache`,
+            `.next`, `target`, `.lockstep`, `.code2check` or `.work`, or an `.egg-info` folder, at
+            any depth; a size that cannot be read SHALL count as reaching the limit. A lane failing
+            only this check SHALL be kept with the reason `holds ignored non-cache files: <up to 5
+            paths>`, because `git worktree remove` deletes ignored files even without `--force`; a
+            removed lane's smaller ignored non-cache files SHALL be listed in the day's log. Every
+            other lane SHALL be kept and listed with the reason, except an idle lane whose content
+            is not on the remote default branch, which the requirement "Archive then remove idle
+            unmerged lanes" governs. Each removal SHALL append the branch name, its tip and the
+            command that restores the branch to one log file per day. Removal SHALL first move the
+            worktree aside with `git worktree move` to the hidden sibling
+            `.<name>.lane-sweep-removing`, so the lane's own path disappears in one step, and SHALL
+            then run `git worktree remove` without `--force`. When the move fails nothing is
+            changed. When a process uses the moved tree, a folder in it cannot be written, or the
+            removal fails while the moved tree's tracked files are intact, it SHALL be moved back.
+            When the removal fails after deleting files, the remains SHALL stay at the hidden path,
+            the branch SHALL be kept, and the log SHALL name the command that recreates the lane; a
+            later sweep SHALL keep and list such a hidden path. A git command that times out SHALL
+            count as a failed step and SHALL NOT stop the sweep. Without `--apply` it SHALL only
+            report. Worktree records whose folder is gone SHALL be pruned. `scripts/ship.py` SHALL
+            run the sweep for its repository right after the pull request reads back MERGED, passing
+            its own lane as `--merged-lane` so that lane skips only the idle wait; a failed sweep
+            SHALL NOT fail the ship.
     """
     found, total = ignored_entries(lane)
     if total < IGNORED_KEEP_BYTES:

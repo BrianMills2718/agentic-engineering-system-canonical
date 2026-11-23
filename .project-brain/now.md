@@ -14,6 +14,8 @@ clean home folder (hidden tests 0/3 then 3/3, and 0/10 then 10/10) and merged wi
   works but is no longer updated; six existing repositories still name it as their copier source.
 - A copy now keeps its commit checks after a move and in every worktree: the template tracks `.githooks/` and
   sets the relative `core.hooksPath .githooks` (2026-11-22; spec portable-template). Older copies keep the absolute path.
+- Two plans merged one after the other no longer stop `ship` twice: a rebase conflict only in `docs/status.md` is
+  settled by regenerating the page, and hidden tests rerun after ship's own rebase (2026-11-22; spec ship).
 - code2-workspace's own copy of the prior-art check retired (code2-workspace #904).
 
 **Known gap (accepted, Brian 2026-11-22):** the milestone's agents read Brian's global instructions; the rerun with

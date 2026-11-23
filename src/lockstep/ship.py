@@ -80,6 +80,7 @@ Implements: ship/refuse-goals-that-do-not-name-their-sources
 Implements: ship/merge-with-a-method-the-repository-allows
 Implements: ship/limit-how-many-checks-run-at-once
 Implements: ship/settings-come-from-config
+Implements: ship/regenerate-a-status-page-conflict-and-rerun-hidden-tests-after-ship-s-own-rebase
 """
 import argparse
 import contextlib
@@ -95,6 +96,7 @@ import sys
 import tempfile
 import time
 from pathlib import Path
+from typing import Callable
 
 METHODS = {"MERGE": "merge", "REBASE": "rebase", "SQUASH": "squash"}
 # The repository settings that enable each method, and the order tried when the wanted one is not allowed.
@@ -150,6 +152,7 @@ class Run:
     def __init__(self, repo: Path):
         """Open the day's log and record the start of the run."""
         self.repo = repo
+        self.rebased_from: str | None = None  # the head before ship's own rebase, when it rebased
         log_dir = Path(os.environ.get("SHIP_LOG_DIR") or default_log_dir("ship"))
         log_dir.mkdir(parents=True, exist_ok=True)
         self.log = log_dir / f"{datetime.date.today().isoformat()}.log"
@@ -336,6 +339,20 @@ def plan_content_unchanged(run: Run, repo: Path, python: list[str], validator: s
     never because code was committed. No merge base means validate.
 
     Implements: ship/validate-the-planning-package-only-when-the-merge-changes-plan-content
+
+    Requirement text (generated):
+        ship/validate-the-planning-package-only-when-the-merge-changes-plan-content: Before running
+            the validator, `scripts/ship.py` SHALL ask whether the merge (from the merge base with
+            the default branch to HEAD) changes plan content. Plan content SHALL be what the
+            validator's freshness check counts, read by calling the validator's own `freshness()`
+            with the merge base as the reviewed revision, never a second list in ship; a change to
+            `docs/planning/planning-package.json` itself SHALL also count. When the merge changes no
+            plan content, ship SHALL not run the validator and SHALL print and log one line saying
+            it skipped the validator and why. When it changes plan content, ship SHALL validate as
+            before. When the answer cannot be had (no merge base, a validator without `freshness()`,
+            an error), ship SHALL validate. Checking the merge base for a plan repair SHALL always
+            validate. The new-repository rules SHALL apply as before: a new repository with no
+            package is refused, and one with a package must be on the plan list.
     """
     base = merge_base(repo)
     if not base:
@@ -427,6 +444,27 @@ def one_page_plan_refusal(run: Run, repo: Path) -> str | None:
     NUL-separated, because git puts a name with an accented letter or a quote in quotation marks otherwise.
 
     Implements: ship/check-every-one-page-plan-a-merge-adds-or-changes
+
+    Requirement text (generated):
+        ship/check-every-one-page-plan-a-merge-adds-or-changes: A one-page plan is a `.md` file
+            committed under `docs/plans/` that carries the line `Plan size: small`. Text inside a
+            fenced code block is a quotation, not the page's own: the marker line, the headings and
+            the read line count only outside code blocks. Before the planning gate and the check
+            run, `scripts/ship.py` SHALL check every one-page plan that the merge (from the merge
+            base with the default branch to HEAD) adds, changes or renames, whatever characters its
+            file name holds; when no merge base is found it SHALL check every committed one-page
+            plan. A one-page plan is complete when it has the five headings `## Goal`, `## How Brian
+            judges it`, `## Cost and time`, `## Scoring fixed beforehand` and `## What already
+            exists`, at most 150 lines, and a line that starts `Independent read: <YYYY-MM-DD>,
+            pass` with a real date; when the page has more than one line that starts `Independent
+            read:`, the last one counts. A page that starts with a byte-order mark or holds bytes
+            that are not UTF-8 SHALL be checked, not skipped. ship SHALL refuse the merge, with
+            nothing pushed, when a page it checked is not complete, naming the page, each thing it
+            lacks and the rule; no exception for a plan repair or an upkeep-only change SHALL let
+            that page merge. For each complete page it SHALL print and log one line naming it. Under
+            this requirement ship SHALL not refuse a merge for a plan page that lacks the line `Plan
+            size: small`, for a one-page plan the merge does not touch, or for one the merge
+            deletes.
     """
     base = merge_base(repo)
     paths = None
@@ -450,6 +488,10 @@ def one_page_plan_refusal(run: Run, repo: Path) -> str | None:
 
 # Lockstep's prior-art check, beside this module (ported from code2-workspace 2026-11-20 so ship needs no private checkout).
 PRIOR_ART_CHECK = Path(__file__).resolve().with_name("prior_art.py")
+# Fully generated by `lockstep check project`; a rebase conflict confined to these is settled by regenerating them.
+GENERATED = ("docs/status.md",)
+REGENERATE = "uv run lockstep check project"             # override: SHIP_REGENERATE
+ACCEPT_RERUN = "uv run lockstep accept check {change} --run-dir {run_dir}"  # override: SHIP_ACCEPT_RERUN
 PRIOR_ART_PYTHON = ["uv", "run", "--no-project", "--with", "jsonschema", "python"]
 CHANGES_DIR = "openspec/changes/"
 
@@ -462,6 +504,20 @@ def prior_art_refusal(run: Run, repo: Path) -> str | None:
     missing or cannot run is not taken as a pass.
 
     Implements: ship/refuse-a-merge-whose-openspec-change-lacks-a-prior-art-record
+
+    Requirement text (generated):
+        ship/refuse-a-merge-whose-openspec-change-lacks-a-prior-art-record: Before the planning gate
+            and the check, `ship` SHALL run Lockstep's prior-art check (`src/lockstep/prior_art.py`,
+            the file beside ship's own module) with `--repo` set to the repository and `--files` set
+            to every file under `openspec/changes/` that the merge (from the merge base with the
+            default branch to HEAD) adds or changes; when no merge base is found it SHALL run it
+            without `--files`. When the merge adds or changes no file under `openspec/changes/` it
+            SHALL run nothing and print and log one line saying so. It SHALL refuse the merge, with
+            nothing pushed, when the check exits 1, showing what the check printed. When the check
+            file is missing it SHALL refuse the merge and say to reinstall `ship`; when the check
+            exits with any status other than 0 or 1 it SHALL refuse the merge, show the exit status
+            and say this is not a verdict on the record. When the check exits 0 it SHALL print and
+            log its summary line.
     """
     base = merge_base(repo)
     files: list[str] | None = None
@@ -624,6 +680,18 @@ def addon_on(repo: Path, key: str) -> bool:
     Read from the default branch, never the branch being shipped, so a branch cannot turn its own gate off.
 
     Implements: ship/add-on-gates-switch-off-from-the-copier-answers
+
+    Requirement text (generated):
+        ship/add-on-gates-switch-off-from-the-copier-answers: `scripts/ship.py` SHALL read the keys
+            `ship_planning_gate` and `ship_one_page_plans` from `.copier-answers.yml` on the default
+            branch at `origin` (never from the branch being shipped, so a branch cannot turn its own
+            gate off), reading each as a top-level `key: value` line. When a key's value is `false`
+            (any letter case), ship SHALL skip that gate (the whole planning gate with its
+            plan-repair and upkeep exceptions, or the one-page-plan check) and print and log `ship:
+            planning gate: off (.copier-answers.yml ship_planning_gate: false)` or `ship: one-page
+            plans: off (.copier-answers.yml ship_one_page_plans: false)`. A missing file, a missing
+            key or any other value SHALL leave the gate on. The prior-art check is core and has no
+            switch.
     """
     def read(*args: str) -> str:
         done = subprocess.run(["git", "-C", str(repo), *args], capture_output=True, text=True)
@@ -649,6 +717,21 @@ def accept_refusal(run: "Run", repo: Path, branch: str) -> str | None:
     its head equal to HEAD as it will be merged.
 
     Implements: ship/refuse-a-branch-whose-hidden-acceptance-run-failed-or-is-out-of-date
+
+    Requirement text (generated):
+        ship/refuse-a-branch-whose-hidden-acceptance-run-failed-or-is-out-of-date: After it has
+            caught up with the default branch and before it runs the check, `scripts/ship.py` SHALL
+            read every readable `summary.json` under
+            `${XDG_STATE_HOME:-~/.local/state}/lockstep-runs/<repository>/` (the main checkout's
+            folder name) whose `branch` is the branch being shipped or whose `head` is a commit
+            reachable from HEAD and not from the default branch; an unreadable one SHALL be skipped
+            with a printed warning. When there is at least one, ship SHALL refuse the merge with
+            nothing pushed, naming `lockstep accept check <change>` as the way to record a new run,
+            unless the newest by run id has `accept.exit` 0, `uncommitted` 0, and `head` equal to
+            HEAD as it will be merged (so a branch that was rebased must be checked again). With
+            none, ship SHALL print and log `ship: no hidden-test run recorded for this branch` and
+            go on; a run made by another user or under another `XDG_STATE_HOME` is not found, which
+            this message makes visible.
     """
     common = Path(git(repo, "rev-parse", "--path-format=absolute", "--git-common-dir"))
     state = os.environ.get("XDG_STATE_HOME") or str(Path.home() / ".local" / "state")
@@ -667,14 +750,28 @@ def accept_refusal(run: "Run", repo: Path, branch: str) -> str | None:
             run.write(line)
             continue
         if isinstance(rec, dict) and (rec.get("branch") == branch or rec.get("head") in on_branch):
-            records.append((str(rec.get("run_id") or path.parent.name), rec))
+            records.append((str(rec.get("run_id") or path.parent.name), rec, path.parent))
     if not records:
         line = "ship: no hidden-test run recorded for this branch"
         print(line)
         run.write(line)
         return None
-    run_id, rec = max(records, key=lambda item: item[0])
+    run_id, rec, run_dir = max(records, key=lambda item: item[0])
     accept = rec.get("accept") or {}
+    if (run.rebased_from and rec.get("head") == run.rebased_from and rec.get("head") != head
+            and accept.get("exit") == 0 and not rec.get("uncommitted")):
+        # ship's own rebase moved the branch past a passing run: run the hidden tests again on the rebased commit.
+        line = f"ship: rebased past run {run_id}; running the hidden tests again at {head[:12]}"
+        print(line)
+        run.write(line)
+        command = (os.environ.get("SHIP_ACCEPT_RERUN") or ACCEPT_RERUN).format(
+            change=shlex.quote(str(rec.get("change", ""))), run_dir=shlex.quote(str(run_dir)))
+        run.step("hidden tests again", command, shell=True)
+        try:
+            rec = json.loads((run_dir / "summary.json").read_text(encoding="utf-8"))
+        except (OSError, ValueError):
+            return f"the hidden-test rerun left no readable record in {run_dir}; run `lockstep accept check` in this worktree"
+        accept = rec.get("accept") or {}
     again = f"run `lockstep accept check {rec.get('change', '<change>')}` in this worktree to record a new run"
     if accept.get("exit") != 0:
         return f"hidden acceptance tests did not pass in run {run_id} ({accept or 'no hidden test ran'}); fix the code, then {again}"
@@ -977,6 +1074,40 @@ def choose_method(run: Run, requested: str | None) -> str | None:
     return chosen
 
 
+def regenerate(run: Run, repo: Path, note: Callable[[str], None]) -> str | None:
+    """After a rebase that took the default branch's generated pages, rebuild them and commit any change.
+
+    Implements: ship/regenerate-a-status-page-conflict-and-rerun-hidden-tests-after-ship-s-own-rebase
+
+    Requirement text (generated):
+        ship/regenerate-a-status-page-conflict-and-rerun-hidden-tests-after-ship-s-own-rebase: When
+            the rebase in "Rebase a branch that is behind the default branch before checking it"
+            stops and every conflicted path is `docs/status.md`, `ship` SHALL take the default
+            branch's copy, continue the rebase (a commit left empty is dropped), run the regenerate
+            command (`SHIP_REGENERATE`, default `uv run lockstep check project`) and commit the page
+            when it changed; when any other path conflicts it SHALL abort as that requirement says.
+            When `ship` itself rebased the branch and the newest hidden-test record passed at the
+            head before that rebase, `ship` SHALL run the hidden tests again (`SHIP_ACCEPT_RERUN`,
+            default `uv run lockstep accept check <change> --run-dir <run folder>`) and judge the
+            rewritten record; a record out of date for any other reason SHALL still be refused.
+    """
+    command = os.environ.get("SHIP_REGENERATE") or REGENERATE
+    pages = ", ".join(GENERATED)
+    if run.step("regenerate the generated pages", command, shell=True).returncode != 0:
+        return f"the rebase took the default branch's {pages}, but `{command}` failed; run it, commit, then ship again"
+    if not subprocess.run(["git", "-C", str(repo), "status", "--porcelain", "--", *GENERATED],
+                          capture_output=True, text=True).stdout.strip():
+        note(f"regenerated {pages}: unchanged")
+        return None
+    run.step("stage the generated pages", ["git", "-C", str(repo), "add", "--", *GENERATED])
+    done = run.step("commit the generated pages", ["git", "-C", str(repo), "commit", "-q", "--no-verify", "-m",
+                                                   f"Regenerate {pages} after rebasing (ship)"])
+    if done.returncode != 0:
+        return f"regenerated {pages} but could not commit it; commit it, then ship again"
+    note(f"regenerated {pages} and committed it")
+    return None
+
+
 def catch_up(run: Run, repo: Path, branch: str) -> str | None:
     """Rebase an unpushed branch onto the default branch when it is behind; return why it cannot, or None.
 
@@ -1004,12 +1135,28 @@ def catch_up(run: Run, repo: Path, branch: str) -> str | None:
     if pushed.returncode == 0:
         note(f"not rebased onto {default}: {branch} is already on the remote and rebasing it would need a force-push")
         return None
+    before = git(repo, "rev-parse", "HEAD")
     rebased = run.step(f"rebase onto {default}", ["git", "-C", str(repo), "rebase", "-q", default])
+    settled = False
+    conflicts: list[str] = []
+    for _ in range(100):  # one stop per replayed commit at most
+        if rebased.returncode == 0:
+            break
+        conflicts = subprocess.run(["git", "-C", str(repo), "diff", "--name-only", "--diff-filter=U"],
+                                   capture_output=True, text=True).stdout.split()
+        if not conflicts or any(path not in GENERATED for path in conflicts):
+            break
+        # Take the default branch's copy; the page is regenerated once the rebase is done.
+        run.step(f"take {default}'s {', '.join(conflicts)}",
+                 ["git", "-C", str(repo), "checkout", "--ours", "--", *conflicts])
+        run.step("stage it", ["git", "-C", str(repo), "add", "--", *conflicts])
+        rebased = run.step("continue the rebase",
+                           ["git", "-C", str(repo), "-c", "core.editor=true", "rebase", "--continue"])
+        settled = True
     if rebased.returncode == 0:
+        run.rebased_from = before
         note(f"rebased onto {default} ({git(repo, 'rev-parse', '--short', default)})")
-        return None
-    conflicts = subprocess.run(["git", "-C", str(repo), "diff", "--name-only", "--diff-filter=U"],
-                               capture_output=True, text=True).stdout.split()
+        return regenerate(run, repo, note) if settled else None
     run.step("abort the rebase", ["git", "-C", str(repo), "rebase", "--abort"])
     return (f"{branch} conflicts with {default} in: {', '.join(conflicts) or 'paths git did not name'}; the branch is "
             f"unchanged. Rebase it onto {default} and resolve these (a log file may take `merge=union` in "

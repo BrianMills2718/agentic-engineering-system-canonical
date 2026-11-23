@@ -236,7 +236,8 @@ def markdown(result: Report) -> str:
             SHALL write `docs/status.md` in a repository with a `docs/` folder and recognized
             OpenSpec requirements, listing every requirement and scenario with the state `lockstep
             status` gives when no test run is recorded, and `--check` SHALL fail when the page is
-            stale.
+            stale, except that when git ignores `docs/status.md` the page is build output and
+            `--check` SHALL not report it.
 
 
     Args:

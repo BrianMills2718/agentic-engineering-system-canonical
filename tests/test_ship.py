@@ -1756,3 +1756,106 @@ def test_log_folders_leave_no_code2_folder_on_another_machine(tmp_path, monkeypa
     (tmp_path / "code2").mkdir()
     assert ship.default_log_dir("ship") == tmp_path / "code2" / ".ship-logs"
     assert lockstep.lane_sweep.default_log_dir("lane-sweep") == tmp_path / "code2" / ".lane-sweep-logs"
+
+
+# ---- generated status page conflicts and hidden tests after ship's own rebase (2026-11-22) -------------------------
+
+FAKE_REGENERATE = "printf 'regenerated\\n' > docs/status.md"
+
+
+def status_conflict(work: Path, *, also: str | None = None) -> None:
+    """Branch and main each rewrite docs/status.md (and, with also, the same line of another file)."""
+    git(work, "checkout", "-q", "main")
+    (work / "docs").mkdir(exist_ok=True)
+    (work / "docs" / "status.md").write_text("base\n")
+    git(work, "add", "-A")
+    git(work, "commit", "-q", "-m", "status")
+    git(work, "push", "-q", "origin", "main")
+    git(work, "checkout", "-q", "-B", "feature")
+    (work / "docs" / "status.md").write_text("mine\n")
+    (work / "mine.txt").write_text("mine\n")
+    if also:
+        (work / also).write_text("mine\n")
+    git(work, "add", "-A")
+    git(work, "commit", "-q", "-m", "my plan")
+    git(work, "checkout", "-q", "main")
+    (work / "docs" / "status.md").write_text("theirs\n")
+    if also:
+        (work / also).write_text("theirs\n")
+    git(work, "add", "-A")
+    git(work, "commit", "-q", "-m", "their plan")
+    git(work, "push", "-q", "origin", "main")
+    git(work, "checkout", "-q", "feature")
+
+
+@pytest.mark.req("ship/a-conflict-only-in-the-status-page-is-regenerated")
+def test_a_conflict_only_in_the_status_page_is_regenerated(repo, monkeypatch, capsys):
+    work, remote, _ = repo
+    monkeypatch.setenv("SHIP_REGENERATE", FAKE_REGENERATE)
+    status_conflict(work)
+    assert ship.main(["--repo", str(work), "--check", "true"]) == 0
+    assert (work / "docs" / "status.md").read_text() == "regenerated\n"
+    assert (work / "mine.txt").exists() and git(work, "status", "--porcelain") == ""
+    assert git(work, "merge-base", "--is-ancestor", "origin/main", "HEAD") == ""
+    assert "regenerated docs/status.md" in capsys.readouterr().out
+    assert on_remote(remote, "feature")
+
+
+@pytest.mark.req("ship/a-conflict-only-in-the-status-page-is-regenerated")
+def test_a_status_page_conflict_with_another_conflict_still_stops(repo, monkeypatch, capsys):
+    work, remote, _ = repo
+    monkeypatch.setenv("SHIP_REGENERATE", FAKE_REGENERATE)
+    status_conflict(work, also="other.txt")
+    before = git(work, "rev-parse", "HEAD")
+    assert ship.main(["--repo", str(work), "--check", "true"]) == 1
+    assert "other.txt" in capsys.readouterr().out
+    assert git(work, "rev-parse", "HEAD") == before and git(work, "status", "--porcelain") == ""
+    assert not (work / ".git" / "rebase-merge").exists() and not on_remote(remote, "feature")
+
+
+def fake_rerun(tmp_path: Path, monkeypatch, exit_status: int) -> Path:
+    """A rerun command that rewrites the run record at the current HEAD with the given hidden-test exit."""
+    script = tmp_path / "fake_rerun.py"
+    script.write_text(
+        "import json, subprocess, sys\n"
+        "run_dir = sys.argv[sys.argv.index('--run-dir') + 1]\n"
+        "p = run_dir + '/summary.json'; rec = json.load(open(p))\n"
+        "rec['head'] = subprocess.run(['git', 'rev-parse', 'HEAD'], capture_output=True, text=True).stdout.strip()\n"
+        f"rec['accept'] = {{'exit': {exit_status}, 'passed': 2, 'failed': {exit_status}, 'errors': 0}}\n"
+        "json.dump(rec, open(p, 'w')); open(run_dir + '/rerun.log', 'w').write(' '.join(sys.argv[1:]))\n")
+    monkeypatch.setenv("SHIP_ACCEPT_RERUN", f"{sys.executable} {script} {{change}} --run-dir {{run_dir}}")
+    return tmp_path / "xdg" / "lockstep-runs" / "work" / "20261120T000000Z-0001" / "rerun.log"
+
+
+@pytest.mark.req("ship/hidden-tests-run-again-after-ship-s-own-rebase")
+@pytest.mark.parametrize("exit_status, merged", [(0, 0), (1, 1)], ids=["pass", "fail"])
+def test_hidden_tests_run_again_after_ships_own_rebase(repo, tmp_path, monkeypatch, capsys, exit_status, merged):
+    work, remote, _ = repo
+    run_record(tmp_path, monkeypatch, work)  # passing, at the branch head before the rebase
+    advance_main(work, "other.txt", "other\n")
+    rerun_log = fake_rerun(tmp_path, monkeypatch, exit_status)
+    assert ship.main(["--repo", str(work), "--check", "true"]) == merged
+    assert rerun_log.read_text().startswith("add-x --run-dir ")
+    assert on_remote(remote, "feature") == (merged == 0)
+    assert "running the hidden tests again" in capsys.readouterr().out
+
+
+@pytest.mark.req("ship/hidden-tests-run-again-after-ship-s-own-rebase")
+def test_a_record_out_of_date_without_a_ship_rebase_is_still_refused(repo, tmp_path, monkeypatch):
+    work, remote, _ = repo
+    run_record(tmp_path, monkeypatch, work, head="0" * 40)
+    rerun_log = fake_rerun(tmp_path, monkeypatch, 0)
+    refused_before_the_check(work, remote, tmp_path)
+    assert not rerun_log.exists()
+
+
+@pytest.mark.req("ship/a-conflict-only-in-the-status-page-is-regenerated")
+def test_a_commit_that_only_changed_the_status_page_is_dropped_and_regenerated(repo, monkeypatch):
+    work, remote, _ = repo
+    monkeypatch.setenv("SHIP_REGENERATE", FAKE_REGENERATE)
+    status_conflict(work)
+    (work / "docs" / "status.md").write_text("mine again\n")
+    git(work, "commit", "-q", "-am", "status only")
+    assert ship.main(["--repo", str(work), "--check", "true"]) == 0
+    assert (work / "docs" / "status.md").read_text() == "regenerated\n" and (work / "mine.txt").exists()
+    assert on_remote(remote, "feature")
