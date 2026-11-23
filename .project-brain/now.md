@@ -63,6 +63,12 @@ plan copies that no check catches (Q53). The 16 left: 6 template requirements th
 duplicate spec (Q51), 6 whose spec lives in code2-workspace (Q52). 14 Lockstep files from the retired `.aes`
 route have no requirement (Q54, retiring any needs Brian).
 
+**Template layout, slice 2 of back-on-design, 2026-11-23** ([plan](../docs/planning/template-layout-2026-11-23.md)):
+step 0 is merged: the trace check reads `Implements:` comment lines in `[tool.lockstep] comment_sources`
+(AES: `copier.yml`, `template`), so the 6 template requirements trace and `trace-accepted.txt` is at 10 (Q50
+resolved). Next: run-plan counts layout rows as planned, `links.json` shows planned files, then the template ships
+`lockstep.yaml` and a fresh-copy proof.
+
 **Next:** slice 2, the template ships the layout and `lockstep layout` creates planned files before code.
 
 # AES assessment (2026-11-19)

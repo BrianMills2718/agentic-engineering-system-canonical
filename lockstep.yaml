@@ -104,10 +104,11 @@ layout:
   tests:
   - tests/lockstep/checks/test_lockstep_check_instructions.py
 - path: src/lockstep/checks/markers.py
-  purpose: Find `Implements:` docstring lines in source and `req` markers in tests, using the Python AST
+  purpose: Find `Implements:` docstring lines in source (and comment lines in configured non-Python files) and `req` markers in tests
   implements:
   - lockstep-checks/trace-source-folders-are-configurable
   - lockstep-checks/trace-test-folders-are-configurable
+  - lockstep-checks/trace-comment-lines-in-configured-files-implement-requirements
   tests:
   - tests/lockstep/checks/test_lockstep_check_trace.py
 - path: src/lockstep/checks/plugin.py

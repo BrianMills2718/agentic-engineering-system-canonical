@@ -15,7 +15,8 @@ Requirement text (generated):
         committed contracts file matches the diagram, SHALL run the contracts against the code with
         import-linter and exit 1 when any contract is broken, printing the broken contract and the
         importing module. When import-linter is not installed it SHALL print that and exit 1; it
-        SHALL NOT pass.
+        SHALL NOT pass. When the diagram maps no Python packages there is nothing to check, and it
+        SHALL pass without running import-linter.
     lockstep-checks/arch-a-diagram-check-that-cannot-run-fails-as-a-tool-failure: `lockstep check
         arch` SHALL report that LikeC4 could not be run, and SHALL NOT report the diagram invalid,
         when `npx` is absent or cannot be started, when `npx likec4 validate` exits non-zero without
@@ -226,7 +227,8 @@ def lint_imports(root: Path) -> tuple[int, str]:
             committed contracts file matches the diagram, SHALL run the contracts against the code
             with import-linter and exit 1 when any contract is broken, printing the broken contract
             and the importing module. When import-linter is not installed it SHALL print that and
-            exit 1; it SHALL NOT pass.
+            exit 1; it SHALL NOT pass. When the diagram maps no Python packages there is nothing to
+            check, and it SHALL pass without running import-linter.
 
     Args:
         root: Repository root holding `.importlinter` and the source folders.

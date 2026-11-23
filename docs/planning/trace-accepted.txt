@@ -1,11 +1,5 @@
 unimplemented aes-documentation-projection/aes-checks-declared-fact-freshness-without-broad-regeneration
 unimplemented aes-documentation-projection/aes-projects-its-source-owned-component-assessment
-unimplemented portable-template/a-copy-hands-an-editing-agent-the-requirement-text
-unimplemented portable-template/a-copy-runs-its-commit-checks-after-a-move-and-in-every-worktree
-unimplemented portable-template/a-repository-made-with-the-defaults-works-for-anyone
-unimplemented portable-template/a-workspace-repository-keeps-the-shared-hooks
-unimplemented portable-template/make-a-repository-from-this-repository
-unimplemented portable-template/the-commit-check-stages-rewritten-files-that-git-tracks
 unknown compliance-list/a-current-title-is-left-alone
 unknown compliance-list/a-failed-retitle-fails-the-call
 unknown compliance-list/a-reopened-concern-takes-the-current-title

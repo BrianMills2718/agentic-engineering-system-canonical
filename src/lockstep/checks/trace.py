@@ -23,9 +23,11 @@ Requirement text (generated):
         the text of that requirement or of one of its scenarios, in `openspec/specs/` or in an
         active change's spec delta. It SHALL report `unknown` when no spec or active change defines
         the ID, and `unclosed-quote` when a start marker has no end marker after it in the same
-        file. Each finding SHALL name the file and line of the start marker. In a folder that is not
-        a git repository it SHALL read every Markdown file outside `openspec/` and folders whose
-        name starts with a dot.
+        file. Each finding SHALL name the file and line of the start marker. A marker inside a code
+        span or a fenced code block is shown as code, not used as a marker, and SHALL be skipped; a
+        passage SHALL be compared with its code words kept. In a folder that is not a git repository
+        it SHALL read every Markdown file outside `openspec/` and folders whose name starts with a
+        dot.
 """
 
 from dataclasses import dataclass

@@ -127,3 +127,27 @@ def test_implementer_outside_src_is_found(repo):
     write(repo, "scripts/tool.py", IMPL)
     write(repo, "tests/test_x.py", TEST)
     assert check(repo) == []
+
+
+@pytest.mark.req("lockstep-checks/trace-a-jinja-comment-in-a-configured-folder-implements-a-requirement")
+def test_a_jinja_comment_in_a_configured_folder_implements_a_requirement(repo):
+    write(repo, "pyproject.toml", '[tool.lockstep]\ncomment_sources = ["template"]\n')
+    write(repo, "template/Makefile.jinja", "{# Implements: core/do-the-thing #}\nfast:\n\ttrue\n")
+    write(repo, "tests/test_x.py", TEST)
+    assert check(repo) == []
+
+
+@pytest.mark.req("lockstep-checks/trace-an-unconfigured-file-is-not-read")
+def test_an_unconfigured_file_is_not_read(repo):
+    write(repo, "copier.yml", "# Implements: core/do-the-thing\n_subdirectory: template\n")
+    write(repo, "tests/test_x.py", TEST)
+    assert [f.id for f in check(repo)] == ["core/do-the-thing"]
+
+
+@pytest.mark.req("lockstep-checks/trace-a-docstring-line-in-a-configured-folder-is-not-read")
+def test_a_docstring_line_in_a_configured_folder_is_not_read(repo):
+    write(repo, "pyproject.toml", '[tool.lockstep]\ncomment_sources = ["template"]\n')
+    write(repo, "src/pkg/core.py", IMPL)
+    write(repo, "template/core.py.jinja", '"""Starter.\n\nImplements: other/unknown\n"""\n')
+    write(repo, "tests/test_x.py", TEST)
+    assert check(repo) == []

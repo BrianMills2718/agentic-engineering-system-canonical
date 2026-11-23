@@ -907,9 +907,9 @@
    "resolves_with": "Try a `[tool.lockstep] comment_sources` setting on this repository and see whether the 6 findings clear.",
    "recommendation": "Yes, for configured paths only; the tests already exist (`tests/test_template_portable.py`).",
    "default": "The 6 stay on `docs/planning/trace-accepted.txt`.",
-   "evidence": "`lockstep check trace` lists portable-template/* as unimplemented; the code is in `copier.yml` and `template/`.",
+   "evidence": "`lockstep check trace` lists portable-template/* as unimplemented; the code is in `copier.yml` and `template/`. Resolved 2026-11-23 by the recommendation: `[tool.lockstep] comment_sources` (OpenSpec change 2026-11-23-trace-reads-comment-sources, archived); the 6 findings left trace-accepted.txt.",
    "owner": "agent",
-   "status": "open",
+   "status": "resolved",
    "touches": [
     "lockstep-today"
    ],
