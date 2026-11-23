@@ -80,7 +80,7 @@ def test_file_outside_tasks_listed(repo: Path) -> None:
     assert rep["unticked"] == []
 
 
-@pytest.mark.req("plan-run/a-name-added-to-tasksmd-after-ref-does-not-count")
+@pytest.mark.req("plan-run/a-name-added-to-tasks-md-after-ref-does-not-count")
 def test_name_added_after_ref_still_listed(repo: Path) -> None:
     base = git(repo, "rev-parse", "HEAD")
     (repo / "src" / "other.py").write_text("x = 1\n")

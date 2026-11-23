@@ -10,47 +10,47 @@ which tests cover each scenario at this commit. For pass or fail, run `make chec
 | --- | --- | --- |
 | `aes-documentation-projection/aes-projects-its-source-owned-component-assessment` | unimplemented | - |
 | `aes-documentation-projection/aes-checks-declared-fact-freshness-without-broad-regeneration` | unimplemented | - |
-| `client-manifest/every-setting-has-an-owner` | unimplemented | - |
-| `client-manifest/owned-settings-hold-no-value` | unimplemented | - |
-| `client-manifest/no-secret-values-are-written` | unimplemented | - |
-| `client-manifest/disk-is-compared-with-the-manifest` | unimplemented | - |
-| `client-manifest/output-is-stable` | unimplemented | - |
-| `concern-repair-verifier/closure-needs-all-five-gates-judged-by-the-verifier` | unimplemented | - |
-| `concern-repair-verifier/a-recurrence-proof-that-cannot-fail-does-not-count` | unimplemented | - |
-| `external-idea-intake/the-watch-list-is-configuration-and-an-invalid-one-is-refused` | unimplemented | - |
-| `external-idea-intake/the-digest-ranks-new-posts-by-score-and-age-only` | unimplemented | - |
-| `external-idea-intake/every-run-is-traced-and-a-repeated-failure-is-reported-as-down` | unimplemented | - |
-| `external-idea-intake/output-stays-outside-the-repository-and-the-register-is-never-written` | unimplemented | - |
-| `external-idea-intake/a-project-profile-makes-the-digest-rank-by-usefulness-to-brian-s-projects` | unimplemented | - |
-| `external-idea-intake/posts-already-assessed-into-raw-sources-are-never-offered-again` | unimplemented | - |
-| `external-idea-intake/the-usefulness-judge-reads-more-only-when-it-asks-to-and-only-what-it-asks-for` | unimplemented | - |
-| `external-idea-intake/a-daily-timer-runs-the-digest-with-the-project-profile` | unimplemented | - |
-| `external-idea-intake/the-profile-may-list-interests-and-the-judge-treats-them-like-projects` | unimplemented | - |
-| `failed-unit-watch/settings-come-from-config` | unimplemented | - |
-| `failed-unit-watch/issue-body-carries-one-line-not-the-log` | unimplemented | - |
-| `failed-unit-watch/ssh-host-alias-remotes-find-their-repository` | unimplemented | - |
-| `feedback-loop-notices/the-loop-runs-without-project-meta` | unimplemented | - |
-| `feedback-loop-notices/a-message-counts-as-sent-only-on-telegram-acceptance` | unimplemented | - |
-| `feedback-loop-notices/loop-failures-are-concerns` | unimplemented | - |
-| `feedback-loop-notices/a-caller-can-turn-off-the-link-preview` | unimplemented | - |
-| `graph-checkout-refresh/never-discards-local-work` | unimplemented | - |
-| `graph-checkout-refresh/graph-sweep-covers-registered-checkouts` | unimplemented | - |
-| `graph-checkout-refresh/stuck-checkouts-raise-a-concern` | unimplemented | - |
-| `graph-checkout-refresh/settings-come-from-config` | unimplemented | - |
-| `hub-page/needs-you-comes-first` | unimplemented | - |
-| `hub-page/an-unread-source-is-not-checked` | unimplemented | - |
-| `hub-page/what-changed-since-the-last-run` | unimplemented | - |
-| `hub-page/links-to-each-source-page` | unimplemented | - |
-| `hub-page/page-goes-to-a-private-data-branch` | unimplemented | - |
-| `hub-page/broken-services-grouped-by-cause` | unimplemented | - |
-| `hub-page/records-updates-are-for-information` | unimplemented | - |
-| `hub-page/approvals-are-a-footer-count` | unimplemented | - |
-| `hub-page/moved-issues-are-matched-by-concern-key` | unimplemented | - |
-| `hub-page/agent-work-is-not-needs-you` | unimplemented | - |
-| `inert-characterization/git-inspection-is-inert` | untested | `agentic_engineering_system.characterize` (`src/agentic_engineering_system/characterize.py:1`) |
-| `instruction-audit/instruction-quality-findings-are-advisory` | unimplemented | - |
-| `instruction-audit/freshness-comes-from-git-history` | unimplemented | - |
-| `instruction-audit/the-project-graph-comes-from-the-settings` | unimplemented | - |
+| `client-manifest/every-setting-has-an-owner` | not run at this revision | `client_manifest` (`scripts/client_manifest.py:1`), `client_manifest.build` (`scripts/client_manifest.py:106`) |
+| `client-manifest/owned-settings-hold-no-value` | not run at this revision | `client_manifest` (`scripts/client_manifest.py:1`), `client_manifest._entry` (`scripts/client_manifest.py:82`) |
+| `client-manifest/no-secret-values-are-written` | not run at this revision | `client_manifest` (`scripts/client_manifest.py:1`), `client_manifest.safe` (`scripts/client_manifest.py:58`) |
+| `client-manifest/disk-is-compared-with-the-manifest` | not run at this revision | `client_manifest` (`scripts/client_manifest.py:1`), `client_manifest.compare` (`scripts/client_manifest.py:177`) |
+| `client-manifest/output-is-stable` | not run at this revision | `client_manifest` (`scripts/client_manifest.py:1`), `client_manifest.build` (`scripts/client_manifest.py:106`) |
+| `concern-repair-verifier/closure-needs-all-five-gates-judged-by-the-verifier` | not run at this revision | `concern_repair_feedback` (`scripts/concern_repair_feedback.py:1`) |
+| `concern-repair-verifier/a-recurrence-proof-that-cannot-fail-does-not-count` | not run at this revision | `concern_repair_feedback.recurrence_proof` (`scripts/concern_repair_feedback.py:287`) |
+| `external-idea-intake/the-watch-list-is-configuration-and-an-invalid-one-is-refused` | not run at this revision | `learning_loop.external_ideas` (`scripts/learning_loop/external_ideas.py:1`) |
+| `external-idea-intake/the-digest-ranks-new-posts-by-score-and-age-only` | not run at this revision | `learning_loop.external_ideas` (`scripts/learning_loop/external_ideas.py:1`) |
+| `external-idea-intake/every-run-is-traced-and-a-repeated-failure-is-reported-as-down` | not run at this revision | `learning_loop.external_ideas` (`scripts/learning_loop/external_ideas.py:1`) |
+| `external-idea-intake/output-stays-outside-the-repository-and-the-register-is-never-written` | not run at this revision | `learning_loop.external_ideas` (`scripts/learning_loop/external_ideas.py:1`) |
+| `external-idea-intake/a-project-profile-makes-the-digest-rank-by-usefulness-to-brian-s-projects` | not run at this revision | `learning_loop.external_ideas` (`scripts/learning_loop/external_ideas.py:1`) |
+| `external-idea-intake/posts-already-assessed-into-raw-sources-are-never-offered-again` | not run at this revision | `learning_loop.external_ideas` (`scripts/learning_loop/external_ideas.py:1`) |
+| `external-idea-intake/the-usefulness-judge-reads-more-only-when-it-asks-to-and-only-what-it-asks-for` | not run at this revision | `learning_loop.external_judge` (`scripts/learning_loop/external_judge.py:1`) |
+| `external-idea-intake/a-daily-timer-runs-the-digest-with-the-project-profile` | not run at this revision | `learning_loop.external_ideas` (`scripts/learning_loop/external_ideas.py:1`) |
+| `external-idea-intake/the-profile-may-list-interests-and-the-judge-treats-them-like-projects` | not run at this revision | `learning_loop.external_ideas` (`scripts/learning_loop/external_ideas.py:1`), `learning_loop.external_ideas.load_profile` (`scripts/learning_loop/external_ideas.py:113`), `learning_loop.external_judge` (`scripts/learning_loop/external_judge.py:1`) |
+| `failed-unit-watch/settings-come-from-config` | not run at this revision | `failed_unit_watch` (`scripts/failed_unit_watch.py:1`) |
+| `failed-unit-watch/issue-body-carries-one-line-not-the-log` | not run at this revision | `failed_unit_watch` (`scripts/failed_unit_watch.py:1`), `public_text` (`scripts/public_text.py:1`) |
+| `failed-unit-watch/ssh-host-alias-remotes-find-their-repository` | not run at this revision | `failed_unit_watch` (`scripts/failed_unit_watch.py:1`) |
+| `feedback-loop-notices/the-loop-runs-without-project-meta` | not run at this revision | `learning_loop.problems` (`scripts/learning_loop/problems.py:1`) |
+| `feedback-loop-notices/a-message-counts-as-sent-only-on-telegram-acceptance` | not run at this revision | `learning_loop.notify` (`scripts/learning_loop/notify.py:1`) |
+| `feedback-loop-notices/loop-failures-are-concerns` | not run at this revision | `learning_loop.alert` (`scripts/learning_loop/alert.py:1`) |
+| `feedback-loop-notices/a-caller-can-turn-off-the-link-preview` | not run at this revision | `learning_loop.notify.push` (`scripts/learning_loop/notify.py:57`) |
+| `graph-checkout-refresh/never-discards-local-work` | not run at this revision | `refresh_canonical_checkouts` (`scripts/refresh_canonical_checkouts.py:1`) |
+| `graph-checkout-refresh/graph-sweep-covers-registered-checkouts` | not run at this revision | `refresh_canonical_checkouts` (`scripts/refresh_canonical_checkouts.py:1`) |
+| `graph-checkout-refresh/stuck-checkouts-raise-a-concern` | not run at this revision | `refresh_canonical_checkouts` (`scripts/refresh_canonical_checkouts.py:1`) |
+| `graph-checkout-refresh/settings-come-from-config` | not run at this revision | `refresh_canonical_checkouts` (`scripts/refresh_canonical_checkouts.py:1`) |
+| `hub-page/needs-you-comes-first` | not run at this revision | `hub_page` (`scripts/hub_page.py:1`) |
+| `hub-page/an-unread-source-is-not-checked` | not run at this revision | `hub_page` (`scripts/hub_page.py:1`) |
+| `hub-page/what-changed-since-the-last-run` | not run at this revision | `hub_page` (`scripts/hub_page.py:1`) |
+| `hub-page/links-to-each-source-page` | not run at this revision | `hub_page` (`scripts/hub_page.py:1`) |
+| `hub-page/page-goes-to-a-private-data-branch` | not run at this revision | `hub_page` (`scripts/hub_page.py:1`) |
+| `hub-page/broken-services-grouped-by-cause` | not run at this revision | `hub_page` (`scripts/hub_page.py:1`) |
+| `hub-page/records-updates-are-for-information` | not run at this revision | `hub_page` (`scripts/hub_page.py:1`) |
+| `hub-page/approvals-are-a-footer-count` | not run at this revision | `hub_page` (`scripts/hub_page.py:1`) |
+| `hub-page/moved-issues-are-matched-by-concern-key` | not run at this revision | `hub_page` (`scripts/hub_page.py:1`) |
+| `hub-page/agent-work-is-not-needs-you` | not run at this revision | `hub_page` (`scripts/hub_page.py:1`) |
+| `inert-characterization/git-inspection-is-inert` | not run at this revision | `agentic_engineering_system.characterize` (`src/agentic_engineering_system/characterize.py:1`) |
+| `instruction-audit/instruction-quality-findings-are-advisory` | not run at this revision | `audit_instruction_quality` (`scripts/audit_instruction_quality.py:1`) |
+| `instruction-audit/freshness-comes-from-git-history` | not run at this revision | `scan_doc_freshness_ecosystem` (`scripts/scan_doc_freshness_ecosystem.py:1`) |
+| `instruction-audit/the-project-graph-comes-from-the-settings` | not run at this revision | `audit_instruction_quality` (`scripts/audit_instruction_quality.py:1`), `scan_doc_freshness_ecosystem` (`scripts/scan_doc_freshness_ecosystem.py:1`) |
 | `lane-sweep/remove-finished-lanes-and-report-the-rest` | not run at this revision | `lockstep.lane_sweep` (`src/lockstep/lane_sweep.py:1`), `lockstep.lane_sweep.ignored_keep_reason` (`src/lockstep/lane_sweep.py:711`) |
 | `lane-sweep/fast-forward-primary-checkouts-that-are-clean-and-idle` | not run at this revision | `lockstep.lane_sweep` (`src/lockstep/lane_sweep.py:1`) |
 | `lane-sweep/keep-lanes-that-a-systemd-user-unit-runs-from` | not run at this revision | `lockstep.lane_sweep` (`src/lockstep/lane_sweep.py:1`) |
@@ -59,7 +59,7 @@ which tests cover each scenario at this commit. For pass or fail, run `make chec
 | `lane-sweep/settings-come-from-config` | not run at this revision | `lockstep.lane_sweep` (`src/lockstep/lane_sweep.py:1`) |
 | `lane-sweep/archive-then-remove-idle-unmerged-lanes` | not run at this revision | `lockstep.lane_sweep` (`src/lockstep/lane_sweep.py:1`) |
 | `lane-sweep/count-kept-lanes-per-repository` | not run at this revision | `lockstep.lane_sweep` (`src/lockstep/lane_sweep.py:1`) |
-| `learnings-register-frozen/the-collector-reads-the-frozen-copy-and-never-writes-to-a-register` | unimplemented | - |
+| `learnings-register-frozen/the-collector-reads-the-frozen-copy-and-never-writes-to-a-register` | not run at this revision | `learning_loop.collect_feedback.file_item` (`scripts/learning_loop/collect_feedback.py:405`) |
 | `lockstep-checks/trace-every-requirement-has-an-implementer` | not run at this revision | `lockstep.checks.trace` (`src/lockstep/checks/trace.py:1`) |
 | `lockstep-checks/trace-every-scenario-has-a-test` | not run at this revision | `lockstep.checks.trace` (`src/lockstep/checks/trace.py:1`) |
 | `lockstep-checks/trace-unknown-ids-fail` | not run at this revision | `lockstep.checks.trace` (`src/lockstep/checks/trace.py:1`) |
@@ -87,13 +87,13 @@ which tests cover each scenario at this commit. For pass or fail, run `make chec
 | `lockstep-checks/instructions-no-claude-md-with-its-own-content` | not run at this revision | `lockstep.checks.instructions` (`src/lockstep/checks/instructions.py:1`) |
 | `lockstep-checks/instructions-a-nested-file-repeats-nothing-from-its-parents` | not run at this revision | `lockstep.checks.instructions` (`src/lockstep/checks/instructions.py:1`) |
 | `lockstep-checks/instructions-count-line-and-exit-status` | not run at this revision | `lockstep.checks.instructions` (`src/lockstep/checks/instructions.py:1`) |
-| `lockstep-checks/changed-requirements-that-differ-from-the-base-are-listed-with-their-code-and-tests` | not run at this revision | `lockstep.checks.changed` (`src/lockstep/checks/changed.py:1`), `lockstep.checks.changed.check` (`src/lockstep/checks/changed.py:388`), `lockstep.checks.spec.effective_plan` (`src/lockstep/checks/spec.py:103`) |
+| `lockstep-checks/changed-requirements-that-differ-from-the-base-are-listed-with-their-code-and-tests` | not run at this revision | `lockstep.checks.changed` (`src/lockstep/checks/changed.py:1`), `lockstep.checks.changed.check` (`src/lockstep/checks/changed.py:388`), `lockstep.checks.spec.effective_plan` (`src/lockstep/checks/spec.py:109`) |
 | `lockstep-checks/changed-every-listed-requirement-is-named-by-a-plan-in-the-same-change-set` | not run at this revision | `lockstep.checks.changed` (`src/lockstep/checks/changed.py:1`), `lockstep.checks.changed.change_set` (`src/lockstep/checks/changed.py:207`) |
 | `lockstep-checks/changed-a-changed-statement-needs-a-changed-scenario-or-a-wording-only-declaration` | not run at this revision | `lockstep.checks.changed` (`src/lockstep/checks/changed.py:1`), `lockstep.checks.changed.check` (`src/lockstep/checks/changed.py:388`) |
 | `lockstep-checks/changed-count-line-and-exit-status` | not run at this revision | `lockstep.checks.changed` (`src/lockstep/checks/changed.py:1`), `lockstep.checks.cli` (`src/lockstep/checks/cli.py:1`) |
 | `lockstep-checks/test-first-a-changed-scenario-needs-a-test-that-fails-before-the-change` | not run at this revision | `lockstep.checks.test_first` (`src/lockstep/checks/test_first.py:1`) |
 | `lockstep-checks/changed-and-test-first-the-base-is-where-the-branch-started` | not run at this revision | `lockstep.checks.changed.compare_with` (`src/lockstep/checks/changed.py:265`) |
-| `lockstep-checks/trace-a-marked-quote-matches-its-requirement` | not run at this revision | `lockstep.checks.quotes` (`src/lockstep/checks/quotes.py:1`), `lockstep.checks.quotes.check` (`src/lockstep/checks/quotes.py:85`), `lockstep.checks.trace` (`src/lockstep/checks/trace.py:1`) |
+| `lockstep-checks/trace-a-marked-quote-matches-its-requirement` | not run at this revision | `lockstep.checks.quotes` (`src/lockstep/checks/quotes.py:1`), `lockstep.checks.quotes.check` (`src/lockstep/checks/quotes.py:96`), `lockstep.checks.trace` (`src/lockstep/checks/trace.py:1`) |
 | `lockstep-checks/changed-documents-that-quote-a-listed-requirement-are-listed-with-it` | not run at this revision | `lockstep.checks.changed` (`src/lockstep/checks/changed.py:1`) |
 | `lockstep-checks/changed-every-plan-that-names-a-listed-requirement-states-its-size` | not run at this revision | `lockstep.checks.changed` (`src/lockstep/checks/changed.py:1`), `lockstep.checks.changed._size` (`src/lockstep/checks/changed.py:350`) |
 | `lockstep-doc-facts/declared-source-facts-have-one-authority` | not run at this revision | `lockstep.doc_projection` (`src/lockstep/doc_projection.py:1`) |
@@ -101,24 +101,24 @@ which tests cover each scenario at this commit. For pass or fail, run `make chec
 | `lockstep-doc-facts/installed-edit-and-merge-paths-maintain-facts` | not run at this revision | `lockstep.doc_projection` (`src/lockstep/doc_projection.py:1`) |
 | `lockstep-doc-facts/declared-record-arrays-project-as-rows` | not run at this revision | `lockstep.doc_projection` (`src/lockstep/doc_projection.py:1`) |
 | `lockstep-guard/shell-commands-are-judged-by-the-paths-they-write` | not run at this revision | `lockstep.shell_targets` (`src/lockstep/shell_targets.py:1`) |
-| `lockstep-guard/a-refusal-lists-the-files-the-plan-allows` | unimplemented | - |
-| `lockstep-guard/handing-over-text-never-approves-an-edit` | unimplemented | - |
-| `lockstep-guard/agents-get-requirement-text-from-the-shell-too` | not run at this revision | `lockstep.hook` (`src/lockstep/hook.py:1`), `lockstep.hook._shell_spec_text` (`src/lockstep/hook.py:291`) |
+| `lockstep-guard/a-refusal-lists-the-files-the-plan-allows` | not run at this revision | `lockstep.hook` (`src/lockstep/hook.py:1`), `lockstep.unplanned_files` (`src/lockstep/unplanned_files.py:1`) |
+| `lockstep-guard/handing-over-text-never-approves-an-edit` | not run at this revision | `lockstep.hook` (`src/lockstep/hook.py:1`) |
+| `lockstep-guard/agents-get-requirement-text-from-the-shell-too` | not run at this revision | `lockstep.hook` (`src/lockstep/hook.py:1`), `lockstep.hook._shell_spec_text` (`src/lockstep/hook.py:352`), `lockstep.openspec_text` (`src/lockstep/openspec_text.py:1`) |
 | `lockstep-guard/agents-get-the-decisions-that-govern-a-file` | not run at this revision | `lockstep.decisions.packet` (`src/lockstep/decisions.py:116`) |
 | `lockstep-init/init-installs-lockstep-in-a-repository-without-overwriting` | not run at this revision | `lockstep.init_repo` (`src/lockstep/init_repo.py:1`) |
 | `lockstep-init/installed-files-name-no-machine-and-read-their-settings-from-lockstep-yaml` | not run at this revision | `lockstep.init_repo` (`src/lockstep/init_repo.py:1`) |
-| `lockstep-init/the-edit-guard-logs-outside-the-checkout` | unimplemented | - |
-| `lockstep-package/lockstep-installs-from-aes-canonical` | unimplemented | - |
-| `lockstep-package/the-old-pcw-names-keep-working` | unimplemented | - |
-| `lockstep-plan-check/the-acceptance-criteria-file-is-validated` | unimplemented | - |
-| `lockstep-plan-check/each-plan-requirement-is-sourced-in-brian-s-words-and-covered` | unimplemented | - |
-| `lockstep-plan-check/the-command-is-reached-as-lockstep-plan-check` | unimplemented | - |
+| `lockstep-init/the-edit-guard-logs-outside-the-checkout` | not run at this revision | `lockstep.hook` (`src/lockstep/hook.py:1`) |
+| `lockstep-package/lockstep-installs-from-aes-canonical` | not run at this revision | `lockstep.check` (`src/lockstep/check.py:1`), `lockstep.hook` (`src/lockstep/hook.py:1`) |
+| `lockstep-package/the-old-pcw-names-keep-working` | not run at this revision | `pcw` (`src/pcw/__init__.py:1`) |
+| `lockstep-plan-check/the-acceptance-criteria-file-is-validated` | not run at this revision | `lockstep.plan_check` (`src/lockstep/plan_check.py:1`) |
+| `lockstep-plan-check/each-plan-requirement-is-sourced-in-brian-s-words-and-covered` | not run at this revision | `lockstep.plan_check` (`src/lockstep/plan_check.py:1`) |
+| `lockstep-plan-check/the-command-is-reached-as-lockstep-plan-check` | not run at this revision | `lockstep.plan_check` (`src/lockstep/plan_check.py:1`) |
 | `lockstep-plan-check/work-units-form-a-checked-dag` | not run at this revision | `lockstep.work_units` (`src/lockstep/work_units.py:1`) |
 | `lockstep-plan-check/a-citation-may-name-the-text-it-points-at` | not run at this revision | `lockstep.citation_anchor` (`src/lockstep/citation_anchor.py:1`) |
-| `lockstep-plan-format/the-plan-is-openspec-plus-layout-rows` | not run at this revision | `lockstep.layout_plan` (`src/lockstep/layout_plan.py:1`) |
-| `lockstep-plan-format/a-planned-file-without-a-cog-plan-copy-is-judged-by-its-implements-block` | unimplemented | - |
-| `lockstep-plan-format/every-refusal-in-a-layout-repository-names-a-layout-command` | unimplemented | - |
-| `lockstep-plan-format/lockstep-governs-its-own-package` | unimplemented | - |
+| `lockstep-plan-format/the-plan-is-openspec-plus-layout-rows` | not run at this revision | `lockstep.aes_bridge` (`src/lockstep/aes_bridge.py:1`), `lockstep.check` (`src/lockstep/check.py:1`), `lockstep.cogtext` (`src/lockstep/cogtext.py:1`), `lockstep.layout_plan` (`src/lockstep/layout_plan.py:1`), `lockstep.openspec_text` (`src/lockstep/openspec_text.py:1`), `lockstep.scaffold` (`src/lockstep/scaffold.py:1`), `lockstep.signature_text` (`src/lockstep/signature_text.py:1`), `lockstep.unplanned_files` (`src/lockstep/unplanned_files.py:1`) |
+| `lockstep-plan-format/a-planned-file-without-a-cog-plan-copy-is-judged-by-its-implements-block` | not run at this revision | `lockstep.check` (`src/lockstep/check.py:1`), `lockstep.stale_edit` (`src/lockstep/stale_edit.py:1`) |
+| `lockstep-plan-format/every-refusal-in-a-layout-repository-names-a-layout-command` | not run at this revision | `lockstep.check` (`src/lockstep/check.py:1`), `lockstep.symbol_gate` (`src/lockstep/symbol_gate.py:1`) |
+| `lockstep-plan-format/lockstep-governs-its-own-package` | not run at this revision | `lockstep` (`src/lockstep/__init__.py:1`) |
 | `lockstep-projection/requirement-text-is-written-into-the-implementing-docstring` | not run at this revision | `lockstep.checks.project` (`src/lockstep/checks/project.py:1`) |
 | `lockstep-projection/status-flows-back-into-the-plan` | not run at this revision | `lockstep.checks.project` (`src/lockstep/checks/project.py:1`) |
 | `lockstep-projection/the-docs-site-shows-coverage-at-its-commit` | not run at this revision | `lockstep.checks.status.markdown` (`src/lockstep/checks/status.py:250`) |
@@ -128,19 +128,19 @@ which tests cover each scenario at this commit. For pass or fail, run `make chec
 | `lockstep-projection/show-prints-what-a-file-must-keep-true` | not run at this revision | `lockstep.checks.show` (`src/lockstep/checks/show.py:1`) |
 | `lockstep-projection/the-pytest-plugin-ships-as-a-pytest11-entry-point` | not run at this revision | `lockstep.checks.plugin` (`src/lockstep/checks/plugin.py:1`) |
 | `lockstep-projection/project-status-and-show-are-lockstep-commands` | not run at this revision | `lockstep.checks.cli._project` (`src/lockstep/checks/cli.py:192`), `lockstep.checks.cli.run_status` (`src/lockstep/checks/cli.py:216`), `lockstep.checks.cli.run_show` (`src/lockstep/checks/cli.py:262`) |
-| `machine-manifest/every-unit-has-a-source` | unimplemented | - |
-| `machine-manifest/local-only-units-are-reported` | unimplemented | - |
-| `machine-manifest/missing-or-untracked-target-is-reported` | unimplemented | - |
-| `machine-manifest/output-is-stable` | unimplemented | - |
-| `machine-manifest/no-environment-values-are-written` | unimplemented | - |
-| `machine-manifest/repository-copies-can-be-compared` | unimplemented | - |
-| `machine-manifest/install-never-deletes-or-writes-through-links` | unimplemented | - |
-| `machine-manifest/every-script-outside-git-has-a-record` | unimplemented | - |
-| `machine-manifest/script-copies-can-be-compared-and-installed` | unimplemented | - |
-| `operator-notify/notices-route-by-who-must-act` | unimplemented | - |
-| `operator-notify/the-concern-repository-comes-from-the-settings` | unimplemented | - |
-| `operator-notify/an-open-legacy-concern-is-not-duplicated` | unimplemented | - |
-| `plan-run/a-departure-report-compares-the-change-with-its-plan` | untested | `lockstep.plan_run` (`src/lockstep/plan_run.py:1`) |
+| `machine-manifest/every-unit-has-a-source` | not run at this revision | `machine_manifest` (`scripts/machine_manifest.py:1`) |
+| `machine-manifest/local-only-units-are-reported` | not run at this revision | `machine_manifest` (`scripts/machine_manifest.py:1`), `machine_manifest.findings` (`scripts/machine_manifest.py:314`) |
+| `machine-manifest/missing-or-untracked-target-is-reported` | not run at this revision | `machine_manifest` (`scripts/machine_manifest.py:1`), `machine_manifest.findings` (`scripts/machine_manifest.py:314`) |
+| `machine-manifest/output-is-stable` | not run at this revision | `machine_manifest` (`scripts/machine_manifest.py:1`), `machine_manifest.build` (`scripts/machine_manifest.py:274`) |
+| `machine-manifest/no-environment-values-are-written` | not run at this revision | `machine_manifest` (`scripts/machine_manifest.py:1`) |
+| `machine-manifest/repository-copies-can-be-compared` | not run at this revision | `machine_manifest` (`scripts/machine_manifest.py:1`), `machine_manifest.compare_units` (`scripts/machine_manifest.py:427`) |
+| `machine-manifest/install-never-deletes-or-writes-through-links` | not run at this revision | `machine_manifest` (`scripts/machine_manifest.py:1`), `machine_manifest.install_units` (`scripts/machine_manifest.py:459`) |
+| `machine-manifest/every-script-outside-git-has-a-record` | not run at this revision | `machine_manifest` (`scripts/machine_manifest.py:1`), `machine_manifest.unrecorded_scripts` (`scripts/machine_manifest.py:362`) |
+| `machine-manifest/script-copies-can-be-compared-and-installed` | not run at this revision | `machine_manifest` (`scripts/machine_manifest.py:1`), `machine_manifest.compare_scripts` (`scripts/machine_manifest.py:509`), `machine_manifest.install_scripts` (`scripts/machine_manifest.py:568`) |
+| `operator-notify/notices-route-by-who-must-act` | not run at this revision | `operator_notify_router` (`scripts/operator_notify_router.py:1`), `operator_notify_router.notify` (`scripts/operator_notify_router.py:778`) |
+| `operator-notify/the-concern-repository-comes-from-the-settings` | not run at this revision | `operator_notify_router.concern_repo` (`scripts/operator_notify_router.py:146`) |
+| `operator-notify/an-open-legacy-concern-is-not-duplicated` | not run at this revision | `operator_notify_router.repo_holding_open_concern` (`scripts/operator_notify_router.py:168`) |
+| `plan-run/a-departure-report-compares-the-change-with-its-plan` | not run at this revision | `lockstep.plan_run` (`src/lockstep/plan_run.py:1`) |
 | `plan-run/hidden-acceptance-tests-are-written-before-and-run-after-implementation` | not run at this revision | `lockstep.plan_run` (`src/lockstep/plan_run.py:1`) |
 | `plan-run/one-driver-runs-a-plan-with-claude-or-codex` | not run at this revision | `lockstep.plan_run` (`src/lockstep/plan_run.py:1`), `lockstep.plan_run.ship_command` (`src/lockstep/plan_run.py:326`) |
 | `portable-template/a-repository-made-with-the-defaults-works-for-anyone` | unimplemented | - |
@@ -152,26 +152,26 @@ which tests cover each scenario at this commit. For pass or fail, run `make chec
 | `prior-art-check/a-change-that-adds-a-requirement-carries-a-prior-art-record` | not run at this revision | `lockstep.prior_art` (`src/lockstep/prior_art.py:1`) |
 | `prior-art-check/a-candidate-cannot-be-left-undecided-and-the-decision-must-follow-from-the-candidates` | not run at this revision | `lockstep.prior_art` (`src/lockstep/prior_art.py:1`) |
 | `prior-art-check/only-a-change-that-adds-a-requirement-from-the-start-date-needs-a-record` | not run at this revision | `lockstep.prior_art` (`src/lockstep/prior_art.py:1`) |
-| `project-activity-snapshot/last-commit-per-checkout` | unimplemented | - |
-| `project-activity-snapshot/settings-come-from-config` | unimplemented | - |
-| `project-graph-config/the-checks-read-the-graph-and-owner-from-the-person-s-own-files` | unimplemented | - |
-| `project-graph-dependency-scan/graph-from-config` | unimplemented | - |
-| `project-graph-dependency-scan/undeclared-use-is-found` | unimplemented | - |
-| `project-graph-dependency-scan/write-only-adds` | unimplemented | - |
-| `project-graph-refresh/step-log` | unimplemented | - |
-| `project-graph-refresh/graph-lands-in-settings-repo` | unimplemented | - |
-| `project-graph-refresh/page-goes-to-data-branch` | unimplemented | - |
-| `project-graph-refresh/failure-opens-one-concern` | unimplemented | - |
-| `project-graph-refresh/no-push-changes-nothing` | unimplemented | - |
-| `project-graph-refresh/concern-body-carries-first-lines-and-log-path` | unimplemented | - |
-| `project-graph-sync/settings-come-from-config` | unimplemented | - |
-| `project-graph-sync/missing-repositories-get-a-record` | unimplemented | - |
-| `project-graph-taxonomy/graph-path-is-configured` | unimplemented | - |
-| `project-graph-taxonomy/records-are-validated` | unimplemented | - |
-| `project-graph-taxonomy/hard-errors-block` | unimplemented | - |
-| `prune-merged-worktrees/a-worktree-is-removed-only-on-proof-its-branch-landed` | unimplemented | - |
-| `required-evidence-inputs/required-declared-input-coverage` | unimplemented | - |
-| `required-evidence-inputs/literal-repository-path-coverage` | unimplemented | - |
+| `project-activity-snapshot/last-commit-per-checkout` | not run at this revision | `build_project_activity` (`scripts/build_project_activity.py:1`) |
+| `project-activity-snapshot/settings-come-from-config` | not run at this revision | `build_project_activity` (`scripts/build_project_activity.py:1`) |
+| `project-graph-config/the-checks-read-the-graph-and-owner-from-the-person-s-own-files` | not run at this revision | `md_file_cap` (`scripts/md_file_cap.py:1`) |
+| `project-graph-dependency-scan/graph-from-config` | not run at this revision | `check_capability_consumption` (`scripts/check_capability_consumption.py:1`) |
+| `project-graph-dependency-scan/undeclared-use-is-found` | not run at this revision | `check_capability_consumption.detect_project_dependency_gaps` (`scripts/check_capability_consumption.py:526`) |
+| `project-graph-dependency-scan/write-only-adds` | not run at this revision | `check_capability_consumption.write_detected_dependencies` (`scripts/check_capability_consumption.py:689`) |
+| `project-graph-refresh/step-log` | not run at this revision | `project_graph_refresh` (`scripts/project_graph_refresh.py:1`) |
+| `project-graph-refresh/graph-lands-in-settings-repo` | not run at this revision | `project_graph_refresh` (`scripts/project_graph_refresh.py:1`) |
+| `project-graph-refresh/page-goes-to-data-branch` | not run at this revision | `project_graph_refresh` (`scripts/project_graph_refresh.py:1`) |
+| `project-graph-refresh/failure-opens-one-concern` | not run at this revision | `project_graph_refresh` (`scripts/project_graph_refresh.py:1`) |
+| `project-graph-refresh/no-push-changes-nothing` | not run at this revision | `project_graph_refresh` (`scripts/project_graph_refresh.py:1`) |
+| `project-graph-refresh/concern-body-carries-first-lines-and-log-path` | not run at this revision | `project_graph_refresh` (`scripts/project_graph_refresh.py:1`), `public_text` (`scripts/public_text.py:1`) |
+| `project-graph-sync/settings-come-from-config` | not run at this revision | `project_graph_sync` (`scripts/project_graph_sync.py:1`) |
+| `project-graph-sync/missing-repositories-get-a-record` | not run at this revision | `project_graph_sync` (`scripts/project_graph_sync.py:1`) |
+| `project-graph-taxonomy/graph-path-is-configured` | not run at this revision | `check_project_graph_taxonomy` (`scripts/check_project_graph_taxonomy.py:1`) |
+| `project-graph-taxonomy/records-are-validated` | not run at this revision | `check_project_graph_taxonomy` (`scripts/check_project_graph_taxonomy.py:1`) |
+| `project-graph-taxonomy/hard-errors-block` | not run at this revision | `check_project_graph_taxonomy` (`scripts/check_project_graph_taxonomy.py:1`) |
+| `prune-merged-worktrees/a-worktree-is-removed-only-on-proof-its-branch-landed` | not run at this revision | `prune_merged_worktrees` (`scripts/prune_merged_worktrees.py:1`) |
+| `required-evidence-inputs/required-declared-input-coverage` | not run at this revision | `agentic_engineering_system.evidence.assess` (`src/agentic_engineering_system/evidence.py:522`) |
+| `required-evidence-inputs/literal-repository-path-coverage` | not run at this revision | `agentic_engineering_system.evidence._dependency_path` (`src/agentic_engineering_system/evidence.py:455`) |
 | `ship/merge-only-the-commit-whose-check-passed` | not run at this revision | `lockstep.ship` (`src/lockstep/ship.py:1`) |
 | `ship/prepare-a-fresh-worktree-s-environment-before-the-check` | not run at this revision | `lockstep.ship` (`src/lockstep/ship.py:1`) |
 | `ship/skip-a-check-that-already-passed-on-the-same-tree` | not run at this revision | `lockstep.ship` (`src/lockstep/ship.py:1`) |
@@ -185,23 +185,23 @@ which tests cover each scenario at this commit. For pass or fail, run `make chec
 | `ship/a-record-only-change-is-never-refused` | not run at this revision | `lockstep.ship` (`src/lockstep/ship.py:1`) |
 | `ship/merge-with-a-method-the-repository-allows` | not run at this revision | `lockstep.ship` (`src/lockstep/ship.py:1`) |
 | `ship/limit-how-many-checks-run-at-once` | not run at this revision | `lockstep.ship` (`src/lockstep/ship.py:1`) |
-| `ship/validate-the-planning-package-only-when-the-merge-changes-plan-content` | not run at this revision | `lockstep.ship.plan_content_unchanged` (`src/lockstep/ship.py:335`) |
-| `ship/answer-the-plan-content-question-for-the-push-hook` | unimplemented | - |
-| `ship/check-every-one-page-plan-a-merge-adds-or-changes` | not run at this revision | `lockstep.ship` (`src/lockstep/ship.py:1`), `lockstep.ship.one_page_plan_refusal` (`src/lockstep/ship.py:440`) |
+| `ship/validate-the-planning-package-only-when-the-merge-changes-plan-content` | not run at this revision | `lockstep.ship.plan_content_unchanged` (`src/lockstep/ship.py:336`) |
+| `ship/answer-the-plan-content-question-for-the-push-hook` | not run at this revision | `plan_content` (`scripts/plan_content.py:1`) |
+| `ship/check-every-one-page-plan-a-merge-adds-or-changes` | not run at this revision | `lockstep.ship` (`src/lockstep/ship.py:1`), `lockstep.ship.one_page_plan_refusal` (`src/lockstep/ship.py:441`) |
 | `ship/settings-come-from-config` | not run at this revision | `lockstep.ship` (`src/lockstep/ship.py:1`) |
-| `ship/refuse-a-merge-whose-openspec-change-lacks-a-prior-art-record` | not run at this revision | `lockstep.ship` (`src/lockstep/ship.py:1`), `lockstep.ship.prior_art_refusal` (`src/lockstep/ship.py:499`) |
+| `ship/refuse-a-merge-whose-openspec-change-lacks-a-prior-art-record` | not run at this revision | `lockstep.ship` (`src/lockstep/ship.py:1`), `lockstep.ship.prior_art_refusal` (`src/lockstep/ship.py:500`) |
 | `ship/rebase-a-branch-that-is-behind-the-default-branch-before-checking-it` | not run at this revision | `lockstep.ship` (`src/lockstep/ship.py:1`) |
-| `ship/add-on-gates-switch-off-from-the-copier-answers` | not run at this revision | `lockstep.ship` (`src/lockstep/ship.py:1`), `lockstep.ship.addon_on` (`src/lockstep/ship.py:677`) |
-| `ship/refuse-a-branch-whose-hidden-acceptance-run-failed-or-is-out-of-date` | not run at this revision | `lockstep.ship` (`src/lockstep/ship.py:1`), `lockstep.ship.accept_refusal` (`src/lockstep/ship.py:710`) |
-| `ship/install-ship-as-a-command-from-the-public-repository` | unimplemented | - |
-| `ship/regenerate-a-status-page-conflict-and-rerun-hidden-tests-after-ship-s-own-rebase` | not run at this revision | `lockstep.ship` (`src/lockstep/ship.py:1`), `lockstep.ship.regenerate` (`src/lockstep/ship.py:1079`) |
-| `timer-config/each-job-in-the-list-becomes-a-service-and-a-timer-unit` | unimplemented | - |
-| `timer-config/installing-never-deletes` | unimplemented | - |
-| `workspace-map-check/settings-come-from-config` | unimplemented | - |
-| `workspace-map-check/undeclared-dependency-is-a-finding` | unimplemented | - |
-| `workspace-map-check/alert-once-per-state-change` | unimplemented | - |
-| `workspace-map-check/crash-is-not-a-finding` | unimplemented | - |
-| `workspace-map-check/offloaded-archive-entry-is-not-gone` | unimplemented | - |
+| `ship/add-on-gates-switch-off-from-the-copier-answers` | not run at this revision | `lockstep.ship` (`src/lockstep/ship.py:1`), `lockstep.ship.addon_on` (`src/lockstep/ship.py:678`) |
+| `ship/refuse-a-branch-whose-hidden-acceptance-run-failed-or-is-out-of-date` | not run at this revision | `lockstep.ship` (`src/lockstep/ship.py:1`), `lockstep.ship.accept_refusal` (`src/lockstep/ship.py:711`) |
+| `ship/install-ship-as-a-command-from-the-public-repository` | not run at this revision | `lockstep.ship` (`src/lockstep/ship.py:1`) |
+| `ship/regenerate-a-status-page-conflict-and-rerun-hidden-tests-after-ship-s-own-rebase` | not run at this revision | `lockstep.ship` (`src/lockstep/ship.py:1`), `lockstep.ship.regenerate` (`src/lockstep/ship.py:1080`) |
+| `timer-config/each-job-in-the-list-becomes-a-service-and-a-timer-unit` | not run at this revision | `timers` (`scripts/timers.py:1`) |
+| `timer-config/installing-never-deletes` | not run at this revision | `timers` (`scripts/timers.py:1`) |
+| `workspace-map-check/settings-come-from-config` | not run at this revision | `archive_map` (`scripts/archive_map.py:1`), `workspace_map` (`scripts/workspace_map.py:1`) |
+| `workspace-map-check/undeclared-dependency-is-a-finding` | not run at this revision | `workspace_map` (`scripts/workspace_map.py:1`) |
+| `workspace-map-check/alert-once-per-state-change` | not run at this revision | `workspace_map_alert` (`scripts/workspace_map_alert.py:1`) |
+| `workspace-map-check/crash-is-not-a-finding` | not run at this revision | `workspace_map_alert` (`scripts/workspace_map_alert.py:1`) |
+| `workspace-map-check/offloaded-archive-entry-is-not-gone` | not run at this revision | `archive_map.offloaded` (`scripts/archive_map.py:163`) |
 
 | Scenario | Requirement | State | Tests |
 | --- | --- | --- | --- |
@@ -247,12 +247,12 @@ which tests cover each scenario at this commit. For pass or fail, run `make chec
 | `hub-page/broken-services-grouped-by-cause` | `hub-page/broken-services-grouped-by-cause` | not run at this revision | `tests/test_hub_page.py::test_failed_services_are_grouped_by_cause_and_not_counted_under_needs_you`, `tests/test_hub_page.py::test_an_issue_that_belongs_to_a_service_is_listed_once`, `tests/test_hub_page.py::test_issues_moved_to_another_repository_are_sorted_by_their_concern_key` |
 | `hub-page/records-updates-are-for-information` | `hub-page/records-updates-are-for-information` | not run at this revision | `tests/test_hub_page.py::test_records_status_notices_go_to_fyi_by_label_and_title_prefix`, `tests/test_hub_page.py::test_issues_moved_to_another_repository_are_sorted_by_their_concern_key` |
 | `hub-page/approvals-are-a-footer-count` | `hub-page/approvals-are-a-footer-count` | not run at this revision | `tests/test_hub_page.py::test_approvals_are_a_footer_count_with_no_significance_field` |
-| `hub-page/moved-issues-are-matched-by-concern-key` | `hub-page/moved-issues-are-matched-by-concern-key` | untested | - |
+| `hub-page/moved-issues-are-matched-by-concern-key` | `hub-page/moved-issues-are-matched-by-concern-key` | not run at this revision | `tests/test_hub_page.py::test_issues_moved_to_another_repository_are_sorted_by_their_concern_key` |
 | `hub-page/agent-work-is-not-needs-you` | `hub-page/agent-work-is-not-needs-you` | not run at this revision | `tests/test_hub_page.py::test_an_issue_an_agent_owns_goes_to_agent_work_not_needs_you` |
-| `inert-characterization/local-monitor-during-characterization` | `inert-characterization/git-inspection-is-inert` | untested | - |
-| `inert-characterization/local-monitor-during-producer-identity` | `inert-characterization/git-inspection-is-inert` | untested | - |
+| `inert-characterization/local-monitor-during-characterization` | `inert-characterization/git-inspection-is-inert` | not run at this revision | `tests/greenfield/test_characterize.py::test_readonly_inspection_does_not_run_repository_fsmonitor` |
+| `inert-characterization/local-monitor-during-producer-identity` | `inert-characterization/git-inspection-is-inert` | not run at this revision | `tests/greenfield/test_characterize.py::test_readonly_inspection_does_not_run_repository_fsmonitor` |
 | `instruction-audit/quality-findings-are-advisory` | `instruction-audit/instruction-quality-findings-are-advisory` | not run at this revision | `tests/test_audit_instruction_quality.py::test_oversized_flags_only_files_past_the_guidance`, `tests/test_audit_instruction_quality.py::test_agents_only_repo_audits_root_and_nested_instructions`, `tests/test_audit_instruction_quality.py::test_markdown_bullets_are_not_directory_trees`, `tests/test_audit_instruction_quality.py::test_rendered_tree_is_flagged_as_derivable`, `tests/test_audit_instruction_quality.py::test_markdown_table_is_not_a_directory_tree`, `tests/test_audit_instruction_quality.py::test_flow_diagram_is_not_a_directory_tree`, `tests/test_audit_instruction_quality.py::test_misplaced_block_is_attributed_to_the_owning_child`, `tests/test_audit_instruction_quality.py::test_routing_pointer_is_not_misplaced_content`, `tests/test_audit_instruction_quality.py::test_child_repeating_ancestor_lines_is_duplication`, `tests/test_audit_instruction_quality.py::test_archived_trees_are_excluded`, `tests/test_audit_instruction_quality.py::test_non_utf8_file_is_skipped_not_fatal` |
-| `instruction-audit/freshness-comes-from-git-history` | `instruction-audit/freshness-comes-from-git-history` | not run at this revision | `tests/test_scan_doc_freshness_ecosystem.py::test_scanner_uses_the_active_root_instruction_file`, `tests/test_scan_doc_freshness_ecosystem.py::test_docs_without_root_instructions_are_still_missing_instructions` |
+| `instruction-audit/freshness-comes-from-git-history` | `instruction-audit/freshness-comes-from-git-history` | not run at this revision | `tests/test_scan_doc_freshness_ecosystem.py::test_scanner_uses_the_active_root_instruction_file`, `tests/test_scan_doc_freshness_ecosystem.py::test_agents_md_wins_when_both_root_instruction_files_exist`, `tests/test_scan_doc_freshness_ecosystem.py::test_docs_without_root_instructions_are_still_missing_instructions` |
 | `instruction-audit/the-project-graph-comes-from-the-settings` | `instruction-audit/the-project-graph-comes-from-the-settings` | not run at this revision | `tests/test_scan_doc_freshness_ecosystem.py::test_the_project_graph_comes_from_the_settings` |
 | `lane-sweep/a-clean-lane-whose-commits-are-on-main-is-removed` | `lane-sweep/remove-finished-lanes-and-report-the-rest` | not run at this revision | `tests/test_lane_sweep.py::test_a_clean_lane_whose_commits_are_on_main_is_removed` |
 | `lane-sweep/a-squash-merged-lane-is-removed` | `lane-sweep/remove-finished-lanes-and-report-the-rest` | not run at this revision | `tests/test_lane_sweep.py::test_a_squash_merged_lane_is_removed` |
@@ -305,7 +305,7 @@ which tests cover each scenario at this commit. For pass or fail, run `make chec
 | `lane-sweep/the-sweep-counts-kept-lanes-per-repository` | `lane-sweep/count-kept-lanes-per-repository` | not run at this revision | `tests/test_lane_sweep.py::test_the_sweep_counts_kept_lanes_per_repository` |
 | `learnings-register-frozen/register-read-only` | `learnings-register-frozen/the-collector-reads-the-frozen-copy-and-never-writes-to-a-register` | not run at this revision | `tests/test_feedback_loop_notices.py::test_collector_reads_frozen_copy_and_refuses_writes` |
 | `lockstep-checks/trace-requirement-without-implementer-fails` | `lockstep-checks/trace-every-requirement-has-an-implementer` | not run at this revision | `tests/lockstep/checks/test_lockstep_check_trace.py::test_requirement_without_implementer_fails` |
-| `lockstep-checks/trace-implemented-requirement-passes` | `lockstep-checks/trace-every-requirement-has-an-implementer` | not run at this revision | `tests/lockstep/checks/test_lockstep_check_trace.py::test_implemented_requirement_passes`, `tests/lockstep/checks/test_lockstep_check_trace.py::test_implements_line_may_wrap` |
+| `lockstep-checks/trace-implemented-requirement-passes` | `lockstep-checks/trace-every-requirement-has-an-implementer` | not run at this revision | `tests/lockstep/checks/test_lockstep_check_trace.py::test_implemented_requirement_passes`, `tests/lockstep/checks/test_lockstep_check_trace.py::test_implements_line_may_wrap`, `tests/lockstep/checks/test_lockstep_check_trace.py::test_stacked_implements_lines_in_a_function_are_separate` |
 | `lockstep-checks/trace-scenario-without-test-fails` | `lockstep-checks/trace-every-scenario-has-a-test` | not run at this revision | `tests/lockstep/checks/test_lockstep_check_trace.py::test_scenario_without_test_fails` |
 | `lockstep-checks/trace-stale-marker-fails` | `lockstep-checks/trace-unknown-ids-fail` | not run at this revision | `tests/lockstep/checks/test_lockstep_check_trace.py::test_stale_marker_fails` |
 | `lockstep-checks/trace-test-written-for-an-active-change-passes-trace` | `lockstep-checks/trace-ids-from-changes-in-progress-are-known` | not run at this revision | `tests/lockstep/checks/test_lockstep_check_trace.py::test_test_written_for_an_active_change_passes_trace` |
@@ -347,6 +347,7 @@ which tests cover each scenario at this commit. For pass or fail, run `make chec
 | `lockstep-checks/the-lockstep-command-runs-a-named-check` | `lockstep-checks/each-check-can-be-set-to-block-warn-or-off-in-lockstep-yaml` | not run at this revision | `tests/lockstep/checks/test_lockstep_checks_config.py::test_the_lockstep_command_runs_a_named_check` |
 | `lockstep-checks/arch-an-import-the-diagram-forbids-is-refused` | `lockstep-checks/arch-code-imports-match-the-diagram` | not run at this revision | `tests/lockstep/checks/test_lockstep_check_arch.py::test_an_import_the_diagram_forbids_is_refused`, `tests/lockstep/checks/test_lockstep_check_arch.py::test_code_that_follows_the_diagram_is_accepted` |
 | `lockstep-checks/arch-missing-import-linter-fails-loudly` | `lockstep-checks/arch-code-imports-match-the-diagram` | not run at this revision | `tests/lockstep/checks/test_lockstep_check_arch.py::test_a_missing_import_linter_fails_loudly` |
+| `lockstep-checks/arch-a-diagram-that-maps-no-packages-passes` | `lockstep-checks/arch-code-imports-match-the-diagram` | not run at this revision | `tests/lockstep/checks/test_lockstep_check_arch.py::test_a_diagram_that_maps_no_packages_passes_without_running_import_linter` |
 | `lockstep-checks/arch-a-missing-npx-is-a-tool-failure` | `lockstep-checks/arch-a-diagram-check-that-cannot-run-fails-as-a-tool-failure` | not run at this revision | `tests/lockstep/checks/test_lockstep_check_arch.py::test_a_missing_npx_is_a_tool_failure` |
 | `lockstep-checks/arch-a-likec4-that-cannot-start-is-a-tool-failure` | `lockstep-checks/arch-a-diagram-check-that-cannot-run-fails-as-a-tool-failure` | not run at this revision | `tests/lockstep/checks/test_lockstep_check_arch.py::test_a_likec4_that_cannot_start_is_a_tool_failure` |
 | `lockstep-checks/arch-a-failing-diagram-export-is-a-tool-failure` | `lockstep-checks/arch-a-diagram-check-that-cannot-run-fails-as-a-tool-failure` | not run at this revision | `tests/lockstep/checks/test_lockstep_check_arch.py::test_a_failing_json_export_is_a_tool_failure` |
@@ -375,12 +376,12 @@ which tests cover each scenario at this commit. For pass or fail, run `make chec
 | `lockstep-checks/test-first-a-wording-only-scenario-is-not-checked` | `lockstep-checks/test-first-a-changed-scenario-needs-a-test-that-fails-before-the-change` | not run at this revision | `tests/lockstep/checks/test_lockstep_check_test_first.py::test_a_wording_only_scenario_is_not_checked` |
 | `lockstep-checks/changed-a-requirement-added-on-the-base-branch-after-the-branch-started-is-not-listed` | `lockstep-checks/changed-and-test-first-the-base-is-where-the-branch-started` | not run at this revision | `tests/lockstep/checks/test_lockstep_check_changed.py::test_a_requirement_added_on_the_base_branch_after_the_branch_started_is_not_listed` |
 | `lockstep-checks/test-first-a-scenario-reworded-on-the-base-branch-after-the-branch-started-is-not-checked` | `lockstep-checks/changed-and-test-first-the-base-is-where-the-branch-started` | not run at this revision | `tests/lockstep/checks/test_lockstep_check_test_first.py::test_a_scenario_reworded_on_the_base_branch_after_the_branch_started_is_not_checked` |
-| `lockstep-checks/trace-a-quote-that-matches-passes` | `lockstep-checks/trace-a-marked-quote-matches-its-requirement` | not run at this revision | `tests/lockstep/checks/test_lockstep_check_quotes.py::test_a_quote_that_matches_passes` |
+| `lockstep-checks/trace-a-quote-that-matches-passes` | `lockstep-checks/trace-a-marked-quote-matches-its-requirement` | not run at this revision | `tests/lockstep/checks/test_lockstep_check_quotes.py::test_a_quote_that_matches_passes`, `tests/lockstep/checks/test_lockstep_check_quotes.py::test_a_quoted_passage_keeps_its_code_words`, `tests/lockstep/checks/test_lockstep_spec_reader.py::test_a_statement_after_its_source_line_is_still_the_statement`, `tests/lockstep/checks/test_lockstep_spec_reader.py::test_a_statement_before_its_source_line_is_unchanged`, `tests/lockstep/checks/test_lockstep_spec_reader.py::test_notes_after_the_source_line_of_a_stated_requirement_are_not_the_statement` |
 | `lockstep-checks/trace-a-quote-left-behind-by-a-changed-requirement-fails` | `lockstep-checks/trace-a-marked-quote-matches-its-requirement` | not run at this revision | `tests/lockstep/checks/test_lockstep_check_quotes.py::test_a_quote_left_behind_by_a_changed_requirement_fails` |
 | `lockstep-checks/trace-a-quote-of-a-scenario-s-text-passes` | `lockstep-checks/trace-a-marked-quote-matches-its-requirement` | not run at this revision | `tests/lockstep/checks/test_lockstep_check_quotes.py::test_a_quote_of_a_scenarios_text_passes` |
 | `lockstep-checks/trace-a-quote-of-an-unknown-requirement-fails` | `lockstep-checks/trace-a-marked-quote-matches-its-requirement` | not run at this revision | `tests/lockstep/checks/test_lockstep_check_quotes.py::test_a_quote_of_an_unknown_requirement_fails` |
 | `lockstep-checks/trace-a-quote-matching-an-active-change-s-text-passes` | `lockstep-checks/trace-a-marked-quote-matches-its-requirement` | not run at this revision | `tests/lockstep/checks/test_lockstep_check_quotes.py::test_a_quote_matching_an_active_changes_text_passes` |
-| `lockstep-checks/trace-a-start-marker-with-no-end-marker-fails` | `lockstep-checks/trace-a-marked-quote-matches-its-requirement` | not run at this revision | `tests/lockstep/checks/test_lockstep_check_quotes.py::test_a_start_marker_with_no_end_marker_fails` |
+| `lockstep-checks/trace-a-start-marker-with-no-end-marker-fails` | `lockstep-checks/trace-a-marked-quote-matches-its-requirement` | not run at this revision | `tests/lockstep/checks/test_lockstep_check_quotes.py::test_a_start_marker_with_no_end_marker_fails`, `tests/lockstep/checks/test_lockstep_check_quotes.py::test_a_marker_written_as_code_is_not_a_quote` |
 | `lockstep-checks/changed-a-document-quoting-a-changed-requirement-is-listed-as-stale` | `lockstep-checks/changed-documents-that-quote-a-listed-requirement-are-listed-with-it` | not run at this revision | `tests/lockstep/checks/test_lockstep_check_changed.py::test_a_document_quoting_a_changed_requirement_is_listed_as_stale` |
 | `lockstep-checks/changed-a-plan-marked-small-passes` | `lockstep-checks/changed-every-plan-that-names-a-listed-requirement-states-its-size` | not run at this revision | `tests/lockstep/checks/test_lockstep_check_changed.py::test_a_plan_marked_small_passes` |
 | `lockstep-checks/changed-a-plan-with-no-size-line-fails` | `lockstep-checks/changed-every-plan-that-names-a-listed-requirement-states-its-size` | not run at this revision | `tests/lockstep/checks/test_lockstep_check_changed.py::test_a_plan_with_no_size_line_fails` |
@@ -486,7 +487,7 @@ which tests cover each scenario at this commit. For pass or fail, run `make chec
 | `operator-notify/concern-repository-comes-from-the-settings` | `operator-notify/the-concern-repository-comes-from-the-settings` | not run at this revision | `tests/test_operator_notify_router.py::test_the_concern_repository_comes_from_the_settings`, `tests/test_operator_notify_router.py::test_no_named_concern_repository_fails_the_route_and_says_so` |
 | `operator-notify/an-open-legacy-concern-is-not-duplicated` | `operator-notify/an-open-legacy-concern-is-not-duplicated` | not run at this revision | `tests/test_operator_notify_router.py::test_an_open_concern_in_the_old_repository_is_updated_there_not_duplicated`, `tests/test_operator_notify_router.py::test_a_closed_or_missing_legacy_concern_files_in_the_new_repository`, `tests/test_operator_notify_router.py::test_resolve_closes_the_open_legacy_concern` |
 | `plan-run/a-file-outside-the-tasks-is-listed` | `plan-run/a-departure-report-compares-the-change-with-its-plan` | not run at this revision | `tests/lockstep/test_lockstep_plan_run.py::test_file_outside_tasks_listed` |
-| `plan-run/a-name-added-to-tasks-md-after-ref-does-not-count` | `plan-run/a-departure-report-compares-the-change-with-its-plan` | untested | - |
+| `plan-run/a-name-added-to-tasks-md-after-ref-does-not-count` | `plan-run/a-departure-report-compares-the-change-with-its-plan` | not run at this revision | `tests/lockstep/test_lockstep_plan_run.py::test_name_added_after_ref_still_listed` |
 | `plan-run/an-unticked-task-is-listed-archived-or-not` | `plan-run/a-departure-report-compares-the-change-with-its-plan` | not run at this revision | `tests/lockstep/test_lockstep_plan_run.py::test_unticked_task_listed_from_archive` |
 | `plan-run/hidden-tests-are-outside-the-worktree-until-the-last-commit` | `plan-run/hidden-acceptance-tests-are-written-before-and-run-after-implementation` | not run at this revision | `tests/lockstep/test_lockstep_plan_run.py::test_hidden_tests_outside_worktree_until_last_commit` |
 | `plan-run/a-hidden-test-that-passes-before-implementation-is-flagged` | `plan-run/hidden-acceptance-tests-are-written-before-and-run-after-implementation` | not run at this revision | `tests/lockstep/test_lockstep_plan_run.py::test_hidden_test_passing_before_is_flagged` |

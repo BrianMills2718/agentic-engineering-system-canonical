@@ -55,6 +55,9 @@ differences, each because AES does not carry the thing the old code leaned on:
     IN_PLACE_BASELINE, else ``unattended_execution_sources_baseline.json`` beside the graph; a missing file means no
     checkout is skipped as in place.
 Implements: graph-checkout-refresh/settings-come-from-config
+Implements: graph-checkout-refresh/never-discards-local-work
+Implements: graph-checkout-refresh/graph-sweep-covers-registered-checkouts
+Implements: graph-checkout-refresh/stuck-checkouts-raise-a-concern
 """
 
 from __future__ import annotations

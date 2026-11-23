@@ -10,7 +10,7 @@ undeclared symbol, changes a declared signature or removes a declared export is 
 [[[cog import lockstep.cogtext as c; c.docstring("src:lockstep:plan_to_code.py", indent=0)]]]
 Plan (generated from lockstep.yaml layout and OpenSpec; edit the spec or the layout row, not this text):
 
-Implements: (no requirement)
+Names no requirement; the layout row says why.
 [[[end]]]
 """
 

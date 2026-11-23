@@ -8,7 +8,7 @@ A named file that is planned but not written yet is listed, not failing, as in `
 [[[cog import lockstep.cogtext as c; c.docstring("src:lockstep:linked_tests.py", indent=0)]]]
 Plan (generated from lockstep.yaml layout and OpenSpec; edit the spec or the layout row, not this text):
 
-Implements: (no requirement)
+Names no requirement; the layout row says why.
 [[[end]]]
 """
 

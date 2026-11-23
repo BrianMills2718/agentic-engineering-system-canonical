@@ -1,7 +1,15 @@
 #!/usr/bin/env python3
 """Phone notice for the feedback loop: one Telegram message, the only notice the loop sends.
 
-Implements: feedback-loop-notices/attention-push-arrives
+Implements: feedback-loop-notices/a-message-counts-as-sent-only-on-telegram-acceptance
+
+Requirement text (generated):
+    feedback-loop-notices/a-message-counts-as-sent-only-on-telegram-acceptance: `notify.py` SHALL
+        send one Telegram `sendMessage` (plain text) and report it delivered only when Telegram
+        answers HTTP 200 with `ok` true and a `message_id`. It SHALL NOT call `getUpdates` or
+        `deleteWebhook`, because the bot's webhook belongs to another service. With the token or
+        chat id missing, or on any network error or other answer, it SHALL report not delivered,
+        exit non-zero and never raise. It SHALL NOT print the token or chat id.
 
 Replaces the loop's attention pushes that went through the old Project Meta router (retirement plan, slice 2).
 Agent-fixable alerts are concerns (``scripts/learning_loop/alert.py``), not messages.
@@ -53,7 +61,14 @@ def push(title: str, body: str, *, host: str = API, timeout: float = 15.0, opene
     Never raises on network errors. ``no_preview`` turns off Telegram's link preview card (for a body that is a
     link, as the waiting-issue push sends). An HTTP error carries Telegram's own description, token removed.
 
-    Implements: feedback-loop-notices/link-preview-off-on-request
+    Implements: feedback-loop-notices/a-caller-can-turn-off-the-link-preview
+
+    Requirement text (generated):
+        feedback-loop-notices/a-caller-can-turn-off-the-link-preview: `notify.py` `push()` SHALL
+            accept `no_preview`; when it is true the `sendMessage` body SHALL carry
+            `disable_web_page_preview: true`, and when it is false (the default) the body SHALL be
+            unchanged. A delivered result SHALL also carry the `message_id`. An HTTP error result
+            SHALL carry Telegram's `description` with the token removed.
     """
     token, chat = secret(TOKEN_ENV), secret(CHAT_ENV)
     if not token or not chat:

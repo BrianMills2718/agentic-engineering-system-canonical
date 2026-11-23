@@ -17,7 +17,64 @@ the change is archived.
 [[[cog import lockstep.cogtext as c; c.docstring("src:lockstep:openspec_text.py", indent=0)]]]
 Plan (generated from lockstep.yaml layout and OpenSpec; edit the spec or the layout row, not this text):
 
-Implements: (no requirement)
+Implements: lockstep-guard/agents-get-requirement-text-from-the-shell-too, lockstep-plan-format/the-plan-is-openspec-plus-layout-rows
+
+### Requirement: Agents get requirement text from the shell too
+
+In a repository with OpenSpec specs and no layout plan, the edit hook SHALL answer a shell command that names or writes a file whose docstrings carry `Implements:` lines with those requirements' text, without a `permissionDecision`, and SHALL log the call as `openspec_text` with the requirement IDs; a command naming no such file and no file a decision governs SHALL get no answer.
+
+Source: inferred by agent from the 2026-11-23 linked-chain acceptance run (Claude edited only through Bash, so the text never arrived); plan docs/planning/linked-chain-core-2026-11-23.md
+
+#### Scenario: A shell command on an implementing file gets its requirement text
+
+- **GIVEN** a file whose docstring says `Implements: ship/<requirement>`
+- **WHEN** the agent runs `cat` on it, writes it with a heredoc, or edits it with `sed -i`
+- **THEN** the hook's answer holds that requirement's text and no decision
+
+### Requirement: The plan is OpenSpec plus layout rows
+
+Source: Brian, 2026-11-11, approving the one-tool design as written ("i approve single tool desing re d4"; `proposals/one-planning-tool/DESIGN.md`, slice 2: "Lockstep reads requirements from OpenSpec ... and layout from `lockstep.yaml`. `.aes/target.yaml` stays readable until lifelike and Team-Brains move off it").
+
+In a repository whose `lockstep.yaml` has a `layout:` list and which has no `.aes/target.yaml`, Lockstep SHALL take the
+planned files from the `layout:` rows (path, purpose, the OpenSpec requirements it implements, its tests, optionally
+its typed exports), the governed folders from `governed:`, and the requirement text from OpenSpec. A repository with
+`.aes/target.yaml` SHALL be read as before.
+
+#### Scenario: The layout is laid out with first docstrings
+
+- **GIVEN** a layout row for `src/greeter/__init__.py` implementing `greeting/greet-by-name`, tested by `tests/test_greet.py`
+- **WHEN** `lockstep layout` runs
+- **THEN** the file is created with a docstring holding its `Implements:` line, the requirement and its scenarios word for word, the test names and its declared signature, and an existing file is left as it is
+
+#### Scenario: An unplanned file is refused against the layout
+
+- **GIVEN** `governed: [src/]` and no row for `src/greeter/extra.py`
+- **WHEN** an agent writes that file under `PCW_MODE=block`
+- **THEN** the edit hook refuses it and names `lockstep.yaml` as where the file must be planned
+
+#### Scenario: A planned file's edit hands over its requirement
+
+- **GIVEN** a laid-out planned file
+- **WHEN** an agent edits it
+- **THEN** the edit is allowed and the agent is handed the OpenSpec requirement text
+
+#### Scenario: The whole-tree check reads the layout
+
+- **GIVEN** a laid-out, committed layout repository
+- **WHEN** `lockstep check` runs, and again after an unplanned file is added under `src/`
+- **THEN** the first allows and the second blocks with that file as `unplanned`
+
+#### Scenario: A layout row must name real requirements
+
+- **GIVEN** a row whose `implements` names a requirement no spec defines, and a row with no purpose
+- **WHEN** the layout is checked
+- **THEN** both are reported, naming the row's path
+
+#### Scenario: An AES plan is still read
+
+- **GIVEN** a repository with `.aes/target.yaml`
+- **WHEN** Lockstep reads its plan
+- **THEN** the planned files come from `.aes/target.yaml` exactly as before
 [[[end]]]
 """
 

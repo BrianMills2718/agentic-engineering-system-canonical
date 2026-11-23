@@ -106,7 +106,7 @@ def test_a_missing_import_linter_fails_loudly(repo, fresh, monkeypatch, capsys):
     assert "import-linter is not installed" in capsys.readouterr().out
 
 
-@pytest.mark.req("lockstep-checks/arch-code-imports-match-the-diagram")
+@pytest.mark.req("lockstep-checks/arch-a-diagram-that-maps-no-packages-passes")
 def test_a_diagram_that_maps_no_packages_passes_without_running_import_linter(tmp_path, monkeypatch):
     """code2-workspace's diagram maps no Python packages: there is nothing to check, so the check passes.
 

@@ -48,6 +48,18 @@ def test_scanner_uses_the_active_root_instruction_file(tmp_path: Path, filename:
     assert {item["doc"] for item in report["docs"]} == {filename, "docs/guide.md"}
 
 
+@pytest.mark.req("instruction-audit/freshness-comes-from-git-history")
+def test_agents_md_wins_when_both_root_instruction_files_exist(tmp_path: Path) -> None:
+    """The spec says AGENTS.md, else legacy CLAUDE.md; a repository with both is dated by AGENTS.md."""
+    (tmp_path / "AGENTS.md").write_text("# Rules\n", encoding="utf-8")
+    (tmp_path / "CLAUDE.md").write_text("@AGENTS.md\n", encoding="utf-8")
+    _commit(tmp_path)
+
+    report = _scanner().scan_project({"id": "fixture", "path": str(tmp_path)}, datetime.now(timezone.utc))
+    assert report is not None
+    assert report["primary_doc"] == "AGENTS.md"
+
+
 @pytest.mark.req("instruction-audit/freshness-comes-from-git-history", existing=True)  # ported unchanged from Project Meta
 def test_docs_without_root_instructions_are_still_missing_instructions(tmp_path: Path) -> None:
     """A docs directory cannot make an instructionless repo appear healthy."""

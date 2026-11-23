@@ -1,4 +1,4 @@
-# Minimal core met; template and ship live here (2026-11-21)
+# Minimal core met; template and ship live here (updated 2026-11-23)
 
 Brian, 2026-11-20: "the whole thing should be configurable and shareable/protable. we shoudl start with the minimal
 core". The first milestone is met: a repository made from the template ran one plan each in Claude and Codex in a
@@ -53,6 +53,15 @@ statement text because their `Source:` line comes first.
 A session audit then found the edit hook's named recovery for a stale planned file (`lockstep check project`) did
 not rewrite cog plan copies, so any requirement rewording would have locked agents out of the implementing file in
 `src/lockstep/`; `project` now rewrites them (spec lockstep-projection).
+
+**Alignment cleanup, 2026-11-23** ([plan and the 17 items to discuss](../docs/planning/alignment-cleanup-2026-11-23.md);
+open ones are Q49-Q55 in `docs/planning/open-questions.json`): `lockstep check trace` in AES went from 142 findings
+to 16, and `make check` now runs it (`make check-trace`) against `docs/planning/trace-accepted.txt`, a list that
+can only shrink. The trace check now reads `scripts/`, separates stacked `Implements:` lines, reads requirements
+whose `Source:` line comes first (#1019), and skips quote markers shown as code. 32 findings were stale docstring
+plan copies that no check catches (Q53). The 16 left: 6 template requirements the check cannot read (Q50), 5 from a
+duplicate spec (Q51), 6 whose spec lives in code2-workspace (Q52). 14 Lockstep files from the retired `.aes`
+route have no requirement (Q54, retiring any needs Brian).
 
 **Next:** slice 2, the template ships the layout and `lockstep layout` creates planned files before code.
 

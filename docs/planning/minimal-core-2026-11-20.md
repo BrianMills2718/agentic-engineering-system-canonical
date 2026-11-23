@@ -1,6 +1,8 @@
 # Minimal core: what Brian wants, what exists off the shelf, what to keep
 
-Status: proposal, 2026-11-20. One file on purpose; no proposal folder.
+Status: milestone met (2026-11-22, `68037920b`). One part is reversed: folding the planned file list into `tasks.md`
+(line 103, an agent inference) was undone by `back-on-design-2026-11-23.md`, which puts the `lockstep.yaml` layout
+back. Read that plan with this one.
 
 Source: Brian, 2026-11-20, Claude session 5651a525 (no file): "the whole thing should be configurable and
 shareable/protable. we shoudl start with the minimal core than add on other things as needed after the first

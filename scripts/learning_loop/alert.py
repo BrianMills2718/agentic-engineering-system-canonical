@@ -2,6 +2,12 @@
 
 Implements: feedback-loop-notices/loop-failures-are-concerns
 
+Requirement text (generated):
+    feedback-loop-notices/loop-failures-are-concerns: When a loop script fails (weekly problems,
+        nightly collector, fix owner) or the policy check finds unregistered rules, it SHALL open or
+        update a keyed concern through `scripts/concern_issue.py` and SHALL NOT call a Project Meta
+        script.
+
 Replaces the loop's agent-severity alerts that went through the Project Meta notice scripts (retirement plan, slice 2).
 """
 from __future__ import annotations

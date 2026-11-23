@@ -3,6 +3,8 @@ description: First add-on after the linked chain - links.json reads the link lin
 ---
 # Plan: links from lines that already exist
 
+Status: built (#1015, #1016; acceptance recorded in #1017).
+
 Plan size: full (the template and the package are read by every copy). Source: Brian, 2026-11-23: "i approve"
 (to: "Step 1 puts the `Closes:`, `Source:` and quote links into `links.json`, with no new lines. Step 2 searches
 your past chats and decision 0004 first, then adds decision -> requirement or code links that the hook hands

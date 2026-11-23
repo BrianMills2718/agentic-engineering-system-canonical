@@ -22,10 +22,22 @@ check: check-doc-facts  ## Run all checks (test, mypy, lint)
 	@echo "Running the instruction-file check..."
 	@PYTHONPATH=src $(PYTHON) -c 'import sys; from lockstep.checks.cli import run; sys.exit(run(["instructions"]))'
 	@echo ""
+	@echo "Running the trace check against its accepted list..."
+	@$(MAKE) --no-print-directory check-trace
+	@echo ""
 	@echo "Running mypy..."
 	@$(PYTHON) -m mypy src/ --ignore-missing-imports
 	@echo ""
 	@echo "All checks passed!"
+
+check-trace:  ## Trace findings must equal docs/planning/trace-accepted.txt: a new finding fails, and a fixed one must leave the list
+	@PYTHONPATH=src $(PYTHON) -c 'import sys; from lockstep.checks.cli import run; sys.exit(run(["trace"]))' 2>/dev/null \
+	  | grep -v '^RESULT' | sed -e 's/  (.*//' -e 's/  */ /g' | sort -u > .trace-now.txt; \
+	if diff -u docs/planning/trace-accepted.txt .trace-now.txt; then \
+	  echo "RESULT check-trace accepted=$$(wc -l < docs/planning/trace-accepted.txt) exit=0"; \
+	else \
+	  echo "check-trace: findings differ from docs/planning/trace-accepted.txt (+ a new finding to fix; - a fixed finding to delete from the list)"; exit 1; \
+	fi
 
 check-full:  ## make check plus the slow end-to-end tests (installs, the whole-repository status run)
 	@$(MAKE) --no-print-directory check

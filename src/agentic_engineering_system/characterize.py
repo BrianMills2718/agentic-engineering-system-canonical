@@ -2,6 +2,12 @@
 
 Implements: inert-characterization/git-inspection-is-inert
 
+Requirement text (generated):
+    inert-characterization/git-inspection-is-inert: Read-only characterization and source-checkout
+        producer identification SHALL disable repository Git hooks and fsmonitor commands. They
+        SHALL preserve committed revision binding, accurate dirty state and static source facts
+        without executing the inspected repository's integrations.
+
 `characterize(root)` records what the repository contains at HEAD under the
 governed roots of `.aes/project.yaml`: every file with its blob hash and size,
 and for Python files the facts from `characterize_python` (AST only). Files

@@ -4,6 +4,10 @@
 The path validator checks whether records point at real files. This checker
 guards the descriptive layer: concise one-liners, controlled portfolio areas,
 utility tags, duplicate ids/paths, and GitHub remotes for git-backed projects.
+
+Implements: project-graph-taxonomy/graph-path-is-configured
+Implements: project-graph-taxonomy/records-are-validated
+Implements: project-graph-taxonomy/hard-errors-block
 """
 
 from __future__ import annotations
@@ -23,7 +27,7 @@ from branch_policy import BRANCH_POLICY_SCOPES  # noqa: E402
 
 # Copied from Project Meta scripts/check_project_graph_taxonomy.py (retirement plan step 4). The project graph is one
 # person's own data: the PROJECT_GRAPH environment variable names it, else it is read from the private `aes-config`
-# repository (Decision 20). Implements: project-graph-taxonomy/graph-path-is-configured
+# repository (Decision 20).
 GRAPH_DEFAULT = os.environ.get("PROJECT_GRAPH") or os.path.expanduser("~/code2/aes-config/PROJECT_GRAPH.json")
 
 

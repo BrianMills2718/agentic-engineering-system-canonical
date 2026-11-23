@@ -20,6 +20,7 @@ may read it). The GitHub-coverage section also reads `workspace_map_extras.yaml`
 WORKSPACE_MAP_EXTRAS environment variable): its `github_not_projects` and `github_not_project_patterns` say which
 repositories are left out on purpose. A missing setting stops the run and names where to set it.
 Implements: project-activity-snapshot/settings-come-from-config
+Implements: project-activity-snapshot/last-commit-per-checkout
 """
 
 import argparse

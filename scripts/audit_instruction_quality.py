@@ -36,6 +36,9 @@ the dimensions that actually cost an agent something:
 Findings are advisory and report-only. Instruction files are prose owned by
 their repositories; this reports what to consider moving or cutting and never
 rewrites them.
+
+Implements: instruction-audit/instruction-quality-findings-are-advisory
+Implements: instruction-audit/the-project-graph-comes-from-the-settings
 """
 
 from __future__ import annotations

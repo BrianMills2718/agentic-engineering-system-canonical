@@ -3,6 +3,9 @@ description: Put AES's linked chain (requirement -> scenario -> test -> file -> 
 ---
 # Plan: the linked chain is core
 
+Status: built (#1011, #1012; acceptance recorded in #1013). The planned file layout it left optional is put back by
+`back-on-design-2026-11-23.md`.
+
 Plan size: full (the template is read by every copy through `copier update`, so the small-plan test fails). Source:
 Brian, 2026-11-23: "isnt this the whole thing that makes the whle systme work?"; AES `docs/architecture/GOAL.md:88`,
 `docs/architecture/LOCKSTEP.md:26`. The minimal-core list (C1-C11) left the chain out; the milestone is reopened.

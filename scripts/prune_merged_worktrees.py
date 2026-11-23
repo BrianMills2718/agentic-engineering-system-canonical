@@ -1,7 +1,16 @@
 #!/usr/bin/env python3
 """Remove git worktrees whose branch has actually landed on the default branch.
 
-Implements: prune-merged-worktrees/proven-merge-only
+Implements: prune-merged-worktrees/a-worktree-is-removed-only-on-proof-its-branch-landed
+
+Requirement text (generated):
+    prune-merged-worktrees/a-worktree-is-removed-only-on-proof-its-branch-landed:
+        `scripts/prune_merged_worktrees.py` SHALL remove a linked worktree and its branch only when
+        the forge shows a merged pull request for that exact branch whose merge commit is on the
+        local default branch, or when merging the branch into the default branch would change no
+        file. Every other worktree SHALL be kept and printed with the reason. A path given with
+        `--exclude` SHALL be kept even when proven merged; `--dry-run` SHALL remove nothing;
+        `--help` and any unknown flag SHALL remove nothing.
 
 Moved here unchanged from Project Meta (``scripts/prune_merged_worktrees.py`` at ``b743c308a``) on 2026-11-17,
 AES consolidation plan row 11; ``~/.local/bin/prune-merged-worktrees`` links to the AES runtime clone's copy.

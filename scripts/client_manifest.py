@@ -59,6 +59,14 @@ def safe(key: str, value: Any, home: str) -> Any:
     """The value with the home folder as {{HOME}}; anything named or shaped like a credential is withheld.
 
     Implements: client-manifest/no-secret-values-are-written
+
+    Requirement text (generated):
+        client-manifest/no-secret-values-are-written: The manifest SHALL never hold a value whose
+            key name looks like a credential (token, secret, password, API key, bearer, auth,
+            credential, cookie, header) or whose text looks like one (a known token prefix, or a
+            long run of letters and digits that is not a path); it SHALL write `<withheld: name
+            only>` instead. MCP servers SHALL be recorded by name only. The home folder SHALL be
+            written as `{{HOME}}`.
     """
     if SECRET_NAME.search(key):
         return WITHHELD
@@ -72,7 +80,14 @@ def safe(key: str, value: Any, home: str) -> Any:
 
 
 def _entry(owner: str, key: str, value: Any, home: str) -> dict:
-    """Implements: client-manifest/owned-settings-hold-no-value"""
+    """
+    Implements: client-manifest/owned-settings-hold-no-value
+
+    Requirement text (generated):
+        client-manifest/owned-settings-hold-no-value: A setting or marketplace owned by
+            `client-layer` SHALL carry its value; every other entry SHALL carry only its owner. A
+            plugin entry SHALL carry its version and commit, never a value.
+    """
     return {"owner": owner, "value": safe(key, value, home)} if owner == HERE else {"owner": owner}
 
 
@@ -164,6 +179,17 @@ def compare(current: dict, recorded: dict) -> dict[str, list[str]]:
     (on disk, not in the manifest), and plugin versions that moved (reported, never a failure).
 
     Implements: client-manifest/disk-is-compared-with-the-manifest
+
+    Requirement text (generated):
+        client-manifest/disk-is-compared-with-the-manifest: `check` SHALL rebuild the manifest in
+            memory and compare it with the saved one (default
+            `~/code2/aes-config/client-layer.yaml`), printing counts of same, differ (owner or
+            recorded value changed), missing (in the manifest, not on disk), unrecorded (on disk,
+            not in the manifest) and plugins whose version or commit moved, and naming each one that
+            is not the same. It SHALL exit 1 when any entry differs or is unrecorded, or when there
+            is no saved manifest; missing entries and moved plugin versions do not fail it (a clean
+            machine lacks settings until they are applied, and plugins update themselves). The value
+            of a setting another owner holds is that owner's check to compare.
     """
     now, before = entries(current), entries(recorded)
     out: dict[str, list[str]] = {"same": [], "differ": [], "missing": [], "unrecorded": [], "version-changed": []}

@@ -10,7 +10,7 @@ the code under them is the agent's to review.
 [[[cog import lockstep.cogtext as c; c.docstring("src:lockstep:change_list.py", indent=0)]]]
 Plan (generated from lockstep.yaml layout and OpenSpec; edit the spec or the layout row, not this text):
 
-Implements: (no requirement)
+Names no requirement; the layout row says why.
 [[[end]]]
 """
 

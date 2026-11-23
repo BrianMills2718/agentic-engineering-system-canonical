@@ -2,6 +2,14 @@
 
 Implements: lockstep-plan-format/the-plan-is-openspec-plus-layout-rows
 
+Requirement text (generated):
+    lockstep-plan-format/the-plan-is-openspec-plus-layout-rows: In a repository whose
+        `lockstep.yaml` has a `layout:` list and which has no `.aes/target.yaml`, Lockstep SHALL
+        take the planned files from the `layout:` rows (path, purpose, the OpenSpec requirements it
+        implements, its tests, optionally its typed exports), the governed folders from `governed:`,
+        and the requirement text from OpenSpec. A repository with `.aes/target.yaml` SHALL be read
+        as before.
+
 This is the one plan format of the one-tool design (proposals/one-planning-tool/DESIGN.md, slice 2). A repository
 without `.aes/target.yaml` writes its plan as:
 

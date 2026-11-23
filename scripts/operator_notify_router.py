@@ -1,7 +1,16 @@
 #!/usr/bin/env python3
 """Route one operator notification to whoever can act on it, and prove arrival.
 
-Implements: operator-notify/routes-by-severity
+Implements: operator-notify/notices-route-by-who-must-act
+
+Requirement text (generated):
+    operator-notify/notices-route-by-who-must-act: `scripts/operator_notify_router.py` SHALL record
+        every notice in `notifications.jsonl` before any delivery and then attempt the routes of its
+        severity: `info` none, `agent` a keyed concern, `attention` and `urgent` an ntfy push
+        checked at the broker, `needs-human` a desktop toast, a Telegram message and a concern
+        labelled with the waiting label. A `needs-human` notice SHALL be refused unless its title
+        and action pass the wording check, SHALL count as delivered only when Telegram accepted it,
+        and SHALL be sent once per state of its key until the key is resolved.
 
 Plan #269 Step 2; re-routed 2026-10-06 (issue #1958). Moved here from Project Meta
 (``scripts/operator_notify_router.py`` at ``ee2957b1f``) on 2026-11-17, AES consolidation plan row 11. The
@@ -135,7 +144,18 @@ def settings() -> dict:
 
 
 def concern_repo(repo: str | None = None) -> str:
-    """The repository concerns are filed in: the argument, else the environment, else the settings."""
+    """The repository concerns are filed in: the argument, else the environment, else the settings.
+
+    Implements: operator-notify/the-concern-repository-comes-from-the-settings
+
+    Requirement text (generated):
+        operator-notify/the-concern-repository-comes-from-the-settings: The router SHALL file
+            concerns in the repository named by `OPERATOR_CONCERN_REPO`, else by `concern_repo:`
+            under `operator_notify:` in `graph-config.yaml` beside the project graph. With neither,
+            the concern route SHALL fail with a reason naming both, and SHALL NOT fall back to any
+            built-in repository. The Telegram token, chat id and ntfy topic SHALL NOT be read from
+            that settings file.
+    """
     resolved = repo or os.environ.get(CONCERN_REPO_ENV, "") or str(settings().get("concern_repo") or "")
     if not resolved:
         raise RouterError(
@@ -150,6 +170,16 @@ def repo_holding_open_concern(ci, repo: str, key: str, run) -> str:
 
     Concerns filed before the move (Project Meta) stay where they are while open, so a recurrence comments on the
     issue Brian already has instead of opening a second one in the new repository.
+
+    Implements: operator-notify/an-open-legacy-concern-is-not-duplicated
+
+    Requirement text (generated):
+        operator-notify/an-open-legacy-concern-is-not-duplicated: While a repository listed in
+            `legacy_concern_repos:` holds an open concern for a key (the `concern:feedback` label
+            and the hidden `concern-key` marker, as `concern_issue.find_existing` reads them), the
+            router SHALL update or close that concern there instead of using the concern repository.
+            A closed or missing legacy concern SHALL NOT be reopened by the router; the concern is
+            filed in the concern repository.
     """
     for legacy in settings().get("legacy_concern_repos") or []:
         if legacy == repo:
@@ -774,6 +804,18 @@ def notify(
 
     A suppressed notice is recorded as delivered with the suppression named in
     its route: the person or agent was already told about this key.
+
+    Implements: operator-notify/notices-route-by-who-must-act
+
+    Requirement text (generated):
+        operator-notify/notices-route-by-who-must-act: `scripts/operator_notify_router.py` SHALL
+            record every notice in `notifications.jsonl` before any delivery and then attempt the
+            routes of its severity: `info` none, `agent` a keyed concern, `attention` and `urgent`
+            an ntfy push checked at the broker, `needs-human` a desktop toast, a Telegram message
+            and a concern labelled with the waiting label. A `needs-human` notice SHALL be refused
+            unless its title and action pass the wording check, SHALL count as delivered only when
+            Telegram accepted it, and SHALL be sent once per state of its key until the key is
+            resolved.
     """
     if severity not in ROUTES_BY_SEVERITY:
         raise RouterError(

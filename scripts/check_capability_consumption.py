@@ -48,6 +48,14 @@ Meta's file and has no home here yet (retirement plan step 5), so it is optional
 CAPABILITY_REGISTRY environment variable names it, and without one the known_consumers check is skipped and the
 report says so. A missing graph stops the run naming where to put it.
 Implements: project-graph-dependency-scan/graph-from-config
+
+Requirement text (generated):
+    project-graph-dependency-scan/graph-from-config: The scan SHALL read the graph named by
+        `--project-graph`, else `PROJECT_GRAPH`, else `~/code2/aes-config/PROJECT_GRAPH.json`,
+        resolved when the scan runs; a missing graph SHALL stop the run (exit 2) naming where to put
+        it. The capability registry SHALL be optional (`--capability-registry` or
+        `CAPABILITY_REGISTRY`); without one the known_consumers check is skipped and the report says
+        so.
 """
 
 from __future__ import annotations
@@ -525,6 +533,11 @@ def detect_project_dependency_gaps(
     "Use" is an import of its package, a path into its folder, or a run of a
     command it provides; each finding's ``via`` lists that evidence.
     Implements: project-graph-dependency-scan/undeclared-use-is-found
+
+    Requirement text (generated):
+        project-graph-dependency-scan/undeclared-use-is-found: The scan SHALL report each use of
+            another active record's package, folder or command that the consumer's `depends_on` does
+            not list, with the evidence.
     """
     package_to_owner = _unambiguous_package_owners(packages)
     command_owner = _command_owners(roots)
@@ -679,6 +692,11 @@ def write_detected_dependencies(project_graph_path: Path, findings: list[dict[st
     Only adds, keeps the file's two-space JSON layout, and keeps each list sorted
     after the existing hand-written order.
     Implements: project-graph-dependency-scan/write-only-adds
+
+    Requirement text (generated):
+        project-graph-dependency-scan/write-only-adds: With `--write` the scan SHALL add each
+            undeclared provider to its consumer's `depends_on` and SHALL never remove a hand-written
+            entry.
     """
     entries = _load_project_graph(project_graph_path)
     by_id = {e["id"]: e for e in entries if isinstance(e.get("id"), str)}

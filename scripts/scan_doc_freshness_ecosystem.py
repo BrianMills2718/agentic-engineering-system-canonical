@@ -25,6 +25,9 @@ rollout's own lesson ("we wrote the tool, it never reached other repos")
 and the project-workbench-evidence-ladder finding (a policy that's been
 advisory since inception, never actually checked at scale): validate the
 signal is genuinely useful before promoting it into a gate anywhere.
+
+Implements: instruction-audit/freshness-comes-from-git-history
+Implements: instruction-audit/the-project-graph-comes-from-the-settings
 """
 
 from __future__ import annotations
@@ -67,11 +70,11 @@ def _git_log_date(repo_path: Path, rel_path: str | None) -> datetime | None:
 
 
 def _primary_instruction(path: Path) -> str | None:
-    """Choose the active authored root file during the migration."""
-    if (path / "CLAUDE.md").is_file():
-        return "CLAUDE.md"
+    """Choose the root instruction file: AGENTS.md, else legacy CLAUDE.md."""
     if (path / "AGENTS.md").is_file():
         return "AGENTS.md"
+    if (path / "CLAUDE.md").is_file():
+        return "CLAUDE.md"
     return None
 
 

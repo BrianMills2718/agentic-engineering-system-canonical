@@ -7,6 +7,15 @@
 
 Implements: workspace-map-check/settings-come-from-config
 
+Requirement text (generated):
+    workspace-map-check/settings-come-from-config: The project graph SHALL be read from
+        `PROJECT_GRAPH` or `~/code2/aes-config/PROJECT_GRAPH.json`; `workspace_map_extras.yaml` and
+        `archive_map_registry.yaml` SHALL be read from beside the graph (`WORKSPACE_MAP_EXTRAS` and
+        `ARCHIVE_MAP_REGISTRY` override); the owner, the GitHub accounts and the concern repository
+        SHALL come from the environment or `graph-config.yaml` beside the graph. A missing file or
+        value SHALL stop the run with a message naming where to put it, and the run SHALL exit 2,
+        not the findings code 1.
+
 Two sources, nothing invented:
   * archive_map_registry.yaml  hand-written purpose / why / restore for each ~/archive entry. One person's own
     data: it sits beside the project graph (PROJECT_GRAPH, else ~/code2/aes-config/PROJECT_GRAPH.json);
