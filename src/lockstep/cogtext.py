@@ -9,34 +9,11 @@ source finds only real blocks.
 `cog -r -c` writes the block from the plan; `cog --check -c` fails when the
 plan changed and the block was not regenerated, or when someone hand-edited it.
 
-[[[cog import lockstep.cogtext as c; c.docstring("ART-COGTEXT", indent=0)]]]
-Plan (generated from .aes/target.yaml; edit the plan, not this text):
+[[[cog import lockstep.cogtext as c; c.docstring("src:lockstep:cogtext.py", indent=0)]]]
+Plan (generated from lockstep.yaml layout and OpenSpec; edit the spec or the layout row, not this text):
 
-Part of REQ-3: A hook copies the normative text and typed signatures down
-  into the code: a hook copies the full normative text, and the typed
-  signatures, from the plan down into the code's docstrings automatically;
-  nobody types the copy. For normative text the projection is two-way: the
-  normative portion of a docstring can be edited where the agent is working,
-  and the edit projects up into the plan; and when the normative text
-  changes in the plan, every linked function, wherever it is, is marked for
-  update and the agent is handed that list.
-BEH-3.1: The full text of a planned file's requirement, behaviors and
-  criteria, with each disproof and proving test, is copied by cog from the
-  plan into the file's docstring; nobody types the copy.
-SC-3.1: After `make project`, a planned file's docstring holds its behavior
-  statement, criterion, disproof and proving test word for word from the
-  plan.
-  Disproved if: The docstring holds only an ID or a reference, or text that
-  differs from the plan.
-Proven by: VS-3.1-a (tests/test_cogtext.py)
-Declares (typed signatures, from the plan):
-  WIDTH
-  OPEN
-  CLOSE
-  END
-  render(ctx: dict) -> list[str]
-  docstring(subject: str, indent: int = 4) -> None
-[[[end]]] (sum: ZNar1xYsvb)
+Implements: (no requirement)
+[[[end]]]
 """
 
 from __future__ import annotations

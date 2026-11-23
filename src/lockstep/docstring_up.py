@@ -18,30 +18,11 @@ Anything else is reported and the file is left alone: an edit to a copy that was
 earlier plan (which lines are the edit cannot be told), a block with no checksum, or an edit that
 adds, removes or renames an item or changes a "Proven by" line (change the plan by a proposal).
 
-[[[cog import lockstep.cogtext as c; c.docstring("ART-DOCSTRING-UP", indent=0)]]]
-Plan (generated from .aes/target.yaml; edit the plan, not this text):
+[[[cog import lockstep.cogtext as c; c.docstring("src:lockstep:docstring_up.py", indent=0)]]]
+Plan (generated from lockstep.yaml layout and OpenSpec; edit the spec or the layout row, not this text):
 
-Part of REQ-3: A hook copies the normative text and typed signatures down
-  into the code: a hook copies the full normative text, and the typed
-  signatures, from the plan down into the code's docstrings automatically;
-  nobody types the copy. For normative text the projection is two-way: the
-  normative portion of a docstring can be edited where the agent is working,
-  and the edit projects up into the plan; and when the normative text
-  changes in the plan, every linked function, wherever it is, is marked for
-  update and the agent is handed that list.
-BEH-3.6: An edit to the normative part of a docstring becomes a draft plan
-  change; the coding agent accepts it itself when it is confident in it or
-  it is not significant, and otherwise leaves the draft and asks a person.
-SC-3.6: An edit to a docstring's plan text produces a draft proposal
-  carrying the edit, and the plan is unchanged until it is accepted.
-  Disproved if: A docstring's normative edit is lost when the copy is
-  regenerated, or reaches the plan without being accepted (accepting is what
-  writes its change-log entry).
-Proven by: VS-3.6-a (tests/test_docstring_up.py)
-Declares (typed signatures, from the plan):
-  draft_from_docstring(root: Path, rel: str, out_dir: Path) -> tuple[list[Path], list[str]]
-  main(argv: list[str] | None = None) -> int
-[[[end]]] (sum: tLRt2SilUm)
+Implements: (no requirement)
+[[[end]]]
 """
 
 from __future__ import annotations

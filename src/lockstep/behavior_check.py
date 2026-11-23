@@ -4,24 +4,11 @@ Reads only the plan (.aes/target.yaml): which components target a behavior, whic
 artifacts those components list, and which verification subjects route its criteria. Whether
 a planned file exists yet is behavior 5.3's question (src/pcw/plan_to_code.py), not this one.
 
-[[[cog import lockstep.cogtext as c; c.docstring("ART-BEHAVIOR-CHECK", indent=0)]]]
-Plan (generated from .aes/target.yaml; edit the plan, not this text):
+[[[cog import lockstep.cogtext as c; c.docstring("src:lockstep:behavior_check.py", indent=0)]]]
+Plan (generated from lockstep.yaml layout and OpenSpec; edit the spec or the layout row, not this text):
 
-Part of REQ-7: The bet: full linkage and projection are achievable, so code
-  may be laid out by behavior: full linkage and projection (REQ-1 to REQ-6)
-  work on a real repository, and in support of that the plan supports code
-  laid out by behavior rather than by human-readability convention.
-BEH-7.2: Every behavior has exactly one file of its own and at least one
-  criterion with a checked route.
-SC-7.2: A behavior with no file, a file holding two behaviors, or a behavior
-  with no routed criterion is reported.
-  Disproved if: A behavior lacks its own file or a routed criterion, and
-  nothing reports it.
-Proven by: VS-7.2-a (tests/test_behavior_check.py)
-Declares (typed signatures, from the plan):
-  behavior_problems(plan: dict) -> list[str]
-  main(argv: list[str] | None = None) -> int
-[[[end]]] (sum: zVr3r2B8f0)
+Implements: (no requirement)
+[[[end]]]
 """
 
 from __future__ import annotations

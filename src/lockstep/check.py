@@ -38,51 +38,11 @@ file and a final `OUTCOME` line; `--json` prints the same as one object.
 This is behavior 5.2 (before commit, the whole tree); the unplanned-file rule it applies is
 behavior 1.1 (`lockstep.unplanned_files`).
 
-[[[cog import lockstep.cogtext as c; c.docstring("ART-CHECK", indent=0)]]]
-Plan (generated from .aes/target.yaml; edit the plan, not this text):
+[[[cog import lockstep.cogtext as c; c.docstring("src:lockstep:check.py", indent=0)]]]
+Plan (generated from lockstep.yaml layout and OpenSpec; edit the spec or the layout row, not this text):
 
-Part of REQ-5: Links are checked both ways on every change: links between
-  requirement, criterion, test, file and symbol are checked in both
-  directions on every change, at edit time (the hook) and before commit
-  (`pcw check`); an unplanned or stale item is refused.
-BEH-5.2: Before commit, the whole working tree gets the same checks: an
-  undeclared file in a governed folder, a stale docstring copy, a planned
-  source file without the copy of its own plan item, a new planned Python
-  file with no docstring copy of its plan, a hand edit to the plan, an
-  edited or removed evidence record, or a deleted planned file blocks; a
-  plan change that is exactly the acceptance of new plan files (`aes plan
-  accept`) passes, and so does a new evidence record (`aes evidence
-  record`); the side file (`lockstep.yaml`) and the legacy list are read as
-  they are at the base revision, so a change cannot declare its own files or
-  add them to the legacy list, and a changed side file is reported; nothing
-  from the checked tree is executed.
-SC-5.2: `pcw check` blocks a tree with an undeclared governed file, a stale
-  copy, a planned source file whose copy of its own plan item is missing or
-  replaced by another item's, a planned Python file absent at the base and
-  written without the cog block for its plan, a hand edit to the plan, an
-  edited or removed evidence record or a deleted planned file, including
-  when the same change declares that file in the side file or adds it to the
-  legacy list, committed or git-ignored; allows a tree in step, a plan
-  change equal to the earlier plan with each newly accepted plan file
-  applied, a new evidence record, and a side-file declaration once that
-  declaration is committed; and never runs code from the tree.
-  Disproved if: Any of those blocking changes passes `pcw check`, a plan
-  change made by `aes plan accept` or a new record written by `aes evidence
-  record` is blocked, a planned test file that existed at the base is
-  blocked only for having no copy, or `pcw check` executes code from the
-  checked tree, or a change that declares its own file in `lockstep.yaml` or
-  lists it in `.aes/legacy_baseline.json` passes because of that edit.
-Proven by: VS-5.2-a (tests/test_check.py)
-Declares (typed signatures, from the plan):
-  COG_CALL
-  SAFE_GIT
-  changed_files(repo: Path, base: str = 'HEAD') -> list[tuple[str, bool]]
-  docstring_mismatch(root: Path, rel: str) -> str | None
-  accepted_plan_change(root: Path, base: str, changed: list[str]) -> tuple[list[str], str | None]
-  check(repo: Path, base: str = 'HEAD') -> dict
-  main(argv: list[str] | None = None) -> int
-  cli() -> int
-[[[end]]] (sum: EQl+KIOAjO)
+Implements: (no requirement)
+[[[end]]]
 """
 
 from __future__ import annotations

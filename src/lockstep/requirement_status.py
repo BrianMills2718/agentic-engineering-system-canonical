@@ -1,37 +1,10 @@
 """Status that comes up from the code, and one page per requirement: its text, its status and its change log.
 
-[[[cog import lockstep.cogtext as c; c.docstring("ART-REQUIREMENT-STATUS", indent=0)]]]
-Plan (generated from .aes/target.yaml; edit the plan, not this text):
+[[[cog import lockstep.cogtext as c; c.docstring("src:lockstep:requirement_status.py", indent=0)]]]
+Plan (generated from lockstep.yaml layout and OpenSpec; edit the spec or the layout row, not this text):
 
-Part of REQ-4: A hook copies status from the code up into the normative
-  documents: a hook copies status from the code up into the normative
-  documents automatically: what exists, test results, and drift. It also
-  keeps an automatic append-only change log of every normative change,
-  including those made in a docstring, so the history is there.
-BEH-4.1: Each requirement has one page, rendered from the plan and the code,
-  none of it typed; its text first, then its status (what exists, each
-  criterion's test result with the commit and time it was produced, and the
-  drift between plan and code), then the change-log entries that touch it; a
-  committed page that no longer matches a fresh build is caught before it is
-  pushed or merged.
-SC-4.1: The wiki has one page per requirement showing, in order, its text; a
-  status block with each behavior's files, each criterion's standing with
-  the commit and time of the test result behind it, and any drift AES
-  reports; and the change-log entries that touch the requirement, newest
-  last. A written page that differs from a fresh build is reported.
-  Disproved if: A page shows a status someone typed; misses a file, test
-  result, drift or change-log entry the code and plan have; shows a test
-  result without its commit and time; or a written page that differs from a
-  fresh build passes the check.
-Proven by: VS-4.1-a (tests/test_requirement_status.py)
-Declares (typed signatures, from the plan):
-  requirement_status(root: Path) -> dict
-  record_stale_evidence(root: Path) -> list[str]
-  requirement_pages(root: Path, status: dict | None = None) -> dict[str, str]
-  write_pages(root: Path, out_dir: Path) -> list[str]
-  stale_pages(root: Path, out_dir: Path) -> list[str]
-  main(argv: list[str] | None = None) -> int
-[[[end]]] (sum: mRTdjm4VAf)
+Implements: (no requirement)
+[[[end]]]
 """
 
 from __future__ import annotations

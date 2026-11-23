@@ -10,41 +10,11 @@ signature in the code differs from the declared one. The text is parsed the way 
 Only added problems count: one already in the text before the change is behavior 1.2's and 5.3's
 report (`make check`), so an agent is never refused for drift it did not cause.
 
-[[[cog import lockstep.cogtext as c; c.docstring("ART-SYMBOL-GATE", indent=0)]]]
-Plan (generated from .aes/target.yaml; edit the plan, not this text):
+[[[cog import lockstep.cogtext as c; c.docstring("src:lockstep:symbol_gate.py", indent=0)]]]
+Plan (generated from lockstep.yaml layout and OpenSpec; edit the spec or the layout row, not this text):
 
-Part of REQ-5: Links are checked both ways on every change: links between
-  requirement, criterion, test, file and symbol are checked in both
-  directions on every change, at edit time (the hook) and before commit
-  (`pcw check`); an unplanned or stale item is refused.
-BEH-5.5: An edit or a change to a planned Python file that adds a public
-  top-level function or class the file's exports in the plan do not name,
-  that gives a declared function a signature other than the declared one, or
-  that removes a declared export the file defined before, is warned about at
-  edit time (refused for a file the side file marks fixed, or with
-  PCW_MODE=block) and refused before commit, with the symbol and its
-  declared and found signatures in plain words; a problem already in the
-  file before the change is not counted against it, and a new file is not
-  judged for exports it does not define yet.
-SC-5.5: A change that adds an undeclared public function or class, changes a
-  declared function's signature, or removes a declared export the file
-  defined before, is reported with the symbol named; the edit hook warns
-  about it by default and refuses it under PCW_MODE=block; `pcw check`
-  blocks it; a change that adds only private or declared symbols with their
-  declared signatures passes; an undeclared symbol already present before
-  the change, or a declared export already missing before it, is not
-  reported.
-  Disproved if: An added undeclared public function or class, a changed
-  declared signature, or a removed declared export passes the edit hook with
-  no warning or passes `pcw check`; a change with only declared, matching
-  symbols is refused; a symbol present before the change is reported against
-  it; or a new file is refused only for a declared export it does not define
-  yet.
-Proven by: VS-5.5-a (tests/test_symbol_gate.py)
-Declares (typed signatures, from the plan):
-  added_symbol_problems(root: Path, rel: str, after: str, before: str | None) -> list[str]
-  text_after(call: dict, path: Path) -> str | None
-[[[end]]] (sum: gKJSazhO7I)
+Implements: (no requirement)
+[[[end]]]
 """
 
 from __future__ import annotations

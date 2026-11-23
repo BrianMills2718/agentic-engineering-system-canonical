@@ -7,37 +7,10 @@ are declared in Lockstep's side file, `lockstep.yaml` (`lockstep.side_file`). A 
 file has no document rule. `python -m lockstep.unplanned_files` reports every document at once and
 fails on an undeclared one or a problem in the side file; it is part of `make check`.
 
-[[[cog import lockstep.cogtext as c; c.docstring("ART-UNPLANNED-FILES", indent=0)]]]
-Plan (generated from .aes/target.yaml; edit the plan, not this text):
+[[[cog import lockstep.cogtext as c; c.docstring("src:lockstep:unplanned_files.py", indent=0)]]]
+Plan (generated from lockstep.yaml layout and OpenSpec; edit the spec or the layout row, not this text):
 
-Part of REQ-1: The plan declares the normative side and the whole file
-  structure: the plan, written as structured YAML in the AES plan format,
-  declares the normative side (requirements, success criteria and decisions)
-  and declares every file and every strongly typed function and class; no
-  code file, test or document exists without a declared reason.
-BEH-1.1: Any file in the project that the plan does not declare is reported,
-  with why it counts: code and tests under a governed folder through the AES
-  plan, documents through Lockstep's side file beside the plan, and, when
-  the side file has a files section, every other tracked file through that
-  section.
-SC-1.1: An undeclared file under a governed folder is reported; a declared
-  file, a legacy file and a file outside every governed folder are not,
-  unless the side file has a files section, when an undeclared tracked file
-  outside the governed folders is reported; an undeclared document is
-  reported.
-  Disproved if: An undeclared code file, test or document passes without a
-  report, a tracked file declared nowhere passes when the side file has a
-  files section, or a declared, legacy or (without a files section)
-  ungoverned file is reported.
-Proven by: VS-1.1-a (tests/test_unplanned_files.py)
-Proven by: VS-1.1-b (tests/test_unplanned_documents.py)
-Proven by: VS-1.1-c (tests/test_unplanned_other_files.py)
-Declares (typed signatures, from the plan):
-  governing_folder(root: Path, rel: str) -> str
-  declared_file(side: SideFile, rel: str) -> str | None
-  unplanned_reason(root: Path, rel: str, base: str | None = None) -> str | None
-  document_report(root: Path) -> dict
-  main(argv: list[str] | None = None) -> int
+Implements: (no requirement)
 [[[end]]] (sum: 9r1rl/pbTN)
 """
 

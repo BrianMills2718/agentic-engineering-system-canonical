@@ -17,35 +17,11 @@ revision the side file is read as committed there, never from the working tree, 
 rewrite the rules it is judged by (issue #67). `python -m lockstep.action_check --proposal FILE` prints the
 decision as JSON and exits 0 on allow, 1 on hold, 2 when it could not judge.
 
-[[[cog import lockstep.cogtext as c; c.docstring("ART-ACTION-CHECK", indent=0)]]]
-Plan (generated from .aes/target.yaml; edit the plan, not this text):
+[[[cog import lockstep.cogtext as c; c.docstring("src:lockstep:action_check.py", indent=0)]]]
+Plan (generated from lockstep.yaml layout and OpenSpec; edit the spec or the layout row, not this text):
 
-Part of REQ-5: Links are checked both ways on every change: links between
-  requirement, criterion, test, file and symbol are checked in both
-  directions on every change, at edit time (the hook) and before commit
-  (`pcw check`); an unplanned or stale item is refused.
-BEH-5.4: A proposed action other than a code change names the action it
-  follows from the `actions` section of Lockstep's side file, as committed
-  at the base revision; it is allowed when that action exists and has the
-  same kind and target, and it is held, with the reason in plain words, when
-  it names no action, names one the side file does not declare, or differs
-  from it in kind or target.
-SC-5.4: A proposal whose plan names a declared action with the same kind and
-  target is allowed and the decision names that action and its purpose; a
-  proposal with no plan, with a plan the side file does not declare, or with
-  a different kind or target is held with a reason that says which; the side
-  file is read at the base revision when one is given, so a change to it
-  does not change the decision.
-  Disproved if: A proposal naming no action, or an undeclared one, or
-  differing from its action in kind or target is allowed; a matching
-  proposal is held; a held decision has no reason; or an edit to the working
-  tree's side file changes a decision made at a base revision.
-Proven by: VS-5.4-a (tests/test_action_check.py)
-Declares (typed signatures, from the plan):
-  declared_actions(root: Path, base: str | None = None) -> dict[str, dict]
-  action_decision(root: Path, proposal: dict, base: str | None = None) -> dict
-  main(argv: list[str] | None = None) -> int
-[[[end]]] (sum: PXw2DJCC/U)
+Implements: (no requirement)
+[[[end]]]
 """
 
 from __future__ import annotations

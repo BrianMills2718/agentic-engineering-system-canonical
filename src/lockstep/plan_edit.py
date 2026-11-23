@@ -7,34 +7,11 @@ warns with the answer: each changed item and the files whose docstrings carry it
 3.5's own rule (`lockstep.change_list`), so the agent is handed the linked functions at once. `pcw check`
 refuses the committed hand edit as well (behavior 5.2).
 
-[[[cog import lockstep.cogtext as c; c.docstring("ART-PLAN-EDIT", indent=0)]]]
-Plan (generated from .aes/target.yaml; edit the plan, not this text):
+[[[cog import lockstep.cogtext as c; c.docstring("src:lockstep:plan_edit.py", indent=0)]]]
+Plan (generated from lockstep.yaml layout and OpenSpec; edit the spec or the layout row, not this text):
 
-Part of REQ-3: A hook copies the normative text and typed signatures down
-  into the code: a hook copies the full normative text, and the typed
-  signatures, from the plan down into the code's docstrings automatically;
-  nobody types the copy. For normative text the projection is two-way: the
-  normative portion of a docstring can be edited where the agent is working,
-  and the edit projects up into the plan; and when the normative text
-  changes in the plan, every linked function, wherever it is, is marked for
-  update and the agent is handed that list.
-BEH-3.8: An edit that changes the plan file itself (.aes/target.yaml) other
-  than through `aes plan accept` is warned about at edit time (refused with
-  PCW_MODE=block), naming each changed plan item and every file and symbol
-  whose docstring carries it, so the agent is told to make the change
-  through a plan and is handed the list of linked functions.
-SC-3.8: An Edit, MultiEdit or Write call that changes a plan item's text in
-  .aes/target.yaml is answered by the edit hook with a warning (a refusal
-  under PCW_MODE=block) that names each changed item and lists every file
-  whose docstring carries it, with that file's declared symbols; a call that
-  leaves the plan's items unchanged gets no such warning.
-  Disproved if: A hand edit that changes a plan item gets no warning from
-  the edit hook, or its warning misses a changed item or a file that carries
-  it; or an edit that changes no plan item is warned about.
-Proven by: VS-3.8-a (tests/test_plan_edit.py)
-Declares (typed signatures, from the plan):
-  plan_edit_reason(root: Path, rel: str, after: str) -> str | None
-[[[end]]] (sum: bioOn1M0+K)
+Implements: (no requirement)
+[[[end]]]
 """
 
 from __future__ import annotations

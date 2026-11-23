@@ -14,43 +14,11 @@ Like code2check, requirements in an active change (`openspec/changes/<name>/spec
 too and win over the spec, since that is where the requirement a file is being written to implement lives until
 the change is archived.
 
-[[[cog import lockstep.cogtext as c; c.docstring("ART-OPENSPEC-TEXT", indent=0)]]]
-Plan (generated from .aes/target.yaml; edit the plan, not this text):
+[[[cog import lockstep.cogtext as c; c.docstring("src:lockstep:openspec_text.py", indent=0)]]]
+Plan (generated from lockstep.yaml layout and OpenSpec; edit the spec or the layout row, not this text):
 
-Part of REQ-3: A hook copies the normative text and typed signatures down
-  into the code: a hook copies the full normative text, and the typed
-  signatures, from the plan down into the code's docstrings automatically;
-  nobody types the copy. For normative text the projection is two-way: the
-  normative portion of a docstring can be edited where the agent is working,
-  and the edit projects up into the plan; and when the normative text
-  changes in the plan, every linked function, wherever it is, is marked for
-  update and the agent is handed that list.
-BEH-3.7: In a repository that has OpenSpec specs, the requirement text the
-  hook hands the agent before an edit is the OpenSpec requirement the file
-  implements, named by an `Implements: <capability>/<requirement>` line in
-  the file's docstring, with its scenarios, word for word; a planned file
-  that implements no OpenSpec requirement, and a repository without OpenSpec
-  specs, keep the plan text from .aes/target.yaml.
-SC-3.7: For an Edit or Write to a file whose docstring has an `Implements:
-  <capability>/<requirement>` line, in a repository with
-  `openspec/specs/<capability>/spec.md`, the hook's context holds that
-  requirement's text and scenarios word for word from the spec (or from an
-  active change), with or without an AES plan, and none of the plan's text;
-  a planned file that implements no requirement, and a repository with no
-  OpenSpec specs, still get the plan text.
-  Disproved if: The hook hands plan text from .aes/target.yaml for a file
-  that implements an OpenSpec requirement, shortens or alters the
-  requirement text, hands nothing for a repository that has OpenSpec specs
-  and no AES plan, or hands no plan text where there are no OpenSpec specs
-  or the file implements no requirement.
-Proven by: VS-3.7-a (tests/test_openspec_text.py)
-Declares (typed signatures, from the plan):
-  requirement_slug(name: str) -> str
-  find_spec_root(start: Path) -> Path | None
-  read_requirements(root: Path) -> dict[str, str]
-  implemented_ids(path: Path) -> list[str]
-  requirement_packet(root: Path, path: Path) -> tuple[list[str], str]
-[[[end]]] (sum: 23k0ND7ufr)
+Implements: (no requirement)
+[[[end]]]
 """
 
 from __future__ import annotations
