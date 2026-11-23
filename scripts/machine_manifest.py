@@ -314,7 +314,6 @@ def findings(current: dict, recorded: dict | None, copied: set[str] | frozenset[
 
     Implements: machine-manifest/local-only-units-are-reported
     Implements: machine-manifest/missing-or-untracked-target-is-reported
-    Implements: machine-manifest/identical-copies-do-not-fail
     """
     now = files_of(current)
     result: dict[str, list[str]] = {"local-only": [], "bad-target": [], "gone-from-disk": [], "not-in-manifest": [],

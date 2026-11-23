@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Phone notice for the feedback loop: one Telegram message, the only notice the loop sends.
 
-Implements: feedback-loop-notices/attention-push-arrives
+Implements: feedback-loop-notices/a-message-counts-as-sent-only-on-telegram-acceptance
 
 Replaces the loop's attention pushes that went through the old Project Meta router (retirement plan, slice 2).
 Agent-fixable alerts are concerns (``scripts/learning_loop/alert.py``), not messages.
@@ -53,7 +53,7 @@ def push(title: str, body: str, *, host: str = API, timeout: float = 15.0, opene
     Never raises on network errors. ``no_preview`` turns off Telegram's link preview card (for a body that is a
     link, as the waiting-issue push sends). An HTTP error carries Telegram's own description, token removed.
 
-    Implements: feedback-loop-notices/link-preview-off-on-request
+    Implements: feedback-loop-notices/a-caller-can-turn-off-the-link-preview
     """
     token, chat = secret(TOKEN_ENV), secret(CHAT_ENV)
     if not token or not chat:

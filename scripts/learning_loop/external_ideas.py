@@ -1,7 +1,17 @@
 #!/usr/bin/env python3
 """External idea intake: watch the subreddits named in external_sources.yaml, write a ranked digest.
 
-Implements: external-idea-intake/* (openspec/specs/external-idea-intake/spec.md).
+Spec: openspec/specs/external-idea-intake/spec.md. The daily timer is systemd/external-ideas.timer.
+
+Implements: external-idea-intake/the-watch-list-is-configuration-and-an-invalid-one-is-refused
+Implements: external-idea-intake/the-digest-ranks-new-posts-by-score-and-age-only
+Implements: external-idea-intake/every-run-is-traced-and-a-repeated-failure-is-reported-as-down
+Implements: external-idea-intake/output-stays-outside-the-repository-and-the-register-is-never-written
+Implements: external-idea-intake/a-project-profile-makes-the-digest-rank-by-usefulness-to-brian-s-projects
+Implements: external-idea-intake/posts-already-assessed-into-raw-sources-are-never-offered-again
+Implements: external-idea-intake/a-daily-timer-runs-the-digest-with-the-project-profile
+Implements: external-idea-intake/the-profile-may-list-interests-and-the-judge-treats-them-like-projects
+
 Ranks by score and age only. With --profile, a light model also judges usefulness to the listed projects
 (prose meaning is never judged by regex) and writes a second digest. Output, seen list and run log go outside the repository.
 Run on request:
@@ -103,7 +113,9 @@ def social_media_fetch() -> Fetch:
 def load_profile(path: Path) -> list[dict]:
     """Projects (and optional interests) to judge usefulness against: each needs a name and a one-line goal.
 
-    Implements: external-idea-intake/interests-listed-and-named. Interest entries come back with kind "interest".
+    Interest entries come back with kind "interest".
+
+    Implements: external-idea-intake/the-profile-may-list-interests-and-the-judge-treats-them-like-projects
     """
     try:
         data = YAML(typ="safe").load(Path(path).read_text()) or {}

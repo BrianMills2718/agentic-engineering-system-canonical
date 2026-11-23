@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Route one operator notification to whoever can act on it, and prove arrival.
 
-Implements: operator-notify/routes-by-severity
+Implements: operator-notify/notices-route-by-who-must-act
 
 Plan #269 Step 2; re-routed 2026-10-06 (issue #1958). Moved here from Project Meta
 (``scripts/operator_notify_router.py`` at ``ee2957b1f``) on 2026-11-17, AES consolidation plan row 11. The
@@ -135,7 +135,10 @@ def settings() -> dict:
 
 
 def concern_repo(repo: str | None = None) -> str:
-    """The repository concerns are filed in: the argument, else the environment, else the settings."""
+    """The repository concerns are filed in: the argument, else the environment, else the settings.
+
+    Implements: operator-notify/the-concern-repository-comes-from-the-settings
+    """
     resolved = repo or os.environ.get(CONCERN_REPO_ENV, "") or str(settings().get("concern_repo") or "")
     if not resolved:
         raise RouterError(
@@ -150,6 +153,8 @@ def repo_holding_open_concern(ci, repo: str, key: str, run) -> str:
 
     Concerns filed before the move (Project Meta) stay where they are while open, so a recurrence comments on the
     issue Brian already has instead of opening a second one in the new repository.
+
+    Implements: operator-notify/an-open-legacy-concern-is-not-duplicated
     """
     for legacy in settings().get("legacy_concern_repos") or []:
         if legacy == repo:
@@ -774,6 +779,8 @@ def notify(
 
     A suppressed notice is recorded as delivered with the suppression named in
     its route: the person or agent was already told about this key.
+
+    Implements: operator-notify/notices-route-by-who-must-act
     """
     if severity not in ROUTES_BY_SEVERITY:
         raise RouterError(

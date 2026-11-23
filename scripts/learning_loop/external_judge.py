@@ -1,6 +1,8 @@
 """Depth-aware usefulness judge for external ideas.
 
-Implements: external-idea-intake/depth-judge-reads-more-when-asked.
+Implements: external-idea-intake/the-usefulness-judge-reads-more-only-when-it-asks-to-and-only-what-it-asks-for
+Implements: external-idea-intake/the-profile-may-list-interests-and-the-judge-treats-them-like-projects
+
 Round 1: the model sees each post's title and opening text plus the project list and, per post, decides
 useful / not useful / need more (comments, linked pages, or both). Round 2: this code reads exactly what
 was asked for (the model never fetches anything itself, so a hostile page cannot steer a tool) and the model

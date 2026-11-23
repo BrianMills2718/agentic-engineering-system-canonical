@@ -403,7 +403,10 @@ def _repeat_or_defer(it: dict, recent: list[str]) -> str | None:
 
 
 def file_item(it: dict) -> str:
-    """The legacy learnings register is frozen (retirement plan, Decision 18, 2026-11-16): nothing writes to it."""
+    """The legacy learnings register is frozen (retirement plan, Decision 18, 2026-11-16): nothing writes to it.
+
+    Implements: learnings-register-frozen/the-collector-reads-the-frozen-copy-and-never-writes-to-a-register
+    """
     raise RuntimeError("the legacy learnings register is frozen; items are not filed to it")
 
 

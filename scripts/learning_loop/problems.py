@@ -19,6 +19,8 @@ Input: the collector's reports-<date>.jsonl files (feedback-report.v1 records) f
 
 Exit 0 = clean, 1 = some model or GitHub calls failed (counted; retried next run), 2 = crashed.
 Traces: feedback-collector/relate/<pair>, feedback-loop/analyse/<problem>.
+
+Implements: feedback-loop-notices/the-loop-runs-without-project-meta
 """
 from __future__ import annotations
 

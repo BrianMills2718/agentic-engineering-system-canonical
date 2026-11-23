@@ -15,7 +15,8 @@ layout:
   tests: []
 - path: src/lockstep/aes_bridge.py
   purpose: 'Read the AES plan: compiled context per ID and the path-to-artifact map'
-  implements: []
+  implements:
+  - lockstep-plan-format/the-plan-is-openspec-plus-layout-rows
   tests: []
 - path: src/lockstep/behavior_check.py
   purpose: Report a behavior that lacks exactly one source file of its own or a criterion with a test route
@@ -31,7 +32,11 @@ layout:
   tests: []
 - path: src/lockstep/check.py
   purpose: '`pcw check --repo PATH [--base REF] [--json]`: is a whole working tree still on its plan?'
-  implements: []
+  implements:
+  - lockstep-plan-format/the-plan-is-openspec-plus-layout-rows
+  - lockstep-plan-format/a-planned-file-without-a-cog-plan-copy-is-judged-by-its-implements-block
+  - lockstep-plan-format/every-refusal-in-a-layout-repository-names-a-layout-command
+  - lockstep-package/lockstep-installs-from-aes-canonical
   tests: []
 - path: src/lockstep/checks/__init__.py
   purpose: 'Lockstep''s commit checks, ported from code2check at code2-template 6ce00a9: `lockstep check <name>`'
@@ -185,7 +190,8 @@ layout:
   - tests/lockstep/test_lockstep_citation_anchor.py
 - path: src/lockstep/cogtext.py
   purpose: Render plan text for a docstring. Called from cog blocks
-  implements: []
+  implements:
+  - lockstep-plan-format/the-plan-is-openspec-plus-layout-rows
   tests: []
 - path: src/lockstep/criterion_checks.py
   purpose: 'Check every success criterion names how it is checked: a test, a sign-off or an AI rubric (behavior 2.1)'
@@ -220,6 +226,10 @@ layout:
     declare (behavior 5.1)'
   implements:
   - lockstep-guard/agents-get-requirement-text-from-the-shell-too
+  - lockstep-guard/handing-over-text-never-approves-an-edit
+  - lockstep-init/the-edit-guard-logs-outside-the-checkout
+  - lockstep-package/lockstep-installs-from-aes-canonical
+  - lockstep-guard/a-refusal-lists-the-files-the-plan-allows
   tests:
   - tests/lockstep/test_lockstep_openspec_text.py
 - path: src/lockstep/init_repo.py
@@ -257,7 +267,9 @@ layout:
 - path: src/lockstep/openspec_text.py
   purpose: 'Read the OpenSpec requirement a file implements, so the edit hook hands the agent that text instead of the AES
     plan text (behavior 3.7, issue #54)'
-  implements: []
+  implements:
+  - lockstep-guard/agents-get-requirement-text-from-the-shell-too
+  - lockstep-plan-format/the-plan-is-openspec-plus-layout-rows
   tests: []
 - path: src/lockstep/parent_text.py
   purpose: Put each parent requirement, word for word, before a behavior's own text in its docstring
@@ -265,7 +277,10 @@ layout:
   tests: []
 - path: src/lockstep/plan_check.py
   purpose: '`lockstep plan check [--repo PATH] [--acceptance PATH] [--json]`: is the plan itself well formed?'
-  implements: []
+  implements:
+  - lockstep-plan-check/the-acceptance-criteria-file-is-validated
+  - lockstep-plan-check/each-plan-requirement-is-sourced-in-brian-s-words-and-covered
+  - lockstep-plan-check/the-command-is-reached-as-lockstep-plan-check
   tests: []
 - path: src/lockstep/plan_edit.py
   purpose: Name the plan items an edit by hand to the plan file changes, and every file and symbol linked to them (behavior
@@ -302,7 +317,8 @@ layout:
   tests: []
 - path: src/lockstep/scaffold.py
   purpose: '`python -m lockstep.scaffold`: create every file the plan declares that does not exist yet'
-  implements: []
+  implements:
+  - lockstep-plan-format/the-plan-is-openspec-plus-layout-rows
   tests: []
 - path: src/lockstep/shell_targets.py
   purpose: 'Which paths a shell command writes: the parser the edit hook judges shell commands by (behavior 5.1)'
@@ -343,20 +359,25 @@ layout:
   tests: []
 - path: src/lockstep/signature_text.py
   purpose: Copy the typed signatures the plan declares for a file into its docstring (behavior 3.2)
-  implements: []
+  implements:
+  - lockstep-plan-format/the-plan-is-openspec-plus-layout-rows
   tests: []
 - path: src/lockstep/stale_edit.py
   purpose: Stop an edit to a planned file while its docstring copy of the plan is stale (behavior 3.4)
-  implements: []
+  implements:
+  - lockstep-plan-format/a-planned-file-without-a-cog-plan-copy-is-judged-by-its-implements-block
   tests: []
 - path: src/lockstep/symbol_gate.py
   purpose: Report the public functions and classes, and the declared signatures, that a change to a planned file adds against
     the plan (behavior 5.5)
-  implements: []
+  implements:
+  - lockstep-plan-format/every-refusal-in-a-layout-repository-names-a-layout-command
   tests: []
 - path: src/lockstep/unplanned_files.py
   purpose: Report a file the plan does not declare (behavior 1.1)
-  implements: []
+  implements:
+  - lockstep-guard/a-refusal-lists-the-files-the-plan-allows
+  - lockstep-plan-format/the-plan-is-openspec-plus-layout-rows
   tests: []
 - path: src/lockstep/unplanned_symbols.py
   purpose: Report a top-level function or class the plan does not declare with its types (behavior 1.2)

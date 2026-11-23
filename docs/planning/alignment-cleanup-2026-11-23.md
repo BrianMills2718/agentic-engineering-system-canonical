@@ -70,3 +70,11 @@ Each item: what, evidence, my recommendation. Added as found.
 10. **A reader's wrong call, caught.** A classification reader said the `prune-merged-worktrees` scenario's `--dryrun`
    was a typo; it is a deliberate mistyped flag the scenario tests (`scripts/prune_merged_worktrees.py:310`). Each
    reader's mark is checked against the code before it is applied.
+11. **Quote markers shown as code were read as real markers.** A document describing the syntax
+   (`` `<!-- lockstep quote: <id> -->` ``) produced an "unclosed quote" finding. Fixed in `src/lockstep/checks/quotes.py`:
+   markers inside code spans and fenced blocks are skipped; the quoted passage itself is still read in full.
+12. **This session ran twice in the same worktree.** After a restart the session was resumed in two terminals, and
+   both copies applied the same classifications to `aes-wt-clean` (one made a WIP commit). They found each other
+   through a duplicate line and an unexpected commit, agreed by message that one stops, and every edit was checked
+   against the readers' findings. Recommendation: resuming a session that is already running should be refused or
+   warned about; worktrees give no protection when both writers are the same session.

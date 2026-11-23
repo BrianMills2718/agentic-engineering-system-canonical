@@ -121,3 +121,26 @@ def test_a_start_marker_with_no_end_marker_fails(traced, capsys):
     assert run(["trace", "--repo", str(traced)]) == 1
     out = capsys.readouterr().out
     assert "unclosed-quote" in out and out.strip().endswith("exit=1")
+
+
+@pytest.mark.req("lockstep-checks/trace-a-start-marker-with-no-end-marker-fails")
+def test_a_marker_written_as_code_is_not_a_quote(traced):
+    write(traced, "docs/notes.md", """
+        # Notes
+
+        Mark a quote with `<!-- lockstep quote: <id> -->` and close it.
+        Shown with backticks inside: `` `<!-- lockstep quote: <id> -->` ``.
+
+        ```
+        <!-- lockstep quote: core/do-the-thing -->
+        ```
+    """)
+    assert quotes_read(traced) == []
+
+
+@pytest.mark.req("lockstep-checks/trace-a-quote-that-matches-passes")
+def test_a_quoted_passage_keeps_its_code_words(traced):
+    write(traced, "openspec/specs/extra/spec.md", "## Requirements\n### Requirement: Coded\nThe tool SHALL run `make check`.\n")
+    write(traced, "src/pkg/extra.py", '"""Implements: extra/coded"""\n')
+    write(traced, "docs/notes.md", "<!-- lockstep quote: extra/coded -->The tool SHALL run `make check`.<!-- /lockstep quote -->\n")
+    assert [q[3] for q in quotes_read(traced)] == ["current"]

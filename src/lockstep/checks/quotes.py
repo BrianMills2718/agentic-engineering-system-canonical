@@ -82,6 +82,17 @@ def _state(ident: str, passage: str, plans: list[Plan]) -> str:
     return "current" if any(wanted in normal(t) for p in plans for t in _texts(ident, p)) else "stale"
 
 
+_CODE = re.compile(r"^```.*?^```[^\n]*$|(`+)[^\n]+?\1", re.MULTILINE | re.DOTALL)
+
+
+def _blank_code(text: str) -> str:
+    """Return text with fenced blocks and inline code spans blanked, so a marker shown as code is not a marker.
+
+    Line breaks are kept, so line numbers stay right.
+    """
+    return _CODE.sub(lambda m: "".join(c if c == "\n" else " " for c in m.group(0)), text)
+
+
 def check(root: Path, plans: list[Plan] | None = None) -> list[Quote]:
     """Find every marked quote in the Markdown files and compare it with its requirement.
 
@@ -115,10 +126,11 @@ def check(root: Path, plans: list[Plan] | None = None) -> list[Quote]:
         if "lockstep quote" not in text:
             continue
         rel = str(path.relative_to(root))
+        markers = _blank_code(text)  # find markers here; read passages from text
         at = 0
-        while (start := START.search(text, at)) is not None:
+        while (start := START.search(markers, at)) is not None:
             line = text.count("\n", 0, start.start()) + 1
-            end = END.search(text, start.end())
+            end = END.search(markers, start.end())
             if end is None:
                 found.append(Quote(rel, line, start.group(1), text[start.end():], "unclosed"))
                 break

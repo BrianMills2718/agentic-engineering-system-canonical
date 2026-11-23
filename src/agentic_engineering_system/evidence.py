@@ -453,7 +453,10 @@ class EvidenceReport:
 
 
 def _dependency_path(root: Path, value: str) -> PurePosixPath:
-    """Normalize a literal repository path and reject traversal, patterns and outside symlinks."""
+    """Normalize a literal repository path and reject traversal, patterns and outside symlinks.
+
+    Implements: required-evidence-inputs/literal-repository-path-coverage
+    """
     if (not isinstance(value, str) or not value.strip() or "\\" in value
             or PurePosixPath(value).is_absolute() or PureWindowsPath(value).drive
             or ".." in PurePosixPath(value).parts or any(c in value for c in "*?[]:\r\n\x00")):
@@ -513,8 +516,9 @@ def assess(root: Path, required_dependency_paths: dict[str, list[str]] | None = 
     A CURRENT observation with inadequate declared coverage becomes UNKNOWN. Historical
     observations are retained, and normal Git/target freshness remains unchanged. Legacy
     records without dependency_basis use their dependency_paths as declared coverage.
+
+    Implements: required-evidence-inputs/required-declared-input-coverage
     """
-    # Implements: required-evidence-inputs/Required declared input coverage
     from .trace_review import check_source_review
     root = Path(root).resolve()
     project = load_project(root / ".aes" / "project.yaml")

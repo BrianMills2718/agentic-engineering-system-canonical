@@ -21,6 +21,8 @@ e. an independent reviewer (the other client when available) judges the diff a
 
 On the canonical branch after landing it requires a passing verification record
 for the exact landed tree and re-checks the source signal.
+
+Implements: concern-repair-verifier/closure-needs-all-five-gates-judged-by-the-verifier
 """
 
 from __future__ import annotations
@@ -282,6 +284,8 @@ def recurrence_proof(repository: Path, observed: str, fix: str, report: RootCaus
     mechanism's own paths are never copied: when the control *is* the fix (for example a check
     newly wired into a hook), copying it would make the observed revision identical to the fix
     and no proof could ever fail there.
+
+    Implements: concern-repair-verifier/a-recurrence-proof-that-cannot-fail-does-not-count
     """
     command = report.recurrence_proof.command
     scratch = Path(tempfile.mkdtemp(prefix="concern-repair-proof-"))
