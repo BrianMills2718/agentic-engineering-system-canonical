@@ -570,11 +570,12 @@ def main() -> int:
                 result["reason"] = output["permissionDecisionReason"]
             if output.get("additionalContext"):
                 result["additionalContext"] = output["additionalContext"]
-        elif args.client == "codex":
+        elif args.client in ("codex", "claude"):
             # Codex rejects permissionDecision:allow without updatedInput and drops
             # its context. A context-only result passes without approving an edit;
-            # supported deny/reason output remains intact. Internal verdicts and
-            # Claude's wire format are unchanged.
+            # supported deny/reason output remains intact. Claude Code reads an allow
+            # as approving the call past the user's own permission prompt, so it gets
+            # the same context-only answer. Internal verdicts are unchanged.
             output = dict(result["hookSpecificOutput"])
             if output.get("permissionDecision") == "allow":
                 output.pop("permissionDecision")

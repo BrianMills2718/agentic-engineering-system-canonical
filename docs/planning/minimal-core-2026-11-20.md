@@ -24,6 +24,7 @@ to an agent on some proejct nad have it faithfulyy and successfully impelemnt it
 | C9 | Requirement ids named in code and tests exist | core (existence only) | agent inference: today's test (section 4) |
 | C10 | Docs conventions (links, format, reachability, arc42, LikeC4) | add-on | workspace decision 0002 |
 | C11 | Session log, feedback lines, cost basis, nightly prompt-size check | add-on | core.md, Records |
+| C12 | The linked chain: each requirement linked to its scenarios, tests, files and code; an agent editing code is handed the requirement it implements; the links readable in one file | core | 2026-11-23: "isnt this the whole thing that makes the whle systme work?"; AES `docs/architecture/GOAL.md:88`, `LOCKSTEP.md:26`. Left out of the first list by agent error (plan [linked-chain-core-2026-11-23.md](linked-chain-core-2026-11-23.md)) |
 
 ## 2. What the system must be (constraints)
 
@@ -100,7 +101,7 @@ Plan-fidelity test, 2026-11-20 ([next.goal.md](next.goal.md), "Plan-fidelity pro
 | `Source:` lines check | `lockstep check sources`, run 3 times | add-on, one place | duplicate (K8) |
 | Docs: links, markdown format, reachability, docmeta | `hooks/base.yml`, `lockstep check docmeta` | add-on | C10 |
 | Lockstep file layout (`lockstep.yaml` file list) | `lockstep check` | merge into departure report | same list as `tasks.md` (K8) |
-| Lockstep edit guard | PreToolUse hook | add-on, off by default | 0 defects caught; Codex hook cannot enforce it (section 3) |
+| Lockstep edit guard | PreToolUse hook | handing over requirement text: core, in every copy (C12, 2026-11-23); refusing edits: add-on, off by default | refusal caught 0 defects; Codex hook cannot enforce it (section 3); hooks are off in Codex until the user turns them on |
 
 ## 6. The minimal core
 
@@ -115,6 +116,8 @@ Plan-fidelity test, 2026-11-20 ([next.goal.md](next.goal.md), "Plan-fidelity pro
 5. **Commit hooks (lefthook)**: gitleaks on staged files, `.env` refusal, requirement-id existence on new findings.
 6. **Merge**: `ship` with only `make check` and the core checks above.
 7. **Trace (C7)**: keep each run's agent transcript under a run id; a trace UI (Langfuse) is an add-on.
+8. **Linked chain (C12)**: `Implements:` lines and `req()` markers are the one home of each link; the edit hook
+   hands the requirement text to the agent; `lockstep check project` writes `docs/status.md` and `docs/links.json`.
 
 Everything else in section 5 marked add-on is off until a logged failure justifies it.
 
@@ -173,6 +176,11 @@ attempt was void: the plans, copied from the earlier test project, named its pac
 Codex built the named package. Found and fixed: the template's commit check staged the git-ignored
 `docs/status.md`, so every commit that changed the status page failed (#1009). Parked: `run-plan` prints the
 `ship` line even when nothing was built (`ship` refuses such a branch anyway).
+
+**Milestone reopened, 2026-11-23.** The 2026-11-22 result above stands for C1-C11, but the core list missed C12,
+so the first core milestone is not met until the linked chain works in a fresh copy: the hook hands the agent the
+requirement text, and the link file lists the changed requirement's scenarios, tests, file and symbol
+([linked-chain-core-2026-11-23.md](linked-chain-core-2026-11-23.md), acceptance).
 
 Rule for add-ons (inferred by agent; Brian can veto): each rule lives in one place; an add-on becomes mandatory
 only after an on/off comparison shows it catches something; a mandatory check with no logged catch in 2 weeks is

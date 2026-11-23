@@ -82,8 +82,9 @@ def agent_told(proj: Path, env: dict) -> tuple[str, str]:
                        "tool_input": {"file_path": str(proj / "src/greeter/__init__.py")}})
     hso = json.loads(sh("pcw-hook", proj, env, stdin=call))["hookSpecificOutput"]
     text = hso.get("permissionDecisionReason") or hso.get("additionalContext") or ""
-    text = text.split("\n\ncog said:")[0] if hso["permissionDecision"] == "deny" else text
-    return hso["permissionDecision"], text
+    decision = hso.get("permissionDecision", "allow")  # a context-only answer carries no decision
+    text = text.split("\n\ncog said:")[0] if decision == "deny" else text
+    return decision, text
 
 
 def snap(n: int, title: str, what: str, proj: Path, env: dict, *, agent: bool = False,

@@ -16,7 +16,7 @@ def test_end_to_end(tmp_path):
     steps = json.loads(out.read_text())["steps"]
     text = {s["n"]: "\n".join(c["output"] for c in s["commands"]) for s in steps}
     assert '"deny"' in text[4] and "not in the plan" in text[4]          # unplanned file refused at the edit
-    assert '"allow"' in text[5] and "NI-001" in text[5]                  # plan text handed to the agent
+    assert '"permissionDecision"' not in text[5] and "NI-001" in text[5]  # plan text handed over, no approval
     assert "Disproved if" in steps[5]["files"][0]["text"]                # projected into the docstring
     assert "SC-001: SUPPORTED" in text[7]
     assert "STALE" in text[9]                                            # old evidence stale after the change

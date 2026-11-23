@@ -85,7 +85,7 @@ def test_the_shell_guard_reads_the_layout_too(lay, monkeypatch, capsys):
     assert out["permissionDecision"] == "deny" and "no `layout:` row in lockstep.yaml" in out["permissionDecisionReason"]
     read = {"hook_event_name": "PreToolUse", "cwd": str(lay), "tool_name": "Bash",
             "tool_input": {"command": "cp src/greeter/__init__.py /tmp/x"}}
-    assert _hook(read, monkeypatch, capsys)["permissionDecision"] == "allow"
+    assert "permissionDecision" not in _hook(read, monkeypatch, capsys)
 
 
 @pytest.mark.req("lockstep-plan-format/a-planned-file-s-edit-hands-over-its-requirement")
@@ -96,7 +96,7 @@ def test_the_edit_hook_hands_over_the_openspec_requirement(lay, monkeypatch, cap
     call = {"hook_event_name": "PreToolUse", "cwd": str(lay), "tool_name": "Edit",
             "tool_input": {"file_path": str(path), "old_string": "    pass", "new_string": "    pass  # body"}}
     out = _hook(call, monkeypatch, capsys)
-    assert out["permissionDecision"] == "allow", out
+    assert "permissionDecision" not in out, out
     assert "SHALL return `Hello, <name>!`" in out["additionalContext"]
 
 
@@ -195,7 +195,7 @@ def test_a_file_written_before_its_layout_row_can_be_edited(lay, monkeypatch, ca
     assert "Requirement text (generated)" in (lay / "src/greeter/__init__.py").read_text()
     sh("git add -A && git commit -q -m existing", lay)
     out = _edit_existing(lay, monkeypatch, capsys)
-    assert out["permissionDecision"] == "allow", out
+    assert "permissionDecision" not in out, out
     assert "SHALL return `Hello, <name>!`" in out["additionalContext"]
 
 
@@ -217,7 +217,7 @@ def test_a_stale_implements_block_is_refused_until_lockstep_check_project_runs(l
     sh(f"{BIN / 'lockstep'} check project", lay)
     assert "with the name trimmed" in (lay / "src/greeter/__init__.py").read_text()
     out = _edit_existing(lay, monkeypatch, capsys)
-    assert out["permissionDecision"] == "allow", out
+    assert "permissionDecision" not in out, out
     assert "with the name trimmed" in out["additionalContext"]
 
 

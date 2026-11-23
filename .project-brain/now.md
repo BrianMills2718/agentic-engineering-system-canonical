@@ -24,6 +24,12 @@ ran a plan to passing hidden tests and merged through `ship`; the second merge r
 (minimal-core plan section 8; [second-user.goal.md](../docs/planning/second-user.goal.md)). The template's commit
 check no longer stages the git-ignored `docs/status.md` (#1009).
 
+**Milestone reopened 2026-11-23:** the core list missed the linked chain (requirement -> scenario -> test -> file
+-> symbol), which AES's goal page makes central. New copies now ship the edit hook that hands an agent the
+requirement text (never approving an edit), and `lockstep check project` writes `docs/links.json`; the status
+page shows each implementer's file and line. Next: rerun the second-user test on a plan that changes an existing
+requirement ([linked-chain-core-2026-11-23.md](../docs/planning/linked-chain-core-2026-11-23.md)).
+
 **Next:** add-ons after the minimal core, as needed.
 
 # AES assessment (2026-11-19)

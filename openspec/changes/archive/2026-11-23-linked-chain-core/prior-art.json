@@ -1,0 +1,18 @@
+{
+  "need": "One generated machine-readable file listing capability -> requirement -> scenario -> test -> file -> symbol from in-code markers (Implements: docstrings, pytest req markers) and OpenSpec specs, in well under a second inside make.",
+  "searched": [
+    {"place": "own", "where": "src/lockstep/checks/status.py, src/lockstep/checks/markers.py, src/lockstep/hook.py, src/lockstep/init_repo.py", "query": "links, implementers, req_markers, --json", "found": "status --json already emits requirement->symbol and scenario->test edges; markers.implementers computes file:line and status drops it; no file is written. The edit hook exists but only lockstep init installs it."},
+    {"place": "outside", "where": "PyPI and GitHub release metadata for traceability tools", "query": "requirements traceability from code markers, JSON graph export", "found": "Nine candidates checked; none reads our marker syntax without adapters of the generator's size."}
+  ],
+  "candidates": [
+    {"name": "StrictDoc 0.32.1", "url": "https://pypi.org/project/strictdoc/", "covers": "Requirements, source-file relation markers, JSON/HTML export.", "misses": "Requirements must live in its .sdoc files, not OpenSpec markdown.", "verdict": "reject", "reason": "Wrong source of truth."},
+    {"name": "Doorstop 3.2", "url": "https://pypi.org/project/doorstop/", "covers": "Linked requirement items.", "misses": "Links live in per-item YAML; no in-code markers.", "verdict": "reject", "reason": "Repeats links outside the code."},
+    {"name": "sphinx-needs 9.3.0", "url": "https://pypi.org/project/sphinx-needs/", "covers": "needs.json export, a known node shape.", "misses": "Needs a full Sphinx build; too slow for make.", "verdict": "reject", "reason": "Node shape borrowed (id, type, title, links, version), runtime not adopted."},
+    {"name": "OpenFastTrace", "url": "https://github.com/OpenFastTrace/openfasttrace", "covers": "Covers: tags in code, tracing report.", "misses": "JVM, GPL, req~id~1 syntax.", "verdict": "reject", "reason": "Heavy runtime, different IDs."},
+    {"name": "LOBSTER (bmw-lobster-core 1.1.0)", "url": "https://github.com/bmw-software-engineering/lobster", "covers": "Python tags and pytest tests, JSON format.", "misses": "Different tag syntax; AGPL in a template others copy.", "verdict": "reject", "reason": "Adapters cost as much as the generator; licence."},
+    {"name": "reqif 0.1.1", "url": "https://pypi.org/project/reqif/", "covers": "ReqIF parse/export.", "misses": "No tracing.", "verdict": "reject", "reason": "Only an export format."}
+  ],
+  "decision": "build",
+  "gap": "No tool reads Implements: and req() markers with OpenSpec IDs; Lockstep's own parsers already do, so the file is a few dozen lines on top of status.",
+  "decided": "2026-11-23"
+}

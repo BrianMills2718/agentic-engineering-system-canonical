@@ -135,3 +135,16 @@ def test_an_ignored_status_page_does_not_block_a_commit(tmp_path):
     staged = subprocess.run(["git", "diff", "--cached", "--name-only"], cwd=out, capture_output=True,
                             text=True, check=True).stdout.split()
     assert staged == ["src/demo/a.py"]
+
+
+@pytest.mark.req("portable-template/a-rendered-copy-has-both-hook-files")
+def test_a_rendered_copy_has_both_hook_files(tmp_path):
+    import json
+    out = render(tmp_path)
+    for rel in (".claude/settings.json", ".codex/hooks.json"):
+        config = json.loads((out / rel).read_text())
+        commands = [h["command"] for g in config["hooks"]["PreToolUse"] for h in g["hooks"]]
+        assert commands and all("uv run" in c and "lockstep-hook" in c and "PCW_MODE" not in c for c in commands), rel
+        assert any("Edit" in g["matcher"] or "apply_patch" in g["matcher"] for g in config["hooks"]["PreToolUse"])
+    assert "--client codex" in (out / ".codex/hooks.json").read_text()
+    assert "docs/links.json" in (out / ".gitignore").read_text().splitlines()

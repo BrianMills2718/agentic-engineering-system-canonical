@@ -6,9 +6,15 @@ Implements: lockstep-projection/status-links-each-requirement-to-its-code-and-te
 
 Requirement text (generated):
     lockstep-projection/status-links-each-requirement-to-its-code-and-tests: `lockstep status` SHALL
-        list, for each requirement, the symbols whose docstrings implement it, and for each
-        scenario, the tests marked with its ID, recomputed from the repository on every run, as a
-        table, as JSON (`--json`) or as the Markdown page (`--md`).
+        list, for each requirement, the symbols whose docstrings implement it with each symbol's
+        `file:line`, and for each scenario, the tests marked with its ID, recomputed from the
+        repository on every run, as a table, as JSON (`--json`) or as the Markdown page (`--md`).
+        `lockstep check project` SHALL write `docs/links.json` in a repository with a `docs/` folder
+        and recognized OpenSpec requirements: a `version` and a list of `nodes`, each with `id`,
+        `type` (`capability`, `requirement`, `scenario`, `test`, `file` or `symbol`), `title`,
+        `file`, `line` and `links` (the IDs of the nodes it points to: capability to its
+        requirements, requirement to its scenarios and implementing symbols, scenario to its tests,
+        symbol and test to their file), and `--check` SHALL not report the file when git ignores it.
     lockstep-projection/status-reads-test-results-from-this-revision: `lockstep status` SHALL mark a
         scenario passing, failing or skipped only from a test-result file recorded at the current
         commit with a clean tree, and SHALL mark it `not run at this revision` otherwise.
@@ -32,6 +38,7 @@ from lockstep.checks.markers import implementers, req_markers
 from lockstep.checks.spec import Plan, normal, read_plan
 
 STATUS_PAGE = Path("docs/status.md")
+LINKS_FILE = Path("docs/links.json")
 RESULTS = Path(".code2check/junit.xml")
 RUN = Path(".code2check/run.json")
 NOT_RUN = "not run at this revision"
@@ -49,6 +56,7 @@ class Row:
     links: list[str] = field(default_factory=list)
     state: str = ""
     requirement: str = ""
+    files: list[str] = field(default_factory=list)  # `file:line` of each link, in the same order
 
 
 @dataclass
@@ -197,12 +205,14 @@ def report(root: Path, use_results: bool = True) -> Report:
     requirements = {i: Row(w) for i, w in {**plan.requirements, **pending.requirements}.items()}
     parents = {**plan.parent, **pending.parent}
     scenarios = {i: Row(w, requirement=parents.get(i, "")) for i, w in {**plan.scenarios, **pending.scenarios}.items()}
-    for ident, _, symbol in implementers(root):
+    for ident, where, symbol in implementers(root):
         if ident in requirements:
             requirements[ident].links.append(symbol)
-    for ident, _, node in req_markers(root):
+            requirements[ident].files.append(where)
+    for ident, where, node in req_markers(root):
         if ident in scenarios:
             scenarios[ident].links.append(node)
+            scenarios[ident].files.append(where)
     for row in scenarios.values():
         if not row.links:
             row.state = "untested"
@@ -263,7 +273,72 @@ def markdown(result: Report) -> str:
         "| Requirement | State | Implemented by |",
         "| --- | --- | --- |",
     ]
-    lines += [f"| `{i}` | {r.state} | {cell(r.links)} |" for i, r in result.requirements.items()]
+    def placed(row: Row) -> str:
+        """Return each implementing symbol with its `file:line`, or a dash."""
+        return ", ".join(f"`{s}` (`{w}`)" for s, w in zip(row.links, row.files)) or "-"
+
+    lines += [f"| `{i}` | {r.state} | {placed(r)} |" for i, r in result.requirements.items()]
     lines += ["", "| Scenario | Requirement | State | Tests |", "| --- | --- | --- | --- |"]
     lines += [f"| `{i}` | `{s.requirement}` | {s.state} | {cell(s.links)} |" for i, s in result.scenarios.items()]
     return "\n".join(lines) + "\n"
+
+
+def links(result: Report) -> dict:
+    """Return the link file: every capability, requirement, scenario, test, symbol and file, and what each points to.
+
+    Implements: lockstep-projection/status-links-each-requirement-to-its-code-and-tests
+
+    Requirement text (generated):
+        lockstep-projection/status-links-each-requirement-to-its-code-and-tests: `lockstep status`
+            SHALL list, for each requirement, the symbols whose docstrings implement it with each
+            symbol's `file:line`, and for each scenario, the tests marked with its ID, recomputed
+            from the repository on every run, as a table, as JSON (`--json`) or as the Markdown page
+            (`--md`). `lockstep check project` SHALL write `docs/links.json` in a repository with a
+            `docs/` folder and recognized OpenSpec requirements: a `version` and a list of `nodes`,
+            each with `id`, `type` (`capability`, `requirement`, `scenario`, `test`, `file` or
+            `symbol`), `title`, `file`, `line` and `links` (the IDs of the nodes it points to:
+            capability to its requirements, requirement to its scenarios and implementing symbols,
+            scenario to its tests, symbol and test to their file), and `--check` SHALL not report
+            the file when git ignores it.
+
+    Args:
+        result: The report to read the links from.
+
+    Returns:
+        `{"version": 1, "nodes": [...]}`; each node has id, type, title, file, line and links (node IDs).
+        The node shape follows sphinx-needs `needs.json`, so other tools can read it.
+    """
+    nodes: dict[str, dict] = {}
+
+    def node(ident: str, kind: str, file: str = "", line: int | None = None) -> dict:
+        title = ident.rsplit("/", 1)[-1].rsplit("::", 1)[-1].rsplit(".", 1)[-1].replace("-", " ")
+        return nodes.setdefault(ident, {"id": ident, "type": kind, "title": title, "file": file, "line": line,
+                                        "links": []})
+
+    def link(source: dict, target: str) -> None:
+        if target not in source["links"]:
+            source["links"].append(target)
+
+    def place(where: str) -> tuple[str, int | None]:
+        path, _, number = where.rpartition(":")
+        return (path, int(number)) if number.isdigit() else (where, None)
+
+    for ident, row in result.requirements.items():
+        capability = ident.split("/", 1)[0]
+        link(node(capability, "capability", row.where), ident)
+        requirement = node(ident, "requirement", row.where)
+        for symbol, where in zip(row.links, row.files):
+            path, line = place(where)
+            link(requirement, symbol)
+            link(node(symbol, "symbol", path, line), path)
+            node(path, "file", path)
+    for ident, row in result.scenarios.items():
+        scenario = node(ident, "scenario", row.where)
+        if row.requirement:
+            link(node(row.requirement, "requirement", row.where), ident)
+        for test, where in zip(row.links, row.files):
+            path, line = place(where)
+            link(scenario, test)
+            link(node(test, "test", path, line), path)
+            node(path, "file", path)
+    return {"version": 1, "nodes": list(nodes.values())}
