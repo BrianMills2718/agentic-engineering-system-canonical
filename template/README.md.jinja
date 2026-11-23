@@ -15,3 +15,6 @@ Needs on the machine: [uv](https://docs.astral.sh/uv/), [OpenSpec](https://githu
 (`openspec`), [lefthook](https://github.com/evilmartians/lefthook), [gitleaks](https://github.com/gitleaks/gitleaks), [Node.js](https://nodejs.org/) (`npx`, for the diagram check),
 [GitHub CLI](https://cli.github.com/) (`gh`, logged in, for `ship`), Claude Code or Codex (for `run-plan`), and a
 git user name and email (global, or answered when the repository was made).
+
+Moved the folder? Run `uv sync --reinstall` once: the Python environment in `.venv` records its folder, so the
+commit check cannot start `lockstep` until it is rebuilt. The git hooks themselves move with the folder.
