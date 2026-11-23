@@ -1,16 +1,12 @@
 """Find `Implements:` docstring lines in source and `req` markers in tests, using the Python AST.
 
 Implements: lockstep-checks/trace-source-folders-are-configurable, lockstep-checks/trace-test-folders-are-configurable
+Implements: lockstep-checks/trace-comment-lines-in-configured-files-implement-requirements
 
 Requirement text (generated):
     lockstep-checks/trace-source-folders-are-configurable: The trace check SHALL search for
         `Implements:` lines in the folders listed under `[tool.lockstep] (or`[tool.code2check]`, its
         old name) source` in `pyproject.toml`, and in `src` when none are listed.
-    lockstep-checks/trace-test-folders-are-configurable: The marker reader SHALL discover
-        `@pytest.mark.req` in `test_*.py` files under the folders listed in `[tool.lockstep]
-        (or`[tool.code2check]`, its old name) tests` in `pyproject.toml`, defaulting to `tests` when
-        omitted. Trace, status, generated plan coverage and test-first SHALL use those same roots.
-        Overlapping roots SHALL not duplicate a discovered test marker.
 """
 
 import ast
@@ -20,6 +16,9 @@ import tomllib
 
 # A wrapped list continues on indented lines; an indented line that starts a new `Implements:` is its own entry.
 _IMPLEMENTS = re.compile(r"^[ \t]*Implements:[ \t]*(.+(?:\n[ \t]+(?!Implements:)\S.*)*)", re.MULTILINE)
+# One comment line in a configured non-Python file: a comment opener (required, so a docstring line in a
+# `.py.jinja` starter file is not read), then `Implements:`, then IDs to a closer or line end.
+_COMMENT_IMPLEMENTS = re.compile(r"^[ \t]*(?:\{#|#|//|<!--)[ \t]*Implements:[ \t]*(.+?)[ \t]*(?:#\}|-->)?[ \t]*$", re.MULTILINE)
 
 
 def _tool_table(root: Path) -> dict:
@@ -85,6 +84,26 @@ def implementers(root: Path, only: Path | None = None) -> list[tuple[str, str, s
                     for ident in m.group(1).replace("\n", " ").split(","):
                         if ident.strip():
                             found.append((ident.strip(), f"{path.relative_to(root)}:{line}", symbol))
+    if only is None:
+        found += _comment_implementers(root)
+    return found
+
+
+def _comment_implementers(root: Path) -> list[tuple[str, str, str]]:
+    """List (requirement ID, file:line, file) for each `Implements:` comment line in `[tool.lockstep] comment_sources`."""
+    found = []
+    for name in _tool_table(root).get("comment_sources", []):
+        base = root / name
+        paths = [base] if base.is_file() else sorted(p for p in base.rglob("*") if p.is_file())
+        for path in paths:
+            try:
+                text = path.read_text()
+            except (UnicodeDecodeError, OSError):
+                continue
+            rel = str(path.relative_to(root))
+            for m in _COMMENT_IMPLEMENTS.finditer(text):
+                line = text.count("\n", 0, m.start()) + 1
+                found += [(i.strip(), f"{rel}:{line}", rel) for i in m.group(1).split(",") if i.strip()]
     return found
 
 

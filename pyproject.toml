@@ -77,3 +77,5 @@ markers = ["req(capability_scenario): source requirement and scenario exercised"
 [tool.lockstep]
 # Folders searched for `Implements:` lines (lockstep check trace and project); scripts/ holds the AES operations code.
 source = ["src", "scripts"]
+# Non-Python files whose comment lines (`# Implements:`, `{# Implements: ... #}`) count as implementers: the template.
+comment_sources = ["copier.yml", "template"]
