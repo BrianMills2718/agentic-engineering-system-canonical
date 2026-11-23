@@ -20,8 +20,8 @@
       "url": "https://sphinx-needs.readthedocs.io/",
       "covers": "A status per need node.",
       "misses": "Sphinx itself is not used here; only the node shape is borrowed.",
-      "verdict": "adopt",
-      "reason": "Same node shape; the state field follows its status convention."
+      "verdict": "reject",
+      "reason": "Sphinx is not used here; the link file already borrows its node shape, and a state field in that shape needs no dependency."
     }
   ],
   "decision": "build",
