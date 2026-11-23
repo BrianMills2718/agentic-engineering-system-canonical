@@ -1,0 +1,2 @@
+- [x] Tests first: status-only conflict regenerated; status plus another conflict still stops; a status-only commit is dropped; hidden tests rerun after ship's rebase (pass merges, fail refuses); an out-of-date record without a ship rebase is still refused
+- [x] `catch_up` settles conflicts confined to `docs/status.md` and regenerates; `accept_refusal` reruns after ship's own rebase
