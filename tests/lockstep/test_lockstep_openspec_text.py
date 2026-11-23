@@ -157,6 +157,24 @@ def test_the_hook_hands_an_openspec_only_repository_the_requirement_text(repo):
     assert edit(repo, "not_there_yet.py") is None
 
 
+def shell(root: Path, command: str) -> dict | None:
+    return decide({"tool_name": "Bash", "tool_input": {"command": command}, "cwd": str(root)})
+
+
+@pytest.mark.req("lockstep-guard/a-shell-command-on-an-implementing-file-gets-its-requirement-text")
+def test_a_shell_command_on_an_implementing_file_gets_its_requirement_text(repo):
+    """Agents often read and rewrite files from the shell; the text must reach them that way too."""
+    for command in ("cat scripts/ship.py", "cat > scripts/ship.py <<'EOF'\nx = 1\nEOF",
+                    "sed -i 's/a/b/' scripts/ship.py", "cd scripts && python3 -c 'print(1)' > ship.py"):
+        out = shell(repo, command)
+        assert out is not None, command
+        context = out["hookSpecificOutput"]["additionalContext"]
+        assert "SHALL run the repository's check and merge only when it exits 0." in context, command
+    write(repo / "plain.py", '"""Nothing implemented."""\n')
+    assert shell(repo, "cat plain.py") is None
+    assert shell(repo, "ls -la") is None
+
+
 def test_the_hook_logs_what_it_handed_over(repo, monkeypatch, capsys):
     call = {"tool_name": "Edit", "tool_input": {"file_path": str(repo / "scripts/ship.py")}, "cwd": str(repo),
             "tool_use_id": "t7"}
