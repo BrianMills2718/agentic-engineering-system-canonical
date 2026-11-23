@@ -1,0 +1,14 @@
+{
+  "need": "Put the link lines repositories already write (Closes: lines in plans and change proposals, Source: lines on requirements, lockstep quote markers in documents) into the generated docs/links.json, with no new line for anyone to write.",
+  "searched": [
+    {"place": "own", "where": "src/lockstep/checks/status.py, src/lockstep/checks/sources.py, src/lockstep/checks/quotes.py, src/lockstep/checks/config.py", "query": "plan_files, CLOSES, sources.check, quotes.check, human_pattern", "found": "Each line already has a parser with tests: plan_files and CLOSES (status), sources.check with classify, quotes.check with state. Nothing combines them into the link file."},
+    {"place": "outside", "where": "openspec/changes/archive/2026-11-23-linked-chain-core/prior-art.json", "query": "requirements traceability tools with typed links", "found": "Same candidate set as the linked-chain change: StrictDoc, Doorstop, sphinx-needs, OpenFastTrace, LOBSTER; none reads these line formats. sphinx-needs allows extra node fields and types, which this keeps to."}
+  ],
+  "candidates": [
+    {"name": "sphinx-needs 9.3.0 needs.json", "url": "https://pypi.org/project/sphinx-needs/", "covers": "Node shape with custom types and extra fields.", "misses": "Needs a full Sphinx build.", "verdict": "combine", "reason": "Shape kept (new types plan and quote, extra fields state, source, unknown); runtime not adopted."},
+    {"name": "Lockstep's own parsers", "url": "src/lockstep/checks/", "covers": "Every line format involved, already tested.", "misses": "Not joined into links.json.", "verdict": "combine", "reason": "Reused as they are; the join is about forty lines."}
+  ],
+  "decision": "combine",
+  "gap": "Only the join is new: the parsers exist and the node shape is borrowed.",
+  "decided": "2026-11-23"
+}

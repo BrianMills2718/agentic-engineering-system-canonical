@@ -11,10 +11,17 @@ Requirement text (generated):
         repository on every run, as a table, as JSON (`--json`) or as the Markdown page (`--md`).
         `lockstep check project` SHALL write `docs/links.json` in a repository with a `docs/` folder
         and recognized OpenSpec requirements: a `version` and a list of `nodes`, each with `id`,
-        `type` (`capability`, `requirement`, `scenario`, `test`, `file` or `symbol`), `title`,
-        `file`, `line` and `links` (the IDs of the nodes it points to: capability to its
-        requirements, requirement to its scenarios and implementing symbols, scenario to its tests,
-        symbol and test to their file), and `--check` SHALL not report the file when git ignores it.
+        `type` (`capability`, `requirement`, `scenario`, `test`, `file`, `symbol`, `plan` or
+        `quote`), `title`, `file`, `line` and `links` (the IDs of the nodes it points to: capability
+        to its requirements, requirement to its scenarios and implementing symbols, scenario to its
+        tests, symbol and test to their file, plan to the IDs on its `Closes:` line, quote to the ID
+        in its `lockstep quote` marker), and `--check` SHALL not report the file when git ignores
+        it. A `plan` node SHALL be written for each plan in `docs/plans/` and each active or
+        archived OpenSpec change proposal with a `Closes:` line, with `state` `active` or
+        `archived`; a `quote` node, with ID `<file>:<line>`, for each quote marker, with `state`
+        from the trace check; an ID either names that no node has SHALL be listed in its `unknown`
+        field, not in `links`. Each requirement node SHALL carry `source`, the text of its `Source:`
+        line, and `source_kind`, as the sources check classifies it.
     lockstep-projection/status-reads-test-results-from-this-revision: `lockstep status` SHALL mark a
         scenario passing, failing or skipped only from a test-result file recorded at the current
         commit with a clean tree, and SHALL mark it `not run at this revision` otherwise.
@@ -283,7 +290,7 @@ def markdown(result: Report) -> str:
     return "\n".join(lines) + "\n"
 
 
-def links(result: Report) -> dict:
+def links(result: Report, root: Path | None = None) -> dict:
     """Return the link file: every capability, requirement, scenario, test, symbol and file, and what each points to.
 
     Implements: lockstep-projection/status-links-each-requirement-to-its-code-and-tests
@@ -295,18 +302,29 @@ def links(result: Report) -> dict:
             from the repository on every run, as a table, as JSON (`--json`) or as the Markdown page
             (`--md`). `lockstep check project` SHALL write `docs/links.json` in a repository with a
             `docs/` folder and recognized OpenSpec requirements: a `version` and a list of `nodes`,
-            each with `id`, `type` (`capability`, `requirement`, `scenario`, `test`, `file` or
-            `symbol`), `title`, `file`, `line` and `links` (the IDs of the nodes it points to:
-            capability to its requirements, requirement to its scenarios and implementing symbols,
-            scenario to its tests, symbol and test to their file), and `--check` SHALL not report
-            the file when git ignores it.
+            each with `id`, `type` (`capability`, `requirement`, `scenario`, `test`, `file`,
+            `symbol`, `plan` or `quote`), `title`, `file`, `line` and `links` (the IDs of the nodes
+            it points to: capability to its requirements, requirement to its scenarios and
+            implementing symbols, scenario to its tests, symbol and test to their file, plan to the
+            IDs on its `Closes:` line, quote to the ID in its `lockstep quote` marker), and
+            `--check` SHALL not report the file when git ignores it. A `plan` node SHALL be written
+            for each plan in `docs/plans/` and each active or archived OpenSpec change proposal with
+            a `Closes:` line, with `state` `active` or `archived`; a `quote` node, with ID
+            `<file>:<line>`, for each quote marker, with `state` from the trace check; an ID either
+            names that no node has SHALL be listed in its `unknown` field, not in `links`. Each
+            requirement node SHALL carry `source`, the text of its `Source:` line, and
+            `source_kind`, as the sources check classifies it.
 
     Args:
         result: The report to read the links from.
+        root: Repository root; when given, the link lines the repository already writes are read too: plans
+            and change proposals with a `Closes:` line (active and archived), `lockstep quote` markers, and each
+            requirement's `Source:` line.
 
     Returns:
         `{"version": 1, "nodes": [...]}`; each node has id, type, title, file, line and links (node IDs).
-        The node shape follows sphinx-needs `needs.json`, so other tools can read it.
+        The node shape follows sphinx-needs `needs.json`, so other tools can read it. Links go only to nodes in
+        the file; an ID a plan or quote names that no node has is listed in that node's `unknown`.
     """
     nodes: dict[str, dict] = {}
 
@@ -341,4 +359,40 @@ def links(result: Report) -> dict:
             link(scenario, test)
             link(node(test, "test", path, line), path)
             node(path, "file", path)
+    if root is not None:
+        _existing_lines(Path(root), nodes, node)
     return {"version": 1, "nodes": list(nodes.values())}
+
+
+def _existing_lines(root: Path, nodes: dict[str, dict], node) -> None:
+    """Add plan and quote nodes and requirement sources from the lines the repository already writes."""
+    from lockstep.checks import config, quotes, sources
+
+    def point(source: dict, ids: list[str]) -> None:
+        for ident in ids:
+            target = source["links"] if ident in nodes and nodes[ident]["type"] != "plan" else source["unknown"]
+            if ident not in target:
+                target.append(ident)
+
+    archived = sorted((root / "openspec" / "changes" / "archive").glob("*/proposal.md"))
+    found = [(rel, ids, "active") for rel, ids in plan_files(root)]
+    for path in archived:
+        m = CLOSES.search(path.read_text())
+        if m:
+            ids = [i.strip() for i in m.group(1).replace("\n", " ").split(",") if i.strip()]
+            found.append((str(path.relative_to(root)), ids, "archived"))
+    for rel, ids, state in found:
+        plan = node(rel, "plan", rel)
+        plan.update(type="plan", state=state, unknown=[])
+        point(plan, ids)
+    for q in quotes.check(root):
+        quote = node(f"{q.path}:{q.line}", "quote", q.path, q.line)
+        quote.update(state=q.state, unknown=[])
+        point(quote, [q.id])
+    try:
+        pattern = config.load(root).human_pattern
+    except Exception:  # a broken lockstep.yaml is the config check's finding, not the link file's
+        pattern = sources.DEFAULT_HUMAN_PATTERN
+    for item in sources.check(root, pattern):
+        if item.id in nodes and nodes[item.id]["type"] == "requirement":
+            nodes[item.id].update(source=item.text, source_kind=item.source)
