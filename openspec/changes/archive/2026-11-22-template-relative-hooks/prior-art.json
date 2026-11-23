@@ -8,7 +8,7 @@
     {"name": "lefthook install --force into a relative .githooks", "url": "https://lefthook.dev", "covers": "Writes the hook scripts lefthook expects.", "misses": "Its scripts carry the installing machine's lefthook path, so they cannot be tracked in a portable template.", "verdict": "reject", "reason": "Tracked scripts must not name a machine path; untracked ones are missing in new worktrees."},
     {"name": "Tracked one-line .githooks scripts calling lefthook run", "url": "src/agentic_engineering_system/cli.py", "covers": "Same pattern aes hooks install uses; works in moved copies and worktrees (tried by hand 2026-11-22).", "misses": "Nothing needed here.", "verdict": "adopt", "reason": "Smallest change; two three-line files and one config value."}
   ],
-  "decision": "reuse",
+  "decision": "adopt",
   "gap": "None; the existing tracked-hooks pattern is applied to the template.",
   "decided": "2026-11-22"
 }
