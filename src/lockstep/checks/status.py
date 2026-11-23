@@ -11,17 +11,21 @@ Requirement text (generated):
         repository on every run, as a table, as JSON (`--json`) or as the Markdown page (`--md`).
         `lockstep check project` SHALL write `docs/links.json` in a repository with a `docs/` folder
         and recognized OpenSpec requirements: a `version` and a list of `nodes`, each with `id`,
-        `type` (`capability`, `requirement`, `scenario`, `test`, `file`, `symbol`, `plan` or
-        `quote`), `title`, `file`, `line` and `links` (the IDs of the nodes it points to: capability
-        to its requirements, requirement to its scenarios and implementing symbols, scenario to its
-        tests, symbol and test to their file, plan to the IDs on its `Closes:` line, quote to the ID
-        in its `lockstep quote` marker), and `--check` SHALL not report the file when git ignores
-        it. A `plan` node SHALL be written for each plan in `docs/plans/` and each active or
-        archived OpenSpec change proposal with a `Closes:` line, with `state` `active` or
+        `type` (`capability`, `requirement`, `scenario`, `test`, `file`, `symbol`, `plan`, `quote`
+        or `decision`), `title`, `file`, `line` and `links` (the IDs of the nodes it points to:
+        capability to its requirements, requirement to its scenarios and implementing symbols,
+        scenario to its tests, symbol and test to their file, plan to the IDs on its `Closes:` line,
+        quote to the ID in its `lockstep quote` marker, decision to the files, folders, requirements
+        and capabilities its `Governs:` line names), and `--check` SHALL not report the file when
+        git ignores it. A `plan` node SHALL be written for each plan in `docs/plans/` and each
+        active or archived OpenSpec change proposal with a `Closes:` line, with `state` `active` or
         `archived`; a `quote` node, with ID `<file>:<line>`, for each quote marker, with `state`
         from the trace check; an ID either names that no node has SHALL be listed in its `unknown`
         field, not in `links`. Each requirement node SHALL carry `source`, the text of its `Source:`
-        line, and `source_kind`, as the sources check classifies it.
+        line, and `source_kind`, as the sources check classifies it. A `decision` node, with ID
+        `decision/<file stem>`, SHALL be written for each record in `docs/decisions/`, with
+        `status`, `superseded_by`, `source`, `source_kind` and `governs` (every `Governs:` target as
+        written); a path target SHALL also be a `file` node.
     lockstep-projection/status-reads-test-results-from-this-revision: `lockstep status` SHALL mark a
         scenario passing, failing or skipped only from a test-result file recorded at the current
         commit with a clean tree, and SHALL mark it `not run at this revision` otherwise.
@@ -303,17 +307,21 @@ def links(result: Report, root: Path | None = None) -> dict:
             (`--md`). `lockstep check project` SHALL write `docs/links.json` in a repository with a
             `docs/` folder and recognized OpenSpec requirements: a `version` and a list of `nodes`,
             each with `id`, `type` (`capability`, `requirement`, `scenario`, `test`, `file`,
-            `symbol`, `plan` or `quote`), `title`, `file`, `line` and `links` (the IDs of the nodes
-            it points to: capability to its requirements, requirement to its scenarios and
-            implementing symbols, scenario to its tests, symbol and test to their file, plan to the
-            IDs on its `Closes:` line, quote to the ID in its `lockstep quote` marker), and
+            `symbol`, `plan`, `quote` or `decision`), `title`, `file`, `line` and `links` (the IDs
+            of the nodes it points to: capability to its requirements, requirement to its scenarios
+            and implementing symbols, scenario to its tests, symbol and test to their file, plan to
+            the IDs on its `Closes:` line, quote to the ID in its `lockstep quote` marker, decision
+            to the files, folders, requirements and capabilities its `Governs:` line names), and
             `--check` SHALL not report the file when git ignores it. A `plan` node SHALL be written
             for each plan in `docs/plans/` and each active or archived OpenSpec change proposal with
             a `Closes:` line, with `state` `active` or `archived`; a `quote` node, with ID
             `<file>:<line>`, for each quote marker, with `state` from the trace check; an ID either
             names that no node has SHALL be listed in its `unknown` field, not in `links`. Each
             requirement node SHALL carry `source`, the text of its `Source:` line, and
-            `source_kind`, as the sources check classifies it.
+            `source_kind`, as the sources check classifies it. A `decision` node, with ID
+            `decision/<file stem>`, SHALL be written for each record in `docs/decisions/`, with
+            `status`, `superseded_by`, `source`, `source_kind` and `governs` (every `Governs:`
+            target as written); a path target SHALL also be a `file` node.
 
     Args:
         result: The report to read the links from.
@@ -396,3 +404,13 @@ def _existing_lines(root: Path, nodes: dict[str, dict], node) -> None:
     for item in sources.check(root, pattern):
         if item.id in nodes and nodes[item.id]["type"] == "requirement":
             nodes[item.id].update(source=item.text, source_kind=item.source)
+    from lockstep import decisions
+
+    known = {i for i, n in nodes.items() if n["type"] in ("requirement", "capability")}
+    for d in decisions.read(root, known, pattern):
+        decision = node(d.id, "decision", d.file)
+        decision.update(type="decision", title=d.title, status=d.status, superseded_by=d.superseded_by,
+                        source=d.source, source_kind=d.source_kind, governs=d.raw, unknown=[])
+        for target in d.paths:
+            node(target, "file", target.rstrip("/"))
+        point(decision, d.paths + d.ids)

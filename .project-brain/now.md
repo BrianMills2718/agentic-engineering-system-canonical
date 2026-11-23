@@ -32,10 +32,12 @@ the hook's shell route was added in #1012 after Claude edited only through Bash.
 
 **First add-on, 2026-11-23** ([plan](../docs/planning/links-existing-lines-2026-11-23.md)): `docs/links.json`
 also reads the link lines repositories already write: `Closes:` lines (plan nodes, active and archived), quote
-markers (quote nodes) and each requirement's `Source:` line. Slice 2, decisions and their existing `Governs:` lines
-handed over by the edit hook, is next.
+markers (quote nodes) and each requirement's `Source:` line (#1015). Slice 2: the edit hook hands an agent the
+decision records whose existing `Governs:` line names the file, its folder or a requirement it implements, flags a
+superseded one, and `links.json` lists decisions (15 in AES, 0007 superseded); template decision 0001 governs
+`docs/architecture/model.c4`.
 
-**Next:** slice 2 of the first add-on, then further add-ons as needed.
+**Next:** verify both slices in a fresh copy with Claude, then further add-ons as needed.
 
 # AES assessment (2026-11-19)
 
