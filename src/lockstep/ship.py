@@ -96,7 +96,7 @@ import sys
 import tempfile
 import time
 from pathlib import Path
-from typing import Callable
+from collections.abc import Callable
 
 METHODS = {"MERGE": "merge", "REBASE": "rebase", "SQUASH": "squash"}
 # The repository settings that enable each method, and the order tried when the wanted one is not allowed.
@@ -749,7 +749,8 @@ def accept_refusal(run: "Run", repo: Path, branch: str) -> str | None:
             print(line)
             run.write(line)
             continue
-        if isinstance(rec, dict) and (rec.get("branch") == branch or rec.get("head") in on_branch):
+        if isinstance(rec, dict) and (rec.get("branch") == branch or rec.get("head") in on_branch
+                                     or (run.rebased_from and rec.get("head") == run.rebased_from)):
             records.append((str(rec.get("run_id") or path.parent.name), rec, path.parent))
     if not records:
         line = "ship: no hidden-test run recorded for this branch"
@@ -764,8 +765,9 @@ def accept_refusal(run: "Run", repo: Path, branch: str) -> str | None:
         line = f"ship: rebased past run {run_id}; running the hidden tests again at {head[:12]}"
         print(line)
         run.write(line)
-        command = (os.environ.get("SHIP_ACCEPT_RERUN") or ACCEPT_RERUN).format(
-            change=shlex.quote(str(rec.get("change", ""))), run_dir=shlex.quote(str(run_dir)))
+        command = ((os.environ.get("SHIP_ACCEPT_RERUN") or ACCEPT_RERUN)
+                   .replace("{change}", shlex.quote(str(rec.get("change", ""))))
+                   .replace("{run_dir}", shlex.quote(str(run_dir))))
         run.step("hidden tests again", command, shell=True)
         try:
             rec = json.loads((run_dir / "summary.json").read_text(encoding="utf-8"))
@@ -1095,6 +1097,11 @@ def regenerate(run: Run, repo: Path, note: Callable[[str], None]) -> str | None:
     pages = ", ".join(GENERATED)
     if run.step("regenerate the generated pages", command, shell=True).returncode != 0:
         return f"the rebase took the default branch's {pages}, but `{command}` failed; run it, commit, then ship again"
+    others = [line[3:] for line in subprocess.run(["git", "-C", str(repo), "status", "--porcelain"],
+                                                  capture_output=True, text=True).stdout.splitlines()
+              if line[3:] not in GENERATED]
+    if others:
+        return (f"`{command}` also changed {', '.join(others)}; review and commit them, then ship again")
     if not subprocess.run(["git", "-C", str(repo), "status", "--porcelain", "--", *GENERATED],
                           capture_output=True, text=True).stdout.strip():
         note(f"regenerated {pages}: unchanged")
@@ -1147,9 +1154,10 @@ def catch_up(run: Run, repo: Path, branch: str) -> str | None:
         if not conflicts or any(path not in GENERATED for path in conflicts):
             break
         # Take the default branch's copy; the page is regenerated once the rebase is done.
-        run.step(f"take {default}'s {', '.join(conflicts)}",
-                 ["git", "-C", str(repo), "checkout", "--ours", "--", *conflicts])
-        run.step("stage it", ["git", "-C", str(repo), "add", "--", *conflicts])
+        took = run.step(f"take {default}'s {', '.join(conflicts)}",
+                        ["git", "-C", str(repo), "checkout", "--ours", "--", *conflicts])
+        if took.returncode != 0 or run.step("stage it", ["git", "-C", str(repo), "add", "--", *conflicts]).returncode != 0:
+            break
         rebased = run.step("continue the rebase",
                            ["git", "-C", str(repo), "-c", "core.editor=true", "rebase", "--continue"])
         settled = True

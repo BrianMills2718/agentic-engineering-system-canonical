@@ -1859,3 +1859,22 @@ def test_a_commit_that_only_changed_the_status_page_is_dropped_and_regenerated(r
     assert ship.main(["--repo", str(work), "--check", "true"]) == 0
     assert (work / "docs" / "status.md").read_text() == "regenerated\n" and (work / "mine.txt").exists()
     assert on_remote(remote, "feature")
+
+
+@pytest.mark.req("ship/hidden-tests-run-again-after-ship-s-own-rebase")
+def test_a_record_under_another_branch_name_is_found_after_ships_rebase(repo, tmp_path, monkeypatch, capsys):
+    work, remote, _ = repo
+    run_record(tmp_path, monkeypatch, work, branch="HEAD")  # recorded on a detached head at the branch tip
+    advance_main(work, "other.txt", "other\n")
+    rerun_log = fake_rerun(tmp_path, monkeypatch, 1)
+    assert ship.main(["--repo", str(work), "--check", "true"]) == 1
+    assert rerun_log.exists() and not on_remote(remote, "feature")
+
+
+@pytest.mark.req("ship/a-conflict-only-in-the-status-page-is-regenerated")
+def test_a_regenerate_that_changes_other_files_stops(repo, monkeypatch, capsys):
+    work, remote, _ = repo
+    monkeypatch.setenv("SHIP_REGENERATE", FAKE_REGENERATE + " && echo x > stray.txt")
+    status_conflict(work)
+    assert ship.main(["--repo", str(work), "--check", "true"]) == 1
+    assert "stray.txt" in capsys.readouterr().out and not on_remote(remote, "feature")
