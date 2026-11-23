@@ -30,7 +30,12 @@ requirement text (never approving an edit), and `lockstep check project` writes 
 page shows each implementer's file and line. Accepted 2026-11-23 for Claude in a clean home (three plans, `chain-test` #1-#3; minimal-core section 8):
 the hook's shell route was added in #1012 after Claude edited only through Bash. Codex not shown (no API quota).
 
-**Next:** add-ons after the minimal core, as needed.
+**First add-on, 2026-11-23** ([plan](../docs/planning/links-existing-lines-2026-11-23.md)): `docs/links.json`
+also reads the link lines repositories already write: `Closes:` lines (plan nodes, active and archived), quote
+markers (quote nodes) and each requirement's `Source:` line. Slice 2, decisions and their existing `Governs:` lines
+handed over by the edit hook, is next.
+
+**Next:** slice 2 of the first add-on, then further add-ons as needed.
 
 # AES assessment (2026-11-19)
 

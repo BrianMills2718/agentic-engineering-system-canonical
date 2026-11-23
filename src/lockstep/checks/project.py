@@ -218,5 +218,5 @@ def _project_once(root: Path, check: bool = False) -> list[str]:
     if page.parent.is_dir() and not (check and _ignored(root, STATUS_PAGE)):
         contents[page] = markdown(coverage)
     if page.parent.is_dir() and not (check and _ignored(root, LINKS_FILE)):
-        contents[root / LINKS_FILE] = json.dumps(links(coverage), indent=1) + "\n"
+        contents[root / LINKS_FILE] = json.dumps(links(coverage, root), indent=1) + "\n"
     return project_facts(root, check=check, rendered=render(root, contents))
