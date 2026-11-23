@@ -323,6 +323,49 @@ def _shell_write_targets(root: Path, cwd: Path, command: str) -> list[str]:
     return hits
 
 
+_PY_PATH = re.compile(r"[\w./-]+\.py\b")
+
+
+def _shell_spec_text(call: dict, cwd: Path, command: str) -> dict | None:
+    """With OpenSpec specs and no plan: hand over the requirement text of each implementing file the command names.
+
+    Agents read and rewrite files from the shell (`cat`, `cat > f <<EOF`, `sed -i`) as often as with the edit tool,
+    so the text must reach them on both routes. The named files are the shell parser's write targets plus each
+    `.py` path in the command, resolved after its `cd`s; nothing is refused.
+
+    Implements: lockstep-guard/agents-get-requirement-text-from-the-shell-too
+
+    Requirement text (generated):
+        lockstep-guard/agents-get-requirement-text-from-the-shell-too: In a repository with OpenSpec
+            specs and no layout plan, the edit hook SHALL answer a shell command that names or
+            writes a file whose docstrings carry `Implements:` lines with those requirements' text,
+            without a `permissionDecision`, and SHALL log the call as `openspec_text` with the
+            requirement IDs; a command naming no such file SHALL get no answer.
+    """
+    spec_root = find_spec_root(cwd)
+    if spec_root is None:
+        return None
+    names = set(_shell_write_targets(spec_root, cwd, command))
+    dirs = [cwd] + [cwd / d for d in re.findall(r"\bcd\s+([\w./-]+)", command)]
+    for token in _PY_PATH.findall(command):
+        for base in dirs:
+            path = (base / token).resolve()
+            if path.is_file() and path.is_relative_to(spec_root.resolve()):
+                names.add(path.relative_to(spec_root.resolve()).as_posix())
+    ids: list[str] = []
+    texts: list[str] = []
+    for rel in sorted(names):
+        found, text = requirement_packet(spec_root, spec_root / rel)
+        if found:
+            ids += [i for i in found if i not in ids]
+            texts.append(text)
+    if not texts:
+        return None
+    log(spec_root, {"tool": call.get("tool_name"), "files": sorted(names), "decision": "allow",
+                    "why": "openspec_text", "requirements": ids})
+    return _out("allow", None, "\n\n".join(texts))
+
+
 def decide_shell(call: dict, command: str) -> dict | None:
     """A shell command that names a planned file: hand over its plan; refuse writes (they would skip this hook).
 
@@ -334,7 +377,7 @@ def decide_shell(call: dict, command: str) -> dict | None:
     cwd = Path(call.get("cwd") or os.getcwd())
     root = find_root(cwd)
     if root is None:
-        return None
+        return _shell_spec_text(call, cwd, command)
     entries = _log_entry_writes(root, cwd, command)
     if entries:
         log(root, {"tool": call.get("tool_name"), "files": entries, "decision": "deny", "why": "log_entry"})
