@@ -1,0 +1,206 @@
+{
+ "version": 1,
+ "nodes": [
+  {
+   "id": "core",
+   "type": "capability",
+   "title": "core",
+   "file": "openspec/specs/core/spec.md",
+   "line": null,
+   "links": [
+    "core/reports-its-version"
+   ]
+  },
+  {
+   "id": "core/reports-its-version",
+   "type": "requirement",
+   "title": "reports its version",
+   "file": "openspec/specs/core/spec.md",
+   "line": null,
+   "links": [
+    "greeter.core",
+    "core/version-matches-the-package"
+   ],
+   "source": "inferred by agent (starter example; replace with the project's first real requirement)",
+   "source_kind": "inferred"
+  },
+  {
+   "id": "greeter.core",
+   "type": "symbol",
+   "title": "core",
+   "file": "src/greeter/core.py",
+   "line": 1,
+   "links": [
+    "src/greeter/core.py"
+   ]
+  },
+  {
+   "id": "src/greeter/core.py",
+   "type": "file",
+   "title": "py",
+   "file": "src/greeter/core.py",
+   "line": null,
+   "links": [
+    "core/reports-its-version",
+    "tests/test_core.py"
+   ],
+   "state": "exists"
+  },
+  {
+   "id": "greeting",
+   "type": "capability",
+   "title": "greeting",
+   "file": "openspec/changes/add-greeting/specs/greeting/spec.md",
+   "line": null,
+   "links": [
+    "greeting/greet-by-name"
+   ]
+  },
+  {
+   "id": "greeting/greet-by-name",
+   "type": "requirement",
+   "title": "greet by name",
+   "file": "openspec/changes/add-greeting/specs/greeting/spec.md",
+   "line": null,
+   "links": [
+    "greeting/a-name-is-greeted",
+    "greeting/a-blank-name-is-refused"
+   ],
+   "source": "inferred by agent (proof plan for the template layout, AES docs/planning/template-layout-2026-11-23.md step 6)",
+   "source_kind": "inferred"
+  },
+  {
+   "id": "core/version-matches-the-package",
+   "type": "scenario",
+   "title": "version matches the package",
+   "file": "openspec/specs/core/spec.md",
+   "line": null,
+   "links": [
+    "tests/test_core.py::test_version_matches_the_package"
+   ]
+  },
+  {
+   "id": "tests/test_core.py::test_version_matches_the_package",
+   "type": "test",
+   "title": "test_version_matches_the_package",
+   "file": "tests/test_core.py",
+   "line": 8,
+   "links": [
+    "tests/test_core.py"
+   ]
+  },
+  {
+   "id": "tests/test_core.py",
+   "type": "file",
+   "title": "py",
+   "file": "tests/test_core.py",
+   "line": null,
+   "links": []
+  },
+  {
+   "id": "greeting/a-name-is-greeted",
+   "type": "scenario",
+   "title": "a name is greeted",
+   "file": "openspec/changes/add-greeting/specs/greeting/spec.md",
+   "line": null,
+   "links": []
+  },
+  {
+   "id": "greeting/a-blank-name-is-refused",
+   "type": "scenario",
+   "title": "a blank name is refused",
+   "file": "openspec/changes/add-greeting/specs/greeting/spec.md",
+   "line": null,
+   "links": []
+  },
+  {
+   "id": "decision/0001-use-the-code2-layout",
+   "type": "decision",
+   "title": "Use the code2 repository layout",
+   "file": "docs/decisions/0001-use-the-code2-layout.md",
+   "line": null,
+   "links": [
+    "docs/architecture/model.c4"
+   ],
+   "status": "accepted",
+   "superseded_by": "",
+   "source": "Brian, 2026-10-15: \"yes lets make sure that our plans and docuemtnation for code2 dogfood what we are going to requrie repos/proejcts in code2 to comply with\"",
+   "source_kind": "brian",
+   "governs": [
+    "docs/architecture/model.c4"
+   ],
+   "unknown": []
+  },
+  {
+   "id": "docs/architecture/model.c4",
+   "type": "file",
+   "title": "c4",
+   "file": "docs/architecture/model.c4",
+   "line": null,
+   "links": []
+  },
+  {
+   "id": "src/greeter/__init__.py",
+   "type": "file",
+   "title": "py",
+   "file": "src/greeter/__init__.py",
+   "line": null,
+   "links": [],
+   "state": "exists"
+  },
+  {
+   "id": "greeter.core.version",
+   "type": "symbol",
+   "title": "version",
+   "file": "src/greeter/core.py",
+   "line": null,
+   "links": [
+    "src/greeter/core.py"
+   ],
+   "state": "exists"
+  },
+  {
+   "id": "src/greeter/cli.py",
+   "type": "file",
+   "title": "py",
+   "file": "src/greeter/cli.py",
+   "line": null,
+   "links": [],
+   "state": "exists"
+  },
+  {
+   "id": "greeter.cli.main",
+   "type": "symbol",
+   "title": "main",
+   "file": "src/greeter/cli.py",
+   "line": null,
+   "links": [
+    "src/greeter/cli.py"
+   ],
+   "state": "exists"
+  },
+  {
+   "id": "src/greeter/greet.py",
+   "type": "file",
+   "title": "py",
+   "file": "src/greeter/greet.py",
+   "line": null,
+   "links": [
+    "greeting/greet-by-name",
+    "tests/test_greet.py"
+   ],
+   "state": "planned"
+  },
+  {
+   "id": "greeter.greet.greet",
+   "type": "symbol",
+   "title": "greet",
+   "file": "src/greeter/greet.py",
+   "line": null,
+   "links": [
+    "src/greeter/greet.py"
+   ],
+   "state": "planned"
+  }
+ ]
+}

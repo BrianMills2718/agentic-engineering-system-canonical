@@ -1,0 +1,91 @@
+$ uv run pytest -q tests/test_accept_1.py tests/test_accept_2.py
+FFF                                                                      [100%]
+=================================== FAILURES ===================================
+________________________ test_accept_a_name_is_greeted _________________________
+
+    @pytest.mark.req("greeting/a-name-is-greeted")
+    def test_accept_a_name_is_greeted():
+        """Scenario: A name is greeted. Given `Ada`, `greet("Ada")` returns `Hello, Ada!`."""
+>       greet = importlib.import_module("greeter.greet").greet
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_accept_1.py:11: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/usr/lib/python3.12/importlib/__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+<frozen importlib._bootstrap>:1387: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1360: in _find_and_load
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+name = 'greeter.greet', import_ = <function _gcd_import at 0x76ada14d00e0>
+
+>   ???
+E   ModuleNotFoundError: No module named 'greeter.greet'
+
+<frozen importlib._bootstrap>:1324: ModuleNotFoundError
+___________________ test_accept_a_blank_name_is_refused[  ] ____________________
+
+blank = '  '
+
+    @pytest.mark.req("greeting/a-blank-name-is-refused")
+    @pytest.mark.parametrize("blank", ["  ", ""])
+    def test_accept_a_blank_name_is_refused(blank):
+        """Scenario: A blank name is refused. `greet` called with `"  "` (or empty) raises `ValueError`."""
+>       greet = importlib.import_module("greeter.greet").greet
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_accept_2.py:12: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/usr/lib/python3.12/importlib/__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+<frozen importlib._bootstrap>:1387: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1360: in _find_and_load
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+name = 'greeter.greet', import_ = <function _gcd_import at 0x76ada14d00e0>
+
+>   ???
+E   ModuleNotFoundError: No module named 'greeter.greet'
+
+<frozen importlib._bootstrap>:1324: ModuleNotFoundError
+____________________ test_accept_a_blank_name_is_refused[] _____________________
+
+blank = ''
+
+    @pytest.mark.req("greeting/a-blank-name-is-refused")
+    @pytest.mark.parametrize("blank", ["  ", ""])
+    def test_accept_a_blank_name_is_refused(blank):
+        """Scenario: A blank name is refused. `greet` called with `"  "` (or empty) raises `ValueError`."""
+>       greet = importlib.import_module("greeter.greet").greet
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_accept_2.py:12: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/usr/lib/python3.12/importlib/__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+<frozen importlib._bootstrap>:1387: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1360: in _find_and_load
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+name = 'greeter.greet', import_ = <function _gcd_import at 0x76ada14d00e0>
+
+>   ???
+E   ModuleNotFoundError: No module named 'greeter.greet'
+
+<frozen importlib._bootstrap>:1324: ModuleNotFoundError
+=========================== short test summary info ============================
+FAILED tests/test_accept_1.py::test_accept_a_name_is_greeted - ModuleNotFound...
+FAILED tests/test_accept_2.py::test_accept_a_blank_name_is_refused[  ] - Modu...
+FAILED tests/test_accept_2.py::test_accept_a_blank_name_is_refused[] - Module...
+3 failed in 0.02s
+
+warning: `VIRTUAL_ENV=<copy>/.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead

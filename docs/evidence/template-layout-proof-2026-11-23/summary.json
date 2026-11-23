@@ -1,0 +1,44 @@
+{
+ "change": "add-greeting",
+ "run_id": "20261123T212157Z-0625",
+ "ref": "ffba4640758d57437f091e773b042e4566e6fabf",
+ "head": "6eef7d21c9d2bfb9c317b29cd7f8cd816fd362bd",
+ "accept_files": [
+  "test_accept_1.py",
+  "test_accept_2.py"
+ ],
+ "accept_before": {
+  "exit": 1,
+  "passed": 0,
+  "failed": 3,
+  "errors": 0
+ },
+ "accept": {
+  "exit": 0,
+  "passed": 3,
+  "failed": 0,
+  "errors": 0
+ },
+ "check_exit": 0,
+ "uncommitted": 0,
+ "departures": {
+  "changed": [
+   "docs/specs/greeting/spec.md",
+   "openspec/changes/add-greeting/tasks.md",
+   "openspec/changes/archive/2026-11-23-add-greeting/proposal.md",
+   "openspec/changes/archive/2026-11-23-add-greeting/specs/greeting/spec.md",
+   "openspec/changes/archive/2026-11-23-add-greeting/tasks.md",
+   "openspec/specs/greeting/spec.md",
+   "src/greeter/greet.py",
+   "tests/test_greet.py"
+  ],
+  "outside_tasks": [
+   "docs/specs/greeting/spec.md",
+   "tests/test_greet.py"
+  ],
+  "unticked": [],
+  "tasks_file": "openspec/changes/archive/2026-11-23-add-greeting/tasks.md"
+ },
+ "peek_reads": 0,
+ "implementer_exit": 0
+}

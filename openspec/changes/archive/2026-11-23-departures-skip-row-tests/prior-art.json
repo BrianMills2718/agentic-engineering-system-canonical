@@ -1,0 +1,24 @@
+{
+  "need": "run-plan's departure report should not list a test file a layout row names, or the generated docs/specs links.",
+  "searched": [
+    {
+      "place": "own",
+      "where": "src/lockstep/plan_run.py, src/lockstep/layout_plan.py",
+      "query": "_layout_paths_at, departures, layout_rows tests",
+      "found": "_layout_paths_at already reads the rows at REF; it read only their paths, not their tests."
+    }
+  ],
+  "candidates": [
+    {
+      "name": "layout_plan.layout_rows",
+      "url": "src/lockstep/layout_plan.py",
+      "covers": "Parses rows with their tests from the working tree.",
+      "misses": "Reads the working tree, not lockstep.yaml at REF, so rows added during the run would count as planned.",
+      "verdict": "reject",
+      "reason": "The report must read the plan as it was at REF; the existing REF reader is extended instead."
+    }
+  ],
+  "decision": "build",
+  "gap": "Two lines in plan_run.py: row tests count as planned, docs/specs/ is skipped.",
+  "decided": "2026-11-23"
+}

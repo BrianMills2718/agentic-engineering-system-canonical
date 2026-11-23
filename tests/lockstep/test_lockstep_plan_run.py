@@ -264,6 +264,21 @@ def test_file_planned_by_layout_row_not_listed(repo: Path) -> None:
     assert plan_run.departures(repo, CHANGE, base)["outside_tasks"] == ["src/late.py"]
 
 
+@pytest.mark.req("plan-run/a-row-s-test-file-and-a-spec-link-are-not-listed")
+def test_row_test_file_and_spec_link_not_listed(repo: Path) -> None:
+    (repo / "lockstep.yaml").write_text(
+        "layout:\n- path: src/planned.py\n  purpose: planned\n  tests: [tests/test_planned.py]\n")
+    commit_all(repo, "plan")
+    base = git(repo, "rev-parse", "HEAD")
+    (repo / "tests").mkdir(exist_ok=True)
+    (repo / "tests" / "test_planned.py").write_text("x = 1\n")
+    (repo / "tests" / "test_other.py").write_text("y = 2\n")
+    (repo / "docs" / "specs" / "greeting").mkdir(parents=True)
+    (repo / "docs" / "specs" / "greeting" / "spec.md").write_text("spec\n")
+    commit_all(repo, "impl")
+    assert plan_run.departures(repo, CHANGE, base)["outside_tasks"] == ["tests/test_other.py"]
+
+
 @pytest.mark.req("plan-run/the-implementer-is-told-to-run-lockstep-layout")
 def test_implementer_told_to_run_lockstep_layout() -> None:
     impl = plan_run.implementer_prompt(CHANGE, "make check")

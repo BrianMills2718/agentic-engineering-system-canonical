@@ -1,0 +1,3 @@
+- [x] Exclude the starter source files on update in `copier.yml`
+- [x] Word the `AGENTS.md` layout bullet for copies with and without layout rows
+- [x] Rewrite the update test to use template `2e8791447` and check the starter files and trace check

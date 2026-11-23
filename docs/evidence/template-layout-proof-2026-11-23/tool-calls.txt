@@ -1,0 +1,23 @@
+1. Bash: git status --short && find . -path ./.git -prune -o -type f -print | grep -v '/.venv/' | head -50 && for f in AGENTS.md lockstep.yaml Makefile openspec/changes/add-greeting/*.md; do echo "=== $f"; cat "$f"; done; find openspec/changes/add-greeting/specs -type f -exec sh -c 'echo "=== $1"; cat "$1"' 
+2. Bash: cat tests/test_core.py src/greeter/core.py docs/index.md; ls tests src/greeter; uv run lockstep layout; echo EXIT $?; git status --short; cat src/greeter/greet.py
+3. Bash: cat > tests/test_greet.py <<'EOF' """Tests for greeting a person by name."""  import pytest  from greeter.greet import greet   @pytest.mark.req("greeting/a-name-is-greeted") def test_a_name_is_greeted():     assert greet("Ada") == "Hello, Ada!"   @pytest.mark.req("greeting/a-blank-name-is-refused") 
+4. Bash: unset VIRTUAL_ENV; sed -i '0,/- \[ \] Write the failing test/s//- [x] Write the failing test/' openspec/changes/add-greeting/tasks.md && cat openspec/changes/add-greeting/tasks.md && git add tests/test_greet.py src/greeter/greet.py openspec/changes/add-greeting/tasks.md && git commit -q -m "Test: gr
+5. Bash: git log -2 --format='%an <%ae> | %cn <%ce>'; git config --show-origin --get-regexp 'user\.' ; cat .githooks/pre-commit | head -30
+6. Bash: unset VIRTUAL_ENV; export GIT_AUTHOR_NAME=t GIT_AUTHOR_EMAIL=t@example.invalid GIT_COMMITTER_NAME=t GIT_COMMITTER_EMAIL=t@example.invalid; git commit -m "Test: greet by name (failing)  Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>" 2>&1 | tail -30; echo EXIT ${PIPESTATUS[0]}; git log --one
+7. Bash: unset VIRTUAL_ENV; cat >> src/greeter/greet.py <<'EOF'   def greet(name: str) -> str:     """Greet a person by name.      Args:         name: The person's name.      Returns:         The greeting, such as `Hello, Ada!`.      Raises:         ValueError: If the name is empty or only spaces.     """    [REFUSED BY HOOK]
+   PreToolUse:Bash hook error: This command writes src/greeter/greet.py, a planned file, from the shell, which skips the plan check. Use the Edit tool for planned files so you are handed their requirement first.
+8. Read: <worktree>/src/greeter/greet.py
+9. Edit: <worktree>/src/greeter/greet.py
+10. Edit: <worktree>/openspec/changes/add-greeting/tasks.md
+11. Bash: unset VIRTUAL_ENV; uv run pytest -q 2>&1 | tail -3; echo EXIT ${PIPESTATUS[0]}; openspec archive add-greeting --yes 2>&1 | tail -15; echo ARCHIVE_EXIT ${PIPESTATUS[0]}; git status --short; cat openspec/specs/greeting/spec.md | head -12
+12. Bash: cat .gitignore; head -6 openspec/specs/core/spec.md
+13. Edit: <worktree>/openspec/specs/greeting/spec.md
+14. Bash: unset VIRTUAL_ENV; make docs-specs; uv run lockstep check project ><tmp>/lp.txt 2>&1; echo LP_EXIT $?; tail -5 <tmp>/lp.txt; git status --short; git diff --stat
+15. Bash: git ls-files docs/specs; ls -la docs/specs/*/
+16. Bash: unset VIRTUAL_ENV; export GIT_AUTHOR_NAME=t GIT_AUTHOR_EMAIL=t@example.invalid GIT_COMMITTER_NAME=t GIT_COMMITTER_EMAIL=t@example.invalid; git add -A src/greeter/greet.py openspec docs/specs/greeting && git status --short && git commit -m "Greet by name: implement greet and archive add-greeting  Co-
+17. Bash: unset VIRTUAL_ENV; make fast 2>&1 | grep -v '^\s*$' | head -40
+18. Bash: openspec validate --all --strict --no-interactive; echo EXIT $?
+19. Edit: <worktree>/openspec/specs/greeting/spec.md
+20. Bash: unset VIRTUAL_ENV; export GIT_AUTHOR_NAME=t GIT_AUTHOR_EMAIL=t@example.invalid GIT_COMMITTER_NAME=t GIT_COMMITTER_EMAIL=t@example.invalid; git add openspec/specs/greeting/spec.md && git commit -m "Greet by name: implement greet and archive add-greeting  Co-Authored-By: Claude Opus 5.5 <noreply@anthr
+21. Bash: unset VIRTUAL_ENV; git rev-parse --verify origin/main; make check > <tmp>/mc.txt 2>&1; echo MAKE_CHECK_EXIT $?; grep -E 'RESULT|passed|failed|Error|error' <tmp>/mc.txt | tail -25; git status --short
+22. Bash: unset VIRTUAL_ENV; git remote -v; git log --oneline -1 main; uv run lockstep check test-first --base main 2>&1 | tail -4; echo TF_EXIT ${PIPESTATUS[0]}; uv run lockstep check changed --base main 2>&1 | tail -4; echo CH_EXIT ${PIPESTATUS[0]}; uv run lockstep check --repo . --base main 2>&1 | tail -3;

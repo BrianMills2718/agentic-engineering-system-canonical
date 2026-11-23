@@ -42,6 +42,10 @@ It needs `git`, [uv](https://docs.astral.sh/uv/), [OpenSpec](https://github.com/
 [Node.js](https://nodejs.org/) (`npx`); `ship` and `run-plan` also need a logged-in GitHub CLI and Claude Code or
 Codex. The copy asks for a name and a one-sentence description, and a few questions `--defaults` answers; then it installs
 Lockstep and generates its docs. New copies take this repository's `main` as it stands (there are no version tags).
+A new copy ships `lockstep.yaml` with a `layout:` row for each starter file, so the edit hook and `make check` refuse
+a file under `src/<package>/` that no row names; a plan adds rows with its OpenSpec change, and
+`uv run lockstep layout` creates the planned files with their requirement text. `copier update` of a copy made
+before this adds no `lockstep.yaml` and leaves its starter files under `src/<package>/` unchanged.
 Spec: [portable-template](openspec/specs/portable-template/spec.md); why this layout:
 [decision 0015](docs/decisions/0015-off-the-shelf-documentation-stack.md).
 
