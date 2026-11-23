@@ -43,6 +43,7 @@ carried by the issues), 2 when either sweep could not run or could not file an i
 
 Implements: failed-unit-watch/issue-body-carries-one-line-not-the-log
 Implements: failed-unit-watch/ssh-host-alias-remotes-find-their-repository
+Implements: failed-unit-watch/settings-come-from-config
 
 Usage:
   python3 scripts/failed_unit_watch.py            # sweep and report

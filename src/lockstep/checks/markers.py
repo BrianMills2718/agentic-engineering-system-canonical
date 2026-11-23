@@ -18,7 +18,8 @@ from pathlib import Path
 import re
 import tomllib
 
-_IMPLEMENTS = re.compile(r"^[ \t]*Implements:[ \t]*(.+(?:\n[ \t]+\S.*)*)", re.MULTILINE)
+# A wrapped list continues on indented lines; an indented line that starts a new `Implements:` is its own entry.
+_IMPLEMENTS = re.compile(r"^[ \t]*Implements:[ \t]*(.+(?:\n[ \t]+(?!Implements:)\S.*)*)", re.MULTILINE)
 
 
 def _tool_table(root: Path) -> dict:

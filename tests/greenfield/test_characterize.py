@@ -96,10 +96,10 @@ def _add_exports(root: Path, artifact_id: str, exports: list[str]) -> None:
     path.write_text(f"{head}{anchor}{block}\n    exports: [{items}]\n  - id: {rest}", encoding="utf-8")
 
 
-@pytest.mark.parametrize("operation", [
-    pytest.param("characterize", marks=pytest.mark.req("inert-characterization/local-monitor-during-characterization")),
-    pytest.param("producer", marks=pytest.mark.req("inert-characterization/local-monitor-during-producer-identity")),
-])
+# The trace check reads decorator markers only, so each parameter's scenario is a decorator here.
+@pytest.mark.req("inert-characterization/local-monitor-during-characterization")
+@pytest.mark.req("inert-characterization/local-monitor-during-producer-identity")
+@pytest.mark.parametrize("operation", ["characterize", "producer"])
 def test_readonly_inspection_does_not_run_repository_fsmonitor(root: Path, operation: str) -> None:
     marker = root / "monitor-called"
     monitor = root / "monitor-canary.sh"

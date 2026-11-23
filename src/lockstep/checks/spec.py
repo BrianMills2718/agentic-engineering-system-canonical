@@ -24,7 +24,8 @@ class Plan:
     """Every requirement and scenario ID the specs define, each mapped to its spec file.
 
     `parent` maps each scenario ID to the requirement it sits under; `text` maps each requirement ID
-    to its statement, the lines under its heading up to its `Source:` line or first scenario;
+    to its statement: the lines under its heading before its `Source:` line, or, when there are none,
+    the lines after the `Source:` paragraph (which runs to a blank line) up to its first scenario;
     `scenario_text` maps each scenario ID to the lines under its heading up to the next heading.
     `removed` lists the requirement IDs a delta puts under `## REMOVED Requirements` (they are also in
     `requirements`, as the delta's headings are).
@@ -64,6 +65,7 @@ def _read_file(root: Path, spec: Path, plan: Plan) -> None:
     requirement = ""
     scenario = ""
     collecting = False
+    in_source = False  # inside a `Source:` paragraph, which runs to the next blank line
     removing = False
     for line in spec.read_text().splitlines():
         m = _HEADING.match(line)
@@ -74,13 +76,17 @@ def _read_file(root: Path, spec: Path, plan: Plan) -> None:
                 collecting = False
                 scenario = ""
             elif line.startswith("Source:"):
-                collecting = False
-            elif collecting and line.strip():
+                in_source = True
+                collecting = collecting and not plan.text.get(requirement)
+            elif not line.strip():
+                in_source = False
+            elif collecting and not in_source:
                 plan.text[requirement] = f"{plan.text.get(requirement, '')} {line.strip()}".strip()
             if scenario and line.strip() and not line.startswith("#"):
                 plan.scenario_text[scenario] = f"{plan.scenario_text.get(scenario, '')} {line.strip()}".strip()
             continue
         collecting = m.group(2) == "Requirement"
+        in_source = False
         ident = f"{capability}/{slug(m.group(3))}"
         if m.group(2) == "Requirement":
             plan.requirements[ident] = str(spec.relative_to(root))

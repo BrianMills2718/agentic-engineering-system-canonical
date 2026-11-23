@@ -36,6 +36,7 @@ Implements: project-graph-refresh/graph-lands-in-settings-repo
 Implements: project-graph-refresh/page-goes-to-data-branch
 Implements: project-graph-refresh/failure-opens-one-concern
 Implements: project-graph-refresh/concern-body-carries-first-lines-and-log-path
+Implements: project-graph-refresh/no-push-changes-nothing
 """
 
 import argparse

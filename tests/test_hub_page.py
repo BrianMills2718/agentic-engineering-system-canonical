@@ -293,6 +293,7 @@ MOVED = [issue(50, "Records request r9: denied", repo="someone/new", key="record
 
 @pytest.mark.req("hub-page/broken-services-grouped-by-cause")
 @pytest.mark.req("hub-page/records-updates-are-for-information")
+@pytest.mark.req("hub-page/moved-issues-are-matched-by-concern-key")
 def test_issues_moved_to_another_repository_are_sorted_by_their_concern_key():
     class Moved(FakeRun):
         def __call__(self, name, cmd, cwd=None, timeout=120):

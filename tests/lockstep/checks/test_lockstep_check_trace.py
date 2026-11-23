@@ -89,6 +89,21 @@ def test_implements_line_may_wrap(repo):
     assert check(repo) == []
 
 
+@pytest.mark.req("lockstep-checks/trace-implemented-requirement-passes")
+def test_stacked_implements_lines_in_a_function_are_separate(repo):
+    write(repo, "openspec/specs/extra/spec.md", "## Requirements\n### Requirement: Second one\nThe tool SHALL.\n")
+    write(repo, "src/pkg/core.py", '''
+        def run():
+            """Run it.
+
+            Implements: core/do-the-thing
+            Implements: extra/second-one
+            """
+    ''')
+    write(repo, "tests/test_x.py", TEST)
+    assert check(repo) == []
+
+
 @pytest.mark.req("lockstep-checks/trace-test-written-for-an-active-change-passes-trace")
 def test_test_written_for_an_active_change_passes_trace(repo):
     write(repo, "src/pkg/core.py", IMPL)

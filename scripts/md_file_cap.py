@@ -63,6 +63,8 @@ Brian-owned graph entries, for spot checks on repositories outside the daily sco
 
 Prints one line per over-cap repository, a summary with counts, and exits 1 when any
 repository breaks the rule (0 when none do).
+
+Implements: project-graph-config/the-checks-read-the-graph-and-owner-from-the-person-s-own-files
 """
 import argparse, hashlib, json, os, re, shutil, signal, subprocess, sys, tempfile, time
 from urllib.parse import unquote

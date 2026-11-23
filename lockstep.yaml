@@ -313,6 +313,7 @@ layout:
 - path: src/lockstep/ship.py
   purpose: Run a repository's check and merge its pull request only if the check passed
   implements:
+  - ship/install-ship-as-a-command-from-the-public-repository
   - ship/merge-only-the-commit-whose-check-passed
   - ship/rebase-a-branch-that-is-behind-the-default-branch-before-checking-it
   - ship/refuse-a-new-repository-with-no-planning-package

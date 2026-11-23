@@ -8,7 +8,8 @@ exists) lives in their private configuration repository; another person supplies
     timers.py check   LIST [--dir DIR]    compare the rendered files with the installed ones; exit 1 on any difference
     timers.py install LIST [--dir DIR]    back up differing installed files, write the new ones, run daemon-reload
 
-Implements: timer-config/jobs-become-units
+Implements: timer-config/each-job-in-the-list-becomes-a-service-and-a-timer-unit
+Implements: timer-config/installing-never-deletes
 """
 from __future__ import annotations
 
