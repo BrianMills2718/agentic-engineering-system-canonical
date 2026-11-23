@@ -115,3 +115,23 @@ def test_machine_bound_names_each_mention(tmp_path):
     (tmp_path / "AGENTS.md").write_text("Rules: `~/code2/AGENTS.md`\n")
     (tmp_path / "pyproject.toml").write_text(f'x = "{LOCKSTEP_URL}.git"\n')
     assert machine_bound(tmp_path) == ["AGENTS.md:1: Rules: `~/code2/AGENTS.md`"]
+
+
+@pytest.mark.req("portable-template/an-ignored-status-page-does-not-block-a-commit")
+def test_an_ignored_status_page_does_not_block_a_commit(tmp_path):
+    out = render(tmp_path)
+    assert "docs/status.md" in (out / ".gitignore").read_text().splitlines()
+    hooks = (out / "lefthook.yml").read_text()
+    line = re.search(r"name: lockstep-fast\n(?:\s+#.*\n)*\s+run: (.*)", hooks).group(1)
+    assert "uv run lockstep check project" in line and line.endswith("&& make fast")
+    job = line.replace("uv run lockstep check project",
+                       "printf 'rewrote docs/status.md\\nrewrote src/demo/a.py\\n'").replace("make fast", "true")
+    subprocess.run(["git", "init", "-q", str(out)], check=True)
+    (out / "src" / "demo").mkdir(parents=True, exist_ok=True)
+    (out / "src" / "demo" / "a.py").write_text("x = 1\n")
+    (out / "docs" / "status.md").write_text("status\n")
+    done = subprocess.run(["sh", "-c", job], cwd=out, capture_output=True, text=True)
+    assert done.returncode == 0, done.stderr
+    staged = subprocess.run(["git", "diff", "--cached", "--name-only"], cwd=out, capture_output=True,
+                            text=True, check=True).stdout.split()
+    assert staged == ["src/demo/a.py"]

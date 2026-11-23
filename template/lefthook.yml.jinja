@@ -26,8 +26,9 @@ pre-commit:
       run: gitleaks git --staged --no-banner --redact --exit-code 1
 {%- endif %}
     - name: lockstep-fast
-      # First rewrites generated docstring and plan blocks and stages them, as a formatter does.
-      run: uv run lockstep check project | sed -n 's/^rewrote //p' | xargs -r git add -- && make fast
+      # First rewrites generated docstring and plan blocks and stages them, as a formatter does. A rewritten file
+      # git ignores (docs/status.md) is skipped: `git add` refuses an ignored path.
+      run: uv run lockstep check project | sed -n 's/^rewrote //p' | while read -r f; do git check-ignore -q -- "$f" || git add -- "$f" || exit 1; done && make fast
 pre-push:
   jobs:
     # The full check runs at merge (ship); a push runs only the fast one.
