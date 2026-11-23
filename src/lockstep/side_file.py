@@ -34,84 +34,11 @@ files. The file is data read with
 `side_file_problems` names everything else (unknown keys, duplicates, an empty purpose or rubric,
 a reference the plan does not hold), and `python -m lockstep.unplanned_files` fails on any of them.
 
-[[[cog import lockstep.cogtext as c; c.docstring("ART-SIDE-FILE", indent=0)]]]
-Plan (generated from .aes/target.yaml; edit the plan, not this text):
+[[[cog import lockstep.cogtext as c; c.docstring("src:lockstep:side_file.py", indent=0)]]]
+Plan (generated from lockstep.yaml layout and OpenSpec; edit the spec or the layout row, not this text):
 
-Part of REQ-1: The plan declares the normative side and the whole file
-  structure: the plan, written as structured YAML in the AES plan format,
-  declares the normative side (requirements, success criteria and decisions)
-  and declares every file and every strongly typed function and class; no
-  code file, test or document exists without a declared reason.
-Part of REQ-2: Each success criterion names how it is checked: every success
-  criterion in the plan names how it is checked: a test file by name,
-  Brian's sign-off, or an AI-graded rubric.
-Part of REQ-5: Links are checked both ways on every change: links between
-  requirement, criterion, test, file and symbol are checked in both
-  directions on every change, at edit time (the hook) and before commit
-  (`pcw check`); an unplanned or stale item is refused.
-BEH-1.1: Any file in the project that the plan does not declare is reported,
-  with why it counts: code and tests under a governed folder through the AES
-  plan, documents through Lockstep's side file beside the plan, and, when
-  the side file has a files section, every other tracked file through that
-  section.
-BEH-2.1: Every success criterion names how it is checked: a test file by
-  name, Brian's sign-off, or an AI-graded rubric declared in Lockstep's side
-  file.
-BEH-5.1: At edit time, an agent's edit to a file under a governed folder
-  that the plan does not declare, a shell command that writes such a file (a
-  redirect, tee, or a new file named by an in-place or scripted write,
-  following `cd`), or a shell command that writes a planned file (which
-  would skip this check), is warned about by default; the edit goes through,
-  the agent is told it would be refused and the hook log records a would-
-  block; it is refused for a file Lockstep's side file marks fixed, or
-  everywhere with PCW_MODE=block; a shell write the plan has no rule for is
-  let through and logged; every call the hook sees is logged, including one
-  it lets through with nothing to say, with the start of a shell command;
-  the would-blocks can be counted per day. Every refusal and warning also
-  names the project's wiki (`python -m lockstep.wiki`) as where to look next.
-SC-1.1: An undeclared file under a governed folder is reported; a declared
-  file, a legacy file and a file outside every governed folder are not,
-  unless the side file has a files section, when an undeclared tracked file
-  outside the governed folders is reported; an undeclared document is
-  reported.
-  Disproved if: An undeclared code file, test or document passes without a
-  report, a tracked file declared nowhere passes when the side file has a
-  files section, or a declared, legacy or (without a files section)
-  ungoverned file is reported.
-SC-2.1: A criterion with no test, sign-off or rubric route is reported, and
-  an AI-graded rubric can be declared for a criterion.
-  Disproved if: A criterion passes with no named check, or an AI-graded
-  rubric cannot be declared.
-SC-5.1: By default the hook allows an Edit or Write to an undeclared
-  governed file, a shell write that creates one, and a shell write to a
-  planned file, telling the agent it would be refused and logging decision
-  would_block; it denies each for a file matching a `fixed` glob in the side
-  file or under PCW_MODE=block, including when the shell command reaches the
-  file after `cd`, through tee, or from a here-document or a python script;
-  it allows an edit to a declared file whose copy is current, and a shell
-  command that writes no governed file; `pcw-hook --would-block` prints the
-  would-block count per day. Every refusal and warning names `python -m
-  lockstep.wiki`. Every call the hook sees in a project leaves one log line, a
-  silent pass as decision pass.
-  Disproved if: An edit to an undeclared governed file, a shell write that
-  creates one, or a shell write to a planned file, is let through when the
-  file is marked fixed or PCW_MODE=block is set; a warned edit is not logged
-  as would_block or the agent is not told; a file not marked fixed is
-  refused by default; a shell command that writes no governed file is
-  refused; or the count misses a would_block record; or a refusal or warning
-  does not name `python -m lockstep.wiki`; or a call the hook sees in a project
-  leaves no log line.
-Proven by: VS-1.1-a (tests/test_unplanned_files.py)
-Proven by: VS-1.1-b (tests/test_unplanned_documents.py)
-Proven by: VS-2.1-a (tests/test_criterion_checks.py)
-Proven by: VS-5.1-a (tests/test_hook.py)
-Proven by: VS-1.1-c (tests/test_unplanned_other_files.py)
-Declares (typed signatures, from the plan):
-  SIDE_FILE
-  SideFile
-  load_side_file(root: Path, base: str | None = None) -> SideFile | None
-  side_file_problems(root: Path, plan: dict) -> list[str]
-[[[end]]] (sum: q/Xtos/3dz)
+Implements: (no requirement)
+[[[end]]]
 """
 
 from __future__ import annotations

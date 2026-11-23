@@ -1,8 +1,381 @@
-# Narrow documentation self-adoption: no edit guard or unrelated commit policy.
+# Lockstep governs its own package: every file under src/lockstep/ is a layout row, and the edit hook refuses an unplanned one (openspec lockstep-plan-format/lockstep-governs-its-own-package).
 schema: lockstep.side.v1
 owner: BrianMills2718
-governed: []
-layout: []
+governed: [src/lockstep/]
+fixed: ["src/lockstep/*"]
+layout:
+- path: src/lockstep/__init__.py
+  purpose: 'Lockstep (package `lockstep` in AES canonical since 2026-11-11; before that repository lockstep, package `pcw`):
+    keep a plan, code docstrings and a wiki in step'
+  implements: []
+  tests: []
+- path: src/lockstep/action_check.py
+  purpose: Judge a proposed non-code action against the actions Lockstep's side file declares (behavior 5.4)
+  implements: []
+  tests: []
+- path: src/lockstep/aes_bridge.py
+  purpose: 'Read the AES plan: compiled context per ID and the path-to-artifact map'
+  implements: []
+  tests: []
+- path: src/lockstep/behavior_check.py
+  purpose: Report a behavior that lacks exactly one source file of its own or a criterion with a test route
+  implements: []
+  tests: []
+- path: src/lockstep/change_list.py
+  purpose: After a plan change, list every file and symbol whose plan text changed, as one list for the agent
+  implements: []
+  tests: []
+- path: src/lockstep/change_log.py
+  purpose: 'The append-only change log: one entry per accepted plan change, never edited afterwards'
+  implements: []
+  tests: []
+- path: src/lockstep/check.py
+  purpose: '`pcw check --repo PATH [--base REF] [--json]`: is a whole working tree still on its plan?'
+  implements: []
+  tests: []
+- path: src/lockstep/checks/__init__.py
+  purpose: 'Lockstep''s commit checks, ported from code2check at code2-template 6ce00a9: `lockstep check <name>`'
+  implements: []
+  tests: []
+- path: src/lockstep/checks/arch.py
+  purpose: Turn the LikeC4 diagram into import-linter contracts, and check the committed ones are current
+  implements:
+  - lockstep-checks/arch-diagram-becomes-import-contracts
+  - lockstep-checks/arch-committed-contracts-match-the-diagram
+  - lockstep-checks/arch-code-imports-match-the-diagram
+  - lockstep-checks/arch-a-diagram-check-that-cannot-run-fails-as-a-tool-failure
+  tests:
+  - tests/lockstep/checks/test_lockstep_check_arch.py
+- path: src/lockstep/checks/changed.py
+  purpose: 'Changed check: requirements whose text differs from a base revision, with their code, tests and plan'
+  implements:
+  - lockstep-checks/changed-requirements-that-differ-from-the-base-are-listed-with-their-code-and-tests
+  - lockstep-checks/changed-every-listed-requirement-is-named-by-a-plan-in-the-same-change-set
+  - lockstep-checks/changed-a-changed-statement-needs-a-changed-scenario-or-a-wording-only-declaration
+  - lockstep-checks/changed-count-line-and-exit-status
+  - lockstep-checks/changed-documents-that-quote-a-listed-requirement-are-listed-with-it
+  - lockstep-checks/changed-every-plan-that-names-a-listed-requirement-states-its-size
+  - lockstep-checks/changed-and-test-first-the-base-is-where-the-branch-started
+  tests:
+  - tests/lockstep/checks/test_lockstep_check_changed.py
+  - tests/lockstep/checks/test_lockstep_check_test_first.py
+- path: src/lockstep/checks/cli.py
+  purpose: '`lockstep check <name> [options]`: run one commit check and apply its mode from `lockstep.yaml`'
+  implements:
+  - lockstep-checks/each-check-can-be-set-to-block-warn-or-off-in-lockstep-yaml
+  - lockstep-checks/changed-count-line-and-exit-status
+  - lockstep-projection/project-status-and-show-are-lockstep-commands
+  tests:
+  - tests/lockstep/checks/test_lockstep_check_changed.py
+  - tests/lockstep/checks/test_lockstep_check_plugin.py
+  - tests/lockstep/checks/test_lockstep_checks_config.py
+- path: src/lockstep/checks/config.py
+  purpose: Read the commit checks' settings from `lockstep.yaml` at the repository root
+  implements:
+  - lockstep-checks/each-check-can-be-set-to-block-warn-or-off-in-lockstep-yaml
+  tests:
+  - tests/lockstep/checks/test_lockstep_checks_config.py
+- path: src/lockstep/checks/docmeta.py
+  purpose: 'Docmeta check: the OKF front matter of every page under `wiki/` is complete, fresh and findable'
+  implements:
+  - lockstep-checks/docmeta-every-wiki-page-declares-its-type
+  - lockstep-checks/docmeta-current-pages-are-checked-within-60-days
+  - lockstep-checks/docmeta-superseded-pages-name-a-successor
+  - lockstep-checks/docmeta-one-page-owns-each-topic
+  - lockstep-checks/docmeta-every-current-page-is-within-two-links-of-the-index
+  - lockstep-checks/docmeta-field-values-have-their-allowed-form
+  - lockstep-checks/docmeta-count-line-and-exit-status
+  tests:
+  - tests/lockstep/checks/test_lockstep_check_docmeta.py
+  - tests/lockstep/checks/test_lockstep_checks_config.py
+- path: src/lockstep/checks/instructions.py
+  purpose: 'Instructions check: the agent instruction files of one repository obey the size, filename and delta-only rules'
+  implements:
+  - lockstep-checks/instructions-the-agent-chain-fits-its-budget
+  - lockstep-checks/instructions-no-claude-md-with-its-own-content
+  - lockstep-checks/instructions-a-nested-file-repeats-nothing-from-its-parents
+  - lockstep-checks/instructions-count-line-and-exit-status
+  tests:
+  - tests/lockstep/checks/test_lockstep_check_instructions.py
+- path: src/lockstep/checks/markers.py
+  purpose: Find `Implements:` docstring lines in source and `req` markers in tests, using the Python AST
+  implements:
+  - lockstep-checks/trace-source-folders-are-configurable
+  - lockstep-checks/trace-test-folders-are-configurable
+  tests:
+  - tests/lockstep/checks/test_lockstep_check_trace.py
+- path: src/lockstep/checks/plugin.py
+  purpose: pytest plugin that registers the `req` marker linking a test to an OpenSpec scenario
+  implements:
+  - lockstep-projection/the-pytest-plugin-ships-as-a-pytest11-entry-point
+  tests:
+  - tests/lockstep/checks/test_lockstep_check_plugin.py
+- path: src/lockstep/checks/project.py
+  purpose: 'Projection: write each requirement''s text into the docstrings that implement it, and each plan''s coverage into
+    the plan'
+  implements:
+  - lockstep-projection/requirement-text-is-written-into-the-implementing-docstring
+  - lockstep-projection/status-flows-back-into-the-plan
+  tests:
+  - tests/lockstep/checks/test_lockstep_check_plugin.py
+  - tests/lockstep/checks/test_lockstep_check_project.py
+- path: src/lockstep/checks/quotes.py
+  purpose: 'Marked quotes: passages of requirement text copied into Markdown documents, compared with the specs'
+  implements:
+  - lockstep-checks/trace-a-marked-quote-matches-its-requirement
+  tests:
+  - tests/lockstep/checks/test_lockstep_check_quotes.py
+- path: src/lockstep/checks/show.py
+  purpose: 'Show what one source file must keep true: the requirements its docstrings implement, with their text and scenarios'
+  implements:
+  - lockstep-projection/show-prints-what-a-file-must-keep-true
+  tests:
+  - tests/lockstep/checks/test_lockstep_check_show.py
+- path: src/lockstep/checks/sources.py
+  purpose: 'Sources check: every requirement and decision record says where it came from'
+  implements:
+  - lockstep-checks/sources-every-normative-item-names-its-source
+  tests:
+  - tests/lockstep/checks/test_lockstep_check_sources.py
+- path: src/lockstep/checks/spec.py
+  purpose: Read OpenSpec spec files into requirement and scenario IDs
+  implements:
+  - lockstep-checks/changed-requirements-that-differ-from-the-base-are-listed-with-their-code-and-tests
+  tests:
+  - tests/lockstep/checks/test_lockstep_check_changed.py
+- path: src/lockstep/checks/status.py
+  purpose: 'Status report: each requirement''s implementers, each scenario''s tests and whether they passed at this revision,
+    and the IDs each plan has still to close'
+  implements:
+  - lockstep-projection/status-links-each-requirement-to-its-code-and-tests
+  - lockstep-projection/status-reads-test-results-from-this-revision
+  - lockstep-projection/a-plan-closes-requirement-ids-only-when-they-pass
+  - lockstep-projection/the-docs-site-shows-coverage-at-its-commit
+  tests:
+  - tests/lockstep/checks/test_lockstep_check_links.py
+  - tests/lockstep/checks/test_lockstep_check_status.py
+  - tests/lockstep/checks/test_lockstep_check_status_page.py
+  - tests/lockstep/test_lockstep_decisions.py
+- path: src/lockstep/checks/test_first.py
+  purpose: 'Test-first check: a test for a scenario new since the base revision must fail on the base source,'
+  implements:
+  - lockstep-checks/test-first-new-scenario-tests-fail-before-the-change
+  - lockstep-checks/test-first-a-missing-base-revision-is-reported-not-crashed
+  - lockstep-checks/test-first-tests-for-existing-behavior-are-exempt-and-counted
+  - lockstep-checks/test-first-a-test-run-that-cannot-start-fails-the-check
+  - lockstep-checks/test-first-a-changed-scenario-needs-a-test-that-fails-before-the-change
+  tests:
+  - tests/lockstep/checks/test_lockstep_check_test_first.py
+- path: src/lockstep/checks/trace.py
+  purpose: 'Trace check: every requirement has an implementer, every scenario a test, and no ID is unknown'
+  implements:
+  - lockstep-checks/trace-every-requirement-has-an-implementer
+  - lockstep-checks/trace-every-scenario-has-a-test
+  - lockstep-checks/trace-unknown-ids-fail
+  - lockstep-checks/trace-ids-from-changes-in-progress-are-known
+  - lockstep-checks/trace-a-marked-quote-matches-its-requirement
+  tests:
+  - tests/lockstep/checks/test_lockstep_check_quotes.py
+  - tests/lockstep/checks/test_lockstep_check_trace.py
+- path: src/lockstep/citation_anchor.py
+  purpose: 'Anchored citations: `path#:~:text=<quoted text>` names the text a citation points at, so it survives line moves'
+  implements:
+  - lockstep-plan-check/a-citation-may-name-the-text-it-points-at
+  tests:
+  - tests/lockstep/test_lockstep_citation_anchor.py
+- path: src/lockstep/cogtext.py
+  purpose: Render plan text for a docstring. Called from cog blocks
+  implements: []
+  tests: []
+- path: src/lockstep/criterion_checks.py
+  purpose: 'Check every success criterion names how it is checked: a test, a sign-off or an AI rubric (behavior 2.1)'
+  implements: []
+  tests: []
+- path: src/lockstep/decisions.py
+  purpose: Read decision records and what each one governs, from the lines they already carry
+  implements:
+  - lockstep-guard/agents-get-the-decisions-that-govern-a-file
+  tests:
+  - tests/lockstep/test_lockstep_decisions.py
+- path: src/lockstep/declared_reason.py
+  purpose: Refuse a planned file whose declaration gives no reason (behavior 1.3)
+  implements: []
+  tests: []
+- path: src/lockstep/doc_projection.py
+  purpose: Project declared source-local facts into Markdown; never execute source or repository code
+  implements:
+  - lockstep-doc-facts/declared-source-facts-have-one-authority
+  - lockstep-doc-facts/invalid-input-is-not-a-pass
+  - lockstep-doc-facts/installed-edit-and-merge-paths-maintain-facts
+  - lockstep-doc-facts/declared-record-arrays-project-as-rows
+  tests:
+  - tests/lockstep/checks/test_lockstep_doc_projection.py
+  - tests/lockstep/test_lockstep_init.py
+- path: src/lockstep/docstring_up.py
+  purpose: Turn an edit to a docstring's plan text into a draft plan change, which the coding agent accepts
+  implements: []
+  tests: []
+- path: src/lockstep/hook.py
+  purpose: 'Agent edit hook (Claude Code and Codex PreToolUse): warn about, or refuse, an edit to a file the plan does not
+    declare (behavior 5.1)'
+  implements:
+  - lockstep-guard/agents-get-requirement-text-from-the-shell-too
+  tests:
+  - tests/lockstep/test_lockstep_openspec_text.py
+- path: src/lockstep/init_repo.py
+  purpose: '`lockstep init [--repo PATH] [--owner NAME] [--source URL]`: install Lockstep in a repository'
+  implements:
+  - lockstep-init/init-installs-lockstep-in-a-repository-without-overwriting
+  - lockstep-init/installed-files-name-no-machine-and-read-their-settings-from-lockstep-yaml
+  tests:
+  - tests/lockstep/test_lockstep_init.py
+- path: src/lockstep/lane_sweep.py
+  purpose: Remove finished git worktrees (lanes) and report the rest
+  implements:
+  - lane-sweep/remove-finished-lanes-and-report-the-rest
+  - lane-sweep/keep-lanes-git-will-not-remove-without-force
+  - lane-sweep/fast-forward-primary-checkouts-that-are-clean-and-idle
+  - lane-sweep/keep-lanes-that-a-systemd-user-unit-runs-from
+  - lane-sweep/keep-locked-worktrees
+  - lane-sweep/settings-come-from-config
+  - lane-sweep/archive-then-remove-idle-unmerged-lanes
+  - lane-sweep/count-kept-lanes-per-repository
+  tests:
+  - tests/test_lane_sweep.py
+  - tests/test_ship.py
+- path: src/lockstep/layout_plan.py
+  purpose: 'The layout plan: OpenSpec says what the code must do, `layout:` rows in lockstep.yaml say which files exist and
+    why'
+  implements:
+  - lockstep-plan-format/the-plan-is-openspec-plus-layout-rows
+  tests:
+  - tests/lockstep/test_lockstep_layout_plan.py
+- path: src/lockstep/linked_tests.py
+  purpose: 'Check tests and criteria link both ways: every named test file exists, every test file is named'
+  implements: []
+  tests: []
+- path: src/lockstep/openspec_text.py
+  purpose: 'Read the OpenSpec requirement a file implements, so the edit hook hands the agent that text instead of the AES
+    plan text (behavior 3.7, issue #54)'
+  implements: []
+  tests: []
+- path: src/lockstep/parent_text.py
+  purpose: Put each parent requirement, word for word, before a behavior's own text in its docstring
+  implements: []
+  tests: []
+- path: src/lockstep/plan_check.py
+  purpose: '`lockstep plan check [--repo PATH] [--acceptance PATH] [--json]`: is the plan itself well formed?'
+  implements: []
+  tests: []
+- path: src/lockstep/plan_edit.py
+  purpose: Name the plan items an edit by hand to the plan file changes, and every file and symbol linked to them (behavior
+    3.8)
+  implements: []
+  tests: []
+- path: src/lockstep/plan_run.py
+  purpose: Run one OpenSpec plan with hidden acceptance tests and a departure report (spec plan-run)
+  implements:
+  - plan-run/a-departure-report-compares-the-change-with-its-plan
+  - plan-run/hidden-acceptance-tests-are-written-before-and-run-after-implementation
+  - plan-run/one-driver-runs-a-plan-with-claude-or-codex
+  tests:
+  - tests/lockstep/test_lockstep_plan_run.py
+- path: src/lockstep/plan_to_code.py
+  purpose: 'Report where the committed code differs from the plan: a missing file, export or signature'
+  implements: []
+  tests: []
+- path: src/lockstep/prior-art.schema.json
+  purpose: JSON schema for the per-feature prior-art record (prior-art.json) that ship requires.
+  implements: []
+  tests: []
+- path: src/lockstep/prior_art.py
+  purpose: Refuse an OpenSpec change that adds a requirement but has no decided prior-art record
+  implements:
+  - prior-art-check/a-change-that-adds-a-requirement-carries-a-prior-art-record
+  - prior-art-check/a-candidate-cannot-be-left-undecided-and-the-decision-must-follow-from-the-candidates
+  - prior-art-check/only-a-change-that-adds-a-requirement-from-the-start-date-needs-a-record
+  tests:
+  - tests/lockstep/test_lockstep_prior_art.py
+- path: src/lockstep/requirement_status.py
+  purpose: 'Status that comes up from the code, and one page per requirement: its text, its status and its change log'
+  implements: []
+  tests: []
+- path: src/lockstep/scaffold.py
+  purpose: '`python -m lockstep.scaffold`: create every file the plan declares that does not exist yet'
+  implements: []
+  tests: []
+- path: src/lockstep/shell_targets.py
+  purpose: 'Which paths a shell command writes: the parser the edit hook judges shell commands by (behavior 5.1)'
+  implements:
+  - lockstep-guard/shell-commands-are-judged-by-the-paths-they-write
+  tests:
+  - tests/lockstep/test_lockstep_shell_targets.py
+- path: src/lockstep/ship.py
+  purpose: Run a repository's check and merge its pull request only if the check passed
+  implements:
+  - ship/merge-only-the-commit-whose-check-passed
+  - ship/rebase-a-branch-that-is-behind-the-default-branch-before-checking-it
+  - ship/refuse-a-new-repository-with-no-planning-package
+  - ship/check-every-one-page-plan-a-merge-adds-or-changes
+  - ship/add-on-gates-switch-off-from-the-copier-answers
+  - ship/refuse-a-branch-whose-hidden-acceptance-run-failed-or-is-out-of-date
+  - ship/a-plan-repair-is-never-refused
+  - ship/an-upkeep-only-change-is-never-refused
+  - ship/refuse-a-merge-whose-openspec-change-lacks-a-prior-art-record
+  - ship/a-record-only-change-is-never-refused
+  - ship/refuse-a-planning-package-the-validator-rejects
+  - ship/hold-a-new-repository-to-a-deployed-plan
+  - ship/prepare-a-fresh-worktree-s-environment-before-the-check
+  - ship/skip-a-check-that-already-passed-on-the-same-tree
+  - ship/keep-its-own-lane-when-the-caller-still-needs-it
+  - ship/refuse-goals-that-do-not-name-their-sources
+  - ship/merge-with-a-method-the-repository-allows
+  - ship/limit-how-many-checks-run-at-once
+  - ship/settings-come-from-config
+  - ship/regenerate-a-status-page-conflict-and-rerun-hidden-tests-after-ship-s-own-rebase
+  - ship/validate-the-planning-package-only-when-the-merge-changes-plan-content
+  tests:
+  - tests/test_ship.py
+- path: src/lockstep/side_file.py
+  purpose: Read and check Lockstep's side file, `lockstep.yaml` beside the plan (behaviors 1.1, 2.1 and 5.1)
+  implements: []
+  tests: []
+- path: src/lockstep/signature_text.py
+  purpose: Copy the typed signatures the plan declares for a file into its docstring (behavior 3.2)
+  implements: []
+  tests: []
+- path: src/lockstep/stale_edit.py
+  purpose: Stop an edit to a planned file while its docstring copy of the plan is stale (behavior 3.4)
+  implements: []
+  tests: []
+- path: src/lockstep/symbol_gate.py
+  purpose: Report the public functions and classes, and the declared signatures, that a change to a planned file adds against
+    the plan (behavior 5.5)
+  implements: []
+  tests: []
+- path: src/lockstep/unplanned_files.py
+  purpose: Report a file the plan does not declare (behavior 1.1)
+  implements: []
+  tests: []
+- path: src/lockstep/unplanned_symbols.py
+  purpose: Report a top-level function or class the plan does not declare with its types (behavior 1.2)
+  implements: []
+  tests: []
+- path: src/lockstep/wiki.py
+  purpose: Build wiki pages from the plan, the evidence standing and the code docstrings
+  implements: []
+  tests: []
+- path: src/lockstep/wiki_reach.py
+  purpose: Check every page of a generated wiki is within two links of its front page, each link with a summary (behavior
+    6.2)
+  implements: []
+  tests: []
+- path: src/lockstep/work_units.py
+  purpose: '`lockstep plan units [--repo PATH] [--json]`: is the plan''s work-unit DAG well formed, and what can start now?'
+  implements:
+  - lockstep-plan-check/work-units-form-a-checked-dag
+  tests:
+  - tests/lockstep/test_lockstep_work_units.py
 projections:
   - id: projection-component-assessment
     source: src/lockstep/doc_projection.py

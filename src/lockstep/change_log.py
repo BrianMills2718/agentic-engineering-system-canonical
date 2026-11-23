@@ -12,36 +12,11 @@ or edits or removes an earlier record, is reported. Merge commits are skipped (`
 commits they bring in are checked one by one. `entry_edit_reason` stops the edit earlier: the edit
 hook (`lockstep.hook`) refuses any write to a record, by an edit tool or the shell, before it happens.
 
-[[[cog import lockstep.cogtext as c; c.docstring("ART-CHANGE-LOG", indent=0)]]]
-Plan (generated from .aes/target.yaml; edit the plan, not this text):
+[[[cog import lockstep.cogtext as c; c.docstring("src:lockstep:change_log.py", indent=0)]]]
+Plan (generated from lockstep.yaml layout and OpenSpec; edit the spec or the layout row, not this text):
 
-Part of REQ-4: A hook copies status from the code up into the normative
-  documents: a hook copies status from the code up into the normative
-  documents automatically: what exists, test results, and drift. It also
-  keeps an automatic append-only change log of every normative change,
-  including those made in a docstring, so the history is there.
-BEH-4.2: Every normative change, from the plan or from a docstring, gets an
-  entry in an append-only change log, written automatically when the change
-  is accepted; nobody edits or removes an entry, and the edit hook refuses
-  an attempt. The generated change-log page shows, for each entry whose
-  rationale ends with an `Agent call: ...` line, that line.
-SC-4.2: Each accepted plan change and each docstring-originated change adds
-  one log entry, earlier entries are never altered, and the edit hook
-  refuses an edit, overwrite or removal of an entry; the generated page
-  shows the `Agent call: ...` line of each entry whose rationale ends with
-  one.
-  Disproved if: A normative change has no entry, an entry was edited or
-  removed, or the edit hook lets an edit, overwrite or shell removal of an
-  entry through, or the page leaves out the Agent call line of an entry
-  whose rationale ends with one.
-Proven by: VS-4.2-a (tests/test_change_log.py)
-Declares (typed signatures, from the plan):
-  entries(root: Path) -> list[dict]
-  history_problems(root: Path) -> list[str]
-  entry_edit_reason(root: Path, rel: str) -> str | None
-  render(log: list[dict]) -> str
-  main(argv: list[str] | None = None) -> int
-[[[end]]] (sum: 3bMk4EEv9k)
+Implements: (no requirement)
+[[[end]]]
 """
 
 from __future__ import annotations

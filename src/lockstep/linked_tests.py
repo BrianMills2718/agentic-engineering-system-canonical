@@ -5,24 +5,11 @@ folder, tracked or new; files `aes adopt` accepted as legacy are listed, not che
 test file is the locator of a verification subject whose proof kind is `deterministic_test`.
 A named file that is planned but not written yet is listed, not failing, as in `aes topology`.
 
-[[[cog import lockstep.cogtext as c; c.docstring("ART-LINKED-TESTS", indent=0)]]]
-Plan (generated from .aes/target.yaml; edit the plan, not this text):
+[[[cog import lockstep.cogtext as c; c.docstring("src:lockstep:linked_tests.py", indent=0)]]]
+Plan (generated from lockstep.yaml layout and OpenSpec; edit the spec or the layout row, not this text):
 
-Part of REQ-2: Each success criterion names how it is checked: every success
-  criterion in the plan names how it is checked: a test file by name,
-  Brian's sign-off, or an AI-graded rubric.
-BEH-2.2: Every test file a criterion names exists, and every test file in
-  the project is named by a criterion.
-SC-2.2: A named test file that is missing, and a test file no criterion
-  names, are both reported.
-  Disproved if: A verification subject names a missing test file, or a test
-  file exists that no criterion names, and nothing reports it.
-Proven by: VS-2.2-a (tests/test_linked_tests.py)
-Declares (typed signatures, from the plan):
-  LinkReport
-  link_report(root: Path) -> LinkReport
-  main(argv: list[str] | None = None) -> int
-[[[end]]] (sum: GBSuH0Sz01)
+Implements: (no requirement)
+[[[end]]]
 """
 
 from __future__ import annotations

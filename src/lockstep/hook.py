@@ -32,64 +32,25 @@ shell write the plan has no rule for, and a call it lets through with nothing to
 "pass"`), with the first characters of a shell command (Q21). Shell parsing misses a write whose path is built at run
 time; `pcw check` before the commit stays the guarantee.
 
-[[[cog import lockstep.cogtext as c; c.docstring("ART-HOOK", indent=0)]]]
-Plan (generated from .aes/target.yaml; edit the plan, not this text):
+[[[cog import lockstep.cogtext as c; c.docstring("src:lockstep:hook.py", indent=0)]]]
+Plan (generated from lockstep.yaml layout and OpenSpec; edit the spec or the layout row, not this text):
 
-Part of REQ-5: Links are checked both ways on every change: links between
-  requirement, criterion, test, file and symbol are checked in both
-  directions on every change, at edit time (the hook) and before commit
-  (`pcw check`); an unplanned or stale item is refused.
-BEH-5.1: At edit time, an agent's edit to a file under a governed folder
-  that the plan does not declare, a shell command that writes such a file (a
-  redirect, tee, or a new file named by an in-place or scripted write,
-  following `cd`), or a shell command that writes a planned file (which
-  would skip this check), is warned about by default; the edit goes through,
-  the agent is told it would be refused and the hook log records a would-
-  block; it is refused for a file Lockstep's side file marks fixed, or
-  everywhere with PCW_MODE=block; a shell write the plan has no rule for is
-  let through and logged; every call the hook sees is logged, including one
-  it lets through with nothing to say, with the start of a shell command;
-  the would-blocks can be counted per day. Every refusal and warning also
-  names the project's wiki (`python -m lockstep.wiki`) as where to look next.
-SC-5.1: By default the hook allows an Edit or Write to an undeclared
-  governed file, a shell write that creates one, and a shell write to a
-  planned file, telling the agent it would be refused and logging decision
-  would_block; it denies each for a file matching a `fixed` glob in the side
-  file or under PCW_MODE=block, including when the shell command reaches the
-  file after `cd`, through tee, or from a here-document or a python script;
-  it allows an edit to a declared file whose copy is current, and a shell
-  command that writes no governed file; `pcw-hook --would-block` prints the
-  would-block count per day. Every refusal and warning names `python -m
-  lockstep.wiki`. Every call the hook sees in a project leaves one log line, a
-  silent pass as decision pass.
-  Disproved if: An edit to an undeclared governed file, a shell write that
-  creates one, or a shell write to a planned file, is let through when the
-  file is marked fixed or PCW_MODE=block is set; a warned edit is not logged
-  as would_block or the agent is not told; a file not marked fixed is
-  refused by default; a shell command that writes no governed file is
-  refused; or the count misses a would_block record; or a refusal or warning
-  does not name `python -m lockstep.wiki`; or a call the hook sees in a project
-  leaves no log line.
-Proven by: VS-5.1-a (tests/test_hook.py)
-Declares (typed signatures, from the plan):
-  EDIT_TOOLS
-  SHELL_TOOLS
-  FILE_EDITOR
-  PATCH_PATH
-  REDIRECT
-  TEE
-  IN_PLACE
-  WARN_PREFIX
-  shell_writes(command: str, path: str) -> bool
-  paths_from_call(call: dict) -> list[str]
-  shell_command(call: dict) -> str | None
-  log(root: Path, record: dict) -> None
-  blocks(root: Path, rel: str) -> bool
-  decide_shell(call: dict, command: str) -> dict | None
-  decide(call: dict) -> dict | None
-  would_block_counts(root: Path, days: int = 14) -> dict[str, int]
-  main() -> int
-[[[end]]] (sum: lKpqI7g3ID)
+Implements: lockstep-guard/agents-get-requirement-text-from-the-shell-too
+
+### Requirement: Agents get requirement text from the shell too
+
+In a repository with OpenSpec specs and no layout plan, the edit hook SHALL answer a shell command that names or writes a file whose docstrings carry `Implements:` lines with those requirements' text, without a `permissionDecision`, and SHALL log the call as `openspec_text` with the requirement IDs; a command naming no such file and no file a decision governs SHALL get no answer.
+
+Source: inferred by agent from the 2026-11-23 linked-chain acceptance run (Claude edited only through Bash, so the text never arrived); plan docs/planning/linked-chain-core-2026-11-23.md
+
+#### Scenario: A shell command on an implementing file gets its requirement text
+
+- **GIVEN** a file whose docstring says `Implements: ship/<requirement>`
+- **WHEN** the agent runs `cat` on it, writes it with a heredoc, or edits it with `sed -i`
+- **THEN** the hook's answer holds that requirement's text and no decision
+
+Tested by: tests/lockstep/test_lockstep_openspec_text.py
+[[[end]]]
 """
 
 from __future__ import annotations

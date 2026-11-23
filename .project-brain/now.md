@@ -42,7 +42,15 @@ marker and plan 4; `run-plan title-case-names` passed its hidden tests (4 failed
 merged as #5, and the hook log recorded decision 0002 handed over on three of Claude's shell commands; `links.json`
 lists the plan (archived after merge), the quote (current) and both decisions.
 
-**Next:** further add-ons as needed.
+**Back on the settled design, 2026-11-23** ([plan](../docs/planning/back-on-design-2026-11-23.md)): Brian found the
+minimal core had dropped the planned file layout (`lockstep.yaml` rows, structure before code; `LOCKSTEP.md:22-29`,
+`proposals/one-planning-tool/DESIGN.md`) and that Lockstep was not used on itself. Slice 1: AES's `lockstep.yaml` now
+governs `src/lockstep/` with one layout row per file, marks it fixed, and the AES client settings run `lockstep-hook`,
+so an unplanned file there is refused (spec lockstep-plan-format, `lockstep-governs-its-own-package`, with a test).
+Found on the way: `work_units.py` named a requirement ID no spec defined, and 12 of 193 requirements have empty
+statement text because their `Source:` line comes first.
+
+**Next:** slice 2, the template ships the layout and `lockstep layout` creates planned files before code.
 
 # AES assessment (2026-11-19)
 

@@ -104,7 +104,7 @@ which tests cover each scenario at this commit. For pass or fail, run `make chec
 | `lockstep-guard/a-refusal-lists-the-files-the-plan-allows` | unimplemented | - |
 | `lockstep-guard/handing-over-text-never-approves-an-edit` | unimplemented | - |
 | `lockstep-guard/agents-get-requirement-text-from-the-shell-too` | not run at this revision | `lockstep.hook._shell_spec_text` (`src/lockstep/hook.py:330`) |
-| `lockstep-guard/agents-get-the-decisions-that-govern-a-file` | not run at this revision | `lockstep.decisions.packet` (`src/lockstep/decisions.py:114`) |
+| `lockstep-guard/agents-get-the-decisions-that-govern-a-file` | not run at this revision | `lockstep.decisions.packet` (`src/lockstep/decisions.py:116`) |
 | `lockstep-init/init-installs-lockstep-in-a-repository-without-overwriting` | not run at this revision | `lockstep.init_repo` (`src/lockstep/init_repo.py:1`) |
 | `lockstep-init/installed-files-name-no-machine-and-read-their-settings-from-lockstep-yaml` | not run at this revision | `lockstep.init_repo` (`src/lockstep/init_repo.py:1`) |
 | `lockstep-init/the-edit-guard-logs-outside-the-checkout` | unimplemented | - |
@@ -113,11 +113,12 @@ which tests cover each scenario at this commit. For pass or fail, run `make chec
 | `lockstep-plan-check/the-acceptance-criteria-file-is-validated` | unimplemented | - |
 | `lockstep-plan-check/each-plan-requirement-is-sourced-in-brian-s-words-and-covered` | unimplemented | - |
 | `lockstep-plan-check/the-command-is-reached-as-lockstep-plan-check` | unimplemented | - |
-| `lockstep-plan-check/work-units-form-a-checked-dag` | unimplemented | - |
+| `lockstep-plan-check/work-units-form-a-checked-dag` | not run at this revision | `lockstep.work_units` (`src/lockstep/work_units.py:1`) |
 | `lockstep-plan-check/a-citation-may-name-the-text-it-points-at` | not run at this revision | `lockstep.citation_anchor` (`src/lockstep/citation_anchor.py:1`) |
 | `lockstep-plan-format/the-plan-is-openspec-plus-layout-rows` | not run at this revision | `lockstep.layout_plan` (`src/lockstep/layout_plan.py:1`) |
 | `lockstep-plan-format/a-planned-file-without-a-cog-plan-copy-is-judged-by-its-implements-block` | unimplemented | - |
 | `lockstep-plan-format/every-refusal-in-a-layout-repository-names-a-layout-command` | unimplemented | - |
+| `lockstep-plan-format/lockstep-governs-its-own-package` | unimplemented | - |
 | `lockstep-projection/requirement-text-is-written-into-the-implementing-docstring` | not run at this revision | `lockstep.checks.project` (`src/lockstep/checks/project.py:1`) |
 | `lockstep-projection/status-flows-back-into-the-plan` | not run at this revision | `lockstep.checks.project` (`src/lockstep/checks/project.py:1`) |
 | `lockstep-projection/the-docs-site-shows-coverage-at-its-commit` | not run at this revision | `lockstep.checks.status.markdown` (`src/lockstep/checks/status.py:250`) |
@@ -431,11 +432,11 @@ which tests cover each scenario at this commit. For pass or fail, run `make chec
 | `lockstep-plan-check/a-stale-or-missing-judgment-is-reported` | `lockstep-plan-check/each-plan-requirement-is-sourced-in-brian-s-words-and-covered` | not run at this revision | `tests/lockstep/test_lockstep_plan_check_requirements.py::test_a_stale_or_missing_judgment_is_reported` |
 | `lockstep-plan-check/a-file-without-brian-s-words-skips-the-requirement-check` | `lockstep-plan-check/each-plan-requirement-is-sourced-in-brian-s-words-and-covered` | not run at this revision | `tests/lockstep/test_lockstep_plan_check_requirements.py::test_a_file_without_brians_words_skips_the_requirement_check` |
 | `lockstep-plan-check/the-acceptance-path-can-be-overridden` | `lockstep-plan-check/the-command-is-reached-as-lockstep-plan-check` | not run at this revision | `tests/lockstep/test_lockstep_plan_check.py::test_the_acceptance_path_can_be_overridden` |
-| `lockstep-plan-check/independent-units-are-both-ready` | `lockstep-plan-check/work-units-form-a-checked-dag` | untested | - |
-| `lockstep-plan-check/a-cycle-fails` | `lockstep-plan-check/work-units-form-a-checked-dag` | untested | - |
-| `lockstep-plan-check/a-dependency-on-a-missing-unit-fails` | `lockstep-plan-check/work-units-form-a-checked-dag` | untested | - |
-| `lockstep-plan-check/independent-units-touching-one-file-are-flagged` | `lockstep-plan-check/work-units-form-a-checked-dag` | untested | - |
-| `lockstep-plan-check/a-merged-unit-needs-evidence` | `lockstep-plan-check/work-units-form-a-checked-dag` | untested | - |
+| `lockstep-plan-check/independent-units-are-both-ready` | `lockstep-plan-check/work-units-form-a-checked-dag` | not run at this revision | `tests/lockstep/test_lockstep_work_units.py::test_independent_units_are_both_ready` |
+| `lockstep-plan-check/a-cycle-fails` | `lockstep-plan-check/work-units-form-a-checked-dag` | not run at this revision | `tests/lockstep/test_lockstep_work_units.py::test_cycle_fails` |
+| `lockstep-plan-check/a-dependency-on-a-missing-unit-fails` | `lockstep-plan-check/work-units-form-a-checked-dag` | not run at this revision | `tests/lockstep/test_lockstep_work_units.py::test_missing_dependency_fails` |
+| `lockstep-plan-check/independent-units-touching-one-file-are-flagged` | `lockstep-plan-check/work-units-form-a-checked-dag` | not run at this revision | `tests/lockstep/test_lockstep_work_units.py::test_independent_units_touching_one_file_conflict_but_dependent_ones_do_not` |
+| `lockstep-plan-check/a-merged-unit-needs-evidence` | `lockstep-plan-check/work-units-form-a-checked-dag` | not run at this revision | `tests/lockstep/test_lockstep_work_units.py::test_merged_needs_evidence_and_unlocks_dependents` |
 | `lockstep-plan-check/an-anchored-citation-survives-a-line-move` | `lockstep-plan-check/a-citation-may-name-the-text-it-points-at` | not run at this revision | `tests/lockstep/test_lockstep_citation_anchor.py::test_an_anchored_citation_survives_a_line_move` |
 | `lockstep-plan-check/an-anchored-citation-whose-text-is-gone-fails` | `lockstep-plan-check/a-citation-may-name-the-text-it-points-at` | not run at this revision | `tests/lockstep/test_lockstep_citation_anchor.py::test_an_anchored_citation_whose_text_is_gone_fails`, `tests/lockstep/test_lockstep_citation_anchor.py::test_text_containing_a_url_scheme_is_still_an_anchor` |
 | `lockstep-plan-check/text-found-twice-fails` | `lockstep-plan-check/a-citation-may-name-the-text-it-points-at` | not run at this revision | `tests/lockstep/test_lockstep_citation_anchor.py::test_text_found_twice_fails` |
@@ -450,6 +451,7 @@ which tests cover each scenario at this commit. For pass or fail, run `make chec
 | `lockstep-plan-format/a-stale-implements-block-names-the-command-that-fixes-it` | `lockstep-plan-format/a-planned-file-without-a-cog-plan-copy-is-judged-by-its-implements-block` | not run at this revision | `tests/lockstep/test_lockstep_layout_plan.py::test_a_stale_implements_block_is_refused_until_lockstep_check_project_runs` |
 | `lockstep-plan-format/the-commit-check-judges-an-implements-block-the-same-way` | `lockstep-plan-format/every-refusal-in-a-layout-repository-names-a-layout-command` | not run at this revision | `tests/lockstep/test_lockstep_layout_plan.py::test_the_commit_check_allows_a_current_implements_block_and_blocks_a_stale_one` |
 | `lockstep-plan-format/an-undeclared-public-symbol-names-the-layout-exports` | `lockstep-plan-format/every-refusal-in-a-layout-repository-names-a-layout-command` | not run at this revision | `tests/lockstep/test_lockstep_layout_plan.py::test_an_undeclared_public_function_points_to_the_layout_row` |
+| `lockstep-plan-format/every-package-file-is-planned-and-the-hook-refuses-an-unplanned-one` | `lockstep-plan-format/lockstep-governs-its-own-package` | not run at this revision | `tests/lockstep/test_lockstep_governs_its_own_package.py::test_every_package_file_is_planned_and_the_hook_refuses_an_unplanned_one` |
 | `lockstep-projection/opening-quote-line-declarations-receive-canonical-text` | `lockstep-projection/requirement-text-is-written-into-the-implementing-docstring` | not run at this revision | `tests/lockstep/checks/test_lockstep_check_project.py::test_opening_quote_line_is_projected_without_losing_source`, `tests/lockstep/checks/test_lockstep_check_project.py::test_inline_function_literal_keeps_unicode_prefix_and_following_statement` |
 | `lockstep-projection/projection-rewrites-the-block` | `lockstep-projection/requirement-text-is-written-into-the-implementing-docstring` | not run at this revision | `tests/lockstep/checks/test_lockstep_check_project.py::test_projection_writes_the_requirement_text_under_implements`, `tests/lockstep/checks/test_lockstep_check_project.py::test_projection_rewrites_the_block`, `tests/lockstep/checks/test_lockstep_check_project.py::test_module_docstring_and_long_text_wrap`, `tests/lockstep/checks/test_lockstep_check_project.py::test_backslashes_are_escaped_in_a_plain_docstring`, `tests/lockstep/checks/test_lockstep_check_project.py::test_backslashes_are_written_as_they_are_in_a_raw_docstring` |
 | `lockstep-projection/stale-requirement-text-fails-the-check` | `lockstep-projection/requirement-text-is-written-into-the-implementing-docstring` | not run at this revision | `tests/lockstep/checks/test_lockstep_check_project.py::test_stale_requirement_text_fails_the_check`, `tests/lockstep/checks/test_lockstep_check_project.py::test_cli_check_exits_1_when_stale` |

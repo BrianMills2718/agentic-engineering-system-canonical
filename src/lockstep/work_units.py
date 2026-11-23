@@ -1,6 +1,6 @@
 """`lockstep plan units [--repo PATH] [--json]`: is the plan's work-unit DAG well formed, and what can start now?
 
-Implements: lockstep-plan-check/work-units-form-a-dag
+Implements: lockstep-plan-check/work-units-form-a-checked-dag
 
 Reads `docs/planning/work-units.json` (record type `work_units`, a list `units`; each unit has `id`, `title`,
 `depends_on`, `touches`, `status`, and `evidence` once merged). Reports problems, the ready units, the longest chain of

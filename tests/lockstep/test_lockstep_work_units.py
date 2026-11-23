@@ -1,4 +1,4 @@
-"""`lockstep plan units`: the work-unit DAG (spec lockstep-plan-check/work-units-form-a-dag)."""
+"""`lockstep plan units`: the work-unit DAG (spec lockstep-plan-check/work-units-form-a-checked-dag)."""
 
 import json
 from pathlib import Path
@@ -18,25 +18,25 @@ def write(repo: Path, units: list) -> None:
     p.write_text(json.dumps({"record_type": "work_units", "units": units}), encoding="utf-8")
 
 
-@pytest.mark.req("lockstep-plan-check/work-units-form-a-dag")
+@pytest.mark.req("lockstep-plan-check/independent-units-are-both-ready")
 def test_independent_units_are_both_ready():
     r = analyse({"record_type": "work_units", "units": [unit("A", touches=["a.py"]), unit("B", touches=["b.py"])]})
     assert r["problems"] == [] and r["ready"] == ["A", "B"] and r["conflicts"] == []
 
 
-@pytest.mark.req("lockstep-plan-check/work-units-form-a-dag")
+@pytest.mark.req("lockstep-plan-check/a-cycle-fails")
 def test_cycle_fails():
     r = analyse({"record_type": "work_units", "units": [unit("A", ["B"]), unit("B", ["A"])]})
     assert any("cycle" in p for p in r["problems"])
 
 
-@pytest.mark.req("lockstep-plan-check/work-units-form-a-dag")
+@pytest.mark.req("lockstep-plan-check/a-dependency-on-a-missing-unit-fails")
 def test_missing_dependency_fails():
     r = analyse({"record_type": "work_units", "units": [unit("A", ["Z"])]})
     assert any("A" in p and "Z" in p for p in r["problems"])
 
 
-@pytest.mark.req("lockstep-plan-check/work-units-form-a-dag")
+@pytest.mark.req("lockstep-plan-check/independent-units-touching-one-file-are-flagged")
 def test_independent_units_touching_one_file_conflict_but_dependent_ones_do_not():
     r = analyse({"record_type": "work_units", "units": [
         unit("A", touches=["src/x.py"]), unit("B", touches=["src/x.py"]), unit("C", ["A"], ["src/x.py"])]})
@@ -44,7 +44,7 @@ def test_independent_units_touching_one_file_conflict_but_dependent_ones_do_not(
                               {"units": ["B", "C"], "files": ["src/x.py"]}]
 
 
-@pytest.mark.req("lockstep-plan-check/work-units-form-a-dag")
+@pytest.mark.req("lockstep-plan-check/a-merged-unit-needs-evidence")
 def test_merged_needs_evidence_and_unlocks_dependents():
     bad = analyse({"record_type": "work_units", "units": [unit("A", status="merged")]})
     assert any("evidence" in p for p in bad["problems"])
@@ -52,13 +52,11 @@ def test_merged_needs_evidence_and_unlocks_dependents():
     assert ok["problems"] == [] and ok["ready"] == ["B"] and ok["critical_path"] == ["B"]
 
 
-@pytest.mark.req("lockstep-plan-check/work-units-form-a-dag")
 def test_critical_path_is_longest_unmerged_chain():
     r = analyse({"record_type": "work_units", "units": [unit("A"), unit("B", ["A"]), unit("C", ["B"]), unit("D")]})
     assert r["critical_path"] == ["A", "B", "C"]
 
 
-@pytest.mark.req("lockstep-plan-check/work-units-form-a-dag")
 def test_cli_exit_codes(tmp_path, capsys):
     assert units_cli(["--repo", str(tmp_path)]) == 2
     write(tmp_path, [unit("A"), unit("B", ["A"])])
@@ -67,7 +65,6 @@ def test_cli_exit_codes(tmp_path, capsys):
     assert units_cli(["--repo", str(tmp_path)]) == 1
 
 
-@pytest.mark.req("lockstep-plan-check/work-units-form-a-dag")
 def test_malformed_json_is_exit_2(tmp_path):
     p = tmp_path / "docs/planning/work-units.json"
     p.parent.mkdir(parents=True)
@@ -75,7 +72,6 @@ def test_malformed_json_is_exit_2(tmp_path):
     assert units_cli(["--repo", str(tmp_path)]) == 2
 
 
-@pytest.mark.req("lockstep-plan-check/work-units-form-a-dag")
 def test_cli_prints_ready_critical_path_and_conflicts(tmp_path, capsys):
     write(tmp_path, [unit("A", touches=["x.py"]), unit("B", touches=["x.py"]), unit("C", ["A"])])
     assert units_cli(["--repo", str(tmp_path)]) == 0
@@ -84,7 +80,6 @@ def test_cli_prints_ready_critical_path_and_conflicts(tmp_path, capsys):
     assert "conflict: A and B are independent but both touch x.py" in out
 
 
-@pytest.mark.req("lockstep-plan-check/work-units-form-a-dag")
 def test_plan_check_reports_work_unit_problems_when_file_present(tmp_path, capsys):
     from lockstep.plan_check import plan_cli
     write(tmp_path, [unit("A", ["Z"])])

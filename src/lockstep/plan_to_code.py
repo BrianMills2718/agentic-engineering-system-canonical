@@ -7,25 +7,11 @@ them. So the facts are of the last commit; uncommitted edits show once committed
 behavior 5.5) judges the edit's own text with the same AES reader, so an uncommitted edit that adds an
 undeclared symbol, changes a declared signature or removes a declared export is answered then (Q38).
 
-[[[cog import lockstep.cogtext as c; c.docstring("ART-PLAN-TO-CODE", indent=0)]]]
-Plan (generated from .aes/target.yaml; edit the plan, not this text):
+[[[cog import lockstep.cogtext as c; c.docstring("src:lockstep:plan_to_code.py", indent=0)]]]
+Plan (generated from lockstep.yaml layout and OpenSpec; edit the spec or the layout row, not this text):
 
-Part of REQ-5: Links are checked both ways on every change: links between
-  requirement, criterion, test, file and symbol are checked in both
-  directions on every change, at edit time (the hook) and before commit
-  (`pcw check`); an unplanned or stale item is refused.
-BEH-5.3: A planned file or declared symbol that has no code, or whose
-  signature differs from the plan, is reported.
-SC-5.3: A missing planned file, a missing export and a changed signature are
-  each reported.
-  Disproved if: A planned file or export is missing, or its signature
-  differs, and nothing reports it.
-Proven by: VS-5.3-a (tests/test_plan_to_code.py)
-Declares (typed signatures, from the plan):
-  PlanDrift
-  plan_drift(root: Path) -> PlanDrift
-  main(argv: list[str] | None = None) -> int
-[[[end]]] (sum: B0Afrt3DKk)
+Implements: (no requirement)
+[[[end]]]
 """
 
 from __future__ import annotations

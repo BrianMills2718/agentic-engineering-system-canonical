@@ -10,24 +10,11 @@ the repository (`external_boundaries`), names none of the three and is reported.
 that names a criterion the plan does not hold. `python -m lockstep.criterion_checks` is part of
 `make check`.
 
-[[[cog import lockstep.cogtext as c; c.docstring("ART-CRITERION-CHECKS", indent=0)]]]
-Plan (generated from .aes/target.yaml; edit the plan, not this text):
+[[[cog import lockstep.cogtext as c; c.docstring("src:lockstep:criterion_checks.py", indent=0)]]]
+Plan (generated from lockstep.yaml layout and OpenSpec; edit the spec or the layout row, not this text):
 
-Part of REQ-2: Each success criterion names how it is checked: every success
-  criterion in the plan names how it is checked: a test file by name,
-  Brian's sign-off, or an AI-graded rubric.
-BEH-2.1: Every success criterion names how it is checked: a test file by
-  name, Brian's sign-off, or an AI-graded rubric declared in Lockstep's side
-  file.
-SC-2.1: A criterion with no test, sign-off or rubric route is reported, and
-  an AI-graded rubric can be declared for a criterion.
-  Disproved if: A criterion passes with no named check, or an AI-graded
-  rubric cannot be declared.
-Proven by: VS-2.1-a (tests/test_criterion_checks.py)
-Declares (typed signatures, from the plan):
-  criterion_problems(plan: dict, rubrics: dict[str, str]) -> list[str]
-  main(argv: list[str] | None = None) -> int
-[[[end]]] (sum: kF13ZEJXnd)
+Implements: (no requirement)
+[[[end]]]
 """
 
 from __future__ import annotations

@@ -7,32 +7,11 @@ the list to its refusal when an edit meets a stale copy (behavior 3.4), so the a
 the files at once instead of one refusal per file. `make project` refreshes the docstrings;
 the code under them is the agent's to review.
 
-[[[cog import lockstep.cogtext as c; c.docstring("ART-CHANGE-LIST", indent=0)]]]
-Plan (generated from .aes/target.yaml; edit the plan, not this text):
+[[[cog import lockstep.cogtext as c; c.docstring("src:lockstep:change_list.py", indent=0)]]]
+Plan (generated from lockstep.yaml layout and OpenSpec; edit the spec or the layout row, not this text):
 
-Part of REQ-3: A hook copies the normative text and typed signatures down
-  into the code: a hook copies the full normative text, and the typed
-  signatures, from the plan down into the code's docstrings automatically;
-  nobody types the copy. For normative text the projection is two-way: the
-  normative portion of a docstring can be edited where the agent is working,
-  and the edit projects up into the plan; and when the normative text
-  changes in the plan, every linked function, wherever it is, is marked for
-  update and the agent is handed that list.
-BEH-3.5: When the plan's normative text changes, every file and symbol
-  linked to the changed items is listed and handed to the agent as one list.
-SC-3.5: After a plan change, the agent receives a list naming every file and
-  symbol linked to each changed item.
-  Disproved if: A file or symbol linked to a changed item is missing from
-  the list, or the list never reaches the agent.
-Proven by: VS-3.5-a (tests/test_change_list.py)
-Declares (typed signatures, from the plan):
-  changed_items(old: dict, new: dict) -> list[str]
-  linked_files(old: dict, new: dict, changed: list[str]) -> list[dict]
-  plan_base(root: Path) -> str | None
-  change_list(root: Path, base: str | None = None) -> dict
-  render(listing: dict) -> str
-  main(argv: list[str] | None = None) -> int
-[[[end]]] (sum: TOIyyhHK1G)
+Implements: (no requirement)
+[[[end]]]
 """
 
 from __future__ import annotations

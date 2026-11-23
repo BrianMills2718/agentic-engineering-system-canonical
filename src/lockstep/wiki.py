@@ -4,36 +4,10 @@ Called from a mkdocs-gen-files script, so pages exist only at build time and
 cannot drift from the plan: there is no hand-written copy to go stale. Code
 pages use mkdocstrings, which renders the same docstrings `cog` projected.
 
-[[[cog import lockstep.cogtext as c; c.docstring("ART-WIKI", indent=0)]]]
-Plan (generated from .aes/target.yaml; edit the plan, not this text):
+[[[cog import lockstep.cogtext as c; c.docstring("src:lockstep:wiki.py", indent=0)]]]
+Plan (generated from lockstep.yaml layout and OpenSpec; edit the spec or the layout row, not this text):
 
-Part of REQ-6: The wiki gets an agent to the right document or code within
-  two links: from the wiki's front page, an agent reaches the normative
-  document or the code that answers its question within two links, and each
-  link comes with a summary of what it leads to.
-BEH-6.1: The wiki is built from the plan, the evidence standing and the code
-  docstrings at build time, so it has no hand-written copy to go stale. Its
-  front page is set out as the questions a reader starts from (what must the
-  project do and is it met, which files do each part and does their test
-  prove it, does the code match the plan, what does the code say, what
-  changed), each entry linking down to the page that answers it; every page
-  names the plan file and every planned file and proving test as a link to
-  that file, at the commit the page was built from when the repository has a
-  hosted copy.
-SC-6.1: `make wiki` builds pages that show each planned file's plan text and
-  its criterion standing from the current plan; every section heading on the
-  front page is a question, and each component page links the plan file,
-  each of its planned files and each proving test by its path, to the hosted
-  copy at the build's commit (mkdocs `repo_url` or a GitHub `origin`) or
-  else to the file on disk.
-  Disproved if: A wiki page shows plan text or standing that differs from
-  the current plan and evidence, a front-page section heading is not a
-  question, or a component page names a planned file or proving test without
-  a link to it.
-Proven by: VS-6.1-a (tests/test_e2e.py)
-Declares (typed signatures, from the plan):
-  pages(root: Path, package: str) -> dict[str, str]
-  main() -> int
+Implements: (no requirement)
 [[[end]]] (sum: HR42zobiWc)
 """
 

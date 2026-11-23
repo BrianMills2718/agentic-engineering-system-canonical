@@ -10,25 +10,10 @@ working tree, never imported or run). A declared export the code lacks, or whose
 is behavior 5.3's report (`lockstep.plan_to_code`), not this one. `python -m lockstep.unplanned_symbols` is
 part of `make check`.
 
-[[[cog import lockstep.cogtext as c; c.docstring("ART-UNPLANNED-SYMBOLS", indent=0)]]]
-Plan (generated from .aes/target.yaml; edit the plan, not this text):
+[[[cog import lockstep.cogtext as c; c.docstring("src:lockstep:unplanned_symbols.py", indent=0)]]]
+Plan (generated from lockstep.yaml layout and OpenSpec; edit the spec or the layout row, not this text):
 
-Part of REQ-1: The plan declares the normative side and the whole file
-  structure: the plan, written as structured YAML in the AES plan format,
-  declares the normative side (requirements, success criteria and decisions)
-  and declares every file and every strongly typed function and class; no
-  code file, test or document exists without a declared reason.
-BEH-1.2: Any top-level function or class in a planned source file that the
-  plan does not declare in that file's exports, with its parameter and
-  return types, is reported.
-SC-1.2: An undeclared top-level function or class, or an export without
-  types, is reported; declared typed symbols are not.
-  Disproved if: A top-level function or class is missing from its file's
-  exports, or is exported without types, and nothing reports it.
-Proven by: VS-1.2-a (tests/test_unplanned_symbols.py)
-Declares (typed signatures, from the plan):
-  symbol_problems(root: Path, plan: dict) -> list[str]
-  main(argv: list[str] | None = None) -> int
+Implements: (no requirement)
 [[[end]]] (sum: S/hQ+kJlRj)
 """
 

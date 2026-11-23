@@ -7,29 +7,10 @@ chain of links found to it) or never reached (no chain exists), a link to a page
 link's own line or table row). A hand-written wiki is held to the same rule by the workspace's
 `md_file_cap.py`. `python -m lockstep.wiki_reach --package pcw` is part of `make check`.
 
-[[[cog import lockstep.cogtext as c; c.docstring("ART-WIKI-REACH", indent=0)]]]
-Plan (generated from .aes/target.yaml; edit the plan, not this text):
+[[[cog import lockstep.cogtext as c; c.docstring("src:lockstep:wiki_reach.py", indent=0)]]]
+Plan (generated from lockstep.yaml layout and OpenSpec; edit the spec or the layout row, not this text):
 
-Part of REQ-6: The wiki gets an agent to the right document or code within
-  two links: from the wiki's front page, an agent reaches the normative
-  document or the code that answers its question within two links, and each
-  link comes with a summary of what it leads to.
-BEH-6.2: Every normative document and code page is reached from the wiki's
-  front page within two links, and each link carries a summary; a page that
-  is too far away is reported with the shortest chain of links found to it
-  from the front page, or with a statement that no chain exists.
-SC-6.2: A built wiki is walked from its front page: every normative document
-  and code page is within two links, and every link has a summary; a page
-  that is too far away is reported with the shortest chain of links to it,
-  or with a statement that no chain exists.
-  Disproved if: A normative document or code page needs three or more links,
-  or a link has no summary, or a report of a page that is too far away
-  leaves out the shortest chain of links to it (or leaves out that none
-  exists).
-Proven by: VS-6.2-a (tests/test_wiki_reach.py)
-Declares (typed signatures, from the plan):
-  reach_problems(pages: dict[str, str], front: str = 'index.md') -> list[str]
-  main(argv: list[str] | None = None) -> int
+Implements: (no requirement)
 [[[end]]] (sum: hE+kCOD6/c)
 """
 
