@@ -82,6 +82,7 @@ flowchart LR
     symbol_gate[symbol_gate: symbols a change adds]
     layout_plan[layout_plan: OpenSpec plus layout rows]
     openspec_text[openspec_text: read a requirement's text]
+    decisions[decisions: read decision records' Governs and status lines]
     side_file[side_file: read lockstep.yaml]
     aes_bridge[aes_bridge: read the AES plan]
     scaffold[scaffold: create the planned files]
@@ -186,6 +187,7 @@ flowchart LR
   checks --> doc_projection
   doc_projection --> ls_hook
   ls_cli --> cogtext
+  ls_hook --> decisions
   ls_hook --> shell_targets
   ls_hook --> stale_edit
   ls_hook --> unplanned_files
