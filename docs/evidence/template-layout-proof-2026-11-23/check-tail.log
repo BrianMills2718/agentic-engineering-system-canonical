@@ -1,0 +1,25 @@
+RESULT project rewrote=0 exit=0
+uv run zensical build --strict
+Build started
+Build finished in 0.22s
+
+warning: `VIRTUAL_ENV=<copy>/.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+warning: `VIRTUAL_ENV=<copy>/.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+warning: `VIRTUAL_ENV=<copy>/.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+warning: `VIRTUAL_ENV=<copy>/.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+warning: `VIRTUAL_ENV=<copy>/.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+Skipping files that match this pattern: tests
+src/greeter/__init__.py
+src/greeter/cli.py
+src/greeter/core.py
+src/greeter/greet.py
+🎉 No violations 🎉
+warning: `VIRTUAL_ENV=<copy>/.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+warning: `VIRTUAL_ENV=<copy>/.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+warning: `VIRTUAL_ENV=<copy>/.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+warning: `VIRTUAL_ENV=<copy>/.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+warning: `VIRTUAL_ENV=<copy>/.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+warning: `VIRTUAL_ENV=<copy>/.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+warning: `VIRTUAL_ENV=<copy>/.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+warning: `VIRTUAL_ENV=<copy>/.venv` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+No issues found

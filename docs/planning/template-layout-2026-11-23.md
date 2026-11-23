@@ -68,12 +68,15 @@ layout rows declare no exports, so a new public function there is refused by its
    update` of a copy made before this change adds no `lockstep.yaml`; `make check` in a default copy with no remote
    exits 0 after its first commit. The update and `make check` tests need a committed copy and the Lockstep source
    from this branch so they are slow-marked. As built, the update test builds two template versions in a throwaway git repository and the `make check` test installs Lockstep from the default address (the tool changes it needs merged first).
-6. Prove it in a fresh copy with Claude: a plan that adds one requirement and one new file through a layout row.
+6. Done: [evidence folder](../evidence/template-layout-proof-2026-11-23/README.md). Prove it in a fresh copy with Claude: a plan that adds one requirement and one new file through a layout row.
    The proof script saves into a committed evidence folder: `docs/links.json` at the plan commit, the hook log
    lines for the run window, the transcript's tool calls (layout before the first edit of the new file), the new
    file's text as layout wrote it, `run-plan`'s `accept-before.log` and after-log, and its computed departure list.
 
 ## Acceptance (from the saved evidence folder of the proof run)
+
+Result, 2026-11-23: met, with one stated departure. The refusal of an unplanned file comes from a scripted probe after
+the run, because the agent never tried one; the agent's own refusal was a shell write to the planned file.
 
 - The hook log lines show a refusal of an unplanned file under `src/<package>/` and an allowed edit of the planned
   file; the transcript shows `lockstep layout` before the first edit of that file, whose saved first text holds its

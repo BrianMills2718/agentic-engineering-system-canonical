@@ -87,14 +87,17 @@ _NEVER_DEPARTURES = {"lockstep.yaml", "docs/links.json"}
 
 
 def _layout_paths_at(repo: Path, rev: str) -> set[str]:
-    """The `path` of every `layout:` row in lockstep.yaml as it was at rev; empty when there is none."""
+    """The `path` of every `layout:` row in lockstep.yaml as it was at rev, and each test file a row names; empty
+    when there is none."""
     import yaml
 
     if "lockstep.yaml" not in _git(repo, "ls-tree", "--name-only", rev).splitlines():
         return set()
     data = yaml.safe_load(_git(repo, "show", f"{rev}:lockstep.yaml")) or {}
-    rows = data.get("layout") if isinstance(data, dict) else None
-    return {str(r["path"]).strip() for r in rows or [] if isinstance(r, dict) and r.get("path")}
+    rows = [r for r in (data.get("layout") if isinstance(data, dict) else None) or [] if isinstance(r, dict)]
+    paths = {str(r["path"]).strip() for r in rows if r.get("path")}
+    tests = {str(t).strip() for r in rows if isinstance(r.get("tests"), list) for t in r["tests"] if str(t).strip()}
+    return paths | tests
 
 
 def departures(repo: Path, change: str, base: str) -> dict[str, Any]:
@@ -105,7 +108,7 @@ def departures(repo: Path, change: str, base: str) -> dict[str, Any]:
     plan_text = at_base[1]
     planned = _layout_paths_at(repo, base)
     changed = sorted(p for p in _git(repo, "diff", "--name-only", f"{base}..HEAD").splitlines() if p)
-    outside = [p for p in changed if not p.startswith("openspec/") and p not in _NEVER_DEPARTURES
+    outside = [p for p in changed if not p.startswith(("openspec/", "docs/specs/")) and p not in _NEVER_DEPARTURES
                and p not in planned and not _named(p, plan_text)]
     at_head = _tasks_at(repo, "HEAD", change)
     head_text = at_head[1] if at_head else plan_text
