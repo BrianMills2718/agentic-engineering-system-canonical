@@ -19,8 +19,10 @@ clean home folder (hidden tests 0/3 then 3/3, and 0/10 then 10/10) and merged wi
   so the second part matters for older copies and for repositories such as this one.
 - code2-workspace's own copy of the prior-art check retired (code2-workspace #904).
 
-**Known gap (accepted, Brian 2026-11-22):** the milestone's agents read Brian's global instructions; the rerun with
-empty agent config folders is deferred ([second-user.goal.md](../docs/planning/second-user.goal.md)).
+**Second user, done 2026-11-22:** with agent login folders holding none of Brian's instructions, Claude and Codex each
+ran a plan to passing hidden tests and merged through `ship`; the second merge reran the hidden tests after rebasing
+(minimal-core plan section 8; [second-user.goal.md](../docs/planning/second-user.goal.md)). The template's commit
+check no longer stages the git-ignored `docs/status.md` (#1009).
 
 **Next:** add-ons after the minimal core, as needed.
 

@@ -159,8 +159,20 @@ All four are fixed: a new copy's `docs/status.md` is build output and its spec l
 `ship` now settles a conflict confined to a committed `docs/status.md` and reruns hidden tests after its own rebase
 (#1006).
 
-Next goal: remove the compromise above ([second-user.goal.md](second-user.goal.md)). Deferred by Brian on
-2026-11-22; the compromise stands as a known, accepted gap until a second person or machine uses the template.
+**Compromise removed, 2026-11-22 ([second-user.goal.md](second-user.goal.md)).** Rerun in the same clean home with
+agent login folders that hold no `CLAUDE.md` or `AGENTS.md` (Brian logged both agents in), in private repository
+`second-user` copied from this repository's template, Lockstep at main:
+
+| Agent | Hidden tests before / after | `make check` | Read the hidden tests | Reads outside clean home | Merged by `uv run ship` |
+| --- | --- | --- | --- | --- | --- |
+| Claude | 3 errors / 5 passed | 0 | no (peek_reads 0) | none | yes, second-user #4 |
+| Codex | 4 failed / 4 passed | 0 | no (peek_reads 0) | none | yes, #5, after `ship` rebased onto #4 and reran the hidden tests (4 passed) |
+
+Departures named: Claude 1 file, Codex 3 (architecture diagram, import contract, generated spec pages). A first
+attempt was void: the plans, copied from the earlier test project, named its package; Claude stopped and asked,
+Codex built the named package. Found and fixed: the template's commit check staged the git-ignored
+`docs/status.md`, so every commit that changed the status page failed (#1009). Parked: `run-plan` prints the
+`ship` line even when nothing was built (`ship` refuses such a branch anyway).
 
 Rule for add-ons (inferred by agent; Brian can veto): each rule lives in one place; an add-on becomes mandatory
 only after an on/off comparison shows it catches something; a mandatory check with no logged catch in 2 weeks is
