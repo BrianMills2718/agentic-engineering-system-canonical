@@ -156,3 +156,101 @@ def test_a_rendered_copy_s_decision_governs_a_real_file(tmp_path):
     out = render(tmp_path)
     (first,) = read(out)
     assert first.raw == ["docs/architecture/model.c4"] and first.paths == ["docs/architecture/model.c4"]
+
+
+def _git(repo: Path, *args: str) -> None:
+    env = {**os.environ, "GIT_CONFIG_NOSYSTEM": "1"}
+    for name in ("GIT_DIR", "GIT_INDEX_FILE", "GIT_WORK_TREE"):
+        env.pop(name, None)
+    subprocess.run(["git", "-C", str(repo), "-c", "user.name=t", "-c", "user.email=t@example.invalid", *args],
+                   check=True, capture_output=True, text=True, env=env)
+
+
+@pytest.mark.req("portable-template/a-fresh-copy-refuses-an-unplanned-source-file")
+def test_a_fresh_copy_refuses_an_unplanned_source_file(tmp_path):
+    import json
+    import sys
+
+    import yaml
+
+    from lockstep.symbol_gate import added_symbol_problems
+    out = render(tmp_path)
+    plan = yaml.safe_load((out / "lockstep.yaml").read_text())
+    assert plan["governed"] == ["src/demo/"] and plan["fixed"] == ["src/demo/*"]
+    rows = {r["path"]: r for r in plan["layout"]}
+    assert set(rows) == {"src/demo/__init__.py", "src/demo/core.py", "src/demo/cli.py"}
+    assert rows["src/demo/core.py"]["exports"] == ["version() -> str"]
+    for rel in rows:
+        text = (out / rel).read_text()
+        assert "[[[" + "cog" in text and f'c.docstring("{rel.replace("/", ":")}"' in text, rel
+        assert added_symbol_problems(out, rel, text, None) == [], rel
+    assert "Implements:" not in (out / "src/demo/core.py").read_text()  # the generated text carries it
+    call = {"tool_name": "Write", "tool_input": {"file_path": str(out / "src/demo/extra.py"), "content": "x = 1\n"}}
+    env = {k: v for k, v in os.environ.items() if k != "PCW_MODE"}
+    done = subprocess.run([sys.executable, "-c", "from lockstep.hook import main; raise SystemExit(main())"],
+                          input=json.dumps(call), cwd=out, capture_output=True, text=True, env=env, timeout=60)
+    decision = json.loads(done.stdout)["hookSpecificOutput"]
+    assert decision["permissionDecision"] == "deny" and "lockstep.yaml" in decision["permissionDecisionReason"]
+    agents = (out / "AGENTS.md").read_text()
+    assert "uv run lockstep layout" in agents and "`layout:` row" in agents
+    assert "lockstep check --repo . --base" in (out / "Makefile").read_text()
+
+
+@pytest.mark.slow
+@pytest.mark.req("portable-template/an-update-of-an-older-copy-keeps-it-without-a-plan")
+def test_an_update_of_an_older_copy_keeps_it_without_a_plan(tmp_path):
+    if not shutil.which("uvx"):
+        pytest.skip("uvx is not installed")
+    src = tmp_path / "src"
+    src.mkdir()
+    copier = (ROOT / "copier.yml").read_text()
+    old = re.sub(r"_exclude:\n(  - .*\n)+", "", copier)
+    assert old != copier
+    (src / "copier.yml").write_text(old)
+    shutil.copytree(ROOT / "template", src / "template", ignore=shutil.ignore_patterns(".venv", "__pycache__"))
+    (src / "template/lockstep.yaml.jinja").unlink()
+    agents = src / "template/AGENTS.md.jinja"
+    agents.write_text(agents.read_text().replace("`uv run lockstep layout`", "the layout command"))
+    _git(src, "init", "-q", "-b", "main")
+    _git(src, "add", "-A")
+    _git(src, "commit", "-qm", "old")
+    _git(src, "tag", "v1")
+    out = tmp_path / "out"
+    base = ["uvx", "copier"]
+    subprocess.run([*base, "copy", "--trust", "--defaults", "--skip-tasks", "--vcs-ref", "v1", "--data",
+                    "project_name=demo", "--data", "description=Demo", str(src), str(out)],
+                   check=True, capture_output=True, text=True, timeout=300)
+    assert not (out / "lockstep.yaml").exists()
+    _git(out, "init", "-q", "-b", "main")
+    _git(out, "add", "-A")
+    _git(out, "commit", "-qm", "copy")
+    (src / "copier.yml").write_text(copier)
+    shutil.copy(ROOT / "template/lockstep.yaml.jinja", src / "template/lockstep.yaml.jinja")
+    shutil.copy(ROOT / "template/AGENTS.md.jinja", agents)
+    _git(src, "add", "-A")
+    _git(src, "commit", "-qm", "new")
+    _git(src, "tag", "v2")
+    subprocess.run([*base, "update", "--trust", "--defaults", "--skip-tasks", "--vcs-ref", "v2"], cwd=out,
+                   check=True, capture_output=True, text=True, timeout=300)
+    assert not (out / "lockstep.yaml").exists()
+    assert "uv run lockstep layout" in (out / "AGENTS.md").read_text()
+
+
+@pytest.mark.slow
+@pytest.mark.req("portable-template/a-default-copy-with-no-remote-passes-make-check")
+def test_a_default_copy_with_no_remote_passes_make_check(tmp_path):
+    if not (shutil.which("uvx") and shutil.which("openspec")):
+        pytest.skip("uvx or openspec is not installed")
+    src = tmp_path / "src"
+    src.mkdir()
+    shutil.copy(ROOT / "copier.yml", src)
+    shutil.copytree(ROOT / "template", src / "template", ignore=shutil.ignore_patterns(".venv", "__pycache__"))
+    out = tmp_path / "out"
+    subprocess.run(["uvx", "copier", "copy", "--trust", "--defaults", "--data", "project_name=demo", "--data",
+                    "description=Demo", str(src), str(out)], check=True, capture_output=True, text=True, timeout=900)
+    _git(out, "add", "-A")
+    _git(out, "commit", "-qm", "first", "--no-verify")
+    env = {k: v for k, v in os.environ.items() if not k.startswith(("GIT_", "VIRTUAL_ENV"))}
+    done = subprocess.run(["make", "check"], cwd=out, capture_output=True, text=True, env=env, timeout=900)
+    assert done.returncode == 0, done.stdout[-3000:] + done.stderr[-3000:]
+    assert "OUTCOME decision=allow" in done.stdout
