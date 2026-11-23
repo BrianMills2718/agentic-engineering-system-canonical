@@ -97,6 +97,7 @@ def test_a_moved_copy_and_a_worktree_still_run_the_hooks(tmp_path):
         assert not _OWNER.search(script.read_text()) and "/home/" not in script.read_text()
     tasks = (ROOT / "copier.yml").read_text()
     assert "git config --local core.hooksPath .githooks" in tasks and "lefthook install" not in tasks
+    assert "no_auto_install: true" in (out / "lefthook.yml").read_text()
     (out / "lefthook.yml").write_text("pre-commit:\n  jobs:\n    - name: marker\n      run: echo HOOK-MARKER\n")
     subprocess.run(["git", "init", "-q", "-b", "main", str(out)], check=True)
     subprocess.run(["git", "-C", str(out), "config", "--local", "core.hooksPath", ".githooks"], check=True)

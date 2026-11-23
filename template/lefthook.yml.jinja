@@ -7,6 +7,9 @@ remotes:
     configs:
       - hooks/base.yml
 {% endif -%}
+# The hook scripts are tracked in .githooks/ (core.hooksPath .githooks); do not let lefthook rewrite them, which
+# would also print a "Custom hooks paths are not supported" warning on every commit.
+no_auto_install: true
 pre-commit:
   jobs:
 {%- if not code2_workspace %}
