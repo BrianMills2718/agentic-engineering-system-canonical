@@ -1,0 +1,30 @@
+{
+  "need": "Count files planned by lockstep.yaml layout rows as planned in run-plan's departure report, and show planned files and exports in docs/links.json before they exist.",
+  "searched": [
+    {
+      "place": "own",
+      "where": "src/lockstep/plan_run.py, src/lockstep/checks/status.py, src/lockstep/layout_plan.py, ~/code2/workspace/docs/capabilities.md",
+      "query": "departures, links, layout_rows",
+      "found": "layout_rows already parses the rows; departures read only tasks.md; links had no node for a file that does not exist."
+    },
+    {
+      "place": "outside",
+      "where": "sphinx-needs needs.json, OpenFastTrace",
+      "query": "planned artifact status in a traceability graph",
+      "found": "sphinx-needs nodes carry a free status field; the link file already follows its node shape, so a state field fits."
+    }
+  ],
+  "candidates": [
+    {
+      "name": "sphinx-needs status field",
+      "url": "https://sphinx-needs.readthedocs.io/",
+      "covers": "A status per need node.",
+      "misses": "Sphinx itself is not used here; only the node shape is borrowed.",
+      "verdict": "reject",
+      "reason": "Sphinx is not used here; the link file already borrows its node shape, and a state field in that shape needs no dependency."
+    }
+  ],
+  "decision": "build",
+  "gap": "Reading layout rows at the base commit in plan_run.py and adding planned nodes in status.py.",
+  "decided": "2026-11-23"
+}

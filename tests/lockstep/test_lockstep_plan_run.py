@@ -249,3 +249,23 @@ def test_the_printed_ship_command_matches_the_repository(tmp_path: Path) -> None
     assert plan_run.ship_command(with_dep) == "uv run ship"
     assert plan_run.ship_command(without) == "ship"
     assert plan_run.ship_command(tmp_path / "missing") == "ship"
+
+
+@pytest.mark.req("plan-run/a-file-planned-by-a-layout-row-at-ref-is-not-listed")
+def test_file_planned_by_layout_row_not_listed(repo: Path) -> None:
+    (repo / "lockstep.yaml").write_text("layout:\n- path: src/planned.py\n  purpose: planned\n")
+    commit_all(repo, "plan")
+    base = git(repo, "rev-parse", "HEAD")
+    (repo / "src" / "planned.py").write_text("x = 1\n")
+    (repo / "src" / "late.py").write_text("y = 2\n")
+    (repo / "lockstep.yaml").write_text(
+        "layout:\n- path: src/planned.py\n  purpose: planned\n- path: src/late.py\n  purpose: late\n")
+    commit_all(repo, "impl")
+    assert plan_run.departures(repo, CHANGE, base)["outside_tasks"] == ["src/late.py"]
+
+
+@pytest.mark.req("plan-run/the-implementer-is-told-to-run-lockstep-layout")
+def test_implementer_told_to_run_lockstep_layout() -> None:
+    impl = plan_run.implementer_prompt(CHANGE, "make check")
+    assert "uv run lockstep layout" in impl and "layout:" in impl
+    assert "layout:" in plan_run.writer_prompt(CHANGE, Path("/tmp/accept"))

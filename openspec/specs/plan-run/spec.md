@@ -8,7 +8,7 @@ Run one OpenSpec plan through a Claude or Codex agent with acceptance tests writ
 
 ### Requirement: A departure report compares the change with its plan
 
-The departure report SHALL list every file changed in commits since `REF` whose repository-relative path does not appear in the change's `tasks.md` as read from `REF`, excluding files under `openspec/`, and every task line still unticked in the change's `tasks.md` at the branch head, read from `openspec/changes/<change>/` or, once archived, from the latest `openspec/changes/archive/YYYY-MM-DD-<change>/`. It reports and never blocks.
+The departure report SHALL list every file changed in commits since `REF` whose repository-relative path does not appear in the change's `tasks.md` as read from `REF` and is not the `path` of a `layout:` row in `lockstep.yaml` as read from `REF`, excluding files under `openspec/`, `lockstep.yaml` itself and the generated `docs/links.json`, and every task line still unticked in the change's `tasks.md` at the branch head, read from `openspec/changes/<change>/` or, once archived, from the latest `openspec/changes/archive/YYYY-MM-DD-<change>/`. It reports and never blocks.
 
 Source: Brian, 2026-11-20: "the goal is to give a well specified plan to an agent on some proejct nad have it faithfulyy and successfully impelemnt it"; report-only, inferred by agent from minimal-core-2026-11-20.md C4 and K5 (a check becomes blocking only after it is shown to catch something).
 
@@ -29,6 +29,14 @@ Source: Brian, 2026-11-20: "the goal is to give a well specified plan to an agen
 - **GIVEN** the change was archived to `openspec/changes/archive/2026-11-20-<change>/` with one `- [x]` line and one `- [ ]` line in its `tasks.md`
 - **WHEN** the departure report runs with the change's name
 - **THEN** it lists the `- [ ]` line as unticked and not the ticked one
+
+Source: Brian, 2026-11-23: "i approve", item (c) of `docs/planning/back-on-design-2026-11-23.md` (a plan names its files in `layout:` rows); plan `docs/planning/template-layout-2026-11-23.md`, step 3.
+
+#### Scenario: A file planned by a layout row at REF is not listed
+
+- **GIVEN** `lockstep.yaml` at `REF` has a `layout:` row with path `src/planned.py`, `tasks.md` does not name it, and commits since `REF` added `src/planned.py`, changed `lockstep.yaml` and added `src/late.py`, whose row was added after `REF`
+- **WHEN** the departure report runs
+- **THEN** it lists `src/late.py` and lists neither `src/planned.py` nor `lockstep.yaml`
 
 ### Requirement: Hidden acceptance tests are written before and run after implementation
 
@@ -87,3 +95,15 @@ Source: Brian, 2026-09-14: "the answer is always yes" (keep Claude Code and Code
 - **GIVEN** one repository whose `pyproject.toml` lists `agentic-engineering-system` and one that does not
 - **WHEN** `ship_command` is asked for each
 - **THEN** it gives `uv run ship` for the first and `ship` for the second
+
+### Requirement: The agents are told to lay out the planned files
+
+The implementer's prompt and the acceptance-test writer's prompt SHALL say that when `lockstep.yaml` has `layout:` rows, those rows name the files the plan creates or changes, with their exports; the implementer's prompt SHALL tell it to run `uv run lockstep layout` before writing code, so each new planned file starts with its requirement text.
+
+Source: Brian, 2026-11-23: "i approve", item (c) of `docs/planning/back-on-design-2026-11-23.md`; `proposals/one-planning-tool/DESIGN.md` step 3 (`lockstep layout` creates the planned files before code); plan `docs/planning/template-layout-2026-11-23.md`, step 3.
+
+#### Scenario: The implementer is told to run lockstep layout
+
+- **GIVEN** a change name and a check command
+- **WHEN** the implementer's and the writer's prompts are built
+- **THEN** the implementer's names `uv run lockstep layout` and `layout:`, and the writer's names `layout:`

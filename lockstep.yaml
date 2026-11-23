@@ -158,6 +158,7 @@ layout:
   - lockstep-projection/status-reads-test-results-from-this-revision
   - lockstep-projection/a-plan-closes-requirement-ids-only-when-they-pass
   - lockstep-projection/the-docs-site-shows-coverage-at-its-commit
+  - lockstep-projection/links-show-planned-files-and-exports
   tests:
   - tests/lockstep/checks/test_lockstep_check_links.py
   - tests/lockstep/checks/test_lockstep_check_status.py
@@ -295,6 +296,7 @@ layout:
   - plan-run/a-departure-report-compares-the-change-with-its-plan
   - plan-run/hidden-acceptance-tests-are-written-before-and-run-after-implementation
   - plan-run/one-driver-runs-a-plan-with-claude-or-codex
+  - plan-run/the-agents-are-told-to-lay-out-the-planned-files
   tests:
   - tests/lockstep/test_lockstep_plan_run.py
 - path: src/lockstep/plan_to_code.py

@@ -103,3 +103,36 @@ def test_the_link_file_reads_plans_sources_and_quotes(repo: Path):
     requirement = nodes["core/do-the-thing"]
     assert requirement["source"] == 'Brian, 2026-11-23: "yes"' and requirement["source_kind"] == "brian"
     assert project(repo, check=True) == []
+
+
+LAYOUT = """layout:
+- path: src/pkg/new.py
+  purpose: make things
+  implements: [core/do-the-thing]
+  tests: [tests/test_new.py]
+  exports: ["make() -> int"]
+"""
+
+
+def _layout_nodes(repo: Path) -> dict:
+    write(repo, "docs/index.md", "# Docs\n")
+    write(repo, "lockstep.yaml", LAYOUT)
+    project(repo)
+    return {n["id"]: n for n in json.loads((repo / LINKS_FILE).read_text())["nodes"]}
+
+
+@pytest.mark.req("lockstep-projection/a-planned-file-that-does-not-exist-yet-is-shown-as-planned")
+def test_a_planned_file_that_does_not_exist_yet_is_shown_as_planned(repo: Path):
+    nodes = _layout_nodes(repo)
+    f, s = nodes["src/pkg/new.py"], nodes["pkg.new.make"]
+    assert (f["type"], f["state"]) == ("file", "planned")
+    assert "core/do-the-thing" in f["links"] and "tests/test_new.py" in f["links"]
+    assert (s["type"], s["state"], s["links"]) == ("symbol", "planned", ["src/pkg/new.py"])
+
+
+@pytest.mark.req("lockstep-projection/a-laid-out-file-with-its-export-is-shown-as-existing")
+def test_a_laid_out_file_with_its_export_is_shown_as_existing(repo: Path):
+    write(repo, "src/pkg/new.py", '"""New."""\n\n\ndef make() -> int:\n    return 1\n')
+    nodes = _layout_nodes(repo)
+    assert nodes["src/pkg/new.py"]["state"] == "exists"
+    assert nodes["pkg.new.make"]["state"] == "exists"
