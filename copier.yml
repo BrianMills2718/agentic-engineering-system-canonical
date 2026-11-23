@@ -14,8 +14,8 @@ _tasks:
   - make docs-specs
   - uv run lockstep check arch gen
   - uv run lockstep check project
-  - git config --local core.hooksPath "$(cd "$(git rev-parse --git-common-dir)" && pwd)/hooks"
-  - lefthook install --force
+  # Relative, so every worktree and a moved copy find the tracked .githooks scripts (an absolute path silently ran no hooks after a move).
+  - git config --local core.hooksPath .githooks
 
 project_name:
   type: str

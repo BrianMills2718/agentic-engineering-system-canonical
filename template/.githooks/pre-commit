@@ -1,0 +1,4 @@
+#!/bin/sh
+# Runs the lefthook.yml jobs for the git pre-commit hook. Tracked, and found through the relative
+# core.hooksPath .githooks, so worktrees and moved copies keep their checks.
+exec lefthook run pre-commit "$@"

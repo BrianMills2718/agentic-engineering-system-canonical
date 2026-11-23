@@ -4,6 +4,7 @@ Moved from code2-template `tests/test_portable.py` on 2026-11-21. Renders with c
 network, git or tool installs are needed; the full copy with its tasks is run by hand from the public address.
 """
 
+import os
 import re
 import shutil
 import subprocess
@@ -73,6 +74,40 @@ def test_the_template_is_served_from_here():
     copier = (ROOT / "copier.yml").read_text()
     assert "_subdirectory: template" in copier and ADDRESS in copier
     assert f"copier copy --trust {ADDRESS}" in (ROOT / "README.md").read_text()
+
+
+def _commit(repo: Path, name: str) -> str:
+    (repo / name).write_text(name)
+    env = {"PATH": os.environ["PATH"], "HOME": str(repo.parent), "GIT_CONFIG_NOSYSTEM": "1"}
+    subprocess.run(["git", "-C", str(repo), "add", name], check=True, env=env)
+    done = subprocess.run(["git", "-C", str(repo), "-c", "user.name=t", "-c", "user.email=t@example.invalid",
+                           "commit", "-m", name], capture_output=True, text=True, env=env)
+    assert done.returncode == 0, done.stderr
+    return done.stdout + done.stderr
+
+
+@pytest.mark.req("portable-template/a-moved-copy-and-a-worktree-still-run-the-hooks")
+def test_a_moved_copy_and_a_worktree_still_run_the_hooks(tmp_path):
+    if not shutil.which("lefthook"):
+        pytest.skip("lefthook is not installed")
+    out = render(tmp_path)
+    for hook in ("pre-commit", "pre-push"):
+        script = out / ".githooks" / hook
+        assert os.access(script, os.X_OK) and f"lefthook run {hook}" in script.read_text()
+        assert not _OWNER.search(script.read_text()) and "/home/" not in script.read_text()
+    tasks = (ROOT / "copier.yml").read_text()
+    assert "git config --local core.hooksPath .githooks" in tasks and "lefthook install" not in tasks
+    (out / "lefthook.yml").write_text("pre-commit:\n  jobs:\n    - name: marker\n      run: echo HOOK-MARKER\n")
+    subprocess.run(["git", "init", "-q", "-b", "main", str(out)], check=True)
+    subprocess.run(["git", "-C", str(out), "config", "--local", "core.hooksPath", ".githooks"], check=True)
+    subprocess.run(["git", "-C", str(out), "add", "-A"], check=True)  # a worktree checks out only committed files
+    assert "HOOK-MARKER" in _commit(out, "first")
+    moved = tmp_path / "moved"
+    out.rename(moved)
+    assert "HOOK-MARKER" in _commit(moved, "after-move")
+    tree = tmp_path / "tree"
+    subprocess.run(["git", "-C", str(moved), "worktree", "add", "-q", "-b", "side", str(tree)], check=True)
+    assert "HOOK-MARKER" in _commit(tree, "in-worktree")
 
 
 def test_machine_bound_names_each_mention(tmp_path):
