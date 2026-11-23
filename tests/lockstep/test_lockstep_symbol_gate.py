@@ -124,7 +124,7 @@ def test_the_edit_hook_warns_by_default_and_refuses_under_block_mode(proj, mode,
     if mode == "block":
         assert out["permissionDecision"] == "deny" and "wave(name: str) -> str" in out["permissionDecisionReason"]
     else:
-        assert out["permissionDecision"] == "allow"
+        assert "permissionDecision" not in out
         assert out["additionalContext"].startswith(hook.WARN_PREFIX) and "wave(name: str) -> str" in out["additionalContext"]
 
 

@@ -41,7 +41,7 @@ def test_status_page_lists_every_requirement_with_its_coverage_state(documented)
     assert "docs/status.md" in project(documented)
     page = (documented / STATUS_PAGE).read_text()
     data = report(documented, use_results=False)
-    assert "| `core/do-the-thing` | not run at this revision | `pkg.mod.run` |" in page
+    assert "| `core/do-the-thing` | not run at this revision | `pkg.mod.run` (`src/pkg/mod.py:4`) |" in page
     assert "| `core/it-works` | `core/do-the-thing` | not run at this revision | `tests/test_mod.py::test_works` |" in page
     for ident, row in {**data.requirements, **data.scenarios}.items():
         assert f"| `{ident}` |" in page and row.state in page
@@ -53,7 +53,7 @@ def test_status_page_lists_every_requirement_with_its_coverage_state(documented)
 def test_stale_status_page_fails_the_check(documented):
     project(documented)
     write(documented, "tests/test_more.py", TEST.replace("test_works", "test_again"))
-    assert project(documented, check=True) == ["docs/status.md"]
+    assert project(documented, check=True) == ["docs/status.md", "docs/links.json"]
     project(documented)
     assert "`tests/test_mod.py::test_works`, `tests/test_more.py::test_again`" in (documented / STATUS_PAGE).read_text()
 

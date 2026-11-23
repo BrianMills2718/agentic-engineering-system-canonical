@@ -47,63 +47,64 @@ which tests cover each scenario at this commit. For pass or fail, run `make chec
 | `hub-page/approvals-are-a-footer-count` | unimplemented | - |
 | `hub-page/moved-issues-are-matched-by-concern-key` | unimplemented | - |
 | `hub-page/agent-work-is-not-needs-you` | unimplemented | - |
-| `inert-characterization/git-inspection-is-inert` | untested | `agentic_engineering_system.characterize` |
+| `inert-characterization/git-inspection-is-inert` | untested | `agentic_engineering_system.characterize` (`src/agentic_engineering_system/characterize.py:1`) |
 | `instruction-audit/instruction-quality-findings-are-advisory` | unimplemented | - |
 | `instruction-audit/freshness-comes-from-git-history` | unimplemented | - |
 | `instruction-audit/the-project-graph-comes-from-the-settings` | unimplemented | - |
-| `lane-sweep/remove-finished-lanes-and-report-the-rest` | not run at this revision | `lockstep.lane_sweep`, `lockstep.lane_sweep.ignored_keep_reason` |
-| `lane-sweep/fast-forward-primary-checkouts-that-are-clean-and-idle` | not run at this revision | `lockstep.lane_sweep` |
-| `lane-sweep/keep-lanes-that-a-systemd-user-unit-runs-from` | not run at this revision | `lockstep.lane_sweep` |
-| `lane-sweep/keep-lanes-git-will-not-remove-without-force` | not run at this revision | `lockstep.lane_sweep` |
-| `lane-sweep/keep-locked-worktrees` | not run at this revision | `lockstep.lane_sweep` |
-| `lane-sweep/settings-come-from-config` | not run at this revision | `lockstep.lane_sweep` |
-| `lane-sweep/archive-then-remove-idle-unmerged-lanes` | not run at this revision | `lockstep.lane_sweep` |
-| `lane-sweep/count-kept-lanes-per-repository` | not run at this revision | `lockstep.lane_sweep` |
+| `lane-sweep/remove-finished-lanes-and-report-the-rest` | not run at this revision | `lockstep.lane_sweep` (`src/lockstep/lane_sweep.py:1`), `lockstep.lane_sweep.ignored_keep_reason` (`src/lockstep/lane_sweep.py:711`) |
+| `lane-sweep/fast-forward-primary-checkouts-that-are-clean-and-idle` | not run at this revision | `lockstep.lane_sweep` (`src/lockstep/lane_sweep.py:1`) |
+| `lane-sweep/keep-lanes-that-a-systemd-user-unit-runs-from` | not run at this revision | `lockstep.lane_sweep` (`src/lockstep/lane_sweep.py:1`) |
+| `lane-sweep/keep-lanes-git-will-not-remove-without-force` | not run at this revision | `lockstep.lane_sweep` (`src/lockstep/lane_sweep.py:1`) |
+| `lane-sweep/keep-locked-worktrees` | not run at this revision | `lockstep.lane_sweep` (`src/lockstep/lane_sweep.py:1`) |
+| `lane-sweep/settings-come-from-config` | not run at this revision | `lockstep.lane_sweep` (`src/lockstep/lane_sweep.py:1`) |
+| `lane-sweep/archive-then-remove-idle-unmerged-lanes` | not run at this revision | `lockstep.lane_sweep` (`src/lockstep/lane_sweep.py:1`) |
+| `lane-sweep/count-kept-lanes-per-repository` | not run at this revision | `lockstep.lane_sweep` (`src/lockstep/lane_sweep.py:1`) |
 | `learnings-register-frozen/the-collector-reads-the-frozen-copy-and-never-writes-to-a-register` | unimplemented | - |
-| `lockstep-checks/trace-every-requirement-has-an-implementer` | not run at this revision | `lockstep.checks.trace` |
-| `lockstep-checks/trace-every-scenario-has-a-test` | not run at this revision | `lockstep.checks.trace` |
-| `lockstep-checks/trace-unknown-ids-fail` | not run at this revision | `lockstep.checks.trace` |
-| `lockstep-checks/trace-ids-from-changes-in-progress-are-known` | not run at this revision | `lockstep.checks.trace` |
-| `lockstep-checks/trace-source-folders-are-configurable` | not run at this revision | `lockstep.checks.markers` |
-| `lockstep-checks/trace-test-folders-are-configurable` | not run at this revision | `lockstep.checks.markers` |
-| `lockstep-checks/arch-diagram-becomes-import-contracts` | not run at this revision | `lockstep.checks.arch` |
-| `lockstep-checks/arch-committed-contracts-match-the-diagram` | not run at this revision | `lockstep.checks.arch` |
-| `lockstep-checks/test-first-new-scenario-tests-fail-before-the-change` | not run at this revision | `lockstep.checks.test_first` |
-| `lockstep-checks/test-first-a-missing-base-revision-is-reported-not-crashed` | not run at this revision | `lockstep.checks.test_first` |
-| `lockstep-checks/test-first-tests-for-existing-behavior-are-exempt-and-counted` | not run at this revision | `lockstep.checks.test_first` |
-| `lockstep-checks/sources-every-normative-item-names-its-source` | not run at this revision | `lockstep.checks.sources` |
-| `lockstep-checks/docmeta-every-wiki-page-declares-its-type` | not run at this revision | `lockstep.checks.docmeta` |
-| `lockstep-checks/docmeta-current-pages-are-checked-within-60-days` | not run at this revision | `lockstep.checks.docmeta` |
-| `lockstep-checks/docmeta-superseded-pages-name-a-successor` | not run at this revision | `lockstep.checks.docmeta` |
-| `lockstep-checks/docmeta-one-page-owns-each-topic` | not run at this revision | `lockstep.checks.docmeta` |
-| `lockstep-checks/docmeta-every-current-page-is-within-two-links-of-the-index` | not run at this revision | `lockstep.checks.docmeta` |
-| `lockstep-checks/docmeta-field-values-have-their-allowed-form` | not run at this revision | `lockstep.checks.docmeta` |
-| `lockstep-checks/docmeta-count-line-and-exit-status` | not run at this revision | `lockstep.checks.docmeta` |
-| `lockstep-checks/each-check-can-be-set-to-block-warn-or-off-in-lockstep-yaml` | not run at this revision | `lockstep.checks.cli`, `lockstep.checks.config` |
-| `lockstep-checks/arch-code-imports-match-the-diagram` | not run at this revision | `lockstep.checks.arch`, `lockstep.checks.arch.lint_imports` |
-| `lockstep-checks/arch-a-diagram-check-that-cannot-run-fails-as-a-tool-failure` | not run at this revision | `lockstep.checks.arch` |
-| `lockstep-checks/test-first-a-test-run-that-cannot-start-fails-the-check` | not run at this revision | `lockstep.checks.test_first` |
-| `lockstep-checks/instructions-the-agent-chain-fits-its-budget` | not run at this revision | `lockstep.checks.instructions` |
-| `lockstep-checks/instructions-no-claude-md-with-its-own-content` | not run at this revision | `lockstep.checks.instructions` |
-| `lockstep-checks/instructions-a-nested-file-repeats-nothing-from-its-parents` | not run at this revision | `lockstep.checks.instructions` |
-| `lockstep-checks/instructions-count-line-and-exit-status` | not run at this revision | `lockstep.checks.instructions` |
-| `lockstep-checks/changed-requirements-that-differ-from-the-base-are-listed-with-their-code-and-tests` | not run at this revision | `lockstep.checks.changed`, `lockstep.checks.changed.check`, `lockstep.checks.spec.effective_plan` |
-| `lockstep-checks/changed-every-listed-requirement-is-named-by-a-plan-in-the-same-change-set` | not run at this revision | `lockstep.checks.changed`, `lockstep.checks.changed.change_set` |
-| `lockstep-checks/changed-a-changed-statement-needs-a-changed-scenario-or-a-wording-only-declaration` | not run at this revision | `lockstep.checks.changed`, `lockstep.checks.changed.check` |
-| `lockstep-checks/changed-count-line-and-exit-status` | not run at this revision | `lockstep.checks.changed`, `lockstep.checks.cli` |
-| `lockstep-checks/test-first-a-changed-scenario-needs-a-test-that-fails-before-the-change` | not run at this revision | `lockstep.checks.test_first` |
-| `lockstep-checks/changed-and-test-first-the-base-is-where-the-branch-started` | not run at this revision | `lockstep.checks.changed.compare_with` |
-| `lockstep-checks/trace-a-marked-quote-matches-its-requirement` | not run at this revision | `lockstep.checks.quotes`, `lockstep.checks.quotes.check`, `lockstep.checks.trace` |
-| `lockstep-checks/changed-documents-that-quote-a-listed-requirement-are-listed-with-it` | not run at this revision | `lockstep.checks.changed` |
-| `lockstep-checks/changed-every-plan-that-names-a-listed-requirement-states-its-size` | not run at this revision | `lockstep.checks.changed`, `lockstep.checks.changed._size` |
-| `lockstep-doc-facts/declared-source-facts-have-one-authority` | not run at this revision | `lockstep.doc_projection` |
-| `lockstep-doc-facts/invalid-input-is-not-a-pass` | not run at this revision | `lockstep.doc_projection` |
-| `lockstep-doc-facts/installed-edit-and-merge-paths-maintain-facts` | not run at this revision | `lockstep.doc_projection` |
-| `lockstep-doc-facts/declared-record-arrays-project-as-rows` | not run at this revision | `lockstep.doc_projection` |
-| `lockstep-guard/shell-commands-are-judged-by-the-paths-they-write` | not run at this revision | `lockstep.shell_targets` |
+| `lockstep-checks/trace-every-requirement-has-an-implementer` | not run at this revision | `lockstep.checks.trace` (`src/lockstep/checks/trace.py:1`) |
+| `lockstep-checks/trace-every-scenario-has-a-test` | not run at this revision | `lockstep.checks.trace` (`src/lockstep/checks/trace.py:1`) |
+| `lockstep-checks/trace-unknown-ids-fail` | not run at this revision | `lockstep.checks.trace` (`src/lockstep/checks/trace.py:1`) |
+| `lockstep-checks/trace-ids-from-changes-in-progress-are-known` | not run at this revision | `lockstep.checks.trace` (`src/lockstep/checks/trace.py:1`) |
+| `lockstep-checks/trace-source-folders-are-configurable` | not run at this revision | `lockstep.checks.markers` (`src/lockstep/checks/markers.py:1`) |
+| `lockstep-checks/trace-test-folders-are-configurable` | not run at this revision | `lockstep.checks.markers` (`src/lockstep/checks/markers.py:1`) |
+| `lockstep-checks/arch-diagram-becomes-import-contracts` | not run at this revision | `lockstep.checks.arch` (`src/lockstep/checks/arch.py:1`) |
+| `lockstep-checks/arch-committed-contracts-match-the-diagram` | not run at this revision | `lockstep.checks.arch` (`src/lockstep/checks/arch.py:1`) |
+| `lockstep-checks/test-first-new-scenario-tests-fail-before-the-change` | not run at this revision | `lockstep.checks.test_first` (`src/lockstep/checks/test_first.py:1`) |
+| `lockstep-checks/test-first-a-missing-base-revision-is-reported-not-crashed` | not run at this revision | `lockstep.checks.test_first` (`src/lockstep/checks/test_first.py:1`) |
+| `lockstep-checks/test-first-tests-for-existing-behavior-are-exempt-and-counted` | not run at this revision | `lockstep.checks.test_first` (`src/lockstep/checks/test_first.py:1`) |
+| `lockstep-checks/sources-every-normative-item-names-its-source` | not run at this revision | `lockstep.checks.sources` (`src/lockstep/checks/sources.py:1`) |
+| `lockstep-checks/docmeta-every-wiki-page-declares-its-type` | not run at this revision | `lockstep.checks.docmeta` (`src/lockstep/checks/docmeta.py:1`) |
+| `lockstep-checks/docmeta-current-pages-are-checked-within-60-days` | not run at this revision | `lockstep.checks.docmeta` (`src/lockstep/checks/docmeta.py:1`) |
+| `lockstep-checks/docmeta-superseded-pages-name-a-successor` | not run at this revision | `lockstep.checks.docmeta` (`src/lockstep/checks/docmeta.py:1`) |
+| `lockstep-checks/docmeta-one-page-owns-each-topic` | not run at this revision | `lockstep.checks.docmeta` (`src/lockstep/checks/docmeta.py:1`) |
+| `lockstep-checks/docmeta-every-current-page-is-within-two-links-of-the-index` | not run at this revision | `lockstep.checks.docmeta` (`src/lockstep/checks/docmeta.py:1`) |
+| `lockstep-checks/docmeta-field-values-have-their-allowed-form` | not run at this revision | `lockstep.checks.docmeta` (`src/lockstep/checks/docmeta.py:1`) |
+| `lockstep-checks/docmeta-count-line-and-exit-status` | not run at this revision | `lockstep.checks.docmeta` (`src/lockstep/checks/docmeta.py:1`) |
+| `lockstep-checks/each-check-can-be-set-to-block-warn-or-off-in-lockstep-yaml` | not run at this revision | `lockstep.checks.cli` (`src/lockstep/checks/cli.py:1`), `lockstep.checks.config` (`src/lockstep/checks/config.py:1`) |
+| `lockstep-checks/arch-code-imports-match-the-diagram` | not run at this revision | `lockstep.checks.arch` (`src/lockstep/checks/arch.py:1`), `lockstep.checks.arch.lint_imports` (`src/lockstep/checks/arch.py:219`) |
+| `lockstep-checks/arch-a-diagram-check-that-cannot-run-fails-as-a-tool-failure` | not run at this revision | `lockstep.checks.arch` (`src/lockstep/checks/arch.py:1`) |
+| `lockstep-checks/test-first-a-test-run-that-cannot-start-fails-the-check` | not run at this revision | `lockstep.checks.test_first` (`src/lockstep/checks/test_first.py:1`) |
+| `lockstep-checks/instructions-the-agent-chain-fits-its-budget` | not run at this revision | `lockstep.checks.instructions` (`src/lockstep/checks/instructions.py:1`) |
+| `lockstep-checks/instructions-no-claude-md-with-its-own-content` | not run at this revision | `lockstep.checks.instructions` (`src/lockstep/checks/instructions.py:1`) |
+| `lockstep-checks/instructions-a-nested-file-repeats-nothing-from-its-parents` | not run at this revision | `lockstep.checks.instructions` (`src/lockstep/checks/instructions.py:1`) |
+| `lockstep-checks/instructions-count-line-and-exit-status` | not run at this revision | `lockstep.checks.instructions` (`src/lockstep/checks/instructions.py:1`) |
+| `lockstep-checks/changed-requirements-that-differ-from-the-base-are-listed-with-their-code-and-tests` | not run at this revision | `lockstep.checks.changed` (`src/lockstep/checks/changed.py:1`), `lockstep.checks.changed.check` (`src/lockstep/checks/changed.py:388`), `lockstep.checks.spec.effective_plan` (`src/lockstep/checks/spec.py:103`) |
+| `lockstep-checks/changed-every-listed-requirement-is-named-by-a-plan-in-the-same-change-set` | not run at this revision | `lockstep.checks.changed` (`src/lockstep/checks/changed.py:1`), `lockstep.checks.changed.change_set` (`src/lockstep/checks/changed.py:207`) |
+| `lockstep-checks/changed-a-changed-statement-needs-a-changed-scenario-or-a-wording-only-declaration` | not run at this revision | `lockstep.checks.changed` (`src/lockstep/checks/changed.py:1`), `lockstep.checks.changed.check` (`src/lockstep/checks/changed.py:388`) |
+| `lockstep-checks/changed-count-line-and-exit-status` | not run at this revision | `lockstep.checks.changed` (`src/lockstep/checks/changed.py:1`), `lockstep.checks.cli` (`src/lockstep/checks/cli.py:1`) |
+| `lockstep-checks/test-first-a-changed-scenario-needs-a-test-that-fails-before-the-change` | not run at this revision | `lockstep.checks.test_first` (`src/lockstep/checks/test_first.py:1`) |
+| `lockstep-checks/changed-and-test-first-the-base-is-where-the-branch-started` | not run at this revision | `lockstep.checks.changed.compare_with` (`src/lockstep/checks/changed.py:265`) |
+| `lockstep-checks/trace-a-marked-quote-matches-its-requirement` | not run at this revision | `lockstep.checks.quotes` (`src/lockstep/checks/quotes.py:1`), `lockstep.checks.quotes.check` (`src/lockstep/checks/quotes.py:85`), `lockstep.checks.trace` (`src/lockstep/checks/trace.py:1`) |
+| `lockstep-checks/changed-documents-that-quote-a-listed-requirement-are-listed-with-it` | not run at this revision | `lockstep.checks.changed` (`src/lockstep/checks/changed.py:1`) |
+| `lockstep-checks/changed-every-plan-that-names-a-listed-requirement-states-its-size` | not run at this revision | `lockstep.checks.changed` (`src/lockstep/checks/changed.py:1`), `lockstep.checks.changed._size` (`src/lockstep/checks/changed.py:350`) |
+| `lockstep-doc-facts/declared-source-facts-have-one-authority` | not run at this revision | `lockstep.doc_projection` (`src/lockstep/doc_projection.py:1`) |
+| `lockstep-doc-facts/invalid-input-is-not-a-pass` | not run at this revision | `lockstep.doc_projection` (`src/lockstep/doc_projection.py:1`) |
+| `lockstep-doc-facts/installed-edit-and-merge-paths-maintain-facts` | not run at this revision | `lockstep.doc_projection` (`src/lockstep/doc_projection.py:1`) |
+| `lockstep-doc-facts/declared-record-arrays-project-as-rows` | not run at this revision | `lockstep.doc_projection` (`src/lockstep/doc_projection.py:1`) |
+| `lockstep-guard/shell-commands-are-judged-by-the-paths-they-write` | not run at this revision | `lockstep.shell_targets` (`src/lockstep/shell_targets.py:1`) |
 | `lockstep-guard/a-refusal-lists-the-files-the-plan-allows` | unimplemented | - |
-| `lockstep-init/init-installs-lockstep-in-a-repository-without-overwriting` | not run at this revision | `lockstep.init_repo` |
-| `lockstep-init/installed-files-name-no-machine-and-read-their-settings-from-lockstep-yaml` | not run at this revision | `lockstep.init_repo` |
+| `lockstep-guard/handing-over-text-never-approves-an-edit` | unimplemented | - |
+| `lockstep-init/init-installs-lockstep-in-a-repository-without-overwriting` | not run at this revision | `lockstep.init_repo` (`src/lockstep/init_repo.py:1`) |
+| `lockstep-init/installed-files-name-no-machine-and-read-their-settings-from-lockstep-yaml` | not run at this revision | `lockstep.init_repo` (`src/lockstep/init_repo.py:1`) |
 | `lockstep-init/the-edit-guard-logs-outside-the-checkout` | unimplemented | - |
 | `lockstep-package/lockstep-installs-from-aes-canonical` | unimplemented | - |
 | `lockstep-package/the-old-pcw-names-keep-working` | unimplemented | - |
@@ -111,19 +112,19 @@ which tests cover each scenario at this commit. For pass or fail, run `make chec
 | `lockstep-plan-check/each-plan-requirement-is-sourced-in-brian-s-words-and-covered` | unimplemented | - |
 | `lockstep-plan-check/the-command-is-reached-as-lockstep-plan-check` | unimplemented | - |
 | `lockstep-plan-check/work-units-form-a-checked-dag` | unimplemented | - |
-| `lockstep-plan-check/a-citation-may-name-the-text-it-points-at` | not run at this revision | `lockstep.citation_anchor` |
-| `lockstep-plan-format/the-plan-is-openspec-plus-layout-rows` | not run at this revision | `lockstep.layout_plan` |
+| `lockstep-plan-check/a-citation-may-name-the-text-it-points-at` | not run at this revision | `lockstep.citation_anchor` (`src/lockstep/citation_anchor.py:1`) |
+| `lockstep-plan-format/the-plan-is-openspec-plus-layout-rows` | not run at this revision | `lockstep.layout_plan` (`src/lockstep/layout_plan.py:1`) |
 | `lockstep-plan-format/a-planned-file-without-a-cog-plan-copy-is-judged-by-its-implements-block` | unimplemented | - |
 | `lockstep-plan-format/every-refusal-in-a-layout-repository-names-a-layout-command` | unimplemented | - |
-| `lockstep-projection/requirement-text-is-written-into-the-implementing-docstring` | not run at this revision | `lockstep.checks.project` |
-| `lockstep-projection/status-flows-back-into-the-plan` | not run at this revision | `lockstep.checks.project` |
-| `lockstep-projection/the-docs-site-shows-coverage-at-its-commit` | not run at this revision | `lockstep.checks.status.markdown` |
-| `lockstep-projection/status-links-each-requirement-to-its-code-and-tests` | not run at this revision | `lockstep.checks.status` |
-| `lockstep-projection/status-reads-test-results-from-this-revision` | not run at this revision | `lockstep.checks.status` |
-| `lockstep-projection/a-plan-closes-requirement-ids-only-when-they-pass` | not run at this revision | `lockstep.checks.status` |
-| `lockstep-projection/show-prints-what-a-file-must-keep-true` | not run at this revision | `lockstep.checks.show` |
-| `lockstep-projection/the-pytest-plugin-ships-as-a-pytest11-entry-point` | not run at this revision | `lockstep.checks.plugin` |
-| `lockstep-projection/project-status-and-show-are-lockstep-commands` | not run at this revision | `lockstep.checks.cli._project`, `lockstep.checks.cli.run_status`, `lockstep.checks.cli.run_show` |
+| `lockstep-projection/requirement-text-is-written-into-the-implementing-docstring` | not run at this revision | `lockstep.checks.project` (`src/lockstep/checks/project.py:1`) |
+| `lockstep-projection/status-flows-back-into-the-plan` | not run at this revision | `lockstep.checks.project` (`src/lockstep/checks/project.py:1`) |
+| `lockstep-projection/the-docs-site-shows-coverage-at-its-commit` | not run at this revision | `lockstep.checks.status.markdown` (`src/lockstep/checks/status.py:239`) |
+| `lockstep-projection/status-links-each-requirement-to-its-code-and-tests` | not run at this revision | `lockstep.checks.status` (`src/lockstep/checks/status.py:1`), `lockstep.checks.status.links` (`src/lockstep/checks/status.py:286`) |
+| `lockstep-projection/status-reads-test-results-from-this-revision` | not run at this revision | `lockstep.checks.status` (`src/lockstep/checks/status.py:1`) |
+| `lockstep-projection/a-plan-closes-requirement-ids-only-when-they-pass` | not run at this revision | `lockstep.checks.status` (`src/lockstep/checks/status.py:1`) |
+| `lockstep-projection/show-prints-what-a-file-must-keep-true` | not run at this revision | `lockstep.checks.show` (`src/lockstep/checks/show.py:1`) |
+| `lockstep-projection/the-pytest-plugin-ships-as-a-pytest11-entry-point` | not run at this revision | `lockstep.checks.plugin` (`src/lockstep/checks/plugin.py:1`) |
+| `lockstep-projection/project-status-and-show-are-lockstep-commands` | not run at this revision | `lockstep.checks.cli._project` (`src/lockstep/checks/cli.py:192`), `lockstep.checks.cli.run_status` (`src/lockstep/checks/cli.py:216`), `lockstep.checks.cli.run_show` (`src/lockstep/checks/cli.py:262`) |
 | `machine-manifest/every-unit-has-a-source` | unimplemented | - |
 | `machine-manifest/local-only-units-are-reported` | unimplemented | - |
 | `machine-manifest/missing-or-untracked-target-is-reported` | unimplemented | - |
@@ -136,16 +137,18 @@ which tests cover each scenario at this commit. For pass or fail, run `make chec
 | `operator-notify/notices-route-by-who-must-act` | unimplemented | - |
 | `operator-notify/the-concern-repository-comes-from-the-settings` | unimplemented | - |
 | `operator-notify/an-open-legacy-concern-is-not-duplicated` | unimplemented | - |
-| `plan-run/a-departure-report-compares-the-change-with-its-plan` | untested | `lockstep.plan_run` |
-| `plan-run/hidden-acceptance-tests-are-written-before-and-run-after-implementation` | not run at this revision | `lockstep.plan_run` |
-| `plan-run/one-driver-runs-a-plan-with-claude-or-codex` | not run at this revision | `lockstep.plan_run`, `lockstep.plan_run.ship_command` |
+| `plan-run/a-departure-report-compares-the-change-with-its-plan` | untested | `lockstep.plan_run` (`src/lockstep/plan_run.py:1`) |
+| `plan-run/hidden-acceptance-tests-are-written-before-and-run-after-implementation` | not run at this revision | `lockstep.plan_run` (`src/lockstep/plan_run.py:1`) |
+| `plan-run/one-driver-runs-a-plan-with-claude-or-codex` | not run at this revision | `lockstep.plan_run` (`src/lockstep/plan_run.py:1`), `lockstep.plan_run.ship_command` (`src/lockstep/plan_run.py:326`) |
 | `portable-template/a-repository-made-with-the-defaults-works-for-anyone` | unimplemented | - |
 | `portable-template/a-workspace-repository-keeps-the-shared-hooks` | unimplemented | - |
 | `portable-template/make-a-repository-from-this-repository` | unimplemented | - |
 | `portable-template/a-copy-runs-its-commit-checks-after-a-move-and-in-every-worktree` | unimplemented | - |
-| `prior-art-check/a-change-that-adds-a-requirement-carries-a-prior-art-record` | not run at this revision | `lockstep.prior_art` |
-| `prior-art-check/a-candidate-cannot-be-left-undecided-and-the-decision-must-follow-from-the-candidates` | not run at this revision | `lockstep.prior_art` |
-| `prior-art-check/only-a-change-that-adds-a-requirement-from-the-start-date-needs-a-record` | not run at this revision | `lockstep.prior_art` |
+| `portable-template/the-commit-check-stages-rewritten-files-that-git-tracks` | unimplemented | - |
+| `portable-template/a-copy-hands-an-editing-agent-the-requirement-text` | unimplemented | - |
+| `prior-art-check/a-change-that-adds-a-requirement-carries-a-prior-art-record` | not run at this revision | `lockstep.prior_art` (`src/lockstep/prior_art.py:1`) |
+| `prior-art-check/a-candidate-cannot-be-left-undecided-and-the-decision-must-follow-from-the-candidates` | not run at this revision | `lockstep.prior_art` (`src/lockstep/prior_art.py:1`) |
+| `prior-art-check/only-a-change-that-adds-a-requirement-from-the-start-date-needs-a-record` | not run at this revision | `lockstep.prior_art` (`src/lockstep/prior_art.py:1`) |
 | `project-activity-snapshot/last-commit-per-checkout` | unimplemented | - |
 | `project-activity-snapshot/settings-come-from-config` | unimplemented | - |
 | `project-graph-config/the-checks-read-the-graph-and-owner-from-the-person-s-own-files` | unimplemented | - |
@@ -166,29 +169,29 @@ which tests cover each scenario at this commit. For pass or fail, run `make chec
 | `prune-merged-worktrees/a-worktree-is-removed-only-on-proof-its-branch-landed` | unimplemented | - |
 | `required-evidence-inputs/required-declared-input-coverage` | unimplemented | - |
 | `required-evidence-inputs/literal-repository-path-coverage` | unimplemented | - |
-| `ship/merge-only-the-commit-whose-check-passed` | not run at this revision | `lockstep.ship` |
-| `ship/prepare-a-fresh-worktree-s-environment-before-the-check` | not run at this revision | `lockstep.ship` |
-| `ship/skip-a-check-that-already-passed-on-the-same-tree` | not run at this revision | `lockstep.ship` |
-| `ship/keep-its-own-lane-when-the-caller-still-needs-it` | not run at this revision | `lockstep.ship` |
-| `ship/refuse-a-new-repository-with-no-planning-package` | not run at this revision | `lockstep.ship` |
-| `ship/a-plan-repair-is-never-refused` | not run at this revision | `lockstep.ship` |
-| `ship/refuse-a-planning-package-the-validator-rejects` | not run at this revision | `lockstep.ship` |
-| `ship/hold-a-new-repository-to-a-deployed-plan` | not run at this revision | `lockstep.ship` |
-| `ship/refuse-goals-that-do-not-name-their-sources` | not run at this revision | `lockstep.ship` |
-| `ship/an-upkeep-only-change-is-never-refused` | not run at this revision | `lockstep.ship` |
-| `ship/a-record-only-change-is-never-refused` | not run at this revision | `lockstep.ship` |
-| `ship/merge-with-a-method-the-repository-allows` | not run at this revision | `lockstep.ship` |
-| `ship/limit-how-many-checks-run-at-once` | not run at this revision | `lockstep.ship` |
-| `ship/validate-the-planning-package-only-when-the-merge-changes-plan-content` | not run at this revision | `lockstep.ship.plan_content_unchanged` |
+| `ship/merge-only-the-commit-whose-check-passed` | not run at this revision | `lockstep.ship` (`src/lockstep/ship.py:1`) |
+| `ship/prepare-a-fresh-worktree-s-environment-before-the-check` | not run at this revision | `lockstep.ship` (`src/lockstep/ship.py:1`) |
+| `ship/skip-a-check-that-already-passed-on-the-same-tree` | not run at this revision | `lockstep.ship` (`src/lockstep/ship.py:1`) |
+| `ship/keep-its-own-lane-when-the-caller-still-needs-it` | not run at this revision | `lockstep.ship` (`src/lockstep/ship.py:1`) |
+| `ship/refuse-a-new-repository-with-no-planning-package` | not run at this revision | `lockstep.ship` (`src/lockstep/ship.py:1`) |
+| `ship/a-plan-repair-is-never-refused` | not run at this revision | `lockstep.ship` (`src/lockstep/ship.py:1`) |
+| `ship/refuse-a-planning-package-the-validator-rejects` | not run at this revision | `lockstep.ship` (`src/lockstep/ship.py:1`) |
+| `ship/hold-a-new-repository-to-a-deployed-plan` | not run at this revision | `lockstep.ship` (`src/lockstep/ship.py:1`) |
+| `ship/refuse-goals-that-do-not-name-their-sources` | not run at this revision | `lockstep.ship` (`src/lockstep/ship.py:1`) |
+| `ship/an-upkeep-only-change-is-never-refused` | not run at this revision | `lockstep.ship` (`src/lockstep/ship.py:1`) |
+| `ship/a-record-only-change-is-never-refused` | not run at this revision | `lockstep.ship` (`src/lockstep/ship.py:1`) |
+| `ship/merge-with-a-method-the-repository-allows` | not run at this revision | `lockstep.ship` (`src/lockstep/ship.py:1`) |
+| `ship/limit-how-many-checks-run-at-once` | not run at this revision | `lockstep.ship` (`src/lockstep/ship.py:1`) |
+| `ship/validate-the-planning-package-only-when-the-merge-changes-plan-content` | not run at this revision | `lockstep.ship.plan_content_unchanged` (`src/lockstep/ship.py:335`) |
 | `ship/answer-the-plan-content-question-for-the-push-hook` | unimplemented | - |
-| `ship/check-every-one-page-plan-a-merge-adds-or-changes` | not run at this revision | `lockstep.ship`, `lockstep.ship.one_page_plan_refusal` |
-| `ship/settings-come-from-config` | not run at this revision | `lockstep.ship` |
-| `ship/refuse-a-merge-whose-openspec-change-lacks-a-prior-art-record` | not run at this revision | `lockstep.ship`, `lockstep.ship.prior_art_refusal` |
-| `ship/rebase-a-branch-that-is-behind-the-default-branch-before-checking-it` | not run at this revision | `lockstep.ship` |
-| `ship/add-on-gates-switch-off-from-the-copier-answers` | not run at this revision | `lockstep.ship`, `lockstep.ship.addon_on` |
-| `ship/refuse-a-branch-whose-hidden-acceptance-run-failed-or-is-out-of-date` | not run at this revision | `lockstep.ship`, `lockstep.ship.accept_refusal` |
+| `ship/check-every-one-page-plan-a-merge-adds-or-changes` | not run at this revision | `lockstep.ship` (`src/lockstep/ship.py:1`), `lockstep.ship.one_page_plan_refusal` (`src/lockstep/ship.py:440`) |
+| `ship/settings-come-from-config` | not run at this revision | `lockstep.ship` (`src/lockstep/ship.py:1`) |
+| `ship/refuse-a-merge-whose-openspec-change-lacks-a-prior-art-record` | not run at this revision | `lockstep.ship` (`src/lockstep/ship.py:1`), `lockstep.ship.prior_art_refusal` (`src/lockstep/ship.py:499`) |
+| `ship/rebase-a-branch-that-is-behind-the-default-branch-before-checking-it` | not run at this revision | `lockstep.ship` (`src/lockstep/ship.py:1`) |
+| `ship/add-on-gates-switch-off-from-the-copier-answers` | not run at this revision | `lockstep.ship` (`src/lockstep/ship.py:1`), `lockstep.ship.addon_on` (`src/lockstep/ship.py:677`) |
+| `ship/refuse-a-branch-whose-hidden-acceptance-run-failed-or-is-out-of-date` | not run at this revision | `lockstep.ship` (`src/lockstep/ship.py:1`), `lockstep.ship.accept_refusal` (`src/lockstep/ship.py:710`) |
 | `ship/install-ship-as-a-command-from-the-public-repository` | unimplemented | - |
-| `ship/regenerate-a-status-page-conflict-and-rerun-hidden-tests-after-ship-s-own-rebase` | not run at this revision | `lockstep.ship`, `lockstep.ship.regenerate` |
+| `ship/regenerate-a-status-page-conflict-and-rerun-hidden-tests-after-ship-s-own-rebase` | not run at this revision | `lockstep.ship` (`src/lockstep/ship.py:1`), `lockstep.ship.regenerate` (`src/lockstep/ship.py:1079`) |
 | `timer-config/each-job-in-the-list-becomes-a-service-and-a-timer-unit` | unimplemented | - |
 | `timer-config/installing-never-deletes` | unimplemented | - |
 | `workspace-map-check/settings-come-from-config` | unimplemented | - |
@@ -397,6 +400,7 @@ which tests cover each scenario at this commit. For pass or fail, run `make chec
 | `lockstep-guard/a-python-one-liner-creating-an-unplanned-file-is-refused` | `lockstep-guard/shell-commands-are-judged-by-the-paths-they-write` | not run at this revision | `tests/lockstep/test_lockstep_shell_targets.py::test_python_one_liner_creating_an_unplanned_file_is_refused` |
 | `lockstep-guard/copying-a-planned-file-out-is-allowed` | `lockstep-guard/shell-commands-are-judged-by-the-paths-they-write` | not run at this revision | `tests/lockstep/test_lockstep_shell_targets.py::test_copying_a_planned_file_out_is_allowed` |
 | `lockstep-guard/a-refusal-lists-the-files-the-plan-allows` | `lockstep-guard/a-refusal-lists-the-files-the-plan-allows` | not run at this revision | `tests/lockstep/test_lockstep_hook.py::test_a_refusal_lists_the_files_the_plan_does_allow`, `tests/lockstep/test_lockstep_hook.py::test_the_list_is_capped_and_puts_the_same_folder_first` |
+| `lockstep-guard/a-context-only-answer-carries-no-decision` | `lockstep-guard/handing-over-text-never-approves-an-edit` | not run at this revision | `tests/lockstep/test_lockstep_hook.py::test_claude_context_only_answer_carries_no_decision_and_deny_keeps_it` |
 | `lockstep-init/fresh-repository-gets-all-four` | `lockstep-init/init-installs-lockstep-in-a-repository-without-overwriting` | not run at this revision | `tests/lockstep/test_lockstep_init.py::test_fresh_repository_gets_all_four`, `tests/lockstep/test_lockstep_init.py::test_init_counts_brian_source_lines_as_human_by_default_and_takes_a_pattern` |
 | `lockstep-init/a-second-run-changes-nothing` | `lockstep-init/init-installs-lockstep-in-a-repository-without-overwriting` | not run at this revision | `tests/lockstep/test_lockstep_init.py::test_a_second_run_changes_nothing`, `tests/lockstep/test_lockstep_init.py::test_an_existing_lockstep_yaml_is_never_overwritten` |
 | `lockstep-init/existing-settings-keep-their-other-keys` | `lockstep-init/init-installs-lockstep-in-a-repository-without-overwriting` | not run at this revision | `tests/lockstep/test_lockstep_init.py::test_existing_settings_keep_their_other_keys`, `tests/lockstep/test_lockstep_init.py::test_an_existing_lefthook_keeps_its_commands` |
@@ -451,6 +455,7 @@ which tests cover each scenario at this commit. For pass or fail, run `make chec
 | `lockstep-projection/stale-status-page-fails-the-check` | `lockstep-projection/the-docs-site-shows-coverage-at-its-commit` | not run at this revision | `tests/lockstep/checks/test_lockstep_check_status_page.py::test_stale_status_page_fails_the_check` |
 | `lockstep-projection/an-ignored-status-page-is-not-reported-stale` | `lockstep-projection/the-docs-site-shows-coverage-at-its-commit` | not run at this revision | `tests/lockstep/checks/test_lockstep_check_status_page.py::test_an_ignored_status_page_is_not_reported_stale` |
 | `lockstep-projection/status-lists-implementers-and-tests` | `lockstep-projection/status-links-each-requirement-to-its-code-and-tests` | not run at this revision | `tests/lockstep/checks/test_lockstep_check_status.py::test_status_lists_implementers_and_tests`, `tests/lockstep/checks/test_lockstep_check_status.py::test_unlinked_items_say_so`, `tests/lockstep/checks/test_lockstep_check_status.py::test_requirements_of_a_change_in_progress_are_listed`, `tests/lockstep/checks/test_lockstep_check_status.py::test_cli_prints_table_json_and_result_line` |
+| `lockstep-projection/the-link-file-lists-the-whole-chain` | `lockstep-projection/status-links-each-requirement-to-its-code-and-tests` | not run at this revision | `tests/lockstep/checks/test_lockstep_check_links.py::test_the_link_file_lists_the_whole_chain` |
 | `lockstep-projection/results-from-this-revision-set-pass-and-fail` | `lockstep-projection/status-reads-test-results-from-this-revision` | not run at this revision | `tests/lockstep/checks/test_lockstep_check_status.py::test_results_from_this_revision_set_pass_and_fail`, `tests/lockstep/checks/test_lockstep_check_status.py::test_skipped_test_is_not_passing` |
 | `lockstep-projection/results-from-another-revision-are-not-used` | `lockstep-projection/status-reads-test-results-from-this-revision` | not run at this revision | `tests/lockstep/checks/test_lockstep_check_status.py::test_results_from_another_revision_are_not_used`, `tests/lockstep/checks/test_lockstep_check_status.py::test_results_from_a_dirty_tree_are_not_used`, `tests/lockstep/checks/test_lockstep_check_status.py::test_uncommitted_edit_after_the_run_voids_results` |
 | `lockstep-projection/open-ids-of-a-plan-are-listed` | `lockstep-projection/a-plan-closes-requirement-ids-only-when-they-pass` | not run at this revision | `tests/lockstep/checks/test_lockstep_check_status.py::test_open_ids_of_a_plan_are_listed`, `tests/lockstep/checks/test_lockstep_check_status.py::test_a_plan_with_passing_ids_has_none_open`, `tests/lockstep/checks/test_lockstep_check_status.py::test_an_archived_change_drops_out_and_its_ids_still_resolve` |
@@ -486,6 +491,8 @@ which tests cover each scenario at this commit. For pass or fail, run `make chec
 | `portable-template/workspace-copy-keeps-the-remote` | `portable-template/a-workspace-repository-keeps-the-shared-hooks` | not run at this revision | `tests/test_template_portable.py::test_workspace_copy_keeps_the_remote` |
 | `portable-template/the-template-is-served-from-here` | `portable-template/make-a-repository-from-this-repository` | not run at this revision | `tests/test_template_portable.py::test_the_template_is_served_from_here` |
 | `portable-template/a-moved-copy-and-a-worktree-still-run-the-hooks` | `portable-template/a-copy-runs-its-commit-checks-after-a-move-and-in-every-worktree` | not run at this revision | `tests/test_template_portable.py::test_a_moved_copy_and_a_worktree_still_run_the_hooks` |
+| `portable-template/an-ignored-status-page-does-not-block-a-commit` | `portable-template/the-commit-check-stages-rewritten-files-that-git-tracks` | not run at this revision | `tests/test_template_portable.py::test_an_ignored_status_page_does_not_block_a_commit` |
+| `portable-template/a-rendered-copy-has-both-hook-files` | `portable-template/a-copy-hands-an-editing-agent-the-requirement-text` | not run at this revision | `tests/test_template_portable.py::test_a_rendered_copy_has_both_hook_files` |
 | `prior-art-check/no-record-on-a-change-that-adds-a-requirement` | `prior-art-check/a-change-that-adds-a-requirement-carries-a-prior-art-record` | not run at this revision | `tests/lockstep/test_lockstep_prior_art.py::test_no_record_on_a_change_that_adds_a_requirement` |
 | `prior-art-check/complete-record` | `prior-art-check/a-change-that-adds-a-requirement-carries-a-prior-art-record` | not run at this revision | `tests/lockstep/test_lockstep_prior_art.py::test_complete_record`, `tests/lockstep/test_lockstep_prior_art.py::test_lockstep_command_runs_the_check` |
 | `prior-art-check/invalid-json` | `prior-art-check/a-change-that-adds-a-requirement-carries-a-prior-art-record` | not run at this revision | `tests/lockstep/test_lockstep_prior_art.py::test_invalid_json` |

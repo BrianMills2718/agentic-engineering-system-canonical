@@ -6,6 +6,11 @@ Start with the [documentation index](docs/index.md). Agents: [AGENTS.md](AGENTS.
 
 - Check everything: `make check` (runs before every push).
 - Read the docs as a site: `make docs`.
+- See how everything links: `docs/status.md` (each requirement, the code that implements it with file and line,
+  and the tests for each scenario) and `docs/links.json` (the same links as data), both rebuilt by `make check`.
+- Agents editing code are handed the requirement it implements: `.claude/settings.json` and `.codex/hooks.json`
+  run `lockstep-hook` on each edit. Codex runs project hooks only with hooks turned on: add `hooks = true` under
+  `[features]` in `~/.codex/config.toml`, then trust the hook when Codex asks.
 - Run one OpenSpec plan with hidden acceptance tests: `uv run lockstep run-plan <change> --agent claude` (or
   `codex`), then merge with `uv run ship` from the worktree it prints. `ship` runs `make check`, refuses a branch
   whose hidden tests failed, and refuses an OpenSpec change that adds a requirement without a decided

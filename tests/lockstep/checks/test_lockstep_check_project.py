@@ -146,7 +146,7 @@ def test_plan_block_goes_stale_and_is_rewritten(linked):
     write(linked, "docs/plans/0001-x.md", "Closes: core/do-the-thing\n")
     project(linked)
     write(linked, "tests/test_more.py", TEST.replace("test_works", "test_again"))
-    assert project(linked, check=True) == ["docs/plans/0001-x.md", "docs/status.md"]
+    assert project(linked, check=True) == ["docs/plans/0001-x.md", "docs/status.md", "docs/links.json"]
     project(linked)
     text = (linked / "docs/plans/0001-x.md").read_text()
     assert "tests `tests/test_mod.py::test_works`, `tests/test_more.py::test_again`" in text

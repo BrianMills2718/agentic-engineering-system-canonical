@@ -52,6 +52,23 @@ def test_codex_cli_context_only_allow_warning_and_supported_fixed_deny(proj):
     assert "skips the plan check" in denied["permissionDecisionReason"]
 
 
+@pytest.mark.req("lockstep-guard/a-context-only-answer-carries-no-decision")
+def test_claude_context_only_answer_carries_no_decision_and_deny_keeps_it(proj):
+    """A PreToolUse allow would approve the call past Claude Code's own prompt; context alone must not."""
+    def invoke(command):
+        payload = {"tool_name": "Bash", "tool_input": {"command": command}, "cwd": str(proj)}
+        done = subprocess.run([sys.executable, "-I", "-m", "lockstep.hook"],
+                              input=json.dumps(payload), capture_output=True, text=True, cwd=proj)
+        assert done.returncode == 0, done.stderr
+        return json.loads(done.stdout)["hookSpecificOutput"]
+
+    read = invoke("cat src/greeter/__init__.py")
+    assert "permissionDecision" not in read and "NI-001" in read["additionalContext"]
+    fix(proj, "src/greeter/*")
+    denied = invoke("echo x >> src/greeter/__init__.py")
+    assert denied["permissionDecision"] == "deny" and denied["permissionDecisionReason"]
+
+
 def test_codex_registration_selects_codex_output_protocol():
     config = json.loads((Path(__file__).resolve().parent / "lockstep-plan-sample/.codex/hooks.json").read_text())
     commands = [handler["command"] for group in config["hooks"]["PreToolUse"] for handler in group["hooks"]
@@ -120,7 +137,7 @@ def fix(proj, *globs: str) -> None:
 
 def test_by_default_an_undeclared_governed_file_is_warned_about_and_logged_as_would_block(proj, monkeypatch, capsys):
     out = run_hook(proj, "Write", {"file_path": str(proj / "src/greeter/extra.py")}, monkeypatch, capsys)
-    assert out["permissionDecision"] == "allow" and "permissionDecisionReason" not in out
+    assert "permissionDecision" not in out and "permissionDecisionReason" not in out
     assert out["additionalContext"].startswith(WARN_PREFIX) and "is not in the plan" in out["additionalContext"]
     (rec,) = log_lines(proj)
     assert rec["decision"] == "would_block" and rec["why"] == "unplanned" and rec["file"] == "src/greeter/extra.py"
@@ -167,7 +184,7 @@ def test_shell_write_to_a_planned_file_is_warned_about_by_default_and_refused_wh
 def test_shell_write_creating_an_unplanned_governed_file_is_refused_like_an_edit(proj, monkeypatch, capsys):
     """Q22: `echo x > <new module>` in a governed folder gets the edit's answer, not a silent pass."""
     out = run_hook(proj, "Bash", {"command": "echo x > src/greeter/zz_new.py"}, monkeypatch, capsys)
-    assert out["permissionDecision"] == "allow" and out["additionalContext"].startswith(WARN_PREFIX)
+    assert "permissionDecision" not in out and out["additionalContext"].startswith(WARN_PREFIX)
     assert "src/greeter/zz_new.py" in out["additionalContext"] and "is not in the plan" in out["additionalContext"]
     rec = log_lines(proj)[-1]
     assert rec["decision"] == "would_block" and rec["why"] == "shell_unplanned" and rec["files"] == ["src/greeter/zz_new.py"]
@@ -357,7 +374,7 @@ def test_an_unwritable_log_folder_does_not_stop_the_call(proj, tmp_path, monkeyp
     monkeypatch.setattr(sys, "argv", ["pcw-hook"])
     assert main() == 0
     out = capsys.readouterr()
-    assert json.loads(out.out)["hookSpecificOutput"]["permissionDecision"] == "allow"
+    assert "permissionDecision" not in json.loads(out.out)["hookSpecificOutput"]
     assert "could not write the guard log" in out.err and "LOCKSTEP_LOG_DIR" in out.err
 
 
