@@ -118,3 +118,10 @@ Each item: what, evidence, my recommendation. Added as found. The open ones are 
    agent inference and no reader checked it against `LOCKSTEP.md`. Recommendation: add one sentence to that
    "independent read": it lists every departure from the project's settled design documents, with file and line.
    That changes a rule every agent follows, so it is not made in this change.
+18. **The acceptance line "shown by a test" merged without the test.** `make check-trace` did fail on a made-up
+   unbuilt requirement when tried by hand, but no test under `tests/` ran the gate, so a later edit to the Makefile
+   could have quietly made it pass everything. Fixed after the merge: `tests/test_check_trace_gate.py` runs the
+   real gate against the committed list (passes), a list missing one finding (fails, as a new unimplemented
+   requirement would), and a list with an extra finding (fails); the list and output paths became Makefile
+   settings (`TRACE_ACCEPTED`, `TRACE_NOW`) so the test needs no copy of the repository. Recommendation: read each
+   acceptance line against the diff before merging; a closing checklist would have caught this.
