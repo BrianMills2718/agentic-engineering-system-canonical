@@ -20,10 +20,10 @@ where it writes the code, rather than reconstructing intent from distant documen
 Lockstep is the planning-and-checking component of AES; coding agents and Project
 Brains consume it. AES also includes the feedback loop and policy layer.
 
-Its opinionated approach starts with planned structure: name the behavioral units,
+<!-- lockstep quote: lockstep-plan-format/lockstep-governs-its-own-package -->Its opinionated approach starts with planned structure: name the behavioral units,
 the files that hold them, their public typed seams, the requirements they implement
 and the tests or other checks that establish success. Then implement inside those
-boundaries. The linked chain is requirement → success criterion → proving test or
+boundaries.<!-- /lockstep quote --> The linked chain is requirement → success criterion → proving test or
 check → file → symbol. A file list alone does not express the intended approach;
 a working test alone does not establish that the right behavior was chosen.
 
@@ -52,9 +52,9 @@ checks, not merely in an isolated implementation comment.
 ## What moves down and what moves up
 
 Requirements, scenarios, criteria and declared signatures move **down** into
-source-local context. In the layout route, OpenSpec owns behavior and
+source-local context. <!-- lockstep quote: lockstep-plan-format/lockstep-governs-its-own-package -->In the layout route, OpenSpec owns behavior and
 `lockstep.yaml` owns file purpose, requirement links, test paths and optional
-exports. [layout_plan.py](../../src/lockstep/layout_plan.py) adapts those records;
+exports.<!-- /lockstep quote --> [layout_plan.py](../../src/lockstep/layout_plan.py) adapts those records;
 [scaffold.py](../../src/lockstep/scaffold.py) creates missing planned Python files
 and fills their cog docstrings. Existing files are preserved. The
 [edit hook](../../src/lockstep/hook.py) supplies requirement context and checks

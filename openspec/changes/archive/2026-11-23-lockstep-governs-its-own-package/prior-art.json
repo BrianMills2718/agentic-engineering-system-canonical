@@ -1,0 +1,13 @@
+{
+  "need": "Make Lockstep's own package follow Lockstep's layout and edit-hook rules, checkably.",
+  "searched": [
+    {"place": "own", "where": "src/lockstep/layout_plan.py, unplanned_files.py, hook.py blocks(), side_file.py fixed, template/.claude/settings.json", "query": "governed, layout, fixed, lockstep-hook", "found": "All parts exist; AES had them switched off (governed: [], layout: [], no hook entry)."},
+    {"place": "outside", "where": "Claude Code and Codex hook documentation", "query": "PreToolUse deny", "found": "Both run PreToolUse command hooks; the existing lockstep-hook already speaks both formats."}
+  ],
+  "candidates": [
+    {"name": "Turn on Lockstep's existing layout and hook in AES", "url": "https://github.com/BrianMills2718/agentic-engineering-system-canonical", "covers": "Planned files, refusal of unplanned files, requirement text on edit.", "misses": "Nothing for this need.", "verdict": "adopt", "reason": "Configuration of existing parts plus one test."}
+  ],
+  "decision": "adopt",
+  "gap": "None; configuration and a test.",
+  "decided": "2026-11-23"
+}
