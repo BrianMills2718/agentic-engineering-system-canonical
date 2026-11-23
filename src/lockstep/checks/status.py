@@ -38,6 +38,7 @@ Requirement text (generated):
 
 """
 
+from collections.abc import Callable
 from dataclasses import asdict, dataclass, field
 import json
 from pathlib import Path
@@ -355,6 +356,10 @@ def links(result: Report, root: Path | None = None) -> dict:
         requirement = node(ident, "requirement", row.where)
         for symbol, where in zip(row.links, row.files):
             path, line = place(where)
+            if symbol == path:  # a comment-line implementer has no Python symbol: link the file itself
+                link(requirement, path)
+                node(path, "file", path)
+                continue
             link(requirement, symbol)
             link(node(symbol, "symbol", path, line), path)
             node(path, "file", path)
@@ -369,7 +374,54 @@ def links(result: Report, root: Path | None = None) -> dict:
             node(path, "file", path)
     if root is not None:
         _existing_lines(Path(root), nodes, node)
+        _layout_nodes(Path(root), node, link)
     return {"version": 1, "nodes": list(nodes.values())}
+
+
+def _layout_nodes(root: Path, node: Callable[..., dict], link: Callable[[dict, str], None]) -> None:
+    """Add a `file` node per `lockstep.yaml` layout row and a `symbol` node per export, each `planned` or `exists`.
+
+    Implements: lockstep-projection/links-show-planned-files-and-exports
+
+    Requirement text (generated):
+        lockstep-projection/links-show-planned-files-and-exports: In a repository whose
+            `lockstep.yaml` has `layout:` rows, `docs/links.json` SHALL hold a `file` node for each
+            row's path and a `symbol` node for each declared export, each with `state` `planned`
+            when the file (or, for an export, the top-level function or class of that name in the
+            file) does not exist yet and `exists` when it does. A row's `file` node SHALL link to
+            the requirements the row implements and to its test files; an export's `symbol` node,
+            with ID the file's module path and the export name, SHALL link to the file. An
+            implementer found in a comment line (no Python symbol) SHALL link its requirement to the
+            `file` node directly.
+    """
+    import ast
+
+    from lockstep.checks.markers import source_dirs
+    from lockstep.layout_plan import layout_rows
+
+    for row in layout_rows(root):
+        path = row["path"]
+        target = root / path
+        file_node = node(path, "file", path)
+        file_node["state"] = "exists" if target.is_file() else "planned"
+        for ident in row["implements"] + row["tests"]:
+            link(file_node, ident)
+        defined: set[str] = set()
+        if target.is_file() and path.endswith(".py"):
+            try:
+                tree = ast.parse(target.read_text())
+                defined = {n.name for n in tree.body
+                           if isinstance(n, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef))}
+            except SyntaxError:
+                pass
+        folder = next((d for d in source_dirs(root) if target.is_relative_to(d)), root)
+        parts = list(target.relative_to(folder).with_suffix("").parts)
+        module = ".".join(parts[:-1] if parts and parts[-1] == "__init__" else parts)
+        for export in row["exports"]:
+            name = export.split("(", 1)[0].split(":", 1)[0].strip()
+            symbol = node(f"{module}.{name}" if module else name, "symbol", path)
+            symbol["state"] = "exists" if name in defined else "planned"
+            link(symbol, path)
 
 
 def _existing_lines(root: Path, nodes: dict[str, dict], node) -> None:

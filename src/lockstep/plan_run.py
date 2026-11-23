@@ -3,6 +3,7 @@
 Implements: plan-run/a-departure-report-compares-the-change-with-its-plan
 Implements: plan-run/hidden-acceptance-tests-are-written-before-and-run-after-implementation
 Implements: plan-run/one-driver-runs-a-plan-with-claude-or-codex
+Implements: plan-run/the-agents-are-told-to-lay-out-the-planned-files
 
 `lockstep accept write <change>` has a separate headless agent session write pytest files from the plan
 into a run folder outside every worktree; `lockstep accept check <change>`, run in the implementer's
@@ -81,14 +82,31 @@ def _tasks_at(repo: Path, rev: str, change: str) -> tuple[str, str] | None:
     return None
 
 
+# The plan file itself and the generated link file change with every planned file; they are never departures.
+_NEVER_DEPARTURES = {"lockstep.yaml", "docs/links.json"}
+
+
+def _layout_paths_at(repo: Path, rev: str) -> set[str]:
+    """The `path` of every `layout:` row in lockstep.yaml as it was at rev; empty when there is none."""
+    import yaml
+
+    if "lockstep.yaml" not in _git(repo, "ls-tree", "--name-only", rev).splitlines():
+        return set()
+    data = yaml.safe_load(_git(repo, "show", f"{rev}:lockstep.yaml")) or {}
+    rows = data.get("layout") if isinstance(data, dict) else None
+    return {str(r["path"]).strip() for r in rows or [] if isinstance(r, dict) and r.get("path")}
+
+
 def departures(repo: Path, change: str, base: str) -> dict[str, Any]:
     """Files changed in commits since base that the plan's tasks.md (as at base) does not name, and unticked tasks."""
     at_base = _tasks_at(repo, base, change)
     if at_base is None:
         raise FileNotFoundError(f"no tasks.md for change {change!r} at {base}")
     plan_text = at_base[1]
+    planned = _layout_paths_at(repo, base)
     changed = sorted(p for p in _git(repo, "diff", "--name-only", f"{base}..HEAD").splitlines() if p)
-    outside = [p for p in changed if not p.startswith("openspec/") and not _named(p, plan_text)]
+    outside = [p for p in changed if not p.startswith("openspec/") and p not in _NEVER_DEPARTURES
+               and p not in planned and not _named(p, plan_text)]
     at_head = _tasks_at(repo, "HEAD", change)
     head_text = at_head[1] if at_head else plan_text
     unticked = [ln.strip() for ln in head_text.splitlines() if ln.strip().startswith("- [ ]")]
@@ -137,7 +155,8 @@ You are in a detached git worktree at a commit that holds a PLAN: the OpenSpec c
 (proposal.md, spec delta under specs/, tasks.md). Nothing is implemented yet. Another agent will implement the plan
 later without seeing your tests.
 
-- Read the plan, and the existing code and tests it names, for fixtures and import patterns.
+- Read the plan, and the existing code and tests it names, for fixtures and import patterns. When lockstep.yaml
+  has `layout:` rows, they are part of the plan: the files to create, their requirements and their `exports`.
 - Write pytest files named test_accept_<n>.py (n = 1, 2, ...) into ACCEPT_DIR, outside the repository. Each test
   checks one scenario of the spec delta through the interfaces the plan names (its "Test seam" section when there is
   one). Import from the repository the way its tests do: the files will be copied into tests/ before they run.
@@ -155,6 +174,9 @@ def implementer_prompt(change: str, check_cmd: str) -> str:
     return f"""You are in a git worktree on a new branch. Implement the plan in openspec/changes/{change}/ exactly as written.
 
 1. Read proposal.md, the spec delta under specs/, and tasks.md. Read AGENTS.md and the AGENTS.md of each folder you edit.
+   When lockstep.yaml has `layout:` rows, they are part of the plan: each names a file to create or change, the
+   requirements it implements, its tests and its public functions (`exports`). Run `uv run lockstep layout` before
+   writing code; it creates each new planned file with its requirement text.
 2. Do the tasks in order. Write each task's test first and see it fail, then make it pass. Tick each task (`- [x]`) when done.
 3. When all tasks are done, archive the change: `openspec archive {change} --yes`.
 4. {check}
