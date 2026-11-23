@@ -37,7 +37,12 @@ decision records whose existing `Governs:` line names the file, its folder or a 
 superseded one, and `links.json` lists decisions (15 in AES, 0007 superseded); template decision 0001 governs
 `docs/architecture/model.c4`.
 
-**Next:** verify both slices in a fresh copy with Claude, then further add-ons as needed.
+Accepted 2026-11-23 in `chain-test` (clean home, Claude): #4 added decision 0002 (`- Governs: greeting`), a quote
+marker and plan 4; `run-plan title-case-names` passed its hidden tests (4 failed, 1 passed before; 5 passed after),
+merged as #5, and the hook log recorded decision 0002 handed over on three of Claude's shell commands; `links.json`
+lists the plan (archived after merge), the quote (current) and both decisions.
+
+**Next:** further add-ons as needed.
 
 # AES assessment (2026-11-19)
 
