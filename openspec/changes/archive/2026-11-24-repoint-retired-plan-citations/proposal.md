@@ -8,9 +8,11 @@ the specs cited them by path; those paths now point at pinned GitHub copies of t
 
 ## What Changes
 
+Plan size: small
+
 Only the cited path inside `Source:` lines. No requirement or scenario changes what it requires.
 
-Wording-only: lockstep-projection/the-link-file-lists-the-whole-chain, plan-run/an-unticked-task-is-listed-archived-or-not
+Wording-only: lockstep-projection/status-links-each-requirement-to-its-code-and-tests, plan-run/a-departure-report-compares-the-change-with-its-plan, lockstep-projection/the-link-file-lists-the-whole-chain, plan-run/an-unticked-task-is-listed-archived-or-not
 
 ## Impact
 
