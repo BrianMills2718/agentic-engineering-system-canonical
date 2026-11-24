@@ -167,6 +167,7 @@ def _git(repo: Path, *args: str) -> None:
 
 
 @pytest.mark.req("portable-template/a-fresh-copy-refuses-an-unplanned-source-file")
+@pytest.mark.req("lockstep-guard/a-fresh-template-copy-refuses-an-unplanned-source-file", existing=True)
 def test_a_fresh_copy_refuses_an_unplanned_source_file(tmp_path):
     import json
     import sys

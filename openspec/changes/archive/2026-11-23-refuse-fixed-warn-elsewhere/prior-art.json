@@ -1,0 +1,13 @@
+{
+  "need": "State the edit hook's refuse-or-warn rule as a requirement so a change to it fails a test.",
+  "searched": [
+    {"place": "own", "where": "openspec/specs/lockstep-guard/spec.md, src/lockstep/hook.py, lockstep .aes/plans/PLAN-014-WARN-BY-DEFAULT.yaml", "query": "warn, block, fixed, would_block", "found": "The code and its tests implement D7; no requirement states it."},
+    {"place": "outside", "where": "Claude Code hooks documentation (code.claude.com/docs)", "query": "PreToolUse permissionDecision deny or allow with context", "found": "The hook protocol offers deny and allow-with-context; the choice between them is the tool's own rule."}
+  ],
+  "candidates": [
+    {"name": "lockstep-guard existing requirements", "url": "openspec/specs/lockstep-guard/spec.md", "covers": "Refusals in block mode and the text they show.", "misses": "When the hook refuses versus warns.", "verdict": "reject", "reason": "None states the default."}
+  ],
+  "decision": "build",
+  "gap": "One requirement text and test marks; no code.",
+  "decided": "2026-11-23"
+}

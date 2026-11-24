@@ -1,0 +1,3 @@
+- [x] Requirement stating the refuse-or-warn rule.
+- [x] Existing tests marked: warned by default, refused when fixed, a fresh template copy refuses.
+- [x] Layout row for `src/lockstep/hook.py` names the requirement.

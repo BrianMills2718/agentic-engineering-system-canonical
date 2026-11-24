@@ -135,6 +135,7 @@ def fix(proj, *globs: str) -> None:
     (proj / "lockstep.yaml").write_text("schema: lockstep.side.v1\nfixed: [" + ", ".join(f"'{g}'" for g in globs) + "]\n")
 
 
+@pytest.mark.req("lockstep-guard/a-governed-file-outside-every-fixed-glob-is-warned-about", existing=True)
 def test_by_default_an_undeclared_governed_file_is_warned_about_and_logged_as_would_block(proj, monkeypatch, capsys):
     out = run_hook(proj, "Write", {"file_path": str(proj / "src/greeter/extra.py")}, monkeypatch, capsys)
     assert "permissionDecision" not in out and "permissionDecisionReason" not in out
@@ -143,6 +144,7 @@ def test_by_default_an_undeclared_governed_file_is_warned_about_and_logged_as_wo
     assert rec["decision"] == "would_block" and rec["why"] == "unplanned" and rec["file"] == "src/greeter/extra.py"
 
 
+@pytest.mark.req("lockstep-guard/a-file-under-a-fixed-glob-is-refused", existing=True)
 def test_a_file_the_side_file_marks_fixed_is_still_refused(proj, monkeypatch, capsys):
     fix(proj, "src/greeter/*")
     out = run_hook(proj, "Write", {"file_path": str(proj / "src/greeter/extra.py")}, monkeypatch, capsys)
