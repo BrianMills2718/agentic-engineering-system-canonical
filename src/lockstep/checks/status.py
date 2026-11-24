@@ -118,7 +118,7 @@ Source: Brian, 2026-11-11: "i approve single tool desing re d4"; proposals/one-p
 
 `lockstep check project` SHALL write `docs/status.md` in a repository with a `docs/` folder and recognized OpenSpec requirements, listing every requirement and scenario with the state `lockstep status` gives when no test run is recorded, and `--check` SHALL fail when the page is stale, except that when git ignores `docs/status.md` the page is build output and `--check` SHALL not report it.
 
-Source: Brian, 2026-11-11: "i approve single tool desing re d4"; proposals/one-planning-tool/DESIGN.md, slice 6 ("Requirement text in docstrings" and "Status per requirement" rows). Inferred by agent, 2026-11-21 (code2-template#37, clean-home milestone run): an ignored page is build output, so parallel plans do not conflict on it
+Source: Brian, 2026-11-11: "i approve single tool desing re d4"; proposals/one-planning-tool/DESIGN.md, slice 6 ("Requirement text in docstrings" and "Status per requirement" rows). Inferred by agent, 2026-11-21 (code2-template#37, clean-home milestone run): an ignored page is build output, so parallel plans do not conflict on it. Brian, 2026-11-23, "i approve" to the page staying at `docs/status.md` rather than the wiki (DESIGN.md:47), listed in back-on-design slice 3
 
 #### Scenario: Status page lists every requirement with its coverage state
 

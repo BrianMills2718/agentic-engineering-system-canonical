@@ -76,6 +76,9 @@ layout and that Lockstep is not used on itself.
 
 ## Slice 3 result (2026-11-23): each invented part settled
 
+Brian, 2026-11-23: "i approve" to the two kept departures below (hook log outside the checkout; status page at
+`docs/status.md`).
+
 The review's file-and-line list was not committed, so it was re-derived against `DESIGN.md`, `LOCKSTEP.md`, AES
 decision 0004, code2-workspace decision 0006 and acceptance rows R9 and R10. No item needed a new answer from Brian:
 
