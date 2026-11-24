@@ -253,12 +253,23 @@ def _symbol(tree: ast.AST, name: str | None) -> ast.AST:
     return node
 
 
+_COG_MARKERS = ('[[' + '[cog', '[[' + '[end]]' + ']')  # split so cog run over this source does not read them
+
+
+def _without_cog_markers(text: str) -> str:
+    """Drop cog's marker lines from a docstring: they are generation machinery, not prose, and a page
+    that copies them reads to the plan check as a cog block of its own."""
+    return '\n'.join(line for line in text.split('\n')
+                     if not (line.strip().startswith(_COG_MARKERS) or line.strip() == ']]' + ']'))
+
+
 def _facts(path: Path, fields: list[str], symbol: str | None, text: str | None = None, items: str | None = None,
            key: str = 'id') -> dict | list[dict]:
     text = path.read_text() if text is None else text
     if path.suffix == '.py':
         node = _symbol(ast.parse(text, filename=str(path)), symbol)
         description = ast.get_docstring(node) or ''  # type: ignore[arg-type]
+        description = _without_cog_markers(description)
         data: dict = {'description': description.split('\n\n', 1)[0], 'docstring': description} if description else {}
         if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
             prefix = 'async ' if isinstance(node, ast.AsyncFunctionDef) else ''

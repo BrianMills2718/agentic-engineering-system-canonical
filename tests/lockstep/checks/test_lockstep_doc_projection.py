@@ -92,6 +92,18 @@ def test_python_docstring_fact_sees_generated_requirement_copy(tmp_path):
 
 
 @pytest.mark.req('lockstep-doc-facts/python-description-and-interface-are-static')
+def test_docstring_fact_drops_cog_marker_lines(tmp_path):
+    root = _repo(tmp_path, source='src/api.py', fields=['docstring'])
+    (root/'src').mkdir()
+    opener, close, end = '[[' + '[cog', ']]' + ']', '[[' + '[end]]' + ']'
+    (root/'src/api.py').write_text(f'"""API description.\n\n{opener} import x; x.y(){close}\nPlan text.\n{close}\n{end}\n"""\n')
+    project.project(root)
+    page = (root/'wiki/index.md').read_text()
+    assert 'Plan text.' in page
+    assert opener not in page and end not in page
+
+
+@pytest.mark.req('lockstep-doc-facts/python-description-and-interface-are-static')
 def test_class_signature_preserves_creation_keywords(tmp_path):
     root = _repo(tmp_path, source='api.py', fields=['signature'], symbol='A')
     source = root/'api.py'

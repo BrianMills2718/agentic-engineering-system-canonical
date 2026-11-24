@@ -22,6 +22,8 @@ layout:
   implements:
   - lockstep-plan-format/the-plan-is-openspec-plus-layout-rows
   tests: []
+  exports:
+  - 'under_governed(relpath: str, entry: str) -> bool'
 - path: src/lockstep/behavior_check.py
   purpose: Report a behavior that lacks exactly one source file of its own or a criterion with a test route
   implements:

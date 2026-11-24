@@ -57,6 +57,9 @@ Source: Brian, 2026-11-11, approving the one-tool design as written ("i approve 
 - **GIVEN** a repository with `.aes/target.yaml`
 - **WHEN** Lockstep reads its plan
 - **THEN** the planned files come from `.aes/target.yaml` exactly as before
+
+Declares (typed signatures, from the plan):
+  under_governed(relpath: str, entry: str) -> bool
 [[[end]]]
 """
 
