@@ -259,8 +259,8 @@ Source: inferred by agent, from the 2026-11-17 sweep in row 11. Port these in th
    **Done 2026-11-17 (Decision 30 A):** `systemctl --user disable --now project-meta-policy-audit.timer` was run; aes-config
    `machine-layer.yaml` now records it as `enabled: disabled` (aes-config #11), and its unit files stay in `machine-units/`.
 8. The stashes and uncommitted or ignored data, each kept after a comparison with the copy that stays: **done
-   2026-11-17** ([project-meta-local-data-20261117.md](project-meta-local-data-20261117.md); private detail in
-   aes-config `docs/project-meta-local-data-20261117.md`, #8). Stashes: 11 of 42 fully contained on the remote, 31
+   2026-11-17** ([https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/2b2c089f002f2eb165bdc2b55ac69adcdbc2da24/docs/planning/project-meta-local-data-20261117.md](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/2b2c089f002f2eb165bdc2b55ac69adcdbc2da24/docs/planning/project-meta-local-data-20261117.md); private detail in
+   aes-config `https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/2b2c089f002f2eb165bdc2b55ac69adcdbc2da24/docs/planning/project-meta-local-data-20261117.md`, #8). Stashes: 11 of 42 fully contained on the remote, 31
    not; all 42 pushed as `refs/archive/stash-20261117-NN` to the private Project Meta remote (42 of 42 shas match;
    gitleaks 0 findings first), plus 42 patch files and a verified bundle in `~/archive/project-meta-local-20261117/`.
    The uncommitted wiki health report measured another repository's wiki and is not regenerable; kept byte-identical.

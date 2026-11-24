@@ -793,10 +793,10 @@
    "status": "open",
    "recommendation": "Start with slice 0 (a kept-current ledger of callers and enabled timers, no change to Project Meta), then slices 1, 2 and 4 in parallel; port by copying, compare outputs on real inputs, switch callers, make the old file fail loudly for one cycle, then archive. Nothing is deleted.",
    "default": "Until Brian approves a slice, nothing in Project Meta is changed, switched off, moved or archived.",
-   "evidence": "Measured 2026-11-14 on Project Meta f1e27c906: 695 scripts, 2,758 docs files, 2,728 learnings, 161 policy files, 109 enforced_planning files; 30 systemd units mention it and 9 of their timers are enabled; 13 of 177 ~/.local/bin commands mention it. Most-called files: md_file_cap.py (7 repositories by the first count; 43 distinct repositories by the slice 0 ledger), operator_notify_router.py, concern_issue.py, the project graph. AES's own feedback loop calls two Project Meta scripts. Slice 0b (docs triage table, docs/planning/project-meta-docs-triage.md) proposes per folder what to read, archive or regenerate among 2,734 docs files. Source: Brian, 2026-11-14. Nothing has been ported, switched off or archived.",
+   "evidence": "Measured 2026-11-14 on Project Meta f1e27c906: 695 scripts, 2,758 docs files, 2,728 learnings, 161 policy files, 109 enforced_planning files; 30 systemd units mention it and 9 of their timers are enabled; 13 of 177 ~/.local/bin commands mention it. Most-called files: md_file_cap.py (7 repositories by the first count; 43 distinct repositories by the slice 0 ledger), operator_notify_router.py, concern_issue.py, the project graph. AES's own feedback loop calls two Project Meta scripts. Slice 0b (docs triage table, https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/2b2c089f002f2eb165bdc2b55ac69adcdbc2da24/docs/planning/project-meta-docs-triage.md) proposes per folder what to read, archive or regenerate among 2,734 docs files. Source: Brian, 2026-11-14. Nothing has been ported, switched off or archived.",
    "sources": [
     "docs/planning/project-meta-retirement-plan.md",
-    "docs/planning/project-meta-docs-triage.md",
+    "https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/2b2c089f002f2eb165bdc2b55ac69adcdbc2da24/docs/planning/project-meta-docs-triage.md",
     "docs/architecture/ECOSYSTEM.md"
    ],
    "touches": [
@@ -897,7 +897,7 @@
     "lockstep-today"
    ],
    "sources": [
-    "docs/planning/alignment-cleanup-2026-11-23.md (To discuss item 3)"
+    "https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/2b2c089f002f2eb165bdc2b55ac69adcdbc2da24/docs/planning/alignment-cleanup-2026-11-23.md (To discuss item 3)"
    ]
   },
   {
@@ -915,7 +915,7 @@
     "lockstep-today"
    ],
    "sources": [
-    "docs/planning/alignment-cleanup-2026-11-23.md (To discuss item 5)"
+    "https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/2b2c089f002f2eb165bdc2b55ac69adcdbc2da24/docs/planning/alignment-cleanup-2026-11-23.md (To discuss item 5)"
    ]
   },
   {
@@ -933,7 +933,7 @@
     "lockstep-today"
    ],
    "sources": [
-    "docs/planning/alignment-cleanup-2026-11-23.md (To discuss item 6)"
+    "https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/2b2c089f002f2eb165bdc2b55ac69adcdbc2da24/docs/planning/alignment-cleanup-2026-11-23.md (To discuss item 6)"
    ]
   },
   {
@@ -951,7 +951,7 @@
     "ecosystem-consolidation"
    ],
    "sources": [
-    "docs/planning/alignment-cleanup-2026-11-23.md (To discuss item 13)"
+    "https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/2b2c089f002f2eb165bdc2b55ac69adcdbc2da24/docs/planning/alignment-cleanup-2026-11-23.md (To discuss item 13)"
    ]
   },
   {
@@ -969,7 +969,7 @@
     "edit-guard"
    ],
    "sources": [
-    "docs/planning/alignment-cleanup-2026-11-23.md (To discuss item 14)"
+    "https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/2b2c089f002f2eb165bdc2b55ac69adcdbc2da24/docs/planning/alignment-cleanup-2026-11-23.md (To discuss item 14)"
    ]
   },
   {
@@ -987,7 +987,7 @@
     "legacy-review"
    ],
    "sources": [
-    "docs/planning/alignment-cleanup-2026-11-23.md (To discuss item 15)"
+    "https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/2b2c089f002f2eb165bdc2b55ac69adcdbc2da24/docs/planning/alignment-cleanup-2026-11-23.md (To discuss item 15)"
    ]
   },
   {
@@ -1005,7 +1005,151 @@
     "agent-rules"
    ],
    "sources": [
-    "docs/planning/alignment-cleanup-2026-11-23.md (To discuss item 17)"
+    "https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/2b2c089f002f2eb165bdc2b55ac69adcdbc2da24/docs/planning/alignment-cleanup-2026-11-23.md (To discuss item 17)"
+   ]
+  },
+  {
+   "id": "Q56",
+   "short": "Project Meta docs dispositions",
+   "question": "The Project Meta docs triage proposed a disposition per docs folder (keep, archive, read) as a table for Brian; nothing was moved, and the 'read' folders were never read. Does any Project Meta docs folder still need the reading pass, or does the GitHub archive (Project Meta is archived, isArchived true) settle them all?",
+   "blocks": "Q44 slice order for the Project Meta retirement plan, docs part",
+   "resolves_with": "Brian's call on the folder table (pinned page, 'Limits' and the table); or close as settled by the archive.",
+   "recommendation": "Close as settled by the archive: the repository stays readable on GitHub, and no live AES document names a Project Meta docs folder.",
+   "default": "The folders stay as they are in the archived repository; nothing is read.",
+   "evidence": "https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/2b2c089f002f2eb165bdc2b55ac69adcdbc2da24/docs/planning/project-meta-docs-triage.md lines 8 and 36-39; raw output evidence/runs/project-meta-docs-triage-20261114.json. Moved 2026-11-24 from the retired page (Brian: \"cut whatever get us to optimal and safe then we can discuss\").",
+   "owner": "brian",
+   "status": "open",
+   "touches": [
+    "ecosystem-consolidation"
+   ],
+   "sources": [
+    "docs/planning/project-meta-docs-triage.md (retired 2026-11-24)"
+   ]
+  },
+  {
+   "id": "Q57",
+   "short": "Project Meta local-only data",
+   "question": "Three pieces of Project Meta data are on this laptop only: (1) everything under ~/archive/project-meta-local-20261117/ except the stashes (the settings file holds secrets and stays off GitHub); (2) the ignored environment file in wiki/local_mediawiki/, never copied because Safety Net blocks naming it (one manual copy, command on the private page); (3) the project-meta-policy-runtime clone's 6 stashes and 5 modified files, including friction_clusters.yaml blob 963b804, in no remote commit, with a copy in ~/archive/policy-runtime-20261117/. Is a second copy needed, and is (3) settled by that archive copy?",
+   "blocks": "losing Project Meta data with the laptop's disk",
+   "resolves_with": "An agent compares the policy-runtime clone with ~/archive/policy-runtime-20261117/ by blob id; Brian says whether laptop-only is acceptable for (1) and (2).",
+   "recommendation": "Laptop-only is acceptable for generated reports and secrets; an agent checks (3) by blob id and records the result here.",
+   "default": "All three stay laptop-only.",
+   "evidence": "https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/2b2c089f002f2eb165bdc2b55ac69adcdbc2da24/docs/planning/project-meta-local-data-20261117.md lines 12-21 and 130-148. The 42 stashes are safe on the remote as refs/archive/stash-20261117-00 to -41; restore one with `git fetch origin refs/archive/stash-20261117-05 && git stash apply FETCH_HEAD` in a Project Meta checkout. The consolidation plan (docs/planning/aes-consolidation-plan.md, row 11) says the policy-runtime unique files were copied and nothing discarded; the local-data page says none was compared. Moved 2026-11-24 from the retired page (Brian: \"cut whatever get us to optimal and safe then we can discuss\").",
+   "owner": "agent",
+   "status": "open",
+   "touches": [
+    "ecosystem-consolidation"
+   ],
+   "sources": [
+    "docs/planning/project-meta-local-data-20261117.md (retired 2026-11-24)"
+   ]
+  },
+  {
+   "id": "Q58",
+   "short": "code2-template and its six copies",
+   "question": "code2-template is replaced by this repository's template. Archive code2-template, and should the six repositories made from it move to this template?",
+   "blocks": "two templates for new repositories",
+   "resolves_with": "Brian's call; then `copier` migration per repository when it is next worked on.",
+   "recommendation": "Archive code2-template; move each of the six when it is next changed (the adopt-when-changed pace of code2-workspace decision 0002).",
+   "default": "Both templates stay; the six copies keep code2-template.",
+   "evidence": "https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/2b2c089f002f2eb165bdc2b55ac69adcdbc2da24/docs/planning/second-user.goal.md line 83 ('Non-gating next actions'). Moved 2026-11-24 from the retired page (Brian: \"cut whatever get us to optimal and safe then we can discuss\").",
+   "owner": "brian",
+   "status": "open",
+   "touches": [
+    "one-tool"
+   ],
+   "sources": [
+    "docs/planning/second-user.goal.md (retired 2026-11-24)"
+   ]
+  },
+  {
+   "id": "Q59",
+   "short": "Second-user roadmap: add-ons and Codex",
+   "question": "The second-user goal's roadmap row 3 is open: add-ons, each only after a logged failure justifies it (rule in docs/planning/minimal-core-2026-11-20.md section 8, 'Rule for add-ons'). Row 2 is done for Claude but not shown for Codex (no API quota). Which add-on is next, and is the Codex run still wanted?",
+   "blocks": "the second-user goal's last row; Claude and Codex parity of the linked chain",
+   "resolves_with": "A logged failure that names an add-on; a Codex run of the second-user check when quota allows.",
+   "recommendation": "Keep open; the first add-on (docs/links.json, 2026-11-23) is done; run Codex when quota exists.",
+   "default": "No further add-on; Codex unproven.",
+   "evidence": "https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/2b2c089f002f2eb165bdc2b55ac69adcdbc2da24/docs/planning/second-user.goal.md lines 87-91; .project-brain/now.md ('Codex not shown'). Moved 2026-11-24 from the retired page (Brian: \"cut whatever get us to optimal and safe then we can discuss\").",
+   "owner": "agent",
+   "status": "open",
+   "touches": [
+    "lockstep-today"
+   ],
+   "sources": [
+    "docs/planning/second-user.goal.md (retired 2026-11-24)"
+   ]
+  },
+  {
+   "id": "Q60",
+   "short": "inert-characterization test is thin",
+   "question": "The inert-characterization test checks less than its scenarios promise: dirty state and exact checkout identity are not asserted. Add the assertions?",
+   "blocks": "a spec scenario passing without its promise tested",
+   "resolves_with": "Add the two assertions to the test; it must fail on code that ignores dirty state.",
+   "recommendation": "Yes, a small test change.",
+   "default": "The test stays thin.",
+   "evidence": "https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/2b2c089f002f2eb165bdc2b55ac69adcdbc2da24/docs/planning/alignment-cleanup-2026-11-23.md item 8. Moved 2026-11-24 from the retired page (Brian: \"cut whatever get us to optimal and safe then we can discuss\").",
+   "owner": "agent",
+   "status": "open",
+   "touches": [
+    "lockstep-today"
+   ],
+   "sources": [
+    "docs/planning/alignment-cleanup-2026-11-23.md (retired 2026-11-24)"
+   ]
+  },
+  {
+   "id": "Q61",
+   "short": "pytest.param markers unseen",
+   "question": "Requirement markers passed through pytest.param(marks=...) are not read by the trace check; the two found were turned into decorators. Should the check read that form, or should lockstep check refuse it?",
+   "blocks": "a test silently missing from the trace",
+   "resolves_with": "A Lockstep change: read pytest.param marks, or report them as an unread form.",
+   "recommendation": "Refuse the form with a clear message; reading it is more code for a rare case.",
+   "default": "The next one is silently missed.",
+   "evidence": "https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/2b2c089f002f2eb165bdc2b55ac69adcdbc2da24/docs/planning/alignment-cleanup-2026-11-23.md item 9 (tests/greenfield/test_characterize.py). Moved 2026-11-24 from the retired page (Brian: \"cut whatever get us to optimal and safe then we can discuss\").",
+   "owner": "agent",
+   "status": "open",
+   "touches": [
+    "lockstep-today"
+   ],
+   "sources": [
+    "docs/planning/alignment-cleanup-2026-11-23.md (retired 2026-11-24)"
+   ]
+  },
+  {
+   "id": "Q62",
+   "short": "Same session resumed twice",
+   "question": "A session resumed in two terminals ran twice in one worktree and both copies applied the same edits. Should resuming a session that is already running be refused or warned about?",
+   "blocks": "duplicate writers that worktrees cannot separate",
+   "resolves_with": "A start hook that checks for a live process with the same session id.",
+   "recommendation": "Warn at start; refusing could block a real recovery.",
+   "default": "Nothing detects it.",
+   "evidence": "https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/2b2c089f002f2eb165bdc2b55ac69adcdbc2da24/docs/planning/alignment-cleanup-2026-11-23.md item 12. Moved 2026-11-24 from the retired page (Brian: \"cut whatever get us to optimal and safe then we can discuss\").",
+   "owner": "agent",
+   "status": "open",
+   "touches": [
+    "agent-rules"
+   ],
+   "sources": [
+    "docs/planning/alignment-cleanup-2026-11-23.md (retired 2026-11-24)"
+   ]
+  },
+  {
+   "id": "Q63",
+   "short": "Acceptance lines read against the diff",
+   "question": "An acceptance line ('shown by a test') merged without the test; it was fixed after the merge. Should a closing checklist read each acceptance line against the diff before merging?",
+   "blocks": "acceptance claims merged without their evidence",
+   "resolves_with": "One line in the closeout or plan rule, or a check in ship that each 'shown by' names a changed test.",
+   "recommendation": "One sentence in code2-workspace working-method 'Plan size'; no new check.",
+   "default": "Caught only by luck.",
+   "evidence": "https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/2b2c089f002f2eb165bdc2b55ac69adcdbc2da24/docs/planning/alignment-cleanup-2026-11-23.md item 18; tests/test_check_trace_gate.py. Moved 2026-11-24 from the retired page (Brian: \"cut whatever get us to optimal and safe then we can discuss\").",
+   "owner": "agent",
+   "status": "open",
+   "touches": [
+    "agent-rules"
+   ],
+   "sources": [
+    "docs/planning/alignment-cleanup-2026-11-23.md (retired 2026-11-24)"
    ]
   }
  ]

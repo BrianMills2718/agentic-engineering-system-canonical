@@ -427,6 +427,109 @@
    "label": "treating agent-inferred requirements as settled",
    "kind": "Decision",
    "explain": "treating agent-inferred requirements as settled"
+  },
+  {
+   "id": "Q56",
+   "label": "Q56: Project Meta docs dispositions",
+   "kind": "BrianQuestion",
+   "explain": "The Project Meta docs triage proposed a disposition per docs folder (keep, archive, read) as a table for Brian; nothing was moved, and the 'read' folders were never read. Does any Project Meta docs folder still need the reading pass, or does the GitHub archive (Project Meta is archived, isArchived true) settle them all? Recommendation: Close as settled by the archive: the repository stays readable on GitHub, and no live AES document names a Project Meta docs folder. Default: The folders stay as they are in the archived repository; nothing is read."
+  },
+  {
+   "id": "Q56-blocks",
+   "label": "Q44 slice order for the Project Meta retirement plan, docs part",
+   "kind": "Decision",
+   "explain": "Q44 slice order for the Project Meta retirement plan, docs part"
+  },
+  {
+   "id": "Q57",
+   "label": "Q57: Project Meta local-only data",
+   "kind": "AgentQuestion",
+   "explain": "Three pieces of Project Meta data are on this laptop only: (1) everything under ~/archive/project-meta-local-20261117/ except the stashes (the settings file holds secrets and stays off GitHub); (2) the ignored environment file in wiki/local_mediawiki/, never copied because Safety Net blocks naming it (one manual copy, command on the private page); (3) the project-meta-policy-runtime clone's 6 stashes and 5 modified files, including friction_clusters.yaml blob 963b804, in no remote commit, with a copy in ~/archive/policy-runtime-20261117/. Is a second copy needed, and is (3) settled by that archive copy? Settled by: An agent compares the policy-runtime clone with ~/archive/policy-runtime-20261117/ by blob id; Brian says whether laptop-only is acceptable for (1) and (2)."
+  },
+  {
+   "id": "Q57-blocks",
+   "label": "losing Project Meta data with the laptop's disk",
+   "kind": "Decision",
+   "explain": "losing Project Meta data with the laptop's disk"
+  },
+  {
+   "id": "Q58",
+   "label": "Q58: code2-template and its six copies",
+   "kind": "BrianQuestion",
+   "explain": "code2-template is replaced by this repository's template. Archive code2-template, and should the six repositories made from it move to this template? Recommendation: Archive code2-template; move each of the six when it is next changed (the adopt-when-changed pace of code2-workspace decision 0002). Default: Both templates stay; the six copies keep code2-template."
+  },
+  {
+   "id": "Q58-blocks",
+   "label": "two templates for new repositories",
+   "kind": "Decision",
+   "explain": "two templates for new repositories"
+  },
+  {
+   "id": "Q59",
+   "label": "Q59: Second-user roadmap: add-ons and Codex",
+   "kind": "AgentQuestion",
+   "explain": "The second-user goal's roadmap row 3 is open: add-ons, each only after a logged failure justifies it (rule in docs/planning/minimal-core-2026-11-20.md section 8, 'Rule for add-ons'). Row 2 is done for Claude but not shown for Codex (no API quota). Which add-on is next, and is the Codex run still wanted? Settled by: A logged failure that names an add-on; a Codex run of the second-user check when quota allows."
+  },
+  {
+   "id": "Q59-blocks",
+   "label": "the second-user goal's last row; Claude and Codex parity of the linked chain",
+   "kind": "Decision",
+   "explain": "the second-user goal's last row; Claude and Codex parity of the linked chain"
+  },
+  {
+   "id": "Q60",
+   "label": "Q60: inert-characterization test is thin",
+   "kind": "AgentQuestion",
+   "explain": "The inert-characterization test checks less than its scenarios promise: dirty state and exact checkout identity are not asserted. Add the assertions? Settled by: Add the two assertions to the test; it must fail on code that ignores dirty state."
+  },
+  {
+   "id": "Q60-blocks",
+   "label": "a spec scenario passing without its promise tested",
+   "kind": "Decision",
+   "explain": "a spec scenario passing without its promise tested"
+  },
+  {
+   "id": "Q61",
+   "label": "Q61: pytest.param markers unseen",
+   "kind": "AgentQuestion",
+   "explain": "Requirement markers passed through pytest.param(marks=...) are not read by the trace check; the two found were turned into decorators. Should the check read that form, or should lockstep check refuse it? Settled by: A Lockstep change: read pytest.param marks, or report them as an unread form."
+  },
+  {
+   "id": "Q61-blocks",
+   "label": "a test silently missing from the trace",
+   "kind": "Decision",
+   "explain": "a test silently missing from the trace"
+  },
+  {
+   "id": "Q62",
+   "label": "Q62: Same session resumed twice",
+   "kind": "AgentQuestion",
+   "explain": "A session resumed in two terminals ran twice in one worktree and both copies applied the same edits. Should resuming a session that is already running be refused or warned about? Settled by: A start hook that checks for a live process with the same session id."
+  },
+  {
+   "id": "Q62-blocks",
+   "label": "duplicate writers that worktrees cannot separate",
+   "kind": "Decision",
+   "explain": "duplicate writers that worktrees cannot separate"
+  },
+  {
+   "id": "agent-rules",
+   "label": "Agent rules (core and topic files)",
+   "kind": "Concept",
+   "dashed": true,
+   "explain": "The rules every Claude Code and Codex session loads, with Brian's words behind each in rule-sources.md; in code2-workspace agents/. Defined in .project-brain/now.md:14. No code."
+  },
+  {
+   "id": "Q63",
+   "label": "Q63: Acceptance lines read against the diff",
+   "kind": "AgentQuestion",
+   "explain": "An acceptance line ('shown by a test') merged without the test; it was fixed after the merge. Should a closing checklist read each acceptance line against the diff before merging? Settled by: One line in the closeout or plan rule, or a check in ship that each 'shown by' names a changed test."
+  },
+  {
+   "id": "Q63-blocks",
+   "label": "acceptance claims merged without their evidence",
+   "kind": "Decision",
+   "explain": "acceptance claims merged without their evidence"
   }
  ],
  "edges": [
@@ -776,6 +879,102 @@
    "id": "Q48-lockstep-today",
    "source": "Q48",
    "target": "lockstep-today",
+   "label": "bears on"
+  },
+  {
+   "id": "Q56-to-decision",
+   "source": "Q56",
+   "target": "Q56-blocks",
+   "label": "blocks"
+  },
+  {
+   "id": "Q56-ecosystem-consolidation",
+   "source": "Q56",
+   "target": "ecosystem-consolidation",
+   "label": "bears on"
+  },
+  {
+   "id": "Q57-to-decision",
+   "source": "Q57",
+   "target": "Q57-blocks",
+   "label": "blocks"
+  },
+  {
+   "id": "Q57-ecosystem-consolidation",
+   "source": "Q57",
+   "target": "ecosystem-consolidation",
+   "label": "bears on"
+  },
+  {
+   "id": "Q58-to-decision",
+   "source": "Q58",
+   "target": "Q58-blocks",
+   "label": "blocks"
+  },
+  {
+   "id": "Q58-one-tool",
+   "source": "Q58",
+   "target": "one-tool",
+   "label": "bears on"
+  },
+  {
+   "id": "Q59-to-decision",
+   "source": "Q59",
+   "target": "Q59-blocks",
+   "label": "blocks"
+  },
+  {
+   "id": "Q59-lockstep-today",
+   "source": "Q59",
+   "target": "lockstep-today",
+   "label": "bears on"
+  },
+  {
+   "id": "Q60-to-decision",
+   "source": "Q60",
+   "target": "Q60-blocks",
+   "label": "blocks"
+  },
+  {
+   "id": "Q60-lockstep-today",
+   "source": "Q60",
+   "target": "lockstep-today",
+   "label": "bears on"
+  },
+  {
+   "id": "Q61-to-decision",
+   "source": "Q61",
+   "target": "Q61-blocks",
+   "label": "blocks"
+  },
+  {
+   "id": "Q61-lockstep-today",
+   "source": "Q61",
+   "target": "lockstep-today",
+   "label": "bears on"
+  },
+  {
+   "id": "Q62-to-decision",
+   "source": "Q62",
+   "target": "Q62-blocks",
+   "label": "blocks"
+  },
+  {
+   "id": "Q62-agent-rules",
+   "source": "Q62",
+   "target": "agent-rules",
+   "label": "bears on"
+  },
+  {
+   "id": "Q63-to-decision",
+   "source": "Q63",
+   "target": "Q63-blocks",
+   "label": "blocks"
+  },
+  {
+   "id": "Q63-agent-rules",
+   "source": "Q63",
+   "target": "agent-rules",
    "label": "bears on"
   }
  ]

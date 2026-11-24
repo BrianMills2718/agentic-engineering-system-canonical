@@ -164,7 +164,7 @@ All four are fixed: a new copy's `docs/status.md` is build output and its spec l
 `ship` now settles a conflict confined to a committed `docs/status.md` and reruns hidden tests after its own rebase
 (#1006).
 
-**Compromise removed, 2026-11-22 ([second-user.goal.md](second-user.goal.md)).** Rerun in the same clean home with
+**Compromise removed, 2026-11-22 ([https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/2b2c089f002f2eb165bdc2b55ac69adcdbc2da24/docs/planning/second-user.goal.md](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/2b2c089f002f2eb165bdc2b55ac69adcdbc2da24/docs/planning/second-user.goal.md)).** Rerun in the same clean home with
 agent login folders that hold no `CLAUDE.md` or `AGENTS.md` (Brian logged both agents in), in private repository
 `second-user` copied from this repository's template, Lockstep at main:
 
