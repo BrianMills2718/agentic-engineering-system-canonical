@@ -12,6 +12,8 @@ Source: inferred by agent from Project Meta `scripts/check_project_graph_taxonom
 
 With no `--project-graph` argument the checker SHALL read the graph named by the `PROJECT_GRAPH` environment variable, else `~/code2/aes-config/PROJECT_GRAPH.json`.
 
+Source: inferred by agent (port of Project Meta scripts/check_project_graph_taxonomy.py under the D20 decision that the graph path is configuration, commit d01400338, 2026-11-16; spec Purpose)
+
 #### Scenario: graph-path-is-configured
 
 - **WHEN** `PROJECT_GRAPH` names a graph file and the checker is run with no path argument
@@ -21,6 +23,8 @@ With no `--project-graph` argument the checker SHALL read the graph named by the
 
 Each record SHALL be checked against the taxonomy (ids, paths, one-liner length, portfolio area, utility tags, cross-references, origin remote) and every violation SHALL be listed.
 
+Source: inferred by agent (port of Project Meta scripts/check_project_graph_taxonomy.py, commit d01400338, 2026-11-16; spec Purpose)
+
 #### Scenario: records-are-validated
 
 - **WHEN** a record has a dangling reference, a bad vocabulary value or a mismatched remote
@@ -29,6 +33,8 @@ Each record SHALL be checked against the taxonomy (ids, paths, one-liner length,
 ### Requirement: hard-errors-block
 
 With `--fail-on hard` only deterministic structural errors SHALL make the run fail; other findings SHALL be counted as measured and not block.
+
+Source: inferred by agent (port of Project Meta scripts/check_project_graph_taxonomy.py, commit d01400338, 2026-11-16; spec Purpose: --fail-on hard)
 
 #### Scenario: hard-errors-block
 

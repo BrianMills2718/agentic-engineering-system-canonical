@@ -185,7 +185,7 @@ SHELL_TOOLS = {"Bash", "shell", "local_shell", "exec_command",
                "terminal"}  # OpenHands' shell tool; its input is {"command": ...}
 # OpenHands' file tool: {"command": "view"|"create"|"str_replace"|"insert"|"undo_edit", "path": ...}.
 FILE_EDITOR = "file_editor"
-PATCH_PATH = re.compile(r"^\*\*\* (?:Update|Add|Delete) File: (.+)$", re.M)
+PATCH_PATH = re.compile(r"^\*\*\* (?:(?:Update|Add|Delete) File|Move to): (.+)$", re.M)
 # Declared by the plan; the shell parser that judges commands is `lockstep.shell_targets` (behavior 5.1).
 REDIRECT = re.compile(r"(?:^|\s)\d?>>?(?!&)\s*([^\s;&|]+)")
 TEE = re.compile(r"\btee\s+(?:-a\s+)?([^\s;&|]+)")
@@ -492,6 +492,7 @@ def decide(call: dict) -> dict | None:
     if command is not None:
         return decide_shell(call, command)
     cwd = Path(call.get("cwd") or os.getcwd())
+    allowed: list[str] = []  # each allowed path's text; a later path in the same call can still be refused
     for raw in paths_from_call(call):
         path = Path(raw) if Path(raw).is_absolute() else cwd / raw
         start = path.parent if path.parent.exists() else cwd
@@ -507,7 +508,8 @@ def decide(call: dict) -> dict | None:
                 continue
             log(spec_root, {"file": rel, "decision": "allow", "why": "openspec_text", "requirements": spec_ids,
                             **({"decisions": governing} if governing else {})})
-            return _out("allow", None, "\n\n".join(x for x in (spec_text, governed) if x))
+            allowed.append("\n\n".join(x for x in (spec_text, governed) if x))
+            continue
         rel = path.resolve().relative_to(root.resolve()).as_posix()
         governing, governed = decision_packet(spec_root, rel, spec_ids) if spec_root is not None else ([], "")
         entry = entry_edit_reason(root, rel)
@@ -527,7 +529,8 @@ def decide(call: dict) -> dict | None:
                 continue
             log(root, {"file": rel, "decision": "allow", "why": "openspec_text", "requirements": spec_ids,
                        **({"decisions": governing} if governing else {})})
-            return _out("allow", None, "\n\n".join(x for x in (spec_text, governed) if x))
+            allowed.append("\n\n".join(x for x in (spec_text, governed) if x))
+            continue
         ctx = context(root, art)
         layout = has_layout(root)
         after = ("After editing: `uv run lockstep check project` (regenerate docstrings)" if layout else
@@ -548,8 +551,8 @@ def decide(call: dict) -> dict | None:
         log(root, {"file": rel, "artifact": art, "decision": "allow", "stale": bool(stale),
                    "text_from": "openspec" if spec_ids else "aes", **({"requirements": spec_ids} if spec_ids else {}),
                    **({"decisions": governing} if governing else {})})
-        return _out("allow", None, packet)
-    return None
+        allowed.append(packet)
+    return _out("allow", None, "\n\n".join(x for x in allowed if x)) if allowed else None
 
 
 def _plan_edit(call: dict, root: Path, rel: str, path: Path) -> str | None:

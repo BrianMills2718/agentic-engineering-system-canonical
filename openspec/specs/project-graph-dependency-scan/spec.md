@@ -12,6 +12,8 @@ Source: inferred by agent from Project Meta scripts/check_capability_consumption
 
 The scan SHALL read the graph named by `--project-graph`, else `PROJECT_GRAPH`, else `~/code2/aes-config/PROJECT_GRAPH.json`, resolved when the scan runs; a missing graph SHALL stop the run (exit 2) naming where to put it. The capability registry SHALL be optional (`--capability-registry` or `CAPABILITY_REGISTRY`); without one the known_consumers check is skipped and the report says so.
 
+Source: inferred by agent (port of Project Meta scripts/check_capability_consumption.py under the D20 decision, commit d000eb8c8, 2026-11-16; spec Purpose)
+
 #### Scenario: graph-from-config
 
 - **WHEN** `PROJECT_GRAPH` names a graph and no registry is named
@@ -21,6 +23,8 @@ The scan SHALL read the graph named by `--project-graph`, else `PROJECT_GRAPH`, 
 
 The scan SHALL report each use of another active record's package, folder or command that the consumer's `depends_on` does not list, with the evidence.
 
+Source: inferred by agent (port of Project Meta scripts/check_capability_consumption.py, commit d000eb8c8, 2026-11-16; spec Purpose)
+
 #### Scenario: undeclared-use-is-found
 
 - **WHEN** a record's code imports a package only another record provides
@@ -29,6 +33,8 @@ The scan SHALL report each use of another active record's package, folder or com
 ### Requirement: write-only-adds
 
 With `--write` the scan SHALL add each undeclared provider to its consumer's `depends_on` and SHALL never remove a hand-written entry.
+
+Source: inferred by agent (port of Project Meta scripts/check_capability_consumption.py, commit d000eb8c8, 2026-11-16; spec Purpose: "--write only adds")
 
 #### Scenario: write-only-adds
 

@@ -14,6 +14,8 @@ resolves:
 
 Governs: docs/retired/2026-11-12.md
 
+Source: inferred by agent (front matter: accepted under "Brian Mills delegated high-confidence planning authority", 2026-09-17; no words of Brian's recorded)
+
 ## Context
 
 After resolving the normative-record taxonomy, component scope, symbol inheritance,

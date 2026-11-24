@@ -61,25 +61,6 @@
    "explain": "One step of the one-tool build that merges when it works: move, plan format, guard, commit checks, plan check, switch users. Defined in proposals/one-planning-tool/DESIGN.md:64. No code."
   },
   {
-   "id": "Q17",
-   "label": "Q17: Not in the code2 repository format",
-   "kind": "AgentQuestion",
-   "explain": "~/code2/AGENTS.md brings each repository into the code2 format when it is next changed; scripts/repo_format.py reports this one 0 of 1 compliant (missing docs/index.md, arc42, a .c4 model, a Makefile that mentions code2check). The one-tool build changes this repository, and its slice 6 replaces code2check with lockstep in the code2 template. Adopt the format now, or in slice 6? Settled by: An argument settles it: the format's code2check target is the part slice 6 replaces, so adding it now would be redone; add docs/index.md now (pointing at wiki/index.md) and the rest in slice 6, when the template installs lockstep."
-  },
-  {
-   "id": "Q17-blocks",
-   "label": "the code2 repository format check, and whether this repository's make check runs lockstep \u2026",
-   "kind": "Decision",
-   "explain": "the code2 repository format check, and whether this repository's make check runs lockstep check after slice 4"
-  },
-  {
-   "id": "code2check",
-   "label": "code2check",
-   "kind": "Concept",
-   "dashed": true,
-   "explain": "code2-template's commit checks (trace, arch, test-first, sources, docmeta) run in every code2 repository's make check. Defined in proposals/one-planning-tool/DESIGN.md:46. No code."
-  },
-  {
    "id": "Q19",
    "label": "Q19: Who runs the plan check",
    "kind": "AgentQuestion",
@@ -164,9 +145,9 @@
   },
   {
    "id": "Q26",
-   "label": "Q26: Guard must check every affected path",
+   "label": "Q26: Guard checked against a real Codex patch event",
    "kind": "AgentQuestion",
-   "explain": "Does the edit guard judge every file and rename destination before allowing a patch? Settled by: Direct source inspection or the bounded execution named in the recommendation; discussion follows documentation repair."
+   "explain": "The edit guard now judges every file and every rename destination in a patch before allowing it (tests in tests/lockstep/test_lockstep_layout_plan.py). Does a real Codex apply_patch event reach the hook in the shape those tests use? Settled by: One captured Codex payload replayed through lockstep-hook."
   },
   {
    "id": "Q26-blocks",
@@ -471,24 +452,6 @@
    "id": "Q2-slice",
    "source": "Q2",
    "target": "slice",
-   "label": "bears on"
-  },
-  {
-   "id": "Q17-to-decision",
-   "source": "Q17",
-   "target": "Q17-blocks",
-   "label": "blocks"
-  },
-  {
-   "id": "Q17-slice",
-   "source": "Q17",
-   "target": "slice",
-   "label": "bears on"
-  },
-  {
-   "id": "Q17-code2check",
-   "source": "Q17",
-   "target": "code2check",
    "label": "bears on"
   },
   {

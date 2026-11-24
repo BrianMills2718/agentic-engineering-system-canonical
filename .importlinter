@@ -1,0 +1,79 @@
+# Generated from docs/architecture/*.c4 by `lockstep check arch gen`. Do not edit by hand.
+
+[importlinter]
+root_packages =
+    agentic_engineering_system
+    lockstep
+    pcw
+
+[importlinter:contract:agentic_engineering_system]
+name = agentic_engineering_system imports only what the diagram allows
+type = forbidden
+source_modules = agentic_engineering_system
+forbidden_modules =
+    lockstep.checks
+    lockstep.hook
+    lockstep.plan_run
+    lockstep.ship
+    pcw
+allow_indirect_imports = True
+
+[importlinter:contract:lockstep.checks]
+name = lockstep.checks imports only what the diagram allows
+type = forbidden
+source_modules = lockstep.checks
+forbidden_modules =
+    agentic_engineering_system
+    lockstep.hook
+    lockstep.plan_run
+    lockstep.ship
+    pcw
+allow_indirect_imports = True
+
+[importlinter:contract:lockstep.hook]
+name = lockstep.hook imports only what the diagram allows
+type = forbidden
+source_modules = lockstep.hook
+forbidden_modules =
+    agentic_engineering_system
+    lockstep.checks
+    lockstep.plan_run
+    lockstep.ship
+    pcw
+allow_indirect_imports = True
+
+[importlinter:contract:lockstep.plan_run]
+name = lockstep.plan_run imports only what the diagram allows
+type = forbidden
+source_modules = lockstep.plan_run
+forbidden_modules =
+    agentic_engineering_system
+    lockstep.checks
+    lockstep.hook
+    lockstep.ship
+    pcw
+allow_indirect_imports = True
+
+[importlinter:contract:lockstep.ship]
+name = lockstep.ship imports only what the diagram allows
+type = forbidden
+source_modules = lockstep.ship
+forbidden_modules =
+    agentic_engineering_system
+    lockstep.checks
+    lockstep.hook
+    lockstep.plan_run
+    pcw
+allow_indirect_imports = True
+
+[importlinter:contract:pcw]
+name = pcw imports only what the diagram allows
+type = forbidden
+source_modules = pcw
+forbidden_modules =
+    agentic_engineering_system
+    lockstep.checks
+    lockstep.hook
+    lockstep.plan_run
+    lockstep.ship
+allow_indirect_imports = True

@@ -1,0 +1,51 @@
+// Lockstep's Python packages, for `lockstep check arch gen`. A part with `python` metadata maps to a module;
+// an arrow means "may import directly". Two mapped parts with no arrow between them become an import-linter
+// forbidden contract in .importlinter, so a commit that adds such a direct import fails `make check`.
+// The rest of the `lockstep` package is one unmapped part: every mapped part goes through it, and a mapped
+// ancestor package would forbid its own children. Arrows were read from the code's import graph on 2026-11-24.
+specification {
+  element package
+}
+model {
+  ls_core = package 'Lockstep core' {
+    description 'The rest of package lockstep: the plan readers, the whole-tree check and the layout command'
+  }
+  ls_checks = package 'Commit checks' {
+    description 'lockstep check <name>: trace, sources, project, status, arch and the others'
+    metadata { python 'lockstep.checks' }
+  }
+  ls_hook = package 'Edit hook' {
+    description 'lockstep-hook: hands over requirement text and refuses unplanned writes'
+    metadata { python 'lockstep.hook' }
+  }
+  ls_ship = package 'ship' {
+    description 'Runs the repository check and merges only the commit that passed; stands alone'
+    metadata { python 'lockstep.ship' }
+  }
+  ls_plan_run = package 'run-plan' {
+    description 'Runs one plan in a fresh worktree and records the run'
+    metadata { python 'lockstep.plan_run' }
+  }
+  ls_pcw = package 'pcw alias' {
+    description 'The old package name, kept for repositories that still call it'
+    metadata { python 'pcw' }
+  }
+  ls_aes_lib = package 'aes library' {
+    description 'The old aes command line; retires with its last user (code2-workspace decision 0009)'
+    metadata { python 'agentic_engineering_system' }
+  }
+  ls_checks -> ls_core 'imports'
+  ls_hook -> ls_core 'imports'
+  ls_pcw -> ls_core 'aliases'
+  ls_core -> ls_checks 'imports'
+  ls_core -> ls_hook 'imports'
+  ls_core -> ls_plan_run 'imports'
+  ls_core -> ls_aes_lib 'reads AES plans'
+}
+views {
+  view lockstep_packages {
+    title 'Which Lockstep packages may import which'
+    include ls_core, ls_checks, ls_hook, ls_ship, ls_plan_run, ls_pcw, ls_aes_lib
+    autoLayout TopBottom
+  }
+}

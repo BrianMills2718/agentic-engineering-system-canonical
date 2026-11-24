@@ -12,6 +12,8 @@ Source: Brian's active Lockstep completion goal, 2026-11-07; narrow retained-eng
 
 The evidence and reconciliation library APIs SHALL accept an optional mapping from existing verification-subject ids to literal repository-relative required file or directory paths. Omitting the mapping SHALL preserve current behavior. When ordinary freshness is CURRENT but applicable required paths lack recorded declared coverage, the observation SHALL be UNKNOWN and SHALL NOT support or refute criterion standing. Its original record and assessments SHALL remain unchanged. Existing revision, target-entry, supersession and qualified-refutation rules SHALL remain authoritative.
 
+Source: inferred by agent (archived change 2026-11-07-required-evidence-inputs, proposal.md: Brian's 2026-11-07 Lockstep completion goal authorizes narrow AES integration; no words of Brian's recorded)
+
 #### Scenario: weak-history-cannot-mask-staleness
 
 - **WHEN** a weak subprocess observation omits a required source directory, a correctly declared observation is later recorded, and that source changes again
@@ -30,6 +32,8 @@ The evidence and reconciliation library APIs SHALL accept an optional mapping fr
 ### Requirement: Literal repository path coverage
 
 Required-input qualification SHALL normalize lexical path components, permit a declared directory to cover descendant inputs, and reject unsafe, absolute, traversal, wildcard and repository-escaping paths. A child file SHALL NOT cover its ancestor directory. For observations with a dependency basis, explicit declared dependencies SHALL supply coverage; discovered imports SHALL NOT substitute for required declarations. Legacy observations without a dependency basis SHALL use their recorded dependency paths.
+
+Source: inferred by agent (archived change 2026-11-07-required-evidence-inputs, proposal.md: Brian's 2026-11-07 Lockstep completion goal authorizes narrow AES integration; no words of Brian's recorded)
 
 #### Scenario: unsafe-paths-fail
 

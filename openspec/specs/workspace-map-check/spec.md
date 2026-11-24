@@ -12,6 +12,8 @@ Source: inferred by agent from Project Meta `scripts/workspace_map*.py` (and `sc
 
 The project graph SHALL be read from `PROJECT_GRAPH` or `~/code2/aes-config/PROJECT_GRAPH.json`; `workspace_map_extras.yaml` and `archive_map_registry.yaml` SHALL be read from beside the graph (`WORKSPACE_MAP_EXTRAS` and `ARCHIVE_MAP_REGISTRY` override); the owner, the GitHub accounts and the concern repository SHALL come from the environment or `graph-config.yaml` beside the graph. A missing file or value SHALL stop the run with a message naming where to put it, and the run SHALL exit 2, not the findings code 1.
 
+Source: inferred by agent (port of Project Meta scripts/workspace_map*.py, commit e529a599a, 2026-11-16: graph, lists and settings from aes-config; spec Purpose)
+
 #### Scenario: settings-come-from-config
 
 - **WHEN** the extras file is not beside the graph and `WORKSPACE_MAP_EXTRAS` is not set
@@ -21,6 +23,8 @@ The project graph SHALL be read from `PROJECT_GRAPH` or `~/code2/aes-config/PROJ
 
 The check SHALL run the dependency scanner (`scripts/check_capability_consumption.py`) over the configured project graph and SHALL report, as an actionable finding, every repository that uses another repository (import, path or command) not listed in its `depends_on`. It replaced the INFO line "dependency scan not ported yet" on 2026-11-16, when the scanner was ported (retirement plan step 4).
 
+Source: inferred by agent (port of Project Meta scripts/workspace_map*.py, commits e529a599a and d000eb8c8, 2026-11-16; spec Purpose)
+
 #### Scenario: undeclared-dependency-is-a-finding
 
 - **WHEN** a graph record's code imports another record's package and its `depends_on` does not list that record
@@ -29,6 +33,8 @@ The check SHALL run the dependency scanner (`scripts/check_capability_consumptio
 ### Requirement: alert-once-per-state-change
 
 The alert SHALL open (or comment on) the keyed concern and send one phone message only when the hash of the actionable findings differs from the stored one, stay silent while it is unchanged, and close the concern only when the stored state says it is open. The state files keep the same keys and hash format as Project Meta's.
+
+Source: inferred by agent (port of Project Meta scripts/workspace_map_alert.py, commit e529a599a, 2026-11-16; spec Purpose)
 
 #### Scenario: alert-once-per-state-change
 
@@ -43,6 +49,8 @@ The alert SHALL open (or comment on) the keyed concern and send one phone messag
 ### Requirement: crash-is-not-a-finding
 
 A crash of the check SHALL exit 2 and print CRASH, so it never looks like an ordinary day with findings (exit 1).
+
+Source: inferred by agent (port of Project Meta scripts/workspace_map*.py, commit e529a599a, 2026-11-16; spec Purpose)
 
 #### Scenario: crash-is-not-a-finding
 

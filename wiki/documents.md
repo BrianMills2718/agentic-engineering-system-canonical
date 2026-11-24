@@ -1,6 +1,9 @@
 ---
-description: Every tracked AES file with a source-grounded purpose, role and review disposition, grouped for navigation
+type: Reference
+title: Every file
+description: Tracked AES files with a source-grounded purpose, role and review disposition, grouped for navigation; covers the files reviewed on 2026-11-13 and 2026-11-14, not those added since
 status: current
+last_checked: 2026-11-14
 ---
 
 # Every file: purpose and review disposition

@@ -10,6 +10,8 @@ last_checked: 2026-11-11
 
 This page is history. Nothing here is a current rule; current state is on [goal.md](goal.md) ([CLAUDE.md:31-32](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/b0d4cbd174e78c075eed5248beb00509d636d0b0/CLAUDE.md#L31-L32)).
 
+On 2026-11-24, 326 fully merged remote branches were removed; their names, commits and the restore command are in [the branch record](../docs/retired/2026-11-24-branches.md).
+
 ## v0.1 bootstrap (2026-09-16 to 2026-09-25)
 
 - The repository began on 2026-09-16 as a clean convergence target ([docs/architecture/GOAL.md:68-72](../docs/architecture/GOAL.md#L68-L72)); see [Decision 0001](../docs/decisions/0001-canonical-convergence-boundary.md).

@@ -210,7 +210,7 @@
    "blocks": "the code2 repository format check, and whether this repository's make check runs lockstep check after slice 4",
    "resolves_with": "An argument settles it: the format's code2check target is the part slice 6 replaces, so adding it now would be redone; add docs/index.md now (pointing at wiki/index.md) and the rest in slice 6, when the template installs lockstep.",
    "owner": "agent",
-   "status": "open",
+   "status": "resolved",
    "sources": [
     "/home/brian/code2/AGENTS.md:49",
     "proposals/one-planning-tool/DESIGN.md:75",
@@ -219,7 +219,8 @@
    "touches": [
     "slice",
     "code2check"
-   ]
+   ],
+   "evidence": "Resolved 2026-11-24 in the format cleanup Brian asked for (\"do the cleanup carefully\"): docs/architecture/arc42.md maps the twelve arc42 sections to their owning documents; docs/architecture/lockstep.c4 maps Lockstep's packages and `lockstep check arch gen` writes .importlinter from it (6 contracts; a probe import from lockstep.checks into agentic_engineering_system gave broken_contracts=1); `make check` runs `make check-format` (arch, sources, docmeta, test-first, changed and the whole-tree check). scripts/repo_format.py reports compliant=1 of=1. code2check is gone, so the slice-6 reason to wait no longer applies."
   },
   {
    "id": "Q9",
@@ -464,14 +465,14 @@
   },
   {
    "id": "Q26",
-   "short": "Guard must check every affected path",
-   "question": "Does the edit guard judge every file and rename destination before allowing a patch?",
+   "short": "Guard checked against a real Codex patch event",
+   "question": "The edit guard now judges every file and every rename destination in a patch before allowing it (tests in tests/lockstep/test_lockstep_layout_plan.py). Does a real Codex apply_patch event reach the hook in the shape those tests use?",
    "owner": "agent",
    "status": "open",
    "blocks": "A broader claim about automatic, effective AES operation; not the documentation-only repair.",
-   "resolves_with": "Direct source inspection or the bounded execution named in the recommendation; discussion follows documentation repair.",
-   "recommendation": "Repair complete write-set aggregation and native payload adaptation in a separately authorized implementation; verify the actual host event as well as the decision function.",
-   "evidence": "Read-only decide() probes in block mode allowed a planned-first/unplanned-second patch and an unplanned rename destination; the extra file alone was denied.",
+   "resolves_with": "One captured Codex payload replayed through lockstep-hook.",
+   "recommendation": "Capture one real Codex apply_patch PreToolUse payload from the hook log and add it as a test fixture.",
+   "evidence": "Fixed 2026-11-24: decide() returned allow for the first path that passed, so a patch touching a file that implements a requirement and adding an unplanned file was allowed; and PATCH_PATH did not read `*** Move to:`. Both now refuse (test_a_patch_is_refused_when_any_file_in_it_is_unplanned, test_a_rename_to_an_unplanned_name_is_refused; each failed on the old code). The tests feed lockstep-hook's main() the tool_input keys the hook reads; no live Codex event was captured.",
    "sources": [
     "src/lockstep/hook.py",
     "tests/lockstep/test_lockstep_hook.py"

@@ -47,13 +47,13 @@
         {
           "name": "code2 repository format",
           "command": "python3 $HOME/code2/workspace/scripts/repo_format.py .",
-          "exit_status": 1,
+          "exit_status": 0,
           "counts": {
-            "compliant": 0,
+            "compliant": 1,
             "repositories": 1,
-            "findings": 3
+            "findings": 0
           },
-          "tracked_by": "Q17"
+          "evidence_revision": "77046bd3e"
         },
         {
           "name": "typed-graph/v1 schema (domain graph and open-questions map)",
@@ -300,6 +300,20 @@
       "tests/learning/test_feedback_records.py",
       "tests/greenfield/test_adopt.py"
     ]
+  },
+  "spectrum_use": {
+    "schema": {
+      "notation": "Pydantic models in Python",
+      "program_use": "the aes library and the feedback loop validate each record against them when reading or writing it"
+    },
+    "rules": {
+      "notation": "Python code and a YAML rule register",
+      "program_use": "evidence.py computes each requirement's standing; scripts/rules builds the rules page from the register"
+    },
+    "instances": {
+      "notation": "YAML records (.aes/target.yaml, docs/rules/register.yaml)",
+      "program_use": "the aes library and its tests read the target fixture; scripts/rules reads the register"
+    }
   },
   "generated": [
     "docs/planning/domain.implemented.json",

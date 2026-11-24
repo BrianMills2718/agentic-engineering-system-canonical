@@ -12,6 +12,8 @@ Source: inferred by agent from Project Meta's `scripts/failed_unit_watch.py`, po
 
 The owner and the fallback concern repository SHALL come from the environment or from `graph-config.yaml` beside the project graph, and a missing value SHALL stop the run with a message naming where to set it.
 
+Source: inferred by agent (port of Project Meta scripts/failed_unit_watch.py, commit 9913ab74e, 2026-11-16, "owner and concern repo from config"; spec Purpose)
+
 #### Scenario: settings-come-from-config
 
 - **WHEN** neither the environment nor `graph-config.yaml` names an owner

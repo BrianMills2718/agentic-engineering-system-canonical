@@ -14,6 +14,8 @@ amends:
 
 Governs: .agentic/repo.yaml, docs/architecture/GOAL.md
 
+Source: Brian, 2026-09-26: "ok i agree with that ... archive the non canonical version" (this record's front matter accepted_by)
+
 ## Context
 
 On 2026-09-26 four authority surfaces disagreed about which repository owns

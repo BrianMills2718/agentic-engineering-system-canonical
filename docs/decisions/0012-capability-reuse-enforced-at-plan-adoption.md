@@ -12,6 +12,8 @@ reversible: true
 
 Governs: docs/architecture/SYSTEM_BOUNDARY.md#aes-cap-002--external-first-provider-sourcing
 
+Source: Brian, 2026-10-08: "i approve" (this record's front matter accepted_by; his request is quoted in its Context section)
+
 ## Consolidation follow-up, 2026-11-13
 
 [Decision 0014](0014-ecosystem-consolidation-and-legacy-review.md) adopts AES-owned

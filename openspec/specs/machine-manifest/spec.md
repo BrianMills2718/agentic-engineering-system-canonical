@@ -12,6 +12,8 @@ Source: inferred by agent from the AES consolidation plan item 6, approved by Br
 
 `scripts/machine_manifest.py build` SHALL write one entry per unit name, sorted by name, covering every `*.timer`, `*.service`, `*.path`, `*.socket` and `*.slice` file and every `*.d/*.conf` drop-in in the unit folder. Each file SHALL carry a source: for a symlink, the target's repository (`owner/name` from its origin remote, or `no-remote`), its path inside the repository and whether it is tracked and committed; for a file `scripts/timers.py` generated, `job-list` with the job name; otherwise `local-only`. Enabled state SHALL be read with `systemctl --user is-enabled`; the script changes nothing on the machine.
 
+Source: inferred by agent (AES consolidation plan item 6, Decision 25 A; commit 8a625661d, 2026-11-16; spec Purpose)
+
 #### Scenario: every-unit-has-a-source
 
 - **WHEN** the unit folder holds a symlink into a git repository, a generated job, a regular file and drop-ins
@@ -37,6 +39,8 @@ Source: inferred by agent, from the AES consolidation plan row 11 ("Before item 
 
 `check` SHALL list each symlink whose target is missing, outside any git repository, not tracked, or changed and not committed; each file in the saved manifest that is no longer on disk; and each file on disk that the saved manifest lacks. It SHALL exit 1 when any list is non-empty and 0 when all are empty.
 
+Source: inferred by agent (AES consolidation plan item 6, Decision 25 A; commit 8a625661d, 2026-11-16; spec Purpose)
+
 #### Scenario: missing-or-untracked-target-is-reported
 
 - **WHEN** a symlink points at a missing file or a file git does not track, or the disk and the manifest differ
@@ -45,6 +49,8 @@ Source: inferred by agent, from the AES consolidation plan row 11 ("Before item 
 ### Requirement: output-is-stable
 
 The manifest SHALL carry no timestamp and SHALL list units and drop-ins in sorted order, so an unchanged machine produces the same bytes and a change shows as a small diff.
+
+Source: inferred by agent (AES consolidation plan item 6, Decision 25 A; commit 8a625661d, 2026-11-16)
 
 #### Scenario: output-is-stable
 
@@ -55,6 +61,8 @@ The manifest SHALL carry no timestamp and SHALL list units and drop-ins in sorte
 
 The manifest SHALL record only how many `Environment=` and `EnvironmentFile=` lines a service and its drop-ins have, never their values or paths, and from `ExecStart` only the program and the script path, never other arguments.
 
+Source: inferred by agent (commit 8a625661d, 2026-11-16: "environment values are never written"; the manifest lives in a private repository; spec Purpose)
+
 #### Scenario: no-environment-values-are-written
 
 - **WHEN** a service or drop-in sets a value through `Environment=`, `EnvironmentFile=` or a command argument
@@ -64,6 +72,8 @@ The manifest SHALL record only how many `Environment=` and `EnvironmentFile=` li
 
 `check-units` SHALL compare each file under the units repository folder (default `~/code2/aes-config/machine-units`, laid out as the unit folder is) with the same path in the unit folder, print counts of same, differ, missing and under-a-symlink files and of recorded symlinks (a `NAME.symlink` file holds the link target text), list the differing ones, and exit 1 when any file or recorded symlink differs. Missing files do not fail it: a clean machine is expected to lack them. It changes nothing.
 
+Source: inferred by agent (AES consolidation plan item 6, Decision 25 A; spec Purpose)
+
 #### Scenario: repository-copies-can-be-compared
 
 - **WHEN** the disk has one identical, one differing and one absent copy of repository files
@@ -72,6 +82,8 @@ The manifest SHALL record only how many `Environment=` and `EnvironmentFile=` li
 ### Requirement: install-never-deletes-or-writes-through-links
 
 `install-units` SHALL be a dry run unless `--apply` is given, printing what it would install or replace. With `--apply` it SHALL copy only files that are missing or differ, first copying each differing disk file to `~/archive/systemd-units-replaced/<path>-<date>/`; it SHALL never delete a file and SHALL skip, and report, any destination that is a symlink or sits under one. It SHALL run `systemctl --user daemon-reload` only when `--daemon-reload` is also given.
+
+Source: inferred by agent (AES consolidation plan item 6 slice 2 safe-install rules; workspace rule against deleting without asking)
 
 #### Scenario: install-never-deletes-or-writes-through-links
 
