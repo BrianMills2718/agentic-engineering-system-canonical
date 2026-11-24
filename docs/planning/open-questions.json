@@ -925,9 +925,9 @@
    "resolves_with": "Compare the two specs scenario by scenario; move anything unique into lockstep-doc-facts.",
    "recommendation": "Keep only the general spec and state in AES config that AES uses it.",
    "default": "The 5 stay on the accepted list.",
-   "evidence": "Its 3 scenarios have no tests and its 2 requirements repeat lockstep-doc-facts.",
+   "evidence": "Its 3 scenarios have no tests and its 2 requirements repeat lockstep-doc-facts. Resolved 2026-11-23 by the recommendation (Brian: \"i approve\"): compared scenario by scenario, nothing unique; aes-documentation-projection retired (OpenSpec change 2026-11-23-drop-aes-doc-projection-copy, archived), lockstep.yaml notes that its projections follow lockstep-doc-facts, and the 5 findings left trace-accepted.txt.",
    "owner": "agent",
-   "status": "open",
+   "status": "resolved",
    "touches": [
     "lockstep-today"
    ],

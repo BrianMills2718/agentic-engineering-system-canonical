@@ -405,6 +405,8 @@ layout:
   - lockstep-plan-check/work-units-form-a-checked-dag
   tests:
   - tests/lockstep/test_lockstep_work_units.py
+# These declared fact blocks follow the general lockstep-doc-facts capability (openspec/specs/lockstep-doc-facts);
+# AES keeps no separate spec for them (Brian, 2026-11-23: "i approve", to Q51).
 projections:
   - id: projection-component-assessment
     source: src/lockstep/doc_projection.py

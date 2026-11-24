@@ -1947,18 +1947,6 @@
       "has_standard_source_summary_field": false
     },
     {
-      "path": "openspec/specs/aes-documentation-projection/spec.md",
-      "summary": "Requires AES source-owned assessment projection and a read-only facts gate, with native-edit, bypass-refusal and recovery scenarios.",
-      "role": "normative specification",
-      "disposition": "keep",
-      "reason": "Preserves distinct configuration, contract or bounded evidence/decision lineage.",
-      "source_locator": "Whole artifact, reviewed against the self-adoption configuration and native events.",
-      "summary_origin": "content_review",
-      "sha256": "12fab85a7a802b1dc03acc5b5a42e780e08b2f838832e4b553d0aa37fd331bfb",
-      "identity_basis": "Reviewed source bytes in the candidate tree.",
-      "has_standard_source_summary_field": false
-    },
-    {
       "path": "openspec/specs/inert-characterization/spec.md",
       "summary": "Requires inert Git characterization/producer identification preserving actual revision, dirty state and source facts. This is the merged current capability specification.",
       "role": "normative",

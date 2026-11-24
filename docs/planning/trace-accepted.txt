@@ -1,10 +1,5 @@
-unimplemented aes-documentation-projection/aes-checks-declared-fact-freshness-without-broad-regeneration
-unimplemented aes-documentation-projection/aes-projects-its-source-owned-component-assessment
 unknown compliance-list/a-current-title-is-left-alone
 unknown compliance-list/a-failed-retitle-fails-the-call
 unknown compliance-list/a-reopened-concern-takes-the-current-title
 unknown compliance-list/an-issue-that-already-records-the-occurrence-is-still-retitled
 unknown compliance-list/an-open-concern-s-title-follows-the-repository-s-current-status
-untested aes-documentation-projection/bypassed-refresh-is-refused
-untested aes-documentation-projection/explicit-refresh-recovers
-untested aes-documentation-projection/one-source-updates-both-views

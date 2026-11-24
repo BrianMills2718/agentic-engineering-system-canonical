@@ -8,8 +8,6 @@ which tests cover each scenario at this commit. For pass or fail, run `make chec
 
 | Requirement | State | Implemented by |
 | --- | --- | --- |
-| `aes-documentation-projection/aes-projects-its-source-owned-component-assessment` | unimplemented | - |
-| `aes-documentation-projection/aes-checks-declared-fact-freshness-without-broad-regeneration` | unimplemented | - |
 | `client-manifest/every-setting-has-an-owner` | not run at this revision | `client_manifest` (`scripts/client_manifest.py:1`), `client_manifest.build` (`scripts/client_manifest.py:106`) |
 | `client-manifest/owned-settings-hold-no-value` | not run at this revision | `client_manifest` (`scripts/client_manifest.py:1`), `client_manifest._entry` (`scripts/client_manifest.py:82`) |
 | `client-manifest/no-secret-values-are-written` | not run at this revision | `client_manifest` (`scripts/client_manifest.py:1`), `client_manifest.safe` (`scripts/client_manifest.py:58`) |
@@ -212,9 +210,6 @@ which tests cover each scenario at this commit. For pass or fail, run `make chec
 
 | Scenario | Requirement | State | Tests |
 | --- | --- | --- | --- |
-| `aes-documentation-projection/one-source-updates-both-views` | `aes-documentation-projection/aes-projects-its-source-owned-component-assessment` | untested | - |
-| `aes-documentation-projection/bypassed-refresh-is-refused` | `aes-documentation-projection/aes-checks-declared-fact-freshness-without-broad-regeneration` | untested | - |
-| `aes-documentation-projection/explicit-refresh-recovers` | `aes-documentation-projection/aes-checks-declared-fact-freshness-without-broad-regeneration` | untested | - |
 | `client-manifest/every-setting-has-an-owner` | `client-manifest/every-setting-has-an-owner` | not run at this revision | `tests/test_client_manifest.py::test_every_setting_on_disk_gets_its_owner` |
 | `client-manifest/owned-settings-hold-no-value` | `client-manifest/owned-settings-hold-no-value` | not run at this revision | `tests/test_client_manifest.py::test_only_unowned_settings_carry_a_value` |
 | `client-manifest/no-secret-values-are-written` | `client-manifest/no-secret-values-are-written` | not run at this revision | `tests/test_client_manifest.py::test_no_credential_reaches_the_manifest` |
