@@ -21,7 +21,7 @@ clean home folder (hidden tests 0/3 then 3/3, and 0/10 then 10/10) and merged wi
 
 **Second user, done 2026-11-22:** with agent login folders holding none of Brian's instructions, Claude and Codex each
 ran a plan to passing hidden tests and merged through `ship`; the second merge reran the hidden tests after rebasing
-(minimal-core plan section 8; [https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/2b2c089f002f2eb165bdc2b55ac69adcdbc2da24/docs/planning/second-user.goal.md](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/2b2c089f002f2eb165bdc2b55ac69adcdbc2da24/docs/planning/second-user.goal.md)). The template's commit
+(minimal-core plan section 8; [second-user.goal.md](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/2b2c089f002f2eb165bdc2b55ac69adcdbc2da24/docs/planning/second-user.goal.md)). The template's commit
 check no longer stages the git-ignored `docs/status.md` (#1009).
 
 **Milestone reopened 2026-11-23:** the core list missed the linked chain (requirement -> scenario -> test -> file
