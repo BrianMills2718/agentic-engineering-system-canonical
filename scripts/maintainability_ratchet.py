@@ -13,7 +13,8 @@ Python files under the given folders:
 
 Findings are counted without paths or line numbers, so code moved within or between files, or a file
 renamed, is not new; the price is that removing one finding and adding a like one elsewhere passes.
-Not covered: an existing helper rewritten under a new name (that needs reading for meaning). Exit 0 when
+Not covered: an existing helper rewritten under a new name (that needs reading for meaning), or a copy
+with renamed variables (windows match exact tokens). Exit 0 when
 nothing is new or the base is missing, 1 on a new finding, 2 when a tool fails. Base results are cached
 under the git folder by base commit and a hash of this script. Pilot for AES (Brian, 2026-11-24, slice 3
 of the Reddit-ideas plan: "i will trust your jdugement on the impelemtnation prirotiy").
@@ -34,7 +35,7 @@ from collections import Counter, defaultdict
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
-from lockstep.checks.changed import compare_with, extract  # noqa: E402 -- the path is set just above
+from lockstep.checks.changed import compare_with, extract  # noqa: E402  # the path is set just above
 
 RUFF = ["uvx", "ruff@0.14.0", "check", "--isolated", "--select", "BLE,S110,S112,C901", "--output-format", "json", "--exit-zero"]
 WINDOW = 6  # code lines in a duplicate window
@@ -98,16 +99,18 @@ def _code_lines(text: str) -> list[str]:
     except (tokenize.TokenError, SyntaxError):  # not parseable: fall back to the plain lines
         return [line.strip() for line in text.splitlines() if line.strip() and not line.strip().startswith("#")]
     rows: dict = defaultdict(list)
-    statement_start = True
+    statement_start, in_import = True, False
     for tok in tokens:
         if tok.type == tokenize.NEWLINE:
-            statement_start = True
-        elif tok.type in SKIPPED or (tok.type == tokenize.STRING and statement_start):
-            continue  # a string that starts a statement is a docstring or a bare string
+            statement_start, in_import = True, False
+        elif in_import or tok.type in SKIPPED or (tok.type == tokenize.STRING and statement_start):
+            continue  # a whole import statement, or a string that starts one (docstring, bare string)
+        elif statement_start and tok.string in ("import", "from"):
+            in_import = True
         else:
             statement_start = False
             rows[tok.start[0]].append(tok.string)
-    return [" ".join(row) for _, row in sorted(rows.items()) if row[0] not in ("import", "from")]
+    return [" ".join(row) for _, row in sorted(rows.items())]
 
 
 def _duplicates(cwd: Path, files: list[str]) -> dict[str, list[str]]:
@@ -156,13 +159,14 @@ def _base_findings(root: Path, base: str, folders: list[str]) -> dict:
         files = sorted(p.relative_to(base_root).as_posix() for p in base_root.rglob("*.py"))
         found = _findings(base_root, files)
     cached.parent.mkdir(parents=True, exist_ok=True)
-    with tempfile.NamedTemporaryFile("w", dir=cached.parent, delete=False, suffix=".tmp") as out:
-        try:
-            json.dump(found, out)
-        except BaseException:
-            os.unlink(out.name)
-            raise
-    os.replace(out.name, cached)
+    fd, temp = tempfile.mkstemp(dir=cached.parent, suffix=".tmp")
+    os.close(fd)
+    try:
+        Path(temp).write_text(json.dumps(found))
+        os.replace(temp, cached)
+    except BaseException:
+        Path(temp).unlink(missing_ok=True)
+        raise
     return found
 
 

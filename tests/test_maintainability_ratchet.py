@@ -207,3 +207,11 @@ def test_same_docstring_text_in_a_new_file_is_not_duplicate_code(tmp_path, capsy
     (root / "src/b.py").write_text(doc + "B = 2\n")
     code, out = run(root, capsys)
     assert code == 0, out
+
+
+def test_shared_multi_line_import_is_not_duplicate_code(tmp_path, capsys):
+    names = "".join(f"    Name{i},\n" for i in range(8))
+    root = repo(tmp_path, {"src/a.py": f"from .records import (\n{names})\n\nA = Name1\n"})
+    (root / "src/b.py").write_text(f"from .records import (\n{names})\n\nB = Name2\n")
+    code, out = run(root, capsys)
+    assert code == 0, out
