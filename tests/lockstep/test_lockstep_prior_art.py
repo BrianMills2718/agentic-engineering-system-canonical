@@ -196,8 +196,8 @@ def test_real_record_against_the_real_schema():
 
     schema = json.loads(SCHEMA.read_text())
     Draft202012Validator.check_schema(schema)
-    # The change that ported the check moves to openspec/changes/archive/<date>-portable-ship/ when archived.
-    own = next((ROOT / "openspec" / "changes").rglob("*portable-ship/prior-art.json"))
+    # The record of the change that ported the check, copied from its archived folder before the archive was removed.
+    own = Path(__file__).with_name("fixtures") / "prior-art-portable-ship.json"
     record = json.loads(own.read_text())
     assert list(Draft202012Validator(schema).iter_errors(record)) == []
 

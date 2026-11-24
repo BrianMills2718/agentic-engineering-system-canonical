@@ -12,7 +12,7 @@ Source: Brian, 2026-11-16, "i assume this should be configurable within aes. i.e
 
 The command SHALL read the subreddits to watch from `scripts/learning_loop/external_sources.yaml`. Each entry SHALL have a unique name, a non-empty reason, a listing (`top` or `new`), a window (`day`, `week`, `month` or `year`), a post limit from 1 to 100 and a minimum score of 0 or more. An invalid file SHALL make the command exit non-zero before any fetch.
 
-Source: Brian, 2026-11-16: "i assume this should be configurable within aes" (openspec/changes/archive/2026-11-16-external-idea-intake/proposal.md)
+Source: Brian, 2026-11-16: "i assume this should be configurable within aes" (https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/02bb545f4c56638428e12bdecc59f532ab99b478/openspec/changes/archive/2026-11-16-external-idea-intake/proposal.md)
 
 #### Scenario: invalid-config-refused
 
@@ -56,7 +56,7 @@ Source: inferred by agent (archived change 2026-11-16-external-idea-intake, prop
 
 When a project profile is given, the command SHALL ask a light model, once per subreddit, which of that subreddit's new posts could help which profiled project, and SHALL write a digest of only the posts judged useful, grouped by project with the model's one-line reason. The score-only digest SHALL still be written. A post named by the model that was not in the listing SHALL be ignored. A model failure SHALL be logged for that subreddit, the run SHALL exit non-zero, and that subreddit's posts SHALL NOT be marked seen.
 
-Source: Brian, 2026-11-16: "i should be thinking about usefulness to my proejcts not just score" (openspec/changes/archive/2026-11-16-external-idea-relevance/proposal.md)
+Source: Brian, 2026-11-16: "i should be thinking about usefulness to my proejcts not just score" (https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/02bb545f4c56638428e12bdecc59f532ab99b478/openspec/changes/archive/2026-11-16-external-idea-relevance/proposal.md)
 
 #### Scenario: useful-digest-groups-by-project
 
@@ -72,7 +72,7 @@ Source: Brian, 2026-11-16: "i should be thinking about usefulness to my proejcts
 
 The command SHALL treat every Reddit post whose capture folder exists in `raw/sources/` (named `<date>-reddit-<id>-<slug>`) as already seen.
 
-Source: Brian, 2026-11-16: "on 10a yes i approve" (Decision 10A, which includes marking already-assessed posts as seen; openspec/changes/archive/2026-11-16-external-idea-quality/proposal.md)
+Source: Brian, 2026-11-16: "on 10a yes i approve" (Decision 10A, which includes marking already-assessed posts as seen; https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/02bb545f4c56638428e12bdecc59f532ab99b478/openspec/changes/archive/2026-11-16-external-idea-quality/proposal.md)
 
 #### Scenario: already-assessed-dropped
 
@@ -83,7 +83,7 @@ Source: Brian, 2026-11-16: "on 10a yes i approve" (Decision 10A, which includes 
 
 For each post the judge SHALL return useful, not useful or need more (comments, linked pages or both). For need-more posts the command SHALL read exactly the requested material and the judge SHALL return a final verdict from it. The model SHALL be run with no tools and every post, comment and page text SHALL be marked to it as untrusted. Posts the judge gave no verdict for SHALL stay unseen so a later run offers them again (with no retry cap: a post the model keeps skipping is re-judged each run). The reader SHALL refuse non-http(s) links and hosts that resolve to non-public addresses, and SHALL re-check each redirect. The useful digest SHALL list each post once with its projects. Each useful post SHALL record what it was judged from.
 
-Source: Brian, 2026-11-16: "the agent should be able to react dynamically i would think on how much to explore" (openspec/changes/archive/2026-11-16-external-idea-depth/proposal.md)
+Source: Brian, 2026-11-16: "the agent should be able to react dynamically i would think on how much to explore" (https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/02bb545f4c56638428e12bdecc59f532ab99b478/openspec/changes/archive/2026-11-16-external-idea-depth/proposal.md)
 
 #### Scenario: depth-judge-reads-more-when-asked
 
@@ -94,7 +94,7 @@ Source: Brian, 2026-11-16: "the agent should be able to react dynamically i woul
 
 A systemd user timer SHALL run `external_ideas.py` with the project profile once a day, from the refreshed clone of AES `main`, writing its output under `~/projects/data/external-ideas/`. A failed run SHALL fail the unit.
 
-Source: Brian, 2026-11-16: "i would think it should run every day" (openspec/changes/archive/2026-11-16-external-idea-timer/proposal.md)
+Source: Brian, 2026-11-16: "i would think it should run every day" (https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/02bb545f4c56638428e12bdecc59f532ab99b478/openspec/changes/archive/2026-11-16-external-idea-timer/proposal.md)
 
 #### Scenario: daily-timer-runs-intake
 

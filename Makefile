@@ -70,7 +70,13 @@ check-format:  ## The code2 format checks the template's make check runs: import
 	out=$$($(LOCKSTEP) check --repo . --base "$$base" 2>&1); ec=$$?; \
 	if [ $$ec -ne 0 ] || ! printf '%s\n' "$$out" | grep -q '^OUTCOME '; then printf '%s\n' "$$out" | tail -n 20; echo "check-format: the whole-tree check failed (exit $$ec)"; exit 1; fi; \
 	printf '%s\n' "$$out" | grep '^OUTCOME '
+	@$(MAKE) --no-print-directory check-md-cap
 	@echo "RESULT check-format exit=0"
+
+check-md-cap:  ## The 100-file Markdown cap (Brian, 2026-10-07), its exception in .md-file-cap.yaml, wiki reachability, layout and durable documents, read from the committed tree
+	@out=$$($(PYTHON) scripts/md_file_cap.py --repo . --ref HEAD 2>&1); ec=$$?; \
+	if [ $$ec -ne 0 ] || ! printf '%s\n' "$$out" | grep -q '^md-file-cap: '; then printf '%s\n' "$$out" | tail -n 20; echo "check-md-cap: failed (exit $$ec)"; exit 1; fi; \
+	printf '%s\n' "$$out" | grep '^md-file-cap: '
 
 check-copies:  ## A planned file's plan copy must be current and a fixed: file must have one (spec lockstep-projection); the committed status page and links file keep their own refresh
 	@out=$$(PYTHONPATH=src $(PYTHON) -c 'import sys; from lockstep.checks.cli import run; sys.exit(run(["project", "--check"]))' 2>&1); \

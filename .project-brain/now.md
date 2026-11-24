@@ -91,9 +91,11 @@ carry cog blocks filled from the rows, its edit hook refuses an unplanned file u
 Edit, hidden tests went 0/3 to 3/3 ([evidence](../docs/evidence/template-layout-proof-2026-11-23/README.md)); the
 departure report now skips a row's test file and `docs/specs/` links. Slice 2 is complete.
 
-**Format cleanup, 2026-11-24** (Brian: "do the cleanup carefully"): this repository now meets the code2 format (`scripts/repo_format.py` compliant 1 of 1; Q17 resolved). New: [arc42 map](../docs/architecture/arc42.md), [lockstep.c4](../docs/architecture/lockstep.c4) and the `.importlinter` contracts written from it; every requirement and decision has a `Source:` line (`lockstep check sources` missing 0); `make check` runs `check-format` (arch, sources, docmeta, test-first, changed, whole-tree). The edit hook now judges every file and rename destination in a patch before allowing it (Q26 narrowed to a live Codex payload). 326 merged remote branches removed ([restore list](../docs/retired/2026-11-24-branches.md)).
+**Format cleanup, 2026-11-24** (Brian: "do the cleanup carefully"): this repository now meets the code2 format (`scripts/repo_format.py` compliant 1 of 1; Q17 resolved). New: [arc42 map](../docs/architecture/arc42.md), [lockstep.c4](../docs/architecture/lockstep.c4) and the `.importlinter` contracts written from it; every requirement and decision has a `Source:` line (`lockstep check sources` missing 0); `make check` runs `check-format` (arch, sources, docmeta, test-first, changed, whole-tree). The edit hook now judges every file and rename destination in a patch before allowing it (Q26 narrowed to a live Codex payload). 326 merged remote branches removed ([restore list](../docs/retired/2026-11-24.md)).
 
-**Next:** none planned; the back-on-design plan's three slices are complete. Open for Brian: the complete-file catalog (`wiki/documents.md`) covers 517 of 896 tracked files (PR #861 parked).
+**Markdown cap, 2026-11-24** (Brian: "i approve" to trimming to the 100-file cap): the 100-file cap was never in `make check`, and the exception had grown to 136 while the tree held 379 Markdown files. The OpenSpec change archive (273 files, 230 Markdown) is removed ([record and restore command](../docs/retired/2026-11-24.md)); references to it point at pinned GitHub copies. `make check` now runs `check-md-cap`; the exception is 149, the exact count, and only goes down.
+
+**Next:** a list of `docs/` files to merge or retire goes to Brian before any is changed, to reach 100; then layout rows so every tracked file is planned, replacing the hand catalog (`wiki/documents.md`, PR #861 parked).
 
 # AES assessment (2026-11-19)
 
@@ -101,19 +103,19 @@ Brian asked for an audit. [The assessment](../docs/planning/aes-assessment-20261
 
 # Lockstep plan size (2026-11-18, code2-workspace issue 853)
 
-Every plan that names a requirement `lockstep check changed` lists now states `Plan size: small` or `Plan size: full`. The check fails with `no-plan-size` when none does, and with `no-planning-package` when a full plan names no planning package file that exists. The count line adds `small`, `full`, `no_plan_size` and `no_planning_package`. Change: `openspec/changes/archive/2026-11-18-lockstep-plan-size/`. code2-workspace is the one repository that runs the check, and it picks this up when its pin moves.
+Every plan that names a requirement `lockstep check changed` lists now states `Plan size: small` or `Plan size: full`. The check fails with `no-plan-size` when none does, and with `no-planning-package` when a full plan names no planning package file that exists. The count line adds `small`, `full`, `no_plan_size` and `no_planning_package`. Change: `https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/02bb545f4c56638428e12bdecc59f532ab99b478/openspec/changes/archive/2026-11-18-lockstep-plan-size/`. code2-workspace is the one repository that runs the check, and it picks this up when its pin moves.
 
 # Lockstep document quotes (2026-11-17, code2-workspace issue 842)
 
 A document marks a passage it copies from a requirement as `<!-- lockstep quote: <requirement id> -->the passage<!-- /lockstep quote -->`. `lockstep check trace` fails with `stale-quote`, `unknown` or `unclosed-quote` (at `<path>:<line>`) when a marked passage in tracked Markdown outside `openspec/` is no longer in its requirement's or scenarios' text; `lockstep check changed` lists the documents quoting each listed requirement as `current` or `stale`.
-A copy that is not marked is not checked. Existing hand-typed copies (such as the seven in issue 842) are found only once someone marks them. Change: `openspec/changes/archive/2026-11-17-lockstep-document-quotes/`.
+A copy that is not marked is not checked. Existing hand-typed copies (such as the seven in issue 842) are found only once someone marks them. Change: `https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/02bb545f4c56638428e12bdecc59f532ab99b478/openspec/changes/archive/2026-11-17-lockstep-document-quotes/`.
 
 # Lockstep changed-requirement check (2026-11-17, code2-workspace issue 842)
 
 `lockstep check changed --base <rev>` now lists every requirement whose statement or scenario text differs from the base (new, changed or removed; re-wrapping is not a change), with its implementing code, its tests labelled changed/unchanged/new, and the plan in the same change set that names it. It fails on `unplanned` and `no-scenario-changed`.
 `lockstep check test-first` now also needs one test that fails on the base for each scenario whose text changed (`existing=True` is no exemption there), and `lockstep status` shows `changed, not archived` for text an active change rewords.
 It does not find hand-typed copies of requirement text in documents, and it accepts a `Wording-only:` line as typed (printed and counted, not checked). It compares against the base as given, so against a moved `origin/main` it also lists requirements that landed there since the branch point.
-Nothing runs it here yet: a repository opts in by adding `lockstep check changed --base origin/main` to its `make check`. Change: `openspec/changes/archive/2026-11-17-lockstep-changed-requirements/`.
+Nothing runs it here yet: a repository opts in by adding `lockstep check changed --base origin/main` to its `make check`. Change: `https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/02bb545f4c56638428e12bdecc59f532ab99b478/openspec/changes/archive/2026-11-17-lockstep-changed-requirements/`.
 
 # Ecosystem consolidation and first predecessor review (2026-11-13)
 
