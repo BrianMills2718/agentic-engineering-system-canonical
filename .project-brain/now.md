@@ -73,6 +73,11 @@ says each retires once nothing runs it. Hook refusals in a layout repository now
 crashing `python -m lockstep.wiki`. code2-workspace's plan-size rule now asks the independent read to list departures
 from the settled design (#930). AES's slow tests now run nightly (code2-workspace #929).
 
+**Back on design, slice 3 done, 2026-11-23** ([result](../docs/planning/back-on-design-2026-11-23.md#slice-3-result-2026-11-23-each-invented-part-settled)):
+each part the minimal core invented is settled from the documents, with no new question for Brian. The one apparent
+conflict, warn versus refuse, is Brian's decision D7 plus the template marking its package `fixed:`; `lockstep-guard`
+now states that rule. The plan's three slices are complete.
+
 **Template layout, slice 2 of back-on-design, 2026-11-23** ([plan](../docs/planning/template-layout-2026-11-23.md)):
 step 0 is merged: the trace check reads `Implements:` comment lines in `[tool.lockstep] comment_sources`
 (AES: `copier.yml`, `template`), so the 6 template requirements trace and `trace-accepted.txt` is at 10 (Q50

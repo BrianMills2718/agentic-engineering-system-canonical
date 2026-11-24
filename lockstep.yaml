@@ -250,6 +250,7 @@ layout:
   - lockstep-init/the-edit-guard-logs-outside-the-checkout
   - lockstep-package/lockstep-installs-from-aes-canonical
   - lockstep-guard/a-refusal-lists-the-files-the-plan-allows
+  - lockstep-guard/an-unplanned-file-is-refused-where-the-plan-marks-it-fixed-and-warned-about-elsewhere
   tests:
   - tests/lockstep/test_lockstep_openspec_text.py
 - path: src/lockstep/init_repo.py

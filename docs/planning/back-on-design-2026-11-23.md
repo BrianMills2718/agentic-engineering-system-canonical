@@ -74,6 +74,30 @@ layout and that Lockstep is not used on itself.
 - The new requirement and its test, and the review before each plan, are not in any settled document (inferred by agent).
 - Already built and not in the settled documents: the layout dropped from the minimal core; refusal made off by default; the hook log moved outside the checkout (#974); decision hand-over limits, node types and `links.json` shape; `lockstep status` written to `docs/status.md`, not the wiki; Codex enforcement left to git hooks. Each is listed with file and line in the review output.
 
+## Slice 3 result (2026-11-23): each invented part settled
+
+The review's file-and-line list was not committed, so it was re-derived against `DESIGN.md`, `LOCKSTEP.md`, AES
+decision 0004, code2-workspace decision 0006 and acceptance rows R9 and R10. No item needed a new answer from Brian:
+
+- **Refusal off by default.** Not a conflict. `DESIGN.md:30` (step 4) says an unplanned write is refused; Brian's
+  decision D7 (2026-11-07, `lockstep` repository `.aes/plans/PLAN-014-WARN-BY-DEFAULT.yaml:5-7`) says "Lockstep
+  warns; it blocks only files the plan marks fixed". The template and this repository mark their package `fixed:`,
+  so planned code is refused. No requirement stated the rule; `lockstep-guard` now does, with three existing tests
+  marked (OpenSpec change `2026-11-23-refuse-fixed-warn-elsewhere`).
+- **Hook log outside the checkout** (`hook.py:226-235`, #974) departs from `DESIGN.md:48` (`.lockstep/` in the
+  repository). Kept: a log inside a `claude -w` worktree is deleted with the worktree after `ship`. The spec's Source
+  line already marks the move as inferred by agent.
+- **Decision hand-over limits** (3 records, 600 characters; `decisions.py:41-42`) and **`links.json` node types**
+  (`status.py:420-496`): the settled documents are silent; both requirements cite Brian's 2026-11-23 "i approve".
+- **`Governs:` meaning** (file, folder or requirement ID; `decisions.py:105-133`): settled documents silent; Brian
+  approved it 2026-11-23. Rule IDs such as decision 0008's `RULE-DEPENDENCY-CHANGE-STALES` are kept as text but link
+  to nothing: they name rules of the older greenfield model (`docs/model/trace.yaml`, `docs/model/ODD.md`), which
+  the reader does not load, not a file or an OpenSpec requirement.
+- **Status page at `docs/status.md`**, not the wiki (`DESIGN.md:47`): kept. code2-workspace decision 0006 line 105
+  names `docs/status.md`, and a template copy has no wiki and does not commit the page.
+- **Codex enforcement**: not a departure. `.codex/hooks.json` and `template/.codex/hooks.json` run `lockstep-hook`
+  before edits, as `DESIGN.md:24` says.
+
 ## Parking list (later slices, planned in full when reached)
 
 - Slice 2: the template ships `lockstep.yaml` with layout rows; a plan adds rows; `lockstep layout` creates the files
