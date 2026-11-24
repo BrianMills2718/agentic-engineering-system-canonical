@@ -75,3 +75,12 @@ def test_a_fixed_finding_left_on_the_list_fails(tmp_path: Path) -> None:
     result = _gate(tmp_path, sorted([*lines, "unimplemented ship/a-requirement-already-built"]))
     assert result.returncode != 0
     assert "-unimplemented ship/a-requirement-already-built" in result.stdout
+
+
+def test_the_copy_and_order_targets_fail_when_their_check_cannot_run() -> None:
+    """A wrapper that only greps for bad lines would pass when the check never ran; these need its RESULT line."""
+    for target in ("check-copies", "check-source-order"):
+        broken = subprocess.run(["make", "--no-print-directory", "-C", str(ROOT), target, "PYTHON=false"],
+                                capture_output=True, text=True, check=False)
+        assert broken.returncode != 0, (target, broken.stdout)
+        assert "did not run" in broken.stdout, (target, broken.stdout)

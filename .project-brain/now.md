@@ -55,7 +55,7 @@ not rewrite cog plan copies, so any requirement rewording would have locked agen
 `src/lockstep/`; `project` now rewrites them (spec lockstep-projection).
 
 **Alignment cleanup, 2026-11-23** ([plan and the 17 items to discuss](../docs/planning/alignment-cleanup-2026-11-23.md);
-open ones are Q49-Q55 in `docs/planning/open-questions.json`): `lockstep check trace` in AES went from 142 findings
+its questions Q49-Q55 in `docs/planning/open-questions.json` were answered on 2026-11-23, below): `lockstep check trace` in AES went from 142 findings
 to 16, and `make check` now runs it (`make check-trace`) against `docs/planning/trace-accepted.txt`, a list that
 can only shrink. The trace check now reads `scripts/`, separates stacked `Implements:` lines, reads requirements
 whose `Source:` line comes first (#1019), and skips quote markers shown as code. 32 findings were stale docstring
