@@ -126,9 +126,6 @@ Added after the 419-file inventory; the ecosystem page owns their interpretation
 - [Minimal core (2026-11-20)](../docs/planning/minimal-core-2026-11-20.md) — what Brian wants (capabilities and constraints with his words), the off-the-shelf landscape with verdicts, which current mechanisms stay, merge, are cut or become add-ons, and the first core milestone.
 - [Template layout proof (2026-11-23)](../docs/evidence/template-layout-proof-2026-11-23/README.md) — the run that tested the planned file layout on a fresh template copy; its [implementer prompt](../docs/evidence/template-layout-proof-2026-11-23/implementer-prompt.md) is the exact brief the implementing session got.
 - [Rule conflicts: which ones Brian must settle](../docs/planning/rules-conflicts-20261117.md) — item 8's 24 rule and memory-note contradictions sorted into settled by Brian's own dated words (12), factual drift (10, 2 already fixed) and real conflicts only he can settle (2), with the ruling each implies (2026-11-17; no rule text changed)
-- [Project Meta docs triage](../docs/planning/project-meta-docs-triage.md) — folder-by-folder proposal for Project Meta's 2,734 docs files (slice 0b; nothing moved).
-- [Project Meta local-only data](../docs/planning/project-meta-local-data-20261117.md) — the 42 stashes, uncommitted report and ignored files in the local Project Meta checkout, each compared with the copy that stays and kept (plan "Before item 11", step 8; 2026-11-17).
-- [Project Meta ledger](../docs/planning/project-meta-ledger.md) — measured callers, enabled timers and commands (slice 0; nothing changed in Project Meta).
 - [md_file_cap equality evidence](../evidence/runs/md-file-cap-equality-20261114.txt) — old and AES copy compared on 13 repositories (slice 1a).
 - [Workspace into AES split](../docs/planning/workspace-into-aes-split.md) — proposal: core in AES, private profile repository for personal rules and identity, machine layer (Q45; nothing moved).
 - [Discovery journey receipt](../evidence/runs/discovery-journey-20261114.json) — two capabilities end to end and four failure exercises, with limits.
@@ -501,7 +498,6 @@ Added after the 419-file inventory; the ecosystem page owns their interpretation
 
 - **[investigation.json](../docs/planning/investigation.json)** — Retains a revision-bound investigation of whole-AES scope, one-tool design, corrections filing, policy coverage and engine dependencies, including then-failed findings later resolved. **Role:** evidence. **Disposition:** keep.
 
-- **[second-user.goal.md](../docs/planning/second-user.goal.md)** — The goal after the first minimal-core milestone: a second user runs the core with nothing of Brian's, agents included; holds the roadmap of goals. **Role:** plan. **Disposition:** keep.
 - **[next.goal.md](../docs/planning/next.goal.md)** — Records the adopted six-slice one-tool build and remaining review/follow-up work; identifies the design as authority and this document as its planning-package view. **Role:** plan. **Disposition:** update.
 
 - **[open-questions.graph.json](../docs/planning/open-questions.graph.json)** — Generated graph of open ledger questions, responsible actors and domain relationships; it is a derived reading view rather than another question authority. **Role:** generated. **Disposition:** generated.

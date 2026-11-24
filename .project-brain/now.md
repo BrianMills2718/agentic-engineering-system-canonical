@@ -21,7 +21,7 @@ clean home folder (hidden tests 0/3 then 3/3, and 0/10 then 10/10) and merged wi
 
 **Second user, done 2026-11-22:** with agent login folders holding none of Brian's instructions, Claude and Codex each
 ran a plan to passing hidden tests and merged through `ship`; the second merge reran the hidden tests after rebasing
-(minimal-core plan section 8; [second-user.goal.md](../docs/planning/second-user.goal.md)). The template's commit
+(minimal-core plan section 8; [second-user.goal.md](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/2b2c089f002f2eb165bdc2b55ac69adcdbc2da24/docs/planning/second-user.goal.md)). The template's commit
 check no longer stages the git-ignored `docs/status.md` (#1009).
 
 **Milestone reopened 2026-11-23:** the core list missed the linked chain (requirement -> scenario -> test -> file
@@ -54,7 +54,7 @@ A session audit then found the edit hook's named recovery for a stale planned fi
 not rewrite cog plan copies, so any requirement rewording would have locked agents out of the implementing file in
 `src/lockstep/`; `project` now rewrites them (spec lockstep-projection).
 
-**Alignment cleanup, 2026-11-23** ([plan and the 17 items to discuss](../docs/planning/alignment-cleanup-2026-11-23.md);
+**Alignment cleanup, 2026-11-23** ([plan and the 17 items to discuss](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/2b2c089f002f2eb165bdc2b55ac69adcdbc2da24/docs/planning/alignment-cleanup-2026-11-23.md);
 its questions Q49-Q55 in `docs/planning/open-questions.json` were answered on 2026-11-23, below): `lockstep check trace` in AES went from 142 findings
 to 16, and `make check` now runs it (`make check-trace`) against `docs/planning/trace-accepted.txt`, a list that
 can only shrink. The trace check now reads `scripts/`, separates stacked `Implements:` lines, reads requirements
@@ -93,9 +93,9 @@ departure report now skips a row's test file and `docs/specs/` links. Slice 2 is
 
 **Format cleanup, 2026-11-24** (Brian: "do the cleanup carefully"): this repository now meets the code2 format (`scripts/repo_format.py` compliant 1 of 1; Q17 resolved). New: [arc42 map](../docs/architecture/arc42.md), [lockstep.c4](../docs/architecture/lockstep.c4) and the `.importlinter` contracts written from it; every requirement and decision has a `Source:` line (`lockstep check sources` missing 0); `make check` runs `check-format` (arch, sources, docmeta, test-first, changed, whole-tree). The edit hook now judges every file and rename destination in a patch before allowing it (Q26 narrowed to a live Codex payload). 326 merged remote branches removed ([restore list](../docs/retired/2026-11-24.md)).
 
-**Markdown cap, 2026-11-24** (Brian: "i approve" to trimming to the 100-file cap): the 100-file cap was never in `make check`, and the exception had grown to 136 while the tree held 379 Markdown files. The OpenSpec change archive (273 files, 230 Markdown) is removed ([record and restore command](../docs/retired/2026-11-24.md)); references to it point at pinned GitHub copies. `make check` now runs `check-md-cap`; the exception is 149, the exact count, and only goes down. Then (Brian: "cut whatever get us to optimal and safe then we can discuss"): the 18 OpenSpec skill copies that `openspec init` writes no longer count, and four finished plans are retired (same record), so the exception is 127. The other older plans stay because an open question, an open plan row or a live rule still rests on them.
+**Markdown cap, 2026-11-24** (Brian: "i approve" to trimming to the 100-file cap): the 100-file cap was never in `make check`, and the exception had grown to 136 while the tree held 379 Markdown files. The OpenSpec change archive (273 files, 230 Markdown) is removed ([record and restore command](../docs/retired/2026-11-24.md)); references to it point at pinned GitHub copies. `make check` now runs `check-md-cap`; the exception is 149, the exact count, and only goes down. Then (Brian: "cut whatever get us to optimal and safe then we can discuss"): the 18 OpenSpec skill copies that `openspec init` writes no longer count, and four finished plans are retired (same record), so the exception is 127. The other older plans stay because an open question, an open plan row or a live rule still rests on them. Then (Brian: "continue"): five more pages were retired after their open items became ledger entries Q56 to Q63, so the exception is 122; what still stays and why is in the same record.
 
-**Next:** discuss with Brian how to cover the last 27 files to 100 (what can still go is listed in the retirement record's "Kept on purpose" paragraph); then layout rows so every tracked file is planned, replacing the hand catalog (`wiki/documents.md`, PR #861 parked); then a Lockstep check that refuses a lint or type suppression an agent adds (`# noqa`, `# type: ignore`, an import-linter ignore) unless the same line names its reason, shipped in the template's `make check`.
+**Next:** discuss with Brian how to cover the last 22 files to 100 (what can still go is listed in the retirement record's "Kept on purpose" paragraph); then layout rows so every tracked file is planned, replacing the hand catalog (`wiki/documents.md`, PR #861 parked); then a Lockstep check that refuses a lint or type suppression an agent adds (`# noqa`, `# type: ignore`, an import-linter ignore) unless the same line names its reason, shipped in the template's `make check`.
 
 **Parking list** (slices of the plan, in order; Brian 2026-11-24: "i approve adding the redit ideas to the plan and i will trust your jdugement on the impelemtnation prirotiy", after the [Reddit thread](https://www.reddit.com/r/ClaudeAI/comments/1y1my5l/) review; the thread's fourth idea, two tries per bug then revert, is already a workspace rule, Policy `two-tries-then-reset`):
 
@@ -345,11 +345,11 @@ enforcement receipt with time, revision and verification before counting subsequ
 incidents. See [the approved repair](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/37dc876cc3dd7f88ece46873f17a0015228af123/proposals/aes-learning-loop/REPAIR.md)
 and [operator commands](../scripts/learning_loop/systemd/README.md).
 
-**Slice 0b (2026-11-14):** `docs/planning/project-meta-docs-triage.md` proposes, per folder, what to read, archive or regenerate among Project Meta's 2,734 docs files (1,604 read and 1,130 archive by the fixed rule, then overridden for generated wiki folders and `ops`). Nothing moved; Brian's approval of slices is still open (Q44).
+**Slice 0b (2026-11-14):** `https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/2b2c089f002f2eb165bdc2b55ac69adcdbc2da24/docs/planning/project-meta-docs-triage.md` proposes, per folder, what to read, archive or regenerate among Project Meta's 2,734 docs files (1,604 read and 1,130 archive by the fixed rule, then overridden for generated wiki folders and `ops`). Nothing moved; Brian's approval of slices is still open (Q44).
 
 **Workspace split (2026-11-14):** Brian approved core in AES, personal rules and identity in a private profile repository, identity as configuration. `docs/planning/workspace-into-aes-split.md` is the folder-level proposal (Q45); nothing in code2-workspace moved.
 
-**Slice 0 done (2026-11-14):** `docs/planning/project-meta-ledger.md` lists what still calls Project Meta (89 files named by 73 distinct repositories, 10 enabled timers, 15 commands). Brian approved the slice order (Decision 5); nothing in Project Meta was changed.
+**Slice 0 done (2026-11-14):** `https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/2b2c089f002f2eb165bdc2b55ac69adcdbc2da24/docs/planning/project-meta-ledger.md` lists what still calls Project Meta (89 files named by 73 distinct repositories, 10 enabled timers, 15 commands). Brian approved the slice order (Decision 5); nothing in Project Meta was changed.
 
 **Slice 1a (2026-11-14):** `scripts/md_file_cap.py` is copied into AES and gives byte-identical output and exit codes to Project Meta's on 13 real repositories (`evidence/runs/md-file-cap-equality-20261114.txt`). Callers are planning `run_checks.sh` files, not commit hooks; 1b pilot done (code2-template #30, claim-extraction #41, topic-video #26); the remaining callers are next. Its default graph is still read from Project Meta until slice 4.\n\n**Slice 1b mostly done (2026-11-15):** planning checks in every repository but the Team-Brains family (generator code in a company repository) now run the AES `md_file_cap.py`; the old file does not yet fail loudly. Decision 14 B (Brian, 2026-11-15): the Team-Brains generators wait until that repository is next worked on. See the plan's slice 1 row.
 
