@@ -1369,6 +1369,15 @@ layout:
   purpose: Prompt template for the independent reviewer that judges whether a concern repair fixed the root cause.
   implements: []
   tests: []
+- path: prompts/helper_reuse/candidates.yaml
+  purpose: Prompt template for the helper-reuse check's first call, which names existing functions each new function may
+    duplicate.
+  implements: []
+  tests: []
+- path: prompts/helper_reuse/judge.yaml
+  purpose: Prompt template for the helper-reuse check's second call, which judges each new function against its candidates.
+  implements: []
+  tests: []
 - path: proposals/README.md
   purpose: Routes to the adopted design, bounded acceptance review, retirement record and current feedback account, directing
     new behavior changes through OpenSpec.
@@ -1757,6 +1766,14 @@ layout:
   purpose: Turn each failed systemd user unit into one keyed concern issue so timer crashes are reported.
   implements: []
   tests: []
+- path: scripts/helper_reuse_check.py
+  purpose: Report functions a branch adds that rewrite an existing function under a new name, read for meaning by a light
+    model through llm_client; report-only, not in make check. AES pilot.
+  implements: []
+  exports:
+  - 'main(argv: list[str] | None=None) -> int'
+  tests:
+  - tests/test_helper_reuse_check.py
 - path: scripts/hive/README.md
   purpose: Explains that Hive moved to personal-vps while brain_fresh.py stays for existing callers.
   implements: []
@@ -2781,6 +2798,11 @@ layout:
   tests: []
 - path: tests/test_feedback_loop_notices.py
   purpose: Tests the feedback-loop notification and alert scripts, using fake HTTP responses and no network.
+  implements: []
+  tests: []
+- path: tests/test_helper_reuse_check.py
+  purpose: Tests the helper-reuse check offline on throwaway git repositories, with the model calls replaced, and its
+    input budget against this repository's real index.
   implements: []
   tests: []
 - path: tests/test_hub_page.py

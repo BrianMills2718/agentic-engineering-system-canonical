@@ -266,6 +266,8 @@ Generated from [lockstep.yaml](../lockstep.yaml); edit the source, not this bloc
 | [openspec/specs/workspace-map-check/spec.md](../openspec/specs/workspace-map-check/spec.md) | Specifies the daily check that every top-level workspace entry is explained and reports clutter and stale state. |
 | [prompts/concern_repair/repair.yaml](../prompts/concern_repair/repair.yaml) | Prompt template for the unattended agent that repairs one GitHub feedback concern at its root cause. |
 | [prompts/concern_repair/review.yaml](../prompts/concern_repair/review.yaml) | Prompt template for the independent reviewer that judges whether a concern repair fixed the root cause. |
+| [prompts/helper_reuse/candidates.yaml](../prompts/helper_reuse/candidates.yaml) | Prompt template for the helper-reuse check's first call, which names existing functions each new function may duplicate. |
+| [prompts/helper_reuse/judge.yaml](../prompts/helper_reuse/judge.yaml) | Prompt template for the helper-reuse check's second call, which judges each new function against its candidates. |
 | [proposals/README.md](../proposals/README.md) | Routes to the adopted design, bounded acceptance review, retirement record and current feedback account, directing new behavior changes through OpenSpec. |
 | [proposals/aes-learning-loop/review-page/build_requirements.py](../proposals/aes-learning-loop/review-page/build_requirements.py) | Builds feedback requirements HTML from 19 authored quoted requirements/statuses/evidence/fixes; embedded October limits need reconciliation with later HTML amendments before rebuilding. |
 | [proposals/aes-learning-loop/review-page/feedback-coverage.html](../proposals/aes-learning-loop/review-page/feedback-coverage.html) | Shows the October 11 matrix of agent setup components, recorded feedback routes and change owners, separating capture from application with then-current counts. |
@@ -352,6 +354,7 @@ Generated from [lockstep.yaml](../lockstep.yaml); edit the source, not this bloc
 | [scripts/concern_repair_feedback.py](../scripts/concern_repair_feedback.py) | Select the oldest eligible repair concern (observe) and verify the repair agent's report mechanically (verify). |
 | [scripts/discovery_journey.py](../scripts/discovery_journey.py) | Run the ecosystem discovery journey for two capabilities and four failure exercises, writing one JSON receipt with inputs and results. |
 | [scripts/failed_unit_watch.py](../scripts/failed_unit_watch.py) | Turn each failed systemd user unit into one keyed concern issue so timer crashes are reported. |
+| [scripts/helper_reuse_check.py](../scripts/helper_reuse_check.py) | Report functions a branch adds that rewrite an existing function under a new name, read for meaning by a light model through llm_client; report-only, not in make check. AES pilot. |
 | [scripts/hive/README.md](../scripts/hive/README.md) | Explains that Hive moved to personal-vps while brain_fresh.py stays for existing callers. |
 | [scripts/hive/brain_fresh.py](../scripts/hive/brain_fresh.py) | Is a project's brain older than the work done since? (hive brain v1, C-CONTEXT) |
 | [scripts/hub_page.py](../scripts/hub_page.py) | Build the AES hub page listing decisions needed from the owner, broken services, record updates and changes, each source shown as checked or not checked. |
@@ -591,6 +594,7 @@ Generated from [lockstep.yaml](../lockstep.yaml); edit the source, not this bloc
 | [tests/test_discovery_journey_stale.py](../tests/test_discovery_journey_stale.py) | Tests stale-receipt detection in the discovery journey by comparing recorded source digests with current files. |
 | [tests/test_failed_unit_watch.py](../tests/test_failed_unit_watch.py) | Tests parsing and planning in the failed-unit watch script, without systemd or gh. |
 | [tests/test_feedback_loop_notices.py](../tests/test_feedback_loop_notices.py) | Tests the feedback-loop notification and alert scripts, using fake HTTP responses and no network. |
+| [tests/test_helper_reuse_check.py](../tests/test_helper_reuse_check.py) | Tests the helper-reuse check offline on throwaway git repositories, with the model calls replaced, and its input budget against this repository's real index. |
 | [tests/test_hub_page.py](../tests/test_hub_page.py) | Tests the hub page generator's rendering from configuration and workspace map data. |
 | [tests/test_lane_sweep.py](../tests/test_lane_sweep.py) | Tests the lane sweep script against a throwaway repository, bare remote and linked worktrees. |
 | [tests/test_machine_manifest.py](../tests/test_machine_manifest.py) | Tests the machine manifest script, which lists sources from a unit folder and must not expose secret values. |
