@@ -12,7 +12,7 @@ blocks an edit while a docstring is out of date with the plan.
 [[[cog import lockstep.cogtext as c; c.docstring("src:lockstep:__init__.py", indent=0)]]]
 Plan (generated from lockstep.yaml layout and OpenSpec; edit the spec or the layout row, not this text):
 
-Implements: lockstep-plan-format/lockstep-governs-its-own-package
+Implements: lockstep-plan-format/lockstep-governs-its-own-package, lockstep-plan-format/aes-plans-every-tracked-file
 
 ### Requirement: Lockstep governs its own package
 
@@ -25,5 +25,17 @@ Source: Brian, 2026-11-23, "i approve" to turning the full system on in AES (`ht
 - **GIVEN** this repository at HEAD
 - **WHEN** its `lockstep.yaml` and client settings are read
 - **THEN** every tracked file under `src/lockstep/` has a layout row, `src/lockstep/` is governed and fixed, both client settings run `lockstep-hook` on PreToolUse, and the hook refuses a write to `src/lockstep/not_planned.py`
+
+### Requirement: AES plans every tracked file
+
+This repository's `lockstep.yaml` SHALL have one `layout:` row with a nonempty purpose for every Git-tracked file, SHALL govern the whole repository (`.` under `governed:`), so a new file anywhere, including a new top-level file or folder, is reported, and SHALL project the rows' paths and purposes into `generated/files.md`, which `wiki/index.md` links.
+
+Source: Brian, 2026-11-13, AES #849: "Every Git-tracked file must be reachable and summarized from `wiki/index.md`"; where the rows live: Brian, 2026-11-11, approving `proposals/one-planning-tool/DESIGN.md` (line 41: which files exist and why lives in `lockstep.yaml` `layout:` rows). The checkable form is inferred by agent.
+
+#### Scenario: Every tracked file has a planned row and the catalog page is current
+
+- **GIVEN** this repository at HEAD
+- **WHEN** its tracked files, `lockstep.yaml` and `generated/files.md` are read
+- **THEN** every tracked file has a layout row with a purpose, a new file in a new top-level folder, at the top level or under `docs/` is governed, the projection of the layout into `generated/files.md` is current, and `wiki/index.md` links `generated/files.md`
 [[[end]]]
 """

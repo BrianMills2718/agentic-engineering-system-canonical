@@ -139,7 +139,7 @@ Recommendation: Keep coverage, summary adequacy and freshness separate. Resolve 
 
 Next evidence or disposition: Reconcile each mismatched hash against its correct reviewed source revision and summary, then rerun the inventory audit. See [inventory freshness notes](../docs/planning/file-inventory.json) and [source review](../docs/architecture/ECOSYSTEM.md).
 
-Sources: [documentation assessment](../docs/architecture/DOCUMENTATION.md#coverage-and-consolidation-assessment), [inventory](../docs/planning/file-inventory.json), [catalog](documents.md).
+Sources: [documentation assessment](../docs/architecture/DOCUMENTATION.md#coverage-and-consolidation-assessment), [inventory](../docs/planning/file-inventory.json), [catalog](../generated/files.md).
 
 Owner: agent.
 

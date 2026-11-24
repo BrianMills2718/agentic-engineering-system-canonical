@@ -49,8 +49,10 @@ make check-full   # check plus the slow end-to-end tests
 - The wiki is derived progressive-disclosure navigation, not a native authority.
 - Every Git-tracked file must be reachable and summarized from `wiki/index.md`,
   including instructions, source, tests, fixtures, generated files and historical
-  changes. Keep source identity, purpose, role and review disposition in the file
-  inventory. Assess overlap and unique information before consolidating; preserve
+  changes. Each file's purpose is its `layout:` row in `lockstep.yaml`, shown as
+  `generated/files.md`; `make check` fails on a tracked file with no row (since
+  2026-11-24, replacing the hand catalog). Role and review disposition as of
+  2026-11-13 stay in `docs/planning/file-inventory.json`. Assess overlap and unique information before consolidating; preserve
   unresolved material. Source: Brian, 2026-11-13, clarified after the 69-reader-file
   check omitted the broader repository; AES #849. Reachability alone is not summary
   adequacy, and a dated reviewed inventory is not continuous automatic freshness.

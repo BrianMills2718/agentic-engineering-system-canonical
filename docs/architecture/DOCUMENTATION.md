@@ -70,9 +70,10 @@ repairs or retirement approvals.
 
 ### The replacement coverage contract
 
-- [The complete file catalog](../../wiki/documents.md) lists each tracked file
-  with a concrete purpose, role and review disposition. It includes generated
-  views, fixtures and history without promoting them to current authority.
+- [The complete file catalog](../../generated/files.md) lists each tracked file
+  with its purpose, generated from the `layout:` rows in `lockstep.yaml` and kept
+  complete by `make check`. It includes generated views, fixtures and history
+  without promoting them to current authority.
 - [The source inventory](../planning/file-inventory.json) records per-file
   summaries, source locators, content identities and assessment reasons. It is a
   derived review record, not a replacement for source authorities.

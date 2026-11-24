@@ -539,11 +539,12 @@
    "blocks": "A broader claim about automatic, effective AES operation; not the documentation-only repair.",
    "resolves_with": "Reconcile each mismatched input hash against the correct reviewed source revision, refresh only after checking its source identity and summary, then rerun the whole-inventory audit and confirm the projection/catalog freshness claims match the measured result.",
    "recommendation": "Keep coverage, summary adequacy and freshness separate. On 2026-11-14 all 27 hash mismatches were reconciled against main c16eb68 (23 were docstring projections, a Governs line or regenerated evidence; four summaries reworded for the array-fact feature) and the audit now reports 0 mismatches. Five newer tracked files are catalogued in wiki/documents.md but are not inventory entries, and any later edit to an inventory file makes its hash stale again, so rerun the audit before using the inventory as a freshness index.",
-   "evidence": "The earlier check covered 69 reader Markdown files from a repository with 407 tracked files. The complete-file review replaced that subset catalog and bound content-derived summaries to inputs. A full hash audit at AES 8b34db885386543e260a7d3164ede04400305e85 found 27 mismatches among 417 hashed entries, with two self-output hashes intentionally omitted. The 2026-11-14 ecosystem continuation refreshed four reviewed source-entry hashes only; it did not reconcile the other mismatches. Native declared-fact refresh still does not maintain every compiled description. 2026-11-14 reconciliation: recorded hashes matched to their introducing commits (git log per path), later commits read, hashes refreshed, re-audit 0 mismatches of 417 hashed entries; semantic re-review was limited to diff reading.",
+   "evidence": "The earlier check covered 69 reader Markdown files from a repository with 407 tracked files. The complete-file review replaced that subset catalog and bound content-derived summaries to inputs. A full hash audit at AES 8b34db885386543e260a7d3164ede04400305e85 found 27 mismatches among 417 hashed entries, with two self-output hashes intentionally omitted. The 2026-11-14 ecosystem continuation refreshed four reviewed source-entry hashes only; it did not reconcile the other mismatches. Native declared-fact refresh still does not maintain every compiled description. 2026-11-14 reconciliation: recorded hashes matched to their introducing commits (git log per path), later commits read, hashes refreshed, re-audit 0 mismatches of 417 hashed entries; semantic re-review was limited to diff reading. On 2026-11-24 the hand catalog wiki/documents.md was replaced: every tracked file has a lockstep.yaml layout row with a purpose, make check fails on a tracked file without one, and generated/files.md is projected from the rows (docs/retired/2026-11-24.md). Coverage is now checked on every merge; summary adequacy is not.",
    "sources": [
     "docs/architecture/DOCUMENTATION.md",
     "docs/planning/file-inventory.json",
-    "wiki/documents.md",
+    "lockstep.yaml",
+    "generated/files.md",
     "src/lockstep/doc_projection.py"
    ],
    "touches": []
@@ -779,7 +780,7 @@
     "docs/planning/checks.txt",
     "docs/architecture/GOAL.md",
     ".md-file-cap.yaml",
-    "wiki/documents.md"
+    "docs/retired/2026-11-24.md"
    ],
    "touches": []
   },

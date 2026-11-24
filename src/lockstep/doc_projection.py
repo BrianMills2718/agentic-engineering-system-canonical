@@ -28,14 +28,17 @@ Requirement text (generated):
         trace per run to a daily projection log with source/target hashes and rewritten paths. No
         declarations SHALL be a no-op.
     lockstep-doc-facts/declared-record-arrays-project-as-rows: A projection MAY declare `items` as
-        the name of a top-level JSON or YAML array. Its `fields` SHALL include `id` and identify
-        scalar fields in each record. The projector SHALL render one escaped Markdown table row per
-        source record in source order and preserve the source link and markers. Each record SHALL
-        have a distinct nonempty string `id` and each selected field SHALL be a non-null scalar.
-        Missing arrays, invalid records, missing fields and duplicate IDs SHALL fail before any
-        target write. The check and installed refresh paths SHALL apply the same validation and
-        freshness rules as ordinary projections; refresh traces SHALL record selected array facts
-        and source identity.
+        the name of a top-level JSON or YAML array. It MAY declare `key`, the name of the field that
+        identifies each record (default `id`). It MAY declare `link`, one of its fields whose values
+        are repository-relative paths; that column SHALL render as a relative Markdown link from the
+        target to the path, and a path that is absolute or climbs out with `..` SHALL fail. Its
+        `fields` SHALL include that key and identify scalar fields in each record. The projector
+        SHALL render one escaped Markdown table row per source record in source order and preserve
+        the source link and markers. Each record SHALL have a distinct nonempty string key and each
+        selected field SHALL be a non-null scalar. Missing arrays, invalid records, missing fields
+        and duplicate keys SHALL fail before any target write. The check and installed refresh paths
+        SHALL apply the same validation and freshness rules as ordinary projections; refresh traces
+        SHALL record selected array facts and source identity.
 
 
 Current assessment (agent-authored):
@@ -141,15 +144,21 @@ Source: Brian, 2026-11-12, "ther should be hooks and stuff that automatically ke
 
 ### Requirement: Declared record arrays project as rows
 
-A projection MAY declare `items` as the name of a top-level JSON or YAML array. Its `fields` SHALL include `id` and identify scalar fields in each record. The projector SHALL render one escaped Markdown table row per source record in source order and preserve the source link and markers. Each record SHALL have a distinct nonempty string `id` and each selected field SHALL be a non-null scalar. Missing arrays, invalid records, missing fields and duplicate IDs SHALL fail before any target write. The check and installed refresh paths SHALL apply the same validation and freshness rules as ordinary projections; refresh traces SHALL record selected array facts and source identity.
+A projection MAY declare `items` as the name of a top-level JSON or YAML array. It MAY declare `key`, the name of the field that identifies each record (default `id`). It MAY declare `link`, one of its fields whose values are repository-relative paths; that column SHALL render as a relative Markdown link from the target to the path, and a path that is absolute or climbs out with `..` SHALL fail. Its `fields` SHALL include that key and identify scalar fields in each record. The projector SHALL render one escaped Markdown table row per source record in source order and preserve the source link and markers. Each record SHALL have a distinct nonempty string key and each selected field SHALL be a non-null scalar. Missing arrays, invalid records, missing fields and duplicate keys SHALL fail before any target write. The check and installed refresh paths SHALL apply the same validation and freshness rules as ordinary projections; refresh traces SHALL record selected array facts and source identity.
 
-Source: inferred by agent from Brian's 2026-11-12 request for hooks that keep documentation current and Company Planning's work-unit status records.
+Source: inferred by agent from Brian's 2026-11-12 request for hooks that keep documentation current and Company Planning's work-unit status records.  The optional `key` and `link` are inferred by agent, so `lockstep.yaml` layout rows (keyed by `path`) can project (change every-file-planned, 2026-11-24).
 
 #### Scenario: Array facts remain current
 
 - **GIVEN** a declared projection of unit IDs and statuses from a native record array
 - **WHEN** a status changes
 - **THEN** the read-only check reports stale without writing and refresh updates the matching row in source order
+
+#### Scenario: A record array keyed by another field projects
+
+- **GIVEN** a projection with `key: path` and `link: path` over records that have `path` and `purpose` and no `id`
+- **WHEN** projection runs
+- **THEN** one row per record is written in source order with each path a relative link, and a duplicate `path` or a path climbing out with `..` exits 2 without writing
 
 #### Scenario: Invalid array facts fail before writing
 
@@ -207,8 +216,8 @@ def declarations(root: Path) -> list[dict]:
         raise ProjectionError('projections must be a list')
     seen = set()
     for row in rows:
-        if not isinstance(row, dict) or set(row)-{'id', 'source', 'target', 'fields', 'symbol', 'items'}:
-            raise ProjectionError('each projection holds only id, source, target, fields and optional symbol or items')
+        if not isinstance(row, dict) or set(row)-{'id', 'source', 'target', 'fields', 'symbol', 'items', 'key', 'link'}:
+            raise ProjectionError('each projection holds only id, source, target, fields and optional symbol, items, key or link')
         ident = row.get('id')
         if not isinstance(ident, str) or not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9_.-]*', ident) or ident in seen:
             raise ProjectionError(f'projection id is invalid or repeated: {ident!r}')
@@ -220,9 +229,13 @@ def declarations(root: Path) -> list[dict]:
         fields = row.get('fields')
         if not isinstance(fields, list) or not fields or any(not isinstance(f, str) or not f for f in fields) or len(set(fields)) != len(fields):
             raise ProjectionError(f'projection {ident}: fields must be distinct nonempty names')
-        items = row.get('items')
-        if 'items' in row and (not isinstance(items, str) or not items or 'id' not in fields or row.get('symbol') is not None or Path(row['source']).suffix.lower() not in ('.json', '.yaml', '.yml')):
-            raise ProjectionError(f'projection {ident}: items needs a JSON/YAML array field, id among fields, and no symbol')
+        items, key = row.get('items'), row.get('key', 'id')
+        if 'key' in row and (not isinstance(key, str) or not key or 'items' not in row):
+            raise ProjectionError(f'projection {ident}: key must be a nonempty field name and needs items')
+        if 'items' in row and (not isinstance(items, str) or not items or key not in fields or row.get('symbol') is not None or Path(row['source']).suffix.lower() not in ('.json', '.yaml', '.yml')):
+            raise ProjectionError(f'projection {ident}: items needs a JSON/YAML array field, its key among fields, and no symbol')
+        if 'link' in row and ('items' not in row or row['link'] not in fields):
+            raise ProjectionError(f'projection {ident}: link must name one of its fields and needs items')
         symbol = row.get('symbol')
         if symbol is not None and (not isinstance(symbol, str) or not symbol):
             raise ProjectionError(f'projection {ident}: symbol must be a nonempty name')
@@ -240,11 +253,23 @@ def _symbol(tree: ast.AST, name: str | None) -> ast.AST:
     return node
 
 
-def _facts(path: Path, fields: list[str], symbol: str | None, text: str | None = None, items: str | None = None) -> dict | list[dict]:
+_COG_MARKERS = ('[[' + '[cog', '[[' + '[end]]' + ']')  # split so cog run over this source does not read them
+
+
+def _without_cog_markers(text: str) -> str:
+    """Drop cog's marker lines from a docstring: they are generation machinery, not prose, and a page
+    that copies them reads to the plan check as a cog block of its own."""
+    return '\n'.join(line for line in text.split('\n')
+                     if not (line.strip().startswith(_COG_MARKERS) or line.strip() == ']]' + ']'))
+
+
+def _facts(path: Path, fields: list[str], symbol: str | None, text: str | None = None, items: str | None = None,
+           key: str = 'id') -> dict | list[dict]:
     text = path.read_text() if text is None else text
     if path.suffix == '.py':
         node = _symbol(ast.parse(text, filename=str(path)), symbol)
         description = ast.get_docstring(node) or ''  # type: ignore[arg-type]
+        description = _without_cog_markers(description)
         data: dict = {'description': description.split('\n\n', 1)[0], 'docstring': description} if description else {}
         if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
             prefix = 'async ' if isinstance(node, ast.AsyncFunctionDef) else ''
@@ -281,9 +306,9 @@ def _facts(path: Path, fields: list[str], symbol: str | None, text: str | None =
         for record in records:
             if not isinstance(record, dict):
                 raise ProjectionError(f'{path.name}: {items} records must be mappings')
-            ident = record.get('id')
+            ident = record.get(key)
             if not isinstance(ident, str) or not ident.strip() or ident in ids:
-                raise ProjectionError(f'{path.name}: {items} has invalid or duplicate id')
+                raise ProjectionError(f'{path.name}: {items} has invalid or duplicate {key}')
             ids.add(ident)
             if any(f not in record or record[f] is None or not isinstance(record[f], (str, int, float, bool, date)) for f in fields):
                 raise ProjectionError(f'{path.name}: {items} records need non-null scalar selected fields')
@@ -305,6 +330,16 @@ def _cell(value: object) -> str:
     if not isinstance(value, str):
         value = json.dumps(value, ensure_ascii=False, sort_keys=True, default=_json_default)
     return escape(value, quote=False).replace('|', '&#124;').replace('\r\n', '\n').replace('\n', '<br>')
+
+
+def _link_cell(root: Path, target: Path, value: object) -> str:
+    """Render a repository path as a relative link from the target page; a planned file need not exist yet."""
+    if not isinstance(value, str):
+        raise ProjectionError(f'link value must be a repository path: {value!r}')
+    if not value or Path(value).is_absolute() or '..' in Path(value).parts:
+        raise ProjectionError(f'link value must be repository-relative without traversal: {value!r}')
+    rel = quote(os.path.relpath(root/value, target.parent).replace(os.sep, '/'), safe='/.-_~')
+    return f'[{_cell(value).replace("[", "&#91;").replace("]", "&#93;")}]({rel})'
 
 
 def render(root: Path, contents: dict[Path, str] | None = None) -> dict[Path, str]:
@@ -334,14 +369,15 @@ def render(root: Path, contents: dict[Path, str] | None = None) -> dict[Path, st
         middle = text[text.index(start)+len(start):text.index(end)]
         if '<!-- lockstep facts:' in middle or '<!-- /lockstep facts:' in middle:
             raise ProjectionError(f'{row["target"]}: nested projection markers')
-        facts = _facts(source, row['fields'], row.get('symbol'), rendered.get(source), row.get('items'))
+        facts = _facts(source, row['fields'], row.get('symbol'), rendered.get(source), row.get('items'), row.get('key', 'id'))
         link = base.rstrip('/') + '/' + quote(row['source'], safe='/') if base else quote(os.path.relpath(source, target.parent).replace(os.sep, '/'), safe='/.')
         block = [start, '', f'Generated from [{row["source"]}]({link}); edit the source, not this block.', '',
                  '| Field | Value |', '| --- | --- |']
         if isinstance(facts, list):
             block[-2:] = ['| ' + ' | '.join(_cell(f) for f in row['fields']) + ' |',
                           '| ' + ' | '.join('---' for _ in row['fields']) + ' |']
-            block += ['| ' + ' | '.join(_cell(record[f]) for f in row['fields']) + ' |' for record in facts]
+            block += ['| ' + ' | '.join(_link_cell(root, target, record[f]) if f == row.get('link') else _cell(record[f])
+                                        for f in row['fields']) + ' |' for record in facts]
         else:
             block += [f'| {_cell(f)} | {_cell(value)} |' for f, value in facts.items()]
         new = '\n'.join(block)+f'\n\n{end}'
@@ -438,7 +474,7 @@ def refresh_cli(argv: list[str]) -> int:
         # One append-only daily trace; source bytes and generated output can be opened at these paths.
         inputs = [{'source': row['source'], 'fields': row['fields'],
                    'sha256': hashlib.sha256((root/row['source']).read_bytes()).hexdigest(),
-                   'facts': _facts(root/row['source'], row['fields'], row.get('symbol'), items=row.get('items')),
+                   'facts': _facts(root/row['source'], row['fields'], row.get('symbol'), items=row.get('items'), key=row.get('key', 'id')),
                    **({'items': row['items']} if 'items' in row else {})} for row in rows]
         outputs = [{'target': row['target'], 'sha256': hashlib.sha256((root/row['target']).read_bytes()).hexdigest()} for row in rows]
         event = {'tool': call.get('tool_name'), 'inputs': inputs, 'outputs': outputs, 'rewrote': changed, 'exit_status': 0}

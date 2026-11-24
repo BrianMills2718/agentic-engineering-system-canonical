@@ -28,10 +28,12 @@ Source: Brian, 2026-11-11, "i approve single tool desing re d4" (proposals/one-p
 
 In a repository whose `lockstep.yaml` has a `layout:` list and which has no `.aes/target.yaml`, Lockstep SHALL take the
 planned files from the `layout:` rows (path, purpose, the OpenSpec requirements it implements, its tests, optionally
-its typed exports), the governed folders from `governed:`, and the requirement text from OpenSpec. A repository with
+its typed exports), the governed folders from `governed:`, and the requirement text from OpenSpec. A `governed:` entry
+ending in `/` covers every path under it, `.` covers the whole repository, and any other entry covers that one file or
+a folder of that name. A repository with
 `.aes/target.yaml` SHALL be read as before.
 
-Source: Brian, 2026-11-11, approving the one-tool design as written ("i approve single tool desing re d4"; `proposals/one-planning-tool/DESIGN.md`, slice 2: "Lockstep reads requirements from OpenSpec ... and layout from `lockstep.yaml`. `.aes/target.yaml` stays readable until lifelike and Team-Brains move off it").
+Source: Brian, 2026-11-11, approving the one-tool design as written ("i approve single tool desing re d4"; `proposals/one-planning-tool/DESIGN.md`, slice 2: "Lockstep reads requirements from OpenSpec ... and layout from `lockstep.yaml`. `.aes/target.yaml` stays readable until lifelike and Team-Brains move off it"). How a `governed:` entry matches (`/`, `.`, a file or folder name) inferred by agent, 2026-11-24, after a review found a bare `Makefile` entry covered `Makefile.bak` and a list of top-level names missed a new top-level file.
 
 #### Scenario: The layout is laid out with first docstrings
 
@@ -63,6 +65,12 @@ Source: Brian, 2026-11-11, approving the one-tool design as written ("i approve 
 - **WHEN** the layout is checked
 - **THEN** both are reported, naming the row's path
 
+#### Scenario: A governed entry covers what it names
+
+- **GIVEN** `governed:` entries `src/`, `.`, `Makefile` and `src/lockstep`
+- **WHEN** paths are matched against each
+- **THEN** `src/` covers `src/a/b.py` but not `srcx/b.py`, `.` covers every path, `Makefile` covers `Makefile` but not `Makefile.bak`, and `src/lockstep` covers `src/lockstep/x.py` but not `src/lockstep_old.py`
+
 #### Scenario: An AES plan is still read
 
 - **GIVEN** a repository with `.aes/target.yaml`
@@ -79,14 +87,14 @@ import fnmatch
 import sys
 from pathlib import Path, PurePosixPath
 
-from lockstep.aes_bridge import artifact_for_path, find_root, governed_roots, is_governed, legacy_files, target
+from lockstep.aes_bridge import artifact_for_path, find_root, governed_roots, is_governed, legacy_files, target, under_governed
 from lockstep.layout_plan import has_layout
 from lockstep.side_file import SIDE_FILE, SideFile, load_side_file, side_file_problems
 
 
 def governing_folder(root: Path, rel: str) -> str:
     """The governed root `rel` sits under, or an empty string."""
-    return next((g for g in governed_roots(root) if rel.startswith(g)), "")
+    return next((g for g in governed_roots(root) if under_governed(rel, g)), "")
 
 
 def _document_pattern(side: SideFile, rel: str) -> str | None:
@@ -181,7 +189,7 @@ def document_report(root: Path) -> dict:
     documents = [p for p in files if _document_pattern(side, p) is not None and p not in planned]
     undeclared = [reason for p in documents if (reason := unplanned_reason(root, p)) is not None]
     others = [p for p in files if side.whole_repo and _document_pattern(side, p) is None and p not in planned
-              and not (any(p.startswith(g) for g in roots) and p not in legacy)]
+              and not (any(under_governed(p, g) for g in roots) and p not in legacy)]
     return {"side_file": True,
             "files": [p for p in others if declared_file(side, p) is not None],
             "undeclared_files": [r for p in others if declared_file(side, p) is None

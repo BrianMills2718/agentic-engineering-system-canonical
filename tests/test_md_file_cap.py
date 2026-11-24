@@ -467,3 +467,16 @@ def test_tool_generated_openspec_skill_copies_are_not_counted(tmp_path):
         ".claude/commands/review.md": "a hand-written command still counts",
     })
     assert m.count_md(str(repo), "HEAD") == 3
+
+
+def test_archived_openspec_change_is_not_counted(tmp_path):
+    # The archived change stays only for the merge that archives it, then is removed; its specs are counted in
+    # openspec/specs/ (inferred by agent, 2026-11-24).
+    repo = git_repo(tmp_path, "r", {
+        "docs/a.md": "x",
+        "openspec/specs/core/spec.md": "x",
+        "openspec/changes/archive/2026-11-24-x/proposal.md": "x",
+        "openspec/changes/archive/2026-11-24-x/specs/core/spec.md": "x",
+        "openspec/changes/live-change/proposal.md": "an unarchived change still counts",
+    })
+    assert m.count_md(str(repo), "HEAD") == 3
