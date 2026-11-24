@@ -7,8 +7,9 @@ Requirement text (generated):
         `lockstep.yaml` has a `layout:` list and which has no `.aes/target.yaml`, Lockstep SHALL
         take the planned files from the `layout:` rows (path, purpose, the OpenSpec requirements it
         implements, its tests, optionally its typed exports), the governed folders from `governed:`,
-        and the requirement text from OpenSpec. A repository with `.aes/target.yaml` SHALL be read
-        as before.
+        and the requirement text from OpenSpec. A `governed:` entry ending in `/` covers every path
+        under it, `.` covers the whole repository, and any other entry covers that one file or a
+        folder of that name. A repository with `.aes/target.yaml` SHALL be read as before.
 
 This is the one plan format of the one-tool design (proposals/one-planning-tool/DESIGN.md, slice 2). A repository
 without `.aes/target.yaml` writes its plan as:
@@ -34,10 +35,12 @@ Implements: lockstep-plan-format/the-plan-is-openspec-plus-layout-rows
 
 In a repository whose `lockstep.yaml` has a `layout:` list and which has no `.aes/target.yaml`, Lockstep SHALL take the
 planned files from the `layout:` rows (path, purpose, the OpenSpec requirements it implements, its tests, optionally
-its typed exports), the governed folders from `governed:`, and the requirement text from OpenSpec. A repository with
+its typed exports), the governed folders from `governed:`, and the requirement text from OpenSpec. A `governed:` entry
+ending in `/` covers every path under it, `.` covers the whole repository, and any other entry covers that one file or
+a folder of that name. A repository with
 `.aes/target.yaml` SHALL be read as before.
 
-Source: Brian, 2026-11-11, approving the one-tool design as written ("i approve single tool desing re d4"; `proposals/one-planning-tool/DESIGN.md`, slice 2: "Lockstep reads requirements from OpenSpec ... and layout from `lockstep.yaml`. `.aes/target.yaml` stays readable until lifelike and Team-Brains move off it").
+Source: Brian, 2026-11-11, approving the one-tool design as written ("i approve single tool desing re d4"; `proposals/one-planning-tool/DESIGN.md`, slice 2: "Lockstep reads requirements from OpenSpec ... and layout from `lockstep.yaml`. `.aes/target.yaml` stays readable until lifelike and Team-Brains move off it"). How a `governed:` entry matches (`/`, `.`, a file or folder name) inferred by agent, 2026-11-24, after a review found a bare `Makefile` entry covered `Makefile.bak` and a list of top-level names missed a new top-level file.
 
 #### Scenario: The layout is laid out with first docstrings
 
@@ -68,6 +71,12 @@ Source: Brian, 2026-11-11, approving the one-tool design as written ("i approve 
 - **GIVEN** a row whose `implements` names a requirement no spec defines, and a row with no purpose
 - **WHEN** the layout is checked
 - **THEN** both are reported, naming the row's path
+
+#### Scenario: A governed entry covers what it names
+
+- **GIVEN** `governed:` entries `src/`, `.`, `Makefile` and `src/lockstep`
+- **WHEN** paths are matched against each
+- **THEN** `src/` covers `src/a/b.py` but not `srcx/b.py`, `.` covers every path, `Makefile` covers `Makefile` but not `Makefile.bak`, and `src/lockstep` covers `src/lockstep/x.py` but not `src/lockstep_old.py`
 
 #### Scenario: An AES plan is still read
 

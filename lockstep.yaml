@@ -1,7 +1,7 @@
 # Lockstep governs its own package: every file under src/lockstep/ is a layout row, and the edit hook refuses an unplanned one (openspec lockstep-plan-format/lockstep-governs-its-own-package).
 schema: lockstep.side.v1
 owner: BrianMills2718
-governed: [".agentic/", ".agents/", ".claude/", ".codex/", ".doc-reachability-ignore", ".gitignore", ".importlinter", ".markdownlint-cli2.yaml", ".md-file-cap.yaml", ".project-brain/", "AGENTS.md", "CLAUDE.md", "Makefile", "README.md", "contracts/", "copier.yml", "docs/", "enforced_planning/", "evidence/", "generated/", "lefthook.yml", "lockstep.yaml", "lychee.toml", "meta-process/", "openspec/", "prompts/", "proposals/", "pyproject.toml", "raw/", "scripts/", "src/", "template/", "tests/", "uv.lock", "wiki/"]
+governed: [".", "src/lockstep/"]
 fixed: ["src/lockstep/*"]
 layout:
 - path: src/lockstep/__init__.py
@@ -9,6 +9,7 @@ layout:
     keep a plan, code docstrings and a wiki in step'
   implements:
   - lockstep-plan-format/lockstep-governs-its-own-package
+  - lockstep-plan-format/aes-plans-every-tracked-file
   tests: []
 - path: src/lockstep/action_check.py
   purpose: Judge a proposed non-code action against the actions Lockstep's side file declares (behavior 5.4)

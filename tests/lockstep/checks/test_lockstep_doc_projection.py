@@ -402,6 +402,10 @@ def test_link_field_renders_relative_links(tmp_path):
     before = (root/'wiki/index.md').read_bytes()
     assert run(['project', '--repo', str(root)]) == 2
     assert (root/'wiki/index.md').read_bytes() == before
+    for bad in ('/etc/passwd', 7):
+        (root/'plan.yaml').write_text(yaml.safe_dump({'layout': [{'path': bad, 'purpose': 'Bad'}]}))
+        assert run(['project', '--repo', str(root)]) == 2
+        assert (root/'wiki/index.md').read_bytes() == before
     cfg['projections'][0]['link'] = 'missing'
     (root/'lockstep.yaml').write_text(yaml.safe_dump(cfg))
     assert run(['project', '--repo', str(root)]) == 2
