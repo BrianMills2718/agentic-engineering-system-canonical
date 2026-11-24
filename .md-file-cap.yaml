@@ -13,3 +13,9 @@ layout_ok:
     reason: >
       The starter copied into every new repository (copier); its docs/decisions/ is that new
       repository's decision folder, not this repository's.
+unlinked_ok:
+  - path: openspec/changes/archive/
+    reason: >
+      An archived OpenSpec change stays only for the merge that archives it (ship's prior-art and
+      changed checks read it there) and is removed in the next commit (code2-workspace AGENTS.md,
+      OpenSpec bullet; Brian, 2026-11-24).
