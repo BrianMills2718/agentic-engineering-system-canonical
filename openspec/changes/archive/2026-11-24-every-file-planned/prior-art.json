@@ -1,0 +1,14 @@
+{
+  "need": "Keep a one-line purpose for every tracked file in a form a check can keep complete, and show it as a page linked from the wiki index.",
+  "searched": [
+    {"place": "own", "where": "wiki/documents.md, lockstep.yaml layout rows, src/lockstep/side_file.py files: section, src/lockstep/doc_projection.py, proposals/one-planning-tool/DESIGN.md", "query": "file catalog, layout rows, unplanned files, record array projection", "found": "Layout rows already plan src/lockstep/ and the hook and whole-tree check refuse unplanned files under governed folders; projection renders record arrays but requires an id field; the old files: section is the retired Q48 route and drops rows with empty refs."},
+    {"place": "outside", "where": "CODEOWNERS, GitHub linguist/.gitattributes, MkDocs awesome-pages, Backstage catalog-info.yaml", "query": "per-file purpose manifest checked for completeness", "found": "These map paths to owners, languages or navigation; none records a per-file purpose that a commit check keeps complete."}
+  ],
+  "candidates": [
+    {"name": "lockstep.yaml layout rows plus doc projection", "url": "src/lockstep/doc_projection.py", "covers": "Per-file purpose, unplanned-file refusal, rendering a record array into Markdown.", "misses": "Projection keys records only by id.", "verdict": "adopt", "reason": "The settled design names layout rows; one optional key closes the gap."},
+    {"name": "side file files: section", "url": "src/lockstep/side_file.py", "covers": "Per-file refs.", "misses": "Refs are mandatory and empty-ref rows are dropped; conflicts with DESIGN.md line 41.", "verdict": "reject", "reason": "Retired route."},
+    {"name": "Backstage catalog-info.yaml", "url": "https://backstage.io/docs/features/software-catalog/descriptor-format", "covers": "Component-level descriptions.", "misses": "Per-file rows and a commit check.", "verdict": "reject", "reason": "Wrong granularity and a new service."}
+  ],
+  "decision": "adopt",
+  "decided": "2026-11-24"
+}

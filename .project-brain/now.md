@@ -95,7 +95,9 @@ departure report now skips a row's test file and `docs/specs/` links. Slice 2 is
 
 **Markdown cap, 2026-11-24** (Brian: "i approve" to trimming to the 100-file cap): the 100-file cap was never in `make check`, and the exception had grown to 136 while the tree held 379 Markdown files. The OpenSpec change archive (273 files, 230 Markdown) is removed ([record and restore command](../docs/retired/2026-11-24.md)); references to it point at pinned GitHub copies. `make check` now runs `check-md-cap`; the exception is 149, the exact count, and only goes down. Then (Brian: "cut whatever get us to optimal and safe then we can discuss"): the 18 OpenSpec skill copies that `openspec init` writes no longer count, and four finished plans are retired (same record), so the exception is 127. The other older plans stay because an open question, an open plan row or a live rule still rests on them. Then (Brian: "continue"): five more pages were retired after their open items became ledger entries Q56 to Q63, so the exception is 122; what still stays and why is in the same record. Then (Brian: "i dont know you tell me"): the consolidation plan's open work moved to 13 GitHub Issues (tracking issue #1054, label `consolidation-backlog`) and the plan and its four evidence pages were retired, so the exception is 117. The agent's call is to stop here: the rest are specs, decisions, architecture, wiki pages the format needs, and live plans; the hand catalog goes with the layout-rows slice.
 
-**Next:** the consolidation backlog is in GitHub Issues (#1054); the cap exception stays near 116 by the agent's call; then layout rows so every tracked file is planned, replacing the hand catalog (`wiki/documents.md`, PR #861 parked); then a Lockstep check that refuses a lint or type suppression an agent adds (`# noqa`, `# type: ignore`, an import-linter ignore) unless the same line names its reason, shipped in the template's `make check`.
+**Every file planned, 2026-11-24** (Brian: "continue"): every tracked file has a `layout:` row in `lockstep.yaml`, `governed:` lists every top-level entry, and `generated/files.md` shows the rows with each path a link; `make check` fails on a tracked file with no row (`lockstep-plan-format/aes-plans-every-tracked-file`). The hand catalog `wiki/documents.md` is retired ([record](../docs/retired/2026-11-24.md)) and PR #861 closed.
+
+**Next:** the consolidation backlog is in GitHub Issues (#1054); then a Lockstep check that refuses a lint or type suppression an agent adds (`# noqa`, `# type: ignore`, an import-linter ignore) unless the same line names its reason, shipped in the template's `make check`.
 
 **Parking list** (slices of the plan, in order; Brian 2026-11-24: "i approve adding the redit ideas to the plan and i will trust your jdugement on the impelemtnation prirotiy", after the [Reddit thread](https://www.reddit.com/r/ClaudeAI/comments/1y1my5l/) review; the thread's fourth idea, two tries per bug then revert, is already a workspace rule, Policy `two-tries-then-reset`):
 
@@ -227,7 +229,7 @@ Source identities matched 406/406 inputs, with the two self-output hashes
 explicitly omitted. This is a dated snapshot, not continuous automatic refresh. The earlier 69-file
 check covered a reader-Markdown subset, not this complete requirement.
 
-Read [the complete catalog](../wiki/documents.md) and
+Read [the complete catalog](../generated/files.md) and
 [coverage/consolidation assessment](../docs/architecture/DOCUMENTATION.md#coverage-and-consolidation-assessment).
 Planning is an explicit whole-system function, supplied by Company Planning;
 Lockstep represents and checks its output. The

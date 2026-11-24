@@ -58,15 +58,29 @@ component or an active timer does not settle those questions.
 
 ## Complete file catalog
 
-[Every tracked file, summarized by folder](documents.md) covers code, tests,
-configuration, instructions, fixtures, evidence and documentation.
-No file class is silently excluded. The catalog identifies purpose, role and
-review disposition, with an exact source inventory and explicit freshness limits.
-It also links owning external planning, policy and instruction sources.
+[Every tracked file and its purpose](../generated/files.md) covers code, tests,
+configuration, instructions, fixtures, evidence and documentation. It is generated
+from the `layout:` rows in `lockstep.yaml`; `make check` fails when a tracked file
+has no row or the page is stale (requirement
+`lockstep-plan-format/aes-plans-every-tracked-file`). Role and review disposition
+as of 2026-11-13 stay in the [source inventory](../docs/planning/file-inventory.json).
 
 [Documentation assessment](../docs/architecture/DOCUMENTATION.md#coverage-and-consolidation-assessment)
 explains overlap, unique information and consolidation recommendations. File
 reachability, summary adequacy and source freshness are separate checks.
+
+## Owning external sources
+
+Pinned copies of the sources outside this repository that AES planning, policy and
+instructions come from (moved here from the retired hand catalog, 2026-11-24).
+
+- [BrianMills2718/project-meta/policy/registry.yaml](https://github.com/BrianMills2718/project-meta/blob/f1e27c906f6c78a6d544bf62a878367640f7d186/policy/registry.yaml) — Original policy source with 263 entries; not replaced by the small AES register. Current disposition and live enforcement require per-policy reconciliation.
+- [BrianMills2718/project-meta/docs/ops/POLICY_SYSTEM.md](https://github.com/BrianMills2718/project-meta/blob/f1e27c906f6c78a6d544bf62a878367640f7d186/docs/ops/POLICY_SYSTEM.md) — Policy-system information map covering authority, context delivery, hooks, observation, feedback and lifecycle; dated runtime mechanisms need fresh verification.
+- [BrianMills2718/code2-workspace/agents/core.md](https://github.com/BrianMills2718/code2-workspace/blob/e430021149b5f24dac1fd082f48dd93071899f8a/agents/core.md) — Shared agent rules covering authority, workflow, evidence, safety, documentation and session reporting; topic files provide detail.
+- [BrianMills2718/code2-workspace/agents/rule-sources.md](https://github.com/BrianMills2718/code2-workspace/blob/e430021149b5f24dac1fd082f48dd93071899f8a/agents/rule-sources.md) — Dated stakeholder statements and incidents supporting shared rules, keyed by policy identifier.
+- [BrianMills2718/code2-workspace/docs/architecture/model.c4](https://github.com/BrianMills2718/code2-workspace/blob/e430021149b5f24dac1fd082f48dd93071899f8a/docs/architecture/model.c4) — Harness implementation map connecting session startup, planning/checks, timers, services and owning repositories.
+- [BrianMills2718/code2-workspace/docs/decisions/0006-planning-and-linkage.md](https://github.com/BrianMills2718/code2-workspace/blob/e430021149b5f24dac1fd082f48dd93071899f8a/docs/decisions/0006-planning-and-linkage.md) — Accepted planning/linkage decision and dated amendments describing Company Planning, repository checks and normative/docstring alignment.
+- [BrianMills2718/company-planning/plugins/company-planning/skills/bounded-design/SKILL.md](https://github.com/BrianMills2718/company-planning/blob/497405299c68de0da8c3ac92e4c265d4d6c3403e/plugins/company-planning/skills/bounded-design/SKILL.md) — Planning method for deriving a bounded outcome through requirements, failure modes, capabilities, contracts, fixtures and thin implementation slices.
 
 ## Decision record
 

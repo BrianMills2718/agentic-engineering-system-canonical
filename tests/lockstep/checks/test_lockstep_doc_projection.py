@@ -354,3 +354,54 @@ def test_invalid_array_declaration_refused(tmp_path, items):
     before = (root/'wiki/index.md').read_bytes()
     assert run(['project', '--repo', str(root)]) == 2
     assert (root/'wiki/index.md').read_bytes() == before
+
+
+@pytest.mark.req('lockstep-doc-facts/a-record-array-keyed-by-another-field-projects')
+def test_record_array_keyed_by_path_projects(tmp_path):
+    root = _repo(tmp_path, source='plan.yaml', fields=['path', 'purpose'])
+    cfg = yaml.safe_load((root/'lockstep.yaml').read_text())
+    cfg['projections'][0].update(items='layout', key='path')
+    (root/'lockstep.yaml').write_text(yaml.safe_dump(cfg))
+    source = root/'plan.yaml'
+    source.write_text(yaml.safe_dump({'layout': [{'path': 'b.py', 'purpose': 'Second'}, {'path': 'a.py', 'purpose': 'First'}]}))
+    project.project(root)
+    text = (root/'wiki/index.md').read_text()
+    assert '| path | purpose |' in text
+    assert text.index('| b.py | Second |') < text.index('| a.py | First |')
+    source.write_text(yaml.safe_dump({'layout': [{'path': 'a.py', 'purpose': 'One'}, {'path': 'a.py', 'purpose': 'Two'}]}))
+    before = (root/'wiki/index.md').read_bytes()
+    assert run(['project', '--repo', str(root)]) == 2
+    assert (root/'wiki/index.md').read_bytes() == before
+
+
+@pytest.mark.req('lockstep-doc-facts/a-record-array-keyed-by-another-field-projects')
+@pytest.mark.parametrize('key', ['', 1, 'missing'])
+def test_invalid_record_key_refused(tmp_path, key):
+    root, _ = _array_repo(tmp_path)
+    cfg = yaml.safe_load((root/'lockstep.yaml').read_text())
+    cfg['projections'][0]['key'] = key
+    (root/'lockstep.yaml').write_text(yaml.safe_dump(cfg))
+    before = (root/'wiki/index.md').read_bytes()
+    assert run(['project', '--repo', str(root)]) == 2
+    assert (root/'wiki/index.md').read_bytes() == before
+
+
+@pytest.mark.req('lockstep-doc-facts/a-record-array-keyed-by-another-field-projects')
+def test_link_field_renders_relative_links(tmp_path):
+    root = _repo(tmp_path, source='plan.yaml', fields=['path', 'purpose'])
+    cfg = yaml.safe_load((root/'lockstep.yaml').read_text())
+    cfg['projections'][0].update(items='layout', key='path', link='path')
+    (root/'lockstep.yaml').write_text(yaml.safe_dump(cfg))
+    (root/'plan.yaml').write_text(yaml.safe_dump({'layout': [{'path': 'docs/plan.md', 'purpose': 'Plan'},
+                                                            {'path': 'src/new file.py', 'purpose': 'Planned, not yet written'}]}))
+    project.project(root)
+    text = (root/'wiki/index.md').read_text()
+    assert '| [docs/plan.md](../docs/plan.md) | Plan |' in text
+    assert '| [src/new file.py](../src/new%20file.py) | Planned, not yet written |' in text
+    (root/'plan.yaml').write_text(yaml.safe_dump({'layout': [{'path': '../outside.md', 'purpose': 'Escapes'}]}))
+    before = (root/'wiki/index.md').read_bytes()
+    assert run(['project', '--repo', str(root)]) == 2
+    assert (root/'wiki/index.md').read_bytes() == before
+    cfg['projections'][0]['link'] = 'missing'
+    (root/'lockstep.yaml').write_text(yaml.safe_dump(cfg))
+    assert run(['project', '--repo', str(root)]) == 2
