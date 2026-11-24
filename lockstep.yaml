@@ -1923,7 +1923,10 @@ layout:
   purpose: Fail make check on maintainability findings a branch adds (blind except, more complex function, more duplicate
     code, large file that grew), comparing with the merge base; old findings never block. AES pilot.
   implements: []
-  tests: []
+  exports:
+  - 'main(argv: list[str] | None=None) -> int'
+  tests:
+  - tests/test_maintainability_ratchet.py
 - path: scripts/md_file_cap.py
   purpose: Enforce the 100 tracked Markdown file cap per Brian-owned repository, with written exceptions.
   implements: []

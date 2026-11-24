@@ -43,7 +43,7 @@ SKIPPED = {tokenize.NL, tokenize.COMMENT, tokenize.INDENT, tokenize.DEDENT, toke
 COMPLEX = re.compile(r"^`(?P<name>[^`]+)` is too complex \((?P<n>\d+) > \d+\)$")
 
 
-class ToolFailed(RuntimeError):
+class _ToolFailed(RuntimeError):
     pass
 
 
@@ -73,9 +73,9 @@ def _json_output(name: str, done: subprocess.CompletedProcess) -> list:
     try:
         found = json.loads(done.stdout)
     except json.JSONDecodeError as exc:
-        raise ToolFailed(f"{name} exit {done.returncode}: {(done.stderr or done.stdout).strip()[-300:]}") from exc
+        raise _ToolFailed(f"{name} exit {done.returncode}: {(done.stderr or done.stdout).strip()[-300:]}") from exc
     if not isinstance(found, list):
-        raise ToolFailed(f"{name} printed JSON that is not a list")
+        raise _ToolFailed(f"{name} printed JSON that is not a list")
     return found
 
 
@@ -84,7 +84,7 @@ def _ruff(cwd: Path, files: list[str]) -> list[dict]:
         return []
     done = subprocess.run([*RUFF, *files], cwd=cwd, capture_output=True, text=True)
     if done.returncode != 0:  # --exit-zero: findings exit 0, so anything else is a failed run
-        raise ToolFailed(f"ruff exit {done.returncode}: {done.stderr.strip()[-300:]}")
+        raise _ToolFailed(f"ruff exit {done.returncode}: {done.stderr.strip()[-300:]}")
     found = _json_output("ruff", done)
     for item in found:
         item["filename"] = Path(item["filename"]).resolve().relative_to(cwd.resolve()).as_posix()
@@ -211,7 +211,7 @@ def _growth(head: dict, base: dict, renamed: dict, max_lines: int) -> list[str]:
             for path, n in sorted(head.items()) if n > max_lines and n > before.get(path, 0)]
 
 
-def compare(root: Path, base: str, folders: list[str], max_lines: int) -> tuple[list[str], int, int]:
+def _compare(root: Path, base: str, folders: list[str], max_lines: int) -> tuple[list[str], int, int]:
     """Return the new findings as printable lines, and the base and head finding totals."""
     b = _base_findings(root, base, folders)
     h = _findings(root, _python_files(root, folders))
@@ -243,8 +243,8 @@ def main(argv: list[str] | None = None) -> int:
         print("RESULT maintainability skipped=no-python-change exit=0")
         return 0
     try:
-        new, base_total, head_total = compare(root, base, folders, args.max_lines)
-    except (ToolFailed, subprocess.CalledProcessError, OSError) as exc:
+        new, base_total, head_total = _compare(root, base, folders, args.max_lines)
+    except (_ToolFailed, subprocess.CalledProcessError, OSError) as exc:
         print(f"maintainability: a tool failed: {exc}")
         print("RESULT maintainability tool-failed exit=2")
         return 2
