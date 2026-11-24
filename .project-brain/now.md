@@ -30,7 +30,7 @@ requirement text (never approving an edit), and `lockstep check project` writes 
 page shows each implementer's file and line. Accepted 2026-11-23 for Claude in a clean home (three plans, `chain-test` #1-#3; minimal-core section 8):
 the hook's shell route was added in #1012 after Claude edited only through Bash. Codex not shown (no API quota).
 
-**First add-on, 2026-11-23** ([plan](../docs/planning/links-existing-lines-2026-11-23.md)): `docs/links.json`
+**First add-on, 2026-11-23** ([plan](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/ddf7c9e96d4392b021756f16f4fb5c4e5919be86/docs/planning/links-existing-lines-2026-11-23.md)): `docs/links.json`
 also reads the link lines repositories already write: `Closes:` lines (plan nodes, active and archived), quote
 markers (quote nodes) and each requirement's `Source:` line (#1015). Slice 2: the edit hook hands an agent the
 decision records whose existing `Governs:` line names the file, its folder or a requirement it implements, flags a
@@ -42,7 +42,7 @@ marker and plan 4; `run-plan title-case-names` passed its hidden tests (4 failed
 merged as #5, and the hook log recorded decision 0002 handed over on three of Claude's shell commands; `links.json`
 lists the plan (archived after merge), the quote (current) and both decisions.
 
-**Back on the settled design, 2026-11-23** ([plan](../docs/planning/back-on-design-2026-11-23.md)): Brian found the
+**Back on the settled design, 2026-11-23** ([plan](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/ddf7c9e96d4392b021756f16f4fb5c4e5919be86/docs/planning/back-on-design-2026-11-23.md)): Brian found the
 minimal core had dropped the planned file layout (`lockstep.yaml` rows, structure before code; `LOCKSTEP.md:22-29`,
 `proposals/one-planning-tool/DESIGN.md`) and that Lockstep was not used on itself. Slice 1: AES's `lockstep.yaml` now
 governs `src/lockstep/` with one layout row per file, marks it fixed, and the AES client settings run `lockstep-hook`,
@@ -73,12 +73,12 @@ says each retires once nothing runs it. Hook refusals in a layout repository now
 crashing `python -m lockstep.wiki`. code2-workspace's plan-size rule now asks the independent read to list departures
 from the settled design (#930). AES's slow tests now run nightly (code2-workspace #929).
 
-**Back on design, slice 3 done, 2026-11-23** ([result](../docs/planning/back-on-design-2026-11-23.md#slice-3-result-2026-11-23-each-invented-part-settled)):
+**Back on design, slice 3 done, 2026-11-23** ([result](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/ddf7c9e96d4392b021756f16f4fb5c4e5919be86/docs/planning/back-on-design-2026-11-23.md#slice-3-result-2026-11-23-each-invented-part-settled)):
 each part the minimal core invented is settled from the documents, with no new question for Brian. The one apparent
 conflict, warn versus refuse, is Brian's decision D7 plus the template marking its package `fixed:`; `lockstep-guard`
 now states that rule. The plan's three slices are complete.
 
-**Template layout, slice 2 of back-on-design, 2026-11-23** ([plan](../docs/planning/template-layout-2026-11-23.md)):
+**Template layout, slice 2 of back-on-design, 2026-11-23** ([plan](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/ddf7c9e96d4392b021756f16f4fb5c4e5919be86/docs/planning/template-layout-2026-11-23.md)):
 step 0 is merged: the trace check reads `Implements:` comment lines in `[tool.lockstep] comment_sources`
 (AES: `copier.yml`, `template`), so the 6 template requirements trace and `trace-accepted.txt` is at 10 (Q50
 resolved). Steps 3-4 merged: `run-plan` counts a file with a layout row at the plan's base as planned, and
@@ -93,9 +93,9 @@ departure report now skips a row's test file and `docs/specs/` links. Slice 2 is
 
 **Format cleanup, 2026-11-24** (Brian: "do the cleanup carefully"): this repository now meets the code2 format (`scripts/repo_format.py` compliant 1 of 1; Q17 resolved). New: [arc42 map](../docs/architecture/arc42.md), [lockstep.c4](../docs/architecture/lockstep.c4) and the `.importlinter` contracts written from it; every requirement and decision has a `Source:` line (`lockstep check sources` missing 0); `make check` runs `check-format` (arch, sources, docmeta, test-first, changed, whole-tree). The edit hook now judges every file and rename destination in a patch before allowing it (Q26 narrowed to a live Codex payload). 326 merged remote branches removed ([restore list](../docs/retired/2026-11-24.md)).
 
-**Markdown cap, 2026-11-24** (Brian: "i approve" to trimming to the 100-file cap): the 100-file cap was never in `make check`, and the exception had grown to 136 while the tree held 379 Markdown files. The OpenSpec change archive (273 files, 230 Markdown) is removed ([record and restore command](../docs/retired/2026-11-24.md)); references to it point at pinned GitHub copies. `make check` now runs `check-md-cap`; the exception is 149, the exact count, and only goes down.
+**Markdown cap, 2026-11-24** (Brian: "i approve" to trimming to the 100-file cap): the 100-file cap was never in `make check`, and the exception had grown to 136 while the tree held 379 Markdown files. The OpenSpec change archive (273 files, 230 Markdown) is removed ([record and restore command](../docs/retired/2026-11-24.md)); references to it point at pinned GitHub copies. `make check` now runs `check-md-cap`; the exception is 149, the exact count, and only goes down. Then (Brian: "cut whatever get us to optimal and safe then we can discuss"): the 18 OpenSpec skill copies that `openspec init` writes no longer count, and four finished plans are retired (same record), so the exception is 127. The other older plans stay because an open question, an open plan row or a live rule still rests on them.
 
-**Next:** the list of `docs/` files to merge or retire is with Brian (sent 2026-11-24; nothing changed until he answers), to reach 100; then layout rows so every tracked file is planned, replacing the hand catalog (`wiki/documents.md`, PR #861 parked); then a Lockstep check that refuses a lint or type suppression an agent adds (`# noqa`, `# type: ignore`, an import-linter ignore) unless the same line names its reason, shipped in the template's `make check`.
+**Next:** discuss with Brian how to cover the last 27 files to 100 (what can still go is listed in the retirement record's "Kept on purpose" paragraph); then layout rows so every tracked file is planned, replacing the hand catalog (`wiki/documents.md`, PR #861 parked); then a Lockstep check that refuses a lint or type suppression an agent adds (`# noqa`, `# type: ignore`, an import-linter ignore) unless the same line names its reason, shipped in the template's `make check`.
 
 **Parking list** (slices of the plan, in order; Brian 2026-11-24: "i approve adding the redit ideas to the plan and i will trust your jdugement on the impelemtnation prirotiy", after the [Reddit thread](https://www.reddit.com/r/ClaudeAI/comments/1y1my5l/) review; the thread's fourth idea, two tries per bug then revert, is already a workspace rule, Policy `two-tries-then-reset`):
 

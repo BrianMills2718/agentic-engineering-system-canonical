@@ -84,9 +84,9 @@ Source: Brian, 2026-11-11: "i approve single tool desing re d4"; proposals/one-p
 
 Source: Brian, 2026-11-11: "i approve single tool desing re d4"; proposals/one-planning-tool/DESIGN.md, slice 6 ("Requirement text in docstrings" and "Status per requirement" rows)
 
-Source: Brian, 2026-11-23: "isnt there like a file that has how everythign is linked to everythign else like how capabilities link to fils link to successc riteria"; plan docs/planning/linked-chain-core-2026-11-23.md
+Source: Brian, 2026-11-23: "isnt there like a file that has how everythign is linked to everythign else like how capabilities link to fils link to successc riteria"; plan https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/ddf7c9e96d4392b021756f16f4fb5c4e5919be86/docs/planning/linked-chain-core-2026-11-23.md
 
-Source: Brian, 2026-11-23: "i approve" (decision -> requirement or code links that the hook hands over, read from lines that already exist); plan docs/planning/links-existing-lines-2026-11-23.md
+Source: Brian, 2026-11-23: "i approve" (decision -> requirement or code links that the hook hands over, read from lines that already exist); plan https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/ddf7c9e96d4392b021756f16f4fb5c4e5919be86/docs/planning/links-existing-lines-2026-11-23.md
 
 #### Scenario: Status lists implementers and tests
 
@@ -100,7 +100,7 @@ Source: Brian, 2026-11-23: "i approve" (decision -> requirement or code links th
 - **WHEN** `lockstep check project` runs
 - **THEN** `docs/links.json` holds the capability, requirement, scenario, test, symbol and both files as nodes, linked capability to requirement to scenario to test, and requirement to symbol to file with its line
 
-Source: Brian, 2026-11-23: "i approve" (reading the existing `Closes:`, `Source:` and quote lines into `links.json`); plan docs/planning/links-existing-lines-2026-11-23.md
+Source: Brian, 2026-11-23: "i approve" (reading the existing `Closes:`, `Source:` and quote lines into `links.json`); plan https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/ddf7c9e96d4392b021756f16f4fb5c4e5919be86/docs/planning/links-existing-lines-2026-11-23.md
 
 #### Scenario: The link file reads plans, sources and quotes
 
@@ -190,7 +190,7 @@ Source: Brian, 2026-11-11: "i approve single tool desing re d4"; proposals/one-p
 
 In a repository whose `lockstep.yaml` has `layout:` rows, `docs/links.json` SHALL hold a `file` node for each row's path and a `symbol` node for each declared export, each with `state` `planned` when the file (or, for an export, the top-level function or class of that name in the file) does not exist yet and `exists` when it does. A row's `file` node SHALL link to the requirements the row implements and to its test files; an export's `symbol` node, with ID the file's module path and the export name, SHALL link to the file. An implementer found in a comment line (no Python symbol) SHALL link its requirement to the `file` node directly.
 
-Source: Brian, 2026-11-23: "i approve", item (c) of `docs/planning/back-on-design-2026-11-23.md`; `docs/architecture/LOCKSTEP.md:23-26` (requirement, file and symbol are one chain); plan `docs/planning/template-layout-2026-11-23.md`, step 4.
+Source: Brian, 2026-11-23: "i approve", item (c) of `https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/ddf7c9e96d4392b021756f16f4fb5c4e5919be86/docs/planning/back-on-design-2026-11-23.md`; `docs/architecture/LOCKSTEP.md:23-26` (requirement, file and symbol are one chain); plan `https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/ddf7c9e96d4392b021756f16f4fb5c4e5919be86/docs/planning/template-layout-2026-11-23.md`, step 4.
 
 #### Scenario: A planned file that does not exist yet is shown as planned
 

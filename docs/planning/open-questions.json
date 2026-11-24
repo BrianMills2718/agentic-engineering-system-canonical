@@ -998,7 +998,7 @@
    "resolves_with": "Add one sentence to code2-workspace agents/topics/working-method.md 'plan size'.",
    "recommendation": "Yes; that is where the minimal-core plan dropped the file layout without anyone checking.",
    "default": "The review stays written only in back-on-design item 5.",
-   "evidence": "docs/planning/back-on-design-2026-11-23.md item 5; minimal-core-2026-11-20.md:103 folded the file list as an agent inference. Resolved 2026-11-23 by the recommendation (Brian: \"i approve\"): code2-workspace agents/topics/working-method.md, \"Plan size\", now asks the independent read (or cold review) to list every departure from the settled design documents with file and line (code2-workspace #930; Policy plan-review-lists-departures).",
+   "evidence": "https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/ddf7c9e96d4392b021756f16f4fb5c4e5919be86/docs/planning/back-on-design-2026-11-23.md item 5; minimal-core-2026-11-20.md:103 folded the file list as an agent inference. Resolved 2026-11-23 by the recommendation (Brian: \"i approve\"): code2-workspace agents/topics/working-method.md, \"Plan size\", now asks the independent read (or cold review) to list every departure from the settled design documents with file and line (code2-workspace #930; Policy plan-review-lists-departures).",
    "owner": "agent",
    "status": "resolved",
    "touches": [

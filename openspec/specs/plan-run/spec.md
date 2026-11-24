@@ -30,7 +30,7 @@ Source: Brian, 2026-11-20: "the goal is to give a well specified plan to an agen
 - **WHEN** the departure report runs with the change's name
 - **THEN** it lists the `- [ ]` line as unticked and not the ticked one
 
-Source: Brian, 2026-11-23: "i approve", item (c) of `docs/planning/back-on-design-2026-11-23.md` (a plan names its files in `layout:` rows); plan `docs/planning/template-layout-2026-11-23.md`, step 3.
+Source: Brian, 2026-11-23: "i approve", item (c) of `https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/ddf7c9e96d4392b021756f16f4fb5c4e5919be86/docs/planning/back-on-design-2026-11-23.md` (a plan names its files in `layout:` rows); plan `https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/ddf7c9e96d4392b021756f16f4fb5c4e5919be86/docs/planning/template-layout-2026-11-23.md`, step 3.
 
 #### Scenario: A file planned by a layout row at REF is not listed
 
@@ -108,7 +108,7 @@ Source: Brian, 2026-09-14: "the answer is always yes" (keep Claude Code and Code
 
 The implementer's prompt and the acceptance-test writer's prompt SHALL say that when `lockstep.yaml` has `layout:` rows, those rows name the files the plan creates or changes, with their exports; the implementer's prompt SHALL tell it to run `uv run lockstep layout` before writing code, so each new planned file starts with its requirement text.
 
-Source: Brian, 2026-11-23: "i approve", item (c) of `docs/planning/back-on-design-2026-11-23.md`; `proposals/one-planning-tool/DESIGN.md` step 3 (`lockstep layout` creates the planned files before code); plan `docs/planning/template-layout-2026-11-23.md`, step 3.
+Source: Brian, 2026-11-23: "i approve", item (c) of `https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/ddf7c9e96d4392b021756f16f4fb5c4e5919be86/docs/planning/back-on-design-2026-11-23.md`; `proposals/one-planning-tool/DESIGN.md` step 3 (`lockstep layout` creates the planned files before code); plan `https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/ddf7c9e96d4392b021756f16f4fb5c4e5919be86/docs/planning/template-layout-2026-11-23.md`, step 3.
 
 #### Scenario: The implementer is told to run lockstep layout
 

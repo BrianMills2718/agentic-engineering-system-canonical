@@ -1,7 +1,7 @@
 # Template layout proof run, 2026-11-23
 
-Step 6 of [the template-layout plan](../../planning/template-layout-2026-11-23.md). Source: Brian, 2026-11-23: "i approve",
-item (c) of [back-on-design](../../planning/back-on-design-2026-11-23.md).
+Step 6 of [the template-layout plan](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/ddf7c9e96d4392b021756f16f4fb5c4e5919be86/docs/planning/template-layout-2026-11-23.md). Source: Brian, 2026-11-23: "i approve",
+item (c) of [back-on-design](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/ddf7c9e96d4392b021756f16f4fb5c4e5919be86/docs/planning/back-on-design-2026-11-23.md).
 
 ## What was run
 

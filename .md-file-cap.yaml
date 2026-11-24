@@ -1,12 +1,21 @@
-limit: 149
+limit: 128
 reason: >
-  Set 2026-11-24 to the count left after the OpenSpec change archive (230 Markdown files) was removed
-  (docs/retired/2026-11-24.md; Brian, 2026-11-24: "i approve" to trimming this repository to the
-  100-file cap). The rest of the gap is in docs/, where a list of files to merge or retire goes to
-  Brian before any is changed. This limit only goes down: each merge or retirement lowers it to the
-  new count, and it is removed when the count is 100 or less.
+  Set 2026-11-24 to the count left after the OpenSpec change archive (230 Markdown files) and four
+  finished plans were removed, and the 18 OpenSpec skill copies that `openspec init` writes stopped
+  counting (docs/retired/2026-11-24.md; Brian, 2026-11-24: "i approve" to trimming to the 100-file cap,
+  then "cut whatever get us to optimal and safe then we can discuss"). The remaining 27 files are each
+  still read or still live; which to merge or retire next is for discussion with Brian. This limit
+  only goes down: each merge or retirement lowers it to the new count, and it is removed when the
+  count is 100 or less. It is 128 for one merge: the archived change that declares the wording-only
+  spec edits is removed in the next commit, which lowers it to 127.
 layout_ok:
   - path: template
     reason: >
       The starter copied into every new repository (copier); its docs/decisions/ is that new
       repository's decision folder, not this repository's.
+unlinked_ok:
+  - path: openspec/changes/archive/
+    reason: >
+      An archived OpenSpec change stays only for the merge that archives it (ship's prior-art and
+      changed checks read it there) and is removed in the next commit (code2-workspace AGENTS.md,
+      OpenSpec bullet; Brian, 2026-11-24).

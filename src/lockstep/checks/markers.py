@@ -55,7 +55,7 @@ comment opener (`#`, `{#`, `//` or `<!--`), starts with `Implements:`, naming on
 commas, with any closing `#}` or `-->` removed. A line with no comment opener (such as a docstring line in a `.py.jinja` file) is not read. With no
 `comment_sources`, no such file is read.
 
-Source: Brian, 2026-11-23: "i approve", item (c) of `docs/planning/back-on-design-2026-11-23.md`; open question Q50
+Source: Brian, 2026-11-23: "i approve", item (c) of `https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/ddf7c9e96d4392b021756f16f4fb5c4e5919be86/docs/planning/back-on-design-2026-11-23.md`; open question Q50
 in `docs/planning/open-questions.json` (recommendation "Yes, for configured paths only").
 
 #### Scenario: Trace: A Jinja comment in a configured folder implements a requirement
