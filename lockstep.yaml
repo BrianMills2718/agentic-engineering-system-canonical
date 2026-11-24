@@ -1182,22 +1182,6 @@ layout:
     commands and workflow.
   implements: []
   tests: []
-- path: openspec/changes/archive/2026-11-24-suppression-reasons/proposal.md
-  purpose: 'OpenSpec change proposal: an added suppression names its reason'
-  implements: []
-  tests: []
-- path: openspec/changes/archive/2026-11-24-suppression-reasons/prior-art.json
-  purpose: 'Prior-art record for the suppressions check'
-  implements: []
-  tests: []
-- path: openspec/changes/archive/2026-11-24-suppression-reasons/specs/lockstep-checks/spec.md
-  purpose: 'Spec delta adding the suppressions check requirements'
-  implements: []
-  tests: []
-- path: openspec/changes/archive/2026-11-24-suppression-reasons/tasks.md
-  purpose: 'Task list for the suppressions check change'
-  implements: []
-  tests: []
 - path: openspec/changes/archive/.gitkeep
   purpose: Empty placeholder that keeps the archive folder in git after its change folders were removed.
   implements: []

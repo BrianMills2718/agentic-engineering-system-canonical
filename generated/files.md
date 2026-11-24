@@ -225,10 +225,6 @@ Generated from [lockstep.yaml](../lockstep.yaml); edit the source, not this bloc
 | [lockstep.yaml](../lockstep.yaml) | Declares the projection module as source for architecture and wiki full-docstring assessment copies, without edit guards or unrelated policies. |
 | [lychee.toml](../lychee.toml) | Excludes worktree paths and GitHub line anchors from link checking, assigning file-and-line validation to a separate citation checker. |
 | [meta-process/templates/agents.md.template](../meta-process/templates/agents.md.template) | Defines generated AGENTS structure and provenance placeholders for canonical instructions, relationship digest, commands and workflow. |
-| [openspec/changes/archive/2026-11-24-suppression-reasons/proposal.md](../openspec/changes/archive/2026-11-24-suppression-reasons/proposal.md) | OpenSpec change proposal: an added suppression names its reason |
-| [openspec/changes/archive/2026-11-24-suppression-reasons/prior-art.json](../openspec/changes/archive/2026-11-24-suppression-reasons/prior-art.json) | Prior-art record for the suppressions check |
-| [openspec/changes/archive/2026-11-24-suppression-reasons/specs/lockstep-checks/spec.md](../openspec/changes/archive/2026-11-24-suppression-reasons/specs/lockstep-checks/spec.md) | Spec delta adding the suppressions check requirements |
-| [openspec/changes/archive/2026-11-24-suppression-reasons/tasks.md](../openspec/changes/archive/2026-11-24-suppression-reasons/tasks.md) | Task list for the suppressions check change |
 | [openspec/changes/archive/.gitkeep](../openspec/changes/archive/.gitkeep) | Empty placeholder that keeps the archive folder in git after its change folders were removed. |
 | [openspec/config.yaml](../openspec/config.yaml) | Selects OpenSpec’s spec-driven schema; optional context, artifact rules and operation guidance remain commented examples rather than active custom requirements. |
 | [openspec/specs/.gitkeep](../openspec/specs/.gitkeep) | Empty tracked placeholder retaining the directory in Git, with no substantive requirement or history. |
