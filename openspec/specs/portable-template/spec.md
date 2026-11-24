@@ -63,6 +63,8 @@ Source: Brian, 2026-11-20: "the whole thing should be configurable and shareable
 The `lockstep-fast` pre-commit job of a copy SHALL stage each file `lockstep check project` reports as rewritten,
 except a file git ignores, and SHALL then run `make fast`. An ignored rewritten file SHALL NOT make the commit fail.
 
+Source: inferred by agent (archived change 2026-11-22-hook-skips-ignored-rewrites, proposal.md: the 2026-11-22 second-user test failure, exit 123)
+
 #### Scenario: An ignored status page does not block a commit
 
 - **GIVEN** a copy whose `.gitignore` lists `docs/status.md`

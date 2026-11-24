@@ -14,6 +14,8 @@ reversible: true
 Governs: RULE-DEPENDENCY-CHANGE-STALES
 (Superseded by Decision 0008, which now governs that rule.)
 
+Source: inferred by agent (front matter: accepted under "Brian Mills delegated high-confidence planning authority", 2026-09-18; no words of Brian's recorded)
+
 > Superseded by Decision 0008 after review found that file-by-file identity omitted transitive executable dependencies and environment identity.
 
 ## Context

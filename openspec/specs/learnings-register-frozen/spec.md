@@ -12,6 +12,8 @@ Source: Brian, 2026-11-16, "i approve A" (Decision 18: freeze the register). Inf
 
 The feedback collector SHALL read existing learnings only from the folder named by `LEARNINGS_REGISTER` (default `~/code2/learnings-archive/entries`). It SHALL NOT write to any learnings register: `file_item` SHALL fail, and `--legacy-register` SHALL be refused with a non-zero exit.
 
+Source: Brian, 2026-11-16: "i approve A" (Decision 18: freeze the register; docs/planning/project-meta-retirement-plan.md row 2 and this spec's Purpose; commit 4e785b286)
+
 #### Scenario: register-read-only
 
 - **WHEN** the collector builds its repeat index and a caller tries `file_item` or `--legacy-register`

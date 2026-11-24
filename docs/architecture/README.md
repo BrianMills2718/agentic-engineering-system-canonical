@@ -15,6 +15,10 @@ Read the current whole-system account first:
 6. [Ecosystem and predecessor review](ECOSYSTEM.md): capability discovery, source ownership and the continuing legacy reading sequence.
 7. [Implementation map](../planning/SYSTEM_MODEL.md) and [open concerns](../../wiki/open-questions.md).
 
+The [arc42 map](arc42.md) lists the same documents under the twelve arc42 section headings, and
+[lockstep.c4](lockstep.c4) says which Lockstep packages may import which (`lockstep check arch gen` writes the
+import contracts from it).
+
 These pages reconcile recorded direction. OpenSpec supplies current executable
 Lockstep behavior contracts. Read implementation and run evidence separately
 before asserting that a requirement works.

@@ -12,6 +12,8 @@ Source: Brian, 2026-11-16, "i assume this should be configurable within aes. i.e
 
 The command SHALL read the subreddits to watch from `scripts/learning_loop/external_sources.yaml`. Each entry SHALL have a unique name, a non-empty reason, a listing (`top` or `new`), a window (`day`, `week`, `month` or `year`), a post limit from 1 to 100 and a minimum score of 0 or more. An invalid file SHALL make the command exit non-zero before any fetch.
 
+Source: Brian, 2026-11-16: "i assume this should be configurable within aes" (openspec/changes/archive/2026-11-16-external-idea-intake/proposal.md)
+
 #### Scenario: invalid-config-refused
 
 - **WHEN** the configuration has an entry with an unknown listing, a missing reason or a duplicate name
@@ -20,6 +22,8 @@ The command SHALL read the subreddits to watch from `scripts/learning_loop/exter
 ### Requirement: The digest ranks new posts by score and age only
 
 For each configured subreddit the command SHALL fetch one listing, drop posts already seen in an earlier run, drop posts below the minimum score or older than the window, and write a digest ranked by score and then age. It SHALL NOT judge relevance.
+
+Source: inferred by agent (archived change 2026-11-16-external-idea-intake, proposal.md: relevance is prose meaning and needs a separate model stage; no words of Brian's recorded for this rule)
 
 #### Scenario: digest-filters-and-ranks
 
@@ -30,6 +34,8 @@ For each configured subreddit the command SHALL fetch one listing, drop posts al
 
 Each run SHALL append one record per step to the day's run log (config, each listing call with count or error, filter counts, digest path). A listing call that fails twice with the same error SHALL be reported as down, the other subreddits SHALL still be fetched, and the run SHALL exit non-zero.
 
+Source: inferred by agent (archived change 2026-11-16-external-idea-intake, proposal.md, 2026-11-16; follows the workspace full-trace and fails-twice-is-down rules)
+
 #### Scenario: repeated-failure-is-down
 
 - **WHEN** one subreddit's fetch raises the same error twice
@@ -39,6 +45,8 @@ Each run SHALL append one record per step to the day's run log (config, each lis
 
 Fetched posts, the digest, the seen list and the run log SHALL be written under an output folder outside the repository. The command SHALL NOT write to any learnings register.
 
+Source: inferred by agent (archived change 2026-11-16-external-idea-intake, proposal.md, "Output and privacy", 2026-11-16)
+
 #### Scenario: output-outside-repo
 
 - **WHEN** the command runs with an output folder
@@ -47,6 +55,8 @@ Fetched posts, the digest, the seen list and the run log SHALL be written under 
 ### Requirement: A project profile makes the digest rank by usefulness to Brian's projects
 
 When a project profile is given, the command SHALL ask a light model, once per subreddit, which of that subreddit's new posts could help which profiled project, and SHALL write a digest of only the posts judged useful, grouped by project with the model's one-line reason. The score-only digest SHALL still be written. A post named by the model that was not in the listing SHALL be ignored. A model failure SHALL be logged for that subreddit, the run SHALL exit non-zero, and that subreddit's posts SHALL NOT be marked seen.
+
+Source: Brian, 2026-11-16: "i should be thinking about usefulness to my proejcts not just score" (openspec/changes/archive/2026-11-16-external-idea-relevance/proposal.md)
 
 #### Scenario: useful-digest-groups-by-project
 
@@ -62,6 +72,8 @@ When a project profile is given, the command SHALL ask a light model, once per s
 
 The command SHALL treat every Reddit post whose capture folder exists in `raw/sources/` (named `<date>-reddit-<id>-<slug>`) as already seen.
 
+Source: Brian, 2026-11-16: "on 10a yes i approve" (Decision 10A, which includes marking already-assessed posts as seen; openspec/changes/archive/2026-11-16-external-idea-quality/proposal.md)
+
 #### Scenario: already-assessed-dropped
 
 - **WHEN** a listing holds a post whose id matches a `raw/sources` capture folder
@@ -71,6 +83,8 @@ The command SHALL treat every Reddit post whose capture folder exists in `raw/so
 
 For each post the judge SHALL return useful, not useful or need more (comments, linked pages or both). For need-more posts the command SHALL read exactly the requested material and the judge SHALL return a final verdict from it. The model SHALL be run with no tools and every post, comment and page text SHALL be marked to it as untrusted. Posts the judge gave no verdict for SHALL stay unseen so a later run offers them again (with no retry cap: a post the model keeps skipping is re-judged each run). The reader SHALL refuse non-http(s) links and hosts that resolve to non-public addresses, and SHALL re-check each redirect. The useful digest SHALL list each post once with its projects. Each useful post SHALL record what it was judged from.
 
+Source: Brian, 2026-11-16: "the agent should be able to react dynamically i would think on how much to explore" (openspec/changes/archive/2026-11-16-external-idea-depth/proposal.md)
+
 #### Scenario: depth-judge-reads-more-when-asked
 
 - **WHEN** the model asks for the comments of one post and marks another useful from its title
@@ -79,6 +93,8 @@ For each post the judge SHALL return useful, not useful or need more (comments, 
 ### Requirement: A daily timer runs the digest with the project profile
 
 A systemd user timer SHALL run `external_ideas.py` with the project profile once a day, from the refreshed clone of AES `main`, writing its output under `~/projects/data/external-ideas/`. A failed run SHALL fail the unit.
+
+Source: Brian, 2026-11-16: "i would think it should run every day" (openspec/changes/archive/2026-11-16-external-idea-timer/proposal.md)
 
 #### Scenario: daily-timer-runs-intake
 

@@ -14,6 +14,8 @@ amends:
 
 Governs: docs/architecture/SYSTEM_BOUNDARY.md#aes-ctx-004--truth-lives-where-it-is-edited
 
+Source: Brian, 2026-10-10: "the source of truth should be at the place where the edits are made." (quoted in this record's Context section)
+
 ## Context
 
 On 2026-10-10 a documentation cleanup of DIGIMON (542 Markdown files, 12 with

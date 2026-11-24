@@ -12,6 +12,8 @@ reversible: true
 
 Governs: docs/architecture/SYSTEM_BOUNDARY.md#aes-cap-003--established-modular-design-not-a-parallel-platform
 
+Source: inferred by agent (front matter accepted_by: "Brian Mills (2026-09-22 integration instruction)"; the Context section paraphrases Brian's request that ACA contribute to AES rather than become a parallel programme; no verbatim words recorded)
+
 ## Context and scope
 
 Brian asked that ACA contribute to the Agentic Engineering System rather than

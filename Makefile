@@ -31,6 +31,9 @@ check: check-doc-facts  ## Run all checks (test, mypy, lint)
 	@echo "Running the requirement-order check..."
 	@$(MAKE) --no-print-directory check-source-order
 	@echo ""
+	@echo "Running the code2 format checks..."
+	@$(MAKE) --no-print-directory check-format
+	@echo ""
 	@echo "Running mypy..."
 	@$(PYTHON) -m mypy src/ --ignore-missing-imports
 	@echo ""
@@ -40,11 +43,34 @@ TRACE_ACCEPTED ?= docs/planning/trace-accepted.txt
 TRACE_NOW ?= .trace-now.txt
 TRACE_REPO ?= .
 
-check-source-order:  ## Every requirement states its rule before its Source: line (spec lockstep-checks); items with no Source: line are an older backlog this target does not fail on
+check-source-order:  ## Every requirement states its rule before its Source: line (spec lockstep-checks)
 	@out=$$(PYTHONPATH=src $(PYTHON) -c 'import sys; from lockstep.checks.cli import run; sys.exit(run(["sources"]))' 2>&1); \
 	if ! printf '%s\n' "$$out" | grep -q '^RESULT sources '; then printf '%s\n' "$$out" | tail -n 20; echo "check-source-order: the sources check did not run"; exit 1; fi; \
 	bad=$$(printf '%s\n' "$$out" | grep '^source-first '); \
 	if [ -n "$$bad" ]; then printf '%s\n' "$$bad"; exit 1; fi; echo "RESULT check-source-order exit=0"
+
+LOCKSTEP ?= $(if $(wildcard .venv/bin/lockstep),.venv/bin/lockstep,uv run lockstep)
+FORMAT_BASE ?= origin/main
+
+# One format check: $(1) is the line its summary starts with, $(2) the `lockstep check` arguments. It fails when the
+# check exits non-zero or prints no summary line (a check that did not run must not pass).
+define format_check
+	@out=$$($(LOCKSTEP) check $(2) 2>&1); ec=$$?; \
+	if [ $$ec -ne 0 ] || ! printf '%s\n' "$$out" | grep -q '^$(1)'; then printf '%s\n' "$$out" | tail -n 20; echo "check-format: lockstep check $(2) failed (exit $$ec)"; exit 1; fi; \
+	printf '%s\n' "$$out" | grep '^$(1)'
+endef
+
+check-format:  ## The code2 format checks the template's make check runs: import contracts, Source lines, page front matter, tests first, changed requirements, and the whole-tree plan check (the docs build does not apply: AES has no zensical site)
+	$(call format_check,RESULT arch-check ,arch check)
+	$(call format_check,RESULT sources ,sources)
+	$(call format_check,docmeta: ,docmeta)
+	$(call format_check,RESULT test-first ,test-first --base $(FORMAT_BASE))
+	$(call format_check,RESULT changed ,changed --base $(FORMAT_BASE))
+	@base=$$(git merge-base HEAD $(FORMAT_BASE) 2>/dev/null); if [ -z "$$base" ]; then echo "check-format: no merge base with $(FORMAT_BASE)"; exit 1; fi; \
+	out=$$($(LOCKSTEP) check --repo . --base "$$base" 2>&1); ec=$$?; \
+	if [ $$ec -ne 0 ] || ! printf '%s\n' "$$out" | grep -q '^OUTCOME '; then printf '%s\n' "$$out" | tail -n 20; echo "check-format: the whole-tree check failed (exit $$ec)"; exit 1; fi; \
+	printf '%s\n' "$$out" | grep '^OUTCOME '
+	@echo "RESULT check-format exit=0"
 
 check-copies:  ## A planned file's plan copy must be current and a fixed: file must have one (spec lockstep-projection); the committed status page and links file keep their own refresh
 	@out=$$(PYTHONPATH=src $(PYTHON) -c 'import sys; from lockstep.checks.cli import run; sys.exit(run(["project", "--check"]))' 2>&1); \

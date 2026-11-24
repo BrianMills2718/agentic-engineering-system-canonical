@@ -12,6 +12,8 @@ Source: inferred by agent from Project Meta `scripts/build_project_activity.py`,
 
 Each project whose checkout exists SHALL show its last commit, branch and uncommitted-file count read from git; a missing checkout SHALL be reported as not on this machine; a failed GitHub lookup SHALL be recorded in the output.
 
+Source: inferred by agent (port of Project Meta scripts/build_project_activity.py, commit d01400338, 2026-11-16; spec Purpose)
+
 #### Scenario: last-commit-per-checkout
 
 - **WHEN** the graph holds one real checkout and one path that does not exist
@@ -20,6 +22,8 @@ Each project whose checkout exists SHALL show its last commit, branch and uncomm
 ### Requirement: settings-come-from-config
 
 The owner and the map of GitHub accounts to `gh` wrappers SHALL come from `graph-config.yaml` beside the graph (the owner may also come from `PROJECT_GRAPH_OWNER`), and a missing value SHALL stop the run naming where to set it.
+
+Source: inferred by agent (port of Project Meta scripts/build_project_activity.py under the D20 decision that settings are configuration, commit d01400338, 2026-11-16; spec Purpose)
 
 #### Scenario: settings-come-from-config
 

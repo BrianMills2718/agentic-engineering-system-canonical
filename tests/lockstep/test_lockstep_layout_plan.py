@@ -302,3 +302,29 @@ def test_a_refusal_in_a_layout_repository_points_to_lockstep_show(lay, monkeypat
     reason = _hook(call, monkeypatch, capsys)["permissionDecisionReason"]
     assert "uv run lockstep show" in reason, reason
     assert "lockstep.wiki" not in reason, reason
+
+
+@pytest.mark.req("lockstep-plan-format/an-unplanned-file-is-refused-against-the-layout")
+def test_a_patch_is_refused_when_any_file_in_it_is_unplanned(lay, monkeypatch, capsys):
+    """Open question Q26: an allowed first file in a patch used to let the rest of the patch through unchecked."""
+    _layout(lay)
+    (lay / "scripts").mkdir()
+    (lay / "scripts/tool.py").write_text('"""Tool.\n\nImplements: greeting/greet-by-name\n"""\n')
+    patch = ("*** Begin Patch\n*** Update File: scripts/tool.py\n@@\n-x\n+y\n"
+             "*** Add File: src/greeter/extra.py\n+x = 1\n*** End Patch\n")
+    call = {"hook_event_name": "PreToolUse", "cwd": str(lay), "tool_name": "apply_patch", "tool_input": {"input": patch}}
+    out = _hook(call, monkeypatch, capsys)
+    assert out["permissionDecision"] == "deny"
+    assert "src/greeter/extra.py" in out["permissionDecisionReason"]
+
+
+@pytest.mark.req("lockstep-plan-format/an-unplanned-file-is-refused-against-the-layout")
+def test_a_rename_to_an_unplanned_name_is_refused(lay, monkeypatch, capsys):
+    """Open question Q26: the new name in a patch's `*** Move to:` line is judged like any other written file."""
+    _layout(lay)
+    patch = ("*** Begin Patch\n*** Update File: src/greeter/__init__.py\n*** Move to: src/greeter/renamed.py\n"
+             "@@\n-x\n+y\n*** End Patch\n")
+    call = {"hook_event_name": "PreToolUse", "cwd": str(lay), "tool_name": "apply_patch", "tool_input": {"input": patch}}
+    out = _hook(call, monkeypatch, capsys)
+    assert out["permissionDecision"] == "deny"
+    assert "src/greeter/renamed.py" in out["permissionDecisionReason"]

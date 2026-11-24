@@ -12,6 +12,8 @@ Source: Brian, 2026-11-16, "no we arent waiting. wha else can we do of value?" (
 
 The verifier SHALL pass a repair only when all five gates pass: the committed report validates and matches the executor binding; every declared prevention path changed in the diff; the recurrence proof fails on the observed revision (with only its declared harness files copied in) and passes on the fix; the concern's own source signal is green; and an independent reviewer judges the diff a root-cause fix. It SHALL NOT run the reviewer when a mechanical gate failed.
 
+Source: inferred by agent (copied unchanged from Project Meta's concern repair verifier in commit 73c0f43a2, 2026-11-16, retirement plan slice 3; spec Purpose)
+
 #### Scenario: five-gates-pass-root-cause-fix
 
 - **WHEN** a repair has a valid report, changed prevention paths, a proof that fails before and passes after, a green source signal and a reviewer verdict of root cause fixed
@@ -25,6 +27,8 @@ The verifier SHALL pass a repair only when all five gates pass: the committed re
 ### Requirement: A recurrence proof that cannot fail does not count
 
 The recurrence proof SHALL fail closed: when its harness files are missing, when the control is the fix itself, or when it cannot be executed, the gate fails.
+
+Source: inferred by agent (copied unchanged from Project Meta's concern repair verifier in commit 73c0f43a2, 2026-11-16, retirement plan slice 3; spec Purpose)
 
 #### Scenario: proof-fails-closed
 

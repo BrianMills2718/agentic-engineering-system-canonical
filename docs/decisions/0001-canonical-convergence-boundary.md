@@ -11,6 +11,8 @@ date: 2026-09-16
 
 Governs: docs/architecture/SYSTEM_BOUNDARY.md, .agentic/repo.yaml
 
+Source: inferred by agent (front matter accepted_by: Brian Mills, 2026-09-16; commit 27917737c; no words of Brian's recorded)
+
 ## Context
 
 Several strong pieces of the intended Agentic Engineering System evolved separately: wiki/context and derived documentation, target/current/gap reconciliation, Company Planning, Enforced Planning, Agentic Capability Architecture, Data Contracts, Project Meta policy machinery, and multiple AES lineages.

@@ -12,6 +12,8 @@ Source: Brian, 2026-11-16, "does it make snese to again make this a configuratio
 
 `scripts/timers.py` SHALL turn each job (name, description, reason, command, schedule) into a `<name>.service` and a `<name>.timer` file. It SHALL refuse a list in which a job has no reason or no command, a repeated or malformed name, or a key it does not know.
 
+Source: Brian, 2026-11-16: "does it make snese to again make this a configuration thing that aes handles timers thorugh a configuration?" (this spec's Purpose; Decision 21; commit 0e0698283)
+
 #### Scenario: jobs-become-units
 
 - **WHEN** a list holds a job with a command and a schedule
@@ -25,6 +27,8 @@ Source: Brian, 2026-11-16, "does it make snese to again make this a configuratio
 ### Requirement: Installing never deletes
 
 `install` SHALL copy each installed file it replaces into a timestamped backup folder before writing, SHALL write only files whose content differs, and SHALL run `systemctl --user daemon-reload` after writing.
+
+Source: inferred by agent (timer-config spec Purpose, commit 0e0698283, 2026-11-16; workspace rule against deleting without asking)
 
 #### Scenario: install-backs-up-first
 

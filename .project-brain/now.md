@@ -1,4 +1,4 @@
-# Minimal core met; template and ship live here (updated 2026-11-23)
+# Minimal core met; template and ship live here (updated 2026-11-24)
 
 Brian, 2026-11-20: "the whole thing should be configurable and shareable/protable. we shoudl start with the minimal
 core". The first milestone is met: a repository made from the template ran one plan each in Claude and Codex in a
@@ -91,7 +91,9 @@ carry cog blocks filled from the rows, its edit hook refuses an unplanned file u
 Edit, hidden tests went 0/3 to 3/3 ([evidence](../docs/evidence/template-layout-proof-2026-11-23/README.md)); the
 departure report now skips a row's test file and `docs/specs/` links. Slice 2 is complete.
 
-**Next:** slice 3 of back-on-design: settle the add-on's invented parts (node type names, limits, the wider meaning of `Governs:`) with Brian's answers.
+**Format cleanup, 2026-11-24** (Brian: "do the cleanup carefully"): this repository now meets the code2 format (`scripts/repo_format.py` compliant 1 of 1; Q17 resolved). New: [arc42 map](../docs/architecture/arc42.md), [lockstep.c4](../docs/architecture/lockstep.c4) and the `.importlinter` contracts written from it; every requirement and decision has a `Source:` line (`lockstep check sources` missing 0); `make check` runs `check-format` (arch, sources, docmeta, test-first, changed, whole-tree). The edit hook now judges every file and rename destination in a patch before allowing it (Q26 narrowed to a live Codex payload). 326 merged remote branches removed ([restore list](../docs/retired/2026-11-24-branches.md)).
+
+**Next:** none planned; the back-on-design plan's three slices are complete. Open for Brian: the complete-file catalog (`wiki/documents.md`) covers 517 of 896 tracked files (PR #861 parked).
 
 # AES assessment (2026-11-19)
 

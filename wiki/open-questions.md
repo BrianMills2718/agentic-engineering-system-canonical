@@ -33,16 +33,6 @@ Sources: [docs/decisions/0011-inside-success-aes-archived-canonical-is-aes.md](.
 
 Owner: brian.
 
-### Q17: Not in the code2 repository format
-
-~/code2/AGENTS.md brings each repository into the code2 format when it is next changed; scripts/repo_format.py reports this one 0 of 1 compliant (missing docs/index.md, arc42, a .c4 model, a Makefile that mentions code2check). The one-tool build changes this repository, and its slice 6 replaces code2check with lockstep in the code2 template. Adopt the format now, or in slice 6?
-
-Next evidence or disposition: An argument settles it: the format's code2check target is the part slice 6 replaces, so adding it now would be redone; add docs/index.md now (pointing at wiki/index.md) and the rest in slice 6, when the template installs lockstep.
-
-Sources: [workspace instructions](https://github.com/BrianMills2718/code2-workspace/blob/main/AGENTS.md), [proposals/one-planning-tool/DESIGN.md](../proposals/one-planning-tool/DESIGN.md), [docs/planning/checks.txt](../docs/planning/checks.txt).
-
-Owner: agent.
-
 ### Q19: Who runs the plan check
 
 Slice 5 merged (#832) and kept both copies of the plan and acceptance checks, with the same checks (wiki/lockstep.md:45): does Company Planning's adoption gate (method_conformance adopt) now call `lockstep plan check`, or keep its own copy for the Inside Success team?
@@ -93,13 +83,11 @@ closes G-SELF and the bounded Claude part of G-NATIVE. Native Codex execution,
 default-session loading and general OpenSpec upward-edit parity remain open;
 see the [current observation](../docs/architecture/LOCKSTEP.md#aes-self-adoption-observation).
 
-### Q26: Guard must check every affected path
+### Q26: Guard checked against a real Codex patch event
 
-Does the edit guard judge every file and rename destination before allowing a patch?
+The edit guard now judges every file and every rename destination in a patch before allowing it (fixed 2026-11-24; tests in [tests/lockstep/test_lockstep_layout_plan.py](../tests/lockstep/test_lockstep_layout_plan.py)). Does a real Codex apply_patch event reach the hook in the shape those tests use?
 
-Evidence: Read-only decide() probes in block mode allowed a planned-first/unplanned-second patch and an unplanned rename destination; the extra file alone was denied.
-
-Recommendation: Repair complete write-set aggregation and native payload adaptation in a separately authorized implementation; verify the actual host event as well as the decision function.
+Recommendation: Capture one real Codex apply_patch PreToolUse payload from the hook log and add it as a test fixture.
 
 Sources: [src/lockstep/hook.py](../src/lockstep/hook.py), [tests/lockstep/test_lockstep_hook.py](../tests/lockstep/test_lockstep_hook.py).
 

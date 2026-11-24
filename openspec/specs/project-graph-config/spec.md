@@ -12,6 +12,8 @@ Source: Brian, 2026-11-16, "i approve d20" (Decision 20 yes) after "the project 
 
 `md_file_cap.py` SHALL read the project graph from the `PROJECT_GRAPH` environment variable, else from `~/code2/aes-config/PROJECT_GRAPH.json`, and the GitHub owner to check from `PROJECT_GRAPH_OWNER`, else from `owner:` in `graph-config.yaml` beside the graph. It SHALL exit with a message naming both when no owner is set, and SHALL NOT assume a default owner.
 
+Source: Brian, 2026-11-16: "the project graph is somethign that is cofnigruable for aes. so that is basically my specific configuration" (this spec's Purpose; commit 45c2e3a0c)
+
 #### Scenario: owner-from-config
 
 - **WHEN** a graph folder holds `graph-config.yaml` with `owner: someone` and no environment override

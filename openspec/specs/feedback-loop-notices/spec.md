@@ -12,6 +12,8 @@ Source: Brian, 2026-11-16 ("i approve", Decision 17 A: the notice goes to Telegr
 
 The feedback loop scripts that file concerns or send notices (`problems.py`, `label_items.py`, `fix_owner.py`, `policies.py`, `alert.py`, `notify.py`; `collect_feedback.py` for notices only) SHALL call only the concern adapter `scripts/concern_issue.py` and the push sender `scripts/learning_loop/notify.py` from this repository. They SHALL NOT call any script under a Project Meta checkout.
 
+Source: inferred by agent (retirement plan slice 2, docs/planning/project-meta-retirement-plan.md; commit 0fb6cfe12, 2026-11-16; spec Purpose)
+
 #### Scenario: no-project-meta-path
 
 - **WHEN** the loop scripts are read
@@ -20,6 +22,8 @@ The feedback loop scripts that file concerns or send notices (`problems.py`, `la
 ### Requirement: A message counts as sent only on Telegram acceptance
 
 `notify.py` SHALL send one Telegram `sendMessage` (plain text) and report it delivered only when Telegram answers HTTP 200 with `ok` true and a `message_id`. It SHALL NOT call `getUpdates` or `deleteWebhook`, because the bot's webhook belongs to another service. With the token or chat id missing, or on any network error or other answer, it SHALL report not delivered, exit non-zero and never raise. It SHALL NOT print the token or chat id.
+
+Source: inferred by agent (Decision 17 A chose Telegram through the existing bot; the acceptance rule is the agent's; docs/planning/project-meta-retirement-plan.md row 2; commit 0fb6cfe12, 2026-11-16)
 
 #### Scenario: attention-push-arrives
 
@@ -34,6 +38,8 @@ The feedback loop scripts that file concerns or send notices (`problems.py`, `la
 ### Requirement: Loop failures are concerns
 
 When a loop script fails (weekly problems, nightly collector, fix owner) or the policy check finds unregistered rules, it SHALL open or update a keyed concern through `scripts/concern_issue.py` and SHALL NOT call a Project Meta script.
+
+Source: inferred by agent (retirement plan row 2: failed runs become a keyed concern through scripts/learning_loop/alert.py, Decision 4 A; commit 0fb6cfe12, 2026-11-16)
 
 #### Scenario: loop-failures-are-concerns
 

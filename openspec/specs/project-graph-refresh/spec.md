@@ -12,6 +12,8 @@ Source: inferred by agent from Project Meta scripts/project_graph_refresh.py (re
 
 Each step SHALL be timed and appended to one log per day (`project-graph-refresh-YYYY-MM-DD.log`) with its name, command, exit status, seconds and output, in this order: register new repositories, fill `depends_on`, taxonomy check, land the graph, activity snapshot, page, publish. A failed `depends_on` scan SHALL be reported and the run SHALL carry on; any other failed step SHALL stop the run.
 
+Source: inferred by agent (rewrite of Project Meta scripts/project_graph_refresh.py, commit d000eb8c8, 2026-11-16; spec Purpose)
+
 #### Scenario: step-log
 
 - **WHEN** a step exits 3
@@ -20,6 +22,8 @@ Each step SHALL be timed and appended to one log per day (`project-graph-refresh
 ### Requirement: graph-lands-in-settings-repo
 
 The steps SHALL work on a staging copy of the graph. Only when the copy differs from the live graph after the taxonomy check passes SHALL the job copy it over the live file, commit that one file with the configured `git_identity` and `git push origin HEAD:main` in the settings repository, never through a pull request and never forced. The settings repository SHALL be on main and clean before the run (then `pull --ff-only`) and clean after the commit; otherwise nothing is committed or pushed and the problem is reported, and the page still goes out.
+
+Source: inferred by agent (rewrite of Project Meta scripts/project_graph_refresh.py under the D20 decision that records live in the private aes-config repository, commit d000eb8c8, 2026-11-16)
 
 #### Scenario: graph-lands-in-settings-repo
 
@@ -30,6 +34,8 @@ The steps SHALL work on a staging copy of the graph. Only when the copy differs 
 
 The activity snapshot and the page SHALL be rebuilt from the staged graph and pushed to the configured data branch of the page repository (`docs/plans/project_activity.json`, `docs/plans/project-graph.review.html`), never to its main; the data branch starts with no history the first time.
 
+Source: inferred by agent (rewrite of Project Meta scripts/project_graph_refresh.py, commit d000eb8c8, 2026-11-16: page and activity to code2-workspace's data branch)
+
 #### Scenario: page-goes-to-data-branch
 
 - **WHEN** two daily runs publish
@@ -39,6 +45,8 @@ The activity snapshot and the page SHALL be rebuilt from the staged graph and pu
 
 A run with problems SHALL open (or comment on) the keyed concern `project-graph-refresh` in the configured concern repository through `scripts/concern_issue.py`; a clean run SHALL close it.
 
+Source: inferred by agent (rewrite of Project Meta scripts/project_graph_refresh.py, commit d000eb8c8, 2026-11-16; spec Purpose)
+
 #### Scenario: failure-opens-one-concern
 
 - **WHEN** a run ends with a problem
@@ -47,6 +55,8 @@ A run with problems SHALL open (or comment on) the keyed concern `project-graph-
 ### Requirement: no-push-changes-nothing
 
 With `--no-push` every step SHALL run but nothing SHALL be committed or pushed, the live graph SHALL stay unchanged, and no concern SHALL be opened or closed.
+
+Source: inferred by agent (rewrite of Project Meta scripts/project_graph_refresh.py, commit d000eb8c8, 2026-11-16; spec Purpose)
 
 #### Scenario: no-push-changes-nothing
 

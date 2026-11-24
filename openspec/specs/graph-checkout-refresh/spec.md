@@ -12,6 +12,8 @@ Source: inferred by agent from Project Meta `scripts/refresh_canonical_checkouts
 
 The refresh SHALL NOT reset, stash, discard or advance a checkout that is dirty, off its default branch, ahead of or diverged from upstream, or holding a lock receipt, and SHALL report each as non-canonical.
 
+Source: inferred by agent (port of Project Meta scripts/refresh_canonical_checkouts.py, commit d01400338, 2026-11-16; spec Purpose)
+
 #### Scenario: never-discards-local-work
 
 - **WHEN** a clone has an uncommitted edit and is behind upstream
@@ -20,6 +22,8 @@ The refresh SHALL NOT reset, stash, discard or advance a checkout that is dirty,
 ### Requirement: graph-sweep-covers-registered-checkouts
 
 `--all-graph` SHALL refresh every shared checkout registered in the graph under $HOME, except checkouts (and repositories nested in them) that a baseline file marks as operated on in place.
+
+Source: inferred by agent (port of Project Meta scripts/refresh_canonical_checkouts.py, commit d01400338, 2026-11-16; spec Purpose)
 
 #### Scenario: graph-sweep-covers-registered-checkouts
 
@@ -30,6 +34,8 @@ The refresh SHALL NOT reset, stash, discard or advance a checkout that is dirty,
 
 Checkouts left alone while at least the threshold behind SHALL open one keyed concern naming each; when none remain the concern SHALL be closed; a failure to route it SHALL fail the run.
 
+Source: inferred by agent (port of Project Meta scripts/refresh_canonical_checkouts.py, commit d01400338, 2026-11-16; spec Purpose)
+
 #### Scenario: stuck-checkouts-raise-a-concern
 
 - **WHEN** a dirty checkout is 25 commits behind
@@ -38,6 +44,8 @@ Checkouts left alone while at least the threshold behind SHALL open one keyed co
 ### Requirement: settings-come-from-config
 
 The concern repository SHALL come from `CONCERN_REPO` or `concern_repo` in `graph-config.yaml` beside the graph, and a missing value SHALL stop the run naming where to set it.
+
+Source: inferred by agent (port of Project Meta scripts/refresh_canonical_checkouts.py under the D20 decision that settings are configuration, commit d01400338, 2026-11-16; spec Purpose)
 
 #### Scenario: settings-come-from-config
 

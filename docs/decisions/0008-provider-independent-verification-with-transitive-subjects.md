@@ -14,6 +14,8 @@ supersedes:
 
 Governs: RULE-DEPENDENCY-CHANGE-STALES
 
+Source: inferred by agent (front matter accepted_by: "Brian Mills explicit repair approval", 2026-09-18; commit dd171104e; no words of Brian's recorded)
+
 ## Context
 
 GitHub Actions is unavailable because the account has exhausted hosted-run funding.

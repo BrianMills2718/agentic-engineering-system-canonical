@@ -16,6 +16,8 @@ partially_supersedes:
 
 Governs: RULE-DRIFT-DETECTED, RULE-INSUFFICIENT-NOT-GREEN, docs/architecture/greenfield-v0.2/README.md
 
+Source: inferred by agent (front matter accepted_by: "Brian Mills (2026-09-25 roadmap operating rule; phase 7b instruction)"; commit 62fe041ba; no verbatim words recorded)
+
 ## Context and scope
 
 The v0.2 greenfield proposal (`proposals/aes-v0.2-greenfield/`, 2026-09-24)
