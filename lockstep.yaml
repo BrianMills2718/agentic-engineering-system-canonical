@@ -1175,28 +1175,6 @@ layout:
   purpose: Empty placeholder that keeps the archive folder in git after its change folders were removed.
   implements: []
   tests: []
-- path: openspec/changes/archive/2026-11-24-every-file-planned/prior-art.json
-  purpose: 'Prior-art record for the every-file-planned change: layout rows plus doc projection adopted, the old files: section
-    rejected.'
-  implements: []
-  tests: []
-- path: openspec/changes/archive/2026-11-24-every-file-planned/proposal.md
-  purpose: 'Why and what of the every-file-planned change: a layout row for every tracked file, a projection key option, and
-    retiring wiki/documents.md.'
-  implements: []
-  tests: []
-- path: openspec/changes/archive/2026-11-24-every-file-planned/specs/lockstep-doc-facts/spec.md
-  purpose: 'Spec delta of the every-file-planned change: record-array projections gain an optional key field.'
-  implements: []
-  tests: []
-- path: openspec/changes/archive/2026-11-24-every-file-planned/specs/lockstep-plan-format/spec.md
-  purpose: 'Spec delta of the every-file-planned change: AES plans every tracked file.'
-  implements: []
-  tests: []
-- path: openspec/changes/archive/2026-11-24-every-file-planned/tasks.md
-  purpose: Task list for the every-file-planned change.
-  implements: []
-  tests: []
 - path: openspec/config.yaml
   purpose: Selects OpenSpec’s spec-driven schema; optional context, artifact rules and operation guidance remain commented
     examples rather than active custom requirements.
