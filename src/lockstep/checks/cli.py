@@ -149,7 +149,7 @@ import sys
 
 import yaml
 
-from lockstep.checks import arch, changed, docmeta, instructions, project, show, sources, status, test_first, trace
+from lockstep.checks import arch, changed, docmeta, instructions, project, show, sources, status, suppressions, test_first, trace
 from lockstep.checks.config import CHECK_NAMES, Config, ConfigError, load
 
 
@@ -264,6 +264,20 @@ def _changed(root: Path, args: argparse.Namespace, cfg: Config) -> int:
         if item.wording_only:
             print(f"wording-only  {item.id}  ({item.wording_only})", file=out)
     print("RESULT changed " + " ".join(f"{k}={v}" for k, v in result.counts().items()) + f" exit={int(not result.ok)}")
+    return int(not result.ok)
+
+
+def _suppressions(root: Path, args: argparse.Namespace, cfg: Config) -> int:
+    """Print each added suppression with no reason and the count line; return the exit status."""
+    result = suppressions.check(root, args.base)
+    if result.skipped:
+        print(f"RESULT suppressions skipped=\"{result.skipped}\" exit=0")
+        return 0
+    for finding in result.unreasoned:
+        print(f"unreasoned {finding}  (add a further `#` comment of three or more words saying why; for an "
+              "import-linter ignore in .importlinter or setup.cfg, a comment line directly above it)")
+    print(f"RESULT suppressions added={result.added} reasoned={result.added - len(result.unreasoned)} "
+          f"unreasoned={len(result.unreasoned)} exit={int(not result.ok)}")
     return int(not result.ok)
 
 
@@ -429,7 +443,7 @@ def run(argv: list[str]) -> int:
         p.add_argument("--repo", type=Path, default=Path.cwd())
         if name == "arch":
             p.add_argument("action", nargs="?", choices=["gen", "check"], default="check")
-        if name in ("test-first", "changed"):
+        if name in ("test-first", "changed", "suppressions"):
             p.add_argument("--base", default="origin/main")
         if name == "changed":
             p.add_argument("--json", action="store_true", help="print every listed requirement as JSON")
@@ -455,7 +469,8 @@ def run(argv: list[str]) -> int:
         print(f"{args.name}: skipped (off)")
         return 0
     runner = {"trace": _trace, "arch": _arch, "test-first": _test_first, "sources": _sources, "docmeta": _docmeta,
-              "instructions": _instructions, "project": _project, "changed": _changed}
+              "instructions": _instructions, "project": _project, "changed": _changed,
+              "suppressions": _suppressions}
     try:
         status = runner[args.name](root, args, cfg)
     except (ValueError, TypeError, OSError, SyntaxError, yaml.YAMLError) as err:

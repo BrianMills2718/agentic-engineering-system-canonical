@@ -158,6 +158,17 @@ layout:
   - lockstep-checks/sources-the-statement-comes-before-its-source-line
   tests:
   - tests/lockstep/checks/test_lockstep_check_sources.py
+- path: src/lockstep/checks/suppressions.py
+  purpose: 'Suppressions check: an added `# noqa`, `# type: ignore` or import-linter ignore names its reason'
+  implements:
+  - lockstep-checks/suppressions-an-added-suppression-comment-names-its-reason
+  - lockstep-checks/suppressions-an-added-import-linter-ignore-names-its-reason
+  - lockstep-checks/suppressions-count-line-and-exit-status
+  exports:
+  - Result
+  - 'check(root: Path, base: str) -> Result'
+  tests:
+  - tests/lockstep/checks/test_lockstep_check_suppressions.py
 - path: src/lockstep/checks/spec.py
   purpose: Read OpenSpec spec files into requirement and scenario IDs
   implements:
@@ -1169,6 +1180,22 @@ layout:
 - path: meta-process/templates/agents.md.template
   purpose: Defines generated AGENTS structure and provenance placeholders for canonical instructions, relationship digest,
     commands and workflow.
+  implements: []
+  tests: []
+- path: openspec/changes/archive/2026-11-24-suppression-reasons/proposal.md
+  purpose: 'OpenSpec change proposal: an added suppression names its reason'
+  implements: []
+  tests: []
+- path: openspec/changes/archive/2026-11-24-suppression-reasons/prior-art.json
+  purpose: 'Prior-art record for the suppressions check'
+  implements: []
+  tests: []
+- path: openspec/changes/archive/2026-11-24-suppression-reasons/specs/lockstep-checks/spec.md
+  purpose: 'Spec delta adding the suppressions check requirements'
+  implements: []
+  tests: []
+- path: openspec/changes/archive/2026-11-24-suppression-reasons/tasks.md
+  purpose: 'Task list for the suppressions check change'
   implements: []
   tests: []
 - path: openspec/changes/archive/.gitkeep
@@ -2382,6 +2409,10 @@ layout:
   tests: []
 - path: tests/lockstep/checks/test_lockstep_check_sources.py
   purpose: Checks missing requirement/decision sources and classification of human and agent-derived attribution.
+  implements: []
+  tests: []
+- path: tests/lockstep/checks/test_lockstep_check_suppressions.py
+  purpose: Checks that added suppression comments and import-linter ignores without a reason fail, and old lines are not judged.
   implements: []
   tests: []
 - path: tests/lockstep/checks/test_lockstep_check_status.py

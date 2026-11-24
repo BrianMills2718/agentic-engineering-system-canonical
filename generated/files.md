@@ -30,6 +30,7 @@ Generated from [lockstep.yaml](../lockstep.yaml); edit the source, not this bloc
 | [src/lockstep/checks/quotes.py](../src/lockstep/checks/quotes.py) | Marked quotes: passages of requirement text copied into Markdown documents, compared with the specs |
 | [src/lockstep/checks/show.py](../src/lockstep/checks/show.py) | Show what one source file must keep true: the requirements its docstrings implement, with their text and scenarios |
 | [src/lockstep/checks/sources.py](../src/lockstep/checks/sources.py) | Sources check: every requirement and decision record says where it came from |
+| [src/lockstep/checks/suppressions.py](../src/lockstep/checks/suppressions.py) | Suppressions check: an added `# noqa`, `# type: ignore` or import-linter ignore names its reason |
 | [src/lockstep/checks/spec.py](../src/lockstep/checks/spec.py) | Read OpenSpec spec files into requirement and scenario IDs |
 | [src/lockstep/checks/status.py](../src/lockstep/checks/status.py) | Status report: each requirement's implementers, each scenario's tests and whether they passed at this revision, and the IDs each plan has still to close |
 | [src/lockstep/checks/test_first.py](../src/lockstep/checks/test_first.py) | Test-first check: a test for a scenario new since the base revision must fail on the base source, |
@@ -224,6 +225,10 @@ Generated from [lockstep.yaml](../lockstep.yaml); edit the source, not this bloc
 | [lockstep.yaml](../lockstep.yaml) | Declares the projection module as source for architecture and wiki full-docstring assessment copies, without edit guards or unrelated policies. |
 | [lychee.toml](../lychee.toml) | Excludes worktree paths and GitHub line anchors from link checking, assigning file-and-line validation to a separate citation checker. |
 | [meta-process/templates/agents.md.template](../meta-process/templates/agents.md.template) | Defines generated AGENTS structure and provenance placeholders for canonical instructions, relationship digest, commands and workflow. |
+| [openspec/changes/archive/2026-11-24-suppression-reasons/proposal.md](../openspec/changes/archive/2026-11-24-suppression-reasons/proposal.md) | OpenSpec change proposal: an added suppression names its reason |
+| [openspec/changes/archive/2026-11-24-suppression-reasons/prior-art.json](../openspec/changes/archive/2026-11-24-suppression-reasons/prior-art.json) | Prior-art record for the suppressions check |
+| [openspec/changes/archive/2026-11-24-suppression-reasons/specs/lockstep-checks/spec.md](../openspec/changes/archive/2026-11-24-suppression-reasons/specs/lockstep-checks/spec.md) | Spec delta adding the suppressions check requirements |
+| [openspec/changes/archive/2026-11-24-suppression-reasons/tasks.md](../openspec/changes/archive/2026-11-24-suppression-reasons/tasks.md) | Task list for the suppressions check change |
 | [openspec/changes/archive/.gitkeep](../openspec/changes/archive/.gitkeep) | Empty placeholder that keeps the archive folder in git after its change folders were removed. |
 | [openspec/config.yaml](../openspec/config.yaml) | Selects OpenSpec’s spec-driven schema; optional context, artifact rules and operation guidance remain commented examples rather than active custom requirements. |
 | [openspec/specs/.gitkeep](../openspec/specs/.gitkeep) | Empty tracked placeholder retaining the directory in Git, with no substantive requirement or history. |
@@ -500,6 +505,7 @@ Generated from [lockstep.yaml](../lockstep.yaml); edit the source, not this bloc
 | [tests/lockstep/checks/test_lockstep_check_quotes.py](../tests/lockstep/checks/test_lockstep_check_quotes.py) | Tests marked requirement quotes in Markdown documents, checking that the trace check reads and matches them. |
 | [tests/lockstep/checks/test_lockstep_check_show.py](../tests/lockstep/checks/test_lockstep_check_show.py) | Checks show prints implemented requirements and reports files without implementation links. |
 | [tests/lockstep/checks/test_lockstep_check_sources.py](../tests/lockstep/checks/test_lockstep_check_sources.py) | Checks missing requirement/decision sources and classification of human and agent-derived attribution. |
+| [tests/lockstep/checks/test_lockstep_check_suppressions.py](../tests/lockstep/checks/test_lockstep_check_suppressions.py) | Checks that added suppression comments and import-linter ignores without a reason fail, and old lines are not judged. |
 | [tests/lockstep/checks/test_lockstep_check_status.py](../tests/lockstep/checks/test_lockstep_check_status.py) | Checks status links, pass/fail/skip outcomes, revision/dirty-tree invalidation and open plan IDs. |
 | [tests/lockstep/checks/test_lockstep_check_status_page.py](../tests/lockstep/checks/test_lockstep_check_status_page.py) | Checks generated docs/status.md coverage contents, stale rejection and behavior without a docs folder. |
 | [tests/lockstep/checks/test_lockstep_check_test_first.py](../tests/lockstep/checks/test_lockstep_check_test_first.py) | Tests for the test-first check, run on real throwaway git repositories. |

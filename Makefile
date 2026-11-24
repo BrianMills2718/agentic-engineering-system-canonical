@@ -60,12 +60,13 @@ define format_check
 	printf '%s\n' "$$out" | grep '^$(1)'
 endef
 
-check-format:  ## The code2 format checks the template's make check runs: import contracts, Source lines, page front matter, tests first, changed requirements, and the whole-tree plan check (the docs build does not apply: AES has no zensical site)
+check-format:  ## The code2 format checks the template's make check runs: import contracts, Source lines, page front matter, tests first, changed requirements, reasons on added suppressions, and the whole-tree plan check (the docs build does not apply: AES has no zensical site)
 	$(call format_check,RESULT arch-check ,arch check)
 	$(call format_check,RESULT sources ,sources)
 	$(call format_check,docmeta: ,docmeta)
 	$(call format_check,RESULT test-first ,test-first --base $(FORMAT_BASE))
 	$(call format_check,RESULT changed ,changed --base $(FORMAT_BASE))
+	$(call format_check,RESULT suppressions ,suppressions --base $(FORMAT_BASE))
 	@base=$$(git merge-base HEAD $(FORMAT_BASE) 2>/dev/null); if [ -z "$$base" ]; then echo "check-format: no merge base with $(FORMAT_BASE)"; exit 1; fi; \
 	out=$$($(LOCKSTEP) check --repo . --base "$$base" 2>&1); ec=$$?; \
 	if [ $$ec -ne 0 ] || ! printf '%s\n' "$$out" | grep -q '^OUTCOME '; then printf '%s\n' "$$out" | tail -n 20; echo "check-format: the whole-tree check failed (exit $$ec)"; exit 1; fi; \
