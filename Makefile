@@ -41,11 +41,14 @@ TRACE_NOW ?= .trace-now.txt
 TRACE_REPO ?= .
 
 check-source-order:  ## Every requirement states its rule before its Source: line (spec lockstep-checks); items with no Source: line are an older backlog this target does not fail on
-	@bad=$$(PYTHONPATH=src $(PYTHON) -c 'import sys; from lockstep.checks.cli import run; sys.exit(run(["sources"]))' 2>&1 | grep '^source-first '); \
+	@out=$$(PYTHONPATH=src $(PYTHON) -c 'import sys; from lockstep.checks.cli import run; sys.exit(run(["sources"]))' 2>&1); \
+	if ! printf '%s\n' "$$out" | grep -q '^RESULT sources '; then printf '%s\n' "$$out" | tail -n 20; echo "check-source-order: the sources check did not run"; exit 1; fi; \
+	bad=$$(printf '%s\n' "$$out" | grep '^source-first '); \
 	if [ -n "$$bad" ]; then printf '%s\n' "$$bad"; exit 1; fi; echo "RESULT check-source-order exit=0"
 
 check-copies:  ## A planned file's plan copy must be current and a fixed: file must have one (spec lockstep-projection); the committed status page and links file keep their own refresh
 	@out=$$(PYTHONPATH=src $(PYTHON) -c 'import sys; from lockstep.checks.cli import run; sys.exit(run(["project", "--check"]))' 2>&1); \
+	if ! printf '%s\n' "$$out" | grep -q '^RESULT project '; then printf '%s\n' "$$out" | tail -n 20; echo "check-copies: the project check did not run"; exit 1; fi; \
 	bad=$$(printf '%s\n' "$$out" | grep -E '^(stale|no-copy) ' | grep -vE ' docs/(status\.md|links\.json)$$'); \
 	if [ -n "$$bad" ]; then printf '%s\n' "$$bad"; echo "check-copies: run: lockstep check project (and add a plan copy to each no-copy file)"; exit 1; fi; \
 	echo "RESULT check-copies exit=0"
