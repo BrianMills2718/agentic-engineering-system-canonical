@@ -1920,8 +1920,8 @@ layout:
   implements: []
   tests: []
 - path: scripts/maintainability_ratchet.py
-  purpose: Fail make check on maintainability findings a branch adds (blind except, more complex function, new duplicate
-    block, large file that grew), comparing with the merge base; old findings never block. AES pilot.
+  purpose: Fail make check on maintainability findings a branch adds (blind except, more complex function, more duplicate
+    code, large file that grew), comparing with the merge base; old findings never block. AES pilot.
   implements: []
   tests: []
 - path: scripts/md_file_cap.py

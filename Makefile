@@ -75,7 +75,7 @@ check-format:  ## The code2 format checks the template's make check runs: import
 	@$(MAKE) --no-print-directory check-maintainability
 	@echo "RESULT check-format exit=0"
 
-check-maintainability:  ## Fail on a blind except, a more complex function, a new duplicate block or a large file that grew since the branch left $(FORMAT_BASE); old findings never block (pilot, scripts/maintainability_ratchet.py)
+check-maintainability:  ## Fail on a blind except, a more complex function, more duplicate code or a large file that grew since the branch left $(FORMAT_BASE); old findings never block (pilot, scripts/maintainability_ratchet.py)
 	@out=$$($(PYTHON) scripts/maintainability_ratchet.py --repo . --base $(FORMAT_BASE) 2>&1); ec=$$?; \
 	if [ $$ec -ne 0 ] || ! printf '%s\n' "$$out" | grep -q '^RESULT maintainability '; then printf '%s\n' "$$out" | tail -n 30; echo "check-maintainability: failed (exit $$ec)"; exit 1; fi; \
 	printf '%s\n' "$$out" | grep '^RESULT maintainability '

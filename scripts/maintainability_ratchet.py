@@ -7,7 +7,8 @@ Python files under the given folders:
   function complexity (C901). A complexity finding is new when a function over the limit has no base
   function of that name at least as complex, so an unrelated edit inside an already complex function
   passes and a body edit that adds a branch fails.
-- pylint (pinned) duplicate-code: blocks of 6 or more similar lines; new when there are more blocks.
+- duplicate code: every window of 6 code lines (blank, comment, import and docstring lines left out) that occurs
+  more than once; new when there are more repeated windows than on the base, so a third copy counts.
 - file growth: a file over --max-lines that grew on this branch (a renamed file keeps its base size).
 
 Findings are counted without paths or line numbers, so code moved within or between files, or a file
@@ -21,12 +22,14 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import io
 import json
 import os
 import re
 import subprocess
 import sys
 import tempfile
+import tokenize
 from collections import Counter, defaultdict
 from pathlib import Path
 
@@ -34,11 +37,9 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 from lockstep.checks.changed import compare_with, extract  # noqa: E402 -- the path is set just above
 
 RUFF = ["uvx", "ruff@0.14.0", "check", "--isolated", "--select", "BLE,S110,S112,C901", "--output-format", "json", "--exit-zero"]
-PYLINT = ["uvx", "--from", "pylint==3.3.9", "pylint", "--disable=all", "--enable=duplicate-code",
-          "--min-similarity-lines=6", "--output-format=json", "--score=n", "--persistent=n"]
-PYLINT_REFACTOR = 8  # the exit bit for refactor messages, which duplicate-code is; any other bit means failure
+WINDOW = 6  # code lines in a duplicate window
+SKIPPED = {tokenize.NL, tokenize.COMMENT, tokenize.INDENT, tokenize.DEDENT, tokenize.ENCODING, tokenize.ENDMARKER}
 COMPLEX = re.compile(r"^`(?P<name>[^`]+)` is too complex \((?P<n>\d+) > \d+\)$")
-DUP_MODULE = re.compile(r"^==(?P<module>[^:]+):\[")
 
 
 class ToolFailed(RuntimeError):
@@ -58,8 +59,9 @@ def _renames(root: Path, base: str) -> dict[str, str]:
     """Base path -> working-tree path for files renamed on the branch (staged or committed)."""
     parts, renamed, i = _git(root, "diff", "-M", "--name-status", "-z", base).split("\0"), {}, 0
     while i < len(parts) and parts[i]:
-        if parts[i].startswith(("R", "C")):
-            renamed[parts[i + 1]] = parts[i + 2]
+        if parts[i].startswith(("R", "C")):  # a copy is listed but keeps its original
+            if parts[i].startswith("R"):
+                renamed[parts[i + 1]] = parts[i + 2]
             i += 3
         else:
             i += 2
@@ -88,20 +90,39 @@ def _ruff(cwd: Path, files: list[str]) -> list[dict]:
     return found
 
 
-def _duplicates(cwd: Path, files: list[str]) -> list[str]:
-    """One line per duplicate block, naming the modules it joins."""
-    if len(files) < 2:
-        return []
-    with tempfile.NamedTemporaryFile("w", suffix=".rc") as rc:
-        done = subprocess.run([*PYLINT, f"--rcfile={rc.name}", *files], cwd=cwd, capture_output=True, text=True)
-    if done.returncode & ~PYLINT_REFACTOR:
-        raise ToolFailed(f"pylint exit {done.returncode}: {(done.stderr or done.stdout).strip()[-300:]}")
-    blocks = []
-    for item in _json_output("pylint", done):
-        if item.get("symbol") == "duplicate-code":
-            modules = sorted({m.group("module") for line in item["message"].splitlines() if (m := DUP_MODULE.match(line))})
-            blocks.append(", ".join(modules))
-    return sorted(blocks)
+def _code_lines(text: str) -> list[str]:
+    """Code lines as token text: no blank, comment, import or docstring lines (generated plan copies sit in
+    docstrings, so the same requirement text in two files is not duplicate code)."""
+    try:
+        tokens = list(tokenize.generate_tokens(io.StringIO(text).readline))
+    except (tokenize.TokenError, SyntaxError):  # not parseable: fall back to the plain lines
+        return [line.strip() for line in text.splitlines() if line.strip() and not line.strip().startswith("#")]
+    rows: dict = defaultdict(list)
+    statement_start = True
+    for tok in tokens:
+        if tok.type == tokenize.NEWLINE:
+            statement_start = True
+        elif tok.type in SKIPPED or (tok.type == tokenize.STRING and statement_start):
+            continue  # a string that starts a statement is a docstring or a bare string
+        else:
+            statement_start = False
+            rows[tok.start[0]].append(tok.string)
+    return [" ".join(row) for _, row in sorted(rows.items()) if row[0] not in ("import", "from")]
+
+
+def _duplicates(cwd: Path, files: list[str]) -> dict[str, list[str]]:
+    """Each window of WINDOW code lines that occurs more than once, with the file of every occurrence.
+
+    pylint duplicate-code was tried first and dropped: with three identical blocks it reports only one
+    pair, so a third copy of existing code passed, and it took 6 to 13 seconds a tree (measured
+    2026-11-24 on AES).
+    """
+    seen: dict = defaultdict(list)
+    for name in files:
+        lines = _code_lines((cwd / name).read_text(errors="replace"))
+        for i in range(len(lines) - WINDOW + 1):
+            seen[hashlib.sha1("\n".join(lines[i:i + WINDOW]).encode()).hexdigest()[:16]].append(name)
+    return {key: sorted(where) for key, where in seen.items() if len(where) > 1}
 
 
 def _findings(cwd: Path, files: list[str]) -> dict:
@@ -136,7 +157,11 @@ def _base_findings(root: Path, base: str, folders: list[str]) -> dict:
         found = _findings(base_root, files)
     cached.parent.mkdir(parents=True, exist_ok=True)
     with tempfile.NamedTemporaryFile("w", dir=cached.parent, delete=False, suffix=".tmp") as out:
-        json.dump(found, out)
+        try:
+            json.dump(found, out)
+        except BaseException:
+            os.unlink(out.name)
+            raise
     os.replace(out.name, cached)
     return found
 
@@ -163,12 +188,17 @@ def _complexity(head: dict, base: dict) -> list[str]:
     return new
 
 
-def _duplicates_added(head: list[str], base: list[str]) -> list[str]:
-    if len(head) <= len(base):
+def _copies(windows: dict[str, list[str]]) -> int:
+    """Repeated windows: every occurrence after the first of each window of code lines."""
+    return sum(len(where) - 1 for where in windows.values())
+
+
+def _duplicates_added(head: dict[str, list[str]], base: dict[str, list[str]]) -> list[str]:
+    if _copies(head) <= _copies(base):
         return []
-    extra = list((Counter(head) - Counter(base)).elements())
-    return [f"new duplicate blocks: {len(base)} on the base, {len(head)} now; not on the base: "
-            + ("; ".join(extra) if extra else "same files as existing blocks")]
+    grew = sorted({", ".join(sorted(set(where))) for key, where in head.items() if len(where) > len(base.get(key, [None]))})
+    return [f"new duplicate code: {_copies(base)} repeated {WINDOW}-line windows on the base, {_copies(head)} now; in "
+            + ("; ".join(grew) if grew else "files already sharing code")]
 
 
 def _growth(head: dict, base: dict, renamed: dict, max_lines: int) -> list[str]:
@@ -187,7 +217,7 @@ def compare(root: Path, base: str, folders: list[str], max_lines: int) -> tuple[
 
 
 def _total(found: dict) -> int:
-    return sum(map(len, found["plain"].values())) + sum(map(len, found["cx"].values())) + len(found["dup"])
+    return sum(map(len, found["plain"].values())) + sum(map(len, found["cx"].values())) + _copies(found["dup"])
 
 
 def main(argv: list[str] | None = None) -> int:

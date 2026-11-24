@@ -160,14 +160,6 @@ def test_ruff_failure_fails_closed_and_caches_nothing(tmp_path, capsys, monkeypa
     assert code == 2 and "tool-failed" in out and not _cache_files(root)
 
 
-def test_pylint_failure_fails_closed_and_caches_nothing(tmp_path, capsys, monkeypatch):
-    root = repo(tmp_path, {"src/a.py": "A = 1\n", "src/b.py": "B = 1\n"})
-    (root / "src/a.py").write_text("A = 2\n")
-    monkeypatch.setattr(m, "PYLINT", ["sh", "-c", "exit 2"])
-    code, out = run(root, capsys)
-    assert code == 2 and "tool-failed" in out and not _cache_files(root)
-
-
 def test_rename_inside_a_package_keeps_old_duplicates(tmp_path, capsys):
     root = tmp_path / "r"
     (root / "src/pkg").mkdir(parents=True)
@@ -199,4 +191,19 @@ def test_damaged_cache_is_recomputed(tmp_path, capsys):
     cached.write_text("{half")
     code, out = run(root, capsys)
     assert code == 0, out
-    assert json.loads(cached.read_text())["dup"] == []
+    assert json.loads(cached.read_text())["dup"] == {}
+
+
+def test_third_copy_of_an_existing_duplicate_fails(tmp_path, capsys):
+    root = repo(tmp_path, {"src/a.py": DUPLICATED, "src/b.py": COPY})
+    (root / "src/c.py").write_text(COPY.replace("def second(", "def third("))
+    code, out = run(root, capsys)
+    assert code == 1 and "duplicate code" in out
+
+
+def test_same_docstring_text_in_a_new_file_is_not_duplicate_code(tmp_path, capsys):
+    doc = '"""' + "".join(f"Requirement line {i} copied from the plan.\n" for i in range(12)) + '"""\n'
+    root = repo(tmp_path, {"src/a.py": doc + "A = 1\n"})
+    (root / "src/b.py").write_text(doc + "B = 2\n")
+    code, out = run(root, capsys)
+    assert code == 0, out
