@@ -1,3 +1,0 @@
-- [x] Tests first: tests/learning/test_external_interests.py
-- [x] load_profile reads optional interests; build_judge lists them; digest prints Interests lines
-- [x] Archive the change, link the spec, run the checks

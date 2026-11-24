@@ -59,7 +59,7 @@ component or an active timer does not settle those questions.
 ## Complete file catalog
 
 [Every tracked file, summarized by folder](documents.md) covers code, tests,
-configuration, instructions, fixtures, archived changes, evidence and documentation.
+configuration, instructions, fixtures, evidence and documentation.
 No file class is silently excluded. The catalog identifies purpose, role and
 review disposition, with an exact source inventory and explicit freshness limits.
 It also links owning external planning, policy and instruction sources.

@@ -1,4 +1,0 @@
-- [x] Test first: `test_a_fixed_file_with_no_plan_copy_fails_the_check`.
-- [x] `missing_copies` in `src/lockstep/checks/project.py`; the CLI prints `no-copy` lines and exits 1.
-- [x] Plan copies added to the 11 planned files in `src/lockstep/` that had none.
-- [x] `make check-copies` in `make check`.
