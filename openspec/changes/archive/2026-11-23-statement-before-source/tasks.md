@@ -1,0 +1,4 @@
+- [x] Test first: `test_a_source_line_before_the_statement_fails`.
+- [x] `Item.source_first` in `src/lockstep/checks/sources.py`; the CLI prints `source-first` and exits 1.
+- [x] The 11 requirements reordered.
+- [x] `make check-source-order` in AES `make check`.

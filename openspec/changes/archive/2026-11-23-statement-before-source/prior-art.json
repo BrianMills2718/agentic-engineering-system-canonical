@@ -1,0 +1,13 @@
+{
+  "need": "Fail when a requirement's Source line comes before its statement.",
+  "searched": [
+    {"place": "own", "where": "src/lockstep/checks/sources.py, src/lockstep/checks/spec.py", "query": "Source:, statement, first paragraph", "found": "The sources check already reads each requirement's Source line and first paragraph; it does not look at their order."},
+    {"place": "outside", "where": "openspec validate", "query": "requirement body order", "found": "OpenSpec validates SHALL/MUST and scenarios, not where a Source line sits."}
+  ],
+  "candidates": [
+    {"name": "openspec validate", "url": "https://github.com/Fission-AI/OpenSpec", "covers": "Requirement and scenario structure.", "misses": "Source lines are a local convention it does not know.", "verdict": "reject", "reason": "The rule is about a line OpenSpec does not define; the existing sources reader is extended."}
+  ],
+  "decision": "build",
+  "gap": "One field on the sources reader, one CLI line, one Makefile target.",
+  "decided": "2026-11-23"
+}

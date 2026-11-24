@@ -889,9 +889,9 @@
    "resolves_with": "Count requirements in each order and run the spec reader test on both.",
    "recommendation": "Yes: one order, checked; the reader accepts both today only as a repair.",
    "default": "The reader keeps accepting both orders.",
-   "evidence": "12 requirements put `Source:` first and read as empty (#1019); one had no blank line between them (external-idea-intake).",
+   "evidence": "12 requirements put `Source:` first and read as empty (#1019); one had no blank line between them (external-idea-intake). Resolved 2026-11-23 by the recommendation (Brian: \"i approve\"): lockstep check sources fails on a requirement whose Source: line comes before its statement (source-first); the 11 such requirements were reordered; AES make check runs make check-source-order (OpenSpec change 2026-11-23-statement-before-source, archived).",
    "owner": "agent",
-   "status": "open",
+   "status": "resolved",
    "touches": [
     "lockstep-today"
    ],

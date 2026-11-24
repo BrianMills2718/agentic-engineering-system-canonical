@@ -8,9 +8,9 @@ Keep retained read-only structural inspection and producer identification indepe
 
 ### Requirement: Git inspection is inert
 
-Source: inferred by agent from Brian's active Lockstep goal requiring structural inspection without executing inspected code, and the reproduced local fsmonitor command, 2026-11-08.
-
 Read-only characterization and source-checkout producer identification SHALL disable repository Git hooks and fsmonitor commands. They SHALL preserve committed revision binding, accurate dirty state and static source facts without executing the inspected repository's integrations.
+
+Source: inferred by agent from Brian's active Lockstep goal requiring structural inspection without executing inspected code, and the reproduced local fsmonitor command, 2026-11-08.
 
 #### Scenario: Local monitor during characterization
 

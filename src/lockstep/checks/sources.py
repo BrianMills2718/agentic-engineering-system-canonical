@@ -15,7 +15,7 @@ Requirement text (generated):
 [[[cog import lockstep.cogtext as c; c.docstring("src:lockstep:checks:sources.py", indent=0)]]]
 Plan (generated from lockstep.yaml layout and OpenSpec; edit the spec or the layout row, not this text):
 
-Implements: lockstep-checks/sources-every-normative-item-names-its-source
+Implements: lockstep-checks/sources-every-normative-item-names-its-source, lockstep-checks/sources-the-statement-comes-before-its-source-line
 
 ### Requirement: Sources: Every normative item names its source
 
@@ -43,6 +43,21 @@ Source: Brian, 2026-10-15: "this applies much more to normative docuemntation. i
 - **WHEN** the sources check runs with `--json`
 - **THEN** it exits 0 and lists the first as `brian` and the second as `inferred`
 
+### Requirement: Sources: The statement comes before its Source line
+
+The sources check SHALL fail when an OpenSpec requirement's first paragraph is its `Source:` line, printing
+`source-first <id>` with the file, so every requirement reads statement first and the spec reader never takes an
+empty statement.
+
+Source: Brian, 2026-11-23: "i approve", to Q49 in `docs/planning/open-questions.json` ("Should every requirement put
+its statement first and its `Source:` line after it, checked by `lockstep check`?").
+
+#### Scenario: Sources: A Source line before the statement fails
+
+- **GIVEN** a requirement whose first line under its heading is `Source: Brian, 2026-11-23: "yes"` and whose statement follows
+- **WHEN** `lockstep check sources` runs
+- **THEN** it prints `source-first` with that requirement's ID and exits 1, and once the statement comes first it reports nothing for it
+
 Tested by: tests/lockstep/checks/test_lockstep_check_sources.py
 [[[end]]]
 """
@@ -62,7 +77,8 @@ _SKIPPED_SECTIONS = ("## REMOVED", "## RENAMED")
 @dataclass(frozen=True)
 class Item:
     """One normative item: its ID, title, file, source class (brian, inferred, other, missing), the
-    source line's text, and the item's first paragraph (what it requires or decides)."""
+    source line's text, the item's first paragraph (what it requires or decides), and whether its `Source:`
+    line came before that paragraph."""
 
     id: str
     title: str
@@ -70,6 +86,7 @@ class Item:
     source: str
     text: str
     statement: str = ""
+    source_first: bool = False
 
 
 def classify(text: str, human_pattern: str = DEFAULT_HUMAN_PATTERN) -> str:
@@ -104,7 +121,8 @@ def _spec_items(root: Path, spec: Path, pattern: str) -> list[Item]:
         """Record the requirement being read, if any."""
         if current is not None:
             items.append(Item(current["id"], current["title"], str(spec.relative_to(root)),
-                              classify(current["text"], pattern), current["text"], " ".join(current["body"])))
+                              classify(current["text"], pattern), current["text"], " ".join(current["body"]),
+                              current["source_first"]))
 
     for line in spec.read_text().splitlines():
         if line.startswith("## "):
@@ -116,11 +134,12 @@ def _spec_items(root: Path, spec: Path, pattern: str) -> list[Item]:
         if m:
             close()
             current = None if skipping else {"id": f"{capability}/{slug(m.group(1))}", "title": m.group(1), "text": "", "body": [],
-                                         "done": False}
+                                         "done": False, "source_first": False}
             continue
         s = _SOURCE.match(line)
         if s and current is not None and s.group(1) == "Source" and not current["text"]:
             current["text"] = s.group(2)
+            current["source_first"] = not current["body"]
         elif current is not None and not current["done"] and not line.startswith("#"):
             if line.strip():
                 current["body"].append(line.strip())

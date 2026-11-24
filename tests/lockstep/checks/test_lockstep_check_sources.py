@@ -61,3 +61,34 @@ def test_labeled_items_pass_and_are_classified(repo, capsys):
     by_id = {d["id"]: d["source"] for d in data}
     assert by_id == {"core/do-the-thing": "brian", "core/guess": "inferred", "decision/0001-x": "brian"}
     assert {d["id"]: d["statement"] for d in data}["core/guess"] == "The tool SHALL guess."
+
+
+SOURCE_FIRST = """
+    # core Specification
+
+    ## Requirements
+
+    ### Requirement: Do the thing
+
+    Source: Brian, 2026-11-23: "yes"
+
+    The tool SHALL do the thing.
+
+    #### Scenario: It does it
+
+    - **WHEN** it runs
+    - **THEN** the thing is done
+"""
+
+
+@pytest.mark.req("lockstep-checks/sources-a-source-line-before-the-statement-fails")
+def test_a_source_line_before_the_statement_fails(repo, capsys):
+    write(repo, "openspec/specs/core/spec.md", SOURCE_FIRST)
+    assert run_check(["sources", "--repo", str(repo)]) == 1
+    out = capsys.readouterr().out
+    assert "source-first  core/do-the-thing" in out, out
+    fixed = SOURCE_FIRST.replace('    Source: Brian, 2026-11-23: "yes"\n\n    The tool SHALL do the thing.',
+                                 '    The tool SHALL do the thing.\n\n    Source: Brian, 2026-11-23: "yes"')
+    write(repo, "openspec/specs/core/spec.md", fixed)
+    assert run_check(["sources", "--repo", str(repo)]) == 0
+    assert "source-first" not in capsys.readouterr().out

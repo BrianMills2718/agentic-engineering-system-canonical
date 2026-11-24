@@ -17,9 +17,9 @@ Implements: lockstep-plan-format/every-refusal-in-a-layout-repository-names-a-la
 
 ### Requirement: Every refusal in a layout repository names a layout command
 
-Source: Brian, 2026-11-20, "yes" to proving Lockstep on a from-scratch repository (`docs/planning/next.goal.md`, step 3), whose rerun was blocked at commit by a check naming `.aes/target.yaml`; the rule itself inferred by agent.
-
 In a layout repository, the whole-tree commit check SHALL judge a planned file's docstring exactly as the edit hook does, and its stale reason SHALL name `uv run lockstep check project`. A refusal for an undeclared, removed or retyped public symbol SHALL name the file's layout row `exports:` in lockstep.yaml as where to declare it. A repository with `.aes/target.yaml` SHALL keep its current wording.
+
+Source: Brian, 2026-11-20, "yes" to proving Lockstep on a from-scratch repository (`docs/planning/next.goal.md`, step 3), whose rerun was blocked at commit by a check naming `.aes/target.yaml`; the rule itself inferred by agent.
 
 #### Scenario: The commit check judges an Implements block the same way
 

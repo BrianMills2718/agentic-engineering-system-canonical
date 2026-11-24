@@ -28,6 +28,9 @@ check: check-doc-facts  ## Run all checks (test, mypy, lint)
 	@echo "Running the plan-copy check..."
 	@$(MAKE) --no-print-directory check-copies
 	@echo ""
+	@echo "Running the requirement-order check..."
+	@$(MAKE) --no-print-directory check-source-order
+	@echo ""
 	@echo "Running mypy..."
 	@$(PYTHON) -m mypy src/ --ignore-missing-imports
 	@echo ""
@@ -35,6 +38,10 @@ check: check-doc-facts  ## Run all checks (test, mypy, lint)
 
 TRACE_ACCEPTED ?= docs/planning/trace-accepted.txt
 TRACE_NOW ?= .trace-now.txt
+
+check-source-order:  ## Every requirement states its rule before its Source: line (spec lockstep-checks); items with no Source: line are an older backlog this target does not fail on
+	@bad=$$(PYTHONPATH=src $(PYTHON) -c 'import sys; from lockstep.checks.cli import run; sys.exit(run(["sources"]))' 2>&1 | grep '^source-first '); \
+	if [ -n "$$bad" ]; then printf '%s\n' "$$bad"; exit 1; fi; echo "RESULT check-source-order exit=0"
 
 check-copies:  ## A planned file's plan copy must be current and a fixed: file must have one (spec lockstep-projection); the committed status page and links file keep their own refresh
 	@out=$$(PYTHONPATH=src $(PYTHON) -c 'import sys; from lockstep.checks.cli import run; sys.exit(run(["project", "--check"]))' 2>&1); \
