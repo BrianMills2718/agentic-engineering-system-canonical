@@ -1,5 +1,7 @@
 """Behavior 5.3: a missing planned file, a missing export and a changed signature are each reported."""
 
+import pytest
+
 import yaml
 
 from lockstep_support import sh
@@ -17,6 +19,7 @@ def _declare_exports(proj, exports):
     path.write_text(yaml.safe_dump(t, sort_keys=False))
 
 
+@pytest.mark.req("lockstep-plan-format/an-aes-plan-repository-s-checks-still-run", existing=True)
 def test_code_matching_the_plan_reports_nothing(proj):
     _declare_exports(proj, ["greet(name: str) -> str"])
     sh("git add -A && git commit -q -m exports", proj)

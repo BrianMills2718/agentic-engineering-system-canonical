@@ -1,5 +1,7 @@
 """Behavior 2.1: every success criterion names how it is checked: a test, a sign-off or an AI rubric."""
 
+import pytest
+
 import yaml
 
 from lockstep_support import REPO
@@ -12,6 +14,7 @@ def _plan(**vs):
             "verification_subjects": [{"id": "VS-1", "criterion_refs": ["SC-1"], **vs}] if vs else []}
 
 
+@pytest.mark.req("lockstep-plan-format/an-aes-plan-repository-s-checks-still-run", existing=True)
 def test_a_test_or_a_sign_off_checks_a_criterion():
     assert criterion_problems(_plan(proof_kind="deterministic_test", locator="tests/test_a.py"), {}) == []
     assert criterion_problems(_plan(proof_kind="human_review", locator="Brian signs off"), {}) == []

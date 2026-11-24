@@ -943,9 +943,9 @@
    "resolves_with": "One change across both repositories that moves the requirement and renames the IDs.",
    "recommendation": "Move it; leave the list-making requirements in code2-workspace.",
    "default": "The 6 stay on the accepted list.",
-   "evidence": "`scripts/concern_issue.py:8` and `tests/test_concern_issue.py:112-158` name compliance-list IDs; the spec is only in ~/code2/workspace/openspec/specs/compliance-list/.",
+   "evidence": "`scripts/concern_issue.py:8` and `tests/test_concern_issue.py:112-158` name compliance-list IDs; the spec is only in ~/code2/workspace/openspec/specs/compliance-list/. Resolved 2026-11-23 (Brian: \"i approve\"): AES capability concern-issue now holds the requirement for AES's copy of scripts/concern_issue.py and its tests name concern-issue IDs; the 5 findings left trace-accepted.txt (OpenSpec change 2026-11-23-concern-issue-spec). Not a move: code2-workspace keeps its own copy of the script, tested against its compliance-list spec, so the requirement stays there for that copy.",
    "owner": "agent",
-   "status": "open",
+   "status": "resolved",
    "touches": [
     "ecosystem-consolidation"
    ],
@@ -979,9 +979,9 @@
    "resolves_with": "List which of the 14 the five core checks import or call; propose a requirement for those and a retirement record for the rest.",
    "recommendation": "Write one requirement for the ones the core calls; retire the rest through docs/retired/ (a deletion, so Brian's yes).",
    "default": "They stay planned with no requirement.",
-   "evidence": "action_check, behavior_check, change_list, change_log, criterion_checks, declared_reason, docstring_up, linked_tests, plan_edit, plan_to_code, requirement_status, unplanned_symbols, wiki, wiki_reach; their layout rows in lockstep.yaml have `implements: []`.",
+   "evidence": "action_check, behavior_check, change_list, change_log, criterion_checks, declared_reason, docstring_up, linked_tests, plan_edit, plan_to_code, requirement_status, unplanned_symbols, wiki, wiki_reach; their layout rows in lockstep.yaml have `implements: []`. Resolved 2026-11-23 (Brian: \"i approve\"): a search of every repository in ~/code2 found all 14 still run from this repository's code (lifelike, pinned to it, runs 11 from its Makefile plus pcw-hook; digimon and Digimon_for_KG_application run its lockstep-hook on an AES plan; Team-Brains calls action_check), so none retired. One requirement, lockstep-plan-format/old-route-checks-stay-while-a-repository-runs-them, covers them and says each retires through docs/retired/ once nothing runs it; their layout rows and one test each name it (OpenSpec change 2026-11-23-old-route-checks-stay). Also found: every hook refusal in a layout repository pointed to python -m lockstep.wiki, which crashes there; it now points to lockstep show (change 2026-11-23-refusal-points-to-show).",
    "owner": "brian",
-   "status": "open",
+   "status": "resolved",
    "touches": [
     "legacy-review"
    ],
@@ -997,9 +997,9 @@
    "resolves_with": "Add one sentence to code2-workspace agents/topics/working-method.md 'plan size'.",
    "recommendation": "Yes; that is where the minimal-core plan dropped the file layout without anyone checking.",
    "default": "The review stays written only in back-on-design item 5.",
-   "evidence": "docs/planning/back-on-design-2026-11-23.md item 5; minimal-core-2026-11-20.md:103 folded the file list as an agent inference.",
+   "evidence": "docs/planning/back-on-design-2026-11-23.md item 5; minimal-core-2026-11-20.md:103 folded the file list as an agent inference. Resolved 2026-11-23 by the recommendation (Brian: \"i approve\"): code2-workspace agents/topics/working-method.md, \"Plan size\", now asks the independent read (or cold review) to list every departure from the settled design documents with file and line (code2-workspace #930; Policy plan-review-lists-departures).",
    "owner": "agent",
-   "status": "open",
+   "status": "resolved",
    "touches": [
     "agent-rules"
    ],

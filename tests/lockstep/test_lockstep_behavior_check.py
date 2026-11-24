@@ -1,5 +1,7 @@
 """Behavior 7.2: every behavior has exactly one source file of its own and a criterion with a test route."""
 
+import pytest
+
 import subprocess
 import sys
 
@@ -33,6 +35,7 @@ def _plan() -> dict:
     }
 
 
+@pytest.mark.req("lockstep-plan-format/an-aes-plan-repository-s-checks-still-run", existing=True)
 def test_each_break_is_reported_once_and_nothing_else():
     problems = behavior_problems(_plan())
     assert problems == [

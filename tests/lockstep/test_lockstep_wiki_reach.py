@@ -1,10 +1,13 @@
 """Behavior 6.2: every page of a generated wiki is within two links of its front page, each link with a summary."""
 
+import pytest
+
 from lockstep_support import REPO
 from lockstep.wiki import pages
 from lockstep.wiki_reach import reach_problems
 
 
+@pytest.mark.req("lockstep-plan-format/an-aes-plan-repository-s-checks-still-run", existing=True)
 def test_a_built_wiki_reaches_every_page_within_two_links_with_summaries(planned):
     wiki = pages(planned, "greeter")
     assert set(wiki) == {"index.md", "components/CMP-GREETER.md", "requirements/OUT-001.md", "code.md", "change-log.md"}

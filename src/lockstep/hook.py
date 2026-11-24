@@ -144,6 +144,8 @@ WARN_PREFIX = "Lockstep would block this edit (warn mode): "
 # Added to every refusal and warning, so an agent that is stopped knows where to look next (behavior 6.1, Q20).
 _WIKI_POINTER = ("To see what the plan asks for and which files and tests do it, start from the project's wiki: "
                  "`python -m lockstep.wiki` prints it, each section a question linking down to the requirement, its files and its test.")
+_LAYOUT_POINTER = ("To see what the plan asks for, read the `layout:` rows in lockstep.yaml; "
+                   "`uv run lockstep show <file>` prints a file's requirements and the tests that check them.")
 
 EDIT_TOOLS = {"Edit", "Write", "MultiEdit", "NotebookEdit"}
 SHELL_TOOLS = {"Bash", "shell", "local_shell", "exec_command",
@@ -274,7 +276,7 @@ def _with_allowed(root: Path, rel: str, reason: str) -> str:
 
 def _refuse_or_warn(root: Path, rel_files: list[str], record: dict, reason: str, extra: str | None = None) -> dict:
     """Deny when any of `rel_files` blocks; otherwise allow, hand the refusal over as a warning, log would_block."""
-    reason = f"{reason}\n\n{_WIKI_POINTER}"
+    reason = f"{reason}\n\n{_LAYOUT_POINTER if has_layout(root) else _WIKI_POINTER}"
     if any(blocks(root, r) for r in rel_files):
         log(root, {**record, "decision": "deny"})
         return _out("deny", reason, extra)

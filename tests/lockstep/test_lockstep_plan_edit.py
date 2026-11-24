@@ -15,6 +15,8 @@ Proven by: VS-3.8-a (tests/test_plan_edit.py)
 [[[end]]] (sum: q6/Y/SDAAr)
 """
 
+import pytest
+
 import yaml
 
 from lockstep_support import sh
@@ -44,6 +46,7 @@ def _reworded(proj) -> str:
     return yaml.safe_dump(t, sort_keys=False)
 
 
+@pytest.mark.req("lockstep-plan-format/an-aes-plan-repository-s-checks-still-run", existing=True)
 def test_a_changed_item_is_named_with_every_linked_file_and_symbol(proj):
     _with_exports(proj)
     reason = plan_edit_reason(proj, TARGET, _reworded(proj))

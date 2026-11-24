@@ -1,0 +1,2 @@
+- [x] Test `test_a_refusal_in_a_layout_repository_points_to_lockstep_show` (written with the code; it fails on the old pointer, which names `python -m lockstep.wiki`).
+- [x] `src/lockstep/hook.py` picks the pointer by `has_layout`.

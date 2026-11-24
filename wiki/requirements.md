@@ -26,6 +26,7 @@ the requirements or a claim that their tests passed today.
 | Plan-package validation | [Plan check](../openspec/specs/lockstep-plan-check/spec.md) | [Plan checker](../src/lockstep/plan_check.py) |
 | Requirement copies and implementation coverage | [Projection and status](../openspec/specs/lockstep-projection/spec.md) | [Projector](../src/lockstep/checks/project.py), [status](../src/lockstep/checks/status.py) |
 | Source-owned descriptions, interfaces and evidence values | [Declared document facts](../openspec/specs/lockstep-doc-facts/spec.md) | [Fact projector](../src/lockstep/doc_projection.py) |
+| Feedback concerns kept as one GitHub issue per key, retitled to the current status | [Concern issue](../openspec/specs/concern-issue/spec.md) | [Adapter](../scripts/concern_issue.py) |
 | AES source-owned assessment and facts-only gate | [Declared document facts](../openspec/specs/lockstep-doc-facts/spec.md), as AES declares them | [Declarations](../lockstep.yaml), [native observation](../evidence/runs/projection-self-adoption-20261113.json) |
 
 The [component contract](../docs/architecture/LOCKSTEP.md#current-mechanisms-and-their-limits)

@@ -1,5 +1,7 @@
 """Behavior 4.1: one page per requirement, its status from the code and the evidence, none typed."""
 
+import pytest
+
 import re
 from datetime import UTC, datetime, timedelta
 
@@ -29,6 +31,7 @@ target_delta:
 """
 
 
+@pytest.mark.req("lockstep-plan-format/an-aes-plan-repository-s-checks-still-run", existing=True)
 def test_status_is_read_from_aes_at_the_current_commit(planned):
     status = requirement_status(planned)
     assert status["revision"] == sh("git rev-parse HEAD", planned).strip()

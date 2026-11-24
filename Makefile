@@ -38,6 +38,7 @@ check: check-doc-facts  ## Run all checks (test, mypy, lint)
 
 TRACE_ACCEPTED ?= docs/planning/trace-accepted.txt
 TRACE_NOW ?= .trace-now.txt
+TRACE_REPO ?= .
 
 check-source-order:  ## Every requirement states its rule before its Source: line (spec lockstep-checks); items with no Source: line are an older backlog this target does not fail on
 	@bad=$$(PYTHONPATH=src $(PYTHON) -c 'import sys; from lockstep.checks.cli import run; sys.exit(run(["sources"]))' 2>&1 | grep '^source-first '); \
@@ -50,7 +51,7 @@ check-copies:  ## A planned file's plan copy must be current and a fixed: file m
 	echo "RESULT check-copies exit=0"
 
 check-trace:  ## Trace findings must equal $(TRACE_ACCEPTED): a new finding fails, and a fixed one must leave the list
-	@PYTHONPATH=src $(PYTHON) -c 'import sys; from lockstep.checks.cli import run; sys.exit(run(["trace"]))' 2>/dev/null \
+	@PYTHONPATH=src $(PYTHON) -c 'import sys; from lockstep.checks.cli import run; sys.exit(run(["trace", "--repo", "$(TRACE_REPO)"]))' 2>/dev/null \
 	  | grep -v '^RESULT' | sed -e 's/  (.*//' -e 's/  */ /g' | sort -u > $(TRACE_NOW); \
 	if diff -u $(TRACE_ACCEPTED) $(TRACE_NOW); then \
 	  echo "RESULT check-trace accepted=$$(wc -l < $(TRACE_ACCEPTED)) exit=0"; \

@@ -63,6 +63,16 @@ plan copies that no check catches (Q53). The 16 left: 6 template requirements th
 duplicate spec (Q51), 6 whose spec lives in code2-workspace (Q52). 14 Lockstep files from the retired `.aes`
 route have no requirement (Q54, retiring any needs Brian).
 
+**Alignment answers carried out, 2026-11-23** (Brian: "i approve" to Q49 and Q51-Q55): the trace accepted list is
+now empty. `make check` also fails on a stale or missing docstring plan copy (`check-copies`, #1029) and on a
+requirement whose `Source:` line comes before its statement (`check-source-order`; 11 reordered, #1030). The
+duplicate spec `aes-documentation-projection` retired (#1030). AES has its own `concern-issue` spec for its copy of
+`scripts/concern_issue.py`; code2-workspace keeps its copy and spec. The 14 old-route files retire none: every one is
+still run from AES's code (lifelike pins AES and runs 11; digimon's two checkouts run AES's edit hook on an AES plan; Team-Brains calls `action_check`), so one requirement
+says each retires once nothing runs it. Hook refusals in a layout repository now point to `lockstep show`, not the
+crashing `python -m lockstep.wiki`. code2-workspace's plan-size rule now asks the independent read to list departures
+from the settled design (#930). AES's slow tests now run nightly (code2-workspace #929).
+
 **Template layout, slice 2 of back-on-design, 2026-11-23** ([plan](../docs/planning/template-layout-2026-11-23.md)):
 step 0 is merged: the trace check reads `Implements:` comment lines in `[tool.lockstep] comment_sources`
 (AES: `copier.yml`, `template`), so the 6 template requirements trace and `trace-accepted.txt` is at 10 (Q50

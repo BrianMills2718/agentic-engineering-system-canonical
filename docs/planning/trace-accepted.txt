@@ -1,5 +1,0 @@
-unknown compliance-list/a-current-title-is-left-alone
-unknown compliance-list/a-failed-retitle-fails-the-call
-unknown compliance-list/a-reopened-concern-takes-the-current-title
-unknown compliance-list/an-issue-that-already-records-the-occurrence-is-still-retitled
-unknown compliance-list/an-open-concern-s-title-follows-the-repository-s-current-status

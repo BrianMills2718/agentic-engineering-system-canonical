@@ -17,6 +17,8 @@ Proven by: VS-5.4-a (tests/test_action_check.py)
 [[[end]]] (sum: VZfAgw1yPp)
 """
 
+import pytest
+
 import json
 
 from lockstep_support import sh
@@ -34,6 +36,7 @@ MATCH = {"plan": "ACT-BOARD-STATUS", "kind": "board_update", "target": "Inside-S
          "body": "Status: the runner gate is live."}
 
 
+@pytest.mark.req("lockstep-plan-format/an-aes-plan-repository-s-checks-still-run", existing=True)
 def test_a_matching_proposal_is_allowed_and_names_its_action(tmp_path):
     (tmp_path / "lockstep.yaml").write_text(SIDE)
     d = action_decision(tmp_path, MATCH)
