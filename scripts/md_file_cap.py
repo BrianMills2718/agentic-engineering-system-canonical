@@ -14,6 +14,10 @@ Markdown files under generated/ are generator output, not documents anyone keeps
 writes (.claude/skills/openspec-*/, .agents/skills/openspec-*/, .claude/commands/opsx/) are generator
 output too and are not counted (Brian, 2026-11-24: "cut whatever get us to optimal and safe"; the
 classification as generated inferred by agent from the 2026-11-17 rule). Hand-written skills still count.
+An archived OpenSpec change (openspec/changes/archive/) is not counted: the code2 workspace rule keeps it only
+for the merge that archives it and removes it in the next commit (Brian, 2026-11-24: "i approve"), and its
+specs are already counted in openspec/specs/ (not counting it inferred by agent, 2026-11-24, after the first
+merge to archive a change under the cap went over by the change's four files).
 
 Exception: a file named .md-file-cap.yaml at the repository root:
 
@@ -150,7 +154,8 @@ def default_ref(top):
     return "HEAD"
 
 
-TOOL_GENERATED = re.compile(r"^(\.claude/skills/openspec-[^/]+/|\.agents/skills/openspec-[^/]+/|\.claude/commands/opsx/)")
+TOOL_GENERATED = re.compile(r"^(\.claude/skills/openspec-[^/]+/|\.agents/skills/openspec-[^/]+/|\.claude/commands/opsx/"
+                            r"|openspec/changes/archive/)")
 
 
 def count_md(top, ref="HEAD"):

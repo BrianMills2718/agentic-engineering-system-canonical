@@ -1,10 +1,11 @@
-limit: 117
+limit: 116
 reason: >
   Set 2026-11-24 to the count left after the OpenSpec change archive (230 Markdown files), four
   finished plans and five pages whose open items moved to the ledger, and the consolidation plan with its four evidence pages
   (open work moved to GitHub Issues) were removed, and the 18 OpenSpec skill copies that `openspec init` writes stopped
-  counting (docs/retired/2026-11-24.md; Brian, 2026-11-24: "i approve" to trimming to the 100-file cap,
-  then "cut whatever get us to optimal and safe then we can discuss"). The remaining 17 files are each
+  counting, and the hand file catalog wiki/documents.md was replaced by generated/files.md from lockstep.yaml layout rows
+  (docs/retired/2026-11-24.md; Brian, 2026-11-24: "i approve" to trimming to the 100-file cap,
+  then "cut whatever get us to optimal and safe then we can discuss"). The remaining 16 files are each
   still read or still live; which to merge or retire next is for discussion with Brian. This limit
   only goes down: each merge or retirement lowers it to the new count, and it is removed when the
   count is 100 or less.
