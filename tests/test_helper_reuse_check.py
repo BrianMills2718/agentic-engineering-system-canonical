@@ -311,3 +311,63 @@ def test_a_renamed_and_edited_file_keeps_its_functions(tmp_path, capsys, fake):
     f = fake({})
     code, out = run(root, capsys)
     assert code == 0 and "new_functions=0" in out and f.calls == []
+
+
+def test_a_verbatim_copy_in_another_file_is_still_judged(tmp_path, capsys, fake):
+    root = repo(tmp_path, {"src/a.py": SLUG})
+    (root / "src/b.py").write_text(SLUG.replace("def slug(", "def make_key("))
+    f = fake({"src/b.py::make_key": ["src/a.py::slug"]})
+    code, out = run(root, capsys)
+    assert code == 1 and "new_functions=1 flagged=1" in out and len(f.calls) == 2
+
+
+def test_a_function_moved_to_another_file_is_not_new(tmp_path, capsys, fake):
+    root = repo(tmp_path, {"src/a.py": SLUG + "\n\n" + NEW_JOB})
+    (root / "src/a.py").write_text(NEW_JOB)
+    (root / "src/helpers.py").write_text(SLUG)
+    f = fake({})
+    code, out = run(root, capsys)
+    assert code == 0 and "new_functions=0" in out and f.calls == []
+
+
+def test_a_recursive_function_renamed_in_place_is_not_new(tmp_path, capsys, fake):
+    fact = "def fact(n):\n    if n < 2:\n        return 1\n    return n * fact(n - 1)\n"
+    root = repo(tmp_path, {"src/a.py": fact})
+    (root / "src/a.py").write_text(fact.replace("fact", "factorial"))
+    f = fake({})
+    code, out = run(root, capsys)
+    assert "new_functions=0" in out and f.calls == []
+
+
+def test_ids_copied_with_their_arguments_are_cut_at_the_bracket():
+    assert h._id("src/a.py::slug(name: str) -> str") == "src/a.py::slug"
+    assert h._id("src/a (1).py::x") == "src/a (1).py::x"
+    c = h._Candidate(new_id="src/b.py::k(t)", existing_ids=["src/a.py::slug(name)"])
+    assert (c.new_id, c.existing_ids) == ("src/b.py::k", ["src/a.py::slug"])
+    assert h._Verdict(new_id="x::y(z)", verdict="different", existing_id=None, reason="").existing_id is None
+
+
+def test_a_path_with_a_space_is_read(tmp_path, capsys, fake):
+    root = repo(tmp_path, {"src/a.py": SLUG})
+    (root / "src/my helpers.py").write_text(NEW_JOB)
+    f = fake({})
+    code, out = run(root, capsys)
+    assert "new_functions=1" in out and len(f.calls) == 1
+
+
+def test_a_changed_reasoning_setting_asks_again(tmp_path, capsys, fake, monkeypatch):
+    root = repo(tmp_path, {"src/a.py": SLUG})
+    (root / "src/b.py").write_text(NEW_JOB)
+    f = fake({})
+    run(root, capsys)
+    monkeypatch.setattr(h, "REASONING", "xhigh")
+    run(root, capsys)
+    assert len(f.calls) == 2
+
+
+def test_same_job_with_no_existing_function_fails_closed(tmp_path, capsys, fake):
+    root = repo(tmp_path, {"src/a.py": SLUG})
+    (root / "src/b.py").write_text(REWRITE)
+    bad = [h._Verdict(new_id="src/b.py::make_key", verdict="same_job", existing_id=None, reason="r")]
+    fake({"src/b.py::make_key": ["src/a.py::slug"]}, judge=bad)
+    assert run(root, capsys)[0] == 2

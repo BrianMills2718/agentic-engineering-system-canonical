@@ -12,8 +12,8 @@ calls through `llm_client` (plain-first: the whole index and the question):
      same_job, partial_overlap or different (split into more calls only when one would pass the input budget).
 
 New functions: module-level functions and class methods in changed `.py` files under the folders,
-whose `path::name` is not on the base and whose source is not on the base under any name (a moved
-function is not new). `main`, `test_*` and dunder methods are left out; short wrappers stay in, as they are the most
+whose `path::name` is not on the base and whose code is not in the same file on the base under another
+name (a function renamed in place, or in a renamed file, is not new; a copy in another file is). `main`, `test_*` and dunder methods are left out; short wrappers stay in, as they are the most
 rewritten helpers (AES has 27 git wrappers).
 Answers are cached by a hash of model and messages under `<git-common-dir>/helper-reuse/`.
 
@@ -21,12 +21,14 @@ Prints `RESULT helper-reuse new_functions=<n> flagged=<n> cost_usd=<x> exit=<0|1
 function is same_job. A failed model call or tool step prints `RESULT helper-reuse tool-failed exit=2`.
 It needs `llm_client` (run with that project's Python); it is report-only and not part of make check.
 Traces: `aes/helper-reuse/<head>/candidates` and `.../judge/<n>`, task `aes.helper-reuse`.
-Not covered: a rewrite of a function defined inside another function, and duplicates across repositories.
+Not covered: a rewrite of a function defined inside another function, two new functions that copy each other,
+and duplicates across repositories. A base file that does not parse fails the run too.
 """
 from __future__ import annotations
 
 import argparse
 import ast
+import copy as copy_module
 import hashlib
 import json
 import os
@@ -57,8 +59,10 @@ _M = TypeVar("_M", bound=BaseModel)
 
 
 def _id(text: str) -> str:
-    """An id as the prompts define it: everything before the opening bracket (models sometimes copy the arguments)."""
-    return text.split("(", 1)[0].strip()
+    """An id as the prompts define it: the name part cut at its opening bracket (models sometimes copy the arguments).
+    Only the part after `::` is cut, so a path holding a bracket keeps it."""
+    path, sep, name = text.strip().partition("::")
+    return f"{path}{sep}{name.split('(', 1)[0]}".strip()
 
 
 class _Candidate(BaseModel):
@@ -101,9 +105,14 @@ class _Failed(Exception):
 
 
 def _body_key(node: ast.FunctionDef | ast.AsyncFunctionDef) -> str:
-    """The function's code with its name blanked, so a function renamed but not changed has the same key."""
-    copy = ast.parse(ast.unparse(node)).body[0]
-    assert isinstance(copy, (ast.FunctionDef, ast.AsyncFunctionDef))
+    """The function's code with its own name blanked (also where it calls itself or a decorator names it), so a
+    function renamed but not changed has the same key."""
+    copy = copy_module.deepcopy(node)
+    for sub in ast.walk(copy):
+        if isinstance(sub, ast.Name) and sub.id == node.name:
+            sub.id = ""
+        elif isinstance(sub, ast.Attribute) and sub.attr == node.name:
+            sub.attr = ""
     copy.name = ""
     return ast.dump(copy)
 
@@ -163,7 +172,7 @@ def _read(repo: Path, head: str | None, path: str) -> str | None:
 
 def _changed(repo: Path, base: str, head: str | None) -> tuple[list[str], dict[str, str]]:
     """Changed paths (added, modified, renamed; untracked too when reading the working tree) and new->old renames."""
-    status = _git(repo, "diff", "-z", "--name-status", "-M", "--diff-filter=AMR", base, *([head] if head else []))
+    status = _git(repo, "diff", "-z", "--name-status", "-M", "--diff-filter=AMRD", base, *([head] if head else []))
     fields, changed, renames, i = _paths(status), [], {}, 0
     while i < len(fields):
         if fields[i].startswith("R"):
@@ -171,28 +180,49 @@ def _changed(repo: Path, base: str, head: str | None) -> tuple[list[str], dict[s
             changed.append(fields[i + 2])
             i += 3
         else:
-            changed.append(fields[i + 1])
+            changed.append(fields[i + 1])  # a deleted path reads as absent below
             i += 2
     if head is None:
         changed += _paths(_git(repo, "ls-files", "-z", "--others", "--exclude-standard"))
     return changed, renames
 
 
+def _moved_out(repo: Path, head: str | None, paths: list[str], renames: dict[str, str], folders: list[str],
+               old: dict[str, dict[str, Any]]) -> set[str]:
+    """Bodies of base functions whose file changed and that are no longer in that file (or its renamed copy) on the
+    branch: code moved out, so the same body appearing in another file is a move, not a rewrite."""
+    now_path = {old_path: new_path for new_path, old_path in renames.items()}
+    touched = (set(paths) | set(renames.values())) - set(renames)  # base-side paths of every changed file
+    base_files = {f["id"].split("::", 1)[0] for f in old.values()}
+    gone: set[str] = set()
+    for base_path in touched & base_files:
+        path = now_path.get(base_path, base_path)
+        text = _read(repo, head, path) if _in_folders(path, folders) else None
+        now = {f["body"] for f in _functions(path, text).values()} if text is not None else set()
+        gone |= {f["body"] for f in old.values() if f["id"].split("::", 1)[0] == base_path} - now
+    return gone
+
+
 def _new_functions(repo: Path, base: str, head: str | None, folders: list[str],
                    old: dict[str, dict[str, Any]]) -> list[dict[str, Any]]:
     """Functions on the branch whose id (after file renames) and body (ignoring the name) are not on the base."""
     changed, renames = _changed(repo, base, head)
-    old_bodies = {f["body"] for f in old.values()}
+    moved = _moved_out(repo, head, changed, renames, folders, old)
+    bodies_by_file: dict[str, set[str]] = {}
+    for f in old.values():
+        bodies_by_file.setdefault(f["id"].split("::", 1)[0], set()).add(f["body"])
     new = []
     for p in sorted(set(changed)):
         text = _read(repo, head, p) if _in_folders(p, folders) else None
         if text is None:
             continue
         for fid, f in _functions(p, text).items():
-            was = f"{renames[p]}::{fid.split('::', 1)[1]}" if p in renames else fid
+            src = renames.get(p, p)  # a renamed function counts as old only in its own file, never across files
+            was = f"{src}::{fid.split('::', 1)[1]}"
             skip = (f["name"] == "main" or f["name"].startswith("test_")
                     or (f["name"].startswith("__") and f["name"].endswith("__")))
-            if not skip and was not in old and f["body"] not in old_bodies:
+            if (not skip and was not in old and f["body"] not in bodies_by_file.get(src, set())
+                    and f["body"] not in moved):
                 new.append(f)
     return new
 
@@ -314,8 +344,13 @@ def _run(repo: Path, base: str, head_rev: str | None, folders: list[str],
     return new, verdicts, cost
 
 
+TAG_CHARS = 120  # the judge template's wrapping tags around each function, counted generously
+
+
 def _pair_chars(pair: dict[str, Any]) -> int:
-    return len(pair["source"]) + sum(len(c["source"]) + len(c["id"]) for c in pair["candidates"]) + len(pair["id"])
+    """Characters a pair adds to the rendered judge prompt, its wrapping tags included."""
+    return (len(pair["source"]) + len(pair["id"]) + TAG_CHARS
+            + sum(len(c["source"]) + len(c["id"]) + len(pair["id"]) + TAG_CHARS for c in pair["candidates"]))
 
 
 def _batches(pairs: list[dict[str, Any]]) -> list[list[dict[str, Any]]]:
