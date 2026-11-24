@@ -453,3 +453,17 @@ def test_generated_md_not_counted(tmp_path):
     subprocess.run(["git", "-C", str(path), "add", "-A"], check=True)
     subprocess.run(["git", "-C", str(path), "-c", "user.name=t", "-c", "user.email=t@t", "commit", "-qm", "more"], check=True)
     assert m.count_md(str(path)) == 1
+
+
+def test_tool_generated_openspec_skill_copies_are_not_counted(tmp_path):
+    # `openspec init --tools claude,codex` writes the same OpenSpec skills into .claude/ and .agents/;
+    # they are generator output, like generated/ (Brian, 2026-11-17, "skip generated").
+    repo = git_repo(tmp_path, "r", {
+        "docs/a.md": "x",
+        ".claude/skills/openspec-propose/SKILL.md": "x",
+        ".agents/skills/openspec-propose/SKILL.md": "x",
+        ".claude/commands/opsx/propose.md": "x",
+        ".claude/skills/my-own-skill/SKILL.md": "a hand-written skill still counts",
+        ".claude/commands/review.md": "a hand-written command still counts",
+    })
+    assert m.count_md(str(repo), "HEAD") == 3

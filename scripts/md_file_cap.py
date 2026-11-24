@@ -10,7 +10,10 @@ checked-out branch. Which repositories: every PROJECT_GRAPH.json entry whose git
 BrianMills2718 and whose local path is a git checkout. Entries that resolve to the
 same checkout are counted once.
 Markdown files under generated/ are generator output, not documents anyone keeps: they are not counted
-(Brian, 2026-11-17, "skip generated").
+(Brian, 2026-11-17, "skip generated"). The OpenSpec skill and command copies that `openspec init --tools`
+writes (.claude/skills/openspec-*/, .agents/skills/openspec-*/, .claude/commands/opsx/) are generator
+output too and are not counted (Brian, 2026-11-24: "cut whatever get us to optimal and safe"; the
+classification as generated inferred by agent from the 2026-11-17 rule). Hand-written skills still count.
 
 Exception: a file named .md-file-cap.yaml at the repository root:
 
@@ -147,12 +150,15 @@ def default_ref(top):
     return "HEAD"
 
 
+TOOL_GENERATED = re.compile(r"^(\.claude/skills/openspec-[^/]+/|\.agents/skills/openspec-[^/]+/|\.claude/commands/opsx/)")
+
+
 def count_md(top, ref="HEAD"):
     out = git(top, "ls-tree", "-r", "-z", "--name-only", ref)
     if out is None:
         return None
     return sum(1 for f in out.split("\0")
-               if f.lower().endswith(".md") and not f.startswith("generated/"))
+               if f.lower().endswith(".md") and not f.startswith("generated/") and not TOOL_GENERATED.match(f))
 
 
 def read_exception(top, ref="HEAD"):
