@@ -1,5 +1,10 @@
 # Every tracked file is planned
 
+Plan size: full
+Planning package: docs/planning/planning-package.json
+
+Full, not small: the `governed:` matching rule lives in the Lockstep package that other repositories install.
+
 ## Why
 
 AES's rule says every tracked file is reachable and summarized from `wiki/index.md` (Brian, 2026-11-13, AES #849).
@@ -10,8 +15,9 @@ The settled design puts "which files exist and why" in `lockstep.yaml` `layout:`
 ## What changes
 
 - Every tracked file gets a `layout:` row with a one-line purpose. 336 purposes come from the hand catalog and 222 were
-  written from each file's content. `governed:` lists every top-level folder and file, so a new unplanned file is
-  reported by `lockstep check` and the edit hook.
+  written from each file's content. `governed:` is `[".", "src/lockstep/"]`, so a new unplanned file anywhere is
+  reported by `lockstep check` and the edit hook. A `governed:` entry now matches by one rule (`/` or `.` by prefix,
+  any other entry as that file or that folder), which every repository using Lockstep shares.
 - Record-array projections gain an optional `key` (default `id`) and `link` (render a path field as a link), so the
   `layout` rows (keyed by `path`) render into `generated/files.md` with every path a link, and every tracked file is
   reachable from `wiki/index.md` through it.
