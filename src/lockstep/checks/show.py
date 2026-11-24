@@ -7,6 +7,26 @@ Requirement text (generated):
         each requirement the file's docstrings implement, with its text, its scenarios and their
         status.
 
+
+[[[cog import lockstep.cogtext as c; c.docstring("src:lockstep:checks:show.py", indent=0)]]]
+Plan (generated from lockstep.yaml layout and OpenSpec; edit the spec or the layout row, not this text):
+
+Implements: lockstep-projection/show-prints-what-a-file-must-keep-true
+
+### Requirement: Show prints what a file must keep true
+
+`lockstep show FILE` SHALL print each requirement the file's docstrings implement, with its text, its scenarios and their status.
+
+Source: Brian, 2026-11-11: "i approve single tool desing re d4"; proposals/one-planning-tool/DESIGN.md, slice 6 ("Requirement text in docstrings" and "Status per requirement" rows)
+
+#### Scenario: Show lists a file's requirements
+
+- **GIVEN** a file implementing one requirement
+- **WHEN** `lockstep show FILE` runs
+- **THEN** the requirement, its text, its scenarios and states print
+
+Tested by: tests/lockstep/checks/test_lockstep_check_show.py
+[[[end]]]
 """
 
 from pathlib import Path

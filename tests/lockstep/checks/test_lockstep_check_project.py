@@ -171,7 +171,7 @@ def test_cli_check_exits_1_when_stale(linked, capsys):
     assert run(["project", "--repo", str(linked)]) == 0
     assert "rewrote src/pkg/mod.py" in capsys.readouterr().out
     assert run(["project", "--repo", str(linked), "--check"]) == 0
-    assert "RESULT project stale=0 exit=0" in capsys.readouterr().out
+    assert "RESULT project stale=0 no_copy=0 exit=0" in capsys.readouterr().out
 
 
 @pytest.mark.req("lockstep-projection/plan-block-lists-coverage")

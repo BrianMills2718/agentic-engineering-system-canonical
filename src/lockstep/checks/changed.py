@@ -61,6 +61,200 @@ Requirement text (generated):
 Nothing is stored: "changed" is computed on every run from the two revisions. The base is read with
 `git archive` of `openspec/`, `docs/plans/` and the test files the listed requirements need, into a
 temporary folder; the working tree is not touched and no test is run.
+
+[[[cog import lockstep.cogtext as c; c.docstring("src:lockstep:checks:changed.py", indent=0)]]]
+Plan (generated from lockstep.yaml layout and OpenSpec; edit the spec or the layout row, not this text):
+
+Implements: lockstep-checks/changed-requirements-that-differ-from-the-base-are-listed-with-their-code-and-tests, lockstep-checks/changed-every-listed-requirement-is-named-by-a-plan-in-the-same-change-set, lockstep-checks/changed-a-changed-statement-needs-a-changed-scenario-or-a-wording-only-declaration, lockstep-checks/changed-count-line-and-exit-status, lockstep-checks/changed-documents-that-quote-a-listed-requirement-are-listed-with-it, lockstep-checks/changed-every-plan-that-names-a-listed-requirement-states-its-size, lockstep-checks/changed-and-test-first-the-base-is-where-the-branch-started
+
+### Requirement: Changed: Requirements that differ from the base are listed with their code and tests
+
+`lockstep check changed --base <rev>` SHALL compare the text of every requirement and scenario in the plan at the current revision (`openspec/specs/` with the spec deltas of active changes applied over it) with the plan at the base revision, treating runs of whitespace as one space. It SHALL print, for each requirement that is new, removed, or whose statement or any scenario is new, removed or different: the requirement ID and its kind (`new`, `changed` or `removed`), which parts differ, the symbols whose docstrings implement it, the tests marked for its scenarios, each labelled `changed`, `unchanged` or `new` against the base revision's copy of that test function, and the plan that names it. `--json` SHALL print the same as JSON. It SHALL read the base revision from git without changing the working tree.
+
+Source: Brian, 2026-11-17: "if there is a change in the nromative docuemtnation then that normative docuemtnation gets updated and then the gaps relevant to that normative docuemntation need to be replanned" (code2-workspace issue 842; approved for build 2026-11-17, "i approve"). The output columns are inferred by agent.
+
+#### Scenario: Changed: A reworded requirement is listed with its implementer and tests
+
+- **GIVEN** a requirement whose statement differs from the base, with an implementing docstring and a marked test that is the same as at the base
+- **WHEN** `lockstep check changed --base <rev>` runs
+- **THEN** it lists the requirement as `changed`, names the implementing symbol, and labels the test `unchanged`
+
+#### Scenario: Changed: Re-wrapped text is not a change
+
+- **GIVEN** a requirement whose statement differs from the base only in line breaks and spacing
+- **WHEN** the check runs
+- **THEN** it lists nothing and exits 0
+
+#### Scenario: Changed: A changed scenario marks its requirement changed
+
+- **GIVEN** a requirement whose statement is the same as at the base and one of whose scenarios has different text
+- **WHEN** the check runs
+- **THEN** it lists the requirement as `changed` and names that scenario as the part that differs
+
+#### Scenario: Changed: Text in an active change counts before it is archived
+
+- **GIVEN** an active change whose spec delta gives an existing requirement a different statement
+- **WHEN** the check runs
+- **THEN** it lists the requirement as `changed` and names the change as its plan
+
+#### Scenario: Changed: A test edited since the base is labelled changed
+
+- **GIVEN** a changed requirement whose marked test function differs from the base revision's copy
+- **WHEN** the check runs
+- **THEN** the test is labelled `changed`
+
+### Requirement: Changed: Every listed requirement is named by a plan in the same change set
+
+The changed check SHALL report a listed requirement as `unplanned` and exit 1 when no plan that is new or different from the base revision names it. A plan names a requirement when it is an OpenSpec change (active, or archived since the base) whose spec delta has a heading for that requirement, or a page in `docs/plans/` or an OpenSpec change's `proposal.md` whose `Closes:` or `Wording-only:` line lists the requirement ID.
+
+Source: Brian, 2026-11-17: "the gaps relevant to that normative docuemntation need to be replanned" (code2-workspace issue 842; approved for build 2026-11-17, "i approve"). Which files count as a plan is inferred by agent (the two places `lockstep status` already reads a `Closes:` line from).
+
+#### Scenario: Changed: A spec edited with no plan is unplanned
+
+- **GIVEN** a requirement whose statement was edited in `openspec/specs/` since the base, and no change or plan page added or edited since the base
+- **WHEN** the check runs
+- **THEN** it reports the requirement as `unplanned` and exits 1
+
+#### Scenario: Changed: An archived change in the same change set is its plan
+
+- **GIVEN** a requirement whose statement differs from the base, and a change archived since the base whose spec delta has a heading for it
+- **WHEN** the check runs
+- **THEN** it names the archived change as the plan and reports no `unplanned` finding
+
+#### Scenario: Changed: A plan page that was not touched does not count
+
+- **GIVEN** a requirement whose statement differs from the base, and a page in `docs/plans/` with a `Closes:` line for it that is identical at the base
+- **WHEN** the check runs
+- **THEN** it reports the requirement as `unplanned`
+
+### Requirement: Changed: A changed statement needs a changed scenario or a wording-only declaration
+
+The changed check SHALL report `no-scenario-changed` and exit 1 when a requirement's statement differs from the base while none of its scenarios is new or different, unless a plan that is new or different from the base lists the requirement ID on a `Wording-only:` line. It SHALL print each wording-only declaration it accepted with the plan's path, and count them in its count line. A `Wording-only:` line MAY list scenario IDs as well as requirement IDs; a requirement ID covers its statement and all its scenarios.
+
+Source: inferred by agent (a statement that changes while every scenario stays the same leaves nothing to test the change; the declaration is the one typed statement in the design and is printed so it can be read. Follows code2-workspace decision 0006, "a gap closes only through new evidence").
+
+#### Scenario: Changed: A statement changed with no scenario changed fails
+
+- **GIVEN** a requirement, named by a plan in the same change set, whose statement differs from the base and whose scenarios are all the same
+- **WHEN** the check runs
+- **THEN** it reports `no-scenario-changed` for the requirement and exits 1
+
+#### Scenario: Changed: A wording-only declaration is accepted and printed
+
+- **GIVEN** the same requirement, and a plan in the same change set with the line `Wording-only: <requirement id>`
+- **WHEN** the check runs
+- **THEN** it exits 0, prints the declaration with the plan's path, and its count line has `wording_only=1`
+
+### Requirement: Changed: Count line and exit status
+
+The changed check SHALL end with the line `RESULT changed requirements=<n> unplanned=<n> no_scenario=<n> wording_only=<n> small=<n> full=<n> no_plan_size=<n> no_planning_package=<n> exit=<0|1>`, exiting 1 when `unplanned`, `no_scenario`, `no_plan_size` or `no_planning_package` is above zero. `small` and `full` SHALL count the listed requirements of each size. When `<rev>` does not name a commit it SHALL check nothing, print `RESULT changed skipped="base <rev> not found" exit=0` and exit 0. `changed` SHALL be a check name in `lockstep.yaml` with the same `block`, `warn` and `off` modes as the other checks.
+
+Source: inferred by agent (the same count-line, missing-base and mode rules the other Lockstep checks follow; the four size fields count what the plan-size requirement reports)
+
+#### Scenario: Changed: Nothing changed gives a zero count and exit 0
+
+- **GIVEN** a repository whose plan is the same as at the base
+- **WHEN** the check runs
+- **THEN** its last line is `RESULT changed requirements=0 unplanned=0 no_scenario=0 wording_only=0 small=0 full=0 no_plan_size=0 no_planning_package=0 exit=0`
+
+#### Scenario: Changed: A missing base is reported, not crashed
+
+- **GIVEN** a base revision that does not exist
+- **WHEN** the check runs
+- **THEN** it prints the skipped line and exits 0
+
+#### Scenario: Changed: Mode off skips the check
+
+- **GIVEN** `lockstep.yaml` with `checks: {changed: off}`
+- **WHEN** `lockstep check changed` runs
+- **THEN** it prints `skipped (off)` and exits 0
+
+### Requirement: Changed: Documents that quote a listed requirement are listed with it
+
+The changed check SHALL print, for each requirement it lists, every marked quote of it (`<!-- lockstep quote: <id> -->` in a tracked Markdown file outside `openspec/`) as `<path>:<line>` with the label `current` when the passage appears in the requirement's or its scenarios' current text and `stale` when it does not, and SHALL include them in its JSON output.
+
+Source: Brian, 2026-11-17: "if there is a change in the nromative docuemtnation then that normative docuemtnation gets updated and then the gaps relevant to that normative docuemntation need to be replanned" (code2-workspace issue 842). Inferred by agent: that the list shows documents beside code and tests.
+
+#### Scenario: Changed: A document quoting a changed requirement is listed as stale
+
+- **GIVEN** a requirement whose statement differs from the base and a Markdown file with a marked quote of the old statement's words
+- **WHEN** `lockstep check changed --base <rev>` runs
+- **THEN** the requirement's block names the file and line with the label `stale`
+
+### Requirement: Changed: Every plan that names a listed requirement states its size
+
+The changed check SHALL read, in each plan that names a listed requirement, every line `Plan size: small` or `Plan size: full` that stands outside a fenced code block: in the `proposal.md` of an OpenSpec change, or in the page itself for a page in `docs/plans/`. A listed requirement's size SHALL be `full` when any plan naming it says `full`, otherwise `small` when one says `small`. The check SHALL report `no-plan-size` and exit 1 for a listed requirement that a plan names when no plan naming it gives a size, and the finding SHALL name the file the line belongs in. For a requirement whose size is `full` it SHALL report `no-planning-package` and exit 1 unless a plan naming it has, outside a fenced code block, a line `Planning package: <path>` (the path with or without backticks) whose path is a file in the repository. It SHALL print each listed requirement's size in its text block and include it in its JSON output. A requirement reported `unplanned` SHALL get no size finding.
+
+Source: Brian, 2026-11-17: "i approve your reccomendations", answering Decision 7 with its option 7A: "Each plan states its size in one line, small or full. Small: the proposal is the plan, Lockstep's checks are the gate, and the checklist is not run. Full: the whole planning package and checklist, as now. Lockstep prints and counts the declared sizes." (code2-workspace decision 0006, amendment of 2026-11-17; code2-workspace issue 853). Inferred by agent: that a `full` plan must name a planning package file that exists (so that `full` points at something a program can open), that two sizes count as `full`, and the two line forms (the `Plan size:` line `ship` already reads in `docs/plans/` pages, and the `Planning package:` line Company Planning's plan check already requires).
+
+#### Scenario: Changed: A plan marked small passes
+
+- **GIVEN** a requirement that differs from the base, and an OpenSpec change naming it whose `proposal.md` has the line `Plan size: small`
+- **WHEN** the check runs
+- **THEN** the requirement's block prints the size `small`, there is no size finding, the count line has `small=1`, and it exits 0
+
+#### Scenario: Changed: A plan with no size line fails
+
+- **GIVEN** a requirement that differs from the base, and an OpenSpec change naming it whose `proposal.md` has no `Plan size:` line
+- **WHEN** the check runs
+- **THEN** it reports `no-plan-size` for the requirement with the path of that `proposal.md`, the count line has `no_plan_size=1`, and it exits 1
+
+#### Scenario: Changed: A size line inside a code block does not count
+
+- **GIVEN** the same change, whose `proposal.md` has the line `Plan size: small` only inside a fenced code block
+- **WHEN** the check runs
+- **THEN** it reports `no-plan-size` for the requirement and exits 1
+
+#### Scenario: Changed: A full plan that names an existing planning package passes
+
+- **GIVEN** a plan naming the requirement with the lines `Plan size: full` and `Planning package: docs/planning/planning-package.json`, and that file present in the repository
+- **WHEN** the check runs
+- **THEN** the requirement's block prints the size `full`, there is no size finding, the count line has `full=1`, and it exits 0
+
+#### Scenario: Changed: A full plan with no planning package line fails
+
+- **GIVEN** a plan naming the requirement with the line `Plan size: full` and no `Planning package:` line
+- **WHEN** the check runs
+- **THEN** it reports `no-planning-package` for the requirement, the count line has `no_planning_package=1`, and it exits 1
+
+#### Scenario: Changed: A full plan naming a planning package that does not exist fails
+
+- **GIVEN** a plan naming the requirement with the lines `Plan size: full` and `Planning package: docs/planning/missing.json`, and no such file in the repository
+- **WHEN** the check runs
+- **THEN** it reports `no-planning-package` for the requirement, naming the missing path, and exits 1
+
+#### Scenario: Changed: Small in one plan and full in another counts as full
+
+- **GIVEN** two plans naming the requirement, one with `Plan size: small` and one with `Plan size: full` and a `Planning package:` line naming a file that exists
+- **WHEN** the check runs
+- **THEN** the requirement's size is `full`, and the count line has `small=0` and `full=1`
+
+#### Scenario: Changed: An unplanned requirement gets no size finding
+
+- **GIVEN** a requirement whose statement was edited in `openspec/specs/` since the base, and no change or plan page added or edited since the base
+- **WHEN** the check runs
+- **THEN** it reports `unplanned` for the requirement and no `no-plan-size`, and the count line has `no_plan_size=0`
+
+### Requirement: Changed and test-first: The base is where the branch started
+
+`lockstep check changed --base <rev>` and `lockstep check test-first --base <rev>` SHALL compare the current revision with the merge base of `<rev>` and the current commit, so that what was merged into `<rev>` after the branch started is not counted as this branch's change. When `<rev>` and the current commit share no history, or the repository has no commit yet, they SHALL compare with `<rev>` itself.
+
+Source: inferred by agent, from the first run of the changed check on a branch behind `origin/main` (2026-11-17): four requirements merged there after the branch started were listed as removed and unplanned.
+
+#### Scenario: Changed: A requirement added on the base branch after the branch started is not listed
+
+- **GIVEN** a branch that changed no requirement, and a requirement added on `main` after the branch started
+- **WHEN** `lockstep check changed --base main` runs on the branch
+- **THEN** it lists no requirement and exits 0
+
+#### Scenario: Test-first: A scenario reworded on the base branch after the branch started is not checked
+
+- **GIVEN** a branch that changed no scenario, and a scenario reworded on `main` after the branch started
+- **WHEN** `lockstep check test-first --base main` runs on the branch
+- **THEN** it checks no changed scenario and exits 0
+
+Tested by: tests/lockstep/checks/test_lockstep_check_changed.py, tests/lockstep/checks/test_lockstep_check_test_first.py
+[[[end]]]
 """
 
 import ast

@@ -4,6 +4,26 @@ A decision record in `docs/decisions/` names what it governs on a `Governs:` lin
 capability IDs, or other names such as rule IDs) and its state on a `status:` front-matter field or a MADR
 `- Status:` bullet; a superseded record names its successor in `superseded_by:` or after "superseded by". This
 module reads those lines; it adds no new one.
+
+[[[cog import lockstep.cogtext as c; c.docstring("src:lockstep:decisions.py", indent=0)]]]
+Plan (generated from lockstep.yaml layout and OpenSpec; edit the spec or the layout row, not this text):
+
+Implements: lockstep-guard/agents-get-the-decisions-that-govern-a-file
+
+### Requirement: Agents get the decisions that govern a file
+
+In a repository with OpenSpec specs and a `docs/decisions/` folder, the edit hook SHALL hand an agent that edits a file, or names it in a shell command, each decision record whose `Governs:` line names that file, a folder above it (a target ending in `/` or naming an existing folder), or a requirement or capability the file implements, after any requirement text and without a `permissionDecision`. It SHALL read the record's existing lines only: `Governs:` (or `- Governs:`, comma separated, anchors ignored for paths), `status:` front matter or a `Status:` line, and `superseded_by:` or the text after "superseded by". Each decision SHALL be given as its ID, title, status, file and decision paragraph cut at 600 characters, at most three in full (own path first, then requirement or capability, then folder) and the rest by ID; a superseded decision SHALL be flagged with its successor. The hook SHALL log the decision IDs as `decisions` on the `openspec_text` record. No check SHALL fail on a `Governs:` target that names nothing.
+
+Source: Brian, 2026-11-23: "i approve" (decision -> requirement or code links that the hook hands over, read from lines that already exist); plan docs/planning/links-existing-lines-2026-11-23.md
+
+#### Scenario: An edit to a governed file gets its decisions
+
+- **GIVEN** a file implementing a requirement, a superseded decision governing its path, an accepted decision governing the requirement's capability, and a decision governing its folder
+- **WHEN** the agent edits it, edits another file in the folder, or rewrites that file with `sed -i`
+- **THEN** the hook's answer gives the requirement text, then the three decisions in that order with the superseded one flagged, the log record names them under `decisions`, and a file nothing governs and nothing implements gets no answer
+
+Tested by: tests/lockstep/test_lockstep_decisions.py
+[[[end]]]
 """
 
 from __future__ import annotations

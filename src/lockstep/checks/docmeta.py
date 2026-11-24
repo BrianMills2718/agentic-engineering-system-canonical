@@ -36,6 +36,126 @@ Requirement text (generated):
         topics_with_two_owners=N beyond_two_links=N invalid_field=N` then one line per finding (path
         and reason), and exit 0 when there is no finding and 1 otherwise. A repository with no
         `wiki/` folder prints the count line with `pages=0` and exits 0.
+
+[[[cog import lockstep.cogtext as c; c.docstring("src:lockstep:checks:docmeta.py", indent=0)]]]
+Plan (generated from lockstep.yaml layout and OpenSpec; edit the spec or the layout row, not this text):
+
+Implements: lockstep-checks/docmeta-every-wiki-page-declares-its-type, lockstep-checks/docmeta-current-pages-are-checked-within-60-days, lockstep-checks/docmeta-superseded-pages-name-a-successor, lockstep-checks/docmeta-one-page-owns-each-topic, lockstep-checks/docmeta-every-current-page-is-within-two-links-of-the-index, lockstep-checks/docmeta-field-values-have-their-allowed-form, lockstep-checks/docmeta-count-line-and-exit-status
+
+### Requirement: Docmeta: Every wiki page declares its type
+
+The docmeta check SHALL report every Markdown page under `wiki/` whose OKF front matter is missing,
+unparseable or has no non-empty `type`. `wiki/index.md` and `wiki/log.md` are exempt, because the OKF
+conventions give the catalog and the chronicle no front matter.
+
+Source: Brian, 2026-11-05: "ok i approve all this" (doc-consolidation plan D9; earlier the same day: "maybe all docuemtnation should have like a lintable cleanup sstructured metadata?") Ported from code2-template `openspec/specs/docmeta/spec.md` at 6ce00a9; approved for Lockstep by Brian, 2026-11-11: "i approve single tool desing re d4" (`proposals/one-planning-tool/DESIGN.md`, slice 4).
+
+#### Scenario: Docmeta: Page without type fails
+
+- **GIVEN** a wiki page whose front matter has a title but no `type`
+- **WHEN** the docmeta check runs
+- **THEN** it reports the page as `missing_type` and exits 1
+
+#### Scenario: Docmeta: Index and log need no front matter
+
+- **GIVEN** a wiki whose `index.md` and `log.md` have no front matter and whose other pages are clean
+- **WHEN** the docmeta check runs
+- **THEN** it exits 0
+
+### Requirement: Docmeta: Current pages are checked within 60 days
+
+The docmeta check SHALL report a page whose `status` is `current` (or absent, which means current)
+when its `last_checked` date (YYYY-MM-DD) is more than 60 days old or missing.
+
+Source: Brian, 2026-11-05: "ok i approve all this" (doc-consolidation plan D9) Ported from code2-template `openspec/specs/docmeta/spec.md` at 6ce00a9; approved for Lockstep by Brian, 2026-11-11: "i approve single tool desing re d4" (`proposals/one-planning-tool/DESIGN.md`, slice 4).
+
+#### Scenario: Docmeta: Stale current page fails
+
+- **GIVEN** a current page whose `last_checked` is 61 days before today
+- **WHEN** the docmeta check runs
+- **THEN** it reports the page as `stale` and exits 1
+
+### Requirement: Docmeta: Superseded pages name a successor
+
+The docmeta check SHALL report a page whose `status` is `superseded` and which has no `successor`.
+
+Source: Brian, 2026-11-05: "ok i approve all this" (doc-consolidation plan D9) Ported from code2-template `openspec/specs/docmeta/spec.md` at 6ce00a9; approved for Lockstep by Brian, 2026-11-11: "i approve single tool desing re d4" (`proposals/one-planning-tool/DESIGN.md`, slice 4).
+
+#### Scenario: Docmeta: Superseded page without successor fails
+
+- **GIVEN** a page with `status: superseded` and no `successor`
+- **WHEN** the docmeta check runs
+- **THEN** it reports the page as `superseded_without_successor` and exits 1
+
+### Requirement: Docmeta: One page owns each topic
+
+The docmeta check SHALL report every topic listed in the `source_of_truth_for` of two or more pages,
+naming the topic and each page.
+
+Source: Brian, 2026-11-05: "ok i approve all this" (doc-consolidation plan D9) Ported from code2-template `openspec/specs/docmeta/spec.md` at 6ce00a9; approved for Lockstep by Brian, 2026-11-11: "i approve single tool desing re d4" (`proposals/one-planning-tool/DESIGN.md`, slice 4).
+
+#### Scenario: Docmeta: Two owners of one topic fail
+
+- **GIVEN** two pages that both list `system-model` in `source_of_truth_for`
+- **WHEN** the docmeta check runs
+- **THEN** it reports the topic `system-model` with both pages and exits 1
+
+### Requirement: Docmeta: Every current page is within two links of the index
+
+The docmeta check SHALL report every current page under `wiki/` that cannot be reached from
+`wiki/index.md` by following at most two relative Markdown links.
+
+Source: Brian, 2026-11-05: "ok i approve all this" (doc-consolidation plan D10) Ported from code2-template `openspec/specs/docmeta/spec.md` at 6ce00a9; approved for Lockstep by Brian, 2026-11-11: "i approve single tool desing re d4" (`proposals/one-planning-tool/DESIGN.md`, slice 4).
+
+#### Scenario: Docmeta: Page three links away fails
+
+- **GIVEN** a chain index → a → b → c of current pages
+- **WHEN** the docmeta check runs
+- **THEN** it reports `c` as `beyond_two_links` and not `a` or `b`, and exits 1
+
+### Requirement: Docmeta: Field values have their allowed form
+
+The docmeta check SHALL report a `status` other than `current`, `history` or `superseded`, a
+`last_checked` that is not a YYYY-MM-DD date, and a `source_of_truth_for` that is not a list. Other
+keys are allowed, as OKF permits.
+
+Source: Brian, 2026-11-05: "ok i approve all this" (doc-consolidation plan D9 field list) Ported from code2-template `openspec/specs/docmeta/spec.md` at 6ce00a9; approved for Lockstep by Brian, 2026-11-11: "i approve single tool desing re d4" (`proposals/one-planning-tool/DESIGN.md`, slice 4).
+
+#### Scenario: Docmeta: Unknown status fails
+
+- **GIVEN** a page with `status: draft`
+- **WHEN** the docmeta check runs
+- **THEN** it reports the page as `invalid_field` and exits 1
+
+### Requirement: Docmeta: Count line and exit status
+
+The docmeta check SHALL print one count line
+`docmeta: pages=N missing_type=N stale=N superseded_without_successor=N topics_with_two_owners=N beyond_two_links=N invalid_field=N`
+then one line per finding (path and reason), and exit 0 when there is no finding and 1 otherwise. A
+repository with no `wiki/` folder prints the count line with `pages=0` and exits 0.
+
+Source: Brian, 2026-11-05: "ok i approve all this" (doc-consolidation plan D9: runs in seconds in each repository's merge check) Ported from code2-template `openspec/specs/docmeta/spec.md` at 6ce00a9; approved for Lockstep by Brian, 2026-11-11: "i approve single tool desing re d4" (`proposals/one-planning-tool/DESIGN.md`, slice 4).
+
+#### Scenario: Docmeta: Clean wiki passes
+
+- **GIVEN** a wiki whose pages all have valid fields and sit within two links of the index
+- **WHEN** the docmeta check runs on its path
+- **THEN** it prints the count line with every finding count 0 and exits 0
+
+#### Scenario: Docmeta: Repository without wiki passes
+
+- **GIVEN** a folder with no `wiki/`
+- **WHEN** the docmeta check runs
+- **THEN** it prints `pages=0` and exits 0
+
+#### Scenario: Sources: A configured human pattern replaces the default
+
+- **GIVEN** `lockstep.yaml` with `sources: {human_pattern: dana}` and a requirement whose `Source:` line starts with "Dana"
+- **WHEN** the sources check runs with `--json`
+- **THEN** it lists that requirement as `brian` (the human class), where without the setting it is `other`
+
+Tested by: tests/lockstep/checks/test_lockstep_check_docmeta.py, tests/lockstep/checks/test_lockstep_checks_config.py
+[[[end]]]
 """
 
 from collections import defaultdict

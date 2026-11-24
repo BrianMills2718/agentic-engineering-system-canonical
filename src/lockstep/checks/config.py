@@ -22,6 +22,81 @@ Keys (all optional; a missing file means every default):
     likec4:   "1.60.0"                                    # LikeC4 version `arch` runs through npx
 
 The file is data read with `yaml.safe_load`; nothing in it is executed.
+
+[[[cog import lockstep.cogtext as c; c.docstring("src:lockstep:checks:config.py", indent=0)]]]
+Plan (generated from lockstep.yaml layout and OpenSpec; edit the spec or the layout row, not this text):
+
+Implements: lockstep-checks/each-check-can-be-set-to-block-warn-or-off-in-lockstep-yaml
+
+### Requirement: Each check can be set to block, warn or off in lockstep.yaml
+
+`lockstep check <name>` (`trace`, `arch`, `test-first`, `sources`, `docmeta`) SHALL read `checks:` in
+`lockstep.yaml` at the repository root, where each check is `block` (the default when absent or when there
+is no file), `warn` or `off`. A failing `block` check SHALL exit 1; a failing `warn` check SHALL print a
+`warning:` line and exit 0; an `off` check SHALL not run, SHALL print `skipped (off)` and exit 0. A value
+other than those three, or an unknown check name, SHALL exit 2 naming it. The file's `sources.human_pattern`
+(default `brian`), `owner` (no default) and `likec4` (default `1.60.0`) settings SHALL be read from the
+same file. `lockstep check` with no name, or only `--repo`, `--base` and `--json`, SHALL keep running the
+whole-tree plan check.
+
+Source: Brian, 2026-11-11, approving the one-tool design ("i approve single tool desing re d4"; `proposals/one-planning-tool/DESIGN.md`, slice 4: the checks are Lockstep's, each switchable so another repository can adopt them one at a time).
+
+#### Scenario: A missing lockstep.yaml means every check blocks
+
+- **GIVEN** a repository with no `lockstep.yaml` and a spec requirement with no implementer
+- **WHEN** `lockstep check trace` runs
+- **THEN** it exits 1 and prints `RESULT trace findings=2 exit=1`
+
+#### Scenario: Warn prints a warning and exits zero
+
+- **GIVEN** `checks: {trace: warn}` and a failing trace check
+- **WHEN** `lockstep check trace` runs
+- **THEN** it prints `warning: trace failed` and exits 0
+
+#### Scenario: Off skips the check and exits zero
+
+- **GIVEN** `checks: {trace: off}`
+- **WHEN** `lockstep check trace` runs
+- **THEN** it prints `skipped (off)`, runs nothing and exits 0
+
+#### Scenario: Block set explicitly exits one and other checks keep their own mode
+
+- **GIVEN** `checks: {trace: block, docmeta: off}`
+- **WHEN** `lockstep check trace` and `lockstep check docmeta` run
+- **THEN** trace exits 1 and docmeta is skipped with exit 0
+
+#### Scenario: A bad mode or unknown check is an error
+
+- **GIVEN** `checks: {trace: sometimes}`, or `checks: {nonsense: warn}`
+- **WHEN** the settings are read
+- **THEN** reading fails naming the value, and `lockstep check trace` exits 2
+
+#### Scenario: Defaults when keys are absent
+
+- **GIVEN** a `lockstep.yaml` with none of `checks`, `sources`, `owner`, `likec4`
+- **WHEN** the settings are read
+- **THEN** the human pattern is `brian`, the owner is unset and LikeC4 is `likec4@1.60.0`
+
+#### Scenario: LikeC4 pin and owner are read
+
+- **GIVEN** `likec4: 1.70.0` and `owner: Acme`
+- **WHEN** the settings are read
+- **THEN** LikeC4 is `likec4@1.70.0` and the owner is `Acme`
+
+#### Scenario: Lockstep check without a name still runs the tree check
+
+- **GIVEN** `lockstep check --repo PATH`
+- **WHEN** the command runs
+- **THEN** the whole-tree plan check runs, as before
+
+#### Scenario: The lockstep command runs a named check
+
+- **GIVEN** an installed Lockstep and a repository failing the trace check
+- **WHEN** `lockstep check trace --repo PATH` runs as a process
+- **THEN** it prints the trace RESULT line and exits 1
+
+Tested by: tests/lockstep/checks/test_lockstep_checks_config.py
+[[[end]]]
 """
 
 from dataclasses import dataclass, field

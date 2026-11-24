@@ -7,6 +7,26 @@ Requirement text (generated):
         register the `req` marker with pytest through a `pytest11` entry point
         (`lockstep.checks.plugin`), and registering it SHALL stay compatible with a project that
         also declares `req` in its own pytest configuration.
+
+[[[cog import lockstep.cogtext as c; c.docstring("src:lockstep:checks:plugin.py", indent=0)]]]
+Plan (generated from lockstep.yaml layout and OpenSpec; edit the spec or the layout row, not this text):
+
+Implements: lockstep-projection/the-pytest-plugin-ships-as-a-pytest11-entry-point
+
+### Requirement: The pytest plugin ships as a pytest11 entry point
+
+Installing Lockstep SHALL register the `req` marker with pytest through a `pytest11` entry point (`lockstep.checks.plugin`), and registering it SHALL stay compatible with a project that also declares `req` in its own pytest configuration.
+
+Source: Brian, 2026-11-11: "i approve single tool desing re d4"; proposals/one-planning-tool/DESIGN.md, slice 6 ("Requirement text in docstrings" and "Status per requirement" rows)
+
+#### Scenario: The plugin registers the req marker
+
+- **GIVEN** Lockstep is installed
+- **WHEN** pytest starts with `--strict-markers`
+- **THEN** tests marked `req` run, with or without the project's own declaration
+
+Tested by: tests/lockstep/checks/test_lockstep_check_plugin.py
+[[[end]]]
 """
 
 

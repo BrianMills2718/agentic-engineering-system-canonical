@@ -1,4 +1,49 @@
-"""Read OpenSpec spec files into requirement and scenario IDs."""
+"""Read OpenSpec spec files into requirement and scenario IDs.
+
+[[[cog import lockstep.cogtext as c; c.docstring("src:lockstep:checks:spec.py", indent=0)]]]
+Plan (generated from lockstep.yaml layout and OpenSpec; edit the spec or the layout row, not this text):
+
+Implements: lockstep-checks/changed-requirements-that-differ-from-the-base-are-listed-with-their-code-and-tests
+
+### Requirement: Changed: Requirements that differ from the base are listed with their code and tests
+
+`lockstep check changed --base <rev>` SHALL compare the text of every requirement and scenario in the plan at the current revision (`openspec/specs/` with the spec deltas of active changes applied over it) with the plan at the base revision, treating runs of whitespace as one space. It SHALL print, for each requirement that is new, removed, or whose statement or any scenario is new, removed or different: the requirement ID and its kind (`new`, `changed` or `removed`), which parts differ, the symbols whose docstrings implement it, the tests marked for its scenarios, each labelled `changed`, `unchanged` or `new` against the base revision's copy of that test function, and the plan that names it. `--json` SHALL print the same as JSON. It SHALL read the base revision from git without changing the working tree.
+
+Source: Brian, 2026-11-17: "if there is a change in the nromative docuemtnation then that normative docuemtnation gets updated and then the gaps relevant to that normative docuemntation need to be replanned" (code2-workspace issue 842; approved for build 2026-11-17, "i approve"). The output columns are inferred by agent.
+
+#### Scenario: Changed: A reworded requirement is listed with its implementer and tests
+
+- **GIVEN** a requirement whose statement differs from the base, with an implementing docstring and a marked test that is the same as at the base
+- **WHEN** `lockstep check changed --base <rev>` runs
+- **THEN** it lists the requirement as `changed`, names the implementing symbol, and labels the test `unchanged`
+
+#### Scenario: Changed: Re-wrapped text is not a change
+
+- **GIVEN** a requirement whose statement differs from the base only in line breaks and spacing
+- **WHEN** the check runs
+- **THEN** it lists nothing and exits 0
+
+#### Scenario: Changed: A changed scenario marks its requirement changed
+
+- **GIVEN** a requirement whose statement is the same as at the base and one of whose scenarios has different text
+- **WHEN** the check runs
+- **THEN** it lists the requirement as `changed` and names that scenario as the part that differs
+
+#### Scenario: Changed: Text in an active change counts before it is archived
+
+- **GIVEN** an active change whose spec delta gives an existing requirement a different statement
+- **WHEN** the check runs
+- **THEN** it lists the requirement as `changed` and names the change as its plan
+
+#### Scenario: Changed: A test edited since the base is labelled changed
+
+- **GIVEN** a changed requirement whose marked test function differs from the base revision's copy
+- **WHEN** the check runs
+- **THEN** the test is labelled `changed`
+
+Tested by: tests/lockstep/checks/test_lockstep_check_changed.py
+[[[end]]]
+"""
 
 from dataclasses import dataclass, field
 from pathlib import Path

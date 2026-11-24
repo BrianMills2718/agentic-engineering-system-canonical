@@ -17,6 +17,62 @@ Requirement text (generated):
         implementers and tests, and `--check` SHALL fail when the block is stale. A block written by
         code2check SHALL be replaced, not left beside the new one.
 
+
+[[[cog import lockstep.cogtext as c; c.docstring("src:lockstep:checks:project.py", indent=0)]]]
+Plan (generated from lockstep.yaml layout and OpenSpec; edit the spec or the layout row, not this text):
+
+Implements: lockstep-projection/requirement-text-is-written-into-the-implementing-docstring, lockstep-projection/status-flows-back-into-the-plan
+
+### Requirement: Requirement text is written into the implementing docstring
+
+`lockstep check project` SHALL write the text of each requirement a docstring implements, word for word, in a marked block under its `Implements:` line, and `lockstep check project --check` SHALL fail when a block differs from the spec, writing nothing. It SHALL print one `rewrote <path>` line per file it rewrote. It SHALL preserve unrelated Python source and remain idempotent. In a repository with a layout plan it SHALL also rewrite each planned file's cog plan copy from the plan, SHALL write no block inside that copy, and SHALL do both even when no requirement statement text was read.
+
+Source: Brian, 2026-11-11: "i approve single tool desing re d4"; proposals/one-planning-tool/DESIGN.md, slice 6 ("Requirement text in docstrings" and "Status per requirement" rows)
+
+#### Scenario: Opening quote line declarations receive canonical text
+
+- **GIVEN** a docstring whose `Implements:` content starts on the opening quote line
+- **WHEN** `project` runs
+- **THEN** the text is written under it, other source is unchanged, and a second run changes nothing
+
+#### Scenario: Projection rewrites the block
+
+- **GIVEN** a spec requirement is reworded after its block was written
+- **WHEN** `project` runs
+- **THEN** the block holds the new wording once
+
+#### Scenario: Stale requirement text fails the check
+
+- **GIVEN** a block differs from the spec
+- **WHEN** `project --check` runs
+- **THEN** it exits 1, names the file and writes nothing
+
+#### Scenario: A planned file's plan copy follows a reworded requirement
+
+- **GIVEN** a layout repository whose planned file's cog plan copy is current, and its requirement is then reworded
+- **WHEN** the edit hook judges the file, then `project` runs, then runs again
+- **THEN** the hook finds it stale, `project` rewrites the copy with the new wording and no generated block inside it, and the second run changes nothing
+
+### Requirement: Status flows back into the plan
+
+`lockstep check project` SHALL write a generated status block into each plan that has a `Closes:` line, listing each ID with its implementers and tests, and `--check` SHALL fail when the block is stale. A block written by code2check SHALL be replaced, not left beside the new one.
+
+Source: Brian, 2026-11-11: "i approve single tool desing re d4"; proposals/one-planning-tool/DESIGN.md, slice 6 ("Requirement text in docstrings" and "Status per requirement" rows)
+
+#### Scenario: Plan block lists coverage
+
+- **GIVEN** a plan with a `Closes:` line
+- **WHEN** `project` runs
+- **THEN** a block after the `Closes:` paragraph lists each ID's implementers and tests
+
+#### Scenario: A plan block written by code2check is replaced not duplicated
+
+- **GIVEN** a plan holds a code2check status block
+- **WHEN** `project` runs
+- **THEN** one lockstep block remains and no code2check marker
+
+Tested by: tests/lockstep/checks/test_lockstep_check_plugin.py, tests/lockstep/checks/test_lockstep_check_project.py
+[[[end]]]
 """
 
 import ast
@@ -212,6 +268,43 @@ def _ignored(root: Path, rel: Path) -> bool:
     except OSError:
         return False
     return done.returncode == 0
+
+
+def missing_copies(root: Path) -> list[str]:
+    """List the planned files under a `fixed:` glob that hold no cog plan copy naming their row.
+
+    Implements: lockstep-projection/a-fixed-planned-file-without-a-plan-copy-is-reported
+
+    Requirement text (generated):
+        lockstep-projection/a-fixed-planned-file-without-a-plan-copy-is-reported: `lockstep check
+            project`, with or without `--check`, SHALL print `no-copy <path>` for each `layout:` row
+            whose path matches a `fixed:` glob in `lockstep.yaml`, names an existing Python file,
+            and whose file holds no cog plan copy naming that row's ID, and SHALL then exit 1. A row
+            outside every `fixed:` glob SHALL NOT be reported.
+
+    Args:
+        root: Repository root.
+
+    Returns:
+        Row paths, in layout order, of existing Python files matching a `fixed:` glob with no plan copy.
+    """
+    import fnmatch
+
+    from lockstep.check import COG_CALL
+    from lockstep.layout_plan import _data, artifact_id, has_layout, layout_rows
+
+    if not has_layout(root):
+        return []
+    globs = [str(g) for g in _data(root).get("fixed") or [] if str(g).strip()]
+    missing = []
+    for row in layout_rows(root):
+        rel, path = row["path"], root / row["path"]
+        if not rel.endswith(".py") or not path.is_file() or not any(fnmatch.fnmatchcase(rel, g) for g in globs):
+            continue
+        ids = {m["id"] for line in path.read_text().split("\n") if COG_OPEN in line and (m := COG_CALL.fullmatch(line))}
+        if artifact_id(rel) not in ids:
+            missing.append(rel)
+    return missing
 
 
 def project(root: Path, check: bool = False) -> list[str]:
