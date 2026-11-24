@@ -99,11 +99,13 @@ departure report now skips a row's test file and `docs/specs/` links. Slice 2 is
 
 **Suppression reasons, 2026-11-24** (Brian: "continue"): `lockstep check suppressions --base <rev>` fails on an added `# noqa`, `# type: ignore`, `# pyright: ignore`, `# pylint: disable` with no further `#` comment of three or more words, and on an added import-linter `ignore_imports` entry with no reason (in `.importlinter`, a comment line directly above it). Only lines the branch added are judged. AES `make check-format` and the template's `make check` run it.
 
+**Maintainability ratchet, 2026-11-24** (Brian: "continue", parking-list item 1): `make check-format` runs `scripts/maintainability_ratchet.py`, which compares the merge base with the working tree over `src/` and `scripts/` and fails only on what the branch adds: a blind `except` or `try/except/pass` (`ruff` BLE, S110, S112), a function over the complexity limit that is more complex than on the base (`ruff` C901), more repeated 6-line windows of code (comments, imports and docstrings left out; `pylint` duplicate-code missed a third copy and took 13 to 27 seconds), or a file over 800 lines that grew. Findings are counted without paths, so code moved between files or a renamed file is not new. Baseline on main: 144 old findings (75 C901, 28 BLE001, 1 S110, 40 repeated windows), none blocking; a run takes under a second; 5 files are over 800 lines. It is a pilot in AES only; it moves into Lockstep and the template if it catches real additions. Not covered: an existing helper rewritten under a new name (needs reading for meaning), or a copy with renamed variables.
+
 **Next:** the consolidation backlog is in GitHub Issues (#1054); then parking-list item 1 below.
 
 **Parking list** (slices of the plan, in order; Brian 2026-11-24: "i approve adding the redit ideas to the plan and i will trust your jdugement on the impelemtnation prirotiy", after the [Reddit thread](https://www.reddit.com/r/ClaudeAI/comments/1y1my5l/) review; the thread's fourth idea, two tries per bug then revert, is already a workspace rule, Policy `two-tries-then-reset`):
 
-1. Maintainability checker with one job, piloted here: duplicate code (`pylint` duplicate-code or `jscpd`), an existing helper rewritten under a new name, swallowed errors (`ruff` BLE/S110), complexity (`ruff` C901) and files that keep growing. Measure a baseline on AES first; the check fails only on new findings.
+1. An existing helper rewritten under a new name: a light LLM reads each new function against similar existing ones (the maintainability ratchet above covers the rest of the Reddit item).
 2. Mutation testing (`mutmut`) run nightly on one repository, to show the existing tests fail when the code they cover is broken; test-first already covers new tests.
 
 # AES assessment (2026-11-19)

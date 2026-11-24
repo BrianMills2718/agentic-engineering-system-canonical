@@ -1919,6 +1919,14 @@ layout:
     or local-only).
   implements: []
   tests: []
+- path: scripts/maintainability_ratchet.py
+  purpose: Fail make check on maintainability findings a branch adds (blind except, more complex function, more duplicate
+    code, large file that grew), comparing with the merge base; old findings never block. AES pilot.
+  implements: []
+  exports:
+  - 'main(argv: list[str] | None=None) -> int'
+  tests:
+  - tests/test_maintainability_ratchet.py
 - path: scripts/md_file_cap.py
   purpose: Enforce the 100 tracked Markdown file cap per Brian-owned repository, with written exceptions.
   implements: []
@@ -2785,6 +2793,10 @@ layout:
   tests: []
 - path: tests/test_machine_manifest.py
   purpose: Tests the machine manifest script, which lists sources from a unit folder and must not expose secret values.
+  implements: []
+  tests: []
+- path: tests/test_maintainability_ratchet.py
+  purpose: Tests the maintainability ratchet on throwaway git repositories, where only findings added on the branch fail.
   implements: []
   tests: []
 - path: tests/test_md_file_cap.py
