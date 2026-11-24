@@ -1,4 +1,4 @@
-limit: 128
+limit: 127
 reason: >
   Set 2026-11-24 to the count left after the OpenSpec change archive (230 Markdown files) and four
   finished plans were removed, and the 18 OpenSpec skill copies that `openspec init` writes stopped
@@ -6,8 +6,7 @@ reason: >
   then "cut whatever get us to optimal and safe then we can discuss"). The remaining 27 files are each
   still read or still live; which to merge or retire next is for discussion with Brian. This limit
   only goes down: each merge or retirement lowers it to the new count, and it is removed when the
-  count is 100 or less. It is 128 for one merge: the archived change that declares the wording-only
-  spec edits is removed in the next commit, which lowers it to 127.
+  count is 100 or less.
 layout_ok:
   - path: template
     reason: >
