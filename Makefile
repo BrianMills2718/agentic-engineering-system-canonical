@@ -80,6 +80,11 @@ check-maintainability:  ## Fail on a blind except, a more complex function, more
 	if [ $$ec -ne 0 ] || ! printf '%s\n' "$$out" | grep -q '^RESULT maintainability '; then printf '%s\n' "$$out" | tail -n 30; echo "check-maintainability: failed (exit $$ec)"; exit 1; fi; \
 	printf '%s\n' "$$out" | grep '^RESULT maintainability '
 
+LLM_PYTHON ?= $(HOME)/code2/llm_client/.venv/bin/python
+
+check-helper-reuse:  ## Report functions this branch adds that rewrite an existing function under a new name (light model via llm_client, about $$0.006 a run; report-only, not in make check; pilot, scripts/helper_reuse_check.py)
+	@$(LLM_PYTHON) scripts/helper_reuse_check.py --repo . --base $(FORMAT_BASE)
+
 check-md-cap:  ## The 100-file Markdown cap (Brian, 2026-10-07), its exception in .md-file-cap.yaml, wiki reachability, layout and durable documents, read from the committed tree
 	@out=$$($(PYTHON) scripts/md_file_cap.py --repo . --ref HEAD 2>&1); ec=$$?; \
 	if [ $$ec -ne 0 ] || ! printf '%s\n' "$$out" | grep -q '^md-file-cap: '; then printf '%s\n' "$$out" | tail -n 20; echo "check-md-cap: failed (exit $$ec)"; exit 1; fi; \
