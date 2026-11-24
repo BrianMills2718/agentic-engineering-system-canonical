@@ -25,6 +25,100 @@ Requirement text (generated):
         output. Each of these SHALL print `RESULT arch-<action> tool_unavailable=1 exit=1` and exit
         1: a check that did not run must fail, not pass. A diagram LikeC4 read and rejected SHALL
         still be reported `invalid_diagram=1`.
+
+[[[cog import lockstep.cogtext as c; c.docstring("src:lockstep:checks:arch.py", indent=0)]]]
+Plan (generated from lockstep.yaml layout and OpenSpec; edit the spec or the layout row, not this text):
+
+Implements: lockstep-checks/arch-diagram-becomes-import-contracts, lockstep-checks/arch-committed-contracts-match-the-diagram, lockstep-checks/arch-code-imports-match-the-diagram, lockstep-checks/arch-a-diagram-check-that-cannot-run-fails-as-a-tool-failure
+
+### Requirement: Arch: Diagram becomes import contracts
+
+`lockstep check arch gen` SHALL write one import-linter forbidden contract per diagram element that has
+`python` metadata, forbidding direct imports of every other mapped element it has no relation to. When
+LikeC4 reports the diagram invalid, it SHALL stop with LikeC4's errors and write no contracts.
+
+Source: Brian, 2026-10-15: "we plan out with models and diagrams and then those are linked to tests presumablhy in a tdd way" Ported from code2-template `openspec/specs/arch/spec.md` at 6ce00a9; approved for Lockstep by Brian, 2026-11-11: "i approve single tool desing re d4" (`proposals/one-planning-tool/DESIGN.md`, slice 4).
+
+#### Scenario: Arch: Missing arrow forbids the import
+
+- **GIVEN** elements cli, detect and apply mapped to Python modules, and only cli -> detect and cli -> apply
+- **WHEN** contracts are generated
+- **THEN** detect is forbidden to import cli and apply, apply is forbidden to import cli and detect, and cli is forbidden nothing
+
+#### Scenario: Arch: Invalid diagram stops generation
+
+- **GIVEN** a diagram that names a component `views`, which LikeC4 cannot parse
+- **WHEN** the model is exported for contract generation
+- **THEN** export raises an error carrying LikeC4's "Invalid" report, and no partial model is returned
+
+### Requirement: Arch: Committed contracts match the diagram
+
+`lockstep check arch check` SHALL exit 1 when the committed contracts file differs from what the current
+diagram generates.
+
+Source: inferred by agent (a stale contracts file would let the diagram drift) Ported from code2-template `openspec/specs/arch/spec.md` at 6ce00a9; approved for Lockstep by Brian, 2026-11-11: "i approve single tool desing re d4" (`proposals/one-planning-tool/DESIGN.md`, slice 4).
+
+#### Scenario: Arch: Diagram changed without regenerating
+
+- **GIVEN** a committed contracts file generated from an older diagram
+- **WHEN** the diagram gains a relation and the check runs
+- **THEN** the check reports the file as out of date and exits 1
+
+### Requirement: Arch: Code imports match the diagram
+
+`lockstep check arch check`, when the committed contracts file matches the diagram, SHALL run the contracts against the code with import-linter and exit 1 when any contract is broken, printing the broken contract and the importing module. When import-linter is not installed it SHALL print that and exit 1; it SHALL NOT pass. When the diagram maps no Python packages there is nothing to check, and it SHALL pass without running import-linter.
+
+Source: Brian, 2026-11-11, "i approve single tool desing re d4" (proposals/one-planning-tool/DESIGN.md); acceptance entries A2 and A3 in docs/planning/acceptance-criteria.json
+
+#### Scenario: Arch: An import the diagram forbids is refused
+
+- **GIVEN** a current contracts file forbidding `app.detect` to import `app.cli`
+- **WHEN** `app.detect` imports `app.cli` and the check runs
+- **THEN** the check exits 1 and its output names the broken contract and `app.detect`
+
+#### Scenario: Arch: Missing import-linter fails loudly
+
+- **GIVEN** a current contracts file and no `lint-imports` command
+- **WHEN** the check runs
+- **THEN** it prints that import-linter is not installed and exits 1
+
+#### Scenario: Arch: A diagram that maps no packages passes
+
+- **GIVEN** a diagram whose elements map no Python packages
+- **WHEN** the check runs
+- **THEN** it passes without running import-linter
+
+### Requirement: Arch: A diagram check that cannot run fails as a tool failure
+
+`lockstep check arch` SHALL report that LikeC4 could not be run, and SHALL NOT report the diagram
+invalid, when `npx` is absent or cannot be started, when `npx likec4 validate` exits non-zero without
+LikeC4 having run, or when the JSON export of an already-validated diagram fails. Whether LikeC4 ran
+SHALL be decided by running it against no diagram, not by matching words in its output. Each of these
+SHALL print `RESULT arch-<action> tool_unavailable=1 exit=1` and exit 1: a check that did not run must
+fail, not pass. A diagram LikeC4 read and rejected SHALL still be reported `invalid_diagram=1`.
+
+Source: inferred by agent from the 2026-11-18 nightly failure in `BrianMills2718/enforced-planning`: a valid diagram was reported `invalid_diagram=1` because npm could not write a shared cache containing root-owned directories, which made the run look like a repository defect. Same distinction the module already makes with `ImportLinterMissing`.
+
+#### Scenario: Arch: A missing npx is a tool failure
+
+- **GIVEN** no `npx` on PATH
+- **WHEN** `lockstep check arch check` runs
+- **THEN** it says npx is not installed, prints `tool_unavailable=1`, does not print `invalid_diagram`, exits 1, and runs no npx
+
+#### Scenario: Arch: A LikeC4 that cannot start is a tool failure
+
+- **GIVEN** an npx whose `validate` and `--version` both exit non-zero, reporting an unwritable npm cache
+- **WHEN** `lockstep check arch check` runs
+- **THEN** it carries npm's own report, prints `tool_unavailable=1`, does not print `invalid_diagram`, and exits 1
+
+#### Scenario: Arch: A failing diagram export is a tool failure
+
+- **GIVEN** a diagram LikeC4 validates and a JSON export that exits non-zero
+- **WHEN** `lockstep check arch check` runs
+- **THEN** it prints `tool_unavailable=1`, does not print `invalid_diagram`, and exits 1
+
+Tested by: tests/lockstep/checks/test_lockstep_check_arch.py
+[[[end]]]
 """
 
 import json

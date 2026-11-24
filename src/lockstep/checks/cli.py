@@ -29,6 +29,117 @@ Names: `trace`, `arch [gen|check]`, `test-first [--base REV]`, `sources [--json]
 Exit: the check's own status when its mode is `block` (the default); 0 with a `warning:` line when
 it fails and its mode is `warn`; 0 with `skipped (off)` and nothing run when `off`; 2 when
 `lockstep.yaml` or the options cannot be read.
+
+[[[cog import lockstep.cogtext as c; c.docstring("src:lockstep:checks:cli.py", indent=0)]]]
+Plan (generated from lockstep.yaml layout and OpenSpec; edit the spec or the layout row, not this text):
+
+Implements: lockstep-checks/each-check-can-be-set-to-block-warn-or-off-in-lockstep-yaml, lockstep-checks/changed-count-line-and-exit-status, lockstep-projection/project-status-and-show-are-lockstep-commands
+
+### Requirement: Each check can be set to block, warn or off in lockstep.yaml
+
+`lockstep check <name>` (`trace`, `arch`, `test-first`, `sources`, `docmeta`) SHALL read `checks:` in
+`lockstep.yaml` at the repository root, where each check is `block` (the default when absent or when there
+is no file), `warn` or `off`. A failing `block` check SHALL exit 1; a failing `warn` check SHALL print a
+`warning:` line and exit 0; an `off` check SHALL not run, SHALL print `skipped (off)` and exit 0. A value
+other than those three, or an unknown check name, SHALL exit 2 naming it. The file's `sources.human_pattern`
+(default `brian`), `owner` (no default) and `likec4` (default `1.60.0`) settings SHALL be read from the
+same file. `lockstep check` with no name, or only `--repo`, `--base` and `--json`, SHALL keep running the
+whole-tree plan check.
+
+Source: Brian, 2026-11-11, approving the one-tool design ("i approve single tool desing re d4"; `proposals/one-planning-tool/DESIGN.md`, slice 4: the checks are Lockstep's, each switchable so another repository can adopt them one at a time).
+
+#### Scenario: A missing lockstep.yaml means every check blocks
+
+- **GIVEN** a repository with no `lockstep.yaml` and a spec requirement with no implementer
+- **WHEN** `lockstep check trace` runs
+- **THEN** it exits 1 and prints `RESULT trace findings=2 exit=1`
+
+#### Scenario: Warn prints a warning and exits zero
+
+- **GIVEN** `checks: {trace: warn}` and a failing trace check
+- **WHEN** `lockstep check trace` runs
+- **THEN** it prints `warning: trace failed` and exits 0
+
+#### Scenario: Off skips the check and exits zero
+
+- **GIVEN** `checks: {trace: off}`
+- **WHEN** `lockstep check trace` runs
+- **THEN** it prints `skipped (off)`, runs nothing and exits 0
+
+#### Scenario: Block set explicitly exits one and other checks keep their own mode
+
+- **GIVEN** `checks: {trace: block, docmeta: off}`
+- **WHEN** `lockstep check trace` and `lockstep check docmeta` run
+- **THEN** trace exits 1 and docmeta is skipped with exit 0
+
+#### Scenario: A bad mode or unknown check is an error
+
+- **GIVEN** `checks: {trace: sometimes}`, or `checks: {nonsense: warn}`
+- **WHEN** the settings are read
+- **THEN** reading fails naming the value, and `lockstep check trace` exits 2
+
+#### Scenario: Defaults when keys are absent
+
+- **GIVEN** a `lockstep.yaml` with none of `checks`, `sources`, `owner`, `likec4`
+- **WHEN** the settings are read
+- **THEN** the human pattern is `brian`, the owner is unset and LikeC4 is `likec4@1.60.0`
+
+#### Scenario: LikeC4 pin and owner are read
+
+- **GIVEN** `likec4: 1.70.0` and `owner: Acme`
+- **WHEN** the settings are read
+- **THEN** LikeC4 is `likec4@1.70.0` and the owner is `Acme`
+
+#### Scenario: Lockstep check without a name still runs the tree check
+
+- **GIVEN** `lockstep check --repo PATH`
+- **WHEN** the command runs
+- **THEN** the whole-tree plan check runs, as before
+
+#### Scenario: The lockstep command runs a named check
+
+- **GIVEN** an installed Lockstep and a repository failing the trace check
+- **WHEN** `lockstep check trace --repo PATH` runs as a process
+- **THEN** it prints the trace RESULT line and exits 1
+
+### Requirement: Changed: Count line and exit status
+
+The changed check SHALL end with the line `RESULT changed requirements=<n> unplanned=<n> no_scenario=<n> wording_only=<n> small=<n> full=<n> no_plan_size=<n> no_planning_package=<n> exit=<0|1>`, exiting 1 when `unplanned`, `no_scenario`, `no_plan_size` or `no_planning_package` is above zero. `small` and `full` SHALL count the listed requirements of each size. When `<rev>` does not name a commit it SHALL check nothing, print `RESULT changed skipped="base <rev> not found" exit=0` and exit 0. `changed` SHALL be a check name in `lockstep.yaml` with the same `block`, `warn` and `off` modes as the other checks.
+
+Source: inferred by agent (the same count-line, missing-base and mode rules the other Lockstep checks follow; the four size fields count what the plan-size requirement reports)
+
+#### Scenario: Changed: Nothing changed gives a zero count and exit 0
+
+- **GIVEN** a repository whose plan is the same as at the base
+- **WHEN** the check runs
+- **THEN** its last line is `RESULT changed requirements=0 unplanned=0 no_scenario=0 wording_only=0 small=0 full=0 no_plan_size=0 no_planning_package=0 exit=0`
+
+#### Scenario: Changed: A missing base is reported, not crashed
+
+- **GIVEN** a base revision that does not exist
+- **WHEN** the check runs
+- **THEN** it prints the skipped line and exits 0
+
+#### Scenario: Changed: Mode off skips the check
+
+- **GIVEN** `lockstep.yaml` with `checks: {changed: off}`
+- **WHEN** `lockstep check changed` runs
+- **THEN** it prints `skipped (off)` and exits 0
+
+### Requirement: Project, status and show are Lockstep commands
+
+`lockstep check project`, `lockstep status` and `lockstep show` SHALL be commands of the one `lockstep` tool; `project` SHALL take its mode (block, warn or off) from `lockstep.yaml` like the other checks, and SHALL read source and test folders from `[tool.lockstep]` in `pyproject.toml`, else from `[tool.code2check]`.
+
+Source: Brian, 2026-11-11: "i approve single tool desing re d4"; proposals/one-planning-tool/DESIGN.md, slice 6 ("Requirement text in docstrings" and "Status per requirement" rows)
+
+#### Scenario: The commands are top-level and check modes apply
+
+- **GIVEN** a repository with a stale docstring block
+- **WHEN** `lockstep check project --check` runs with mode block, warn or off
+- **THEN** it exits 1, exits 0 with a warning, or skips
+
+Tested by: tests/lockstep/checks/test_lockstep_check_changed.py, tests/lockstep/checks/test_lockstep_check_plugin.py, tests/lockstep/checks/test_lockstep_checks_config.py
+[[[end]]]
 """
 
 import argparse
@@ -204,13 +315,20 @@ def _project(root: Path, args: argparse.Namespace, cfg: Config) -> int:
     changed = project.project(root, check=args.check)
     for path in changed:
         print(f"stale         {path}" if args.check else f"rewrote {path}")
+    missing = project.missing_copies(root)
+    for path in missing:
+        print(f"no-copy       {path}")
+    if missing:
+        print("a planned file under a fixed: glob has no plan copy; add one (lockstep layout writes the form)"
+              " then run: lockstep check project")
     if args.check:
         if changed:
             print("generated blocks are out of date; run: lockstep check project")
-        print(f"RESULT project stale={len(changed)} exit={int(bool(changed))}")
-        return int(bool(changed))
-    print(f"RESULT project rewrote={len(changed)} exit=0")
-    return 0
+        failed = bool(changed or missing)
+        print(f"RESULT project stale={len(changed)} no_copy={len(missing)} exit={int(failed)}")
+        return int(failed)
+    print(f"RESULT project rewrote={len(changed)} no_copy={len(missing)} exit={int(bool(missing))}")
+    return int(bool(missing))
 
 
 def run_status(argv: list[str]) -> int:

@@ -25,6 +25,9 @@ check: check-doc-facts  ## Run all checks (test, mypy, lint)
 	@echo "Running the trace check against its accepted list..."
 	@$(MAKE) --no-print-directory check-trace
 	@echo ""
+	@echo "Running the plan-copy check..."
+	@$(MAKE) --no-print-directory check-copies
+	@echo ""
 	@echo "Running mypy..."
 	@$(PYTHON) -m mypy src/ --ignore-missing-imports
 	@echo ""
@@ -32,6 +35,12 @@ check: check-doc-facts  ## Run all checks (test, mypy, lint)
 
 TRACE_ACCEPTED ?= docs/planning/trace-accepted.txt
 TRACE_NOW ?= .trace-now.txt
+
+check-copies:  ## A planned file's plan copy must be current and a fixed: file must have one (spec lockstep-projection); the committed status page and links file keep their own refresh
+	@out=$$(PYTHONPATH=src $(PYTHON) -c 'import sys; from lockstep.checks.cli import run; sys.exit(run(["project", "--check"]))' 2>&1); \
+	bad=$$(printf '%s\n' "$$out" | grep -E '^(stale|no-copy) ' | grep -vE ' docs/(status\.md|links\.json)$$'); \
+	if [ -n "$$bad" ]; then printf '%s\n' "$$bad"; echo "check-copies: run: lockstep check project (and add a plan copy to each no-copy file)"; exit 1; fi; \
+	echo "RESULT check-copies exit=0"
 
 check-trace:  ## Trace findings must equal $(TRACE_ACCEPTED): a new finding fails, and a fixed one must leave the list
 	@PYTHONPATH=src $(PYTHON) -c 'import sys; from lockstep.checks.cli import run; sys.exit(run(["trace"]))' 2>/dev/null \

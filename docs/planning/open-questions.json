@@ -961,9 +961,9 @@
    "resolves_with": "Add `cog --check` over `fixed:` files to make check and time it.",
    "recommendation": "Yes; cog's own check does the first part in seconds.",
    "default": "Copies are refreshed only when someone runs `lockstep check project`.",
-   "evidence": "`lockstep check project` rewrote 49 files on 2026-11-23 and the trace findings fell from 55 to 23; plan_check.py had no block at all.",
+   "evidence": "`lockstep check project` rewrote 49 files on 2026-11-23 and the trace findings fell from 55 to 23; plan_check.py had no block at all. Resolved 2026-11-23 by the recommendation (Brian: \"i approve\"): `lockstep check project` reports a fixed planned file with no plan copy (`no-copy`), the 28 such files in src/lockstep/ got copies, and `make check-copies` (in `make check`) fails on a stale or missing copy (OpenSpec change 2026-11-23-fixed-file-needs-plan-copy, archived).",
    "owner": "agent",
-   "status": "open",
+   "status": "resolved",
    "touches": [
     "edit-guard"
    ],

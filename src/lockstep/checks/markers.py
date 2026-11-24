@@ -7,6 +7,77 @@ Requirement text (generated):
     lockstep-checks/trace-source-folders-are-configurable: The trace check SHALL search for
         `Implements:` lines in the folders listed under `[tool.lockstep] (or`[tool.code2check]`, its
         old name) source` in `pyproject.toml`, and in `src` when none are listed.
+
+[[[cog import lockstep.cogtext as c; c.docstring("src:lockstep:checks:markers.py", indent=0)]]]
+Plan (generated from lockstep.yaml layout and OpenSpec; edit the spec or the layout row, not this text):
+
+Implements: lockstep-checks/trace-source-folders-are-configurable, lockstep-checks/trace-test-folders-are-configurable, lockstep-checks/trace-comment-lines-in-configured-files-implement-requirements
+
+### Requirement: Trace: Source folders are configurable
+
+The trace check SHALL search for `Implements:` lines in the folders listed under `[tool.lockstep] (or`[tool.code2check]`, its old name)
+source` in `pyproject.toml`, and in `src` when none are listed.
+
+Source: inferred by agent (existing repositories keep code outside src) Ported from code2-template `openspec/specs/trace/spec.md` at 6ce00a9; approved for Lockstep by Brian, 2026-11-11: "i approve single tool desing re d4" (`proposals/one-planning-tool/DESIGN.md`, slice 4).
+
+#### Scenario: Trace: Implementer outside src is found
+
+- **GIVEN** `source = ["scripts"]` and a docstring in `scripts/tool.py` saying `Implements: core/do-the-thing`
+- **WHEN** the trace check runs
+- **THEN** it reports no unimplemented finding for `core/do-the-thing`
+
+### Requirement: Trace: Test folders are configurable
+
+The marker reader SHALL discover `@pytest.mark.req` in `test_*.py` files under the folders listed
+in `[tool.lockstep] (or`[tool.code2check]`, its old name) tests` in `pyproject.toml`, defaulting to `tests` when omitted. Trace, status,
+generated plan coverage and test-first SHALL use those same roots. Overlapping roots SHALL not
+duplicate a discovered test marker.
+
+Source: inferred by agent (existing source roots are configurable, but actual consumer repositories also keep tests outside the root tests directory; the same canonical marker reader must serve every linked view) Ported from code2-template `openspec/specs/trace/spec.md` at 6ce00a9; approved for Lockstep by Brian, 2026-11-11: "i approve single tool desing re d4" (`proposals/one-planning-tool/DESIGN.md`, slice 4).
+
+#### Scenario: Trace: Configured test folders feed trace
+
+- **GIVEN** configured source and test folders outside `src` and root `tests`
+- **WHEN** the trace check inspects the repository
+- **THEN** it finds the implementer and the test there and reports no finding (code2check's status, show and projection views are not part of this slice)
+
+#### Scenario: Trace: Overlapping test folders do not duplicate markers
+
+- **GIVEN** configured test folders that overlap
+- **WHEN** the marker reader finds a test
+- **THEN** it reports that test marker once
+
+### Requirement: Trace: Comment lines in configured files implement requirements
+
+The trace check SHALL also read `Implements:` lines in the files, and the files under the folders, listed in
+`[tool.lockstep] comment_sources` in `pyproject.toml`: a line whose text, after optional leading space and a
+comment opener (`#`, `{#`, `//` or `<!--`), starts with `Implements:`, naming one or more IDs separated by
+commas, with any closing `#}` or `-->` removed. A line with no comment opener (such as a docstring line in a `.py.jinja` file) is not read. With no
+`comment_sources`, no such file is read.
+
+Source: Brian, 2026-11-23: "i approve", item (c) of `docs/planning/back-on-design-2026-11-23.md`; open question Q50
+in `docs/planning/open-questions.json` (recommendation "Yes, for configured paths only").
+
+#### Scenario: Trace: A Jinja comment in a configured folder implements a requirement
+
+- **GIVEN** `comment_sources = ["template"]` and `template/Makefile.jinja` holding `{# Implements: core/do-the-thing #}`
+- **WHEN** the trace check runs
+- **THEN** it reports no unimplemented finding for `core/do-the-thing`
+
+#### Scenario: Trace: A docstring line in a configured folder is not read
+
+- **GIVEN** `comment_sources = ["template"]` and `template/core.py.jinja` whose docstring says `Implements: other/unknown`
+- **WHEN** the trace check runs
+- **THEN** it reports no finding for `other/unknown`
+
+#### Scenario: Trace: An unconfigured file is not read
+
+- **GIVEN** no `comment_sources` and `copier.yml` holding `# Implements: core/do-the-thing`
+- **WHEN** the trace check runs
+- **THEN** it reports `core/do-the-thing` as unimplemented
+
+Tested by: tests/lockstep/checks/test_lockstep_check_trace.py
+[[[end]]]
 """
 
 import ast

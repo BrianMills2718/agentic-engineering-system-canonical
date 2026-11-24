@@ -32,6 +32,119 @@ Requirement text (generated):
         them fails there. It SHALL NOT check a scenario that a plan new or different from the base
         declares on a `Wording-only:` line, by its own ID or its requirement's. Its count line SHALL
         add `changed=<n>`, the number of changed scenarios checked, and `no_failing_test=<n>`.
+
+[[[cog import lockstep.cogtext as c; c.docstring("src:lockstep:checks:test_first.py", indent=0)]]]
+Plan (generated from lockstep.yaml layout and OpenSpec; edit the spec or the layout row, not this text):
+
+Implements: lockstep-checks/test-first-new-scenario-tests-fail-before-the-change, lockstep-checks/test-first-a-missing-base-revision-is-reported-not-crashed, lockstep-checks/test-first-tests-for-existing-behavior-are-exempt-and-counted, lockstep-checks/test-first-a-test-run-that-cannot-start-fails-the-check, lockstep-checks/test-first-a-changed-scenario-needs-a-test-that-fails-before-the-change
+
+### Requirement: Test-first: New scenario tests fail before the change
+
+`lockstep check test-first --base <rev>` SHALL run, against the base revision's source, every test marked
+for a scenario that the current revision's specs or active changes define and the base revision's specs
+and active changes do not, and exit 1 if any of them passes there.
+
+Source: Brian, 2026-10-15: "we plan out with models and diagrams and then those are linked to tests presumablhy in a tdd way" Ported from code2-template `openspec/specs/test-first/spec.md` at 6ce00a9; approved for Lockstep by Brian, 2026-11-11: "i approve single tool desing re d4" (`proposals/one-planning-tool/DESIGN.md`, slice 4).
+
+#### Scenario: Test-first: Test that already passed is reported
+
+- **GIVEN** a scenario added since the base and a test for it that passes on the base source
+- **WHEN** the check runs
+- **THEN** it reports the test as not proving the new behavior and exits 1
+
+#### Scenario: Test-first: Test that failed before passes the check
+
+- **GIVEN** a scenario added since the base and a test for it that fails on the base source
+- **WHEN** the check runs
+- **THEN** it exits 0
+
+#### Scenario: Test-first: A scenario in an active change is checked
+
+- **GIVEN** a scenario written in an active change since the base and a test for it that passes on the base source
+- **WHEN** the check runs
+- **THEN** it reports the test as not proving the new behavior and exits 1
+
+#### Scenario: Test-first: Archiving a change makes no scenario new
+
+- **GIVEN** a change, present at the base, archived since so that its scenarios moved into the specs
+- **WHEN** the check runs
+- **THEN** it checks none of those scenarios' tests and exits 0
+
+#### Scenario: Test-first: Configured test folders run against the base source
+
+- **GIVEN** `[tool.lockstep] tests` names a folder outside `tests`, and a scenario added since the base with a test there that passes on the base source
+- **WHEN** the check runs
+- **THEN** it runs that test against the base source, reports it as passed before and exits 1
+
+### Requirement: Test-first: A missing base revision is reported, not crashed
+
+`lockstep check test-first --base <rev>` SHALL, when `<rev>` does not name a commit, check nothing,
+report that the base was missing, and exit 0.
+
+Source: inferred by agent (a new repository has no origin/main yet) Ported from code2-template `openspec/specs/test-first/spec.md` at 6ce00a9; approved for Lockstep by Brian, 2026-11-11: "i approve single tool desing re d4" (`proposals/one-planning-tool/DESIGN.md`, slice 4).
+
+#### Scenario: Test-first: New repository without a base passes with a skip notice
+
+- **GIVEN** a repository whose base revision `origin/main` does not exist yet
+- **WHEN** the check runs
+- **THEN** it reports the check as skipped because the base is missing and exits 0
+
+### Requirement: Test-first: Tests for existing behavior are exempt and counted
+
+The test-first check SHALL not run a test marked `req(..., existing=True)` for a scenario that is new since the base, and SHALL report how many such tests it skipped. For a scenario whose text changed since the base, `existing=True` SHALL NOT exempt a test: it is run on the base source like any other test marked for that scenario.
+
+Source: inferred by agent (working default awaiting Brian: tests marked existing=True for behavior that already worked are not run on the base revision, so existing repositories can adopt the format) Ported from code2-template `openspec/specs/test-first/spec.md` at 6ce00a9; approved for Lockstep by Brian, 2026-11-11: "i approve single tool desing re d4" (`proposals/one-planning-tool/DESIGN.md`, slice 4). The changed-scenario sentence is inferred by agent, 2026-11-17 (once the text changes, the behavior it describes is not the existing one).
+
+#### Scenario: Test-first: Existing-behavior test is skipped and counted
+
+- **GIVEN** a scenario added since the base and its test, marked `existing=True`, that passes on the base
+- **WHEN** the check runs
+- **THEN** it exits 0 and lists the test as existing
+
+#### Scenario: Test-first: An existing-behavior mark does not exempt a changed scenario
+
+- **GIVEN** a scenario whose text differs from the base and whose only test, marked `existing=True`, passes on the base source
+- **WHEN** the check runs
+- **THEN** it reports `no-failing-test` for the scenario and exits 1
+
+### Requirement: Test-first: A test run that cannot start fails the check
+
+`lockstep check test-first` SHALL exit 1 with a message saying pytest could not run when running the new tests on the base source produces no test report (pytest missing from Lockstep's environment, or a usage error); it SHALL NOT report the tests as not passing before.
+
+Source: Brian, 2026-11-11, "i approve single tool desing re d4" (proposals/one-planning-tool/DESIGN.md); acceptance entries A2 and A3 in docs/planning/acceptance-criteria.json
+
+#### Scenario: Test-first: Pytest that cannot run fails loudly
+
+- **GIVEN** a new scenario with a marked test and a Python that cannot run pytest
+- **WHEN** the check runs
+- **THEN** it prints "pytest could not run" and exits 1
+
+### Requirement: Test-first: A changed scenario needs a test that fails before the change
+
+`lockstep check test-first --base <rev>` SHALL, for each scenario that both revisions define and whose text differs (runs of whitespace counting as one space; text from an active change's spec delta replacing the spec's), run every test marked for it against the base revision's source, and SHALL report `no-failing-test <scenario id>` and exit 1 when none of them fails there. It SHALL NOT check a scenario that a plan new or different from the base declares on a `Wording-only:` line, by its own ID or its requirement's. Its count line SHALL add `changed=<n>`, the number of changed scenarios checked, and `no_failing_test=<n>`.
+
+Source: Brian, 2026-10-15: "we plan out with models and diagrams and then those are linked to tests presumablhy in a tdd way"; Brian, 2026-11-17: "the gaps relevant to that normative docuemntation need to be replanned" (code2-workspace issue 842). That one failing test is enough for a changed scenario, where every test must fail for a new one, is inferred by agent (a changed scenario keeps tests for the parts that did not change).
+
+#### Scenario: Test-first: A changed scenario whose tests all pass on the base fails the check
+
+- **GIVEN** a scenario whose text differs from the base and whose only test passes on the base source
+- **WHEN** the check runs
+- **THEN** it reports `no-failing-test` for the scenario and exits 1
+
+#### Scenario: Test-first: One test that fails on the base is enough for a changed scenario
+
+- **GIVEN** a scenario whose text differs from the base, with one test that passes on the base source and one that fails there
+- **WHEN** the check runs
+- **THEN** it exits 0
+
+#### Scenario: Test-first: A wording-only scenario is not checked
+
+- **GIVEN** a scenario whose text differs from the base, whose only test passes on the base source, and a plan in the same change set with `Wording-only:` listing its requirement
+- **WHEN** the check runs
+- **THEN** it exits 0
+
+Tested by: tests/lockstep/checks/test_lockstep_check_test_first.py
+[[[end]]]
 """
 
 from dataclasses import dataclass, field

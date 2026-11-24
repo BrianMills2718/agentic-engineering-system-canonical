@@ -1,0 +1,13 @@
+{
+  "need": "Fail a check when a planned file under a fixed: glob has no cog plan copy, and run the stale-copy check in make check.",
+  "searched": [
+    {"place": "own", "where": "src/lockstep/checks/project.py, src/lockstep/hook.py, src/lockstep/check.py", "query": "stale_copy, _plan_copies, COG_CALL, fixed", "found": "project --check already reports a stale copy; nothing reports a missing one."},
+    {"place": "tool", "where": "cogapp", "query": "cog --check", "found": "cog --check reports blocks whose output differs; it cannot see a file with no block."}
+  ],
+  "candidates": [
+    {"name": "cog --check", "url": "https://nedbatchelder.com/code/cog/", "covers": "Stale cog output.", "misses": "A file with no block at all, which is the gap.", "verdict": "reject", "reason": "lockstep check project --check already covers stale copies with the plan's own renderer; the missing-block case needs the layout rows and fixed globs."}
+  ],
+  "decision": "build",
+  "gap": "One function reading layout rows and fixed globs, and one Makefile target.",
+  "decided": "2026-11-23"
+}

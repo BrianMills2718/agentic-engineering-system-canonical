@@ -277,3 +277,18 @@ def test_a_planned_file_s_plan_copy_follows_a_reworded_requirement(lay):
     assert "SHALL return `Hello, <name>!` exactly." in (lay / rel).read_text()
     assert "Requirement text (generated):" not in (lay / rel).read_text()
     assert rel not in project(lay)                                        # idempotent
+
+
+@pytest.mark.req("lockstep-projection/a-fixed-file-with-no-plan-copy-fails-the-check")
+def test_a_fixed_file_with_no_plan_copy_fails_the_check(lay):
+    side = lay / "lockstep.yaml"
+    side.write_text(side.read_text().replace("governed: [src/]", 'governed: [src/]\nfixed: ["src/greeter/*"]'))
+    (lay / "src/greeter").mkdir(parents=True)
+    (lay / "src/greeter/__init__.py").write_text('"""Greet people."""\n\n\ndef greet(name: str) -> str:\n    return f"Hello, {name}!"\n')
+    run = subprocess.run([str(BIN / "lockstep"), "check", "project", "--check"], cwd=lay, capture_output=True, text=True, env=ENV)
+    assert run.returncode == 1, run.stdout + run.stderr
+    assert "no-copy       src/greeter/__init__.py" in run.stdout, run.stdout
+    (lay / "src/greeter/__init__.py").unlink()
+    _layout(lay)
+    run = subprocess.run([str(BIN / "lockstep"), "check", "project", "--check"], cwd=lay, capture_output=True, text=True, env=ENV)
+    assert "no-copy" not in run.stdout, run.stdout
