@@ -10,7 +10,7 @@ Implements: greeting/greet-by-name
 The package SHALL greet a person by name: `greet(name)` returns `Hello, <name>!`, and a blank name (empty or only
 spaces) raises `ValueError`.
 
-Source: inferred by agent (proof plan for the template layout, AES docs/planning/template-layout-2026-11-23.md step 6)
+Source: inferred by agent (proof plan for the template layout, AES https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/ddf7c9e96d4392b021756f16f4fb5c4e5919be86/docs/planning/template-layout-2026-11-23.md step 6)
 
 #### Scenario: A name is greeted
 

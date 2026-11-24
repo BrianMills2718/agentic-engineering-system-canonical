@@ -6,7 +6,7 @@ description: Bring AES's specs and code into agreement and make the alignment ch
 Source: Brian, 2026-11-23: "cleanup. and as you go make sure to docuemtn any concern open quesiton icnonsitencies
 recommndations or anythgin else we should discuss", after asking why the work keeps going off track. Plan size: small
 planned work (one repository, undone with `git revert`, nothing outward). Governs before slice 2 of
-[back-on-design](back-on-design-2026-11-23.md).
+[back-on-design](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/ddf7c9e96d4392b021756f16f4fb5c4e5919be86/docs/planning/back-on-design-2026-11-23.md).
 
 ## Why
 
@@ -111,7 +111,7 @@ Each item: what, evidence, my recommendation. Added as found. The open ones are 
    the back-on-design plan treat trace as one of the core checks. That is how 142 findings built up unseen.
    Fixed by step 4.
 17. **The design review before a plan is adopted is written in one plan, not in the rule agents read.**
-   `back-on-design-2026-11-23.md` item 5 says every later Lockstep plan gets a cold read against the settled
+   `https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/ddf7c9e96d4392b021756f16f4fb5c4e5919be86/docs/planning/back-on-design-2026-11-23.md` item 5 says every later Lockstep plan gets a cold read against the settled
    documents that lists each departure. Agents planning new work read code2-workspace
    `agents/topics/working-method.md` ("plan size": one independent read), which does not ask for departures from
    the settled documents. Drift came in exactly there: the minimal-core plan folded the file list away as an

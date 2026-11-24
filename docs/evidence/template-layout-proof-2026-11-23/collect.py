@@ -1,4 +1,4 @@
-"""Collect the evidence of the template-layout proof run into this folder (plan docs/planning/template-layout-2026-11-23.md, step 6).
+"""Collect the evidence of the template-layout proof run into this folder (plan https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/ddf7c9e96d4392b021756f16f4fb5c4e5919be86/docs/planning/template-layout-2026-11-23.md, step 6).
 
 Usage: python3 collect.py <copy> <run dir> <hook log> <start UTC> <links.json at the plan commit>
 Absolute paths are replaced by <copy>, <runs> and <home> so the folder holds no machine paths.

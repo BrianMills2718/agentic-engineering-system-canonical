@@ -75,9 +75,9 @@ Source: inferred by agent (archived change 2026-11-22-hook-skips-ignored-rewrite
 
 A repository made from the template SHALL include `.claude/settings.json` and `.codex/hooks.json` whose PreToolUse hooks run `uv run lockstep-hook` (the copy's own locked Lockstep) on file edits and shell commands, without `PCW_MODE=block`, and SHALL git-ignore `docs/links.json`. Its first decision record SHALL carry a `- Governs:` line naming a file the copy has.
 
-Source: Brian, 2026-11-23: "isnt this the whole thing that makes the whle systme work?"; AES docs/architecture/GOAL.md:88; plan docs/planning/linked-chain-core-2026-11-23.md
+Source: Brian, 2026-11-23: "isnt this the whole thing that makes the whle systme work?"; AES docs/architecture/GOAL.md:88; plan https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/ddf7c9e96d4392b021756f16f4fb5c4e5919be86/docs/planning/linked-chain-core-2026-11-23.md
 
-Source: Brian, 2026-11-23: "i approve" (decision -> requirement or code links that the hook hands over, read from lines that already exist); plan docs/planning/links-existing-lines-2026-11-23.md
+Source: Brian, 2026-11-23: "i approve" (decision -> requirement or code links that the hook hands over, read from lines that already exist); plan https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/ddf7c9e96d4392b021756f16f4fb5c4e5919be86/docs/planning/links-existing-lines-2026-11-23.md
 
 #### Scenario: A rendered copy has both hook files
 
@@ -102,7 +102,7 @@ changed file with the OpenSpec change and that `uv run lockstep layout` then cre
 SHALL run the whole-tree check (`lockstep check --repo . --base <ref>`) against the merge base with `origin/main`,
 else the first commit, saying it skipped when there is no commit yet.
 
-Source: Brian, 2026-11-23: "i approve", item (c) of docs/planning/back-on-design-2026-11-23.md ("the planned file layout back in the template"); plan docs/planning/template-layout-2026-11-23.md
+Source: Brian, 2026-11-23: "i approve", item (c) of https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/ddf7c9e96d4392b021756f16f4fb5c4e5919be86/docs/planning/back-on-design-2026-11-23.md ("the planned file layout back in the template"); plan https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/ddf7c9e96d4392b021756f16f4fb5c4e5919be86/docs/planning/template-layout-2026-11-23.md
 
 #### Scenario: A fresh copy refuses an unplanned source file
 
@@ -122,7 +122,7 @@ Source: Brian, 2026-11-23: "i approve", item (c) of docs/planning/back-on-design
 leave the copy's starter source files under `src/<package>/` unchanged, while adding or updating the template's other
 files.
 
-Source: inferred by agent (cold review finding 1 of docs/planning/template-layout-2026-11-23.md: a plan added to an older copy's existing files would refuse them; `_skip_if_exists` protects only a file that already exists; and the 2026-11-23 advisor finding that an update of a copy made from template `2e8791447` replaced `core.py`'s `Implements:` line with a cog block naming a missing row, failing `lockstep check trace`)
+Source: inferred by agent (cold review finding 1 of https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/ddf7c9e96d4392b021756f16f4fb5c4e5919be86/docs/planning/template-layout-2026-11-23.md: a plan added to an older copy's existing files would refuse them; `_skip_if_exists` protects only a file that already exists; and the 2026-11-23 advisor finding that an update of a copy made from template `2e8791447` replaced `core.py`'s `Implements:` line with a cog block naming a missing row, failing `lockstep check trace`)
 
 #### Scenario: An update of an older copy keeps it without a plan
 

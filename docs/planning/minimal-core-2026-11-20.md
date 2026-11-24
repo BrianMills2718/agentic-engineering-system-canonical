@@ -1,7 +1,7 @@
 # Minimal core: what Brian wants, what exists off the shelf, what to keep
 
 Status: milestone met (2026-11-22, `68037920b`). One part is reversed: folding the planned file list into `tasks.md`
-(line 103, an agent inference) was undone by `back-on-design-2026-11-23.md`, which puts the `lockstep.yaml` layout
+(line 103, an agent inference) was undone by `https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/ddf7c9e96d4392b021756f16f4fb5c4e5919be86/docs/planning/back-on-design-2026-11-23.md`, which puts the `lockstep.yaml` layout
 back. Read that plan with this one.
 
 Source: Brian, 2026-11-20, Claude session 5651a525 (no file): "the whole thing should be configurable and
@@ -26,7 +26,7 @@ to an agent on some proejct nad have it faithfulyy and successfully impelemnt it
 | C9 | Requirement ids named in code and tests exist | core (existence only) | agent inference: today's test (section 4) |
 | C10 | Docs conventions (links, format, reachability, arc42, LikeC4) | add-on | workspace decision 0002 |
 | C11 | Session log, feedback lines, cost basis, nightly prompt-size check | add-on | core.md, Records |
-| C12 | The linked chain: each requirement linked to its scenarios, tests, files and code; an agent editing code is handed the requirement it implements; the links readable in one file | core | 2026-11-23: "isnt this the whole thing that makes the whle systme work?"; AES `docs/architecture/GOAL.md:88`, `LOCKSTEP.md:26`. Left out of the first list by agent error (plan [linked-chain-core-2026-11-23.md](linked-chain-core-2026-11-23.md)) |
+| C12 | The linked chain: each requirement linked to its scenarios, tests, files and code; an agent editing code is handed the requirement it implements; the links readable in one file | core | 2026-11-23: "isnt this the whole thing that makes the whle systme work?"; AES `docs/architecture/GOAL.md:88`, `LOCKSTEP.md:26`. Left out of the first list by agent error (plan [https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/ddf7c9e96d4392b021756f16f4fb5c4e5919be86/docs/planning/linked-chain-core-2026-11-23.md](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/ddf7c9e96d4392b021756f16f4fb5c4e5919be86/docs/planning/linked-chain-core-2026-11-23.md)) |
 
 ## 2. What the system must be (constraints)
 
@@ -182,7 +182,7 @@ Codex built the named package. Found and fixed: the template's commit check stag
 **Milestone reopened, 2026-11-23.** The 2026-11-22 result above stands for C1-C11, but the core list missed C12,
 so the first core milestone is not met until the linked chain works in a fresh copy: the hook hands the agent the
 requirement text, and the link file lists the changed requirement's scenarios, tests, file and symbol
-([linked-chain-core-2026-11-23.md](linked-chain-core-2026-11-23.md), acceptance).
+([https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/ddf7c9e96d4392b021756f16f4fb5c4e5919be86/docs/planning/linked-chain-core-2026-11-23.md](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/ddf7c9e96d4392b021756f16f4fb5c4e5919be86/docs/planning/linked-chain-core-2026-11-23.md), acceptance).
 
 **Linked chain accepted, 2026-11-23 (C12; milestone met for Claude).** Clean home with empty agent login folders,
 private repository `chain-test` copied from the template at #1011, three plans, all built by Claude through

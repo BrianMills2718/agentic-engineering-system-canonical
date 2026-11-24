@@ -57,7 +57,7 @@ Source: Brian, 2026-11-11, "i approve single tool desing re d4" (proposals/one-p
 
 When the edit hook lets a call through with only context (requirement text, a plan, a warning), its answer to Claude Code and to Codex SHALL carry that context without a `permissionDecision`, so the agent's own permission settings still decide whether the edit runs; a refusal SHALL keep `permissionDecision: deny` and its reason.
 
-Source: inferred by agent: Claude Code treats a PreToolUse `allow` as approving the call without the user's prompt (probe 2026-11-23: a context-only answer with no decision still reaches the model); the template now installs the hook in every copy (plan docs/planning/linked-chain-core-2026-11-23.md).
+Source: inferred by agent: Claude Code treats a PreToolUse `allow` as approving the call without the user's prompt (probe 2026-11-23: a context-only answer with no decision still reaches the model); the template now installs the hook in every copy (plan https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/ddf7c9e96d4392b021756f16f4fb5c4e5919be86/docs/planning/linked-chain-core-2026-11-23.md).
 
 #### Scenario: A context-only answer carries no decision
 
@@ -69,7 +69,7 @@ Source: inferred by agent: Claude Code treats a PreToolUse `allow` as approving 
 
 In a repository with OpenSpec specs and no layout plan, the edit hook SHALL answer a shell command that names or writes a file whose docstrings carry `Implements:` lines with those requirements' text, without a `permissionDecision`, and SHALL log the call as `openspec_text` with the requirement IDs; a command naming no such file and no file a decision governs SHALL get no answer.
 
-Source: inferred by agent from the 2026-11-23 linked-chain acceptance run (Claude edited only through Bash, so the text never arrived); plan docs/planning/linked-chain-core-2026-11-23.md
+Source: inferred by agent from the 2026-11-23 linked-chain acceptance run (Claude edited only through Bash, so the text never arrived); plan https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/ddf7c9e96d4392b021756f16f4fb5c4e5919be86/docs/planning/linked-chain-core-2026-11-23.md
 
 #### Scenario: A shell command on an implementing file gets its requirement text
 
@@ -81,7 +81,7 @@ Source: inferred by agent from the 2026-11-23 linked-chain acceptance run (Claud
 
 In a repository with OpenSpec specs and a `docs/decisions/` folder, the edit hook SHALL hand an agent that edits a file, or names it in a shell command, each decision record whose `Governs:` line names that file, a folder above it (a target ending in `/` or naming an existing folder), or a requirement or capability the file implements, after any requirement text and without a `permissionDecision`. It SHALL read the record's existing lines only: `Governs:` (or `- Governs:`, comma separated, anchors ignored for paths), `status:` front matter or a `Status:` line, and `superseded_by:` or the text after "superseded by". Each decision SHALL be given as its ID, title, status, file and decision paragraph cut at 600 characters, at most three in full (own path first, then requirement or capability, then folder) and the rest by ID; a superseded decision SHALL be flagged with its successor. The hook SHALL log the decision IDs as `decisions` on the `openspec_text` record. No check SHALL fail on a `Governs:` target that names nothing.
 
-Source: Brian, 2026-11-23: "i approve" (decision -> requirement or code links that the hook hands over, read from lines that already exist); plan docs/planning/links-existing-lines-2026-11-23.md
+Source: Brian, 2026-11-23: "i approve" (decision -> requirement or code links that the hook hands over, read from lines that already exist); plan https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/ddf7c9e96d4392b021756f16f4fb5c4e5919be86/docs/planning/links-existing-lines-2026-11-23.md
 
 #### Scenario: An edit to a governed file gets its decisions
 
