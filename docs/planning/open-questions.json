@@ -943,9 +943,9 @@
    "resolves_with": "One change across both repositories that moves the requirement and renames the IDs.",
    "recommendation": "Move it; leave the list-making requirements in code2-workspace.",
    "default": "The 6 stay on the accepted list.",
-   "evidence": "`scripts/concern_issue.py:8` and `tests/test_concern_issue.py:112-158` name compliance-list IDs; the spec is only in ~/code2/workspace/openspec/specs/compliance-list/.",
+   "evidence": "`scripts/concern_issue.py:8` and `tests/test_concern_issue.py:112-158` name compliance-list IDs; the spec is only in ~/code2/workspace/openspec/specs/compliance-list/. Resolved 2026-11-23 (Brian: \"i approve\"): AES capability concern-issue now holds the requirement for AES's copy of scripts/concern_issue.py and its tests name concern-issue IDs; the 5 findings left trace-accepted.txt (OpenSpec change 2026-11-23-concern-issue-spec). Not a move: code2-workspace keeps its own copy of the script, tested against its compliance-list spec, so the requirement stays there for that copy.",
    "owner": "agent",
-   "status": "open",
+   "status": "resolved",
    "touches": [
     "ecosystem-consolidation"
    ],

@@ -1,0 +1,3 @@
+- [x] Spec `concern-issue` with the requirement and its scenarios.
+- [x] `scripts/concern_issue.py` and `tests/test_concern_issue.py` name `concern-issue/...`.
+- [x] The compliance-list findings leave `docs/planning/trace-accepted.txt`.

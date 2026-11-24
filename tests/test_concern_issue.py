@@ -109,7 +109,7 @@ def test_open_with_recorded_occurrence_is_left_unchanged():
     assert ci.open_concern("o/r", "daily-audit", "T", "B", "s", gh, occurrence="count-6") == "commented #4"
 
 
-@pytest.mark.req("compliance-list/an-open-concern-s-title-follows-the-repository-s-current-status")
+@pytest.mark.req("concern-issue/an-open-concern-s-title-follows-the-repository-s-current-status")
 def test_open_retitles_an_open_issue_whose_status_changed():
     """The seven 'Planning package error' issues of #93: the status moved to out of date, the title did not."""
     gh = FakeGh([issue(4, "OPEN", key="planning-compliance", title="Planning package error")])
@@ -121,7 +121,7 @@ def test_open_retitles_an_open_issue_whose_status_changed():
     assert "-R" in edit and edit[edit.index("-R") + 1] == "o/r"
 
 
-@pytest.mark.req("compliance-list/a-current-title-is-left-alone", existing=True)   # the guard against over-editing: old code never edited
+@pytest.mark.req("concern-issue/a-current-title-is-left-alone", existing=True)   # the guard against over-editing: old code never edited
 def test_open_leaves_a_current_title_alone():
     gh = FakeGh([issue(4, "OPEN", key="planning-compliance", title="Planning package out of date")])
     result = ci.open_concern("o/r", "planning-compliance", "Planning package out of date", "B", "s", gh)
@@ -129,7 +129,7 @@ def test_open_leaves_a_current_title_alone():
     assert ["issue", "edit"] not in gh.verbs()
 
 
-@pytest.mark.req("compliance-list/a-reopened-concern-takes-the-current-title")
+@pytest.mark.req("concern-issue/a-reopened-concern-takes-the-current-title")
 def test_open_retitles_a_reopened_issue():
     gh = FakeGh([issue(4, "CLOSED", key="planning-compliance", title="Planning package error")])
     result = ci.open_concern("o/r", "planning-compliance", "Planning package not compliant", "B", "s", gh)
@@ -137,7 +137,7 @@ def test_open_retitles_a_reopened_issue():
     assert ["issue", "edit"] in gh.verbs()
 
 
-@pytest.mark.req("compliance-list/an-issue-that-already-records-the-occurrence-is-still-retitled")
+@pytest.mark.req("concern-issue/an-issue-that-already-records-the-occurrence-is-still-retitled")
 def test_open_retitles_even_when_the_occurrence_is_already_recorded():
     """An issue that was commented before this fix still holds the old title; the re-run must fix it."""
 
@@ -155,7 +155,7 @@ def test_open_retitles_even_when_the_occurrence_is_already_recorded():
     assert ["issue", "comment"] not in gh.verbs()
 
 
-@pytest.mark.req("compliance-list/a-failed-retitle-fails-the-call")
+@pytest.mark.req("concern-issue/a-failed-retitle-fails-the-call")
 def test_a_failed_retitle_is_loud():
     gh = FakeGh([issue(4, "OPEN", title="old")], fail_on="issue edit")
     with pytest.raises(RuntimeError):

@@ -5,7 +5,17 @@ ADR-2026-09-14 (one feedback concern lifecycle) makes GitHub Issues the single
 register of open/closed feedback concerns. Native evidence (logs, receipts,
 registers) stays where it is; this adapter only owns concern identity and state.
 
-Implements: compliance-list/an-open-concern-s-title-follows-the-repository-s-current-status
+Implements: concern-issue/an-open-concern-s-title-follows-the-repository-s-current-status
+
+Requirement text (generated):
+    concern-issue/an-open-concern-s-title-follows-the-repository-s-current-status:
+        `scripts/concern_issue.py open` SHALL give an existing issue for the key the title it was
+        called with whenever the two differ (`gh issue edit --title`), whether it comments on the
+        open issue, finds the occurrence already recorded, or reopens a closed issue, and SHALL
+        create no second issue for the key. Because the compliance list passes `Planning package
+        <status>` on every run, a repository's `planning-compliance` issue SHALL carry its current
+        status in its title, and a repository SHALL have one such issue, not one per status. A
+        failed edit SHALL fail the call.
 
 Identity is a stable key, carried as a hidden marker in the issue body
 (``<!-- concern-key: KEY -->``) under the ``concern:feedback`` label:
