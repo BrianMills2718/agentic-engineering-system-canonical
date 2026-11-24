@@ -4,22 +4,25 @@ Compares the tree where the branch started (the merge base with --base) with the
 Python files under the given folders:
 
 - ruff (pinned): blind `except` (BLE), `try/except/pass` and `try/except/continue` (S110, S112), and
-  function complexity (C901). A complexity finding is new when a function is over the limit and is more
-  complex than on the base, so an unrelated edit inside an already complex function passes and a body
-  edit that adds a branch fails.
-- pylint (pinned) duplicate-code: a block of 6 or more similar lines, keyed by the files it joins.
-- file growth: a file over --max-lines that grew on this branch.
+  function complexity (C901). A complexity finding is new when a function over the limit has no base
+  function of that name at least as complex, so an unrelated edit inside an already complex function
+  passes and a body edit that adds a branch fails.
+- pylint (pinned) duplicate-code: blocks of 6 or more similar lines; new when there are more blocks.
+- file growth: a file over --max-lines that grew on this branch (a renamed file keeps its base size).
 
-Findings are keyed without line numbers and counted, so moved code is not new; a file renamed on the
-branch keeps its base findings. Not covered: an existing helper rewritten under a new name (that needs
-reading for meaning). Exit 0 when nothing is new or the base is missing, 1 on a new finding, 2 when a
-tool fails. Pilot for AES (Brian, 2026-11-24, slice 3 of the Reddit-ideas plan: "i will trust your
-jdugement on the impelemtnation prirotiy").
+Findings are counted without paths or line numbers, so code moved within or between files, or a file
+renamed, is not new; the price is that removing one finding and adding a like one elsewhere passes.
+Not covered: an existing helper rewritten under a new name (that needs reading for meaning). Exit 0 when
+nothing is new or the base is missing, 1 on a new finding, 2 when a tool fails. Base results are cached
+under the git folder by base commit and a hash of this script. Pilot for AES (Brian, 2026-11-24, slice 3
+of the Reddit-ideas plan: "i will trust your jdugement on the impelemtnation prirotiy").
 """
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
+import os
 import re
 import subprocess
 import sys
@@ -33,6 +36,7 @@ from lockstep.checks.changed import compare_with, extract  # noqa: E402 -- the p
 RUFF = ["uvx", "ruff@0.14.0", "check", "--isolated", "--select", "BLE,S110,S112,C901", "--output-format", "json", "--exit-zero"]
 PYLINT = ["uvx", "--from", "pylint==3.3.9", "pylint", "--disable=all", "--enable=duplicate-code",
           "--min-similarity-lines=6", "--output-format=json", "--score=n", "--persistent=n"]
+PYLINT_REFACTOR = 8  # the exit bit for refactor messages, which duplicate-code is; any other bit means failure
 COMPLEX = re.compile(r"^`(?P<name>[^`]+)` is too complex \((?P<n>\d+) > \d+\)$")
 DUP_MODULE = re.compile(r"^==(?P<module>[^:]+):\[")
 
@@ -52,11 +56,9 @@ def _python_files(root: Path, folders: list[str]) -> list[str]:
 
 def _renames(root: Path, base: str) -> dict[str, str]:
     """Base path -> working-tree path for files renamed on the branch (staged or committed)."""
-    out = _git(root, "diff", "-M", "--name-status", "-z", base)
-    parts, renamed, i = out.split("\0"), {}, 0
+    parts, renamed, i = _git(root, "diff", "-M", "--name-status", "-z", base).split("\0"), {}, 0
     while i < len(parts) and parts[i]:
-        status = parts[i]
-        if status.startswith(("R", "C")):
+        if parts[i].startswith(("R", "C")):
             renamed[parts[i + 1]] = parts[i + 2]
             i += 3
         else:
@@ -64,126 +66,128 @@ def _renames(root: Path, base: str) -> dict[str, str]:
     return renamed
 
 
+def _json_output(name: str, done: subprocess.CompletedProcess) -> list:
+    try:
+        found = json.loads(done.stdout)
+    except json.JSONDecodeError as exc:
+        raise ToolFailed(f"{name} exit {done.returncode}: {(done.stderr or done.stdout).strip()[-300:]}") from exc
+    if not isinstance(found, list):
+        raise ToolFailed(f"{name} printed JSON that is not a list")
+    return found
+
+
 def _ruff(cwd: Path, files: list[str]) -> list[dict]:
     if not files:
         return []
     done = subprocess.run([*RUFF, *files], cwd=cwd, capture_output=True, text=True)
-    try:
-        found = json.loads(done.stdout or "[]")
-    except json.JSONDecodeError as exc:
-        raise ToolFailed(f"ruff exit {done.returncode}: {done.stderr.strip()[-300:]}") from exc
+    if done.returncode != 0:  # --exit-zero: findings exit 0, so anything else is a failed run
+        raise ToolFailed(f"ruff exit {done.returncode}: {done.stderr.strip()[-300:]}")
+    found = _json_output("ruff", done)
     for item in found:
         item["filename"] = Path(item["filename"]).resolve().relative_to(cwd.resolve()).as_posix()
     return found
 
 
-def _duplicates(cwd: Path, files: list[str]) -> Counter:
+def _duplicates(cwd: Path, files: list[str]) -> list[str]:
+    """One line per duplicate block, naming the modules it joins."""
     if len(files) < 2:
-        return Counter()
+        return []
     with tempfile.NamedTemporaryFile("w", suffix=".rc") as rc:
         done = subprocess.run([*PYLINT, f"--rcfile={rc.name}", *files], cwd=cwd, capture_output=True, text=True)
-    if done.returncode & (1 | 32):  # fatal message or usage error: the run did not happen
+    if done.returncode & ~PYLINT_REFACTOR:
         raise ToolFailed(f"pylint exit {done.returncode}: {(done.stderr or done.stdout).strip()[-300:]}")
-    try:
-        found = json.loads(done.stdout or "[]")
-    except json.JSONDecodeError as exc:
-        raise ToolFailed(f"pylint printed no JSON (exit {done.returncode})") from exc
-    keys: Counter = Counter()
-    for item in found:
-        if item.get("symbol") != "duplicate-code":
-            continue
-        modules = sorted({m.group("module") for line in item["message"].splitlines() if (m := DUP_MODULE.match(line))})
-        keys[tuple(modules)] += 1
-    return keys
+    blocks = []
+    for item in _json_output("pylint", done):
+        if item.get("symbol") == "duplicate-code":
+            modules = sorted({m.group("module") for line in item["message"].splitlines() if (m := DUP_MODULE.match(line))})
+            blocks.append(", ".join(modules))
+    return sorted(blocks)
 
 
-def _findings(cwd: Path, files: list[str]) -> tuple[Counter, dict, Counter, dict]:
-    """Plain ruff findings, complexity per function, duplicate blocks and line counts for one tree."""
-    plain: Counter = Counter()
+def _findings(cwd: Path, files: list[str]) -> dict:
+    """Plain ruff findings with their paths, complexity per function name, duplicate blocks, line counts."""
+    plain: dict = defaultdict(list)
     complexity: dict = defaultdict(list)
     for item in _ruff(cwd, files):
         hit = COMPLEX.match(item["message"]) if item["code"] == "C901" else None
         if hit:
-            complexity[(item["filename"], hit.group("name"))].append(int(hit.group("n")))
+            complexity[hit.group("name")].append([int(hit.group("n")), item["filename"]])
         else:
-            plain[(item["filename"], item["code"], item["message"])] += 1
+            plain[f"{item['code']} {item['message']}"].append(item["filename"])
     lines = {f: len((cwd / f).read_text(errors="replace").splitlines()) for f in files}
-    return plain, complexity, _duplicates(cwd, files), lines
+    return {"plain": dict(plain), "cx": dict(complexity), "dup": _duplicates(cwd, files), "lines": lines}
 
 
-def _base_findings(root: Path, base: str, folders: list[str]) -> tuple[Counter, dict, Counter, dict]:
-    """Findings for the base tree, cached under the git folder by commit, folders and tool versions."""
+def _base_findings(root: Path, base: str, folders: list[str]) -> dict:
+    """Findings for the base tree, cached under the git folder by commit, folders and this script's hash."""
     sha = _git(root, "rev-parse", base).strip()
     common = Path(_git(root, "rev-parse", "--git-common-dir").strip())
     common = common if common.is_absolute() else root / common
-    tag = re.sub(r"[^A-Za-z0-9_.-]", "_", f"{sha}-{'+'.join(folders)}-{RUFF[1]}-{PYLINT[2]}")
-    cached = common / "maintainability-ratchet" / f"{tag}.json"
-    if cached.is_file():
-        data = json.loads(cached.read_text())
-        return (Counter({tuple(k): n for k, n in data["plain"]}), {tuple(k): v for k, v in data["cx"]},
-                Counter({tuple(k): n for k, n in data["dup"]}), data["lines"])
+    script = hashlib.sha256(Path(__file__).read_bytes() + ",".join(folders).encode()).hexdigest()[:16]
+    cached = common / "maintainability-ratchet" / f"{sha}-{script}.json"
+    try:
+        return json.loads(cached.read_text())
+    except (OSError, json.JSONDecodeError):
+        pass  # no cache yet, or a damaged one: compute again and overwrite it
     with tempfile.TemporaryDirectory() as tmp:
         base_root = Path(tmp)
         extract(root, sha, base_root, folders)
         files = sorted(p.relative_to(base_root).as_posix() for p in base_root.rglob("*.py"))
-        plain, cx, dup, lines = _findings(base_root, files)
+        found = _findings(base_root, files)
     cached.parent.mkdir(parents=True, exist_ok=True)
-    cached.write_text(json.dumps({"plain": [[list(k), n] for k, n in plain.items()], "cx": [[list(k), v] for k, v in cx.items()],
-                                  "dup": [[list(k), n] for k, n in dup.items()], "lines": lines}))
-    return plain, cx, dup, lines
+    with tempfile.NamedTemporaryFile("w", dir=cached.parent, delete=False, suffix=".tmp") as out:
+        json.dump(found, out)
+    os.replace(out.name, cached)
+    return found
 
 
-def _stem(path: str) -> str:
-    return Path(path).stem
-
-
-def compare(root: Path, base: str, folders: list[str], max_lines: int) -> tuple[list[str], int, int]:
-    """Return the new findings as printable lines, and the base and head finding totals."""
-    head_files = _python_files(root, folders)
-    renamed = _renames(root, base)
-    b_plain, b_cx, b_dup, b_lines = _base_findings(root, base, folders)
-    h_plain, h_cx, h_dup, h_lines = _findings(root, head_files)
-
-    def move(path: str) -> str:
-        return renamed.get(path, path)
-
-    stems = {_stem(old): _stem(new) for old, new in renamed.items()}
-    b_plain = Counter({(move(p), c, msg): n for (p, c, msg), n in b_plain.items()})
-    b_cx = {(move(p), name): v for (p, name), v in b_cx.items()}
-    b_dup = Counter({tuple(sorted(stems.get(x, x) for x in key)): n for key, n in b_dup.items()})
-    b_lines = {move(p): n for p, n in b_lines.items()}
-
-    new = _plain_and_duplicates(h_plain, b_plain, h_dup, b_dup) + _complexity(h_cx, b_cx)
-    new += _growth(h_lines, b_lines, max_lines)
-    return new, _total(b_plain, b_cx, b_dup), _total(h_plain, h_cx, h_dup)
-
-
-def _plain_and_duplicates(h_plain: Counter, b_plain: Counter, h_dup: Counter, b_dup: Counter) -> list[str]:
-    new = [f"new {key[1]} {key[0]}: {key[2]} (base {b_plain.get(key, 0)}, now {n})"
-           for key, n in sorted(h_plain.items()) if n > b_plain.get(key, 0)]
-    return new + [f"new duplicate block between {', '.join(key)} (base {b_dup.get(key, 0)}, now {n})"
-                  for key, n in sorted(h_dup.items()) if n > b_dup.get(key, 0)]
-
-
-def _complexity(h_cx: dict, b_cx: dict) -> list[str]:
-    """A function over the limit is new when it has no base counterpart or is more complex than it."""
+def _plain(head: dict, base: dict) -> list[str]:
     new = []
-    for (path, name), values in sorted(h_cx.items()):
-        before = sorted(b_cx.get((path, name), []), reverse=True)
-        for i, value in enumerate(sorted(values, reverse=True)):
+    for key, paths in sorted(head.items()):
+        before = base.get(key, [])
+        if len(paths) > len(before):
+            grew = sorted(p for p, n in Counter(paths).items() if n > Counter(before)[p]) or sorted(set(paths))
+            new.append(f"new {key} in {', '.join(grew)} (base {len(before)}, now {len(paths)})")
+    return new
+
+
+def _complexity(head: dict, base: dict) -> list[str]:
+    """Functions of one name are compared most complex first; one more complex than its base pair is new."""
+    new = []
+    for name, entries in sorted(head.items()):
+        before = sorted((n for n, _ in base.get(name, [])), reverse=True)
+        for i, (value, path) in enumerate(sorted(entries, key=lambda e: e[0], reverse=True)):
             if i >= len(before) or value > before[i]:
                 was = before[i] if i < len(before) else "at or under the limit"
                 new.append(f"new C901 {path}: `{name}` complexity {value} (base {was})")
     return new
 
 
-def _growth(h_lines: dict, b_lines: dict, max_lines: int) -> list[str]:
-    return [f"new file-growth {path}: {n} lines, over {max_lines} (base {b_lines.get(path, 'absent')})"
-            for path, n in sorted(h_lines.items()) if n > max_lines and n > b_lines.get(path, 0)]
+def _duplicates_added(head: list[str], base: list[str]) -> list[str]:
+    if len(head) <= len(base):
+        return []
+    extra = list((Counter(head) - Counter(base)).elements())
+    return [f"new duplicate blocks: {len(base)} on the base, {len(head)} now; not on the base: "
+            + ("; ".join(extra) if extra else "same files as existing blocks")]
 
 
-def _total(plain: Counter, cx: dict, dup: Counter) -> int:
-    return sum(plain.values()) + sum(len(v) for v in cx.values()) + sum(dup.values())
+def _growth(head: dict, base: dict, renamed: dict, max_lines: int) -> list[str]:
+    before = {renamed.get(p, p): n for p, n in base.items()}
+    return [f"new file-growth {path}: {n} lines, over {max_lines} (base {before.get(path, 'absent')})"
+            for path, n in sorted(head.items()) if n > max_lines and n > before.get(path, 0)]
+
+
+def compare(root: Path, base: str, folders: list[str], max_lines: int) -> tuple[list[str], int, int]:
+    """Return the new findings as printable lines, and the base and head finding totals."""
+    b = _base_findings(root, base, folders)
+    h = _findings(root, _python_files(root, folders))
+    new = _plain(h["plain"], b["plain"]) + _complexity(h["cx"], b["cx"]) + _duplicates_added(h["dup"], b["dup"])
+    new += _growth(h["lines"], b["lines"], _renames(root, base), max_lines)
+    return new, _total(b), _total(h)
+
+
+def _total(found: dict) -> int:
+    return sum(map(len, found["plain"].values())) + sum(map(len, found["cx"].values())) + len(found["dup"])
 
 
 def main(argv: list[str] | None = None) -> int:

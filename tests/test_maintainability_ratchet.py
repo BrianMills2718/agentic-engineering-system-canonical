@@ -1,4 +1,5 @@
 """Tests for scripts/maintainability_ratchet.py: only findings this branch adds fail; old ones never do."""
+import json
 import subprocess
 import sys
 from pathlib import Path
@@ -145,3 +146,57 @@ def test_no_python_change_skips_the_tools(tmp_path, capsys):
     (root / "notes.txt").write_text("y")
     code, out = run(root, capsys)
     assert code == 0 and "skipped=no-python-change" in out
+
+
+def _cache_files(root):
+    return list((root / ".git" / "maintainability-ratchet").glob("*.json"))
+
+
+def test_ruff_failure_fails_closed_and_caches_nothing(tmp_path, capsys, monkeypatch):
+    root = repo(tmp_path, {"src/a.py": "A = 1\n", "src/b.py": "B = 1\n"})
+    (root / "src/a.py").write_text("A = 2\n")
+    monkeypatch.setattr(m, "RUFF", ["false"])
+    code, out = run(root, capsys)
+    assert code == 2 and "tool-failed" in out and not _cache_files(root)
+
+
+def test_pylint_failure_fails_closed_and_caches_nothing(tmp_path, capsys, monkeypatch):
+    root = repo(tmp_path, {"src/a.py": "A = 1\n", "src/b.py": "B = 1\n"})
+    (root / "src/a.py").write_text("A = 2\n")
+    monkeypatch.setattr(m, "PYLINT", ["sh", "-c", "exit 2"])
+    code, out = run(root, capsys)
+    assert code == 2 and "tool-failed" in out and not _cache_files(root)
+
+
+def test_rename_inside_a_package_keeps_old_duplicates(tmp_path, capsys):
+    root = tmp_path / "r"
+    (root / "src/pkg").mkdir(parents=True)
+    subprocess.run(["git", "init", "-q", "-b", "main", str(root)], check=True)
+    for name, text in {"src/pkg/__init__.py": "", "src/pkg/one.py": DUPLICATED, "src/pkg/two.py": COPY}.items():
+        (root / name).write_text(text)
+    git(root, "add", "-A")
+    git(root, "commit", "-qm", "base")
+    git(root, "checkout", "-qb", "work")
+    git(root, "mv", "src/pkg/two.py", "src/pkg/three.py")
+    code, out = run(root, capsys)
+    assert code == 0, out
+
+
+def test_old_finding_moved_to_another_file_passes(tmp_path, capsys):
+    blind = "def f():\n    try:\n        return 1\n    except Exception:\n        return 2\n"
+    root = repo(tmp_path, {"src/a.py": blind + "\n\n" + COMPLEX, "src/helpers.py": "H = 1\n"})
+    (root / "src/a.py").write_text("A = 1\n")
+    (root / "src/helpers.py").write_text("H = 1\n\n\n" + blind + "\n\n" + COMPLEX)
+    code, out = run(root, capsys)
+    assert code == 0, out
+
+
+def test_damaged_cache_is_recomputed(tmp_path, capsys):
+    root = repo(tmp_path, {"src/a.py": "A = 1\n", "src/b.py": "B = 1\n"})
+    (root / "src/a.py").write_text("A = 2\n")
+    assert run(root, capsys)[0] == 0
+    [cached] = _cache_files(root)
+    cached.write_text("{half")
+    code, out = run(root, capsys)
+    assert code == 0, out
+    assert json.loads(cached.read_text())["dup"] == []
