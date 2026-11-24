@@ -389,6 +389,7 @@ Generated from [lockstep.yaml](../lockstep.yaml); edit the source, not this bloc
 | [scripts/learning_loop/systemd/feedback-problems.timer](../scripts/learning_loop/systemd/feedback-problems.timer) | Weekly feedback loop (problems, licences, effects). Schedules Sun *-*-* 05:00:00 with persistent catch-up and randomized delay. |
 | [scripts/learning_loop/transcripts.py](../scripts/learning_loop/transcripts.py) | Read Claude Code and Codex transcripts as plain turns, and split closeout fields. |
 | [scripts/machine_manifest.py](../scripts/machine_manifest.py) | Write and check a manifest recording the source of every systemd user unit on this machine (git, AES job list, or local-only). |
+| [scripts/maintainability_ratchet.py](../scripts/maintainability_ratchet.py) | Fail make check on maintainability findings a branch adds (blind except, more complex function, new duplicate block, large file that grew), comparing with the merge base; old findings never block. AES pilot. |
 | [scripts/md_file_cap.py](../scripts/md_file_cap.py) | Enforce the 100 tracked Markdown file cap per Brian-owned repository, with written exceptions. |
 | [scripts/notify_operator.py](../scripts/notify_operator.py) | Send a condition to the operator side of the ecosystem through a CLI and shared stamps, replacing the old Windows message box. |
 | [scripts/operator_notification_record.py](../scripts/operator_notification_record.py) | Write the durable record of each operator notification before any delivery is attempted. |
@@ -593,6 +594,7 @@ Generated from [lockstep.yaml](../lockstep.yaml); edit the source, not this bloc
 | [tests/test_hub_page.py](../tests/test_hub_page.py) | Tests the hub page generator's rendering from configuration and workspace map data. |
 | [tests/test_lane_sweep.py](../tests/test_lane_sweep.py) | Tests the lane sweep script against a throwaway repository, bare remote and linked worktrees. |
 | [tests/test_machine_manifest.py](../tests/test_machine_manifest.py) | Tests the machine manifest script, which lists sources from a unit folder and must not expose secret values. |
+| [tests/test_maintainability_ratchet.py](../tests/test_maintainability_ratchet.py) | Tests the maintainability ratchet on throwaway git repositories, where only findings added on the branch fail. |
 | [tests/test_md_file_cap.py](../tests/test_md_file_cap.py) | Tests the Markdown file cap check, which counts Markdown files per repository against an exception file. |
 | [tests/test_notify_operator.py](../tests/test_notify_operator.py) | Tests the operator notification script, pinned to past failures where a quiet notification channel went unnoticed. |
 | [tests/test_operator_notification_record.py](../tests/test_operator_notification_record.py) | Tests the operator notification record script, pinned to specific observed failures in how notifications were recorded. |
