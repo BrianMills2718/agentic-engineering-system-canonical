@@ -12,8 +12,10 @@ layout:
   tests: []
 - path: src/lockstep/action_check.py
   purpose: Judge a proposed non-code action against the actions Lockstep's side file declares (behavior 5.4)
-  implements: []
-  tests: []
+  implements:
+  - lockstep-plan-format/old-route-checks-stay-while-a-repository-runs-them
+  tests:
+  - tests/lockstep/test_lockstep_action_check.py
 - path: src/lockstep/aes_bridge.py
   purpose: 'Read the AES plan: compiled context per ID and the path-to-artifact map'
   implements:
@@ -21,16 +23,22 @@ layout:
   tests: []
 - path: src/lockstep/behavior_check.py
   purpose: Report a behavior that lacks exactly one source file of its own or a criterion with a test route
-  implements: []
-  tests: []
+  implements:
+  - lockstep-plan-format/old-route-checks-stay-while-a-repository-runs-them
+  tests:
+  - tests/lockstep/test_lockstep_behavior_check.py
 - path: src/lockstep/change_list.py
   purpose: After a plan change, list every file and symbol whose plan text changed, as one list for the agent
-  implements: []
-  tests: []
+  implements:
+  - lockstep-plan-format/old-route-checks-stay-while-a-repository-runs-them
+  tests:
+  - tests/lockstep/test_lockstep_change_list.py
 - path: src/lockstep/change_log.py
   purpose: 'The append-only change log: one entry per accepted plan change, never edited afterwards'
-  implements: []
-  tests: []
+  implements:
+  - lockstep-plan-format/old-route-checks-stay-while-a-repository-runs-them
+  tests:
+  - tests/lockstep/test_lockstep_change_log.py
 - path: src/lockstep/check.py
   purpose: '`pcw check --repo PATH [--base REF] [--json]`: is a whole working tree still on its plan?'
   implements:
@@ -201,8 +209,10 @@ layout:
   tests: []
 - path: src/lockstep/criterion_checks.py
   purpose: 'Check every success criterion names how it is checked: a test, a sign-off or an AI rubric (behavior 2.1)'
-  implements: []
-  tests: []
+  implements:
+  - lockstep-plan-format/old-route-checks-stay-while-a-repository-runs-them
+  tests:
+  - tests/lockstep/test_lockstep_criterion_checks.py
 - path: src/lockstep/decisions.py
   purpose: Read decision records and what each one governs, from the lines they already carry
   implements:
@@ -211,8 +221,10 @@ layout:
   - tests/lockstep/test_lockstep_decisions.py
 - path: src/lockstep/declared_reason.py
   purpose: Refuse a planned file whose declaration gives no reason (behavior 1.3)
-  implements: []
-  tests: []
+  implements:
+  - lockstep-plan-format/old-route-checks-stay-while-a-repository-runs-them
+  tests:
+  - tests/lockstep/test_lockstep_declared_reason.py
 - path: src/lockstep/doc_projection.py
   purpose: Project declared source-local facts into Markdown; never execute source or repository code
   implements:
@@ -225,8 +237,10 @@ layout:
   - tests/lockstep/test_lockstep_init.py
 - path: src/lockstep/docstring_up.py
   purpose: Turn an edit to a docstring's plan text into a draft plan change, which the coding agent accepts
-  implements: []
-  tests: []
+  implements:
+  - lockstep-plan-format/old-route-checks-stay-while-a-repository-runs-them
+  tests:
+  - tests/lockstep/test_lockstep_docstring_up.py
 - path: src/lockstep/hook.py
   purpose: 'Agent edit hook (Claude Code and Codex PreToolUse): warn about, or refuse, an edit to a file the plan does not
     declare (behavior 5.1)'
@@ -268,8 +282,10 @@ layout:
   - tests/lockstep/test_lockstep_layout_plan.py
 - path: src/lockstep/linked_tests.py
   purpose: 'Check tests and criteria link both ways: every named test file exists, every test file is named'
-  implements: []
-  tests: []
+  implements:
+  - lockstep-plan-format/old-route-checks-stay-while-a-repository-runs-them
+  tests:
+  - tests/lockstep/test_lockstep_linked_tests.py
 - path: src/lockstep/openspec_text.py
   purpose: 'Read the OpenSpec requirement a file implements, so the edit hook hands the agent that text instead of the AES
     plan text (behavior 3.7, issue #54)'
@@ -291,8 +307,10 @@ layout:
 - path: src/lockstep/plan_edit.py
   purpose: Name the plan items an edit by hand to the plan file changes, and every file and symbol linked to them (behavior
     3.8)
-  implements: []
-  tests: []
+  implements:
+  - lockstep-plan-format/old-route-checks-stay-while-a-repository-runs-them
+  tests:
+  - tests/lockstep/test_lockstep_plan_edit.py
 - path: src/lockstep/plan_run.py
   purpose: Run one OpenSpec plan with hidden acceptance tests and a departure report (spec plan-run)
   implements:
@@ -304,8 +322,10 @@ layout:
   - tests/lockstep/test_lockstep_plan_run.py
 - path: src/lockstep/plan_to_code.py
   purpose: 'Report where the committed code differs from the plan: a missing file, export or signature'
-  implements: []
-  tests: []
+  implements:
+  - lockstep-plan-format/old-route-checks-stay-while-a-repository-runs-them
+  tests:
+  - tests/lockstep/test_lockstep_plan_to_code.py
 - path: src/lockstep/prior-art.schema.json
   purpose: JSON schema for the per-feature prior-art record (prior-art.json) that ship requires.
   implements: []
@@ -320,8 +340,10 @@ layout:
   - tests/lockstep/test_lockstep_prior_art.py
 - path: src/lockstep/requirement_status.py
   purpose: 'Status that comes up from the code, and one page per requirement: its text, its status and its change log'
-  implements: []
-  tests: []
+  implements:
+  - lockstep-plan-format/old-route-checks-stay-while-a-repository-runs-them
+  tests:
+  - tests/lockstep/test_lockstep_requirement_status.py
 - path: src/lockstep/scaffold.py
   purpose: '`python -m lockstep.scaffold`: create every file the plan declares that does not exist yet'
   implements:
@@ -388,17 +410,23 @@ layout:
   tests: []
 - path: src/lockstep/unplanned_symbols.py
   purpose: Report a top-level function or class the plan does not declare with its types (behavior 1.2)
-  implements: []
-  tests: []
+  implements:
+  - lockstep-plan-format/old-route-checks-stay-while-a-repository-runs-them
+  tests:
+  - tests/lockstep/test_lockstep_unplanned_symbols.py
 - path: src/lockstep/wiki.py
   purpose: Build wiki pages from the plan, the evidence standing and the code docstrings
-  implements: []
-  tests: []
+  implements:
+  - lockstep-plan-format/old-route-checks-stay-while-a-repository-runs-them
+  tests:
+  - tests/lockstep/test_lockstep_wiki_reach.py
 - path: src/lockstep/wiki_reach.py
   purpose: Check every page of a generated wiki is within two links of its front page, each link with a summary (behavior
     6.2)
-  implements: []
-  tests: []
+  implements:
+  - lockstep-plan-format/old-route-checks-stay-while-a-repository-runs-them
+  tests:
+  - tests/lockstep/test_lockstep_wiki_reach.py
 - path: src/lockstep/work_units.py
   purpose: '`lockstep plan units [--repo PATH] [--json]`: is the plan''s work-unit DAG well formed, and what can start now?'
   implements:

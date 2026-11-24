@@ -1,5 +1,7 @@
 """Behavior 3.5: after a plan change, the agent gets one list of every file and symbol linked to a changed item."""
 
+import pytest
+
 import json
 import subprocess
 
@@ -37,6 +39,7 @@ def _aes_linked(proj, changed):
     return linked
 
 
+@pytest.mark.req("lockstep-plan-format/an-aes-plan-repository-s-checks-still-run", existing=True)
 def test_accepted_plan_change_lists_every_linked_file_and_symbol(proj):
     _with_exports(proj)
     sh("aes plan accept plans/plan-002.yaml && git add -A && git commit -q -m 'plan 2'", proj)

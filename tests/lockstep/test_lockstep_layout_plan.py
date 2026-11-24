@@ -292,3 +292,13 @@ def test_a_fixed_file_with_no_plan_copy_fails_the_check(lay):
     _layout(lay)
     run = subprocess.run([str(BIN / "lockstep"), "check", "project", "--check"], cwd=lay, capture_output=True, text=True, env=ENV)
     assert "no-copy" not in run.stdout, run.stdout
+
+
+@pytest.mark.req("lockstep-plan-format/a-refusal-points-to-lockstep-show-not-the-wiki")
+def test_a_refusal_in_a_layout_repository_points_to_lockstep_show(lay, monkeypatch, capsys):
+    _layout(lay)
+    call = {"hook_event_name": "PreToolUse", "cwd": str(lay), "tool_name": "Write",
+            "tool_input": {"file_path": str(lay / "src/greeter/extra.py"), "content": "x = 1\n"}}
+    reason = _hook(call, monkeypatch, capsys)["permissionDecisionReason"]
+    assert "uv run lockstep show" in reason, reason
+    assert "lockstep.wiki" not in reason, reason

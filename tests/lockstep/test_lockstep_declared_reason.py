@@ -1,5 +1,7 @@
 """Behavior 1.3: a planned file whose declaration gives no reason is refused."""
 
+import pytest
+
 import yaml
 
 from lockstep_support import REPO, sh
@@ -33,6 +35,7 @@ target_delta:
 """
 
 
+@pytest.mark.req("lockstep-plan-format/an-aes-plan-repository-s-checks-still-run", existing=True)
 def test_a_file_with_an_empty_reason_list_is_reported():
     plan = {"planned_artifacts": [
         {"id": "ART-A", "locator": {"exact_path": "src/a.py"}, "semantic_justification_refs": ["BEH-1"]},

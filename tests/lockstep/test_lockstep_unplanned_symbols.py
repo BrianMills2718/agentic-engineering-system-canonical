@@ -1,5 +1,7 @@
 """Behavior 1.2: a top-level function or class the plan does not declare with its types is reported."""
 
+import pytest
+
 import yaml
 
 from lockstep_support import REPO
@@ -37,6 +39,7 @@ def _write(tmp_path):
     return tmp_path
 
 
+@pytest.mark.req("lockstep-plan-format/an-aes-plan-repository-s-checks-still-run", existing=True)
 def test_declared_typed_symbols_are_not_reported(tmp_path):
     root = _write(tmp_path)
     assert symbol_problems(root, _plan("greet(name: str) -> str", "shout(name: str) -> str", "Greeter")) == []

@@ -1,5 +1,7 @@
 """Behavior 3.6: an edit to a docstring's plan text becomes a draft plan change, accepted by the agent when it is confident or the change is not significant, otherwise by a person."""
 
+import pytest
+
 import shutil
 
 import yaml
@@ -38,6 +40,7 @@ def _edit(proj, old, new):
     (proj / REL).write_text(text.replace(old, new, 1))
 
 
+@pytest.mark.req("lockstep-plan-format/an-aes-plan-repository-s-checks-still-run", existing=True)
 def test_an_edit_becomes_a_draft_and_the_plan_waits_for_acceptance(proj):
     plan_before = (proj / ".aes/target.yaml").read_text()
     copy_before = (proj / REL).read_text()

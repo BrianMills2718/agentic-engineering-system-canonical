@@ -1,5 +1,7 @@
 """Behavior 2.2: every test file a criterion names exists, and every test file is named by a criterion."""
 
+import pytest
+
 import yaml
 
 from lockstep_support import REPO, sh
@@ -13,6 +15,7 @@ def _route(proj, locator):
     path.write_text(yaml.safe_dump(t, sort_keys=False))
 
 
+@pytest.mark.req("lockstep-plan-format/an-aes-plan-repository-s-checks-still-run", existing=True)
 def test_linked_both_ways_reports_nothing(proj):
     r = link_report(proj)
     assert r.dangling == r.unnamed == r.unbuilt == []

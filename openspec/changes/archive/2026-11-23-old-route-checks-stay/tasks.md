@@ -1,0 +1,3 @@
+- [x] Search every repository in ~/code2 for callers of the 14 modules (proposal.md).
+- [x] One requirement; each module's layout row names it and its test file.
+- [x] One existing test per module marked for the scenario (`existing=True`).

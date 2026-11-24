@@ -49,6 +49,7 @@ def _accept(proj, tmp_path, pid, title, body, minutes):
     sh(f"git add -A && git commit -q -m 'plan: {pid}'", proj)
 
 
+@pytest.mark.req("lockstep-plan-format/an-aes-plan-repository-s-checks-still-run", existing=True)
 def test_two_normative_changes_add_two_entries_and_leave_earlier_ones_unchanged(proj, tmp_path):
     before = entries(proj)
     assert [e["id"] for e in before] == ["PLAN-001-GREET"]

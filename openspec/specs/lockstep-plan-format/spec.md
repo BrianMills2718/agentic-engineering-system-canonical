@@ -71,9 +71,9 @@ Source: Brian, 2026-11-20, "yes" to proving Lockstep on a from-scratch repositor
 
 ### Requirement: Every refusal in a layout repository names a layout command
 
-In a layout repository, the whole-tree commit check SHALL judge a planned file's docstring exactly as the edit hook does, and its stale reason SHALL name `uv run lockstep check project`. A refusal for an undeclared, removed or retyped public symbol SHALL name the file's layout row `exports:` in lockstep.yaml as where to declare it. A repository with `.aes/target.yaml` SHALL keep its current wording.
+In a layout repository, the whole-tree commit check SHALL judge a planned file's docstring exactly as the edit hook does, and its stale reason SHALL name `uv run lockstep check project`. A refusal for an undeclared, removed or retyped public symbol SHALL name the file's layout row `exports:` in lockstep.yaml as where to declare it. Every edit-hook refusal SHALL end by pointing to the layout rows in `lockstep.yaml` and to `uv run lockstep show <file>`, and SHALL NOT point to `python -m lockstep.wiki`, which needs an AES plan. A repository with `.aes/target.yaml` SHALL keep its current wording.
 
-Source: Brian, 2026-11-20, "yes" to proving Lockstep on a from-scratch repository (`docs/planning/next.goal.md`, step 3), whose rerun was blocked at commit by a check naming `.aes/target.yaml`; the rule itself inferred by agent.
+Source: Brian, 2026-11-20, "yes" to proving Lockstep on a from-scratch repository (`docs/planning/next.goal.md`, step 3), whose rerun was blocked at commit by a check naming `.aes/target.yaml`; the rule itself inferred by agent. The refusal pointer added 2026-11-23 after `python -m lockstep.wiki` was found to crash in a layout repository (inferred by agent, while carrying out Q54).
 
 #### Scenario: The commit check judges an Implements block the same way
 
@@ -87,6 +87,12 @@ Source: Brian, 2026-11-20, "yes" to proving Lockstep on a from-scratch repositor
 - **WHEN** an agent's edit adds a public function its layout row does not export, under `PCW_MODE=block`
 - **THEN** the edit is refused naming the row's `exports:` in lockstep.yaml and not `aes plan`
 
+#### Scenario: A refusal points to lockstep show, not the wiki
+
+- **GIVEN** a layout repository with no `.aes/` folder
+- **WHEN** the edit hook refuses a write to an unplanned file
+- **THEN** the refusal names `uv run lockstep show` and does not name `python -m lockstep.wiki`
+
 ### Requirement: Lockstep governs its own package
 
 The design this repository ships says: Its opinionated approach starts with planned structure: name the behavioral units, the files that hold them, their public typed seams, the requirements they implement and the tests or other checks that establish success. Then implement inside those boundaries. In the layout route, OpenSpec owns behavior and `lockstep.yaml` owns file purpose, requirement links, test paths and optional exports. This repository SHALL follow it for its own package: its `lockstep.yaml` SHALL list `src/lockstep/` under `governed:`, SHALL mark it `fixed:`, and SHALL have one `layout:` row for every file tracked under `src/lockstep/`; its `.claude/settings.json` and `.codex/hooks.json` SHALL run `lockstep-hook` before edits.
@@ -98,3 +104,22 @@ Source: Brian, 2026-11-23, "i approve" to turning the full system on in AES (`do
 - **GIVEN** this repository at HEAD
 - **WHEN** its `lockstep.yaml` and client settings are read
 - **THEN** every tracked file under `src/lockstep/` has a layout row, `src/lockstep/` is governed and fixed, both client settings run `lockstep-hook` on PreToolUse, and the hook refuses a write to `src/lockstep/not_planned.py`
+
+### Requirement: Old-route checks stay while a repository runs them
+
+For a repository with `.aes/target.yaml`, Lockstep SHALL keep the checks that plan route uses, each runnable as
+`python -m lockstep.<name>` and `python -m pcw.<name>`: `action_check`, `behavior_check`, `change_list`,
+`change_log`, `criterion_checks`, `declared_reason`, `docstring_up`, `linked_tests`, `plan_edit`, `plan_to_code`,
+`requirement_status`, `unplanned_symbols`, `wiki` and `wiki_reach`. One SHALL be retired, with a dated record under
+`docs/retired/`, only once no repository in `~/code2` runs it (code2-workspace decision 0009: `.aes/target.yaml`
+retires one repository at a time).
+
+Source: Brian, 2026-11-23: "i approve", to Q54 in `docs/planning/open-questions.json` ("write one requirement for
+the ones the core calls; retire the rest"); the 2026-11-23 search found all 14 still run, so none retired (inferred by
+agent from that search).
+
+#### Scenario: An AES-plan repository's checks still run
+
+- **GIVEN** a repository with `.aes/target.yaml`
+- **WHEN** its Makefile or edit hook runs one of the 14 checks
+- **THEN** the check runs as before, as each module's own tests show

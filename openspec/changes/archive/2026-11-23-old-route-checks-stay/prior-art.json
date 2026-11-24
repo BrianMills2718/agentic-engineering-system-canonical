@@ -1,0 +1,14 @@
+{
+  "need": "Give the 14 old-route Lockstep modules a requirement, or retire them (Q54).",
+  "searched": [
+    {"place": "own", "where": "src/lockstep/, and every repository in ~/code2 (Makefile, lefthook.yml, hook settings, scripts)", "query": "lockstep.<module>, pcw.<module>, imports of the 14", "found": "All 14 are still called: by this repository's hook and check on the .aes branch, or by Team-Brains, lifelike, lockstep and plan-code-wiki."},
+    {"place": "own", "where": "openspec/specs/lockstep-plan-format/spec.md", "query": ".aes/target.yaml read as before", "found": "The plan-format requirement says an AES plan is still read, but names none of these checks or when they may go."}
+  ],
+  "candidates": [
+    {"name": "Retire through docs/retired/", "url": "docs/retired/2026-11-12.md", "covers": "Removing unused code with a restore command.", "misses": "Every module is still run somewhere; retiring now breaks those repositories on their next Lockstep update.", "verdict": "reject", "reason": "Not unused."},
+    {"name": "lockstep-plan-format/the-plan-is-openspec-plus-layout-rows", "url": "openspec/specs/lockstep-plan-format/spec.md", "covers": "An AES-plan repository is read as before.", "misses": "Which checks stay and the condition for retiring each.", "verdict": "reject", "reason": "Too broad to tell an agent when one of these may be removed."}
+  ],
+  "decision": "build",
+  "gap": "One requirement text, layout rows and test marks; no code.",
+  "decided": "2026-11-23"
+}
