@@ -13,7 +13,8 @@ messages:
       may do the same job: the same input turned into the same kind of result, whatever the names,
       variable names or wording. Name nothing when no existing function is a plausible match. Do
       not name a function only because it lives in the same file or shares a word with the new
-      one. When several existing functions qualify, name the closest matches first. Copy each id exactly as it appears in the index, up to the opening bracket.
+      one. Return exactly one item for every new function, with an empty list when nothing matches.
+      When several existing functions qualify, name the closest matches first. Copy each id exactly as it appears in the index, up to the opening bracket.
 
       <index>
       {{ index }}

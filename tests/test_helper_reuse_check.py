@@ -34,10 +34,6 @@ NEW_JOB = '''def roman(n):
             n -= v
     return out
 '''
-# Recorded call (trace aes/helper-reuse/0f882a1f8/candidates, 2026-11-24): 45,739 prompt tokens for a rendered
-# prompt of 170,364 characters (1,280 indexed functions, 12 new ones), so 3.72 characters per token.
-CHARS_PER_TOKEN = 3.72
-INPUT_BUDGET_TOKENS = 60_000
 
 
 def git(root, *args):
@@ -59,8 +55,9 @@ def repo(tmp_path, files):
 class Fake:
     """Stands in for the model: names candidates by a fixed map and judges by a fixed verdict."""
 
-    def __init__(self, candidates, verdict="same_job", fail=False):
+    def __init__(self, candidates, verdict="same_job", fail=False, judge=None, drop=False):
         self.candidates, self.verdict, self.fail, self.calls = candidates, verdict, fail, []
+        self.judge, self.drop = judge, drop
 
     def __call__(self, model, messages, response_model, trace_id):
         self.calls.append((trace_id, messages))
@@ -68,8 +65,11 @@ class Fake:
             raise RuntimeError("provider down")
         ctx = messages[0]["context"]
         if response_model is h._Candidates:
-            return h._Candidates(items=[h._Candidate(new_id=f["id"], existing_ids=self.candidates.get(f["id"], []))
-                                        for f in ctx["new_functions"]]), 0.01
+            items = [h._Candidate(new_id=f["id"], existing_ids=self.candidates.get(f["id"], []))
+                     for f in ctx["new_functions"]]
+            return h._Candidates(items=items[1:] if self.drop else items), 0.01
+        if self.judge is not None:
+            return h._Verdicts(items=self.judge), 0.002
         return h._Verdicts(items=[h._Verdict(new_id=p["id"], verdict=self.verdict,
                                              existing_id=p["candidates"][0]["id"], reason="same steps")
                                   for p in ctx["pairs"]]), 0.002
@@ -202,14 +202,112 @@ def test_head_revision_reads_a_commit_not_the_working_tree(tmp_path, capsys, fak
     assert h.main(["--repo", str(root), "--base", "main", "--head", "HEAD"]) == 1
 
 
-def test_candidates_prompt_for_the_largest_real_case_fits_the_input_budget():
-    """This repository's whole index plus the largest recorded batch (slice 3's ratchet script) stays in budget."""
+def _real_case():
     old = {}
     for p in sorted((ROOT / "src").rglob("*.py")) + sorted((ROOT / "scripts").rglob("*.py")):
         old.update(h._functions(str(p.relative_to(ROOT)), p.read_text()))
     new = list(h._functions("scripts/maintainability_ratchet.py",
                             (ROOT / "scripts" / "maintainability_ratchet.py").read_text()).values())
+    return old, new
+
+
+def _template_chars(name):
+    return len((h.PROMPTS / name).read_text())
+
+
+def test_candidates_prompt_for_the_largest_real_case_fits_the_input_budget():
+    """This repository's whole index plus the largest recorded batch (slice 3's ratchet script, 16 functions)."""
+    old, new = _real_case()
     ctx = h._candidates_context(old, new)
-    chars = (len((h.PROMPTS / "candidates.yaml").read_text()) + len(ctx["index"])
+    chars = (_template_chars("candidates.yaml") + len(ctx["index"])
              + sum(len(f["id"]) + len(f["source"]) for f in ctx["new_functions"]))
-    assert chars / CHARS_PER_TOKEN <= INPUT_BUDGET_TOKENS
+    assert chars / h.CHARS_PER_TOKEN <= h.INPUT_BUDGET_TOKENS
+
+
+def test_judge_batches_for_the_worst_real_case_each_fit_the_input_budget():
+    """The same batch, each new function paired with the three longest existing functions: split into calls that fit."""
+    old, new = _real_case()
+    longest = sorted(old.values(), key=lambda f: len(f["source"]))[-3:]
+    pairs = [{"id": f["id"], "source": f["source"], "candidates": [{"id": c["id"], "source": c["source"]}
+                                                                    for c in longest]} for f in new]
+    batches = h._batches(pairs)
+    assert len(batches) > 1 and sum(len(b) for b in batches) == len(pairs)
+    for b in batches:
+        chars = _template_chars("judge.yaml") + sum(h._pair_chars(p) for p in b)
+        assert chars / h.CHARS_PER_TOKEN <= h.INPUT_BUDGET_TOKENS
+
+
+def test_a_prompt_over_the_budget_fails_before_any_call(tmp_path, capsys, fake, monkeypatch):
+    root = repo(tmp_path, {"src/a.py": SLUG})
+    (root / "src/b.py").write_text(REWRITE)
+    f = fake({})
+    monkeypatch.setattr(h, "INPUT_BUDGET_TOKENS", 1)
+    monkeypatch.setattr(h, "_render", lambda template, **ctx: [{"role": "user", "content": "x" * 100, "context": ctx}])
+    code, out = run(root, capsys)
+    assert code == 2 and f.calls == []
+
+
+@pytest.mark.parametrize("name", ["candidates.yaml", "judge.yaml"])
+def test_templates_use_only_the_context_the_script_passes(name):
+    """The templates are rendered by llm_client, which this repository's tests do not install; check their names."""
+    import re
+
+    text = (h.PROMPTS / name).read_text()
+    used = set(re.findall(r"\{\{\s*([a-z_]+)", text)) | set(re.findall(r"\{%\s*for\s+\w+\s+in\s+([a-z_]+)", text))
+    loops = set(re.findall(r"\{%\s*for\s+(\w+)\s+in", text))
+    given = {"candidates.yaml": {"index", "new_functions"}, "judge.yaml": {"pairs"}}[name]
+    assert used - loops == given
+    if name == "candidates.yaml":  # the unchanging index comes before the per-branch part, for caching
+        assert text.index("{{ index }}") < text.index("role: user")
+
+
+def test_a_missing_verdict_fails_closed(tmp_path, capsys, fake):
+    root = repo(tmp_path, {"src/a.py": SLUG})
+    (root / "src/b.py").write_text(REWRITE)
+    fake({"src/b.py::make_key": ["src/a.py::slug"]}, judge=[])
+    code, out = run(root, capsys)
+    assert code == 2 and "tool-failed" in out
+
+
+def test_a_verdict_naming_a_function_outside_its_candidates_fails_closed(tmp_path, capsys, fake):
+    root = repo(tmp_path, {"src/a.py": SLUG})
+    (root / "src/b.py").write_text(REWRITE)
+    bad = [h._Verdict(new_id="src/b.py::make_key", verdict="same_job", existing_id="src/x.py::other", reason="r")]
+    fake({"src/b.py::make_key": ["src/a.py::slug"]}, judge=bad)
+    code, _ = run(root, capsys)
+    assert code == 2
+    assert not list((root / ".git" / "helper-reuse").glob("*.json"))[1:]  # the rejected answer is not cached
+
+
+def test_a_candidates_answer_missing_a_function_fails_closed(tmp_path, capsys, fake):
+    root = repo(tmp_path, {"src/a.py": SLUG})
+    (root / "src/b.py").write_text(REWRITE + "\n\n" + NEW_JOB)
+    fake({}, drop=True)
+    code, _ = run(root, capsys)
+    assert code == 2
+
+
+def test_a_file_that_does_not_parse_fails_closed(tmp_path, capsys, fake):
+    root = repo(tmp_path, {"src/a.py": SLUG})
+    (root / "src/b.py").write_text("def broken(:\n")
+    fake({})
+    code, _ = run(root, capsys)
+    assert code == 2
+
+
+def test_a_function_renamed_in_place_is_not_new(tmp_path, capsys, fake):
+    root = repo(tmp_path, {"src/a.py": SLUG})
+    (root / "src/a.py").write_text(SLUG.replace("def slug(", "def to_slug("))
+    f = fake({})
+    code, out = run(root, capsys)
+    assert code == 0 and "new_functions=0" in out and f.calls == []
+
+
+def test_a_renamed_and_edited_file_keeps_its_functions(tmp_path, capsys, fake):
+    root = repo(tmp_path, {"src/a.py": SLUG + "\n\n" + NEW_JOB})
+    git(root, "mv", "src/a.py", "src/c.py")
+    (root / "src/c.py").write_text(SLUG.replace("out = name.lower()", "out = name.lower().strip()") + "\n\n" + NEW_JOB)
+    git(root, "add", "-A")
+    f = fake({})
+    code, out = run(root, capsys)
+    assert code == 0 and "new_functions=0" in out and f.calls == []
