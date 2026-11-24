@@ -95,7 +95,12 @@ departure report now skips a row's test file and `docs/specs/` links. Slice 2 is
 
 **Markdown cap, 2026-11-24** (Brian: "i approve" to trimming to the 100-file cap): the 100-file cap was never in `make check`, and the exception had grown to 136 while the tree held 379 Markdown files. The OpenSpec change archive (273 files, 230 Markdown) is removed ([record and restore command](../docs/retired/2026-11-24.md)); references to it point at pinned GitHub copies. `make check` now runs `check-md-cap`; the exception is 149, the exact count, and only goes down.
 
-**Next:** a list of `docs/` files to merge or retire goes to Brian before any is changed, to reach 100; then layout rows so every tracked file is planned, replacing the hand catalog (`wiki/documents.md`, PR #861 parked).
+**Next:** the list of `docs/` files to merge or retire is with Brian (sent 2026-11-24; nothing changed until he answers), to reach 100; then layout rows so every tracked file is planned, replacing the hand catalog (`wiki/documents.md`, PR #861 parked); then a Lockstep check that refuses a lint or type suppression an agent adds (`# noqa`, `# type: ignore`, an import-linter ignore) unless the same line names its reason, shipped in the template's `make check`.
+
+**Parking list** (slices of the plan, in order; Brian 2026-11-24: "i approve adding the redit ideas to the plan and i will trust your jdugement on the impelemtnation prirotiy", after the [Reddit thread](https://www.reddit.com/r/ClaudeAI/comments/1y1my5l/) review; the thread's fourth idea, two tries per bug then revert, is already a workspace rule, Policy `two-tries-then-reset`):
+
+1. Maintainability checker with one job, piloted here: duplicate code (`pylint` duplicate-code or `jscpd`), an existing helper rewritten under a new name, swallowed errors (`ruff` BLE/S110), complexity (`ruff` C901) and files that keep growing. Measure a baseline on AES first; the check fails only on new findings.
+2. Mutation testing (`mutmut`) run nightly on one repository, to show the existing tests fail when the code they cover is broken; test-first already covers new tests.
 
 # AES assessment (2026-11-19)
 
