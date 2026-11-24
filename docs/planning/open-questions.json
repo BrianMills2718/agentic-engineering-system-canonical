@@ -889,9 +889,9 @@
    "resolves_with": "Count requirements in each order and run the spec reader test on both.",
    "recommendation": "Yes: one order, checked; the reader accepts both today only as a repair.",
    "default": "The reader keeps accepting both orders.",
-   "evidence": "12 requirements put `Source:` first and read as empty (#1019); one had no blank line between them (external-idea-intake).",
+   "evidence": "12 requirements put `Source:` first and read as empty (#1019); one had no blank line between them (external-idea-intake). Resolved 2026-11-23 by the recommendation (Brian: \"i approve\"): lockstep check sources fails on a requirement whose Source: line comes before its statement (source-first); the 11 such requirements were reordered; AES make check runs make check-source-order (OpenSpec change 2026-11-23-statement-before-source, archived).",
    "owner": "agent",
-   "status": "open",
+   "status": "resolved",
    "touches": [
     "lockstep-today"
    ],
@@ -925,9 +925,9 @@
    "resolves_with": "Compare the two specs scenario by scenario; move anything unique into lockstep-doc-facts.",
    "recommendation": "Keep only the general spec and state in AES config that AES uses it.",
    "default": "The 5 stay on the accepted list.",
-   "evidence": "Its 3 scenarios have no tests and its 2 requirements repeat lockstep-doc-facts.",
+   "evidence": "Its 3 scenarios have no tests and its 2 requirements repeat lockstep-doc-facts. Resolved 2026-11-23 by the recommendation (Brian: \"i approve\"): compared scenario by scenario, nothing unique; aes-documentation-projection retired (OpenSpec change 2026-11-23-drop-aes-doc-projection-copy, archived), lockstep.yaml notes that its projections follow lockstep-doc-facts, and the 5 findings left trace-accepted.txt.",
    "owner": "agent",
-   "status": "open",
+   "status": "resolved",
    "touches": [
     "lockstep-today"
    ],

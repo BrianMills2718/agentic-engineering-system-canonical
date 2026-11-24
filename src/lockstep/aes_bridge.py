@@ -7,12 +7,12 @@ Implements: lockstep-plan-format/the-plan-is-openspec-plus-layout-rows
 
 ### Requirement: The plan is OpenSpec plus layout rows
 
-Source: Brian, 2026-11-11, approving the one-tool design as written ("i approve single tool desing re d4"; `proposals/one-planning-tool/DESIGN.md`, slice 2: "Lockstep reads requirements from OpenSpec ... and layout from `lockstep.yaml`. `.aes/target.yaml` stays readable until lifelike and Team-Brains move off it").
-
 In a repository whose `lockstep.yaml` has a `layout:` list and which has no `.aes/target.yaml`, Lockstep SHALL take the
 planned files from the `layout:` rows (path, purpose, the OpenSpec requirements it implements, its tests, optionally
 its typed exports), the governed folders from `governed:`, and the requirement text from OpenSpec. A repository with
 `.aes/target.yaml` SHALL be read as before.
+
+Source: Brian, 2026-11-11, approving the one-tool design as written ("i approve single tool desing re d4"; `proposals/one-planning-tool/DESIGN.md`, slice 2: "Lockstep reads requirements from OpenSpec ... and layout from `lockstep.yaml`. `.aes/target.yaml` stays readable until lifelike and Team-Brains move off it").
 
 #### Scenario: The layout is laid out with first docstrings
 

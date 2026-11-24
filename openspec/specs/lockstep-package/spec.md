@@ -8,10 +8,10 @@ Lockstep, the one planning-and-checking tool, installs from this repository, and
 
 ### Requirement: Lockstep installs from AES canonical
 
-Source: Brian, 2026-11-11, approving the one-tool design as written ("i approve single tool desing re d4"; `proposals/one-planning-tool/DESIGN.md`, slice 1).
-
 Installing this repository SHALL provide the Python package `lockstep` and the commands `lockstep` and
 `lockstep-hook`, which run Lockstep's whole-tree check and its agent edit hook.
+
+Source: Brian, 2026-11-11, approving the one-tool design as written ("i approve single tool desing re d4"; `proposals/one-planning-tool/DESIGN.md`, slice 1).
 
 #### Scenario: The check runs from an install
 
@@ -21,10 +21,10 @@ Installing this repository SHALL provide the Python package `lockstep` and the c
 
 ### Requirement: The old pcw names keep working
 
-Source: Brian, 2026-11-11, approving the one-tool design as written; its slice 1 says "`pcw` and `pcw-hook` stay as alias entry points so lifelike and Team-Brains' vendored runner keep working".
-
 The commands `pcw` and `pcw-hook`, `python -m pcw.<module>` and cog blocks that say `import pcw.cogtext as c`
 SHALL run the same code as their `lockstep` names, until every user has moved.
+
+Source: Brian, 2026-11-11, approving the one-tool design as written; its slice 1 says "`pcw` and `pcw-hook` stay as alias entry points so lifelike and Team-Brains' vendored runner keep working".
 
 #### Scenario: An old module path runs the new code
 

@@ -245,7 +245,6 @@ Added after the 419-file inventory; the ecosystem page owns their interpretation
 - [openspec/changes/archive/2026-11-13-self-adopt-projection](#openspecchangesarchive2026-11-13-self-adopt-projection) (2 files)
 - [openspec/changes/archive/2026-11-13-self-adopt-projection/specs/aes-documentation-projection](#openspecchangesarchive2026-11-13-self-adopt-projectionspecsaes-documentation-projection) (1 files)
 - [openspec/specs](#openspecspecs) (1 files)
-- [openspec/specs/aes-documentation-projection](#openspecspecsaes-documentation-projection) (1 files)
 - [openspec/specs/inert-characterization](#openspecspecsinert-characterization) (1 files)
 - [openspec/specs/lockstep-checks](#openspecspecslockstep-checks) (1 files)
 - [openspec/specs/lockstep-doc-facts](#openspecspecslockstep-doc-facts) (1 files)
@@ -758,10 +757,6 @@ Added after the 419-file inventory; the ecosystem page owns their interpretation
 ## openspec/specs
 
 - **[.gitkeep](../openspec/specs/.gitkeep)** — Empty tracked placeholder retaining the directory in Git, with no substantive requirement or history. **Role:** placeholder. **Disposition:** keep.
-
-## openspec/specs/aes-documentation-projection
-
-- **[spec.md](../openspec/specs/aes-documentation-projection/spec.md)** — Requires AES source-owned assessment projection and a read-only facts gate, with native-edit, bypass-refusal and recovery scenarios. **Role:** normative specification. **Disposition:** keep.
 
 ## openspec/specs/inert-characterization
 

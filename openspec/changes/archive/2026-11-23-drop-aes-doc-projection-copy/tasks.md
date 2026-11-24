@@ -1,0 +1,3 @@
+- [x] Compare the two specs scenario by scenario (proposal.md).
+- [x] Remove both requirements; note in `lockstep.yaml` that AES's projections follow `lockstep-doc-facts`.
+- [x] Drop the 5 findings from `docs/planning/trace-accepted.txt`; repoint links.

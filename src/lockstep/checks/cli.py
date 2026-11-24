@@ -276,9 +276,14 @@ def _sources(root: Path, args: argparse.Namespace, cfg: Config) -> int:
     for i in missing:
         print(f"no-source     {i.id}  ({i.where}); add a line: Source: Brian, <date>: \"<quote>\" or "
               "Source: inferred by agent (<basis>)", file=sys.stderr if args.json else sys.stdout)
+    first = [i for i in items if i.source_first]
+    for i in first:
+        print(f"source-first  {i.id}  ({i.where}); put the statement first and the Source: line after it",
+              file=sys.stderr if args.json else sys.stdout)
+    failed = bool(missing or first)
     counts = {k: sum(i.source == k for i in items) for k in ("brian", "inferred", "other", "missing")}
-    print("RESULT sources " + " ".join(f"{k}={v}" for k, v in counts.items()) + f" exit={int(bool(missing))}")
-    return int(bool(missing))
+    print("RESULT sources " + " ".join(f"{k}={v}" for k, v in counts.items()) + f" source_first={len(first)} exit={int(failed)}")
+    return int(failed)
 
 
 def _docmeta(root: Path, args: argparse.Namespace, cfg: Config) -> int:

@@ -123,9 +123,11 @@ layout:
   implements:
   - lockstep-projection/requirement-text-is-written-into-the-implementing-docstring
   - lockstep-projection/status-flows-back-into-the-plan
+  - lockstep-projection/a-fixed-planned-file-without-a-plan-copy-is-reported
   tests:
   - tests/lockstep/checks/test_lockstep_check_plugin.py
   - tests/lockstep/checks/test_lockstep_check_project.py
+  - tests/lockstep/test_lockstep_layout_plan.py
 - path: src/lockstep/checks/quotes.py
   purpose: 'Marked quotes: passages of requirement text copied into Markdown documents, compared with the specs'
   implements:
@@ -142,6 +144,7 @@ layout:
   purpose: 'Sources check: every requirement and decision record says where it came from'
   implements:
   - lockstep-checks/sources-every-normative-item-names-its-source
+  - lockstep-checks/sources-the-statement-comes-before-its-source-line
   tests:
   - tests/lockstep/checks/test_lockstep_check_sources.py
 - path: src/lockstep/checks/spec.py
@@ -402,6 +405,8 @@ layout:
   - lockstep-plan-check/work-units-form-a-checked-dag
   tests:
   - tests/lockstep/test_lockstep_work_units.py
+# These declared fact blocks follow the general lockstep-doc-facts capability (openspec/specs/lockstep-doc-facts);
+# AES keeps no separate spec for them (Brian, 2026-11-23: "i approve", to Q51).
 projections:
   - id: projection-component-assessment
     source: src/lockstep/doc_projection.py

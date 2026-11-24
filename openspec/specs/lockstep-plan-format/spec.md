@@ -8,12 +8,12 @@ Lockstep's one plan format: OpenSpec for what the code must do, plus `layout:` r
 
 ### Requirement: The plan is OpenSpec plus layout rows
 
-Source: Brian, 2026-11-11, approving the one-tool design as written ("i approve single tool desing re d4"; `proposals/one-planning-tool/DESIGN.md`, slice 2: "Lockstep reads requirements from OpenSpec ... and layout from `lockstep.yaml`. `.aes/target.yaml` stays readable until lifelike and Team-Brains move off it").
-
 In a repository whose `lockstep.yaml` has a `layout:` list and which has no `.aes/target.yaml`, Lockstep SHALL take the
 planned files from the `layout:` rows (path, purpose, the OpenSpec requirements it implements, its tests, optionally
 its typed exports), the governed folders from `governed:`, and the requirement text from OpenSpec. A repository with
 `.aes/target.yaml` SHALL be read as before.
+
+Source: Brian, 2026-11-11, approving the one-tool design as written ("i approve single tool desing re d4"; `proposals/one-planning-tool/DESIGN.md`, slice 2: "Lockstep reads requirements from OpenSpec ... and layout from `lockstep.yaml`. `.aes/target.yaml` stays readable until lifelike and Team-Brains move off it").
 
 #### Scenario: The layout is laid out with first docstrings
 
@@ -53,9 +53,9 @@ its typed exports), the governed folders from `governed:`, and the requirement t
 
 ### Requirement: A planned file without a cog plan copy is judged by its Implements block
 
-Source: Brian, 2026-11-20, "yes" to proving Lockstep on a from-scratch repository (`docs/planning/next.goal.md`, step 3), where every edit to a planned file that predated its layout row was refused; the rule itself inferred by agent from `proposals/one-planning-tool/DESIGN.md` ("one projector ... fed from OpenSpec").
-
 In a layout repository, the edit hook SHALL treat a planned file that holds no cog plan copy as current when `lockstep check project` would not change it, and as stale when that command would rewrite its generated `Implements:` requirement text. A stale file's refusal SHALL name `uv run lockstep check project`, and running that command SHALL clear it. A file with a cog plan copy, and a repository with `.aes/target.yaml`, SHALL be judged as before.
+
+Source: Brian, 2026-11-20, "yes" to proving Lockstep on a from-scratch repository (`docs/planning/next.goal.md`, step 3), where every edit to a planned file that predated its layout row was refused; the rule itself inferred by agent from `proposals/one-planning-tool/DESIGN.md` ("one projector ... fed from OpenSpec").
 
 #### Scenario: An existing file with a current Implements block can be edited
 
@@ -71,9 +71,9 @@ In a layout repository, the edit hook SHALL treat a planned file that holds no c
 
 ### Requirement: Every refusal in a layout repository names a layout command
 
-Source: Brian, 2026-11-20, "yes" to proving Lockstep on a from-scratch repository (`docs/planning/next.goal.md`, step 3), whose rerun was blocked at commit by a check naming `.aes/target.yaml`; the rule itself inferred by agent.
-
 In a layout repository, the whole-tree commit check SHALL judge a planned file's docstring exactly as the edit hook does, and its stale reason SHALL name `uv run lockstep check project`. A refusal for an undeclared, removed or retyped public symbol SHALL name the file's layout row `exports:` in lockstep.yaml as where to declare it. A repository with `.aes/target.yaml` SHALL keep its current wording.
+
+Source: Brian, 2026-11-20, "yes" to proving Lockstep on a from-scratch repository (`docs/planning/next.goal.md`, step 3), whose rerun was blocked at commit by a check naming `.aes/target.yaml`; the rule itself inferred by agent.
 
 #### Scenario: The commit check judges an Implements block the same way
 

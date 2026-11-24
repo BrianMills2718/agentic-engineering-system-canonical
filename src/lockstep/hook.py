@@ -87,10 +87,10 @@ Source: Brian, 2026-11-11: "i approve single tool desing re d4" (proposals/one-p
 
 ### Requirement: Lockstep installs from AES canonical
 
-Source: Brian, 2026-11-11, approving the one-tool design as written ("i approve single tool desing re d4"; `proposals/one-planning-tool/DESIGN.md`, slice 1).
-
 Installing this repository SHALL provide the Python package `lockstep` and the commands `lockstep` and
 `lockstep-hook`, which run Lockstep's whole-tree check and its agent edit hook.
+
+Source: Brian, 2026-11-11, approving the one-tool design as written ("i approve single tool desing re d4"; `proposals/one-planning-tool/DESIGN.md`, slice 1).
 
 #### Scenario: The check runs from an install
 
