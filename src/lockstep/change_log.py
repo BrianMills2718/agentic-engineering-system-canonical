@@ -19,10 +19,11 @@ Implements: lockstep-plan-format/old-route-checks-stay-while-a-repository-runs-t
 
 ### Requirement: Old-route checks stay while a repository runs them
 
-For a repository with `.aes/target.yaml`, Lockstep SHALL keep the checks that plan route uses, each runnable as
-`python -m lockstep.<name>` and `python -m pcw.<name>`: `action_check`, `behavior_check`, `change_list`,
-`change_log`, `criterion_checks`, `declared_reason`, `docstring_up`, `linked_tests`, `plan_edit`, `plan_to_code`,
-`requirement_status`, `unplanned_symbols`, `wiki` and `wiki_reach`. One SHALL be retired, with a dated record under
+For a repository with `.aes/target.yaml`, Lockstep SHALL keep the checks that plan route uses, each importable as
+`lockstep.<name>` and `pcw.<name>`, and runnable as `python -m` under both names where it has a command line:
+`action_check`, `behavior_check`, `change_list`, `change_log`, `criterion_checks`, `declared_reason`,
+`docstring_up`, `linked_tests`, `plan_edit`, `plan_to_code`, `requirement_status`, `unplanned_symbols`, `wiki` and
+`wiki_reach`. One SHALL be retired, with a dated record under
 `docs/retired/`, only once no repository in `~/code2` runs it (code2-workspace decision 0009: `.aes/target.yaml`
 retires one repository at a time).
 

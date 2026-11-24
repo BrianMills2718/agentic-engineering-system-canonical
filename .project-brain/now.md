@@ -68,7 +68,7 @@ now empty. `make check` also fails on a stale or missing docstring plan copy (`c
 requirement whose `Source:` line comes before its statement (`check-source-order`; 11 reordered, #1030). The
 duplicate spec `aes-documentation-projection` retired (#1030). AES has its own `concern-issue` spec for its copy of
 `scripts/concern_issue.py`; code2-workspace keeps its copy and spec. The 14 old-route files retire none: every one is
-still run (Team-Brains, lifelike, lockstep, plan-code-wiki, or this repository's `.aes` branch), so one requirement
+still run from AES's code (lifelike pins AES and runs 11; digimon's two checkouts run AES's edit hook on an AES plan; Team-Brains calls `action_check`), so one requirement
 says each retires once nothing runs it. Hook refusals in a layout repository now point to `lockstep show`, not the
 crashing `python -m lockstep.wiki`. code2-workspace's plan-size rule now asks the independent read to list departures
 from the settled design (#930). AES's slow tests now run nightly (code2-workspace #929).
