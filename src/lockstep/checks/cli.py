@@ -5,15 +5,16 @@ Implements: lockstep-checks/each-check-can-be-set-to-block-warn-or-off-in-lockst
 
 Requirement text (generated):
     lockstep-checks/each-check-can-be-set-to-block-warn-or-off-in-lockstep-yaml: `lockstep check
-        <name>` (`trace`, `arch`, `test-first`, `sources`, `docmeta`) SHALL read `checks:` in
-        `lockstep.yaml` at the repository root, where each check is `block` (the default when absent
-        or when there is no file), `warn` or `off`. A failing `block` check SHALL exit 1; a failing
-        `warn` check SHALL print a `warning:` line and exit 0; an `off` check SHALL not run, SHALL
-        print `skipped (off)` and exit 0. A value other than those three, or an unknown check name,
-        SHALL exit 2 naming it. The file's `sources.human_pattern` (default `brian`), `owner` (no
-        default) and `likec4` (default `1.60.0`) settings SHALL be read from the same file.
-        `lockstep check` with no name, or only `--repo`, `--base` and `--json`, SHALL keep running
-        the whole-tree plan check.
+        <name>` (`trace`, `arch`, `test-first`, `sources`, `docmeta` and the others) SHALL read
+        `checks:` in `lockstep.yaml` at the repository root, where each check is `block` (the
+        default when absent or when there is no file), `warn` or `off`; `maintainability`,
+        `helper-reuse` and `mutation` SHALL instead be `off` when absent, and a bare YAML `on` SHALL
+        mean `block`. A failing `block` check SHALL exit 1; a failing `warn` check SHALL print a
+        `warning:` line and exit 0; an `off` check SHALL not run, SHALL print `skipped (off)` and
+        exit 0. A value other than those three, or an unknown check name, SHALL exit 2 naming it.
+        The file's `sources.human_pattern` (default `brian`), `owner` (no default) and `likec4`
+        (default `1.60.0`) settings SHALL be read from the same file. `lockstep check` with no name,
+        or only `--repo`, `--base` and `--json`, SHALL keep running the whole-tree plan check.
     lockstep-checks/changed-count-line-and-exit-status: The changed check SHALL end with the line
         `RESULT changed requirements=<n> unplanned=<n> no_scenario=<n> wording_only=<n> small=<n>
         full=<n> no_plan_size=<n> no_planning_package=<n> exit=<0|1>`, exiting 1 when `unplanned`,
@@ -24,7 +25,8 @@ Requirement text (generated):
         `off` modes as the other checks.
 
 Names: `trace`, `arch [gen|check]`, `test-first [--base REV]`, `sources [--json]`, `docmeta`, `project [--check]`,
-`instructions [--chain FILE]`, `changed [--base REV] [--json]`; each takes
+`instructions [--chain FILE]`, `changed [--base REV] [--json]`, `maintainability [--base REV]`,
+`helper-reuse [--base REV]`, `mutation [--timeout S] [--issue]` (these three off unless switched on); each takes
 `--repo PATH` (default the current folder). The output is code2check's, ending in a `RESULT` line.
 Exit: the check's own status when its mode is `block` (the default); 0 with a `warning:` line when
 it fails and its mode is `warn`; 0 with `skipped (off)` and nothing run when `off`; 2 when
@@ -37,16 +39,17 @@ Implements: lockstep-checks/each-check-can-be-set-to-block-warn-or-off-in-lockst
 
 ### Requirement: Each check can be set to block, warn or off in lockstep.yaml
 
-`lockstep check <name>` (`trace`, `arch`, `test-first`, `sources`, `docmeta`) SHALL read `checks:` in
+`lockstep check <name>` (`trace`, `arch`, `test-first`, `sources`, `docmeta` and the others) SHALL read `checks:` in
 `lockstep.yaml` at the repository root, where each check is `block` (the default when absent or when there
-is no file), `warn` or `off`. A failing `block` check SHALL exit 1; a failing `warn` check SHALL print a
+is no file), `warn` or `off`; `maintainability`, `helper-reuse` and `mutation` SHALL instead be `off` when absent,
+and a bare YAML `on` SHALL mean `block`. A failing `block` check SHALL exit 1; a failing `warn` check SHALL print a
 `warning:` line and exit 0; an `off` check SHALL not run, SHALL print `skipped (off)` and exit 0. A value
 other than those three, or an unknown check name, SHALL exit 2 naming it. The file's `sources.human_pattern`
 (default `brian`), `owner` (no default) and `likec4` (default `1.60.0`) settings SHALL be read from the
 same file. `lockstep check` with no name, or only `--repo`, `--base` and `--json`, SHALL keep running the
 whole-tree plan check.
 
-Source: Brian, 2026-11-11, approving the one-tool design ("i approve single tool desing re d4"; `proposals/one-planning-tool/DESIGN.md`, slice 4: the checks are Lockstep's, each switchable so another repository can adopt them one at a time).
+Source: Brian, 2026-11-25: "ia prpove yourr ecommednations" (the three checks become Lockstep checks each repository switches on itself, off by default); earlier Brian, 2026-11-11, approving the one-tool design ("i approve single tool desing re d4"; `proposals/one-planning-tool/DESIGN.md`, slice 4: the checks are Lockstep's, each switchable so another repository can adopt them one at a time).
 
 #### Scenario: A missing lockstep.yaml means every check blocks
 
@@ -102,6 +105,13 @@ Source: Brian, 2026-11-11, approving the one-tool design ("i approve single tool
 - **WHEN** `lockstep check trace --repo PATH` runs as a process
 - **THEN** it prints the trace RESULT line and exits 1
 
+#### Scenario: The three switched-on checks are off when absent
+
+- **GIVEN** a `lockstep.yaml` that does not name `maintainability`, `helper-reuse` or `mutation`
+- **WHEN** the settings are read
+- **THEN** those three are `off` and `trace` is `block`; `mutation: on` reads as `block`, and `mutation.issue_repo` and
+  `mutation.name` are read (an `issue_repo` that is not `OWNER/NAME` is an error)
+
 ### Requirement: Changed: Count line and exit status
 
 The changed check SHALL end with the line `RESULT changed requirements=<n> unplanned=<n> no_scenario=<n> wording_only=<n> small=<n> full=<n> no_plan_size=<n> no_planning_package=<n> exit=<0|1>`, exiting 1 when `unplanned`, `no_scenario`, `no_plan_size` or `no_planning_package` is above zero. `small` and `full` SHALL count the listed requirements of each size. When `<rev>` does not name a commit it SHALL check nothing, print `RESULT changed skipped="base <rev> not found" exit=0` and exit 0. `changed` SHALL be a check name in `lockstep.yaml` with the same `block`, `warn` and `off` modes as the other checks.
@@ -149,7 +159,8 @@ import sys
 
 import yaml
 
-from lockstep.checks import arch, changed, docmeta, instructions, project, show, sources, status, suppressions, test_first, trace
+from lockstep.checks import (arch, changed, docmeta, helper_reuse, instructions, maintainability, mutation, project, show,
+                             sources, status, suppressions, test_first, trace)
 from lockstep.checks.config import CHECK_NAMES, Config, ConfigError, load
 
 
@@ -427,6 +438,42 @@ def run_show(argv: list[str]) -> int:
     return 0
 
 
+def _maintainability(root: Path, args: argparse.Namespace, cfg: Config) -> int:
+    """New maintainability findings since the base; see `lockstep.checks.maintainability`."""
+    return maintainability.run(root, args.base, tuple(args.folders.split(",")), args.max_lines)
+
+
+def _helper_reuse(root: Path, args: argparse.Namespace, cfg: Config) -> int:
+    """New functions that rewrite an existing helper; see `lockstep.checks.helper_reuse`."""
+    return helper_reuse.run(root, args.base, tuple(args.folders.split(",")), args.head)
+
+
+def _mutation(root: Path, args: argparse.Namespace, cfg: Config) -> int:
+    """Surviving mutants; see `lockstep.checks.mutation`."""
+    return mutation.run(root, args.timeout, args.issue, cfg.mutation_issue_repo, cfg.mutation_name)
+
+
+_BASE = (("--base",), {"default": "origin/main"})
+_FOLDERS = (("--folders",), {"default": "src,scripts", "help": "comma-separated folders to read"})
+# check name -> the options it takes beyond `--repo`, as (flags, add_argument keywords)
+_OPTIONS: dict[str, list[tuple[tuple[str, ...], dict]]] = {
+    "arch": [(("action",), {"nargs": "?", "choices": ["gen", "check"], "default": "check"})],
+    "test-first": [_BASE],
+    "changed": [_BASE, (("--json",), {"action": "store_true", "help": "print every listed requirement as JSON"})],
+    "suppressions": [_BASE],
+    "instructions": [(("--chain",), {"action": "append", "help": "file loaded before the repository's own (repeatable; "
+                      "`none` for no chain); default: INSTRUCTION_CHAIN, else the workspace core.md and AGENTS.md"})],
+    "project": [(("--check",), {"action": "store_true", "help": "fail when a generated block is stale, writing nothing"})],
+    "sources": [(("--json",), {"action": "store_true", "help": "print every item with its source"})],
+    "maintainability": [_BASE, _FOLDERS, (("--max-lines",), {"type": int, "default": 800,
+                                                             "help": "a file over this that grew is a finding"})],
+    "helper-reuse": [_BASE, _FOLDERS, (("--head",), {"default": None,
+                                                     "help": "read the branch at this revision, not the working tree"})],
+    "mutation": [(("--timeout",), {"type": int, "default": mutation.TIMEOUT, "help": "seconds before mutmut is stopped"}),
+                 (("--issue",), {"action": "store_true", "help": "keep one owner:agent issue listing the survivors"})],
+}
+
+
 def run(argv: list[str]) -> int:
     """Run the named check, `argv[0]`, with its options and apply its mode.
 
@@ -441,19 +488,8 @@ def run(argv: list[str]) -> int:
     for name in CHECK_NAMES:
         p = sub.add_parser(name)
         p.add_argument("--repo", type=Path, default=Path.cwd())
-        if name == "arch":
-            p.add_argument("action", nargs="?", choices=["gen", "check"], default="check")
-        if name in ("test-first", "changed", "suppressions"):
-            p.add_argument("--base", default="origin/main")
-        if name == "changed":
-            p.add_argument("--json", action="store_true", help="print every listed requirement as JSON")
-        if name == "instructions":
-            p.add_argument("--chain", action="append", help="file loaded before the repository's own (repeatable; "
-                           "`none` for no chain); default: INSTRUCTION_CHAIN, else the workspace core.md and AGENTS.md")
-        if name == "project":
-            p.add_argument("--check", action="store_true", help="fail when a generated block is stale, writing nothing")
-        if name == "sources":
-            p.add_argument("--json", action="store_true", help="print every item with its source")
+        for flags, kwargs in _OPTIONS.get(name, []):
+            p.add_argument(*flags, **kwargs)
     try:
         args = ap.parse_args(argv)
     except SystemExit as exit_:
@@ -470,7 +506,8 @@ def run(argv: list[str]) -> int:
         return 0
     runner = {"trace": _trace, "arch": _arch, "test-first": _test_first, "sources": _sources, "docmeta": _docmeta,
               "instructions": _instructions, "project": _project, "changed": _changed,
-              "suppressions": _suppressions}
+              "suppressions": _suppressions, "maintainability": _maintainability, "helper-reuse": _helper_reuse,
+              "mutation": _mutation}
     try:
         status = runner[args.name](root, args, cfg)
     except (ValueError, TypeError, OSError, SyntaxError, yaml.YAMLError) as err:

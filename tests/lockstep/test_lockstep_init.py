@@ -32,7 +32,9 @@ def test_fresh_repository_gets_all_four(tmp_path, capsys):
     for rel in FILES:
         assert (root / rel).is_file(), rel
     cfg = yaml.safe_load((root / "lockstep.yaml").read_text())
-    assert set(cfg["checks"]) == set(CHECK_NAMES) and set(cfg["checks"].values()) == {"block"}
+    assert set(cfg["checks"]) == set(CHECK_NAMES)
+    assert {n for n, m in cfg["checks"].items() if m is False} == {"maintainability", "helper-reuse", "mutation"}
+    assert {m for m in cfg["checks"].values() if m is not False} == {"block"}
     assert cfg["layout"] == [] and "human_pattern" in cfg["sources"]
     for rel in (".claude/settings.json", ".codex/hooks.json"):
         hook = json.loads((root / rel).read_text())["hooks"]["PreToolUse"][0]["hooks"][0]

@@ -1,0 +1,38 @@
+{
+  "need": "Let any repository using Lockstep switch on the maintainability ratchet, the helper-reuse check and nightly mutation testing from its own lockstep.yaml, instead of copying AES and workspace scripts.",
+  "searched": [
+    {
+      "place": "own",
+      "where": "src/lockstep/checks/, scripts/maintainability_ratchet.py, scripts/helper_reuse_check.py, code2-workspace scripts/mutation_report.py and prompt_cost.py, ~/code2/workspace/docs/capabilities.md",
+      "query": "maintainability, helper reuse, mutation, check modes",
+      "found": "All three exist as working scripts with tests; Lockstep already has per-check block/warn/off modes in lockstep.yaml. This change moves them under that switch."
+    },
+    {
+      "place": "outside",
+      "where": "pre-commit hooks, ruff, mutmut and cosmic-ray configuration, pytest-gremlins",
+      "query": "per-repository switch for diff-scoped lint ratchet and nightly mutation testing",
+      "found": "mutmut and ruff are configured per repository already and stay the engines; no tool wraps them with a base-diff ratchet, a survivors issue, or Lockstep's modes."
+    }
+  ],
+  "candidates": [
+    {
+      "name": "mutmut alone",
+      "url": "https://github.com/boxed/mutmut",
+      "covers": "Mutating and running tests; results per mutant.",
+      "misses": "Time limit with progress rule, survivors issue, per-repository switch.",
+      "verdict": "reject",
+      "reason": "Not a replacement on its own: it has no time limit with a progress rule, no survivors issue and no per-repository switch. It stays the engine the check runs."
+    },
+    {
+      "name": "ruff alone",
+      "url": "https://docs.astral.sh/ruff/",
+      "covers": "BLE, S110, S112, C901 findings.",
+      "misses": "Only-new-findings comparison with the merge base; duplicate windows; file growth.",
+      "verdict": "reject",
+      "reason": "Not a replacement on its own: it reports every finding, not only what the branch adds. It stays the engine for the lint part."
+    }
+  ],
+  "decision": "build",
+  "decided": "2026-11-25",
+  "gap": "Moving existing AES and workspace scripts into Lockstep behind its existing modes; nothing outside offers the base-diff ratchet or the survivors issue."
+}

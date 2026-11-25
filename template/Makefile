@@ -22,6 +22,7 @@ check: docs-specs fast
 	uv run lockstep check test-first --base origin/main
 	uv run lockstep check changed --base origin/main
 	uv run lockstep check suppressions --base origin/main
+	uv run lockstep check maintainability --base origin/main
 	@# Whole-tree check: every file under a governed folder has a layout row in lockstep.yaml (Codex has no refusing hook).
 	@base=$$(git merge-base origin/main HEAD 2>/dev/null || git rev-list --max-parents=0 HEAD 2>/dev/null | tail -n 1); \
 	if [ -z "$$base" ]; then echo "whole-tree check skipped: no commit yet"; else uv run lockstep check --repo . --base "$$base"; fi

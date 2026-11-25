@@ -75,15 +75,15 @@ check-format:  ## The code2 format checks the template's make check runs: import
 	@$(MAKE) --no-print-directory check-maintainability
 	@echo "RESULT check-format exit=0"
 
-check-maintainability:  ## Fail on a blind except, a more complex function, more duplicate code or a large file that grew since the branch left $(FORMAT_BASE); old findings never block (pilot, scripts/maintainability_ratchet.py)
-	@out=$$($(PYTHON) scripts/maintainability_ratchet.py --repo . --base $(FORMAT_BASE) 2>&1); ec=$$?; \
-	if [ $$ec -ne 0 ] || ! printf '%s\n' "$$out" | grep -q '^RESULT maintainability '; then printf '%s\n' "$$out" | tail -n 30; echo "check-maintainability: failed (exit $$ec)"; exit 1; fi; \
-	printf '%s\n' "$$out" | grep '^RESULT maintainability '
+check-maintainability:  ## Fail on a blind except, a more complex function, more duplicate code or a large file that grew since the branch left $(FORMAT_BASE); old findings never block (lockstep check maintainability, on in lockstep.yaml)
+	@out=$$($(LOCKSTEP) check maintainability --repo . --base $(FORMAT_BASE) 2>&1); ec=$$?; \
+	if [ $$ec -ne 0 ] || ! printf '%s\n' "$$out" | grep -Eq '^RESULT maintainability |^maintainability: skipped \(off\)'; then printf '%s\n' "$$out" | tail -n 30; echo "check-maintainability: failed (exit $$ec)"; exit 1; fi; \
+	printf '%s\n' "$$out" | grep -E '^RESULT maintainability |^maintainability: skipped \(off\)'
 
 LLM_PYTHON ?= $(HOME)/code2/llm_client/.venv/bin/python
 
-check-helper-reuse:  ## Report functions this branch adds that rewrite an existing function under a new name (light model via llm_client, about $$0.006 a run; report-only, not in make check; pilot, scripts/helper_reuse_check.py)
-	@$(LLM_PYTHON) scripts/helper_reuse_check.py --repo . --base $(FORMAT_BASE)
+check-helper-reuse:  ## Report functions this branch adds that rewrite an existing function under a new name (light model via llm_client, about $$0.006 a run; report-only, not in make check; lockstep.checks.helper_reuse run with llm_client's Python)
+	@PYTHONPATH=src $(LLM_PYTHON) -m lockstep.checks.helper_reuse --repo . --base $(FORMAT_BASE)
 
 check-md-cap:  ## The 100-file Markdown cap (Brian, 2026-10-07), its exception in .md-file-cap.yaml, wiki reachability, layout and durable documents, read from the committed tree
 	@out=$$($(PYTHON) scripts/md_file_cap.py --repo . --ref HEAD 2>&1); ec=$$?; \

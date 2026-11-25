@@ -37,8 +37,8 @@ wiki = [
   "mkdocstrings[python]>=0.26",
   "mkdocs-gen-files>=0.5",
 ]
-# Mutation testing, run nightly by code2-workspace scripts/mutation_report.py (gates-nightly's
-# `uv sync --all-extras` installs it); pinned because its results format is read by that script
+# Mutation testing, `lockstep check mutation`, run nightly by code2-workspace gates-nightly (its
+# `uv sync --all-extras` installs it); pinned because its results format is read by that check
 mutation = ["mutmut==3.8.1"]
 
 [project.scripts]
@@ -61,7 +61,7 @@ where = ["src"]
 
 # The prior-art record schema ships beside lockstep/prior_art.py.
 [tool.setuptools.package-data]
-lockstep = ["*.json"]
+lockstep = ["*.json", "checks/prompts/helper_reuse/*.yaml"]
 
 [tool.setuptools_scm]
 # No tags yet: every commit builds as 0.1.devN+g<sha>, so a git-pinned consumer
@@ -83,14 +83,17 @@ source = ["src", "scripts"]
 # Non-Python files whose comment lines (`# Implements:`, `{# Implements: ... #}`) count as implementers: the template.
 comment_sources = ["copier.yml", "template"]
 
-# Mutation testing (mutmut): what code2-workspace scripts/mutation_report.py mutates each night and which tests it
-# runs. Only src/lockstep: scripts/ is imported by its tests through a sys.path change, which mutmut cannot follow.
+# Mutation testing (mutmut): what `lockstep check mutation` (run nightly by code2-workspace gates-nightly) mutates
+# and which tests it runs. Only src/lockstep: scripts/ is imported by its tests through a sys.path change, which
+# mutmut cannot follow. maintainability.py's tests shell out to uvx ruff for each mutant, and helper_reuse.py's
+# real-index tests need the checkout, so both are left out.
 # Tests run in mutmut's copy (mutants/), which is not a git checkout; the deselected ones need git or installed hooks.
 [tool.mutmut]
 paths_to_mutate = ["src/lockstep/"]
 # its own tests (tests/lockstep/test_lockstep_layout_plan.py) need git, so they are deselected below and its
 # mutants would all look untested
-do_not_mutate = ["src/lockstep/layout_plan.py"]
+do_not_mutate = ["src/lockstep/layout_plan.py", "src/lockstep/checks/maintainability.py",
+                 "src/lockstep/checks/helper_reuse.py"]
 pytest_add_cli_args_test_selection = ["tests/lockstep/"]
 pytest_add_cli_args = [
   "-m", "not slow", "-p", "no:cacheprovider",

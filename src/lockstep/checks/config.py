@@ -4,19 +4,22 @@ Implements: lockstep-checks/each-check-can-be-set-to-block-warn-or-off-in-lockst
 
 Requirement text (generated):
     lockstep-checks/each-check-can-be-set-to-block-warn-or-off-in-lockstep-yaml: `lockstep check
-        <name>` (`trace`, `arch`, `test-first`, `sources`, `docmeta`) SHALL read `checks:` in
-        `lockstep.yaml` at the repository root, where each check is `block` (the default when absent
-        or when there is no file), `warn` or `off`. A failing `block` check SHALL exit 1; a failing
-        `warn` check SHALL print a `warning:` line and exit 0; an `off` check SHALL not run, SHALL
-        print `skipped (off)` and exit 0. A value other than those three, or an unknown check name,
-        SHALL exit 2 naming it. The file's `sources.human_pattern` (default `brian`), `owner` (no
-        default) and `likec4` (default `1.60.0`) settings SHALL be read from the same file.
-        `lockstep check` with no name, or only `--repo`, `--base` and `--json`, SHALL keep running
-        the whole-tree plan check.
+        <name>` (`trace`, `arch`, `test-first`, `sources`, `docmeta` and the others) SHALL read
+        `checks:` in `lockstep.yaml` at the repository root, where each check is `block` (the
+        default when absent or when there is no file), `warn` or `off`; `maintainability`,
+        `helper-reuse` and `mutation` SHALL instead be `off` when absent, and a bare YAML `on` SHALL
+        mean `block`. A failing `block` check SHALL exit 1; a failing `warn` check SHALL print a
+        `warning:` line and exit 0; an `off` check SHALL not run, SHALL print `skipped (off)` and
+        exit 0. A value other than those three, or an unknown check name, SHALL exit 2 naming it.
+        The file's `sources.human_pattern` (default `brian`), `owner` (no default) and `likec4`
+        (default `1.60.0`) settings SHALL be read from the same file. `lockstep check` with no name,
+        or only `--repo`, `--base` and `--json`, SHALL keep running the whole-tree plan check.
 
 Keys (all optional; a missing file means every default):
 
-    checks:   {trace: block, arch: warn, docmeta: off}   # name -> block | warn | off; default block
+    checks:   {trace: block, arch: warn, docmeta: off}   # name -> block | warn | off; default block (off for DEFAULT_OFF)
+    mutation: {issue_repo: OWNER/NAME, name: AES}         # `check mutation --issue`'s issue repository (default
+                                                          # origin) and the name in its title (default origin's name)
     sources:  {human_pattern: "brian"}                    # regex a `Source:` line must start with to count as human
     owner:    SomeGitHubOwner                             # no default; no commit check reads it yet
     likec4:   "1.60.0"                                    # LikeC4 version `arch` runs through npx
@@ -30,16 +33,17 @@ Implements: lockstep-checks/each-check-can-be-set-to-block-warn-or-off-in-lockst
 
 ### Requirement: Each check can be set to block, warn or off in lockstep.yaml
 
-`lockstep check <name>` (`trace`, `arch`, `test-first`, `sources`, `docmeta`) SHALL read `checks:` in
+`lockstep check <name>` (`trace`, `arch`, `test-first`, `sources`, `docmeta` and the others) SHALL read `checks:` in
 `lockstep.yaml` at the repository root, where each check is `block` (the default when absent or when there
-is no file), `warn` or `off`. A failing `block` check SHALL exit 1; a failing `warn` check SHALL print a
+is no file), `warn` or `off`; `maintainability`, `helper-reuse` and `mutation` SHALL instead be `off` when absent,
+and a bare YAML `on` SHALL mean `block`. A failing `block` check SHALL exit 1; a failing `warn` check SHALL print a
 `warning:` line and exit 0; an `off` check SHALL not run, SHALL print `skipped (off)` and exit 0. A value
 other than those three, or an unknown check name, SHALL exit 2 naming it. The file's `sources.human_pattern`
 (default `brian`), `owner` (no default) and `likec4` (default `1.60.0`) settings SHALL be read from the
 same file. `lockstep check` with no name, or only `--repo`, `--base` and `--json`, SHALL keep running the
 whole-tree plan check.
 
-Source: Brian, 2026-11-11, approving the one-tool design ("i approve single tool desing re d4"; `proposals/one-planning-tool/DESIGN.md`, slice 4: the checks are Lockstep's, each switchable so another repository can adopt them one at a time).
+Source: Brian, 2026-11-25: "ia prpove yourr ecommednations" (the three checks become Lockstep checks each repository switches on itself, off by default); earlier Brian, 2026-11-11, approving the one-tool design ("i approve single tool desing re d4"; `proposals/one-planning-tool/DESIGN.md`, slice 4: the checks are Lockstep's, each switchable so another repository can adopt them one at a time).
 
 #### Scenario: A missing lockstep.yaml means every check blocks
 
@@ -95,6 +99,13 @@ Source: Brian, 2026-11-11, approving the one-tool design ("i approve single tool
 - **WHEN** `lockstep check trace --repo PATH` runs as a process
 - **THEN** it prints the trace RESULT line and exits 1
 
+#### Scenario: The three switched-on checks are off when absent
+
+- **GIVEN** a `lockstep.yaml` that does not name `maintainability`, `helper-reuse` or `mutation`
+- **WHEN** the settings are read
+- **THEN** those three are `off` and `trace` is `block`; `mutation: on` reads as `block`, and `mutation.issue_repo` and
+  `mutation.name` are read (an `issue_repo` that is not `OWNER/NAME` is an error)
+
 Tested by: tests/lockstep/checks/test_lockstep_checks_config.py
 [[[end]]]
 """
@@ -107,7 +118,10 @@ import yaml
 from lockstep.checks.arch import LIKEC4
 from lockstep.checks.sources import DEFAULT_HUMAN_PATTERN
 
-CHECK_NAMES = ("trace", "arch", "test-first", "sources", "docmeta", "project", "instructions", "changed", "suppressions")
+CHECK_NAMES = ("trace", "arch", "test-first", "sources", "docmeta", "project", "instructions", "changed", "suppressions",
+               "maintainability", "helper-reuse", "mutation")
+# Checks a repository switches on itself: absent from `checks:` means off, not block.
+DEFAULT_OFF = ("maintainability", "helper-reuse", "mutation")
 MODES = ("block", "warn", "off")
 SIDE_FILE = "lockstep.yaml"
 
@@ -124,10 +138,23 @@ class Config:
     human_pattern: str = DEFAULT_HUMAN_PATTERN
     owner: str | None = None
     likec4: str = LIKEC4
+    mutation_issue_repo: str | None = None
+    mutation_name: str | None = None
 
     def mode(self, name: str) -> str:
-        """Return `block`, `warn` or `off` for a check (`block` when not set)."""
-        return self.modes.get(name, "block")
+        """Return `block`, `warn` or `off` for a check (`off` when not set for a DEFAULT_OFF check, else `block`)."""
+        return self.modes.get(name, "off" if name in DEFAULT_OFF else "block")
+
+
+def _mutation_settings(data: dict) -> tuple[str | None, object]:
+    """(mutation.issue_repo, mutation.name) from lockstep.yaml's `mutation:` mapping; raises ConfigError when malformed."""
+    mutation = data.get("mutation") or {}
+    if not isinstance(mutation, dict):
+        raise ConfigError(f"{SIDE_FILE}: mutation must be a mapping")
+    issue_repo = mutation.get("issue_repo")
+    if issue_repo is not None and (not isinstance(issue_repo, str) or "/" not in issue_repo):
+        raise ConfigError(f"{SIDE_FILE}: mutation.issue_repo must be OWNER/NAME")
+    return issue_repo, mutation.get("name")
 
 
 def load(root: Path) -> Config:
@@ -151,7 +178,8 @@ def load(root: Path) -> Config:
     modes = data.get("checks") or {}
     if not isinstance(modes, dict):
         raise ConfigError(f"{SIDE_FILE}: checks must map a check name to block, warn or off")
-    modes = {name: ("off" if mode is False else mode) for name, mode in modes.items()}  # YAML reads a bare `off` as False
+    # YAML reads a bare `off` as False and a bare `on` as True
+    modes = {name: ("off" if mode is False else "block" if mode is True else mode) for name, mode in modes.items()}
     for name, mode in modes.items():
         if name not in CHECK_NAMES:
             raise ConfigError(f"{SIDE_FILE}: checks names unknown check {name!r}; known: {', '.join(CHECK_NAMES)}")
@@ -165,9 +193,12 @@ def load(root: Path) -> Config:
         raise ConfigError(f"{SIDE_FILE}: sources.human_pattern must be a non-empty regex string")
     owner = data.get("owner")
     likec4 = data.get("likec4")
+    issue_repo, mutation_name = _mutation_settings(data)
     return Config(
         modes=dict(modes),
         human_pattern=pattern,
         owner=str(owner) if owner is not None else None,
         likec4=(str(likec4) if str(likec4).startswith("likec4@") else f"likec4@{likec4}") if likec4 is not None else LIKEC4,
+        mutation_issue_repo=issue_repo,
+        mutation_name=str(mutation_name) if mutation_name is not None else None,
     )

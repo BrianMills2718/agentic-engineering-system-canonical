@@ -96,3 +96,17 @@ def test_the_lockstep_command_runs_a_named_check(repo):
     done = subprocess.run([sys.executable, "-c", "import sys; sys.argv=['lockstep','check','trace','--repo',sys.argv[1]]; "
                            "from lockstep.check import cli; raise SystemExit(cli())", str(repo)], capture_output=True, text=True)
     assert done.returncode == 1 and "RESULT trace findings=2" in done.stdout
+
+
+@pytest.mark.req("lockstep-checks/the-three-switched-on-checks-are-off-when-absent")
+def test_the_three_switched_on_checks_are_off_when_absent(repo, capsys):
+    cfg = load(repo)
+    assert [cfg.mode(n) for n in ("maintainability", "helper-reuse", "mutation")] == ["off", "off", "off"]
+    assert cfg.mode("trace") == "block"
+    _set(repo, "checks:\n  mutation: on\n  maintainability: warn\nmutation:\n  issue_repo: Acme/tracker\n  name: Widget\n")
+    cfg = load(repo)
+    assert (cfg.mode("mutation"), cfg.mode("maintainability"), cfg.mode("helper-reuse")) == ("block", "warn", "off")
+    assert (cfg.mutation_issue_repo, cfg.mutation_name) == ("Acme/tracker", "Widget")
+    _set(repo, "mutation:\n  issue_repo: nonsense\n")
+    with pytest.raises(ConfigError, match="issue_repo"):
+        load(repo)
