@@ -1961,3 +1961,11 @@ def test_a_regenerate_that_changes_other_files_stops(repo, monkeypatch, capsys):
     status_conflict(work)
     assert ship.main(["--repo", str(work), "--check", "true"]) == 1
     assert "stray.txt" in capsys.readouterr().out and not on_remote(remote, "feature")
+
+
+@pytest.mark.req("ship/a-bad-planning-mode-refuses")
+def test_non_text_planning_keys_refuse_instead_of_crashing():
+    """`planning: {1: x, a: y}` raised TypeError (sorting mixed keys), escaping ship's ConfigError handler."""
+    from lockstep.checks.config import ConfigError, planning_modes
+    with pytest.raises(ConfigError, match="unknown key"):
+        planning_modes({"planning": {1: "x", "a": "y"}})

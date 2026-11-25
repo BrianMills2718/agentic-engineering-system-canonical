@@ -37,7 +37,7 @@ Independent read: reviewer subagent, 2026-11-25, verdict revise. Its 11 findings
 | Part | Where it lives | Switchable per repository today? |
 | --- | --- | --- |
 | Lockstep (edit guard, commit checks, layout, docstrings) | AES `src/lockstep/` | Commit checks: yes, `lockstep.yaml` `checks:` (block, warn or off). Edit guard strictness: only through the `PCW_MODE` environment variable, which the installed hook command hardcodes (`src/lockstep/init_repo.py:133`). |
-| Planning (Company Planning skills and package validator) | `BrianMills2718/company-planning` (private); Inside Success installs it from the private mirror `Inside-Success/company-planning` | Partly, and in a second file. `.copier-answers.yml` keys `ship_planning_gate` and `ship_one_page_plans` switch `ship`'s two planning gates off, read from the default branch so a branch cannot turn its own gate off (`src/lockstep/ship.py:1421`). The validator's source is hardcoded as `~/code2/company-planning` (`src/lockstep/plan_check.py:113`). The skills are installed per person, not per repository. |
+| Planning (Company Planning skills and package validator) | `BrianMills2718/company-planning` (private); Inside Success installs it from the private mirror `Inside-Success/company-planning` | Partly, and in a second file. `.copier-answers.yml` keys `ship_planning_gate` and `ship_one_page_plans` switch `ship`'s two planning gates off, read from the default branch so a branch cannot turn its own gate off (`copier_answer_on` in `src/lockstep/checks/config.py`). The validator's source is hardcoded as `~/code2/company-planning` (`src/lockstep/plan_check.py:113`). The skills are installed per person, not per repository. |
 | Agent rules | code2-workspace `agents/`, loaded machine-wide by `~/.claude/CLAUDE.md` | No. One person and one machine only. |
 | Feedback loop | AES `scripts/learning_loop/` and its systemd user timers on Brian's PC. A second, older sweep lives in `~/code/ecosystem-ops` (`ecosystem-feedback-worker` and `-watchdog`). | No. The loop runs per machine. Of 8 timers, 5 are disabled: the 3 AES analysis jobs and the 2 ecosystem-ops jobs. |
 
@@ -53,7 +53,7 @@ So settings sit in three places today: `lockstep.yaml`, `.copier-answers.yml` an
 **Defaults.** A missing section or key keeps today's behavior, so no repository changes on the day this lands.
 
 **Where `ship` reads gates from.** `ship` reads every gate switch from the default branch at origin, never from the
-branch being shipped, as `addon_on` does today. Diagnostic commands such as `lockstep plan check` read the working
+branch being shipped, as `copier_answer_on` (formerly ship's `addon_on`) does. Diagnostic commands such as `lockstep plan check` read the working
 tree and report the real verdict whatever the mode.
 
 ```yaml
@@ -105,14 +105,14 @@ What changes:
    `side_file.py:169`, which lists only five keys, is corrected. This lands first because every repository installs
    from the unpinned address.
 2. **`checks/config.py` reads `planning.gate` and `planning.one_page_plans`.** Each is `block`, `warn` or `off`,
-   normalized as above, and a bad value exits 2.
+   normalized as above; a bad value refuses the merge with exit 1 and nothing pushed.
 3. **`ship` reads the `planning:` section from `lockstep.yaml` on the default branch at origin.** It also keeps
    reading the `.copier-answers.yml` keys. Either one saying off turns the gate off, and the log line names which file
    said so. The three modes mean:
-   - `off` skips the gate as `addon_on` does today.
-   - `warn` downgrades only a validator rejection, or a one-page-plan rejection, to a printed `warning:` line. A
-     validator that cannot be fetched or cannot run still refuses the merge, because that failure is not a verdict
-     on the plan (`ship.py:1361`, `ship.py:1364`).
+   - `off` skips the gate as a copier-answers `false` does.
+   - `warn` downgrades a plan verdict (a validator rejection, a missing planning package, an incomplete one-page plan
+     or a plan-list refusal) to a printed `warning:` line. A validator that cannot be fetched or cannot run still
+     refuses the merge, because that failure is not a verdict on the plan (`_Unavailable` in `ship.py`).
    - `block` is today's behavior.
 4. **`lockstep plan check` is not affected by the mode.** It always reports the validator's verdict with its own exit
    code.
@@ -132,7 +132,7 @@ Done when:
   - `off` on the default branch skips the gate and logs `lockstep.yaml`;
   - the copier key `false` still skips it;
   - `warn` passes a validator rejection with a warning but refuses an unfetchable validator;
-  - a bad mode exits 2;
+  - a bad mode refuses with exit 1;
   - `side_file_problems` accepts the new keys and AES's own `lockstep.yaml`.
 - **Real proof on another repository.** Edit only skipper's `lockstep.yaml` on a branch, setting
   `planning.gate: warn`. A `ship --dry-run` (or the gate function run against that checkout) still reads the default

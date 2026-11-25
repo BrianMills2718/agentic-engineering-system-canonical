@@ -264,9 +264,9 @@ def planning_modes(data: object) -> dict[str, str]:
         if mode not in MODES:
             raise ConfigError(f"{SIDE_FILE}: planning.{key} is {mode!r}; it must be one of {', '.join(MODES)}")
         modes[key] = mode
-    unknown = sorted(set(planning) - set(PLANNING_KEYS) - {"validator", "skills"})
+    unknown = sorted(str(k) for k in set(planning) - set(PLANNING_KEYS) - {"validator", "skills"})  # slice 2 and 3 keys
     if unknown:
-        raise ConfigError(f"{SIDE_FILE}: planning has unknown key {unknown[0]!r}; known: {', '.join(PLANNING_KEYS)}")
+        raise ConfigError(f"{SIDE_FILE}: planning has unknown key {unknown[0]!r}; known: {', '.join(PLANNING_KEYS)}, validator, skills")
     return modes
 
 
@@ -338,7 +338,7 @@ def _on_default_branch(repo: Path, name: str) -> str:
     import subprocess
 
     def read(*args: str) -> str:
-        done = subprocess.run(["git", "-C", str(repo), *args], capture_output=True, text=True)
+        done = subprocess.run(["git", "-C", str(repo), *args], capture_output=True, text=True, errors="replace")
         return done.stdout if done.returncode == 0 else ""
     default = read("symbolic-ref", "-q", "--short", "refs/remotes/origin/HEAD").strip() or "origin/main"
     return read("show", f"{default}:{name}")
