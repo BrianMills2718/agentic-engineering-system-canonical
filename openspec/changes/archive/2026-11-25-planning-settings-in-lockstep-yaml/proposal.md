@@ -1,8 +1,10 @@
 # Planning settings in lockstep.yaml
 
-Plan size: small
+Plan size: full
 
-Small because it is undone with `git revert`, sends nothing outward and spends nothing; its plan is `proposals/aes-whole-system/PLAN.md`, read once by an independent reviewer.
+Planning package: docs/planning/planning-package.json
+
+Full because `ship` and `lockstep.yaml` are read by other repositories; the plan is `docs/planning/next.goal.md`.
 
 ## Why
 
@@ -10,7 +12,7 @@ Brian, 2026-11-25: "yes it should hold all 4 parts btu the whole systm should be
 what is on or off or any other settings. for any piece". Today the planning part's two `ship` gates switch only from
 `.copier-answers.yml`, which only repositories made from the template have, and they can only be on or off. Every AES
 repository has `lockstep.yaml` (`lockstep init` writes it), so the planning part's settings belong there beside the
-commit checks. Plan: `proposals/aes-whole-system/PLAN.md`, slice 1.
+commit checks. Plan: `docs/planning/next.goal.md`, slice 1.
 
 ## What changes
 

@@ -1049,8 +1049,8 @@ layout:
   implements: []
   tests: []
 - path: docs/planning/next.goal.md
-  purpose: Records the adopted six-slice one-tool build and remaining review/follow-up work; identifies the design as authority
-    and this document as its planning-package view.
+  purpose: The next plan, AES holding all four parts with every part switchable in lockstep.yaml (slice 1 moves the
+    planning gates there; the feedback loop's dry run and friction measure), and a link to the finished one-tool build.
   implements: []
   tests: []
 - path: docs/planning/open-questions.graph.json
@@ -1489,11 +1489,6 @@ layout:
 - path: proposals/aes-learning-loop/review-page/whole-picture.html
   purpose: Presents the historical feedback flow, queue/backlog counts and stalled transitions, including the October 12 analysis/fix-owner
     update rather than a fresh health reading.
-  implements: []
-  tests: []
-- path: proposals/aes-whole-system/PLAN.md
-  purpose: Plans AES holding all four parts (Lockstep, planning, rules, feedback) with every part switchable in lockstep.yaml;
-    slice 1 moves the planning gates there, and the feedback loop's dry run and friction measure.
   implements: []
   tests: []
 - path: proposals/one-planning-tool/DESIGN.md

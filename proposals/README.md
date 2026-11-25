@@ -7,7 +7,7 @@ scope. The [current architecture guide](../docs/architecture/README.md) and
 - [One planning tool](one-planning-tool/DESIGN.md) was adopted on 2026-11-11.
   Its consolidated package exists; implementation and verification limits are in
   [Lockstep's contract](../docs/architecture/LOCKSTEP.md).
-- [AES whole system](aes-whole-system/PLAN.md) (2026-11-25): AES holds all four parts, each switchable
+- [AES whole system](../docs/planning/next.goal.md) (2026-11-25): AES holds all four parts, each switchable
   per repository in `lockstep.yaml`; slice 1 moves the planning gates there.
 - [Planning-package review](planning-package/review-page/index.html) contains
   bounded acceptance views. A historical PASS is not a current deployment claim.

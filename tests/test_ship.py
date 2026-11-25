@@ -1647,7 +1647,7 @@ def test_a_branch_cannot_switch_its_own_gate_off(new_repo, tmp_path):
     refused_before_the_check(work, remote, tmp_path)
 
 
-# ---- planning gates set in lockstep.yaml (2026-11-25, proposals/aes-whole-system/PLAN.md slice 1) ------------------
+# ---- planning gates set in lockstep.yaml (2026-11-25, docs/planning/next.goal.md slice 1) ------------------
 
 
 def lockstep_on_main(work: Path, text: str) -> None:
