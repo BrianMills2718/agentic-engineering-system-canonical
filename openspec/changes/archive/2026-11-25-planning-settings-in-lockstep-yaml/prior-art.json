@@ -20,7 +20,7 @@
       "url": "https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/main/src/lockstep/ship.py",
       "covers": "Off switches for both gates, read from the default branch.",
       "misses": "Repositories set up by lockstep init have no answers file; no warn mode; a second settings file beside lockstep.yaml.",
-      "verdict": "extend",
+      "verdict": "combine",
       "reason": "Kept as a fallback so template repositories keep working; lockstep.yaml becomes the place that gains the setting."
     },
     {
@@ -40,7 +40,7 @@
       "reason": "Different mechanism; ship runs local checks."
     }
   ],
-  "decision": "extend",
+  "decision": "combine",
   "decided": "2026-11-25",
   "gap": "A planning: section in lockstep.yaml read by ship from the default branch, with warn, and the copier keys kept as an off fallback."
 }
