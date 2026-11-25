@@ -477,7 +477,7 @@ def main(argv: list[str] | None = None) -> int:
 
 def cli() -> int:
     """`lockstep <command>`: `init` (install Lockstep in a repository), `check` (the whole-tree plan check; `check <name>` runs one commit check), `layout`
-    (create the planned files), `plan check` (validate the acceptance and plan files), `accept write|check` and `run-plan`
+    (create the planned files), `plan check` (run Company Planning's plan validator), `accept write|check` and `run-plan`
     (hidden acceptance tests and a departure report for one OpenSpec plan), `check prior-art` (the prior-art record
     check `ship` runs), `status` (each
     requirement's code, tests and result) or `show FILE` (what a file must keep true)."""

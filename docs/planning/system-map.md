@@ -103,8 +103,7 @@ flowchart LR
     criterion_checks[criterion_checks: criterion names its check]
     declared_reason[declared_reason: file declares a reason]
     linked_tests[linked_tests: tests and criteria link both ways]
-    plan_check[plan_check: lockstep plan check]
-    citation_anchor[citation_anchor: a citation that names its text]
+    plan_check[plan_check: lockstep plan check, runs Company Planning's validator]
     checks[checks: commit checks trace arch test_first sources docmeta, status, show, project, pytest plugin]
     pcw[pcw: alias of lockstep]
   end
@@ -179,7 +178,6 @@ flowchart LR
   ls_cli --> doc_projection
   ls_cli --> scaffold
   ls_cli --> plan_check
-  plan_check --> citation_anchor
   ls_cli --> checks
   checks --> doc_projection
   doc_projection --> ls_hook

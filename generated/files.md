@@ -40,7 +40,6 @@ Generated from [lockstep.yaml](../lockstep.yaml); edit the source, not this bloc
 | [src/lockstep/checks/status.py](../src/lockstep/checks/status.py) | Status report: each requirement's implementers, each scenario's tests and whether they passed at this revision, and the IDs each plan has still to close |
 | [src/lockstep/checks/test_first.py](../src/lockstep/checks/test_first.py) | Test-first check: a test for a scenario new since the base revision must fail on the base source, |
 | [src/lockstep/checks/trace.py](../src/lockstep/checks/trace.py) | Trace check: every requirement has an implementer, every scenario a test, and no ID is unknown |
-| [src/lockstep/citation_anchor.py](../src/lockstep/citation_anchor.py) | Anchored citations: `path#:~:text=&lt;quoted text&gt;` names the text a citation points at, so it survives line moves |
 | [src/lockstep/cogtext.py](../src/lockstep/cogtext.py) | Render plan text for a docstring. Called from cog blocks |
 | [src/lockstep/criterion_checks.py](../src/lockstep/criterion_checks.py) | Check every success criterion names how it is checked: a test, a sign-off or an AI rubric (behavior 2.1) |
 | [src/lockstep/decisions.py](../src/lockstep/decisions.py) | Read decision records and what each one governs, from the lines they already carry |
@@ -54,7 +53,7 @@ Generated from [lockstep.yaml](../lockstep.yaml); edit the source, not this bloc
 | [src/lockstep/linked_tests.py](../src/lockstep/linked_tests.py) | Check tests and criteria link both ways: every named test file exists, every test file is named |
 | [src/lockstep/openspec_text.py](../src/lockstep/openspec_text.py) | Read the OpenSpec requirement a file implements, so the edit hook hands the agent that text instead of the AES plan text (behavior 3.7, issue #54) |
 | [src/lockstep/parent_text.py](../src/lockstep/parent_text.py) | Put each parent requirement, word for word, before a behavior's own text in its docstring |
-| [src/lockstep/plan_check.py](../src/lockstep/plan_check.py) | `lockstep plan check [--repo PATH] [--acceptance PATH] [--json]`: is the plan itself well formed? |
+| [src/lockstep/plan_check.py](../src/lockstep/plan_check.py) | `lockstep plan check [--repo PATH] [--json]`: run Company Planning's validator on the repository's plan |
 | [src/lockstep/plan_edit.py](../src/lockstep/plan_edit.py) | Name the plan items an edit by hand to the plan file changes, and every file and symbol linked to them (behavior 3.8) |
 | [src/lockstep/plan_run.py](../src/lockstep/plan_run.py) | Run one OpenSpec plan with hidden acceptance tests and a departure report (spec plan-run) |
 | [src/lockstep/plan_to_code.py](../src/lockstep/plan_to_code.py) | Report where the committed code differs from the plan: a missing file, export or signature |
@@ -229,6 +228,10 @@ Generated from [lockstep.yaml](../lockstep.yaml); edit the source, not this bloc
 | [lockstep.yaml](../lockstep.yaml) | Declares the projection module as source for architecture and wiki full-docstring assessment copies, without edit guards or unrelated policies. |
 | [lychee.toml](../lychee.toml) | Excludes worktree paths and GitHub line anchors from link checking, assigning file-and-line validation to a separate citation checker. |
 | [meta-process/templates/agents.md.template](../meta-process/templates/agents.md.template) | Defines generated AGENTS structure and provenance placeholders for canonical instructions, relationship digest, commands and workflow. |
+| [openspec/changes/archive/2026-11-25-one-plan-checker/proposal.md](../openspec/changes/archive/2026-11-25-one-plan-checker/proposal.md) | OpenSpec change proposal: lockstep plan check runs Company Planning's validator instead of a copy of two of its checks |
+| [openspec/changes/archive/2026-11-25-one-plan-checker/prior-art.json](../openspec/changes/archive/2026-11-25-one-plan-checker/prior-art.json) | Prior-art record for one plan checker: adopt Company Planning's validator |
+| [openspec/changes/archive/2026-11-25-one-plan-checker/specs/lockstep-plan-check/spec.md](../openspec/changes/archive/2026-11-25-one-plan-checker/specs/lockstep-plan-check/spec.md) | Spec delta removing the copied plan checks and adding the call to Company Planning's validator |
+| [openspec/changes/archive/2026-11-25-one-plan-checker/tasks.md](../openspec/changes/archive/2026-11-25-one-plan-checker/tasks.md) | Task list for the one plan checker change |
 | [openspec/changes/archive/2026-11-25-portable-checks/proposal.md](../openspec/changes/archive/2026-11-25-portable-checks/proposal.md) | OpenSpec change proposal: maintainability, helper-reuse and mutation become Lockstep checks |
 | [openspec/changes/archive/2026-11-25-portable-checks/prior-art.json](../openspec/changes/archive/2026-11-25-portable-checks/prior-art.json) | Prior-art record for the portable maintainability, helper-reuse and mutation checks |
 | [openspec/changes/archive/2026-11-25-portable-checks/specs/lockstep-checks/spec.md](../openspec/changes/archive/2026-11-25-portable-checks/specs/lockstep-checks/spec.md) | Spec delta adding the three checks and making them off when absent |
@@ -542,7 +545,6 @@ Generated from [lockstep.yaml](../lockstep.yaml); edit the source, not this bloc
 | [tests/lockstep/example/src/people_finder/__init__.py](../tests/lockstep/example/src/people_finder/__init__.py) | People finder: find the people who work at a target company now. |
 | [tests/lockstep/example/src/people_finder/profiles.json](../tests/lockstep/example/src/people_finder/profiles.json) | Contains five invented profiles, employer case variation and a former employee for search inclusion/exclusion cases. |
 | [tests/lockstep/example/tests/test_find_people.py](../tests/lockstep/example/tests/test_find_people.py) | Checks the exact current-employee handle set, excludes the former employee and rejects blank company input. |
-| [tests/lockstep/fixtures/citation_anchor_cases.json](../tests/lockstep/fixtures/citation_anchor_cases.json) | Shared fixture table of citation-anchor cases with expected outcomes (ok, not_found, ambiguous, malformed), used by two repositories. |
 | [tests/lockstep/fixtures/prior-art-portable-ship.json](../tests/lockstep/fixtures/prior-art-portable-ship.json) | Prior-art record for making the ship tool installable on any machine from the public repository. |
 | [tests/lockstep/lockstep-plan-sample/.aes/project.yaml](../tests/lockstep/lockstep-plan-sample/.aes/project.yaml) | Frozen Lockstep project record specifying src/pcw and tests governed roots and legacy materialization paths. |
 | [tests/lockstep/lockstep-plan-sample/.aes/target.yaml](../tests/lockstep/lockstep-plan-sample/.aes/target.yaml) | Frozen legacy Lockstep target with seven outcomes, detailed behaviors, criteria, artifacts and typed exports for realistic regressions. |
@@ -556,7 +558,6 @@ Generated from [lockstep.yaml](../lockstep.yaml); edit the source, not this bloc
 | [tests/lockstep/test_lockstep_change_list.py](../tests/lockstep/test_lockstep_change_list.py) | Tests after a plan change, the agent gets one list of every file and symbol linked to a changed item. |
 | [tests/lockstep/test_lockstep_change_log.py](../tests/lockstep/test_lockstep_change_log.py) | Tests every normative change has one entry in an append-only change log. |
 | [tests/lockstep/test_lockstep_check.py](../tests/lockstep/test_lockstep_check.py) | Tests `pcw check`, the whole-tree check the Project Brain runner calls before it commits. |
-| [tests/lockstep/test_lockstep_citation_anchor.py](../tests/lockstep/test_lockstep_citation_anchor.py) | Tests anchored citations in lockstep plan check, where a path#:~:text= fragment must match exactly one text in the cited file. |
 | [tests/lockstep/test_lockstep_cogtext.py](../tests/lockstep/test_lockstep_cogtext.py) | Tests cog copies the plan's text into the docstring, word for word (7.1 is tests/test_parent_text.py). |
 | [tests/lockstep/test_lockstep_criterion_checks.py](../tests/lockstep/test_lockstep_criterion_checks.py) | Tests every success criterion names how it is checked: a test, a sign-off or an AI rubric. |
 | [tests/lockstep/test_lockstep_decisions.py](../tests/lockstep/test_lockstep_decisions.py) | Tests reading decisions from their Governs and status lines, and how the hook finds the decisions that govern a file. |
@@ -571,8 +572,7 @@ Generated from [lockstep.yaml](../lockstep.yaml); edit the source, not this bloc
 | [tests/lockstep/test_lockstep_openspec_text.py](../tests/lockstep/test_lockstep_openspec_text.py) | Tests in a repository with OpenSpec specs, the text the hook hands the agent before an edit is the OpenSpec requirement the file implements (its `Implements: &lt;capability&gt;/&lt;requirement&gt;` docstring line); `.aes/target.yaml` stays the source for a repository without OpenSpec (issue #54). |
 | [tests/lockstep/test_lockstep_package.py](../tests/lockstep/test_lockstep_package.py) | Lockstep installs from AES canonical, and its old `pcw` names keep working (one-tool design, slice 1). |
 | [tests/lockstep/test_lockstep_parent_text.py](../tests/lockstep/test_lockstep_parent_text.py) | Tests a behavior's docstring carries its parent requirement in full, before its own text. |
-| [tests/lockstep/test_lockstep_plan_check.py](../tests/lockstep/test_lockstep_plan_check.py) | `lockstep plan check`: the acceptance-criteria file and the plan's requirements (slice 5). |
-| [tests/lockstep/test_lockstep_plan_check_requirements.py](../tests/lockstep/test_lockstep_plan_check_requirements.py) | `lockstep plan check`, requirement coverage: the offline checks of a stored judgment. |
+| [tests/lockstep/test_lockstep_plan_check.py](../tests/lockstep/test_lockstep_plan_check.py) | `lockstep plan check`: runs Company Planning's validator the way ship does, plus the work-unit DAG. |
 | [tests/lockstep/test_lockstep_plan_edit.py](../tests/lockstep/test_lockstep_plan_edit.py) | Tests an edit by hand to the plan file is warned about at edit time, with every linked file and symbol. |
 | [tests/lockstep/test_lockstep_plan_run.py](../tests/lockstep/test_lockstep_plan_run.py) | Tests the departure report, hidden acceptance tests and the run-plan driver with a fake agent runner. |
 | [tests/lockstep/test_lockstep_plan_to_code.py](../tests/lockstep/test_lockstep_plan_to_code.py) | Tests a missing planned file, a missing export and a changed signature are each reported. |

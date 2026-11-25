@@ -2,126 +2,9 @@
 
 ## Purpose
 
-`lockstep plan check` validates a repository's plan format: the acceptance-criteria file and, when Brian's words and a stored coverage judgment are recorded, that each requirement is sourced in his words and covered (`proposals/one-planning-tool/DESIGN.md`, slice 5).
+`lockstep plan check` checks a repository's plan by running Company Planning's `validate_planning_package.py`, the one plan checker `ship` also runs, and adds Lockstep's own work-unit DAG check (`lockstep plan units`). Lockstep holds no copy of the validator's checks (`openspec/changes/archive/2026-11-25-one-plan-checker/proposal.md`).
 
 ## Requirements
-
-### Requirement: The acceptance-criteria file is validated
-
-`lockstep plan check` SHALL read `docs/planning/acceptance-criteria.json` (or the path given with `--acceptance`) and
-exit 1, naming each problem, unless: the record type is `acceptance_criteria`; it lists at least one entry; each entry
-has a unique `id` and the seven fields `criterion`, `demonstration`, `expected`, `failure_example`, `representation`,
-`entrypoint` and `status`; `demonstration` is a list of non-empty steps; `representation` has a `view` and a
-`router_record` naming an existing repository file (and an existing `variants` file when given); `entrypoint` is a
-URL or `planned`; `status` is `not built`, `built`, `judged pass` or `judged fail`; a status other than `not built`
-has a URL, not `planned`; and a judged status carries `judgment` with `by` and `source`, the judge's own recorded
-words. It exits 2 when the file is missing or is not JSON.
-
-Source: Brian, 2026-10-27: "i am concerned that the success critiria and the demonstration of scucess cirtieria that are jdugemable by me and the represntations of these so tha ti can do this havent alreayd been worked out. i thoguth this was part of company planning ocmpliance" (Company Planning `package-contract.md`, "Acceptance criteria"); its move into Lockstep approved by Brian, 2026-11-11: "i approve single tool desing re d4" (`proposals/one-planning-tool/DESIGN.md`, slice 5).
-
-#### Scenario: A complete acceptance file passes
-
-- **GIVEN** an acceptance file with one entry that has all seven fields, a router record that exists and status `not built`
-- **WHEN** `lockstep plan check` runs
-- **THEN** it exits 0 and prints the count of criteria by status
-
-#### Scenario: An entry missing a field fails
-
-- **GIVEN** an entry without one of the seven fields
-- **WHEN** `lockstep plan check` runs
-- **THEN** it exits 1 and says `A1: no <field>`
-
-#### Scenario: A malformed entry fails
-
-- **GIVEN** an entry whose demonstration is not a list of steps, whose representation has no view or a router record that does not exist, whose entrypoint is neither a URL nor `planned`, or whose status is not one of the four
-- **WHEN** `lockstep plan check` runs
-- **THEN** it exits 1 and names that problem for that entry
-
-#### Scenario: A built entry that still says planned fails
-
-- **GIVEN** an entry with status `built` and entrypoint `planned`
-- **WHEN** `lockstep plan check` runs
-- **THEN** it exits 1 and asks for the URL it opens at
-
-#### Scenario: A judged status without the judge's words fails
-
-- **GIVEN** an entry with status `judged pass` and no `judgment` with `by` and `source`
-- **WHEN** `lockstep plan check` runs
-- **THEN** it exits 1; with `judgment: {by, source}` it exits 0
-
-#### Scenario: Duplicate ids and an empty list fail
-
-- **GIVEN** two entries with the same id, or no entries
-- **WHEN** `lockstep plan check` runs
-- **THEN** it exits 1 and says `duplicate id` or `entries: none listed`
-
-#### Scenario: A missing or unreadable file cannot be checked
-
-- **GIVEN** no acceptance file, or one that is not JSON
-- **WHEN** `lockstep plan check` runs
-- **THEN** it exits 2 and says what is wrong
-
-### Requirement: Each plan requirement is sourced in Brian's words and covered
-
-When the acceptance file carries Brian's words (`asked_by`) and a stored coverage judgment (`coverage`, written by Company
-Planning's `coverage_check.py`), `lockstep plan check` SHALL exit 1 unless: the judgment lists requirements with unique ids
-and exactly one mapping each; each requirement's quote is found in the `asked_by` words it cites (exactly, or word for word
-with a few of his typos re-spelled); each requirement not about the planning process is covered in full by criteria that
-exist, or deferred by a `deferred` entry recorded as Brian's own words with date and source; an outcome requirement that was
-not deferred is kept by the `outcome` line; and the judgment is not stale (Brian's words, the outcome, or a criterion or
-deferral it relied on changed since it was judged). Criteria edited or added since are reported as pending, not failed. A
-file with `asked_by` but no judgment fails; a file with neither skips this check and says so. Lockstep makes no model call.
-
-Source: Brian, 2026-10-27, the greer request "start the Greer whole-document graph view now: each hearing as one connected graph you can open and ask questions of" that a rewritten outcome dropped (Company Planning `coverage_check.py`, "Why", and `package-contract.md`, "Goal coverage"); Brian, 2026-11-06, "i approve" (three-call judgment); moved into Lockstep with the approval of 2026-11-11 above (slice 5).
-
-#### Scenario: A covered requirement passes
-
-- **GIVEN** a judgment whose one requirement quotes Brian's words and is fully covered by an existing criterion
-- **WHEN** `lockstep plan check` runs
-- **THEN** it exits 0 and prints the count of requirements covered
-
-#### Scenario: A gap in coverage fails
-
-- **GIVEN** a requirement that is uncovered, only partly covered, covered by a criterion that does not exist, dropped from the outcome line, or deferred without a recorded deferral of Brian's
-- **WHEN** `lockstep plan check` runs
-- **THEN** it exits 1 and names that requirement and gap
-
-#### Scenario: An invented quote fails and a re-spelled typo passes
-
-- **GIVEN** a requirement whose quote is not in Brian's words, or one that differs from them only by a near spelling of one of his typos
-- **WHEN** `lockstep plan check` runs
-- **THEN** it exits 1 for the invented or changed quote and exits 0 for the re-spelled typo
-
-#### Scenario: A deferral in Brian's words counts
-
-- **GIVEN** a requirement mapped to a `deferred` entry with who `Brian`, words, date and source
-- **WHEN** `lockstep plan check` runs
-- **THEN** it exits 0 and counts it as deferred
-
-#### Scenario: A stale or missing judgment is reported
-
-- **GIVEN** Brian's words changed after the judgment, or `asked_by` without any judgment, or a criterion edited after the judgment
-- **WHEN** `lockstep plan check` runs
-- **THEN** it exits 1 for the first two and exits 0 with a pending note for the third
-
-#### Scenario: A file without Brian's words skips the requirement check
-
-- **GIVEN** an acceptance file with no `asked_by` and no `coverage`
-- **WHEN** `lockstep plan check` runs
-- **THEN** it says the requirement check was skipped and the result depends on the acceptance check alone
-
-### Requirement: The command is reached as `lockstep plan check`
-
-`lockstep plan check` SHALL accept `--repo PATH` (default the current directory), `--acceptance PATH` (default
-`docs/planning/acceptance-criteria.json` under the repository) and `--json`, which prints the result as one object.
-
-Source: Brian, 2026-11-11: "i approve single tool desing re d4" (`proposals/one-planning-tool/DESIGN.md`, slice 5: "`lockstep plan check` validates it").
-
-#### Scenario: The acceptance path can be overridden
-
-- **GIVEN** an acceptance file at another path
-- **WHEN** `lockstep plan check --acceptance that/path.json` runs
-- **THEN** that file is the one checked
 
 ### Requirement: Work units form a checked DAG
 
@@ -159,32 +42,40 @@ Source: Brian, 2026-11-14: "we should always have a dag as part of the plans so 
 - **WHEN** `lockstep plan units` runs
 - **THEN** it exits 1 naming the unit
 
-### Requirement: A citation may name the text it points at
+### Requirement: `lockstep plan check` runs Company Planning's validator
 
-A repository file cited in the acceptance file MAY be written `path#:~:text=<percent-encoded text>`, with an optional `prefix-,` before the text and `,-suffix` after it. `lockstep plan check` SHALL accept it only when the file exists and the text, with runs of whitespace counting as one space and the prefix and suffix if given, appears in the file exactly once. It SHALL exit 1 naming the citation when the text is not found, is found more than once, or the anchor is malformed (empty text, invalid percent-encoding, the range form `text,text`, or a directive other than `text=`); a malformed anchor SHALL NOT be skipped as a non-citation. A plain `path` or `path:line` citation SHALL behave as before.
+`lockstep plan check` SHALL accept `--repo PATH` (default the current directory) and `--json`. It SHALL run Company
+Planning's `validate_planning_package.py` on `docs/planning/planning-package.json` under the repository, fetched from
+origin/main of Company Planning and run by the same function and interpreter choice `ship` uses (so
+`SHIP_PLANNING_VALIDATOR`, `SHIP_COMPANY_PLANNING` and `SHIP_VALIDATOR_PYTHON` work the same), print the validator's
+output, and exit with the validator's exit status, except that, as in `ship`, a package that fails only the freshness
+check (it passes with `--no-freshness`) exits 0 with a warning. When `docs/planning/work-units.json` exists it SHALL also report the
+work-unit problems and exit 1 when there are any. It SHALL exit 2, saying why, when the repository has no planning
+package or the validator cannot be fetched or run, or exits with a status other than 0 or 1. With `--json` it SHALL print one object with `ok`, the validator's
+exit status and output, and the work-unit problems. Lockstep SHALL hold no copy of the validator's checks.
 
-Source: Brian, 2026-11-20: "start 1-2" (the first step: line citations in planning packages pass while the cited text has moved; `proposal.md` of this change).
+Source: Brian, 2026-11-11: "i approve single tool desing re d4" (`proposals/one-planning-tool/DESIGN.md`, slice 5: "`lockstep plan check` validates it"); one plan checker approved by Brian, 2026-11-25: "ia prpove yourr ecommednations though" (Company Planning's validator kept as that checker: inferred by agent, `openspec/changes/archive/*-one-plan-checker/proposal.md`).
 
-#### Scenario: An anchored citation survives a line move
+#### Scenario: The validator's verdict is the command's verdict
 
-- **GIVEN** a router record whose cited text sits on a different line from where it was first written
-- **WHEN** `lockstep plan check` runs on an entry citing it as `path#:~:text=...`
-- **THEN** it exits 0
-
-#### Scenario: An anchored citation whose text is gone fails
-
-- **GIVEN** a cited file that no longer contains the quoted text
+- **GIVEN** a repository with a planning package and a validator that exits 1
 - **WHEN** `lockstep plan check` runs
-- **THEN** it exits 1 and the line names the citation and says the text was not found
+- **THEN** it prints the validator's output and exits 1; with a validator that exits 0 it exits 0
 
-#### Scenario: Text found twice fails
+#### Scenario: A package out of date only by freshness passes with a warning
 
-- **GIVEN** a cited file where the quoted text appears twice and no prefix or suffix picks one
+- **GIVEN** a validator that exits 1, and 0 with `--no-freshness`
 - **WHEN** `lockstep plan check` runs
-- **THEN** it exits 1 and says the text matches 2 places
+- **THEN** it exits 0 and prints a warning that the package is out of date
 
-#### Scenario: A malformed anchor fails instead of being skipped
+#### Scenario: A repository with no planning package cannot be checked
 
-- **GIVEN** a citation `path#:~:text=` with no text
+- **GIVEN** a repository without `docs/planning/planning-package.json`
 - **WHEN** `lockstep plan check` runs
-- **THEN** it exits 1 and names the citation as malformed
+- **THEN** it exits 2 and names the missing package
+
+#### Scenario: Work-unit problems are added
+
+- **GIVEN** a planning package the validator passes and a work-units file with a unit depending on a missing unit
+- **WHEN** `lockstep plan check` runs
+- **THEN** it exits 1 and names the work-unit problem

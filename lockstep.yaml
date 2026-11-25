@@ -278,12 +278,6 @@ layout:
   tests:
   - tests/lockstep/checks/test_lockstep_check_quotes.py
   - tests/lockstep/checks/test_lockstep_check_trace.py
-- path: src/lockstep/citation_anchor.py
-  purpose: 'Anchored citations: `path#:~:text=<quoted text>` names the text a citation points at, so it survives line moves'
-  implements:
-  - lockstep-plan-check/a-citation-may-name-the-text-it-points-at
-  tests:
-  - tests/lockstep/test_lockstep_citation_anchor.py
 - path: src/lockstep/cogtext.py
   purpose: Render plan text for a docstring. Called from cog blocks
   implements:
@@ -381,12 +375,15 @@ layout:
   implements: []
   tests: []
 - path: src/lockstep/plan_check.py
-  purpose: '`lockstep plan check [--repo PATH] [--acceptance PATH] [--json]`: is the plan itself well formed?'
+  purpose: '`lockstep plan check [--repo PATH] [--json]`: run Company Planning''s validator on the repository''s plan'
   implements:
-  - lockstep-plan-check/the-acceptance-criteria-file-is-validated
-  - lockstep-plan-check/each-plan-requirement-is-sourced-in-brian-s-words-and-covered
-  - lockstep-plan-check/the-command-is-reached-as-lockstep-plan-check
-  tests: []
+  - lockstep-plan-check/lockstep-plan-check-runs-company-planning-s-validator
+  exports:
+  - 'fetch_planning_validator(run: Run) -> tuple[str | None, str | None]'
+  - 'run_validator(repo: Path) -> tuple[int, str]'
+  - 'unit_problems(repo: Path) -> list[str]'
+  tests:
+  - tests/lockstep/test_lockstep_plan_check.py
 - path: src/lockstep/plan_edit.py
   purpose: Name the plan items an edit by hand to the plan file changes, and every file and symbol linked to them (behavior
     3.8)
@@ -1242,6 +1239,22 @@ layout:
 - path: meta-process/templates/agents.md.template
   purpose: Defines generated AGENTS structure and provenance placeholders for canonical instructions, relationship digest,
     commands and workflow.
+  implements: []
+  tests: []
+- path: openspec/changes/archive/2026-11-25-one-plan-checker/proposal.md
+  purpose: 'OpenSpec change proposal: lockstep plan check runs Company Planning''s validator instead of a copy of two of its checks'
+  implements: []
+  tests: []
+- path: openspec/changes/archive/2026-11-25-one-plan-checker/prior-art.json
+  purpose: 'Prior-art record for one plan checker: adopt Company Planning''s validator'
+  implements: []
+  tests: []
+- path: openspec/changes/archive/2026-11-25-one-plan-checker/specs/lockstep-plan-check/spec.md
+  purpose: 'Spec delta removing the copied plan checks and adding the call to Company Planning''s validator'
+  implements: []
+  tests: []
+- path: openspec/changes/archive/2026-11-25-one-plan-checker/tasks.md
+  purpose: 'Task list for the one plan checker change'
   implements: []
   tests: []
 - path: openspec/changes/archive/2026-11-25-portable-checks/proposal.md
@@ -2617,11 +2630,6 @@ layout:
   purpose: Checks the exact current-employee handle set, excludes the former employee and rejects blank company input.
   implements: []
   tests: []
-- path: tests/lockstep/fixtures/citation_anchor_cases.json
-  purpose: Shared fixture table of citation-anchor cases with expected outcomes (ok, not_found, ambiguous, malformed), used
-    by two repositories.
-  implements: []
-  tests: []
 - path: tests/lockstep/fixtures/prior-art-portable-ship.json
   purpose: Prior-art record for making the ship tool installable on any machine from the public repository.
   implements: []
@@ -2675,11 +2683,6 @@ layout:
   tests: []
 - path: tests/lockstep/test_lockstep_check.py
   purpose: Tests `pcw check`, the whole-tree check the Project Brain runner calls before it commits.
-  implements: []
-  tests: []
-- path: tests/lockstep/test_lockstep_citation_anchor.py
-  purpose: Tests anchored citations in lockstep plan check, where a path#:~:text= fragment must match exactly one text in
-    the cited file.
   implements: []
   tests: []
 - path: tests/lockstep/test_lockstep_cogtext.py
@@ -2745,11 +2748,7 @@ layout:
   implements: []
   tests: []
 - path: tests/lockstep/test_lockstep_plan_check.py
-  purpose: '`lockstep plan check`: the acceptance-criteria file and the plan''s requirements (slice 5).'
-  implements: []
-  tests: []
-- path: tests/lockstep/test_lockstep_plan_check_requirements.py
-  purpose: '`lockstep plan check`, requirement coverage: the offline checks of a stored judgment.'
+  purpose: '`lockstep plan check`: runs Company Planning''s validator the way ship does, plus the work-unit DAG.'
   implements: []
   tests: []
 - path: tests/lockstep/test_lockstep_plan_edit.py
