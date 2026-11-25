@@ -45,11 +45,11 @@ Concepts marked *documents only*, *written by another tool* or *retired* have no
 | Value tally (`value-tally`) | Only in documents | Decision 0011's pre-registered measure: AES catches versus hand checks a person still needed (whygame5: 1 catch, 6 hand checks). | `docs/decisions/0011-inside-success-aes-archived-canonical-is-aes.md:64` | none |
 | Commit rule (`commit-rule`) | Retired (history) | Commit tags and plan adoption per commit; removed on 2026-10-14 at Brian's request. Its config file `.aes/commit_rule.yaml` went with this repository's `.aes/` on 2026-11-12. | `docs/model/ODD.md:55` | none |
 | AES (the whole system) (`aes-system`) | AES as a whole (named in documents) | The whole agent system: Lockstep, the feedback loop and the policy layer; its parts live where they are. | `CLAUDE.md:14` | none |
-| Policy layer (`policy-layer`) | AES as a whole (named in documents) | Brian's rules for agents and the register of how each is enforced: the AES rules register here and the core rules and topic files in code2-workspace agents/. | `.project-brain/now.md:15` | none |
+| Policy layer (`policy-layer`) | AES as a whole (named in documents) | Brian's rules for agents, in one home: the core rules, topic files and rule-sources.md in code2-workspace agents/; AES keeps the rule check (scripts/learning_loop/policies.py). | `.project-brain/now.md:15` | none |
 | Feedback loop (`feedback-loop`) | Feedback loop (in code) | The nightly collector and labels jobs: read changed Claude and Codex transcripts, extract corrections, friction and learnings, file reports, label them. | `scripts/learning_loop/systemd/README.md:3` | `scripts/learning_loop/collect_feedback.py:518` |
 | Human correction (`human-correction`) | Feedback loop (in code) | Something Brian told an agent that says it was wrong or should work differently, extracted from a transcript with its quote. | `scripts/learning_loop/collect_feedback.py:81` | `scripts/learning_loop/collect_feedback.py:85` |
 | Feedback report (`feedback-report`) | Feedback loop (in code) | One issue in the private agent-feedback-log; a report from a human correction carries the label source:human. | `scripts/learning_loop/systemd/README.md:16` | `scripts/learning_loop/feedback_log.py:212` |
-| Rules register (`rules-register`) | Feedback loop (in code) | docs/rules/register.yaml and the page generated from it: each published rule, its status and how it is enforced. | `docs/rules/RULES.md:3` | `scripts/rules/build_rules_page.py:207` |
+| Rules register (`rules-register`) | Retired (history) | AES's one-rule register (docs/rules/register.yaml) and its generated page; retired on 2026-11-25 so rules have one home, code2-workspace agents/. | `docs/retired/2026-11-25.md:3` | none |
 | Agent rules (core and topic files) (`agent-rules`) | Lives in another repository today | The rules every Claude Code and Codex session loads, with Brian's words behind each in rule-sources.md; in code2-workspace agents/. | `.project-brain/now.md:14` | none |
 | pcw (Lockstep's old name) (`lockstep-today`) | Lockstep (in code) | The old package name, kept as an alias of lockstep so lifelike's Makefile and Team-Brains' runner keep working until they move; the old lockstep repository is kept as history. | `src/pcw/__init__.py:1` | `src/pcw/__init__.py:8` |
 | code2check (`code2check`) | Lives in another repository today | code2-template's commit checks (trace, arch, test-first, sources, docmeta) run in every code2 repository's make check. | `proposals/one-planning-tool/DESIGN.md:46` | none |
@@ -69,8 +69,8 @@ Concepts marked *documents only*, *written by another tool* or *retired* have no
 ## Where the sources disagree
 
 - **The corrections-filing gap was repaired.** The 2026-11-11 extraction deferred 867 human-correction reports at the cap. Commit `ec3022d5a` records corrections-first filing and 867/867 filed; Q18 is resolved from that retained observation, not a fresh rerun of the collector.
-- **The AES rules register lists one rule; Brian's rules live in code2-workspace `agents/`.** The register
-  ([RULES.md](../rules/RULES.md) line 7) is not the policy layer's list of rules. Open question Q20.
+- **Resolved 2026-11-25: rules have one home.** The one-rule AES register was retired; Brian's rules live in
+  code2-workspace `agents/` ([record](../retired/2026-11-25.md)). Open question Q20.
 
 ## Source-fact projection within existing Lockstep concepts
 

@@ -126,7 +126,6 @@
         "feedback-loop": "scripts/learning_loop/collect_feedback.py:518",
         "human-correction": "scripts/learning_loop/collect_feedback.py:85",
         "feedback-report": "scripts/learning_loop/feedback_log.py:212",
-        "rules-register": "scripts/rules/build_rules_page.py:207",
         "lockstep-today": "src/pcw/__init__.py:8",
         "one-tool": "src/lockstep/check.py:398",
         "lockstep-config": "src/lockstep/side_file.py:136",
@@ -278,11 +277,11 @@
     ],
     "rules": [
       "src/agentic_engineering_system/evidence.py:510",
-      "docs/rules/register.yaml"
+      "docs/rules/legacy-dispositions.yaml"
     ],
     "instances": [
       "tests/greenfield/fixtures/whygame5-54043e2/.aes/target.yaml",
-      "docs/rules/register.yaml"
+      "docs/rules/legacy-dispositions.yaml"
     ],
     "architecture_views": [
       "docs/planning/SYSTEM_MODEL.md",
@@ -307,12 +306,12 @@
       "program_use": "the aes library and the feedback loop validate each record against them when reading or writing it"
     },
     "rules": {
-      "notation": "Python code and a YAML rule register",
-      "program_use": "evidence.py computes each requirement's standing; scripts/rules builds the rules page from the register"
+      "notation": "Python code and a YAML record of legacy rule dispositions",
+      "program_use": "evidence.py computes each requirement's standing; scripts/rules/sort_legacy.py writes and checks the legacy record"
     },
     "instances": {
-      "notation": "YAML records (.aes/target.yaml, docs/rules/register.yaml)",
-      "program_use": "the aes library and its tests read the target fixture; scripts/rules reads the register"
+      "notation": "YAML records (.aes/target.yaml, docs/rules/legacy-dispositions.yaml)",
+      "program_use": "the aes library and its tests read the target fixture; scripts/rules/sort_legacy.py reads the legacy record"
     }
   },
   "generated": [

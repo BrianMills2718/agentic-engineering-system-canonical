@@ -47,12 +47,11 @@ flowchart LR
     licences[licences: licences for proposed fixes]
     external_ideas[external_ideas: subreddit digest, on request]
     external_judge[external_judge: model decides how much to read]
-    policies[policies: is each rule enforced and observed]
+    policies[policies: is each rule in agents/ documented and observed]
     relation_check[relation_check: S2 measurement]
     question_set_v2[question_set_v2: label questions]
   end
   subgraph PL[Policy layer]
-    build_rules_page[build_rules_page: writes docs/rules/RULES.md]
     sort_legacy[sort_legacy: sort project-meta's legacy rules]
   end
   subgraph LIB[Retained AES library: Lockstep imports it; the aes command line retires]
@@ -155,10 +154,8 @@ flowchart LR
   problems --> evidence_fb
   problems --> licences
   effects --> policies
-  policies --> build_rules_page
   label_items --> question_set_v2
   relation_check --> records_fb
-  sort_legacy --> build_rules_page
   cli --> planning --> records
   planning --> planning_protocol
   cli --> evidence

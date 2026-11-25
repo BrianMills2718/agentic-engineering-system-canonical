@@ -31,7 +31,6 @@
  "feedback-loop": "scripts/learning_loop/collect_feedback.py:518",
  "human-correction": "scripts/learning_loop/collect_feedback.py:85",
  "feedback-report": "scripts/learning_loop/feedback_log.py:212",
- "rules-register": "scripts/rules/build_rules_page.py:207",
  "lockstep-today": "src/pcw/__init__.py:8",
  "one-tool": "src/lockstep/check.py:398",
  "lockstep-config": "src/lockstep/side_file.py:136",

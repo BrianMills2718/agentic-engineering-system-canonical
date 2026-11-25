@@ -22,7 +22,7 @@ flowchart LR
   agent([Coding agents: Claude Code, Codex])
   subgraph aesrepo[agentic-engineering-system-canonical: this repository]
     loop[Feedback loop<br/>scripts/learning_loop, nightly timers]
-    register[Rules register<br/>docs/rules, scripts/rules]
+    register[Legacy rule record<br/>docs/rules, scripts/rules/sort_legacy]
     lib[Retained AES library<br/>src/agentic_engineering_system]
     onetool[Lockstep, the one tool<br/>src/lockstep: plan, docstrings, edit hook,<br/>commit checks, plan check, status; pcw is an alias]
   end
@@ -70,7 +70,7 @@ flowchart TB
   ls[src/lockstep/<br/>Lockstep: layout, edit hook, checks, plan check, status<br/>src/pcw alias]
   lsy[(lockstep.yaml and openspec/specs/<br/>written in the repositories that install it)]
   ll[scripts/learning_loop/<br/>the feedback loop, nightly]
-  rr[scripts/rules/ + docs/rules/<br/>rules register]
+  rr[scripts/rules/sort_legacy + docs/rules/<br/>legacy rule record]
   scr[scripts/hive/<br/>brain_fresh]
   docs[docs/, proposals/, wiki/<br/>115 Markdown files]
   t[(.aes/target.yaml<br/>in a repository that adopts aes)]
@@ -94,7 +94,7 @@ flowchart TB
   ls -->|imports| v02
   ls -->|writes first docstrings and wiki pages| docs
   scr -->|generate pages| docs
-  rr -->|generates RULES.md| docs
+  rr -->|writes legacy-dispositions.yaml| docs
   ll -->|files issues in agent-feedback-log| out[(outside: agent-feedback-log)]
 ```
 
@@ -163,7 +163,7 @@ shared kernel. Open-questions entry Q9 records the reasoning.
 - The claims, sessions and worktree machinery (`enforced_planning/`, `scripts/meta/`, the claims-era `scripts/*.py`) and
   the v0.1 `repository_context` and the agent router: retired on 2026-11-12 ([record](../retired/2026-11-12.md)); `~/code2`
   replaced claims with `claude -w` worktrees (`~/code2/AGENTS.md`) (Q10 resolved).
-- The rules register file `docs/rules/register.yaml` and the feedback loop's plans and pages in
+- The agent rules (code2-workspace `agents/`; the AES register was retired 2026-11-25) and the feedback loop's plans and pages in
   `proposals/aes-learning-loop/`: their record types are in the table above; the system map names each code unit.
 - Lockstep's walkthrough: now built as `proposals/planning-package/review-page/lockstep-acceptance.html` from recorded runs (`scripts/acceptance/`, `docs/planning/runs/lockstep-acceptance/`); A1 to A5 are built, not judged by Brian (Q22 resolved).
 - The Company Planning profile files under `docs/architecture/` (ODD.md gap G1).

@@ -12,7 +12,7 @@
     "proposals/one-planning-tool/DESIGN.md:64",
     ".project-brain/now.md:9",
     "scripts/learning_loop/systemd/README.md:3",
-    "docs/rules/RULES.md:7",
+    "https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/7832d1c965799c421a4f3343b030fbf6d17fdf23/docs/rules/RULES.md#L7",
     "https://github.com/BrianMills2718/code2-workspace/blob/main/docs/decisions/0009-aes-and-lockstep-fate.md"
    ]
   },
@@ -22,7 +22,7 @@
    "found": [
     "scripts/learning_loop/feedback_log.py:214",
     "scripts/learning_loop/collect_feedback.py:798",
-    "scripts/rules/build_rules_page.py:207",
+    "https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/7832d1c965799c421a4f3343b030fbf6d17fdf23/scripts/rules/build_rules_page.py#L207",
     "src/lockstep/behavior_check.py"
    ]
   },
@@ -95,7 +95,7 @@
    "id": "F5",
    "claim": "The AES rules page lists the rules agents in Brian's workspace follow.",
    "evidence": [
-    "docs/rules/RULES.md:7"
+    "https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/7832d1c965799c421a4f3343b030fbf6d17fdf23/docs/rules/RULES.md#L7"
    ],
    "verdict": "fails",
    "question_id": "Q20",

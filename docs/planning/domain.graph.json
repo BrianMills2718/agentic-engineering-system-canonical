@@ -285,7 +285,7 @@
    "id": "policy-layer",
    "label": "Policy layer",
    "kind": "System",
-   "explain": "Brian's rules for agents and the register of how each is enforced: the AES rules register here and the core rules and topic files in code2-workspace agents/. Defined in .project-brain/now.md:15. No code.",
+   "explain": "Brian's rules for agents, in one home: the core rules, topic files and rule-sources.md in code2-workspace agents/; AES keeps the rule check (scripts/learning_loop/policies.py). Defined in .project-brain/now.md:15. No code.",
    "dashed": true
   },
   {
@@ -309,8 +309,9 @@
   {
    "id": "rules-register",
    "label": "Rules register",
-   "kind": "Feedback",
-   "explain": "docs/rules/register.yaml and the page generated from it: each published rule, its status and how it is enforced. Defined in docs/rules/RULES.md:3. Code: scripts/rules/build_rules_page.py:207."
+   "kind": "Retired",
+   "explain": "AES's one-rule register (docs/rules/register.yaml) and its generated page; retired on 2026-11-25 so rules have one home, code2-workspace agents/. Defined in docs/retired/2026-11-25.md:3.",
+   "dashed": true
   },
   {
    "id": "agent-rules",

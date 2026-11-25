@@ -18,7 +18,7 @@ and [component contracts](../docs/architecture/LOCKSTEP.md) explain intended beh
 | Lockstep | [Package](../src/lockstep/__init__.py), [entry points](../pyproject.toml) | [Component account](../docs/architecture/LOCKSTEP.md), [OpenSpec navigation](requirements.md) |
 | Retained AES library and command | [Engine](../src/agentic_engineering_system/__init__.py) | [Retained v0.2 design](../docs/architecture/greenfield-v0.2/README.md); `aes` compatibility is not current self-governance |
 | Feedback collection, analysis and repair mechanisms | [Operator guide](../scripts/learning_loop/systemd/README.md) | [Intended loop and dated runtime limits](../docs/architecture/FEEDBACK_AND_POLICY.md) |
-| Policy register and instruction sources | [Register](../docs/rules/register.yaml), [rules page](../docs/rules/RULES.md) | [Policy ownership](policy-and-rules.md); the register is not complete shared-instruction coverage |
+| Agent rules and their sources | [code2-workspace agents/](https://github.com/BrianMills2718/code2-workspace/blob/main/agents/core.md), [rule sources](https://github.com/BrianMills2718/code2-workspace/blob/main/agents/rule-sources.md) | [Policy ownership](policy-and-rules.md); AES keeps the checker, not a copy of the rules |
 | Agent instructions | [AGENTS.md](../AGENTS.md) | Hand-maintained; [CLAUDE.md](../CLAUDE.md) imports it with `@AGENTS.md`. The generator was retired (see docs/retired/2026-11-14.md) |
 
 ## Execution and storage boundaries
