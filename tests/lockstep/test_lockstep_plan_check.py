@@ -1,12 +1,9 @@
-"""`lockstep plan check`: the acceptance-criteria file and the plan's requirements (slice 5).
+"""`lockstep plan check`: runs Company Planning's validator the way ship does, plus the work-unit DAG.
 
-Ported from company-planning at b8a53a0: tests/test_planning_compliance_skill.py (the acceptance tests) and
-tests/test_goal_coverage.py (the offline checks of a stored judgment).
+The validator is replaced by a stand-in script through SHIP_PLANNING_VALIDATOR, the override ship's own tests use.
 """
 
-import copy
 import json
-import subprocess
 import sys
 from pathlib import Path
 
@@ -14,137 +11,90 @@ import pytest
 
 from lockstep.plan_check import plan_cli
 
-ENTRY = {
-    "id": "A1", "criterion": "Brian can see which sources back each claim on the report page",
-    "demonstration": ["Open the report page", "Click the first claim", "Read the evidence panel"],
-    "expected": "Each claim opens a panel listing its sources with links that resolve",
-    "failure_example": "Claim 3 cites a page that does not mention it: the panel shows no matching quote",
-    "representation": {"view": "table", "router_record": "docs/planning/router/a1.recommendation.json"},
-    "entrypoint": "planned", "status": "not built"}
+
+@pytest.fixture
+def repo(tmp_path, monkeypatch):
+    """A repository with a planning package, and a stand-in validator whose exit status is $FAKE_EXIT."""
+    root = tmp_path / "repo"
+    (root / "docs/planning").mkdir(parents=True)
+    (root / "docs/planning/planning-package.json").write_text("{}", encoding="utf-8")
+    fake = tmp_path / "validate_planning_package.py"
+    fake.write_text("import os, sys\nprint('validator ran on', sys.argv[-1])\n"
+                    "sys.exit(0 if '--no-freshness' in sys.argv and os.environ.get('FRESH_ONLY') else int(os.environ['FAKE_EXIT']))\n",
+                    encoding="utf-8")
+    monkeypatch.setenv("SHIP_PLANNING_VALIDATOR", str(fake))
+    monkeypatch.setenv("SHIP_VALIDATOR_PYTHON", sys.executable)
+    monkeypatch.setenv("SHIP_LOG_DIR", str(tmp_path / "logs"))
+    return root
 
 
-def write(repo: Path, rel: str, content: object) -> Path:
-    path = repo / rel
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(content if isinstance(content, str) else json.dumps(content), encoding="utf-8")
-    return path
+@pytest.mark.req("lockstep-plan-check/the-validator-s-verdict-is-the-command-s-verdict")
+@pytest.mark.parametrize("code", [0, 1])
+def test_the_validators_verdict_is_the_commands_verdict(repo, monkeypatch, capsys, code):
+    monkeypatch.setenv("FAKE_EXIT", str(code))
+    assert plan_cli(["check", "--repo", str(repo)]) == code
+    out = capsys.readouterr().out
+    assert "validator ran on" in out and "planning-package.json" in out
 
 
-def acceptance(repo: Path, entries: list, **extra: object) -> Path:
-    write(repo, "docs/planning/router/a1.recommendation.json", {})
-    return write(repo, "docs/planning/acceptance-criteria.json",
-                 {"schema_version": "1.0", "record_type": "acceptance_criteria", "entries": entries, **extra})
+@pytest.mark.req("lockstep-plan-check/a-package-out-of-date-only-by-freshness-passes-with-a-warning")
+def test_a_package_out_of_date_only_by_freshness_passes_with_a_warning(repo, monkeypatch, capsys):
+    monkeypatch.setenv("FAKE_EXIT", "1")
+    monkeypatch.setenv("FRESH_ONLY", "1")
+    assert plan_cli(["check", "--repo", str(repo)]) == 0
+    assert "out of date" in capsys.readouterr().out
 
 
-def run(repo: Path, capsys, *args: str) -> tuple[int, str]:
-    code = plan_cli(["check", "--repo", str(repo), *args])
-    out = capsys.readouterr()
-    return code, out.out + out.err
+def test_an_unexpected_validator_status_cannot_check(repo, monkeypatch, capsys):
+    monkeypatch.setenv("FAKE_EXIT", "3")
+    assert plan_cli(["check", "--repo", str(repo)]) == 2
+    assert "the validator exited 3" in capsys.readouterr().out
 
 
-@pytest.mark.req("lockstep-plan-check/a-complete-acceptance-file-passes")
-def test_a_complete_acceptance_file_passes(tmp_path, capsys):
-    acceptance(tmp_path, [ENTRY])
-    code, out = run(tmp_path, capsys)
-    assert code == 0, out
-    assert "1 criteria: 1 not built, 0 built, 0 judged pass, 0 judged fail" in out
+def test_ship_progress_lines_stay_off_json_output(repo, monkeypatch, capsys, tmp_path):
+    """The real fetch path: the validator is archived from a company-planning clone's origin/main."""
+    import subprocess
+    validator = "plugins/company-planning/skills/planning-compliance/scripts/validate_planning_package.py"
+    origin = tmp_path / "cp-origin"
+    (origin / validator).parent.mkdir(parents=True)
+    (origin / validator).write_text("import sys\nprint('real fetch ran')\nsys.exit(0)\n", encoding="utf-8")
+    for cmd in (["init", "-q", "-b", "main"], ["add", "."], ["-c", "user.email=t@t", "-c", "user.name=t", "commit", "-qm", "v"]):
+        subprocess.run(["git", "-C", str(origin), *cmd], check=True)
+    clone = tmp_path / "cp"
+    subprocess.run(["git", "clone", "-q", str(origin), str(clone)], check=True)
+    monkeypatch.delenv("SHIP_PLANNING_VALIDATOR")
+    monkeypatch.setenv("SHIP_COMPANY_PLANNING", str(clone))
+    assert plan_cli(["check", "--repo", str(repo), "--json"]) == 0
+    captured = capsys.readouterr()
+    data = json.loads(captured.out)
+    assert "real fetch ran" in data["validator"]["output"] and "ship: fetch company-planning" in captured.err
 
 
-@pytest.mark.req("lockstep-plan-check/an-entry-missing-a-field-fails")
-@pytest.mark.parametrize("field", ["criterion", "demonstration", "expected", "failure_example", "representation",
-                                   "entrypoint", "status"])
-def test_an_entry_missing_a_field_fails(tmp_path, capsys, field):
-    entry = copy.deepcopy(ENTRY)
-    del entry[field]
-    acceptance(tmp_path, [entry])
-    code, out = run(tmp_path, capsys)
-    assert code == 1 and f"A1: no {field}" in out, out
+@pytest.mark.req("lockstep-plan-check/a-repository-with-no-planning-package-cannot-be-checked")
+def test_a_repository_with_no_planning_package_cannot_be_checked(repo, monkeypatch, capsys):
+    monkeypatch.setenv("FAKE_EXIT", "0")
+    (repo / "docs/planning/planning-package.json").unlink()
+    assert plan_cli(["check", "--repo", str(repo)]) == 2
+    assert "no planning package" in capsys.readouterr().out
 
 
-@pytest.mark.req("lockstep-plan-check/a-malformed-entry-fails")
-@pytest.mark.parametrize("expected, change", [
-    ("A1: demonstration must be a list of steps", {"demonstration": "open it and look"}),
-    ("A1: demonstration must be a list of steps", {"demonstration": ["ok", " "]}),
-    ("A1: representation.router_record docs/none.json: docs/none.json does not exist",
-     {"representation": {"view": "table", "router_record": "docs/none.json"}}),
-    ("A1: representation has no view", {"representation": {"router_record": "docs/planning/router/a1.recommendation.json"}}),
-    ("A1: representation must be {view, router_record}", {"representation": "table"}),
-    ("A1: representation.variants must name an existing sketch-set file",
-     {"representation": {"view": "t", "router_record": "docs/planning/router/a1.recommendation.json",
-                         "variants": "docs/nope.json"}}),
-    ("A1: entrypoint must be a URL or planned", {"entrypoint": "later"}),
-    ("A1: status must be one of", {"status": "done"}),
-    ("A1: criterion must be text", {"criterion": ["a"]}),
-])
-def test_a_malformed_entry_fails(tmp_path, capsys, expected, change):
-    acceptance(tmp_path, [{**ENTRY, **change}])
-    code, out = run(tmp_path, capsys)
-    assert code == 1 and expected in out, out
+@pytest.mark.req("lockstep-plan-check/work-unit-problems-are-added")
+def test_work_unit_problems_are_added(repo, monkeypatch, capsys):
+    monkeypatch.setenv("FAKE_EXIT", "0")
+    (repo / "docs/planning/work-units.json").write_text(json.dumps({"record_type": "work_units", "units": [
+        {"id": "A", "title": "a", "depends_on": ["Z"], "touches": ["x.py"], "status": "planned"}]}), encoding="utf-8")
+    assert plan_cli(["check", "--repo", str(repo)]) == 1
+    assert "work units: A: depends_on names Z" in capsys.readouterr().out
 
 
-@pytest.mark.req("lockstep-plan-check/a-built-entry-that-still-says-planned-fails")
-def test_a_built_entry_that_still_says_planned_fails(tmp_path, capsys):
-    acceptance(tmp_path, [{**ENTRY, "status": "built"}])
-    code, out = run(tmp_path, capsys)
-    assert code == 1 and "A1: status built but entrypoint is planned" in out, out
+def test_json_output_is_one_object(repo, monkeypatch, capsys):
+    monkeypatch.setenv("FAKE_EXIT", "1")
+    assert plan_cli(["check", "--repo", str(repo), "--json"]) == 1
+    data = json.loads(capsys.readouterr().out)
+    assert data["ok"] is False and data["validator"]["exit"] == 1 and data["work_units"] == []
 
 
-@pytest.mark.req("lockstep-plan-check/a-judged-status-without-the-judge-s-words-fails")
-def test_a_judged_status_without_the_judges_words_fails(tmp_path, capsys):
-    judged = {**ENTRY, "status": "judged pass", "entrypoint": "https://example.invalid/page"}
-    acceptance(tmp_path, [judged])
-    code, out = run(tmp_path, capsys)
-    assert code == 1 and "A1: judged pass needs judgment {by, source}" in out, out
-    acceptance(tmp_path, [{**judged, "judgment": {"by": "brian", "source": 'chat 2026-10-27: "yes that works"'}}])
-    code, out = run(tmp_path, capsys)
-    assert code == 0 and "1 judged pass" in out, out
-    acceptance(tmp_path, [{**judged, "status": "judged fail", "judgment": {"by": "brian"}}])
-    code, out = run(tmp_path, capsys)
-    assert code == 1 and "judged fail needs judgment" in out, out
-
-
-@pytest.mark.req("lockstep-plan-check/duplicate-ids-and-an-empty-list-fail")
-def test_duplicate_ids_and_an_empty_list_fail(tmp_path, capsys):
-    acceptance(tmp_path, [ENTRY, ENTRY])
-    code, out = run(tmp_path, capsys)
-    assert code == 1 and "A1: duplicate id" in out, out
-    acceptance(tmp_path, [])
-    code, out = run(tmp_path, capsys)
-    assert code == 1 and "entries: none listed" in out, out
-    write(tmp_path, "docs/planning/acceptance-criteria.json", {"record_type": "nope", "entries": [ENTRY]})
-    code, out = run(tmp_path, capsys)
-    assert code == 1 and "record_type is not acceptance_criteria" in out, out
-
-
-@pytest.mark.req("lockstep-plan-check/a-missing-or-unreadable-file-cannot-be-checked")
-def test_a_missing_or_unreadable_file_cannot_be_checked(tmp_path, capsys):
-    code, out = run(tmp_path, capsys)
-    assert code == 2 and "not found" in out, out
-    write(tmp_path, "docs/planning/acceptance-criteria.json", "{not json")
-    code, out = run(tmp_path, capsys)
-    assert code == 2 and "not JSON" in out, out
-
-
-@pytest.mark.req("lockstep-plan-check/the-acceptance-path-can-be-overridden")
-def test_the_acceptance_path_can_be_overridden(tmp_path, capsys):
-    path = acceptance(tmp_path, [ENTRY])
-    other = tmp_path / "elsewhere.json"
-    other.write_text(path.read_text().replace('"not built"', '"done"'), encoding="utf-8")
-    path.unlink()
-    code, out = run(tmp_path, capsys, "--acceptance", "elsewhere.json")
-    assert code == 1 and "A1: status must be one of" in out, out
-
-
-def test_json_output_is_one_object(tmp_path, capsys):
-    acceptance(tmp_path, [ENTRY])
-    code, out = run(tmp_path, capsys, "--json")
-    data = json.loads(out)
-    assert code == 0 and data["ok"] is True and data["problems"] == []
-
-
-def test_the_command_is_reached_through_lockstep_plan(tmp_path):
-    acceptance(tmp_path, [ENTRY])
-    p = subprocess.run([sys.executable, "-c", "import sys; sys.argv=['lockstep','plan','check','--repo',sys.argv[1]];"
-                        "from lockstep.check import cli; raise SystemExit(cli())", str(tmp_path)],
-                       capture_output=True, text=True)
-    assert p.returncode == 0, p.stdout + p.stderr
+def test_a_missing_validator_cannot_check(repo, monkeypatch, capsys, tmp_path):
+    monkeypatch.setenv("SHIP_PLANNING_VALIDATOR", str(tmp_path / "absent.py"))
+    assert plan_cli(["check", "--repo", str(repo)]) == 2
+    assert "does not exist" in capsys.readouterr().out

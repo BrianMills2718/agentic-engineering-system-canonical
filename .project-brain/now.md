@@ -1,10 +1,13 @@
-# Minimal core met; template and ship live here (updated 2026-11-24)
+# Minimal core met; template and ship live here (updated 2026-11-25)
 
 Brian, 2026-11-20: "the whole thing should be configurable and shareable/protable. we shoudl start with the minimal
 core". The first milestone is met: a repository made from the template ran one plan each in Claude and Codex in a
 clean home folder (hidden tests 0/3 then 3/3, and 0/10 then 10/10) and merged with `ship`
 ([result](../docs/planning/minimal-core-2026-11-20.md), section 8; #996). Since then:
 
+- One plan checker (2026-11-25, Brian: "ia prpove yourr ecommednations though"): `lockstep plan check` runs Company
+  Planning's validator the way `ship` does, instead of a copy of two of its checks; the copy and
+  `src/lockstep/citation_anchor.py` are gone (Q19 resolved).
 - `ship` is a console script of this package, with the prior-art check inside Lockstep (`lockstep check prior-art`)
   (#993); logs go under XDG state when there is no `~/code2` (#998); `run-plan` prints `uv run ship` and the status
   page is build output (#997).

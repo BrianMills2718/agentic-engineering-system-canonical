@@ -913,11 +913,11 @@ ORIGIN_NAME = re.compile(r"([^/:]+)[/:]([^/:]+?)(?:\.git)?/?$")
 class Run:
     """One ship run: prints each step and appends it, with the check's full output, to the day's log."""
 
-    def __init__(self, repo: Path):
-        """Open the day's log and record the start of the run."""
+    def __init__(self, repo: Path, log_dir: Path | None = None):
+        """Open the day's log (in log_dir when given, e.g. `lockstep plan check`'s own folder) and record the start."""
         self.repo = repo
         self.rebased_from: str | None = None  # the head before ship's own rebase, when it rebased
-        log_dir = Path(os.environ.get("SHIP_LOG_DIR") or default_log_dir("ship"))
+        log_dir = log_dir or Path(os.environ.get("SHIP_LOG_DIR") or default_log_dir("ship"))
         log_dir.mkdir(parents=True, exist_ok=True)
         self.log = log_dir / f"{datetime.date.today().isoformat()}.log"
         self.write(f"\n=== ship {repo} at {datetime.datetime.now().isoformat(timespec='seconds')}")
@@ -1355,30 +1355,10 @@ def planning_gate(run: Run, repo: Path, *, always_validate: bool = False) -> str
         refused = plan_list_refusal(run, repo)
         if refused:
             return refused
-    validator = os.environ.get("SHIP_PLANNING_VALIDATOR")
-    if not validator:
-        source = Path(os.environ.get("SHIP_COMPANY_PLANNING", Path.home() / "code2" / "company-planning"))
-        if run.step("fetch company-planning", ["git", "-C", str(source), "fetch", "-q", "origin"]).returncode:
-            return f"could not fetch {source}, so the planning package cannot be validated"
-        # the validator imports its sibling modules (coverage_check.py), so extract the whole scripts folder;
-        # it finds goal_provenance.py three folders up, so every path keeps its place in company-planning
-        scripts_dir = str(Path(VALIDATOR).parent)
-        present = [p for p in GOAL_PROVENANCE
-                   if subprocess.run(["git", "-C", str(source), "cat-file", "-e", f"origin/main:{p}"],
-                                     capture_output=True).returncode == 0]
-        archive = Path(run.log.parent) / "planning-validator.tar"
-        target = Path(run.log.parent) / "planning-validator"
-        target.mkdir(parents=True, exist_ok=True)
-        made = run.step("archive the validator folder from company-planning origin/main",
-                        ["git", "-C", str(source), "archive", "-o", str(archive), "origin/main", scripts_dir, *present])
-        if made.returncode:
-            return f"could not archive {scripts_dir} from {source} origin/main"
-        unpacked = run.step("unpack the validator folder", ["tar", "-x", "-f", str(archive), "-C", str(target)])
-        if unpacked.returncode:
-            return f"could not unpack {scripts_dir} into {target}"
-        validator = str(target / VALIDATOR)
-    if not Path(validator).is_file():
-        return f"the planning validator {validator} does not exist"
+    from lockstep.plan_check import fetch_planning_validator  # here, not at the top: plan_check imports ship
+    validator, refused = fetch_planning_validator(run)
+    if validator is None:
+        return refused or "the planning validator could not be fetched"
     python = validator_python(run)
     if python is None:
         return (f"the planning validator could not run: none of {', '.join(' '.join(c) for c in VALIDATOR_PYTHONS)} "

@@ -379,7 +379,7 @@
    "id": "plan-check",
    "label": "lockstep plan check",
    "kind": "Lockstep",
-   "explain": "The plan and acceptance format check ported from Company Planning's validator, so the format is defined in one place. Defined in proposals/one-planning-tool/DESIGN.md:74. Code: src/lockstep/plan_check.py:363."
+   "explain": "Runs Company Planning's validator, the one plan checker ship also runs, and adds the work-unit DAG check. Defined in proposals/one-planning-tool/DESIGN.md:74. Code: src/lockstep/plan_check.py:80."
   },
   {
    "id": "acceptance_entry",
@@ -394,20 +394,6 @@
    "kind": "DocOnly",
    "explain": "One step of the one-tool build that merges when it works: move, plan format, guard, commit checks, plan check, switch users. Defined in proposals/one-planning-tool/DESIGN.md:64. No code.",
    "dashed": true
-  },
-  {
-   "id": "ecosystem-consolidation",
-   "label": "Ecosystem consolidation",
-   "kind": "DocOnly",
-   "dashed": true,
-   "explain": "The adopted direction to make capabilities, providers, contracts, consumers and evidence discoverable through one route while preserving native owners; see docs/architecture/ECOSYSTEM.md."
-  },
-  {
-   "id": "legacy-review",
-   "label": "Legacy source review",
-   "kind": "DocOnly",
-   "dashed": true,
-   "explain": "The first-pass examination of predecessor sources and their reuse or retirement dispositions before migration; see docs/architecture/ECOSYSTEM.md and decision 0014."
   }
  ],
  "edges": [
