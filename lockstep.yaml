@@ -1468,6 +1468,11 @@ layout:
     update rather than a fresh health reading.
   implements: []
   tests: []
+- path: proposals/aes-whole-system/PLAN.md
+  purpose: Plans AES holding all four parts (Lockstep, planning, rules, feedback) with every part switchable in lockstep.yaml;
+    slice 1 moves the planning gates there, and the feedback loop's dry run and friction measure.
+  implements: []
+  tests: []
 - path: proposals/one-planning-tool/DESIGN.md
   purpose: Records the adopted one-tool design, OpenSpec/layout format, guard/check consolidation, normative docstrings and
     portable installation, with a concrete example and six delivery slices.
