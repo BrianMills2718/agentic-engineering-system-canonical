@@ -1,6 +1,15 @@
 # Lockstep governs its own package: every file under src/lockstep/ is a layout row, and the edit hook refuses an unplanned one (openspec lockstep-plan-format/lockstep-governs-its-own-package).
 schema: lockstep.side.v1
 owner: BrianMills2718
+# Checks off by default that AES switches on (`lockstep check <name>`); helper-reuse stays off (a paid model call,
+# run by hand with `make check-helper-reuse`).
+checks:
+  maintainability: block
+  mutation: block
+# `lockstep check mutation --issue` (gates-nightly): the issue sits in the workspace repository, titled for AES.
+mutation:
+  issue_repo: BrianMills2718/code2-workspace
+  name: AES
 governed: [".", "src/lockstep/"]
 fixed: ["src/lockstep/*"]
 layout:
@@ -169,6 +178,65 @@ layout:
   - 'check(root: Path, base: str) -> Result'
   tests:
   - tests/lockstep/checks/test_lockstep_check_suppressions.py
+- path: src/lockstep/checks/maintainability.py
+  purpose: 'Maintainability check (off unless switched on): fail on findings a branch adds (blind except, more complex
+    function, more duplicate code, large file that grew), comparing with the merge base; old findings never block'
+  implements:
+  - lockstep-checks/maintainability-only-findings-the-branch-adds-fail
+  - lockstep-checks/maintainability-off-unless-switched-on
+  exports:
+  - 'run(root: Path, base_rev: str=''origin/main'', folders: tuple[str, ...]=(''src'', ''scripts''), max_lines: int=800) -> int'
+  - 'main(argv: list[str] | None=None) -> int'
+  tests:
+  - tests/lockstep/checks/test_lockstep_check_maintainability.py
+- path: src/lockstep/checks/helper_reuse.py
+  purpose: 'Helper-reuse check (off unless switched on; needs llm_client): report functions a branch adds that rewrite
+    an existing function under a new name, read for meaning by a light model'
+  implements:
+  - lockstep-checks/helper-reuse-flags-a-rewrite-of-an-existing-function
+  - lockstep-checks/helper-reuse-off-unless-switched-on-and-needs-llm-client
+  exports:
+  - 'llm_client_missing() -> bool'
+  - 'run(repo: Path, base: str=''origin/main'', folders: tuple[str, ...]=(''src'', ''scripts''), head: str | None=None, model: str | None=None) -> int'
+  - 'main(argv: list[str] | None=None) -> int'
+  tests:
+  - tests/lockstep/checks/test_lockstep_check_helper_reuse.py
+- path: src/lockstep/checks/prompts/helper_reuse/candidates.yaml
+  purpose: Prompt template for the helper-reuse check's first call, which names existing functions each new function may
+    duplicate.
+  implements: []
+  tests: []
+- path: src/lockstep/checks/prompts/helper_reuse/judge.yaml
+  purpose: Prompt template for the helper-reuse check's second call, which judges each new function against its candidates.
+  implements: []
+  tests: []
+- path: src/lockstep/checks/mutation.py
+  purpose: 'Mutation check (off unless switched on; needs mutmut): run mutmut, list surviving mutants by module, keep one
+    owner:agent issue in the configured repository'
+  implements:
+  - lockstep-checks/mutation-lists-surviving-mutants-per-repository
+  - lockstep-checks/mutation-survivors-are-a-report-and-a-broken-run-is-a-failure
+  - lockstep-checks/mutation-one-agent-issue-carries-the-survivors
+  - lockstep-checks/mutation-off-unless-switched-on-and-set-per-repository
+  exports:
+  - 'title(name: str) -> str'
+  - 'state_dir(tree: Path) -> Path'
+  - 'find_mutmut(tree: Path) -> Path | None'
+  - 'keep_agent_issue(repo: str, title_: str, body: str, key: list[str], state: Path, anything: bool) -> str'
+  - 'module_of(key: str) -> str'
+  - 'parse_results(text: str) -> dict[str, str]'
+  - 'summary_line(status: dict[str, str], secs: int, name: str='''') -> str'
+  - 'issue_body(by_module: dict[str, list[str]], diffs: dict[str, str], line: str, name: str='''', tree: Path | str=''.'') -> str'
+  - 'run_mutmut(cmd: list[str], cwd: Path, env: dict, timeout: int) -> tuple[int | None, str, int]'
+  - 'set_aside_broken(tree: Path) -> list[str]'
+  - 'read_status(mutmut: Path, tree: Path, env: dict) -> tuple[int, dict[str, str]]'
+  - 'stalled(progress: Path, stopped: bool, unchecked: int) -> int | None'
+  - 'recheck(mutmut: Path, keys: list[str], tree: Path, env: dict) -> tuple[dict[str, str], str]'
+  - 'show_diffs(mutmut: Path, keys: list[str], tree: Path, env: dict) -> dict[str, str]'
+  - 'run(tree: Path, timeout: int=TIMEOUT, issue: bool=False, issue_repo: str | None=None, name: str | None=None) -> int'
+  - 'main(argv: list[str] | None=None) -> int'
+  tests:
+  - tests/lockstep/checks/test_lockstep_check_mutation.py
 - path: src/lockstep/checks/spec.py
   purpose: Read OpenSpec spec files into requirement and scenario IDs
   implements:
@@ -1182,6 +1250,26 @@ layout:
     commands and workflow.
   implements: []
   tests: []
+- path: openspec/changes/archive/2026-11-25-portable-checks/proposal.md
+  purpose: 'OpenSpec change proposal: maintainability, helper-reuse and mutation become Lockstep checks'
+  implements: []
+  tests: []
+- path: openspec/changes/archive/2026-11-25-portable-checks/prior-art.json
+  purpose: 'Prior-art record for the portable maintainability, helper-reuse and mutation checks'
+  implements: []
+  tests: []
+- path: openspec/changes/archive/2026-11-25-portable-checks/specs/lockstep-checks/spec.md
+  purpose: 'Spec delta adding the three checks and making them off when absent'
+  implements: []
+  tests: []
+- path: openspec/changes/archive/2026-11-25-portable-checks/specs/lockstep-init/spec.md
+  purpose: 'Spec delta: lockstep init writes the three checks off'
+  implements: []
+  tests: []
+- path: openspec/changes/archive/2026-11-25-portable-checks/tasks.md
+  purpose: 'Task list for the portable checks change'
+  implements: []
+  tests: []
 - path: openspec/changes/archive/.gitkeep
   purpose: Empty placeholder that keeps the archive folder in git after its change folders were removed.
   implements: []
@@ -1367,15 +1455,6 @@ layout:
   tests: []
 - path: prompts/concern_repair/review.yaml
   purpose: Prompt template for the independent reviewer that judges whether a concern repair fixed the root cause.
-  implements: []
-  tests: []
-- path: prompts/helper_reuse/candidates.yaml
-  purpose: Prompt template for the helper-reuse check's first call, which names existing functions each new function may
-    duplicate.
-  implements: []
-  tests: []
-- path: prompts/helper_reuse/judge.yaml
-  purpose: Prompt template for the helper-reuse check's second call, which judges each new function against its candidates.
   implements: []
   tests: []
 - path: proposals/README.md
@@ -1766,14 +1845,6 @@ layout:
   purpose: Turn each failed systemd user unit into one keyed concern issue so timer crashes are reported.
   implements: []
   tests: []
-- path: scripts/helper_reuse_check.py
-  purpose: Report functions a branch adds that rewrite an existing function under a new name, read for meaning by a light
-    model through llm_client; report-only, not in make check. AES pilot.
-  implements: []
-  exports:
-  - 'main(argv: list[str] | None=None) -> int'
-  tests:
-  - tests/test_helper_reuse_check.py
 - path: scripts/hive/README.md
   purpose: Explains that Hive moved to personal-vps while brain_fresh.py stays for existing callers.
   implements: []
@@ -1936,14 +2007,6 @@ layout:
     or local-only).
   implements: []
   tests: []
-- path: scripts/maintainability_ratchet.py
-  purpose: Fail make check on maintainability findings a branch adds (blind except, more complex function, more duplicate
-    code, large file that grew), comparing with the merge base; old findings never block. AES pilot.
-  implements: []
-  exports:
-  - 'main(argv: list[str] | None=None) -> int'
-  tests:
-  - tests/test_maintainability_ratchet.py
 - path: scripts/md_file_cap.py
   purpose: Enforce the 100 tracked Markdown file cap per Brian-owned repository, with written exceptions.
   implements: []
@@ -2424,6 +2487,21 @@ layout:
   purpose: Checks that added suppression comments and import-linter ignores without a reason fail, and old lines are not judged.
   implements: []
   tests: []
+- path: tests/lockstep/checks/test_lockstep_check_maintainability.py
+  purpose: Checks the maintainability check on throwaway git repositories, where only findings added on the branch fail,
+    and that it is off unless switched on.
+  implements: []
+  tests: []
+- path: tests/lockstep/checks/test_lockstep_check_helper_reuse.py
+  purpose: Checks the helper-reuse check offline with the model calls replaced, its input budget against this
+    repository's real index, and that it is off unless switched on and needs llm_client.
+  implements: []
+  tests: []
+- path: tests/lockstep/checks/test_lockstep_check_mutation.py
+  purpose: Checks the mutation check with mutmut and gh replaced (and once against real mutmut), its issue and its
+    per-repository settings.
+  implements: []
+  tests: []
 - path: tests/lockstep/checks/test_lockstep_check_status.py
   purpose: Checks status links, pass/fail/skip outcomes, revision/dirty-tree invalidation and open plan IDs.
   implements: []
@@ -2800,11 +2878,6 @@ layout:
   purpose: Tests the feedback-loop notification and alert scripts, using fake HTTP responses and no network.
   implements: []
   tests: []
-- path: tests/test_helper_reuse_check.py
-  purpose: Tests the helper-reuse check offline on throwaway git repositories, with the model calls replaced, and its
-    input budget against this repository's real index.
-  implements: []
-  tests: []
 - path: tests/test_hub_page.py
   purpose: Tests the hub page generator's rendering from configuration and workspace map data.
   implements: []
@@ -2815,10 +2888,6 @@ layout:
   tests: []
 - path: tests/test_machine_manifest.py
   purpose: Tests the machine manifest script, which lists sources from a unit folder and must not expose secret values.
-  implements: []
-  tests: []
-- path: tests/test_maintainability_ratchet.py
-  purpose: Tests the maintainability ratchet on throwaway git repositories, where only findings added on the branch fail.
   implements: []
   tests: []
 - path: tests/test_md_file_cap.py

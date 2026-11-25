@@ -31,6 +31,11 @@ Generated from [lockstep.yaml](../lockstep.yaml); edit the source, not this bloc
 | [src/lockstep/checks/show.py](../src/lockstep/checks/show.py) | Show what one source file must keep true: the requirements its docstrings implement, with their text and scenarios |
 | [src/lockstep/checks/sources.py](../src/lockstep/checks/sources.py) | Sources check: every requirement and decision record says where it came from |
 | [src/lockstep/checks/suppressions.py](../src/lockstep/checks/suppressions.py) | Suppressions check: an added `# noqa`, `# type: ignore` or import-linter ignore names its reason |
+| [src/lockstep/checks/maintainability.py](../src/lockstep/checks/maintainability.py) | Maintainability check (off unless switched on): fail on findings a branch adds (blind except, more complex function, more duplicate code, large file that grew), comparing with the merge base; old findings never block |
+| [src/lockstep/checks/helper_reuse.py](../src/lockstep/checks/helper_reuse.py) | Helper-reuse check (off unless switched on; needs llm_client): report functions a branch adds that rewrite an existing function under a new name, read for meaning by a light model |
+| [src/lockstep/checks/prompts/helper_reuse/candidates.yaml](../src/lockstep/checks/prompts/helper_reuse/candidates.yaml) | Prompt template for the helper-reuse check's first call, which names existing functions each new function may duplicate. |
+| [src/lockstep/checks/prompts/helper_reuse/judge.yaml](../src/lockstep/checks/prompts/helper_reuse/judge.yaml) | Prompt template for the helper-reuse check's second call, which judges each new function against its candidates. |
+| [src/lockstep/checks/mutation.py](../src/lockstep/checks/mutation.py) | Mutation check (off unless switched on; needs mutmut): run mutmut, list surviving mutants by module, keep one owner:agent issue in the configured repository |
 | [src/lockstep/checks/spec.py](../src/lockstep/checks/spec.py) | Read OpenSpec spec files into requirement and scenario IDs |
 | [src/lockstep/checks/status.py](../src/lockstep/checks/status.py) | Status report: each requirement's implementers, each scenario's tests and whether they passed at this revision, and the IDs each plan has still to close |
 | [src/lockstep/checks/test_first.py](../src/lockstep/checks/test_first.py) | Test-first check: a test for a scenario new since the base revision must fail on the base source, |
@@ -225,6 +230,11 @@ Generated from [lockstep.yaml](../lockstep.yaml); edit the source, not this bloc
 | [lockstep.yaml](../lockstep.yaml) | Declares the projection module as source for architecture and wiki full-docstring assessment copies, without edit guards or unrelated policies. |
 | [lychee.toml](../lychee.toml) | Excludes worktree paths and GitHub line anchors from link checking, assigning file-and-line validation to a separate citation checker. |
 | [meta-process/templates/agents.md.template](../meta-process/templates/agents.md.template) | Defines generated AGENTS structure and provenance placeholders for canonical instructions, relationship digest, commands and workflow. |
+| [openspec/changes/archive/2026-11-25-portable-checks/proposal.md](../openspec/changes/archive/2026-11-25-portable-checks/proposal.md) | OpenSpec change proposal: maintainability, helper-reuse and mutation become Lockstep checks |
+| [openspec/changes/archive/2026-11-25-portable-checks/prior-art.json](../openspec/changes/archive/2026-11-25-portable-checks/prior-art.json) | Prior-art record for the portable maintainability, helper-reuse and mutation checks |
+| [openspec/changes/archive/2026-11-25-portable-checks/specs/lockstep-checks/spec.md](../openspec/changes/archive/2026-11-25-portable-checks/specs/lockstep-checks/spec.md) | Spec delta adding the three checks and making them off when absent |
+| [openspec/changes/archive/2026-11-25-portable-checks/specs/lockstep-init/spec.md](../openspec/changes/archive/2026-11-25-portable-checks/specs/lockstep-init/spec.md) | Spec delta: lockstep init writes the three checks off |
+| [openspec/changes/archive/2026-11-25-portable-checks/tasks.md](../openspec/changes/archive/2026-11-25-portable-checks/tasks.md) | Task list for the portable checks change |
 | [openspec/changes/archive/.gitkeep](../openspec/changes/archive/.gitkeep) | Empty placeholder that keeps the archive folder in git after its change folders were removed. |
 | [openspec/config.yaml](../openspec/config.yaml) | Selects OpenSpec’s spec-driven schema; optional context, artifact rules and operation guidance remain commented examples rather than active custom requirements. |
 | [openspec/specs/.gitkeep](../openspec/specs/.gitkeep) | Empty tracked placeholder retaining the directory in Git, with no substantive requirement or history. |
@@ -266,8 +276,6 @@ Generated from [lockstep.yaml](../lockstep.yaml); edit the source, not this bloc
 | [openspec/specs/workspace-map-check/spec.md](../openspec/specs/workspace-map-check/spec.md) | Specifies the daily check that every top-level workspace entry is explained and reports clutter and stale state. |
 | [prompts/concern_repair/repair.yaml](../prompts/concern_repair/repair.yaml) | Prompt template for the unattended agent that repairs one GitHub feedback concern at its root cause. |
 | [prompts/concern_repair/review.yaml](../prompts/concern_repair/review.yaml) | Prompt template for the independent reviewer that judges whether a concern repair fixed the root cause. |
-| [prompts/helper_reuse/candidates.yaml](../prompts/helper_reuse/candidates.yaml) | Prompt template for the helper-reuse check's first call, which names existing functions each new function may duplicate. |
-| [prompts/helper_reuse/judge.yaml](../prompts/helper_reuse/judge.yaml) | Prompt template for the helper-reuse check's second call, which judges each new function against its candidates. |
 | [proposals/README.md](../proposals/README.md) | Routes to the adopted design, bounded acceptance review, retirement record and current feedback account, directing new behavior changes through OpenSpec. |
 | [proposals/aes-learning-loop/review-page/build_requirements.py](../proposals/aes-learning-loop/review-page/build_requirements.py) | Builds feedback requirements HTML from 19 authored quoted requirements/statuses/evidence/fixes; embedded October limits need reconciliation with later HTML amendments before rebuilding. |
 | [proposals/aes-learning-loop/review-page/feedback-coverage.html](../proposals/aes-learning-loop/review-page/feedback-coverage.html) | Shows the October 11 matrix of agent setup components, recorded feedback routes and change owners, separating capture from application with then-current counts. |
@@ -354,7 +362,6 @@ Generated from [lockstep.yaml](../lockstep.yaml); edit the source, not this bloc
 | [scripts/concern_repair_feedback.py](../scripts/concern_repair_feedback.py) | Select the oldest eligible repair concern (observe) and verify the repair agent's report mechanically (verify). |
 | [scripts/discovery_journey.py](../scripts/discovery_journey.py) | Run the ecosystem discovery journey for two capabilities and four failure exercises, writing one JSON receipt with inputs and results. |
 | [scripts/failed_unit_watch.py](../scripts/failed_unit_watch.py) | Turn each failed systemd user unit into one keyed concern issue so timer crashes are reported. |
-| [scripts/helper_reuse_check.py](../scripts/helper_reuse_check.py) | Report functions a branch adds that rewrite an existing function under a new name, read for meaning by a light model through llm_client; report-only, not in make check. AES pilot. |
 | [scripts/hive/README.md](../scripts/hive/README.md) | Explains that Hive moved to personal-vps while brain_fresh.py stays for existing callers. |
 | [scripts/hive/brain_fresh.py](../scripts/hive/brain_fresh.py) | Is a project's brain older than the work done since? (hive brain v1, C-CONTEXT) |
 | [scripts/hub_page.py](../scripts/hub_page.py) | Build the AES hub page listing decisions needed from the owner, broken services, record updates and changes, each source shown as checked or not checked. |
@@ -392,7 +399,6 @@ Generated from [lockstep.yaml](../lockstep.yaml); edit the source, not this bloc
 | [scripts/learning_loop/systemd/feedback-problems.timer](../scripts/learning_loop/systemd/feedback-problems.timer) | Weekly feedback loop (problems, licences, effects). Schedules Sun *-*-* 05:00:00 with persistent catch-up and randomized delay. |
 | [scripts/learning_loop/transcripts.py](../scripts/learning_loop/transcripts.py) | Read Claude Code and Codex transcripts as plain turns, and split closeout fields. |
 | [scripts/machine_manifest.py](../scripts/machine_manifest.py) | Write and check a manifest recording the source of every systemd user unit on this machine (git, AES job list, or local-only). |
-| [scripts/maintainability_ratchet.py](../scripts/maintainability_ratchet.py) | Fail make check on maintainability findings a branch adds (blind except, more complex function, more duplicate code, large file that grew), comparing with the merge base; old findings never block. AES pilot. |
 | [scripts/md_file_cap.py](../scripts/md_file_cap.py) | Enforce the 100 tracked Markdown file cap per Brian-owned repository, with written exceptions. |
 | [scripts/notify_operator.py](../scripts/notify_operator.py) | Send a condition to the operator side of the ecosystem through a CLI and shared stamps, replacing the old Windows message box. |
 | [scripts/operator_notification_record.py](../scripts/operator_notification_record.py) | Write the durable record of each operator notification before any delivery is attempted. |
@@ -506,6 +512,9 @@ Generated from [lockstep.yaml](../lockstep.yaml); edit the source, not this bloc
 | [tests/lockstep/checks/test_lockstep_check_show.py](../tests/lockstep/checks/test_lockstep_check_show.py) | Checks show prints implemented requirements and reports files without implementation links. |
 | [tests/lockstep/checks/test_lockstep_check_sources.py](../tests/lockstep/checks/test_lockstep_check_sources.py) | Checks missing requirement/decision sources and classification of human and agent-derived attribution. |
 | [tests/lockstep/checks/test_lockstep_check_suppressions.py](../tests/lockstep/checks/test_lockstep_check_suppressions.py) | Checks that added suppression comments and import-linter ignores without a reason fail, and old lines are not judged. |
+| [tests/lockstep/checks/test_lockstep_check_maintainability.py](../tests/lockstep/checks/test_lockstep_check_maintainability.py) | Checks the maintainability check on throwaway git repositories, where only findings added on the branch fail, and that it is off unless switched on. |
+| [tests/lockstep/checks/test_lockstep_check_helper_reuse.py](../tests/lockstep/checks/test_lockstep_check_helper_reuse.py) | Checks the helper-reuse check offline with the model calls replaced, its input budget against this repository's real index, and that it is off unless switched on and needs llm_client. |
+| [tests/lockstep/checks/test_lockstep_check_mutation.py](../tests/lockstep/checks/test_lockstep_check_mutation.py) | Checks the mutation check with mutmut and gh replaced (and once against real mutmut), its issue and its per-repository settings. |
 | [tests/lockstep/checks/test_lockstep_check_status.py](../tests/lockstep/checks/test_lockstep_check_status.py) | Checks status links, pass/fail/skip outcomes, revision/dirty-tree invalidation and open plan IDs. |
 | [tests/lockstep/checks/test_lockstep_check_status_page.py](../tests/lockstep/checks/test_lockstep_check_status_page.py) | Checks generated docs/status.md coverage contents, stale rejection and behavior without a docs folder. |
 | [tests/lockstep/checks/test_lockstep_check_test_first.py](../tests/lockstep/checks/test_lockstep_check_test_first.py) | Tests for the test-first check, run on real throwaway git repositories. |
@@ -594,11 +603,9 @@ Generated from [lockstep.yaml](../lockstep.yaml); edit the source, not this bloc
 | [tests/test_discovery_journey_stale.py](../tests/test_discovery_journey_stale.py) | Tests stale-receipt detection in the discovery journey by comparing recorded source digests with current files. |
 | [tests/test_failed_unit_watch.py](../tests/test_failed_unit_watch.py) | Tests parsing and planning in the failed-unit watch script, without systemd or gh. |
 | [tests/test_feedback_loop_notices.py](../tests/test_feedback_loop_notices.py) | Tests the feedback-loop notification and alert scripts, using fake HTTP responses and no network. |
-| [tests/test_helper_reuse_check.py](../tests/test_helper_reuse_check.py) | Tests the helper-reuse check offline on throwaway git repositories, with the model calls replaced, and its input budget against this repository's real index. |
 | [tests/test_hub_page.py](../tests/test_hub_page.py) | Tests the hub page generator's rendering from configuration and workspace map data. |
 | [tests/test_lane_sweep.py](../tests/test_lane_sweep.py) | Tests the lane sweep script against a throwaway repository, bare remote and linked worktrees. |
 | [tests/test_machine_manifest.py](../tests/test_machine_manifest.py) | Tests the machine manifest script, which lists sources from a unit folder and must not expose secret values. |
-| [tests/test_maintainability_ratchet.py](../tests/test_maintainability_ratchet.py) | Tests the maintainability ratchet on throwaway git repositories, where only findings added on the branch fail. |
 | [tests/test_md_file_cap.py](../tests/test_md_file_cap.py) | Tests the Markdown file cap check, which counts Markdown files per repository against an exception file. |
 | [tests/test_notify_operator.py](../tests/test_notify_operator.py) | Tests the operator notification script, pinned to past failures where a quiet notification channel went unnoticed. |
 | [tests/test_operator_notification_record.py](../tests/test_operator_notification_record.py) | Tests the operator notification record script, pinned to specific observed failures in how notifications were recorded. |

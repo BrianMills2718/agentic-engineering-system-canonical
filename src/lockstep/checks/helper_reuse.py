@@ -1,7 +1,6 @@
-#!/usr/bin/env python3
 """Report functions a branch adds that rewrite an existing function under a new name (AES pilot).
 
-The maintainability ratchet (`scripts/maintainability_ratchet.py`) catches copied code; it cannot see
+The maintainability check (`lockstep check maintainability`) catches copied code; it cannot see
 an existing helper written again in different words. This check reads for meaning, with two model
 calls through `llm_client` (plain-first: the whole index and the question):
 
@@ -19,10 +18,74 @@ Answers are cached by a hash of model and messages under `<git-common-dir>/helpe
 
 Prints `RESULT helper-reuse new_functions=<n> flagged=<n> cost_usd=<x> exit=<0|1>`; exit 1 when a
 function is same_job. A failed model call or tool step prints `RESULT helper-reuse tool-failed exit=2`.
-It needs `llm_client` (run with that project's Python); it is report-only and not part of make check.
+It needs `llm_client`: `lockstep check helper-reuse` exits 2 with an install hint when it cannot import it, so
+run it with that project's Python (`PYTHONPATH=src <llm_client python> -m lockstep.checks.helper_reuse`) or install
+llm_client beside Lockstep. Off unless `checks: {helper-reuse: warn}` (or block) is set in `lockstep.yaml`; it costs
+a model call per run, so keep it out of `make check`.
 Traces: `aes/helper-reuse/<head>/candidates` and `.../judge/<n>`, task `aes.helper-reuse`.
 Not covered: a rewrite of a function defined inside another function, two new functions that copy each other,
 and duplicates across repositories. A base file that does not parse fails the run too.
+AES pilot (Brian, 2026-11-24); a Lockstep check each repository switches on since Brian, 2026-11-25
+("ia prpove yourr ecommednations").
+
+Implements: lockstep-checks/helper-reuse-flags-a-rewrite-of-an-existing-function,
+    lockstep-checks/helper-reuse-off-unless-switched-on-and-needs-llm-client
+
+Requirement text (generated):
+    lockstep-checks/helper-reuse-flags-a-rewrite-of-an-existing-function: `lockstep check
+        helper-reuse --base <rev>` SHALL send the index of every function on the merge base and each
+        function the branch adds to a light model through `llm_client`, then judge each new function
+        against up to three named candidates (same_job, partial_overlap, different), and SHALL end
+        with `RESULT helper-reuse new_functions=<n> flagged=<n> cost_usd=<x> exit=<0|1>`, exiting 1
+        on same_job and 2 when a call or step fails. Its prompt templates SHALL ship inside the
+        Lockstep package.
+    lockstep-checks/helper-reuse-off-unless-switched-on-and-needs-llm-client: `helper-reuse` SHALL
+        be `off` when absent from `lockstep.yaml`. When it is on and `llm_client` cannot be
+        imported, `lockstep check helper-reuse` SHALL print how to run it with llm_client's Python
+        and `RESULT helper-reuse tool-failed=llm_client-missing exit=2`, and exit 2.
+
+[[[cog import lockstep.cogtext as c; c.docstring("src:lockstep:checks:helper_reuse.py", indent=0)]]]
+Plan (generated from lockstep.yaml layout and OpenSpec; edit the spec or the layout row, not this text):
+
+Implements: lockstep-checks/helper-reuse-flags-a-rewrite-of-an-existing-function, lockstep-checks/helper-reuse-off-unless-switched-on-and-needs-llm-client
+
+### Requirement: Helper reuse: Flags a rewrite of an existing function
+
+`lockstep check helper-reuse --base <rev>` SHALL send the index of every function on the merge base and each
+function the branch adds to a light model through `llm_client`, then judge each new function against up to three
+named candidates (same_job, partial_overlap, different), and SHALL end with `RESULT helper-reuse new_functions=<n>
+flagged=<n> cost_usd=<x> exit=<0|1>`, exiting 1 on same_job and 2 when a call or step fails. Its prompt templates
+SHALL ship inside the Lockstep package.
+
+Source: Brian, 2026-11-24 (Reddit-ideas plan, slice 3; an AES script until now) and Brian, 2026-11-25: "ia prpove yourr ecommednations" (moved into Lockstep)
+
+#### Scenario: Helper reuse: Flags a rewrite of an existing function
+
+- **GIVEN** a branch adding a function that does the job of an existing one under a new name
+- **WHEN** the check runs with the model's answers given
+- **THEN** it prints `same_job` for the pair and exits 1; a function with a new job passes
+
+### Requirement: Helper reuse: Off unless switched on and needs llm_client
+
+`helper-reuse` SHALL be `off` when absent from `lockstep.yaml`. When it is on and `llm_client` cannot be imported,
+`lockstep check helper-reuse` SHALL print how to run it with llm_client's Python and
+`RESULT helper-reuse tool-failed=llm_client-missing exit=2`, and exit 2.
+
+Source: Brian, 2026-11-25: "ia prpove yourr ecommednations"
+
+#### Scenario: Helper reuse: Off unless switched on and needs llm_client
+
+- **GIVEN** no `helper-reuse` in `lockstep.yaml`, then `checks: {helper-reuse: block}` in a Python without llm_client
+- **WHEN** `lockstep check helper-reuse` runs each time
+- **THEN** the first is skipped with exit 0; the second prints the install hint and exits 2
+
+Tested by: tests/lockstep/checks/test_lockstep_check_helper_reuse.py
+
+Declares (typed signatures, from the plan):
+  llm_client_missing() -> bool
+  run(repo: Path, base: str='origin/main', folders: tuple[str, ...]=('src', 'scripts'), head: str | None=None, model: str | None=None) -> int
+  main(argv: list[str] | None=None) -> int
+[[[end]]]
 """
 from __future__ import annotations
 
@@ -42,10 +105,14 @@ from typing import Any, Literal, TypeVar
 
 from pydantic import BaseModel, Field, field_validator
 
-ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT / "src"))
-from lockstep.ship import git as _git  # noqa: E402  # the path is set just above
-PROMPTS = ROOT / "prompts" / "helper_reuse"
+PROMPTS = Path(__file__).resolve().parent / "prompts" / "helper_reuse"
+INSTALL_HINT = ("helper-reuse needs llm_client: run `PYTHONPATH=src <llm_client python> -m lockstep.checks.helper_reuse`"
+                " or install it beside Lockstep (`uv pip install -e ~/code2/llm_client`)")
+
+
+def _git(repo: Path, *args: str) -> str:
+    """Return git's stripped output, raising on failure (checks may not import lockstep.ship)."""
+    return subprocess.run(["git", "-C", str(repo), *args], capture_output=True, text=True, check=True).stdout.strip()
 MODEL_TASK = os.environ.get("HELPER_REUSE_MODEL", "fast_cheap_mid")  # llm_client task selector or a route
 # Input budget per call (both calls): the recorded candidates call on AES (trace aes/helper-reuse/0f882a1f8/candidates,
 # 2026-11-24) took 45,739 prompt tokens for 170,364 characters (3.72 characters a token); 60,000 leaves room for the
@@ -367,7 +434,28 @@ def _batches(pairs: list[dict[str, Any]]) -> list[list[dict[str, Any]]]:
     return out
 
 
+def llm_client_missing() -> bool:
+    """True when `llm_client` cannot be imported in this Python."""
+    try:
+        import llm_client  # noqa: F401  # only whether it imports
+    except (ImportError, AttributeError, OSError, RuntimeError, ValueError):  # not installed, or broken on import
+        return True
+    return False
+
+
+def run(repo: Path, base: str = "origin/main", folders: tuple[str, ...] = ("src", "scripts"),
+        head: str | None = None, model: str | None = None) -> int:
+    """`lockstep check helper-reuse`: exit 2 with an install hint when llm_client is missing, else the check."""
+    if llm_client_missing():
+        print(INSTALL_HINT)
+        print("RESULT helper-reuse tool-failed=llm_client-missing exit=2")
+        return 2
+    return main(["--repo", str(repo), "--base", base, "--folders", ",".join(folders),
+                 *(["--head", head] if head else []), *(["--model", model] if model else [])])
+
+
 def main(argv: list[str] | None = None) -> int:
+    """The check itself, with no `lockstep.yaml` mode applied: `python -m lockstep.checks.helper_reuse`."""
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("--repo", type=Path, default=Path("."))
     ap.add_argument("--base", default="origin/main")
@@ -391,4 +479,4 @@ def main(argv: list[str] | None = None) -> int:
 
 
 if __name__ == "__main__":
-    sys.exit(main())
+    raise SystemExit(main())

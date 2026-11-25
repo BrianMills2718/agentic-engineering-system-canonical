@@ -16,8 +16,74 @@ renamed, is not new; the price is that removing one finding and adding a like on
 Not covered: an existing helper rewritten under a new name (that needs reading for meaning), or a copy
 with renamed variables (windows match exact tokens). Exit 0 when
 nothing is new or the base is missing, 1 on a new finding, 2 when a tool fails. Base results are cached
-under the git folder by base commit and a hash of this script. Pilot for AES (Brian, 2026-11-24, slice 3
-of the Reddit-ideas plan: "i will trust your jdugement on the impelemtnation prirotiy").
+under the git folder by base commit and a hash of this module. Pilot for AES (Brian, 2026-11-24, slice 3
+of the Reddit-ideas plan: "i will trust your jdugement on the impelemtnation prirotiy"); a Lockstep check
+each repository switches on in its `lockstep.yaml` since Brian, 2026-11-25 ("ia prpove yourr ecommednations").
+
+Run as `lockstep check maintainability [--base REV] [--folders src,scripts] [--max-lines 800]`; off unless
+`checks: {maintainability: block}` (or warn) is set.
+
+Implements: lockstep-checks/maintainability-only-findings-the-branch-adds-fail,
+    lockstep-checks/maintainability-off-unless-switched-on
+
+Requirement text (generated):
+    lockstep-checks/maintainability-only-findings-the-branch-adds-fail: `lockstep check
+        maintainability --base <rev>` SHALL compare the merge base with the working tree over the
+        Python files under `--folders` (default `src,scripts`) and exit 1 only on a finding the
+        branch adds: a blind `except` or `try/except/pass` (ruff BLE, S110, S112), a function over
+        the complexity limit more complex than on the base (C901), more repeated 6-line windows of
+        code, or a file over `--max-lines` (default 800) that grew. It SHALL end with `RESULT
+        maintainability new=<n> base_findings=<n> head_findings=<n> exit=<0|1>`, SHALL exit 0 with a
+        `skipped=` line when the base is missing or no Python file changed, and SHALL exit 2 when a
+        tool fails.
+    lockstep-checks/maintainability-off-unless-switched-on: `maintainability` SHALL be a check name
+        in `lockstep.yaml`, `off` when absent, so a repository runs it only after setting it to
+        `block` or `warn`; the template's `make check` SHALL call it, printing `maintainability:
+        skipped (off)` until then.
+
+[[[cog import lockstep.cogtext as c; c.docstring("src:lockstep:checks:maintainability.py", indent=0)]]]
+Plan (generated from lockstep.yaml layout and OpenSpec; edit the spec or the layout row, not this text):
+
+Implements: lockstep-checks/maintainability-only-findings-the-branch-adds-fail, lockstep-checks/maintainability-off-unless-switched-on
+
+### Requirement: Maintainability: Only findings the branch adds fail
+
+`lockstep check maintainability --base <rev>` SHALL compare the merge base with the working tree over the Python
+files under `--folders` (default `src,scripts`) and exit 1 only on a finding the branch adds: a blind `except` or
+`try/except/pass` (ruff BLE, S110, S112), a function over the complexity limit more complex than on the base (C901),
+more repeated 6-line windows of code, or a file over `--max-lines` (default 800) that grew. It SHALL end with
+`RESULT maintainability new=<n> base_findings=<n> head_findings=<n> exit=<0|1>`, SHALL exit 0 with a `skipped=` line
+when the base is missing or no Python file changed, and SHALL exit 2 when a tool fails.
+
+Source: Brian, 2026-11-24 (Reddit-ideas plan, slice 3: "i will trust your jdugement on the impelemtnation prirotiy"; an AES script until now) and Brian, 2026-11-25: "ia prpove yourr ecommednations" (moved into Lockstep)
+
+#### Scenario: Maintainability: Only findings the branch adds fail
+
+- **GIVEN** a branch that adds a blind `except`, raises a function's complexity, adds a third copy of a block, or
+  grows a large file
+- **WHEN** `lockstep check maintainability --base main` runs
+- **THEN** it exits 1 naming the finding; a finding already on the base, moved or renamed, passes
+
+### Requirement: Maintainability: Off unless switched on
+
+`maintainability` SHALL be a check name in `lockstep.yaml`, `off` when absent, so a repository runs it only after
+setting it to `block` or `warn`; the template's `make check` SHALL call it, printing `maintainability: skipped (off)`
+until then.
+
+Source: Brian, 2026-11-25: "ia prpove yourr ecommednations"
+
+#### Scenario: Maintainability: Off unless switched on
+
+- **GIVEN** a branch adding a blind `except` and no `maintainability` in `lockstep.yaml`
+- **WHEN** `lockstep check maintainability` runs, then runs again after `checks: {maintainability: block}`
+- **THEN** the first prints `maintainability: skipped (off)` and exits 0; the second exits 1 with its RESULT line
+
+Tested by: tests/lockstep/checks/test_lockstep_check_maintainability.py
+
+Declares (typed signatures, from the plan):
+  run(root: Path, base_rev: str='origin/main', folders: tuple[str, ...]=('src', 'scripts'), max_lines: int=800) -> int
+  main(argv: list[str] | None=None) -> int
+[[[end]]]
 """
 from __future__ import annotations
 
@@ -28,14 +94,12 @@ import json
 import os
 import re
 import subprocess
-import sys
 import tempfile
 import tokenize
 from collections import Counter, defaultdict
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
-from lockstep.checks.changed import compare_with, extract  # noqa: E402  # the path is set just above
+from lockstep.checks.changed import compare_with, extract
 
 RUFF = ["uvx", "ruff@0.14.0", "check", "--isolated", "--select", "BLE,S110,S112,C901", "--output-format", "json", "--exit-zero"]
 WINDOW = 6  # code lines in a duplicate window
@@ -224,26 +288,22 @@ def _total(found: dict) -> int:
     return sum(map(len, found["plain"].values())) + sum(map(len, found["cx"].values())) + _copies(found["dup"])
 
 
-def main(argv: list[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
-    parser.add_argument("--repo", default=".")
-    parser.add_argument("--base", default="origin/main")
-    parser.add_argument("--folders", default="src,scripts", help="comma-separated folders to read")
-    parser.add_argument("--max-lines", type=int, default=800)
-    args = parser.parse_args(argv)
-    root = Path(args.repo).resolve()
-    folders = [f for f in args.folders.split(",") if f]
-    base = compare_with(root, args.base)
+def run(root: Path, base_rev: str = "origin/main", folders: tuple[str, ...] = ("src", "scripts"),
+        max_lines: int = 800) -> int:
+    """Print the new findings and the RESULT line; return 0 (nothing new or no base), 1 (new) or 2 (a tool failed)."""
+    root = root.resolve()
+    kept = [f for f in folders if f]
+    base = compare_with(root, base_rev)
     if base is None:
-        print(f"RESULT maintainability skipped=base-missing base={args.base} exit=0")
+        print(f"RESULT maintainability skipped=base-missing base={base_rev} exit=0")
         return 0
-    changed = [p for p in _git(root, "diff", "--name-only", "-z", base, "--", *folders).split("\0") if p.endswith(".py")]
-    untracked = [p for p in _git(root, "ls-files", "-z", "--others", "--exclude-standard", "--", *folders).split("\0") if p.endswith(".py")]
+    changed = [p for p in _git(root, "diff", "--name-only", "-z", base, "--", *kept).split("\0") if p.endswith(".py")]
+    untracked = [p for p in _git(root, "ls-files", "-z", "--others", "--exclude-standard", "--", *kept).split("\0") if p.endswith(".py")]
     if not changed and not untracked:
         print("RESULT maintainability skipped=no-python-change exit=0")
         return 0
     try:
-        new, base_total, head_total = _compare(root, base, folders, args.max_lines)
+        new, base_total, head_total = _compare(root, base, kept, max_lines)
     except (_ToolFailed, subprocess.CalledProcessError, OSError) as exc:
         print(f"maintainability: a tool failed: {exc}")
         print("RESULT maintainability tool-failed exit=2")
@@ -255,5 +315,16 @@ def main(argv: list[str] | None = None) -> int:
     return code
 
 
+def main(argv: list[str] | None = None) -> int:
+    """The same check with no `lockstep.yaml` mode applied: `python -m lockstep.checks.maintainability`."""
+    parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
+    parser.add_argument("--repo", default=".")
+    parser.add_argument("--base", default="origin/main")
+    parser.add_argument("--folders", default="src,scripts", help="comma-separated folders to read")
+    parser.add_argument("--max-lines", type=int, default=800)
+    args = parser.parse_args(argv)
+    return run(Path(args.repo), args.base, tuple(args.folders.split(",")), args.max_lines)
+
+
 if __name__ == "__main__":
-    sys.exit(main())
+    raise SystemExit(main())

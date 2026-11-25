@@ -20,15 +20,16 @@ Implements: lockstep-init/init-installs-lockstep-in-a-repository-without-overwri
 
 ### Requirement: Init installs Lockstep in a repository without overwriting
 
-`lockstep init` SHALL write, for each of these that is absent, `lockstep.yaml` (a `checks:` map setting every commit check to `block`, `owner`, `sources.human_pattern`, empty `governed` and `layout`), a Claude Code PreToolUse hook in `.claude/settings.json`, a Codex PreToolUse hook in `.codex/hooks.json`, and a `lockstep` pre-commit command in `lefthook.yml`. It SHALL print one line per file it wrote or skipped, SHALL leave an existing `lockstep.yaml` unchanged, SHALL add its hook to an existing settings or hooks file without removing other keys, and a second run SHALL change nothing.
+`lockstep init` SHALL write, for each of these that is absent, `lockstep.yaml` (a `checks:` map setting every commit check to `block` except `maintainability`, `helper-reuse` and `mutation`, which it writes as `off` with a comment saying what each does, `owner`, `sources.human_pattern`, empty `governed` and `layout`), a Claude Code PreToolUse hook in `.claude/settings.json`, a Codex PreToolUse hook in `.codex/hooks.json`, and a `lockstep` pre-commit command in `lefthook.yml` (which leaves those three out). It SHALL print one line per file it wrote or skipped, SHALL leave an existing `lockstep.yaml` unchanged, SHALL add its hook to an existing settings or hooks file without removing other keys, and a second run SHALL change nothing.
 
-Source: Brian, 2026-11-11: "i approve single tool desing re d4"; proposals/one-planning-tool/DESIGN.md, "A concrete example of the finished tool" step 1
+Source: Brian, 2026-11-25: "ia prpove yourr ecommednations" (the three written off); Brian, 2026-11-11: "i approve single tool desing re d4"; proposals/one-planning-tool/DESIGN.md, "A concrete example of the finished tool" step 1
 
 #### Scenario: Fresh repository gets all four
 
 - **GIVEN** an empty git repository
 - **WHEN** `lockstep init` runs
-- **THEN** `lockstep.yaml`, `.claude/settings.json`, `.codex/hooks.json` and `lefthook.yml` exist and each names Lockstep
+- **THEN** `lockstep.yaml`, `.claude/settings.json`, `.codex/hooks.json` and `lefthook.yml` exist and each names Lockstep,
+  and `lockstep.yaml` sets every check to `block` except `maintainability`, `helper-reuse` and `mutation`, set to `off`
 
 #### Scenario: A second run changes nothing
 
@@ -79,7 +80,7 @@ import sys
 
 from ruamel.yaml import YAML
 
-from lockstep.checks.config import CHECK_NAMES
+from lockstep.checks.config import CHECK_NAMES, DEFAULT_OFF
 from lockstep.checks.sources import DEFAULT_HUMAN_PATTERN
 
 SOURCE = "git+https://github.com/BrianMills2718/agentic-engineering-system-canonical"
@@ -99,8 +100,12 @@ def _origin_owner(root: Path) -> str | None:
 
 
 def lockstep_yaml(owner: str, human_pattern: str = DEFAULT_HUMAN_PATTERN) -> str:
-    """The text of a fresh `lockstep.yaml`: every check on block, the owner, the human-source pattern, an empty plan."""
-    checks = "\n".join(f"  {name}: block" for name in CHECK_NAMES)
+    """The text of a fresh `lockstep.yaml`: every check on block except the DEFAULT_OFF three (off), the owner, the human-source pattern, an empty plan."""
+    notes = {"maintainability": "new broad excepts, bare except-pass, complexity, duplicate blocks, file growth",
+             "helper-reuse": "LLM report: new functions that duplicate an existing helper (needs llm_client)",
+             "mutation": "nightly mutmut run listing surviving mutants (needs mutmut)"}
+    checks = "\n".join(f"  {name}: off  # {notes[name]}; set block or warn to switch on" if name in DEFAULT_OFF
+                        else f"  {name}: block" for name in CHECK_NAMES)
     return f"""# Lockstep's settings (docs: README.md, "Install Lockstep in a repository").
 schema: lockstep.side.v1
 
@@ -163,7 +168,7 @@ def _install_hooks(path: Path, source: str, client: str) -> str:
 
 def _lefthook(path: Path, source: str) -> str:
     """Add a `lockstep` pre-commit command to lefthook.yml (created if absent). Returns `wrote` or `skipped`."""
-    names = " ".join(name for name in CHECK_NAMES if name not in ("arch", "test-first", "project"))
+    names = " ".join(name for name in CHECK_NAMES if name not in ("arch", "test-first", "project", *DEFAULT_OFF))
     # `lockstep check` with no name diffs against HEAD, which a repository's first commit does not have yet.
     skip_first = '[ -z "$c" ] && ! git rev-parse -q --verify HEAD >/dev/null && continue'
     old_run = f'for c in "" {names}; do {skip_first}; uvx --from {source} lockstep check $c || exit 1; done'
