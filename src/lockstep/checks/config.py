@@ -31,7 +31,7 @@ The file is data read with `yaml.safe_load`; nothing in it is executed.
 [[[cog import lockstep.cogtext as c; c.docstring("src:lockstep:checks:config.py", indent=0)]]]
 Plan (generated from lockstep.yaml layout and OpenSpec; edit the spec or the layout row, not this text):
 
-Implements: lockstep-checks/each-check-can-be-set-to-block-warn-or-off-in-lockstep-yaml, ship/planning-gates-are-set-in-lockstep-yaml
+Implements: lockstep-checks/each-check-can-be-set-to-block-warn-or-off-in-lockstep-yaml, ship/planning-gates-are-set-in-lockstep-yaml, ship/add-on-gates-switch-off-from-the-copier-answers
 
 ### Requirement: Each check can be set to block, warn or off in lockstep.yaml
 
@@ -144,10 +144,36 @@ Source: Brian, 2026-11-25: "yes it should hold all 4 parts btu the whole systm s
 - **WHEN** ship runs
 - **THEN** it exits 1 naming `sometimes`, with nothing pushed
 
+### Requirement: Add-on gates switch off from the copier answers
+
+`scripts/ship.py` SHALL read the keys `ship_planning_gate` and `ship_one_page_plans` from `.copier-answers.yml` on the default branch at `origin` (never from the branch being shipped, so a branch cannot turn its own gate off), reading each as a top-level `key: value` line. When a key's value is `false` (any letter case), ship SHALL skip that gate (the whole planning gate with its plan-repair and upkeep exceptions, or the one-page-plan check) and print and log `ship: planning gate: off (.copier-answers.yml ship_planning_gate: false)` or `ship: one-page plans: off (.copier-answers.yml ship_one_page_plans: false)`. A missing file, a missing key or any other value SHALL leave the gate on. The prior-art check is core and has no switch.
+
+Source: Brian, 2026-11-20: "the whole thing should be configurable and shareable/protable. we shoudl start with the minimal core than add on other things as needed after the first minimal core milestone". The copier answers file as the one switch, and these two gates as add-ons, inferred by agent in docs/planning/minimal-core-2026-11-20.md sections 5 and 7.
+
+#### Scenario: The planning gate is switched off
+
+- **GIVEN** a new repository with no planning package whose `.copier-answers.yml` says `ship_planning_gate: false`
+- **WHEN** ship runs with a passing check
+- **THEN** it merges and prints `ship: planning gate: off (.copier-answers.yml ship_planning_gate: false)`
+
+#### Scenario: The one-page-plan check is switched off
+
+- **GIVEN** a branch adding an incomplete one-page plan, in a repository whose `.copier-answers.yml` says `ship_one_page_plans: false`
+- **WHEN** ship runs with a passing check
+- **THEN** it merges
+
+#### Scenario: No answers file keeps every gate on
+
+- **GIVEN** a new repository with no planning package and no `.copier-answers.yml` on the default branch, or one that only the branch being shipped adds
+- **WHEN** ship runs
+- **THEN** it is refused as before
+
 Tested by: tests/lockstep/checks/test_lockstep_checks_config.py
 
 Declares (typed signatures, from the plan):
   planning_modes(data: object) -> dict[str, str]
+  planning_setting(repo: Path, key: str) -> str
+  copier_answer_on(repo: Path, key: str) -> bool
 [[[end]]]
 """
 
@@ -291,3 +317,52 @@ def load(root: Path) -> Config:
         mutation_name=str(mutation_name) if mutation_name is not None else None,
         planning=planning,
     )
+
+
+def planning_setting(repo: Path, key: str) -> str:
+    """`planning.<key>` from `lockstep.yaml` on the default branch at origin, never the branch being shipped, so a
+    branch cannot turn its own gate off; see planning_modes.
+
+    Raises:
+        ConfigError: That file is not YAML, or its `planning:` section is wrong (planning_modes).
+    """
+    try:
+        data = yaml.safe_load(_on_default_branch(repo, SIDE_FILE))
+    except yaml.YAMLError as exc:
+        raise ConfigError(f"{SIDE_FILE} on the default branch is not YAML ({exc})") from exc
+    return planning_modes(data)[key]
+
+
+def _on_default_branch(repo: Path, name: str) -> str:
+    """The text of file `name` on the default branch at origin; empty when it or the branch is missing."""
+    import subprocess
+
+    def read(*args: str) -> str:
+        done = subprocess.run(["git", "-C", str(repo), *args], capture_output=True, text=True)
+        return done.stdout if done.returncode == 0 else ""
+    default = read("symbolic-ref", "-q", "--short", "refs/remotes/origin/HEAD").strip() or "origin/main"
+    return read("show", f"{default}:{name}")
+
+
+def copier_answer_on(repo: Path, key: str) -> bool:
+    """False only when `.copier-answers.yml` on the default branch at origin says `key: false`; else True.
+
+    Read from the default branch, never the branch being shipped, so a branch cannot turn its own gate off.
+
+    Implements: ship/add-on-gates-switch-off-from-the-copier-answers
+
+    Requirement text (generated):
+        ship/add-on-gates-switch-off-from-the-copier-answers: `scripts/ship.py` SHALL read the keys
+            `ship_planning_gate` and `ship_one_page_plans` from `.copier-answers.yml` on the default
+            branch at `origin` (never from the branch being shipped, so a branch cannot turn its own
+            gate off), reading each as a top-level `key: value` line. When a key's value is `false`
+            (any letter case), ship SHALL skip that gate (the whole planning gate with its
+            plan-repair and upkeep exceptions, or the one-page-plan check) and print and log `ship:
+            planning gate: off (.copier-answers.yml ship_planning_gate: false)` or `ship: one-page
+            plans: off (.copier-answers.yml ship_one_page_plans: false)`. A missing file, a missing
+            key or any other value SHALL leave the gate on. The prior-art check is core and has no
+            switch.
+    """
+    import re
+    found = re.search(rf"^{re.escape(key)}:[ \t]*(\S+)[ \t]*$", _on_default_branch(repo, ".copier-answers.yml"), re.M)
+    return not (found and found.group(1).strip("'\"").lower() == "false")

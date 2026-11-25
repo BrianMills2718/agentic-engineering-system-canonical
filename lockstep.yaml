@@ -100,8 +100,11 @@ layout:
   implements:
   - lockstep-checks/each-check-can-be-set-to-block-warn-or-off-in-lockstep-yaml
   - ship/planning-gates-are-set-in-lockstep-yaml
+  - ship/add-on-gates-switch-off-from-the-copier-answers
   exports:
   - 'planning_modes(data: object) -> dict[str, str]'
+  - 'planning_setting(repo: Path, key: str) -> str'
+  - 'copier_answer_on(repo: Path, key: str) -> bool'
   tests:
   - tests/lockstep/checks/test_lockstep_checks_config.py
 - path: src/lockstep/checks/docmeta.py

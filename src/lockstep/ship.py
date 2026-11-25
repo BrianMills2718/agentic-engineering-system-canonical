@@ -1318,10 +1318,7 @@ def prior_art_refusal(run: Run, repo: Path) -> str | None:
 
 
 class _Unavailable(str):
-    """A planning-gate refusal that is not a verdict on the plan (the validator could not be fetched or run).
-
-    `planning.gate: warn` passes a verdict with a warning but still refuses one of these.
-    """
+    """A planning-gate refusal that is not a plan verdict (no validator to run); `warn` still refuses it."""
 
 
 def planning_gate(run: Run, repo: Path, *, always_validate: bool = False) -> str | None:
@@ -1425,98 +1422,32 @@ def merge_base(repo: Path) -> str:
 ANSWERS = ".copier-answers.yml"
 
 
-def addon_on(repo: Path, key: str) -> bool:
-    """False only when `.copier-answers.yml` on the default branch at origin says `key: false`; else True.
-
-    Read from the default branch, never the branch being shipped, so a branch cannot turn its own gate off.
-
-    Implements: ship/add-on-gates-switch-off-from-the-copier-answers
-
-    Requirement text (generated):
-        ship/add-on-gates-switch-off-from-the-copier-answers: `scripts/ship.py` SHALL read the keys
-            `ship_planning_gate` and `ship_one_page_plans` from `.copier-answers.yml` on the default
-            branch at `origin` (never from the branch being shipped, so a branch cannot turn its own
-            gate off), reading each as a top-level `key: value` line. When a key's value is `false`
-            (any letter case), ship SHALL skip that gate (the whole planning gate with its
-            plan-repair and upkeep exceptions, or the one-page-plan check) and print and log `ship:
-            planning gate: off (.copier-answers.yml ship_planning_gate: false)` or `ship: one-page
-            plans: off (.copier-answers.yml ship_one_page_plans: false)`. A missing file, a missing
-            key or any other value SHALL leave the gate on. The prior-art check is core and has no
-            switch.
-    """
-    def read(*args: str) -> str:
-        done = subprocess.run(["git", "-C", str(repo), *args], capture_output=True, text=True)
-        return done.stdout if done.returncode == 0 else ""
-    default = read("symbolic-ref", "-q", "--short", "refs/remotes/origin/HEAD").strip() or "origin/main"
-    found = re.search(rf"^{re.escape(key)}:[ \t]*(\S+)[ \t]*$", read("show", f"{default}:{ANSWERS}"), re.M)
-    return not (found and found.group(1).strip("'\"").lower() == "false")
-
-
 def addon_off_line(run: "Run", gate: str, key: str) -> None:
     line = f"ship: {gate}: off ({ANSWERS} {key}: false)"
     print(line)
     run.write(line)
 
 
-def _planning_setting(repo: Path, key: str) -> str:
-    """`block`, `warn` or `off` for `planning.<key>` in `lockstep.yaml` on the default branch at origin (`block` when absent).
-
-    Read from the default branch, never the branch being shipped, so a branch cannot turn its own gate off.
-
-    Implements: ship/planning-gates-are-set-in-lockstep-yaml
-
-    Requirement text (generated):
-        ship/planning-gates-are-set-in-lockstep-yaml: `ship` SHALL read `planning.gate` (the
-            planning-package gate) and `planning.one_page_plans` (the one-page-plan check) from
-            `lockstep.yaml` on the default branch at `origin`, never from the branch being shipped.
-            Each SHALL be `block`, `warn` or `off`, a bare YAML `true` meaning `block` and `false`
-            meaning `off`; an absent file, section or key SHALL mean `block`. A gate SHALL be off
-            when either this setting or the `.copier-answers.yml` key says off, and the printed and
-            logged line SHALL name the file that said so (`ship: planning gate: off (lockstep.yaml
-            planning.gate: off)`). Under `warn`, a plan verdict (a validator rejection, a missing
-            planning package, an incomplete one-page plan or a plan-list refusal) SHALL print and
-            log `ship: warning: <gate>: <reason>; not refused (lockstep.yaml planning.<key>: warn)`
-            and the merge SHALL go on, while a validator that cannot be fetched or cannot run SHALL
-            still refuse. Any other value SHALL refuse the merge naming the value, with nothing
-            pushed. The prior-art check has no switch.
-
-    Raises:
-        ConfigError: That file is not YAML, or its `planning:` section holds a value that is not block, warn or off.
-    """
-    import yaml
-    from lockstep.checks.config import ConfigError, planning_modes
-
-    def read(*args: str) -> str:
-        done = subprocess.run(["git", "-C", str(repo), *args], capture_output=True, text=True)
-        return done.stdout if done.returncode == 0 else ""
-    default = read("symbolic-ref", "-q", "--short", "refs/remotes/origin/HEAD").strip() or "origin/main"
-    try:
-        data = yaml.safe_load(read("show", f"{default}:lockstep.yaml"))
-    except yaml.YAMLError as exc:
-        raise ConfigError(f"lockstep.yaml on {default} is not YAML ({exc})") from exc
-    return planning_modes(data)[key]
-
-
-def _gate_mode(run: "Run", repo: Path, gate: str, key: str, answers_key: str) -> str:
-    """The mode one planning gate runs in: `off` when lockstep.yaml or the copier answers say so (printing which), else
-    lockstep.yaml's `block` or `warn`."""
-    mode = _planning_setting(repo, key)
-    if mode == "off":
-        line = f"ship: {gate}: off (lockstep.yaml planning.{key}: off)"
+def _gated(run: "Run", repo: Path, gate: str, key: str, answers_key: str, check: Callable[["Run", Path], str | None]) -> str | None:
+    """Run one planning gate in its mode (lockstep.yaml `planning.<key>` on the default branch, or the copier answers);
+    its refusal, or None when the gate is off or its plan verdict is only warned of."""
+    from lockstep.checks.config import copier_answer_on, planning_setting
+    mode = planning_setting(repo, key)
+    if mode == "off" or not copier_answer_on(repo, answers_key):
+        if mode == "off":
+            line = f"ship: {gate}: off (lockstep.yaml planning.{key}: off)"
+            print(line)
+            run.write(line)
+        else:
+            addon_off_line(run, gate, answers_key)
+        return None
+    refused = check(run, repo)
+    if refused and mode == "warn" and not isinstance(refused, _Unavailable):
+        line = f"ship: warning: {gate}: {refused}; not refused (lockstep.yaml planning.{key}: warn)"
         print(line)
         run.write(line)
-        return "off"
-    if not addon_on(repo, answers_key):
-        addon_off_line(run, gate, answers_key)
-        return "off"
-    return mode
-
-
-def _warn_past(run: "Run", gate: str, key: str, reason: str) -> None:
-    """Print and log that a gate's verdict was passed because lockstep.yaml sets it to warn."""
-    line = f"ship: warning: {gate}: {reason}; not refused (lockstep.yaml planning.{key}: warn)"
-    print(line)
-    run.write(line)
+        return None
+    return refused
 
 
 def accept_refusal(run: "Run", repo: Path, branch: str) -> str | None:
@@ -2011,25 +1942,15 @@ def main(argv: list[str] | None = None) -> int:
         return run.fail(f"{hidden}; nothing was pushed")
     from lockstep.checks.config import ConfigError
     try:
-        one_page_mode = _gate_mode(run, repo, "one-page plans", "one_page_plans", "ship_one_page_plans")
-        planning_mode = _gate_mode(run, repo, "planning gate", "gate", "ship_planning_gate")
+        incomplete = _gated(run, repo, "one-page plans", "one_page_plans", "ship_one_page_plans", one_page_plan_refusal)
+        if incomplete:
+            return run.fail(f"{incomplete}; nothing was pushed")
+        no_record = prior_art_refusal(run, repo)
+        if no_record:
+            return run.fail(f"{no_record}\nnothing was pushed")
+        refused = _gated(run, repo, "planning gate", "gate", "ship_planning_gate", planning_gate)
     except ConfigError as exc:
         return run.fail(f"{exc}; nothing was pushed")
-    if one_page_mode != "off":
-        incomplete = one_page_plan_refusal(run, repo)
-        if incomplete and one_page_mode == "warn":
-            _warn_past(run, "one-page plans", "one_page_plans", incomplete)
-        elif incomplete:
-            return run.fail(f"{incomplete}; nothing was pushed")
-    no_record = prior_art_refusal(run, repo)
-    if no_record:
-        return run.fail(f"{no_record}\nnothing was pushed")
-    refused = None
-    if planning_mode != "off":
-        refused = planning_gate(run, repo)
-        if refused and planning_mode == "warn" and not isinstance(refused, _Unavailable):
-            _warn_past(run, "planning gate", "gate", refused)
-            refused = None
     if refused:
         changed = plan_only_change(repo)
         if changed is not None and base_planning_refusal(run, repo) is None:
