@@ -99,6 +99,12 @@ layout:
   purpose: Read the commit checks' settings from `lockstep.yaml` at the repository root
   implements:
   - lockstep-checks/each-check-can-be-set-to-block-warn-or-off-in-lockstep-yaml
+  - ship/planning-gates-are-set-in-lockstep-yaml
+  - ship/add-on-gates-switch-off-from-the-copier-answers
+  exports:
+  - 'planning_modes(data: object) -> dict[str, str]'
+  - 'planning_setting(repo: Path, key: str) -> str'
+  - 'copier_answer_on(repo: Path, key: str) -> bool'
   tests:
   - tests/lockstep/checks/test_lockstep_checks_config.py
 - path: src/lockstep/checks/docmeta.py
@@ -1046,8 +1052,8 @@ layout:
   implements: []
   tests: []
 - path: docs/planning/next.goal.md
-  purpose: Records the adopted six-slice one-tool build and remaining review/follow-up work; identifies the design as authority
-    and this document as its planning-package view.
+  purpose: The next plan, AES holding all four parts with every part switchable in lockstep.yaml (slice 1 moves the
+    planning gates there; the feedback loop's dry run and friction measure), and a link to the finished one-tool build.
   implements: []
   tests: []
 - path: docs/planning/open-questions.graph.json
@@ -1239,6 +1245,26 @@ layout:
 - path: meta-process/templates/agents.md.template
   purpose: Defines generated AGENTS structure and provenance placeholders for canonical instructions, relationship digest,
     commands and workflow.
+  implements: []
+  tests: []
+- path: openspec/changes/archive/2026-11-25-planning-settings-in-lockstep-yaml/proposal.md
+  purpose: 'OpenSpec change proposal: ship''s planning gates are set block, warn or off in lockstep.yaml on the default branch'
+  implements: []
+  tests: []
+- path: openspec/changes/archive/2026-11-25-planning-settings-in-lockstep-yaml/prior-art.json
+  purpose: 'Prior-art record for planning settings in lockstep.yaml: extend the copier-answers switch'
+  implements: []
+  tests: []
+- path: openspec/changes/archive/2026-11-25-planning-settings-in-lockstep-yaml/specs/lockstep-init/spec.md
+  purpose: 'Spec delta: lockstep init writes the planning section'
+  implements: []
+  tests: []
+- path: openspec/changes/archive/2026-11-25-planning-settings-in-lockstep-yaml/specs/ship/spec.md
+  purpose: 'Spec delta adding the requirement that the planning gates are set in lockstep.yaml'
+  implements: []
+  tests: []
+- path: openspec/changes/archive/2026-11-25-planning-settings-in-lockstep-yaml/tasks.md
+  purpose: 'Task list for planning settings in lockstep.yaml'
   implements: []
   tests: []
 - path: openspec/changes/archive/.gitkeep

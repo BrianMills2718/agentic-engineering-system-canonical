@@ -36,6 +36,7 @@ def test_fresh_repository_gets_all_four(tmp_path, capsys):
     assert {n for n, m in cfg["checks"].items() if m is False} == {"maintainability", "helper-reuse", "mutation"}
     assert {m for m in cfg["checks"].values() if m is not False} == {"block"}
     assert cfg["layout"] == [] and "human_pattern" in cfg["sources"]
+    assert cfg["planning"] == {"gate": "block", "one_page_plans": "block"}
     for rel in (".claude/settings.json", ".codex/hooks.json"):
         hook = json.loads((root / rel).read_text())["hooks"]["PreToolUse"][0]["hooks"][0]
         assert "lockstep-hook" in hook["command"] and "uvx --from git+https://" in hook["command"]
@@ -204,3 +205,20 @@ def test_init_counts_brian_source_lines_as_human_by_default_and_takes_a_pattern(
     (tmp_path / "b").mkdir()
     init_repo(tmp_path / "b", human_pattern="tyler|brian")
     assert yaml.safe_load((tmp_path / "b" / "lockstep.yaml").read_text())["sources"]["human_pattern"] == "tyler|brian"
+
+
+def test_the_part_sections_are_known_keys(tmp_path):
+    """`mutation` (2026-11-25) and the part sections are lockstep.yaml keys; reporting them as unknown failed the check."""
+    from lockstep.side_file import side_file_problems
+    (tmp_path / "lockstep.yaml").write_text(yaml.safe_dump({
+        "schema": "lockstep.side.v1", "mutation": {"name": "X"}, "planning": {"gate": "warn"}, "guard": {},
+        "rules": {}, "feedback": {}}))
+    assert not [p for p in side_file_problems(tmp_path, {"outcomes": []}) if "unknown key" in p]
+
+
+def test_aes_own_lockstep_yaml_has_no_unknown_key():
+    """AES's own lockstep.yaml (with `mutation:`) was reported as holding an unknown key."""
+    from lockstep.side_file import side_file_problems
+    aes_root = Path(__file__).resolve().parents[2]
+    assert (aes_root / "lockstep.yaml").is_file()
+    assert not [p for p in side_file_problems(aes_root, {"outcomes": []}) if "unknown key" in p]

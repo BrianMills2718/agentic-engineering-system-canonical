@@ -1,183 +1,217 @@
 ---
-description: Next plan for AES canonical -- Lockstep, the one planning-and-checking tool, built in six slices (merged 2026-11-11 and 2026-11-12); next, two local proofs (retrofit and from scratch) adopted 2026-11-20
+description: Next plan for AES canonical -- AES holds all four parts (Lockstep, planning, agent rules, the feedback loop), each configurable per repository in lockstep.yaml (adopted 2026-11-25); the earlier one-tool build and its proofs are done
 ---
 
-# Plan: build the one planning-and-checking tool
+# Plan: AES holds all four parts, each one configurable
 
 Planning package: docs/planning/planning-package.json
 
-Status: adopted 2026-11-11 as the design's build order (Brian approved the design as written: "i approve
-single tool desing re d4", 2026-11-11 21:10 UTC, `~/.claude/history.jsonl`, session 483c48d8). Built 2026-11-11 and 2026-11-12: all six slices merged (PRs #831 to #837; `wiki/lockstep.md:28-34`). Builder: the
-Lockstep session, which owns `proposals/one-planning-tool/` and the Lockstep code. This file is the planning
-package's view of that build; the design is the authority ([DESIGN.md](../../proposals/one-planning-tool/DESIGN.md)).
+Plan size: full
 
-## Goal
+Full because Lockstep and `ship` are read by other repositories, and the `lockstep.yaml` sections are a contract
+every repository carries. Only slice 1 is planned in full; later slices are on the parking list below.
 
-For Brian and the coding agents that work in his repositories, change today's three overlapping tools
-(Lockstep's `pcw` for planning files and guarding edits, code2check for commit checks, Company Planning for
-plan packages), each with its own plan format, into one tool named Lockstep, shipped from this repository,
-with one config file and one plan format, that any repository installs with one command. (source:
-proposals/one-planning-tool/DESIGN.md:14-19)
+Previous plan, done: the one planning-and-checking tool, built in six slices (merged 2026-11-11 and 2026-11-12), then
+its retrofit, from-scratch and plan-fidelity proofs (adopted 2026-11-20, all passed by 2026-11-22). Rolling Lockstep
+out to Project Brains still waits on Brian's call. Its full text, including the steps that specification
+`Source:` lines cite as "next.goal.md, step 3": [next.goal.md at 613b0ec7](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/613b0ec7461a7e3fa838a9d5ba1dfe11f793fcf7/docs/planning/next.goal.md).
 
-Brian's direction: "on dcision 4 it seems liek youa re poitn otu that htis should be combined into one single
-thing not a bunch of differnt things which i agree with. and it should preusmably be part of aes canonicale
-which is configurable and protable/sharebale" (source: proposals/one-planning-tool/DESIGN.md:5-8; Brian,
-2026-11-11 20:46 UTC, session a769ac09).
+Source: Brian, 2026-11-25, answering Decision a and Decision b: "on Decision a, yes it should hold all 4 parts btu
+the whole systm should be configurable so you can congfigure what is on or off or any other settings. for any piece.
+on b yes but we need to make sure that it isnt jsut causing friction". Before that, also 2026-11-25: "i thought that
+the wayt his would owkr is that all of this stuff was in aes canoncial so that it was proable an docnfiurabl and then
+basically you could pikc some dir or repo and turn on aes conaincial for it".
 
-AES stays the whole system while this is built: "to me aes is the whole sysem lockstep is one part. aes include
-the whole feedback and policy system" (source: .project-brain/now.md:9; Brian, 2026-11-11 08:14 UTC, session
-a769ac09). So the plan also keeps the feedback loop and the policy layer working and checks that they do
-(acceptance entries A6 to A8). Agent judgment, unconfirmed: that the feedback-loop and policy-layer checks
-belong in this plan rather than a separate one.
+This plan amends the adopted [one-tool design](../../proposals/one-planning-tool/DESIGN.md) (2026-11-11) rather than replacing it.
+It extends three of that design's points:
 
-## Slices (each merged when it worked; all six are merged)
+- the config row: `lockstep.yaml` stays the one settings file and gains one section per part;
+- the open slice-5 question about Company Planning: answered below;
+- "Company Planning's other skills stay in the plugin": they still do, but whether a repository loads them becomes a
+  setting AES writes.
 
-Each slice below keeps its original wording and ends with what was built. The six slices are the design's ([DESIGN.md](../../proposals/one-planning-tool/DESIGN.md) lines 64-77). Each
-line below adds what this package checks it by; the acceptance entries are in
-[acceptance-criteria.json](acceptance-criteria.json).
+Independent read: reviewer subagent, 2026-11-25, verdict revise. Its 11 findings are folded in below.
 
-1. **Move.** `pcw` moves into this repository as package `lockstep`, with its tests; `pcw` and `pcw-hook` stay
-   as alias entry points so lifelike and Team-Brains' vendored runner keep working. Checked by: lifelike's edit
-   hook still refuses an unplanned write after it installs from here (A2's failure case), and acceptance A1's
-   one-command install. Built: #831, `src/lockstep/` with `src/pcw/__init__.py:1` as the alias. `lockstep init` (`src/lockstep/init_repo.py`, spec lockstep-init) is the one-command install A1 checks. Q22 (where Brian watches it work) is resolved: `lockstep-acceptance.html`.
-2. **Plan format.** Lockstep reads requirements from OpenSpec and layout rows from `lockstep.yaml`;
-   `.aes/target.yaml` stays readable until lifelike and Team-Brains move off it. Checked by: acceptance A4 (the
-   requirement text appears word for word in the first docstring of the file that implements it). Q6
-   (whether this repository's own `.aes/` goes) is resolved: built in #835 with `.aes/target.yaml` still read for other repositories; this repository's own `.aes/` was retired on 2026-11-12 (docs/retired/2026-11-12.md).
-3. **Guard.** Port code2check's shell-target parsing. Done when lifelike replays the four cases from
-   lockstep#111 (`cat >`, `echo >`, `python -c` refused; read-only `cp` allowed). Checked by: acceptance A2. Built: #834.
-4. **Commit checks.** Port code2check's `trace`, `arch`, `test-first`, `sources` and `docmeta` with their tests,
-   as `lockstep check <name>`. Checked by: acceptance A3. Built: #833.
-5. **Plan check.** Port the acceptance-criteria and plan-requirement checks from Company Planning's validator.
-   Built: #832, keeping Company Planning's own copy as well; Q19 (whether the adoption gate calls it) stays open.
-6. **Switch users.** code2-template installs `lockstep` instead of `code2check` (11 repositories adopt it when
-   next changed); lifelike, plan-code-wiki and Team-Brains' runner move to the new package. Checked by:
-   acceptance A5 (installs anywhere, names no machine path). Built: #836 and the user switches (code2-template#29, lifelike#5, Team-Brains#1183); Team-Brains is an Inside Success repository, so Q2 is now about work that shipped.
+## The four parts today
 
-Slice 0, kept running alongside and not built by the Lockstep session: the feedback loop's two nightly jobs and the rules register. The built tool differs from the design in one place now: two projectors remain (Q24); the guard's log folder was fixed to `.lockstep/` (Q23, e662882db).
+| Part | Where it lives | Switchable per repository today? |
+| --- | --- | --- |
+| Lockstep (edit guard, commit checks, layout, docstrings) | AES `src/lockstep/` | Commit checks: yes, `lockstep.yaml` `checks:` (block, warn or off). Edit guard strictness: only through the `PCW_MODE` environment variable, which the installed hook command hardcodes (`src/lockstep/init_repo.py:133`). |
+| Planning (Company Planning skills and package validator) | `BrianMills2718/company-planning` (private); Inside Success installs it from the private mirror `Inside-Success/company-planning` | Partly, and in a second file. `.copier-answers.yml` keys `ship_planning_gate` and `ship_one_page_plans` switch `ship`'s two planning gates off, read from the default branch so a branch cannot turn its own gate off (`copier_answer_on` in `src/lockstep/checks/config.py`). The validator's source is hardcoded as `~/code2/company-planning` (`src/lockstep/plan_check.py:113`). The skills are installed per person, not per repository. |
+| Agent rules | code2-workspace `agents/`, loaded machine-wide by `~/.claude/CLAUDE.md` | No. One person and one machine only. |
+| Feedback loop | AES `scripts/learning_loop/` and its systemd user timers on Brian's PC. A second, older sweep lives in `~/code/ecosystem-ops` (`ecosystem-feedback-worker` and `-watchdog`). | No. The loop runs per machine. Of 8 timers, 5 are disabled: the 3 AES analysis jobs and the 2 ecosystem-ops jobs. |
 
-0. **File corrections (repair recorded).** The historical 867 deferred human corrections were filed
-   after the corrections-first repair (#826): commit `ec3022d5a` records 867/867 filed and 0 errors
-   on 2026-11-11 (Q18 resolved). Acceptance A6 still lets Brian inspect recent filed corrections;
-   this package reconciliation does not rerun the collector or assert freshness of today's issues.
+So settings sit in three places today: `lockstep.yaml`, `.copier-answers.yml` and environment variables.
 
-## Done when
+## The settings model
 
-- Each slice above has merged through `ship` in this repository (done), with its named acceptance entry `built` and
-  served from committed git (done: A1 to A5 are `built`, each with a recorded run that says PASS on 2026-11-12, page `lockstep-acceptance.html`; A6 to A8 are also `built` on their pages; Q18 records the historical A6 repair, and A6 to A8 remain unjudged).
-- Brian has judged A1 to A8 on their pages; a judged status records his own words.
-- `docs/planning/planning-package.json` validates (exit 0) and its cold review read the plan as built.
+**One file.** `lockstep.yaml` holds one section per part.
 
-## Out of scope
+**One vocabulary.** Every switch is `block`, `warn` or `off`. A bare YAML `true` or `on` means `block`, and a bare
+`false` means `off`, the same normalization `checks:` already has (`src/lockstep/checks/config.py:182`).
 
-- `.aes/target.yaml` retirement in other repositories (decision 0009 (a): one repository at a time, when each
-  is next changed).
-- Company Planning's other skills (landscape review, roadmaps, the review page builder): they stay in the
-  Company Planning plugin (DESIGN.md line 50).
-- New feedback-loop jobs (Q21 is Brian's call). The claims-era `enforced_planning/` and `scripts/` were retired on 2026-11-12 (Q10, resolved).
+**Defaults.** A missing section or key keeps today's behavior, so no repository changes on the day this lands.
 
-## Domain concepts this plan relies on
+**Where `ship` reads gates from.** `ship` reads every gate switch from the default branch at origin, never from the
+branch being shipped, as `copier_answer_on` (formerly ship's `addon_on`) does. Diagnostic commands such as `lockstep plan check` read the working
+tree and report the real verdict whatever the mode.
 
-AES as a whole, Lockstep today, the one tool, `lockstep.yaml`, layout row, OpenSpec requirement, first
-docstring, edit guard, `lockstep check`, `lockstep plan check`, acceptance entry, slice, code2check, the
-target (read until slice 2), the feedback loop, human correction, feedback report, policy layer, rules register
-and agent rules, as defined in [DOMAIN.md](DOMAIN.md).
+```yaml
+checks: {trace: block, mutation: off}            # Lockstep commit checks: exists today
+planning:                                        # slice 1 (gates) and slice 2 (source)
+  gate: block                                    # ship's planning-package gate
+  one_page_plans: block                          # ship's one-page-plan check
+  validator: {repo: <git address>, ref: main}    # slice 2; no default address is written
+  skills: block                                  # slice 3: write the plugin into .claude/settings.json
+guard: {mode: warn}                              # parking: replaces the PCW_MODE hardcode
+rules: {mode: block, source: {repo: <address>, ref: main, files: [agents/core.md]}}  # parking
+feedback: {mode: block, issue_repo: OWNER/NAME}  # parking
+```
 
-## Cost and trace
+**Switch-on command.** `lockstep init` stays the one command that turns AES on. The `aes` command already has an
+unrelated `init`, which writes the retired `.aes/project.yaml` and which five old repositories still call, so the name
+`aes init` is not reused. `lockstep init --parts planning,rules,feedback` writes each section. The default is every
+part built so far.
 
-No step of this plan calls a model to produce its answer: the tool's checks are deterministic code, and the
-feedback loop's nightly calls are already running and measured: USD 0.127 over two nights for 1,443 calls (`llm-cost cost
---days 2 --group-by project,task`, project aes, 2026-11-11; investigation.json). Each slice's tests and lifelike's hook replays record their
-inputs and results in the guard log, outside the checkout since #974 (src/lockstep/hook.py, `log_dir`) and the pull request; the Lockstep session reads every
-failing run in full before marking a slice done.
+### Every switch and where it lands
 
-## Next plan: prove Lockstep on two local repositories (adopted 2026-11-20)
+| Gate or setting | Today | In this plan |
+| --- | --- | --- |
+| Commit checks | `lockstep.yaml` `checks:` | unchanged |
+| Planning-package gate | `.copier-answers.yml` `ship_planning_gate` | `planning.gate` (slice 1); the copier key is still read, and either one saying off turns the gate off |
+| One-page-plan check | `.copier-answers.yml` `ship_one_page_plans` | `planning.one_page_plans` (slice 1), with the same fallback |
+| Validator source | env `SHIP_COMPANY_PLANNING` or `~/code2/company-planning` | `planning.validator` (slice 2) |
+| Plan-list graph | env `PROJECT_GRAPH` or `~/code2/aes-config/` (`ship.py:883`) | parking: a `planning.project_graph` key |
+| Edit-guard strictness | `PCW_MODE` hardcoded in the hook command | parking: `guard.mode` |
+| Company Planning skills | per-person plugin install | slice 3: `planning.skills` |
+| Rules | machine-wide `~/.claude/CLAUDE.md` | parking: `rules:` |
+| Feedback scope | machine-wide timers | parking: `feedback:` |
+| Prior-art gate | no switch | **Deliberate exception**: Brian, 2026-11-17: "every cpaability/featuer shoul dhave a prior art search ... that needs to be ienforced". |
 
-Status: adopted. Source: Brian, 2026-11-20, "yes" to running both proofs before any further
-Project Brain gets the brain pull-request runner (session 5651a525; question asked in the same
-session: "dont we need to prove this on a local project both started from scratch and retrofitting
-an existing fproejct into the aes format?"). Size: full plan, because Lockstep is read by other
-repositories; this section is the one authority for it, under the same planning package.
+Two parts have boundaries that limit what a repository can switch:
 
-1. **Guard log outside the checkout (issue #974).** The edit guard writes `.lockstep/` inside the
-   checkout it edits (src/lockstep/hook.py:172-187), so a worktree deleted after `ship` takes its log
-   with it and guard use cannot be counted. Fix first: write the log under a per-user state folder
-   with an override, and have `--would-block` read it there. Done when a guarded edit in a worktree
-   leaves a log line that survives the worktree's removal. Coupling: the Team-Brains runner reads
-   refusals from a mounted `.lockstep/` and pins `LOCKSTEP_SHA`, so bumping that pin needs the mount
-   moved in the same change.
-2. **Retrofit proof (world-substrate, replay plus live sessions).** Turn on the checks that its `lefthook.yml`
-   already configures but that never run (no hook installed), with `trace` set to warn because it
-   has 196 findings today. Record the seconds a commit takes before and after. Define a "real
-   mistake" (a check finding that led to a code or doc change an agent kept, judged from the commit
-   that followed) before collecting any data; ordinary work only, no edits made to trip the guard.
-   Passes if the checks catch at least 3 real mistakes and add under 15 seconds per commit. Also
-   recorded: hours and tokens spent working down the trace findings. The evidence comes from two
-   sources instead of a two-week watch (Brian, 2026-11-20: "i want to finish in a couple days"):
-   a replay, which runs the configured commit checks over past commits to measure time and find
-   mistakes they would have caught; then 2 or 3 live agent sessions on real open issues with the
-   checks on, for mistakes caught as work happens.
-3. **From-scratch proof.** A new repository from code2-template: `make check` passes before any
-   feature, then one small real feature is built with `trace` passing and the guard log showing its
-   decisions on every commit. A guard log with zero decisions fails the proof.
+- **Rules.** Brian's machine-wide load through `~/.claude/CLAUDE.md` must keep working. The per-repository setting
+  serves a repository or a person without that global file.
+- **Feedback.** The timers run per machine and never per repository. A repository only sets whether its sessions and
+  records are in scope, and where its concerns are filed.
 
-Results as of 2026-11-20:
+## Slice 1 (planned in full): the planning gates move into lockstep.yaml
 
-- Step 1 done: #976. A guarded edit in a removed worktree left its log line under
-  `~/.local/state/lockstep/<repository>/`.
-- Step 2 replay done over the last 50 non-merge commits on world-substrate main:
-  - Time passes: median 3.5 seconds, maximum 9.1, none over 15 (wall time with a warm cache).
-  - Real mistakes under the stated test: 1. One commit left 4 Markdown formatting problems in 3 files;
-    the next commit fixed them by hand. The `markdown-format` check fixes these at commit time, so a
-    count of refused commits cannot see what auto-fixing checks catch.
-  - 35 of 50 commits would have been refused, mostly for problems inherited from earlier commits
-    (whole-tree checks: page reachability 35, prior-art record 13, Lockstep 7). Still on main then:
-    7 unreachable pages. (An earlier count of 3 OpenSpec changes missing a prior-art record was wrong:
-    those changes are dated 2026-11-17, and the check covers changes from 2026-11-18.)
-  - Setup (Brian said yes to the hooks path): world-substrate's own hooks path now runs the checks
-    on every commit. Its cleanup commits (#481, #482) linked the 7 pages, governed
-    `src/world_substrate/` with 24 layout rows (an addition beyond this step's text), and set `trace`
-    to warn.
-  - Live sessions done: 3 headless Sonnet sessions on open issues #457, #245 and #231, all merged.
-    They cost $1.29 in total (measured: the sessions' reported `total_cost_usd`).
-    - Commit checks: 0 refusals. Time per commit was 4.5 to 8.3 seconds.
-    - Edit guard: 51 decisions. 32 were `no_rule`, because the work landed in `scripts/`, `tests/` and
-      `spikes/`, which are not governed.
-    - Its one deny was false (#986): a heredoc writing an ungoverned script named a governed path in
-      a comment.
-  - Step 2 result: time passes; mistakes fail, with 1 real mistake (replay 1, live 0) against the bar
-    of 3. Rolling out to Project Brains waits on Brian's call.
-- Step 3 passes, in the local repository `lockstep-pilot-report`:
-  - The first feature passed the literal test (25 guard decisions, `make check` exit 0). But
-    `lockstep init` writes `governed: []`, so the guard had nothing it could refuse.
-  - With `src/` governed, a second feature showed the guard refusing every edit to files that existed
-    before their layout row: the template's own files, and every file in a retrofit.
-  - Fixed in #977 (edit hook) and #979 (commit check, exports wording). The feature then landed in
-    pilot commit `e2a6397` with `make check` exit 0.
-  - The guard logged 82 decisions that day: 61 pass, 9 allow, 12 deny, of which 6 were the bug.
+What changes:
 
-Plan-fidelity proof (added 2026-11-20). Brian, 2026-11-20: "the goal is to give a well specified plan to an agent on
-some proejct nad have it faithfulyy and successfully impelemnt it"; "this has nothing to do wihnt the brains. we need
-to prove it out elswhere first". So the steps above measure the wrong thing for that goal, and this test replaces
-step 2's mistake count as the question:
+1. **`side_file.py` accepts the new sections.** Its top-level key list `_TOP` (`src/lockstep/side_file.py:55`) gains
+   `planning`, `guard`, `rules`, `feedback` and `mutation`. `mutation` is already missing, so
+   `lockstep.unplanned_files` reports AES's own `lockstep.yaml` as "has an unknown key 'mutation'". The message at
+   `side_file.py:169`, which lists only five keys, is corrected. This lands first because every repository installs
+   from the unpinned address.
+2. **`checks/config.py` reads `planning.gate` and `planning.one_page_plans`.** Each is `block`, `warn` or `off`,
+   normalized as above; a bad value refuses the merge with exit 1 and nothing pushed.
+3. **`ship` reads the `planning:` section from `lockstep.yaml` on the default branch at origin.** It also keeps
+   reading the `.copier-answers.yml` keys. Either one saying off turns the gate off, and the log line names which file
+   said so. The three modes mean:
+   - `off` skips the gate as a copier-answers `false` does.
+   - `warn` downgrades a plan verdict (a validator rejection, a missing planning package, an incomplete one-page plan
+     or a plan-list refusal) to a printed `warning:` line. A validator that cannot be fetched or cannot run still
+     refuses the merge, because that failure is not a verdict on the plan (`_Unavailable` in `ship.py`).
+   - `block` is today's behavior.
+4. **`lockstep plan check` is not affected by the mode.** It always reports the validator's verdict with its own exit
+   code.
+5. **`lockstep init` writes `planning: {gate: block, one_page_plans: block}`** with a comment saying what each does.
+   The comment contains no `~/` and no `/home/`, as the `lockstep-init` spec requires.
+6. **OpenSpec change `planning-settings-in-lockstep-yaml`, with its `prior-art.json`.** The candidates are keeping the
+   copier keys, and an `aes.yaml` file. Tests are written first. The change also edits:
+   - the ship spec requirement `add-on-gates-switch-off-from-the-copier-answers`;
+   - the `ship.py` docstrings at lines 37 and 457;
+   - the `lockstep-init` spec.
 
-- Setup: three world-substrate issues (#282, #241, #225). For each, a headless agent wrote an OpenSpec plan and a
-  separate agent wrote hidden acceptance tests from the plan. Two agents then built each plan, one with the Lockstep
-  checks on and one with them off (`--setting-sources user`, `LEFTHOOK=0`). Implementers never saw the hidden tests.
-- Result: all 6 builds were faithful and successful.
-  - Hidden tests: 6/6, 7/8 and 6/6 per plan. The one failure was a fault in the hidden test itself.
-  - Every changed file outside the plan was reported, and so was every skipped step.
-  - `make check` exited 0 for every build.
-  - The checks-on builds merged as world-substrate #490, #491 and #492.
-- Checks on vs off: no difference. The edit guard had nothing to govern, because every plan touched only `scripts/`
-  and `tests/`. Its one deny was correct, sending a shell write of a planned file to the Edit tool.
-- What Lockstep did catch, only as a warning: two of the three builds wrote wrong requirement ids in `Implements:`
-  lines, in both arms. A trace check that blocks new findings only would have refused these at commit.
-- The planner wrote an invalid prior-art record that the commit check passed and `ship` refused (code2-workspace#895).
-- Commit checks took 10 to 32 seconds with six sessions running at once.
+Done when:
 
-Thresholds in step 2 (3 mistakes, 15 seconds) are agent guesses Brian said yes to as proposed; he
-can change them. Not in scope: adding any Project Brain to the runner; that waits for both proofs.
+- **Tests:**
+  - a branch that sets `planning.gate: off` in its own `lockstep.yaml` is still gated, because the setting is read
+    from the default branch;
+  - `off` on the default branch skips the gate and logs `lockstep.yaml`;
+  - the copier key `false` still skips it;
+  - `warn` passes a validator rejection with a warning but refuses an unfetchable validator;
+  - a bad mode refuses with exit 1;
+  - `side_file_problems` accepts the new keys and AES's own `lockstep.yaml`.
+- **Real proof on another repository.** Edit only skipper's `lockstep.yaml` on a branch, setting
+  `planning.gate: warn`. A `ship --dry-run` (or the gate function run against that checkout) still reads the default
+  branch's setting. Once the setting is on main, a deliberately failing package warns and does not refuse.
+- `make check` exits 0 in AES.
+
+## Slice 2 (next, outline only): the validator's source is a setting
+
+**The setting.** `planning.validator: {repo, ref}`. `lockstep init` writes it commented out, with a placeholder and no
+address, because `company-planning` is private and a default address would fail for anyone without access.
+
+**Which source wins.** The order is:
+
+1. the environment variables `SHIP_PLANNING_VALIDATOR` and `SHIP_COMPANY_PLANNING`, which tests need;
+2. the configured repository;
+3. `~/code2/company-planning`.
+
+Every run logs the winning source. When an environment variable overrides a configured repository, the run warns.
+
+**The clone cache.** It lives under `$XDG_CACHE_HOME/lockstep/` (default `~/.cache/lockstep/`), keyed by a hash of the
+address. Fetches take a `flock`. Git runs with `GIT_TERMINAL_PROMPT=0`, ssh with `BatchMode=yes`, and every fetch has a
+timeout. Credentials come only from the user's own git or `gh` setup, and never from `lockstep.yaml`.
+
+**The ref.** `ref` replaces the hardcoded `origin/main` at both places in `plan_check.py` (lines 120 and 126).
+
+**The proof.** Point skipper at the `Inside-Success/company-planning` mirror with no environment variables set. The log
+must name the mirror as the source.
+
+## Feedback loop (Decision b), running alongside slice 1
+
+These steps are zero-code and run before any timer is turned on:
+
+1. **Dry run.** Run each of the 5 disabled jobs without side effects. Only `fix_owner.py` has `--dry-run`. For
+   `problems.py`, run it without `--file` and with `--max-analyse` set low. Any job with no safe mode is read from its
+   code and its last real outputs instead.
+
+   For each job, count:
+   - issues filed or updated;
+   - agent sessions or pull requests started;
+   - measured spend;
+   - items that reach Brian directly.
+2. **Judge the output.** The judge is a stronger model through `llm_client`, which reads every would-be item, up to
+   20 per job. It marks each one actionable, duplicate or noise.
+3. **Turn on only the jobs that pass, with caps.** Brian said "i dont get why we would want a cap?" on 2026-10-12. The
+   recorded history and his 2026-11-25 words supersede that here:
+   - the uncapped analysis opened 152 concerns at once;
+   - `fix_owner.py` runs 10 items a day with a $20 budget each run.
+4. **Friction measure, kept per job per week:**
+   - items created;
+   - items acted on;
+   - items untriaged;
+   - items closed as noise;
+   - spend;
+   - items that reached Brian.
+5. **Stop rules:**
+   - **Immediate stop:** any item that reaches Brian without his having asked, or a day's spend over $2. The job turns
+     off at once.
+   - **Weekly stop:** if under a third of a week's items are acted on, counting untriaged items as not acted on, the job
+     turns off with that count as the reason.
+
+   These join the "Wrong if" rules in the operator guide (`scripts/learning_loop/systemd/README.md`) rather than
+   sitting beside them.
+6. **The ecosystem-ops pair.**
+   - The worker is a second home for "turn feedback into fixes", next to `fix_owner.py`. It stays off unless its dry
+     run shows work `fix_owner.py` cannot do; in that case one home is chosen and the other retired.
+   - The watchdog only watches the worker, so it goes wherever the worker goes.
+
+## Parking list (later slices, not planned yet)
+
+- Slice 3: `planning.skills`. `lockstep init` writes the Company Planning marketplace and plugin into the repository's
+  `.claude/settings.json` (`extraKnownMarketplaces`, `enabledPlugins`), and writes the Codex equivalent.
+- `guard.mode` replaces the `PCW_MODE` hardcode in the hook command.
+- `planning.project_graph` replaces the `~/code2/aes-config` default.
+- The rules part:
+  - `rules.source` names the rule text;
+  - `lockstep rules sync` fetches it into `.lockstep/rules/`, and `AGENTS.md` imports it;
+  - `policies.py` reads the configured source.
+- The feedback part's per-repository scope and `issue_repo`, read by the collector and the labels job.
+- `lockstep status` prints each part's mode and last result.
 
 ## Authorized source-fact upkeep follow-on
 

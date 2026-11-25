@@ -60,7 +60,6 @@ type = forbidden
 source_modules = lockstep.ship
 forbidden_modules =
     agentic_engineering_system
-    lockstep.checks
     lockstep.hook
     lockstep.plan_run
     pcw
