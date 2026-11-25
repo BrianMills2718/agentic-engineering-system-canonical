@@ -63,11 +63,22 @@ Concepts marked *documents only*, *written by another tool* or *retired* have no
 | lockstep plan check (`plan-check`) | Lockstep (in code) | The plan and acceptance format check ported from Company Planning's validator, so the format is defined in one place. | `proposals/one-planning-tool/DESIGN.md:74` | `src/lockstep/plan_check.py:363` |
 | Acceptance entry (`acceptance_entry`) | Written by another tool | One outcome Brian judges by hand: criterion, steps on a working page, what he should see, a known broken case (docs/planning/acceptance-criteria.json). | `proposals/one-planning-tool/DESIGN.md:42` | none |
 | Slice (`slice`) | Only in documents | One step of the one-tool build that merges when it works: move, plan format, guard, commit checks, plan check, switch users. | `proposals/one-planning-tool/DESIGN.md:64` | none |
+| Ecosystem consolidation (`ecosystem-consolidation`) | Only in documents | Adopted direction to make capabilities, providers, contracts, consumers and evidence discoverable through one route while preserving native owners. | `docs/architecture/ECOSYSTEM.md` | none |
+| Legacy source review (`legacy-review`) | Only in documents | First-pass examination of predecessor sources and their proposed reuse or retirement dispositions before migration. | `docs/architecture/ECOSYSTEM.md`; `docs/decisions/0014-ecosystem-consolidation-and-legacy-review.md` | none |
 
 ## Where the sources disagree
 
-- **The feedback loop extracts Brian's corrections but files none of them.** The 2026-11-11 run extracted 867
-  human-correction reports and deferred every one at the 900-report cap, while filing 900 others; the newest
-  `source:human` report in agent-feedback-log is from 2026-11-03. Open question Q18.
+- **The corrections-filing gap was repaired.** The 2026-11-11 extraction deferred 867 human-correction reports at the cap. Commit `ec3022d5a` records corrections-first filing and 867/867 filed; Q18 is resolved from that retained observation, not a fresh rerun of the collector.
 - **Resolved 2026-11-25: rules have one home.** The one-rule AES register was retired; Brian's rules live in
   code2-workspace `agents/` ([record](../retired/2026-11-25.md)). Open question Q20.
+
+## Source-fact projection within existing Lockstep concepts
+
+The existing `lockstep-config` concept includes optional projection declarations:
+source path and selected facts → declaration → named generated target block.
+The source owns the value; the target is a derived copy. The existing `one-tool`
+concept supplies both post-edit refresh and the read-only project check, and records
+refresh inputs, selected facts, output hashes and results in the consumer's daily
+projection trace. This is an extension of those concepts, not a separate rules
+system. See [the record types](SYSTEM_MODEL.md#locksteps-records) and
+[the acceptance table](source-facts-acceptance.md).
