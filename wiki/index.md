@@ -31,7 +31,7 @@ and [open concerns](open-questions.md) remain visible.
 | Which documents are normative, research, plans, evidence, generated output or PRDs? | [Document roles](../docs/architecture/DOCUMENTATION.md) | [Authority and lifecycle](../docs/architecture/DOCUMENTATION.md#which-source-owns-what) |
 | Where do wiki summaries come from, and what refreshes them? | [Wiki and source ownership](../docs/architecture/DOCUMENTATION.md#what-belongs-in-a-wiki-summary) | [Declared facts contract](../openspec/specs/lockstep-doc-facts/spec.md) |
 | How should corrections become verified improvements? | [Feedback loop](feedback-loop.md) | [Feedback and policy contract](../docs/architecture/FEEDBACK_AND_POLICY.md) |
-| Where are rules, their sources and their enforcement? | [Policy](policy-and-rules.md) | [Rules register](../docs/rules/register.yaml) |
+| Where are rules, their sources and their enforcement? | [Policy](policy-and-rules.md) | [Agent rules in code2-workspace](https://github.com/BrianMills2718/code2-workspace/blob/main/agents/core.md) |
 | What is implemented, observed, unresolved or historical? | [Current state](../.project-brain/now.md) | [Discussion ledger](open-questions.md) |
 | What are the detailed requirements? | [Requirement navigation](requirements.md) | [System clauses](../docs/architecture/SYSTEM_BOUNDARY.md) and [Lockstep behavior spec](../openspec/specs/lockstep-plan-format/spec.md) |
 | Where are code, data and external boundaries? | [System model](system-model.md) | [Whole-system inventory](../docs/planning/SYSTEM_MODEL.md) |

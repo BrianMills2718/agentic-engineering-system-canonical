@@ -41,7 +41,7 @@
   "Retired": {
    "label": "Retired (history)",
    "color": "#9aa3ad",
-   "explain": "Removed on 2026-10-14; documents still describe it.",
+   "explain": "Removed (the commit rule 2026-10-14, the rules register 2026-11-25); documents still describe it.",
    "dashed": true
   },
   "System": {
@@ -285,7 +285,7 @@
    "id": "policy-layer",
    "label": "Policy layer",
    "kind": "System",
-   "explain": "Brian's rules for agents and the register of how each is enforced: the AES rules register here and the core rules and topic files in code2-workspace agents/. Defined in .project-brain/now.md:15. No code.",
+   "explain": "Brian's rules for agents, in one home: the core rules, topic files and rule-sources.md in code2-workspace agents/; AES keeps the rule check (scripts/learning_loop/policies.py). Defined in .project-brain/now.md:15. No code.",
    "dashed": true
   },
   {
@@ -309,8 +309,9 @@
   {
    "id": "rules-register",
    "label": "Rules register",
-   "kind": "Feedback",
-   "explain": "docs/rules/register.yaml and the page generated from it: each published rule, its status and how it is enforced. Defined in docs/rules/RULES.md:3. Code: scripts/rules/build_rules_page.py:207."
+   "kind": "Retired",
+   "explain": "AES's one-rule register (docs/rules/register.yaml) and its generated page; retired on 2026-11-25 so rules have one home, code2-workspace agents/. Defined in docs/retired/2026-11-25.md:3. No code.",
+   "dashed": true
   },
   {
    "id": "agent-rules",
@@ -394,20 +395,6 @@
    "kind": "DocOnly",
    "explain": "One step of the one-tool build that merges when it works: move, plan format, guard, commit checks, plan check, switch users. Defined in proposals/one-planning-tool/DESIGN.md:64. No code.",
    "dashed": true
-  },
-  {
-   "id": "ecosystem-consolidation",
-   "label": "Ecosystem consolidation",
-   "kind": "DocOnly",
-   "dashed": true,
-   "explain": "The adopted direction to make capabilities, providers, contracts, consumers and evidence discoverable through one route while preserving native owners; see docs/architecture/ECOSYSTEM.md."
-  },
-  {
-   "id": "legacy-review",
-   "label": "Legacy source review",
-   "kind": "DocOnly",
-   "dashed": true,
-   "explain": "The first-pass examination of predecessor sources and their reuse or retirement dispositions before migration; see docs/architecture/ECOSYSTEM.md and decision 0014."
   }
  ],
  "edges": [
@@ -678,125 +665,119 @@
   {
    "id": "e44",
    "source": "policy-layer",
-   "target": "rules-register",
-   "label": "includes"
-  },
-  {
-   "id": "e45",
-   "source": "policy-layer",
    "target": "agent-rules",
    "label": "includes"
   },
   {
-   "id": "e46",
+   "id": "e45",
    "source": "feedback-loop",
    "target": "human-correction",
    "label": "extracts"
   },
   {
-   "id": "e47",
+   "id": "e46",
    "source": "human-correction",
    "target": "feedback-report",
    "label": "is filed as"
   },
   {
-   "id": "e48",
+   "id": "e47",
    "source": "feedback-report",
    "target": "agent-rules",
    "label": "proposes a change to"
   },
   {
-   "id": "e49",
+   "id": "e48",
    "source": "one-tool",
    "target": "target",
    "label": "still reads, until users move off it"
   },
   {
-   "id": "e50",
+   "id": "e49",
    "source": "one-tool",
    "target": "lockstep-today",
    "label": "keeps as an alias"
   },
   {
-   "id": "e51",
+   "id": "e50",
    "source": "one-tool",
    "target": "code2check",
    "label": "absorbs"
   },
   {
-   "id": "e52",
+   "id": "e51",
    "source": "one-tool",
    "target": "lockstep-config",
    "label": "reads"
   },
   {
-   "id": "e53",
+   "id": "e52",
    "source": "lockstep-config",
    "target": "layout-row",
    "label": "holds"
   },
   {
-   "id": "e54",
+   "id": "e53",
    "source": "layout-row",
    "target": "openspec-requirement",
    "label": "implements"
   },
   {
-   "id": "e55",
+   "id": "e54",
    "source": "one-tool",
    "target": "openspec-requirement",
    "label": "reads requirements from"
   },
   {
-   "id": "e56",
+   "id": "e55",
    "source": "one-tool",
    "target": "first-docstring",
    "label": "writes"
   },
   {
-   "id": "e57",
+   "id": "e56",
    "source": "first-docstring",
    "target": "openspec-requirement",
    "label": "copies the text of"
   },
   {
-   "id": "e58",
+   "id": "e57",
    "source": "one-tool",
    "target": "edit-guard",
    "label": "runs"
   },
   {
-   "id": "e59",
+   "id": "e58",
    "source": "one-tool",
    "target": "commit-check",
    "label": "runs"
   },
   {
-   "id": "e60",
+   "id": "e59",
    "source": "one-tool",
    "target": "plan-check",
    "label": "runs"
   },
   {
-   "id": "e61",
+   "id": "e60",
    "source": "plan-check",
    "target": "acceptance_entry",
    "label": "checks"
   },
   {
-   "id": "e62",
+   "id": "e61",
    "source": "edit-guard",
    "target": "layout-row",
    "label": "refuses writes outside"
   },
   {
-   "id": "e63",
+   "id": "e62",
    "source": "slice",
    "target": "one-tool",
    "label": "builds part of"
   },
   {
-   "id": "e64",
+   "id": "e63",
    "source": "layout-row",
    "target": "planned-artifact",
    "label": "replaces"

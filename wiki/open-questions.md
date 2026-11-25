@@ -113,7 +113,7 @@ Evidence: A read-only policies.check(30) on 2026-11-13 returned policies=0 and g
 
 Recommendation: Use the current owning instruction/source records and expose discovery completeness before trusting a zero-gap result.
 
-Sources: [scripts/learning_loop/policies.py](../scripts/learning_loop/policies.py), [docs/rules/register.yaml](../docs/rules/register.yaml), [docs/architecture/FEEDBACK_AND_POLICY.md](../docs/architecture/FEEDBACK_AND_POLICY.md).
+Sources: [scripts/learning_loop/policies.py](../scripts/learning_loop/policies.py), [docs/architecture/FEEDBACK_AND_POLICY.md](../docs/architecture/FEEDBACK_AND_POLICY.md).
 
 Owner: agent.
 

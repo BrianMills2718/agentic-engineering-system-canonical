@@ -139,10 +139,9 @@ timezone-aware. An incident at or before enforcement, a later restatement of its
 record with an unknown time cannot revoke. This counts reported recurrences; zero reports alone
 does not prove a fix worked.
 
-Then `policies.py` checks every rule the workspace AGENTS.md names as Policy `<id>`: a source
-entry in WORKING_RULES.md, an entry in the AES rules register (`docs/rules/register.yaml`), and how
-many reports named it in 30 days. A rule missing either entry opens the keyed concern
-`workspace-policy-unregistered`.
+Then `policies.py` checks every rule code2-workspace `agents/` (core.md, topics/) names as Policy
+`<id>`: a source entry in `agents/rule-sources.md`, and how many reports named it in 30 days. A rule
+with no source entry opens the keyed concern `workspace-policy-unregistered`.
 
 ## Fix owner
 
