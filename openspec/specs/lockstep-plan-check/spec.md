@@ -2,7 +2,7 @@
 
 ## Purpose
 
-`lockstep plan check` checks a repository's plan by running Company Planning's `validate_planning_package.py`, the one plan checker `ship` also runs, and adds Lockstep's own work-unit DAG check (`lockstep plan units`). Lockstep holds no copy of the validator's checks (`openspec/changes/archive/2026-11-25-one-plan-checker/proposal.md`).
+`lockstep plan check` checks a repository's plan by running Company Planning's `validate_planning_package.py`, the one plan checker `ship` also runs, and adds Lockstep's own work-unit DAG check (`lockstep plan units`). Lockstep holds no copy of the validator's checks (the archived one-plan-checker proposal, restored by `docs/retired/2026-11-25.md`).
 
 ## Requirements
 
@@ -54,7 +54,7 @@ work-unit problems and exit 1 when there are any. It SHALL exit 2, saying why, w
 package or the validator cannot be fetched or run, or exits with a status other than 0 or 1. With `--json` it SHALL print one object with `ok`, the validator's
 exit status and output, and the work-unit problems. Lockstep SHALL hold no copy of the validator's checks.
 
-Source: Brian, 2026-11-11: "i approve single tool desing re d4" (`proposals/one-planning-tool/DESIGN.md`, slice 5: "`lockstep plan check` validates it"); one plan checker approved by Brian, 2026-11-25: "ia prpove yourr ecommednations though" (Company Planning's validator kept as that checker: inferred by agent, `openspec/changes/archive/*-one-plan-checker/proposal.md`).
+Source: Brian, 2026-11-11: "i approve single tool desing re d4" (`proposals/one-planning-tool/DESIGN.md`, slice 5: "`lockstep plan check` validates it"); one plan checker approved by Brian, 2026-11-25: "ia prpove yourr ecommednations though" (Company Planning's validator kept as that checker: inferred by agent, the archived one-plan-checker proposal, restored by `docs/retired/2026-11-25.md`).
 
 #### Scenario: The validator's verdict is the command's verdict
 

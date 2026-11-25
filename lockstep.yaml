@@ -1241,42 +1241,6 @@ layout:
     commands and workflow.
   implements: []
   tests: []
-- path: openspec/changes/archive/2026-11-25-one-plan-checker/proposal.md
-  purpose: 'OpenSpec change proposal: lockstep plan check runs Company Planning''s validator instead of a copy of two of its checks'
-  implements: []
-  tests: []
-- path: openspec/changes/archive/2026-11-25-one-plan-checker/prior-art.json
-  purpose: 'Prior-art record for one plan checker: adopt Company Planning''s validator'
-  implements: []
-  tests: []
-- path: openspec/changes/archive/2026-11-25-one-plan-checker/specs/lockstep-plan-check/spec.md
-  purpose: 'Spec delta removing the copied plan checks and adding the call to Company Planning''s validator'
-  implements: []
-  tests: []
-- path: openspec/changes/archive/2026-11-25-one-plan-checker/tasks.md
-  purpose: 'Task list for the one plan checker change'
-  implements: []
-  tests: []
-- path: openspec/changes/archive/2026-11-25-portable-checks/proposal.md
-  purpose: 'OpenSpec change proposal: maintainability, helper-reuse and mutation become Lockstep checks'
-  implements: []
-  tests: []
-- path: openspec/changes/archive/2026-11-25-portable-checks/prior-art.json
-  purpose: 'Prior-art record for the portable maintainability, helper-reuse and mutation checks'
-  implements: []
-  tests: []
-- path: openspec/changes/archive/2026-11-25-portable-checks/specs/lockstep-checks/spec.md
-  purpose: 'Spec delta adding the three checks and making them off when absent'
-  implements: []
-  tests: []
-- path: openspec/changes/archive/2026-11-25-portable-checks/specs/lockstep-init/spec.md
-  purpose: 'Spec delta: lockstep init writes the three checks off'
-  implements: []
-  tests: []
-- path: openspec/changes/archive/2026-11-25-portable-checks/tasks.md
-  purpose: 'Task list for the portable checks change'
-  implements: []
-  tests: []
 - path: openspec/changes/archive/.gitkeep
   purpose: Empty placeholder that keeps the archive folder in git after its change folders were removed.
   implements: []

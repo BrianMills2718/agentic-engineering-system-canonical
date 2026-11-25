@@ -349,7 +349,7 @@
     "acceptance_entry",
     "one-tool"
    ],
-   "evidence": "Brian approved one plan checker on 2026-11-25: \"ia prpove yourr ecommednations though\". Company Planning's validator is that checker (inferred by agent: it is the original, it checks the whole package, and Inside Success installs it); Lockstep's copy was removed and `lockstep plan check` now runs the validator the way ship does (src/lockstep/plan_check.py:138, openspec/changes/archive/2026-11-25-one-plan-checker/proposal.md). Company Planning's adoption gate keeps calling its own validator; nothing there changed."
+   "evidence": "Brian approved one plan checker on 2026-11-25: \"ia prpove yourr ecommednations though\". Company Planning's validator is that checker (inferred by agent: it is the original, it checks the whole package, and Inside Success installs it); Lockstep's copy was removed and `lockstep plan check` now runs the validator the way ship does (src/lockstep/plan_check.py:138, the archived one-plan-checker proposal, restored by docs/retired/2026-11-25.md). Company Planning's adoption gate keeps calling its own validator; nothing there changed."
   },
   {
    "id": "Q20",
