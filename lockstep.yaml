@@ -1247,26 +1247,6 @@ layout:
     commands and workflow.
   implements: []
   tests: []
-- path: openspec/changes/archive/2026-11-25-planning-settings-in-lockstep-yaml/proposal.md
-  purpose: 'OpenSpec change proposal: ship''s planning gates are set block, warn or off in lockstep.yaml on the default branch'
-  implements: []
-  tests: []
-- path: openspec/changes/archive/2026-11-25-planning-settings-in-lockstep-yaml/prior-art.json
-  purpose: 'Prior-art record for planning settings in lockstep.yaml: extend the copier-answers switch'
-  implements: []
-  tests: []
-- path: openspec/changes/archive/2026-11-25-planning-settings-in-lockstep-yaml/specs/lockstep-init/spec.md
-  purpose: 'Spec delta: lockstep init writes the planning section'
-  implements: []
-  tests: []
-- path: openspec/changes/archive/2026-11-25-planning-settings-in-lockstep-yaml/specs/ship/spec.md
-  purpose: 'Spec delta adding the requirement that the planning gates are set in lockstep.yaml'
-  implements: []
-  tests: []
-- path: openspec/changes/archive/2026-11-25-planning-settings-in-lockstep-yaml/tasks.md
-  purpose: 'Task list for planning settings in lockstep.yaml'
-  implements: []
-  tests: []
 - path: openspec/changes/archive/.gitkeep
   purpose: Empty placeholder that keeps the archive folder in git after its change folders were removed.
   implements: []
