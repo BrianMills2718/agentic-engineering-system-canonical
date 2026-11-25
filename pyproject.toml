@@ -37,6 +37,9 @@ wiki = [
   "mkdocstrings[python]>=0.26",
   "mkdocs-gen-files>=0.5",
 ]
+# Mutation testing, run nightly by code2-workspace scripts/mutation_report.py (gates-nightly's
+# `uv sync --all-extras` installs it); pinned because its results format is read by that script
+mutation = ["mutmut==3.8.1"]
 
 [project.scripts]
 aes = "agentic_engineering_system.cli:main"
@@ -79,3 +82,26 @@ markers = ["req(capability_scenario): source requirement and scenario exercised"
 source = ["src", "scripts"]
 # Non-Python files whose comment lines (`# Implements:`, `{# Implements: ... #}`) count as implementers: the template.
 comment_sources = ["copier.yml", "template"]
+
+# Mutation testing (mutmut): what code2-workspace scripts/mutation_report.py mutates each night and which tests it
+# runs. Only src/lockstep: scripts/ is imported by its tests through a sys.path change, which mutmut cannot follow.
+# Tests run in mutmut's copy (mutants/), which is not a git checkout; the deselected ones need git or installed hooks.
+[tool.mutmut]
+paths_to_mutate = ["src/lockstep/"]
+# its own tests (tests/lockstep/test_lockstep_layout_plan.py) need git, so they are deselected below and its
+# mutants would all look untested
+do_not_mutate = ["src/lockstep/layout_plan.py"]
+pytest_add_cli_args_test_selection = ["tests/lockstep/"]
+pytest_add_cli_args = [
+  "-m", "not slow", "-p", "no:cacheprovider",
+  "--deselect", "tests/lockstep/checks/test_lockstep_check_plugin.py::test_plugin_and_the_ini_marker_can_both_register",
+  "--deselect", "tests/lockstep/checks/test_lockstep_doc_projection.py::test_installed_post_edit_hook_refreshes_and_precommit_rejects_stale",
+  "--deselect", "tests/lockstep/test_aes_plans_every_file.py",
+  "--deselect", "tests/lockstep/test_lockstep_governs_its_own_package.py",
+  "--deselect", "tests/lockstep/test_lockstep_layout_plan.py",
+  "--deselect", "tests/lockstep/test_lockstep_plan_run.py::test_hidden_tests_outside_worktree_until_last_commit",
+  "--deselect", "tests/lockstep/test_lockstep_plan_run.py::test_hidden_test_passing_before_is_flagged",
+]
+also_copy = ["src", "scripts", "tests", "lockstep.yaml", "openspec", "docs", "prompts", "Makefile"]
+mutate_only_covered_lines = true
+timeout_multiplier = 3.0

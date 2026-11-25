@@ -1,4 +1,6 @@
 .venv/
+# mutmut's working copy (code2-workspace scripts/mutation_report.py)
+mutants/
 .pytest_cache/
 __pycache__/
 *.py[cod]
