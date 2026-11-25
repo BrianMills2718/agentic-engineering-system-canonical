@@ -36,6 +36,7 @@ def test_fresh_repository_gets_all_four(tmp_path, capsys):
     assert {n for n, m in cfg["checks"].items() if m is False} == {"maintainability", "helper-reuse", "mutation"}
     assert {m for m in cfg["checks"].values() if m is not False} == {"block"}
     assert cfg["layout"] == [] and "human_pattern" in cfg["sources"]
+    assert cfg["planning"] == {"gate": "block", "one_page_plans": "block"}
     for rel in (".claude/settings.json", ".codex/hooks.json"):
         hook = json.loads((root / rel).read_text())["hooks"]["PreToolUse"][0]["hooks"][0]
         assert "lockstep-hook" in hook["command"] and "uvx --from git+https://" in hook["command"]

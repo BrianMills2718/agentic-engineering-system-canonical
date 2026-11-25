@@ -96,3 +96,18 @@ def test_bad_files_entries_are_named(proj):
     problems = " | ".join(side_file_problems(proj, {"outcomes": [{"id": "NI-001"}]}))
     for words in ["unknown key 'owner'", "no purpose", "REQ-404", "declared twice", "names no plan item"]:
         assert words in problems
+
+
+def test_the_part_sections_are_known_keys(proj):
+    """`mutation` (2026-11-25) and the part sections are lockstep.yaml keys; reporting them as unknown failed the check."""
+    (proj / "lockstep.yaml").write_text(yaml.safe_dump({
+        "schema": "lockstep.side.v1", "mutation": {"name": "X"}, "planning": {"gate": "warn"}, "guard": {},
+        "rules": {}, "feedback": {}}))
+    assert side_file_problems(proj, {"outcomes": []}) == []
+
+
+def test_aes_own_lockstep_yaml_has_no_unknown_key():
+    """AES's own lockstep.yaml (with `mutation:`) was reported as holding an unknown key."""
+    aes_root = REPO.parents[1]
+    assert (aes_root / "lockstep.yaml").is_file()
+    assert not [p for p in side_file_problems(aes_root, {"outcomes": []}) if "has an unknown key" in p]

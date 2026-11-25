@@ -23,6 +23,8 @@ Keys (all optional; a missing file means every default):
     sources:  {human_pattern: "brian"}                    # regex a `Source:` line must start with to count as human
     owner:    SomeGitHubOwner                             # no default; no commit check reads it yet
     likec4:   "1.60.0"                                    # LikeC4 version `arch` runs through npx
+    planning: {gate: block, one_page_plans: warn}         # ship's two planning gates; ship reads them from the
+                                                          # default branch (ship/planning-gates-are-set-in-lockstep-yaml)
 
 The file is data read with `yaml.safe_load`; nothing in it is executed.
 
@@ -124,6 +126,8 @@ CHECK_NAMES = ("trace", "arch", "test-first", "sources", "docmeta", "project", "
 DEFAULT_OFF = ("maintainability", "helper-reuse", "mutation")
 MODES = ("block", "warn", "off")
 SIDE_FILE = "lockstep.yaml"
+# ship's two planning gates (lockstep.yaml `planning:`), read by ship from the default branch: proposals/aes-whole-system.
+PLANNING_KEYS = ("gate", "one_page_plans")
 
 
 class ConfigError(ValueError):
@@ -140,6 +144,7 @@ class Config:
     likec4: str = LIKEC4
     mutation_issue_repo: str | None = None
     mutation_name: str | None = None
+    planning: dict[str, str] = field(default_factory=lambda: dict.fromkeys(PLANNING_KEYS, "block"))
 
     def mode(self, name: str) -> str:
         """Return `block`, `warn` or `off` for a check (`off` when not set for a DEFAULT_OFF check, else `block`)."""
@@ -155,6 +160,49 @@ def _mutation_settings(data: dict) -> tuple[str | None, object]:
     if issue_repo is not None and (not isinstance(issue_repo, str) or "/" not in issue_repo):
         raise ConfigError(f"{SIDE_FILE}: mutation.issue_repo must be OWNER/NAME")
     return issue_repo, mutation.get("name")
+
+
+def planning_modes(data: object) -> dict[str, str]:
+    """`block`, `warn` or `off` for each of PLANNING_KEYS from a parsed lockstep.yaml; `block` when absent.
+
+    Implements: ship/planning-gates-are-set-in-lockstep-yaml
+
+    Requirement text (generated):
+        ship/planning-gates-are-set-in-lockstep-yaml: `ship` SHALL read `planning.gate` (the
+            planning-package gate) and `planning.one_page_plans` (the one-page-plan check) from
+            `lockstep.yaml` on the default branch at `origin`, never from the branch being shipped.
+            Each SHALL be `block`, `warn` or `off`, a bare YAML `true` meaning `block` and `false`
+            meaning `off`; an absent file, section or key SHALL mean `block`. A gate SHALL be off
+            when either this setting or the `.copier-answers.yml` key says off, and the printed and
+            logged line SHALL name the file that said so (`ship: planning gate: off (lockstep.yaml
+            planning.gate: off)`). Under `warn`, a plan verdict (a validator rejection, a missing
+            planning package, an incomplete one-page plan or a plan-list refusal) SHALL print and
+            log `ship: warning: <gate>: <reason>; not refused (lockstep.yaml planning.<key>: warn)`
+            and the merge SHALL go on, while a validator that cannot be fetched or cannot run SHALL
+            still refuse. Any other value SHALL refuse the merge naming the value, with nothing
+            pushed. The prior-art check has no switch.
+
+    Raises:
+        ConfigError: The file or its `planning:` section is not a mapping, a key is unknown, or a mode is not one of MODES.
+    """
+    if data is None:
+        data = {}
+    if not isinstance(data, dict):
+        raise ConfigError(f"{SIDE_FILE} must hold a mapping")
+    planning = data.get("planning") or {}
+    if not isinstance(planning, dict):
+        raise ConfigError(f"{SIDE_FILE}: planning must be a mapping")
+    modes = {}
+    for key in PLANNING_KEYS:
+        mode = planning.get(key, "block")
+        mode = "off" if mode is False else "block" if mode is True else mode  # YAML reads bare on/off as booleans
+        if mode not in MODES:
+            raise ConfigError(f"{SIDE_FILE}: planning.{key} is {mode!r}; it must be one of {', '.join(MODES)}")
+        modes[key] = mode
+    unknown = sorted(set(planning) - set(PLANNING_KEYS) - {"validator", "skills"})
+    if unknown:
+        raise ConfigError(f"{SIDE_FILE}: planning has unknown key {unknown[0]!r}; known: {', '.join(PLANNING_KEYS)}")
+    return modes
 
 
 def load(root: Path) -> Config:
@@ -191,6 +239,7 @@ def load(root: Path) -> Config:
     pattern = sources.get("human_pattern", DEFAULT_HUMAN_PATTERN)
     if not isinstance(pattern, str) or not pattern:
         raise ConfigError(f"{SIDE_FILE}: sources.human_pattern must be a non-empty regex string")
+    planning = planning_modes(data)
     owner = data.get("owner")
     likec4 = data.get("likec4")
     issue_repo, mutation_name = _mutation_settings(data)
@@ -201,4 +250,5 @@ def load(root: Path) -> Config:
         likec4=(str(likec4) if str(likec4).startswith("likec4@") else f"likec4@{likec4}") if likec4 is not None else LIKEC4,
         mutation_issue_repo=issue_repo,
         mutation_name=str(mutation_name) if mutation_name is not None else None,
+        planning=planning,
     )

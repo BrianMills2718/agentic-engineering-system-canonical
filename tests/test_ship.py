@@ -1647,6 +1647,89 @@ def test_a_branch_cannot_switch_its_own_gate_off(new_repo, tmp_path):
     refused_before_the_check(work, remote, tmp_path)
 
 
+# ---- planning gates set in lockstep.yaml (2026-11-25, proposals/aes-whole-system/PLAN.md slice 1) ------------------
+
+
+def lockstep_on_main(work: Path, text: str) -> None:
+    """Put lockstep.yaml on the default branch, then restart the feature branch from it with a change to a.txt."""
+    git(work, "checkout", "-q", "main")
+    (work / "lockstep.yaml").write_text(text)
+    git(work, "add", "-A")
+    git(work, "commit", "-q", "-m", "settings")
+    git(work, "push", "-q", "origin", "main")
+    git(work, "checkout", "-q", "-B", "feature")
+    (work / "a.txt").write_text("d\n")
+    git(work, "commit", "-q", "-am", "change")
+
+
+@pytest.mark.req("ship/off-in-lockstep-yaml-on-the-default-branch-skips-the-gate")
+def test_off_in_lockstep_yaml_on_the_default_branch_skips_the_gate(new_repo, capsys):
+    work, remote, _ = new_repo
+    lockstep_on_main(work, "planning:\n  gate: off\n")
+    assert ship.main(["--repo", str(work), "--check", "true"]) == 0
+    assert on_remote(remote, "feature")
+    assert "ship: planning gate: off (lockstep.yaml planning.gate: off)" in capsys.readouterr().out
+
+
+@pytest.mark.req("ship/off-in-lockstep-yaml-on-the-default-branch-skips-the-gate")
+def test_one_page_plans_off_in_lockstep_yaml(repo, capsys):
+    work, remote, _ = repo
+    lockstep_on_main(work, "planning: {one_page_plans: 'off'}\n")
+    add_plan(work, NO_COST_PART)
+    assert ship.main(["--repo", str(work), "--check", "true"]) == 0
+    assert "ship: one-page plans: off (lockstep.yaml planning.one_page_plans: off)" in capsys.readouterr().out
+
+
+@pytest.mark.req("ship/a-branch-cannot-switch-its-own-planning-gate-off-in-lockstep-yaml")
+def test_a_branch_cannot_switch_its_own_planning_gate_off_in_lockstep_yaml(new_repo, tmp_path):
+    work, remote, _ = new_repo
+    (work / "lockstep.yaml").write_text("planning:\n  gate: off\n")
+    git(work, "add", "-A")
+    git(work, "commit", "-q", "-m", "turn the gate off on the branch")
+    refused_before_the_check(work, remote, tmp_path)
+
+
+@pytest.mark.req("ship/warn-passes-a-plan-verdict")
+def test_warn_passes_a_missing_package(new_repo, capsys):
+    work, remote, _ = new_repo
+    lockstep_on_main(work, "planning:\n  gate: warn\n")
+    assert ship.main(["--repo", str(work), "--check", "true"]) == 0
+    assert on_remote(remote, "feature")
+    assert "ship: warning: planning gate:" in capsys.readouterr().out
+
+
+@pytest.mark.req("ship/warn-passes-a-plan-verdict")
+def test_warn_passes_a_validator_rejection(repo, tmp_path, monkeypatch, capsys):
+    work, remote, _ = repo
+    lockstep_on_main(work, "planning:\n  gate: warn\n")
+    with_package(work, tmp_path, monkeypatch, 1)
+    (work / ship.PACKAGE).write_text('{"changed": true}\n')
+    git(work, "commit", "-q", "-am", "package change")
+    assert ship.main(["--repo", str(work), "--check", "true"]) == 0
+    assert "ship: warning: planning gate:" in capsys.readouterr().out
+
+
+@pytest.mark.req("ship/warn-still-refuses-a-validator-that-cannot-be-fetched")
+def test_warn_still_refuses_a_validator_that_cannot_be_fetched(repo, tmp_path, monkeypatch):
+    work, remote, _ = repo
+    lockstep_on_main(work, "planning:\n  gate: warn\n")
+    with_package(work, tmp_path, monkeypatch, 0)
+    (work / ship.PACKAGE).write_text('{"changed": true}\n')
+    git(work, "commit", "-q", "-am", "package change")
+    monkeypatch.delenv("SHIP_PLANNING_VALIDATOR")
+    monkeypatch.setenv("SHIP_COMPANY_PLANNING", str(tmp_path / "no-such-repo"))
+    assert ship.main(["--repo", str(work), "--check", "true"]) == 1
+    assert not on_remote(remote, "feature")
+
+
+@pytest.mark.req("ship/a-bad-planning-mode-refuses")
+def test_a_bad_planning_mode_refuses(repo, tmp_path, capsys):
+    work, remote, _ = repo
+    lockstep_on_main(work, "planning:\n  gate: sometimes\n")
+    refused_before_the_check(work, remote, tmp_path)
+    assert "sometimes" in capsys.readouterr().out
+
+
 def run_record(tmp_path: Path, monkeypatch, work: Path, **fields) -> None:
     """Write a `lockstep accept check` summary for the feature branch at HEAD, overridden by fields."""
     monkeypatch.setenv("XDG_STATE_HOME", str(tmp_path / "xdg"))

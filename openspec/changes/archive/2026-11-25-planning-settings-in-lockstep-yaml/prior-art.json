@@ -1,0 +1,46 @@
+{
+  "need": "Switch each of ship's planning gates block, warn or off per repository, in the one settings file every AES repository has, without a branch being able to turn its own gate off.",
+  "searched": [
+    {
+      "place": "own",
+      "where": "AES src/lockstep/ship.py (addon_on, planning_gate), src/lockstep/checks/config.py, docs/planning/minimal-core-2026-11-20.md, copier.yml, ~/code2/workspace/docs/capabilities.md",
+      "query": "planning gate switch, add-on gates, lockstep.yaml checks modes",
+      "found": "ship already switches both gates off from .copier-answers.yml on the default branch (2026-11-20), on or off only; lockstep.yaml already holds block/warn/off modes for the commit checks."
+    },
+    {
+      "place": "outside",
+      "where": "GitHub branch protection required checks, pre-commit/lefthook skip settings, Danger JS",
+      "query": "per-repository merge gate configuration read from the protected branch",
+      "found": "Branch protection reads its rules from repository settings, not a file, and needs hosted CI; lefthook skip settings are per commit and editable on the branch; Danger reads its file from the branch under review."
+    }
+  ],
+  "candidates": [
+    {
+      "name": "Keep .copier-answers.yml as the switch",
+      "url": "https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/main/src/lockstep/ship.py",
+      "covers": "Off switches for both gates, read from the default branch.",
+      "misses": "Repositories set up by lockstep init have no answers file; no warn mode; a second settings file beside lockstep.yaml.",
+      "verdict": "extend",
+      "reason": "Kept as a fallback so template repositories keep working; lockstep.yaml becomes the place that gains the setting."
+    },
+    {
+      "name": "A new aes.yaml",
+      "url": "https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/main/proposals/one-planning-tool/DESIGN.md",
+      "covers": "A file for whole-system settings.",
+      "misses": "Would be a third settings file; the adopted design names lockstep.yaml as the one config file.",
+      "verdict": "reject",
+      "reason": "More homes for the same settings is the problem being fixed."
+    },
+    {
+      "name": "GitHub branch protection",
+      "url": "https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-protected-branches",
+      "covers": "Required checks per branch.",
+      "misses": "Needs hosted CI, which this workspace does not use (decision 0008); not a file a repository carries.",
+      "verdict": "reject",
+      "reason": "Different mechanism; ship runs local checks."
+    }
+  ],
+  "decision": "extend",
+  "decided": "2026-11-25",
+  "gap": "A planning: section in lockstep.yaml read by ship from the default branch, with warn, and the copier keys kept as an off fallback."
+}

@@ -53,7 +53,8 @@ from lockstep.aes_bridge import committed_text
 SIDE_FILE = "lockstep.yaml"
 SCHEMA = "lockstep.side.v1"
 _TOP = {"schema", "documents", "rubrics", "fixed", "files", "actions",  # actions: read by lockstep.action_check (behavior 5.4)
-        "checks", "sources", "owner", "likec4",  # the commit checks (lockstep.checks)
+        "checks", "sources", "owner", "likec4", "mutation",  # the commit checks (lockstep.checks)
+        "planning", "guard", "rules", "feedback",  # the parts' settings (proposals/aes-whole-system/PLAN.md)
         "layout", "governed", "projections", "source_base_url"}  # the layout plan (lockstep.layout_plan)
 _DOCUMENTS = {"include", "declared"}
 _DOCUMENT = {"path", "purpose", "refs"}
@@ -166,7 +167,7 @@ def side_file_problems(root: Path, plan: dict) -> list[str]:
         return [str(exc)]
     if data is None:
         return []
-    problems = [f"{SIDE_FILE} has an unknown key '{k}'; it holds only schema, documents, files, rubrics and fixed."
+    problems = [f"{SIDE_FILE} has an unknown key '{k}'; it holds only {', '.join(sorted(_TOP))}."
                 for k in sorted(set(data) - _TOP, key=str)]
     if data.get("schema") != SCHEMA:
         problems.append(f"{SIDE_FILE} must say `schema: {SCHEMA}`; it says {data.get('schema')!r}.")
