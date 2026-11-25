@@ -20,16 +20,16 @@
       "url": "https://github.com/boxed/mutmut",
       "covers": "Mutating and running tests; results per mutant.",
       "misses": "Time limit with progress rule, survivors issue, per-repository switch.",
-      "verdict": "adopt",
-      "reason": "Kept as the engine; the check wraps it."
+      "verdict": "reject",
+      "reason": "Not a replacement on its own: it has no time limit with a progress rule, no survivors issue and no per-repository switch. It stays the engine the check runs."
     },
     {
       "name": "ruff alone",
       "url": "https://docs.astral.sh/ruff/",
       "covers": "BLE, S110, S112, C901 findings.",
       "misses": "Only-new-findings comparison with the merge base; duplicate windows; file growth.",
-      "verdict": "adopt",
-      "reason": "Kept as the engine for the lint part."
+      "verdict": "reject",
+      "reason": "Not a replacement on its own: it reports every finding, not only what the branch adds. It stays the engine for the lint part."
     }
   ],
   "decision": "build",
