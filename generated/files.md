@@ -209,9 +209,8 @@ Generated from [lockstep.yaml](../lockstep.yaml); edit the source, not this bloc
 | [docs/retired/2026-11-12.md](../docs/retired/2026-11-12.md) | Lists November 12 retired roots with counts, reasons, successors and pinned restoration command; records what stayed and related informational changes. |
 | [docs/retired/2026-11-14.md](../docs/retired/2026-11-14.md) | Record of the CLAUDE.md to AGENTS.md generator route removed on 2026-11-14, with last commit and restore command. |
 | [docs/retired/2026-11-24.md](../docs/retired/2026-11-24.md) | Record of five removals on 2026-11-24, including the OpenSpec change archive, with last commits and restore commands. |
-| [docs/rules/RULES.md](../docs/rules/RULES.md) | Displays the one-rule register, enforcement statuses and 263-policy legacy proposal totals; old workspace routing text and totals do not establish current coverage. |
-| [docs/rules/legacy-dispositions.yaml](../docs/rules/legacy-dispositions.yaml) | Publishes identifiers, proposed dispositions and hashes for 263 legacy policy rows with no activation, separating private-text custody from adoption/removal. |
-| [docs/rules/register.yaml](../docs/rules/register.yaml) | Owns enforcement-status definitions and the remaining advisory recommendations rule, but retains obsolete workspace source/coverage wording. |
+| [docs/retired/2026-11-25.md](../docs/retired/2026-11-25.md) | Record of the AES rules register and its page retired on 2026-11-25 so rules have one home, with the restore command. |
+| [docs/rules/legacy-dispositions.yaml](../docs/rules/legacy-dispositions.yaml) | Publishes identifiers, proposed dispositions and hashes for 263 legacy policy rows with no activation; their text stays in the private Project Meta registry. Kept as history after the register was retired on 2026-11-25. |
 | [docs/status.md](../docs/status.md) | Generated table of each requirement, the code that implements it and the tests covering its scenarios at this commit. |
 | [enforced_planning/__init__.py](../enforced_planning/__init__.py) | Importable package surfaces for enforced-planning. Contains no executable definitions. |
 | [evidence/runs/concern-lifecycle-live-20261114.json](../evidence/runs/concern-lifecycle-live-20261114.json) | Recorded live run of the concern lifecycle and five-gate verifier on 2026-11-14, with source revisions and results. |
@@ -381,7 +380,7 @@ Generated from [lockstep.yaml](../lockstep.yaml); edit the source, not this bloc
 | [scripts/learning_loop/label_items.py](../scripts/learning_loop/label_items.py) | Label lessons with Jev into failure-mode families (AES learning loop, slices 1-2). |
 | [scripts/learning_loop/licences.py](../scripts/learning_loop/licences.py) | S4: licences for proposed fixes, derived by the Observation-to-Action evaluator (PLAN.md, slice S4). |
 | [scripts/learning_loop/notify.py](../scripts/learning_loop/notify.py) | Send the feedback loop's one Telegram phone message and report it sent only when Telegram accepts it. |
-| [scripts/learning_loop/policies.py](../scripts/learning_loop/policies.py) | Is each workspace rule documented, enforced, observed and on a feedback path? (plan aes-learning-loop, S8) |
+| [scripts/learning_loop/policies.py](../scripts/learning_loop/policies.py) | Is each workspace rule documented and observed? (plan aes-learning-loop, S8) |
 | [scripts/learning_loop/problems.py](../scripts/learning_loop/problems.py) | S3: group related feedback records into problems and analyse the recurring ones (PLAN.md, slice S3). |
 | [scripts/learning_loop/question_set_v2.json](../scripts/learning_loop/question_set_v2.json) | Defines a frozen failure-family choice question with 23 lettered families, inclusion/exclusion guidance and confidence thresholds. |
 | [scripts/learning_loop/records.py](../scripts/learning_loop/records.py) | Feedback records (contract feedback-report.v1): observations, claims and actions with links. |
@@ -416,7 +415,6 @@ Generated from [lockstep.yaml](../lockstep.yaml); edit the source, not this bloc
 | [scripts/public_text.py](../scripts/public_text.py) | Strip home paths, Windows user names, emails and IP addresses from text before it goes into a public GitHub issue. |
 | [scripts/refresh_canonical_checkouts.py](../scripts/refresh_canonical_checkouts.py) | Keep canonical checkouts exact, clean and on the advertised default branch, so they are not silently stale. |
 | [scripts/relationships.yaml](../scripts/relationships.yaml) | Defines required-reading defaults and otherwise empty governance graphs, plus commented relationship and audit-policy examples. |
-| [scripts/rules/build_rules_page.py](../scripts/rules/build_rules_page.py) | Build docs/rules/RULES.md: every rule agents in Brian's workspace are expected to follow. |
 | [scripts/rules/sort_legacy.py](../scripts/rules/sort_legacy.py) | Sort project-meta's legacy rules into covered / keep / retire, with checked quotes (agent-router slice 1). |
 | [scripts/scan_doc_freshness_ecosystem.py](../scripts/scan_doc_freshness_ecosystem.py) | Scan documentation freshness across the ecosystem using git last-commit dates rather than self-declared date headers. |
 | [scripts/ship.py](../scripts/ship.py) | Compatibility stub that forwards to the lockstep.ship module, which moved out of this folder on 2026-11-20; ship merges only the commit that passed its check. |
@@ -499,7 +497,7 @@ Generated from [lockstep.yaml](../lockstep.yaml); edit the source, not this bloc
 | [tests/learning/test_fix_owner.py](../tests/learning/test_fix_owner.py) | Tests that handling a licensed fix is established from GitHub outcomes and enforcement receipts rather than the executing agent’s self-report. |
 | [tests/learning/test_label_items.py](../tests/learning/test_label_items.py) | Feedback labels: every page of the feedback log is read, and unmatched failures reach an agent. |
 | [tests/learning/test_licences.py](../tests/learning/test_licences.py) | S4: licence status comes from the Observation-to-Action evaluator (R-401), on the plan's fixtures. |
-| [tests/learning/test_policies.py](../tests/learning/test_policies.py) | Checks policy IDs missing from the register or source documentation appear as gaps and defaults point at the AES register. |
+| [tests/learning/test_policies.py](../tests/learning/test_policies.py) | Checks policy IDs named in code2-workspace agents/ with no rule-sources.md entry appear as gaps and the default reads the workspace agents folder. |
 | [tests/learning/test_problems.py](../tests/learning/test_problems.py) | S3 recurrence rule: independent observations with links; echoes of the same evidence count once. |
 | [tests/learning/test_relation_check.py](../tests/learning/test_relation_check.py) | S2 scoring rules: acceptable answers fixed with the labels, and the parity rule. |
 | [tests/learning/test_subagents.py](../tests/learning/test_subagents.py) | Native lifecycle capture and counterexamples to child self-rating as evidence. |
@@ -619,7 +617,6 @@ Generated from [lockstep.yaml](../lockstep.yaml); edit the source, not this bloc
 | [tests/test_public_text.py](../tests/test_public_text.py) | Tests the public-text helper that redacts home paths, user names, emails and IPs from text posted to public issues. |
 | [tests/test_records_governed_roots.py](../tests/test_records_governed_roots.py) | A governed root written without a trailing slash must not capture sibling paths. |
 | [tests/test_refresh_canonical_checkouts.py](../tests/test_refresh_canonical_checkouts.py) | Tests the session-start refresh of canonical checkouts, pinned to past cases of stale checkouts answering questions. |
-| [tests/test_rules_page.py](../tests/test_rules_page.py) | The rules page lists every register rule and the legacy register, and survives table-breaking text. |
 | [tests/test_scan_doc_freshness_ecosystem.py](../tests/test_scan_doc_freshness_ecosystem.py) | Tests that root instruction freshness follows the active source during migration in the ecosystem doc freshness scanner. |
 | [tests/test_ship.py](../tests/test_ship.py) | Tests the ship script against a throwaway repository, bare remote and fake gh, covering checked merges. |
 | [tests/test_sort_legacy.py](../tests/test_sort_legacy.py) | The legacy sort's evidence check rejects answers its quote or the file facts do not support. |

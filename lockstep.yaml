@@ -1157,19 +1157,13 @@ layout:
   purpose: Record of five removals on 2026-11-24, including the OpenSpec change archive, with last commits and restore commands.
   implements: []
   tests: []
-- path: docs/rules/RULES.md
-  purpose: Displays the one-rule register, enforcement statuses and 263-policy legacy proposal totals; old workspace routing
-    text and totals do not establish current coverage.
+- path: docs/retired/2026-11-25.md
+  purpose: Record of the AES rules register and its page retired on 2026-11-25 so rules have one home, with the restore command.
   implements: []
   tests: []
 - path: docs/rules/legacy-dispositions.yaml
-  purpose: Publishes identifiers, proposed dispositions and hashes for 263 legacy policy rows with no activation, separating
-    private-text custody from adoption/removal.
-  implements: []
-  tests: []
-- path: docs/rules/register.yaml
-  purpose: Owns enforcement-status definitions and the remaining advisory recommendations rule, but retains obsolete workspace
-    source/coverage wording.
+  purpose: Publishes identifiers, proposed dispositions and hashes for 263 legacy policy rows with no activation; their text
+    stays in the private Project Meta registry. Kept as history after the register was retired on 2026-11-25.
   implements: []
   tests: []
 - path: docs/status.md
@@ -1927,7 +1921,7 @@ layout:
   implements: []
   tests: []
 - path: scripts/learning_loop/policies.py
-  purpose: Is each workspace rule documented, enforced, observed and on a feedback path? (plan aes-learning-loop, S8)
+  purpose: Is each workspace rule documented and observed? (plan aes-learning-loop, S8)
   implements: []
   tests: []
 - path: scripts/learning_loop/problems.py
@@ -2076,10 +2070,6 @@ layout:
 - path: scripts/relationships.yaml
   purpose: Defines required-reading defaults and otherwise empty governance graphs, plus commented relationship and audit-policy
     examples.
-  implements: []
-  tests: []
-- path: scripts/rules/build_rules_page.py
-  purpose: 'Build docs/rules/RULES.md: every rule agents in Brian''s workspace are expected to follow.'
   implements: []
   tests: []
 - path: scripts/rules/sort_legacy.py
@@ -2432,8 +2422,8 @@ layout:
   implements: []
   tests: []
 - path: tests/learning/test_policies.py
-  purpose: Checks policy IDs missing from the register or source documentation appear as gaps and defaults point at the AES
-    register.
+  purpose: Checks policy IDs named in code2-workspace agents/ with no rule-sources.md entry appear as gaps and the default
+    reads the workspace agents folder.
   implements: []
   tests: []
 - path: tests/learning/test_problems.py
@@ -2940,10 +2930,6 @@ layout:
   tests: []
 - path: tests/test_refresh_canonical_checkouts.py
   purpose: Tests the session-start refresh of canonical checkouts, pinned to past cases of stale checkouts answering questions.
-  implements: []
-  tests: []
-- path: tests/test_rules_page.py
-  purpose: The rules page lists every register rule and the legacy register, and survives table-breaking text.
   implements: []
   tests: []
 - path: tests/test_scan_doc_freshness_ecosystem.py

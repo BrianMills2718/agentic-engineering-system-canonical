@@ -1,18 +1,20 @@
-"""Is each workspace rule documented, enforced, observed and on a feedback path? (plan aes-learning-loop, S8)
+"""Is each workspace rule documented and observed? (plan aes-learning-loop, S8)
 
 Brian, 2026-10-12: "most improant thing is the new policy ad wheter it is docuemtned, and wehther it is
-observable enforceable and connected to a feebdack loop". The workspace AGENTS.md names its rules as
-Policy `<id>`. For each id this reads, without changing anything:
+observable enforceable and connected to a feebdack loop". The rules agents load live in one place,
+code2-workspace `agents/` (core.md and topics/*.md), which name rules as Policy `<id>`; Brian's words behind
+each are in agents/rule-sources.md. For each id this reads, without changing anything:
 
-  documented  WORKING_RULES.md, "Sources for AGENTS.md rules", has an entry naming the id
-  registered  AES docs/rules/register.yaml has `- id: <id>`, whose enforcement_status,
-              enforcement_mechanism and feedback_path say how it is enforced and where friction goes
-              (that register is current; project-meta policy/registry.yaml is legacy, per its own header)
+  documented  agents/rule-sources.md names the id
   observed    nightly feedback reports (reports-*.jsonl) from the last --days that name the id
 
+AES kept a second rules register (docs/rules/register.yaml) until 2026-11-25; it was retired so rules have
+one home (Brian, 2026-11-25, "ia prpove yourr ecommednations though"; docs/retired/2026-11-25.md). How a rule
+is enforced is said in the rule's own text, which names its check or hook.
+
 Output: one JSON line per run in $FEEDBACK_OUT/policies-runs.jsonl and a table on stdout.
-Exit 0 = every named rule is documented and registered, 1 = some are not (a keyed agent concern is
-opened unless --no-alert), 2 = crashed.
+Exit 0 = every named rule is documented, 1 = some are not (a keyed agent concern is opened unless
+--no-alert), 2 = crashed.
 
   python scripts/learning_loop/policies.py [--days 30] [--no-alert]
 """
@@ -32,32 +34,22 @@ from alert import file_alert  # noqa: E402
 
 HOME = Path.home()
 OUT = Path(os.environ.get("FEEDBACK_OUT", HOME / "projects/data/feedback-collector"))
-AGENTS_MD = Path(os.environ.get("WORKSPACE_AGENTS_MD", HOME / "projects/.claude/AGENTS.md"))
-WORKING_RULES = Path(os.environ.get("WORKING_RULES_MD", HOME / "projects/.claude/WORKING_RULES.md"))
-RULES_REGISTER = Path(os.environ.get("RULES_REGISTER", Path(__file__).resolve().parents[2] / "docs/rules/register.yaml"))
+AGENTS_DIR = Path(os.environ.get("WORKSPACE_AGENTS_DIR", HOME / "code2/workspace/agents"))
 POLICY_ID = re.compile(r"Polic(?:y|ies) `([a-z0-9]+(?:-[a-z0-9]+)+)`")
 
 
-def named_policies(agents_md: str) -> list[str]:
-    return sorted(set(POLICY_ID.findall(agents_md)))
+def named_policies(rules_text: str) -> list[str]:
+    return sorted(set(POLICY_ID.findall(rules_text)))
 
 
-def documented(working_rules: str, pid: str) -> bool:
-    sources = working_rules.split("## Sources for AGENTS.md rules", 1)
-    return len(sources) == 2 and pid in sources[1]
+def _rule_files(agents_dir: Path) -> list[Path]:
+    """The files agents load as rules: core.md and every topic file."""
+    return [agents_dir / "core.md", *sorted((agents_dir / "topics").glob("*.md"))]
 
 
-def registry_entries(registry: str) -> dict[str, dict]:
-    """Top-level `- id:` blocks of registry.yaml, with the scalar fields this check reads."""
-    entries: dict[str, dict] = {}
-    for block in re.split(r"(?m)^- id: ", registry)[1:]:
-        pid, _, body = block.partition("\n")
-        fields = {}
-        for key in ("enforcement_status", "enforcement_tier", "feedback_path", "enforcement_mechanism"):
-            m = re.search(rf"(?m)^  {key}: (.+)$", body)
-            fields[key] = m.group(1).strip() if m else None
-        entries[pid.strip()] = fields
-    return entries
+def documented(sources: str, pid: str) -> bool:
+    """The id appears in rule-sources.md as a whole id, not as part of a longer one (`foo` inside `foo-bar`)."""
+    return re.search(rf"(?<![a-z0-9-]){re.escape(pid)}(?![a-z0-9-])", sources) is not None
 
 
 def observed(out: Path, ids: list[str], since: dt.date) -> dict[str, int]:
@@ -79,26 +71,19 @@ def observed(out: Path, ids: list[str], since: dt.date) -> dict[str, int]:
 
 def check(days: int, today: dt.date | None = None) -> dict:
     today = today or dt.date.today()
-    ids = named_policies(AGENTS_MD.read_text())
-    rules = WORKING_RULES.read_text()
-    registry = registry_entries(RULES_REGISTER.read_text())
+    ids = named_policies("\n".join(f.read_text() for f in _rule_files(AGENTS_DIR)))
+    sources = (AGENTS_DIR / "rule-sources.md").read_text()
     seen = observed(OUT, ids, today - dt.timedelta(days=days))
-    rows = []
-    for pid in ids:
-        reg = registry.get(pid)
-        rows.append({"id": pid, "documented": documented(rules, pid), "registered": reg is not None,
-                     "enforcement_status": (reg or {}).get("enforcement_status"),
-                     "feedback_path": (reg or {}).get("feedback_path"), "reports": seen[pid]})
-    gaps = [r["id"] for r in rows if not (r["documented"] and r["registered"])]
+    rows = [{"id": pid, "documented": documented(sources, pid), "reports": seen[pid]} for pid in ids]
+    gaps = [r["id"] for r in rows if not r["documented"]]
     return {"at": dt.datetime.now(dt.timezone.utc).isoformat(), "days": days, "policies": rows, "gaps": gaps}
 
 
 def alert(gaps: list[str]) -> None:
     file_alert("workspace-policy-unregistered", "feedback-policies",
-               f"{len(gaps)} workspace rules are not registered or documented",
-               "Rules named as Policy `<id>` in the workspace AGENTS.md with no AES docs/rules/register.yaml "
-               "entry (enforcement, observation, feedback path) or no WORKING_RULES source entry: "
-               f"{', '.join(gaps)}. Add each entry; rerun "
+               f"{len(gaps)} workspace rules have no source entry",
+               "Rules named as Policy `<id>` in code2-workspace agents/ (core.md, topics/) with no entry in "
+               f"agents/rule-sources.md: {', '.join(gaps)}. Add each entry with Brian's words; rerun "
                "`python scripts/learning_loop/policies.py` (AES) until it exits 0.")
 
 
@@ -116,8 +101,7 @@ def main(argv: list[str] | None = None) -> int:
     with (OUT / "policies-runs.jsonl").open("a") as fh:
         fh.write(json.dumps(result) + "\n")
     for r in result["policies"]:
-        print(f"{r['id']:32} documented={'yes' if r['documented'] else 'NO'} registered={'yes' if r['registered'] else 'NO'} "
-              f"enforcement={r['enforcement_status'] or '-'} feedback_path={r['feedback_path'] or '-'} reports_{a.days}d={r['reports']}")
+        print(f"{r['id']:32} documented={'yes' if r['documented'] else 'NO'} reports_{a.days}d={r['reports']}")
     code = 1 if result["gaps"] else 0
     print(f"RESULT policies named={len(result['policies'])} gaps={len(result['gaps'])} exit={code}")
     if code and not a.no_alert:

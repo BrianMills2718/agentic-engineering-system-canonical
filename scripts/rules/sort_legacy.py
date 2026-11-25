@@ -1,6 +1,10 @@
 #!/usr/bin/env python3
 """Sort project-meta's legacy rules into covered / keep / retire, with checked quotes (agent-router slice 1).
 
+History only since 2026-11-25: the AES rules register this reads (docs/rules/register.yaml) was retired so rules
+have one home, code2-workspace agents/ (docs/retired/2026-11-25.md). --apply and --check fail until the register is
+restored with the command in that record. Its output, docs/rules/legacy-dispositions.yaml, stays as the record.
+
 For each rule in project-meta policy/registry.yaml, one model call (through llm_client) decides:
 
 - covered: an AES register rule or the workspace instruction file already says it;

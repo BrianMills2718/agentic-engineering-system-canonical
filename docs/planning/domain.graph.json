@@ -285,7 +285,7 @@
    "id": "policy-layer",
    "label": "Policy layer",
    "kind": "System",
-   "explain": "Brian's rules for agents and the register of how each is enforced: the AES rules register here and the core rules and topic files in code2-workspace agents/. Defined in .project-brain/now.md:15. No code.",
+   "explain": "Brian's rules for agents, in one home: the core rules, topic files and rule-sources.md in code2-workspace agents/; AES keeps the rule check (scripts/learning_loop/policies.py). Defined in .project-brain/now.md:15. No code.",
    "dashed": true
   },
   {
@@ -309,8 +309,9 @@
   {
    "id": "rules-register",
    "label": "Rules register",
-   "kind": "Feedback",
-   "explain": "docs/rules/register.yaml and the page generated from it: each published rule, its status and how it is enforced. Defined in docs/rules/RULES.md:3. Code: scripts/rules/build_rules_page.py:207."
+   "kind": "Retired",
+   "explain": "AES's one-rule register (docs/rules/register.yaml) and its generated page; retired on 2026-11-25 so rules have one home, code2-workspace agents/. Defined in docs/retired/2026-11-25.md:3.",
+   "dashed": true
   },
   {
    "id": "agent-rules",
@@ -379,7 +380,7 @@
    "id": "plan-check",
    "label": "lockstep plan check",
    "kind": "Lockstep",
-   "explain": "Runs Company Planning's validator, the one plan checker ship also runs, and adds the work-unit DAG check. Defined in proposals/one-planning-tool/DESIGN.md:74. Code: src/lockstep/plan_check.py:80."
+   "explain": "Runs Company Planning's validator, the one plan checker ship also runs, and adds the work-unit DAG check. Defined in proposals/one-planning-tool/DESIGN.md:74. Code: src/lockstep/plan_check.py:138."
   },
   {
    "id": "acceptance_entry",
@@ -394,6 +395,20 @@
    "kind": "DocOnly",
    "explain": "One step of the one-tool build that merges when it works: move, plan format, guard, commit checks, plan check, switch users. Defined in proposals/one-planning-tool/DESIGN.md:64. No code.",
    "dashed": true
+  },
+  {
+   "id": "ecosystem-consolidation",
+   "label": "Ecosystem consolidation",
+   "kind": "DocOnly",
+   "dashed": true,
+   "explain": "The adopted direction to make capabilities, providers, contracts, consumers and evidence discoverable through one route while preserving native owners; see docs/architecture/ECOSYSTEM.md."
+  },
+  {
+   "id": "legacy-review",
+   "label": "Legacy source review",
+   "kind": "DocOnly",
+   "dashed": true,
+   "explain": "The first-pass examination of predecessor sources and their reuse or retirement dispositions before migration; see docs/architecture/ECOSYSTEM.md and decision 0014."
   }
  ],
  "edges": [

@@ -342,14 +342,14 @@
    "sources": [
     "proposals/one-planning-tool/DESIGN.md:82",
     "wiki/lockstep.md:45",
-    "src/lockstep/plan_check.py:80"
+    "src/lockstep/plan_check.py:138"
    ],
    "touches": [
     "plan-check",
     "acceptance_entry",
     "one-tool"
    ],
-   "evidence": "Brian approved one plan checker on 2026-11-25: \"ia prpove yourr ecommednations though\". Company Planning's validator is that checker (inferred by agent: it is the original, it checks the whole package, and Inside Success installs it); Lockstep's copy was removed and `lockstep plan check` now runs the validator the way ship does (src/lockstep/plan_check.py:80, openspec/changes/archive/2026-11-25-one-plan-checker/proposal.md). Company Planning's adoption gate keeps calling its own validator; nothing there changed."
+   "evidence": "Brian approved one plan checker on 2026-11-25: \"ia prpove yourr ecommednations though\". Company Planning's validator is that checker (inferred by agent: it is the original, it checks the whole package, and Inside Success installs it); Lockstep's copy was removed and `lockstep plan check` now runs the validator the way ship does (src/lockstep/plan_check.py:138, openspec/changes/archive/2026-11-25-one-plan-checker/proposal.md). Company Planning's adoption gate keeps calling its own validator; nothing there changed."
   },
   {
    "id": "Q20",
@@ -360,15 +360,16 @@
    "blocks": "acceptance entry A7 (where Brian sees a rule he set and how it is enforced) and what the policy layer's part of AES contains",
    "resolves_with": "Prior art settles it: code2-workspace docs/capabilities.md (decision 0004, one capabilities list) names agents/core.md plus topic files as the tool for agent rules, so that is the list; the AES register page should say it covers only rules the feedback loop licensed, or point at agents/. The agent router that an earlier plan modelled as part of the policy layer was retired on 2026-11-12 (no caller, its data folder never existed), so the policy layer is the register plus agents/, with no router.",
    "sources": [
-    "docs/rules/RULES.md:7",
-    ".project-brain/now.md:15"
+    "https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/7832d1c965799c421a4f3343b030fbf6d17fdf23/docs/rules/RULES.md#L7",
+    ".project-brain/now.md:15",
+    "docs/retired/2026-11-25.md"
    ],
    "touches": [
     "policy-layer",
     "rules-register",
     "agent-rules"
    ],
-   "evidence": "Documentation repair 2026-11-13 identifies shared agent instructions as the policy source and the AES register as partial coverage, not a competing complete authority. See docs/architecture/FEEDBACK_AND_POLICY.md. Coverage failure remains open as Q28."
+   "evidence": "Resolved 2026-11-25: Brian approved one rules home (\"ia prpove yourr ecommednations though\"). The AES register and RULES.md were retired; the policy layer's list of rules is code2-workspace agents/ (docs/retired/2026-11-25.md)."
   },
   {
    "id": "Q21",
@@ -502,15 +503,16 @@
    "short": "Empty policy discovery must stay unknown",
    "question": "Does the policy checker discover the current policy population and report missing coverage honestly?",
    "owner": "agent",
-   "status": "open",
+   "status": "resolved",
    "blocks": "A broader claim about automatic, effective AES operation; not the documentation-only repair.",
    "resolves_with": "Direct source inspection or the bounded execution named in the recommendation; discussion follows documentation repair.",
    "recommendation": "Use the current owning instruction/source records and expose discovery completeness before trusting a zero-gap result.",
-   "evidence": "A read-only policies.check(30) on 2026-11-13 returned policies=0 and gaps=[]; defaults still point at the old workspace instruction bootstrap.",
+   "evidence": "Resolved 2026-11-25: policies.py now reads Policy ids from code2-workspace agents/core.md and topics/*.md and checks each against agents/rule-sources.md; a real run found 26 ids and 3 with no source entry, so discovery is no longer empty. It still does not show enforcement. Earlier: policies.check(30) on 2026-11-13 returned policies=0.",
    "sources": [
     "scripts/learning_loop/policies.py",
-    "docs/rules/register.yaml",
-    "docs/architecture/FEEDBACK_AND_POLICY.md"
+    "https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/7832d1c965799c421a4f3343b030fbf6d17fdf23/docs/rules/register.yaml",
+    "docs/architecture/FEEDBACK_AND_POLICY.md",
+    "tests/learning/test_policies.py"
    ],
    "touches": []
   },
@@ -631,7 +633,7 @@
    "evidence": "Read-only inspection found 263 original policy IDs and the same 263 IDs in the AES disposition manifest. All manifest rows have activation:none. The separate AES register shrank 33→12→1 in November; those commits did not remove the Project Meta registry.",
    "sources": [
     "docs/rules/legacy-dispositions.yaml",
-    "docs/rules/register.yaml",
+    "https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/7832d1c965799c421a4f3343b030fbf6d17fdf23/docs/rules/register.yaml",
     "wiki/policy-and-rules.md"
    ],
    "touches": []

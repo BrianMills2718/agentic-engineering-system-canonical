@@ -77,7 +77,7 @@
    "label": "lockstep plan check",
    "kind": "Concept",
    "dashed": false,
-   "explain": "Runs Company Planning's validator, the one plan checker ship also runs, and adds the work-unit DAG check. Defined in proposals/one-planning-tool/DESIGN.md:74. Code: src/lockstep/plan_check.py:80."
+   "explain": "Runs Company Planning's validator, the one plan checker ship also runs, and adds the work-unit DAG check. Defined in proposals/one-planning-tool/DESIGN.md:74. Code: src/lockstep/plan_check.py:138."
   },
   {
    "id": "acceptance_entry",
@@ -163,18 +163,6 @@
   },
   {
    "id": "Q27-blocks",
-   "label": "A broader claim about automatic, effective AES operation; not the documentation-only \u2026",
-   "kind": "Decision",
-   "explain": "A broader claim about automatic, effective AES operation; not the documentation-only repair."
-  },
-  {
-   "id": "Q28",
-   "label": "Q28: Empty policy discovery must stay unknown",
-   "kind": "AgentQuestion",
-   "explain": "Does the policy checker discover the current policy population and report missing coverage honestly? Settled by: Direct source inspection or the bounded execution named in the recommendation; discussion follows documentation repair."
-  },
-  {
-   "id": "Q28-blocks",
    "label": "A broader claim about automatic, effective AES operation; not the documentation-only \u2026",
    "kind": "Decision",
    "explain": "A broader claim about automatic, effective AES operation; not the documentation-only repair."
@@ -639,12 +627,6 @@
    "id": "Q27-to-decision",
    "source": "Q27",
    "target": "Q27-blocks",
-   "label": "blocks"
-  },
-  {
-   "id": "Q28-to-decision",
-   "source": "Q28",
-   "target": "Q28-blocks",
    "label": "blocks"
   },
   {
