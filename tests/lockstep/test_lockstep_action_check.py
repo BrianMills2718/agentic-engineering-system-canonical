@@ -1,20 +1,10 @@
 """Behavior 5.4: a proposed non-code action is allowed only when it matches the declared action it names.
 
-[[[cog import lockstep.cogtext as c; c.docstring("TST-ACTION-CHECK", indent=0)]]]
-Plan (generated from .aes/target.yaml; edit the plan, not this text):
+[[[cog import lockstep.cogtext as c; c.docstring("tests:lockstep:test_lockstep_action_check.py", indent=0)]]]
+Plan (generated from lockstep.yaml layout and OpenSpec; edit the spec or the layout row, not this text):
 
-SC-5.4: A proposal whose plan names a declared action with the same kind and
-  target is allowed and the decision names that action and its purpose; a
-  proposal with no plan, with a plan the side file does not declare, or with
-  a different kind or target is held with a reason that says which; the side
-  file is read at the base revision when one is given, so a change to it
-  does not change the decision.
-  Disproved if: A proposal naming no action, or an undeclared one, or
-  differing from its action in kind or target is allowed; a matching
-  proposal is held; a held decision has no reason; or an edit to the working
-  tree's side file changes a decision made at a base revision.
-Proven by: VS-5.4-a (tests/test_action_check.py)
-[[[end]]] (sum: VZfAgw1yPp)
+Names no requirement; the layout row says why.
+[[[end]]]
 """
 
 import pytest
