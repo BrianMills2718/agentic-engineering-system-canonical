@@ -1680,7 +1680,7 @@ def test_one_page_plans_off_in_lockstep_yaml(repo, capsys):
     assert "ship: one-page plans: off (lockstep.yaml planning.one_page_plans: off)" in capsys.readouterr().out
 
 
-@pytest.mark.req("ship/a-branch-cannot-switch-its-own-planning-gate-off-in-lockstep-yaml")
+@pytest.mark.req("ship/a-branch-cannot-switch-its-own-planning-gate-off-in-lockstep-yaml", existing=True)   # old ship never read lockstep.yaml; this guards it
 def test_a_branch_cannot_switch_its_own_planning_gate_off_in_lockstep_yaml(new_repo, tmp_path):
     work, remote, _ = new_repo
     (work / "lockstep.yaml").write_text("planning:\n  gate: off\n")
@@ -1709,7 +1709,7 @@ def test_warn_passes_a_validator_rejection(repo, tmp_path, monkeypatch, capsys):
     assert "ship: warning: planning gate:" in capsys.readouterr().out
 
 
-@pytest.mark.req("ship/warn-still-refuses-a-validator-that-cannot-be-fetched")
+@pytest.mark.req("ship/warn-still-refuses-a-validator-that-cannot-be-fetched", existing=True)   # an unfetchable validator already refused; this guards it under warn
 def test_warn_still_refuses_a_validator_that_cannot_be_fetched(repo, tmp_path, monkeypatch):
     work, remote, _ = repo
     lockstep_on_main(work, "planning:\n  gate: warn\n")

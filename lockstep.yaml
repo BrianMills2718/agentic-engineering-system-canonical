@@ -99,6 +99,9 @@ layout:
   purpose: Read the commit checks' settings from `lockstep.yaml` at the repository root
   implements:
   - lockstep-checks/each-check-can-be-set-to-block-warn-or-off-in-lockstep-yaml
+  - ship/planning-gates-are-set-in-lockstep-yaml
+  exports:
+  - 'planning_modes(data: object) -> dict[str, str]'
   tests:
   - tests/lockstep/checks/test_lockstep_checks_config.py
 - path: src/lockstep/checks/docmeta.py

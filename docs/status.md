@@ -212,7 +212,7 @@ which tests cover each scenario at this commit. For pass or fail, run `make chec
 | `ship/refuse-a-branch-whose-hidden-acceptance-run-failed-or-is-out-of-date` | not run at this revision | `lockstep.ship` (`src/lockstep/ship.py:1`), `lockstep.ship` (`src/lockstep/ship.py:1`), `lockstep.ship.accept_refusal` (`src/lockstep/ship.py:1522`) |
 | `ship/install-ship-as-a-command-from-the-public-repository` | not run at this revision | `lockstep.ship` (`src/lockstep/ship.py:1`), `lockstep.ship` (`src/lockstep/ship.py:1`) |
 | `ship/regenerate-a-status-page-conflict-and-rerun-hidden-tests-after-ship-s-own-rebase` | not run at this revision | `lockstep.ship` (`src/lockstep/ship.py:1`), `lockstep.ship` (`src/lockstep/ship.py:1`), `lockstep.ship.regenerate` (`src/lockstep/ship.py:1891`) |
-| `ship/planning-gates-are-set-in-lockstep-yaml` | not run at this revision | `lockstep.checks.config.planning_modes` (`src/lockstep/checks/config.py:165`), `lockstep.ship.planning_setting` (`src/lockstep/ship.py:1461`) |
+| `ship/planning-gates-are-set-in-lockstep-yaml` | not run at this revision | `lockstep.checks.config` (`src/lockstep/checks/config.py:1`), `lockstep.checks.config.planning_modes` (`src/lockstep/checks/config.py:204`), `lockstep.ship._planning_setting` (`src/lockstep/ship.py:1461`) |
 | `timer-config/each-job-in-the-list-becomes-a-service-and-a-timer-unit` | not run at this revision | `timers` (`scripts/timers.py:1`) |
 | `timer-config/installing-never-deletes` | not run at this revision | `timers` (`scripts/timers.py:1`) |
 | `workspace-map-check/settings-come-from-config` | not run at this revision | `archive_map` (`scripts/archive_map.py:1`), `workspace_map` (`scripts/workspace_map.py:1`) |

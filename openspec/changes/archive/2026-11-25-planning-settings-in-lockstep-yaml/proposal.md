@@ -1,5 +1,9 @@
 # Planning settings in lockstep.yaml
 
+Plan size: small
+
+Small because it is undone with `git revert`, sends nothing outward and spends nothing; its plan is `proposals/aes-whole-system/PLAN.md`, read once by an independent reviewer.
+
 ## Why
 
 Brian, 2026-11-25: "yes it should hold all 4 parts btu the whole systm should be configurable so you can congfigure

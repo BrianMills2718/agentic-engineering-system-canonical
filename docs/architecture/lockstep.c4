@@ -19,7 +19,7 @@ model {
     metadata { python 'lockstep.hook' }
   }
   ls_ship = package 'ship' {
-    description 'Runs the repository check and merges only the commit that passed; stands alone'
+    description 'Runs the repository check and merges only the commit that passed; imports only the lockstep.yaml settings reader'
     metadata { python 'lockstep.ship' }
   }
   ls_plan_run = package 'run-plan' {
@@ -41,6 +41,7 @@ model {
   ls_core -> ls_hook 'imports'
   ls_core -> ls_plan_run 'imports'
   ls_core -> ls_aes_lib 'reads AES plans'
+  ls_ship -> ls_checks 'reads planning settings from lockstep.yaml (lockstep.checks.config)'
 }
 views {
   view lockstep_packages {
