@@ -41,6 +41,9 @@ style = "google"
 arg-type-hints-in-docstring = false
 check-return-types = false
 skip-checking-short-docstrings = true
+# interrogate requires a docstring on __init__; without this pydoclint refuses that same docstring (DOC301).
+# Found by the aes_test build, 2026-11-25.
+allow-init-docstring = true
 exclude = "tests"
 
 [tool.interrogate]
