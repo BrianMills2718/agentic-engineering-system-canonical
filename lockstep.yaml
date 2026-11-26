@@ -1064,6 +1064,11 @@ layout:
     planning gates there; the feedback loop's dry run and friction measure), and a link to the finished one-tool build.
   implements: []
   tests: []
+- path: docs/planning/game-benchmark.md
+  purpose: One-page plan for the AES game benchmark, the AES bundle on versus off building one A2Z GameSpec-Bench game
+    from its full design document, graded per contract item.
+  implements: []
+  tests: []
 - path: docs/planning/open-questions.graph.json
   purpose: Generated graph of open ledger questions, responsible actors and domain relationships; it is a derived reading
     view rather than another question authority.
