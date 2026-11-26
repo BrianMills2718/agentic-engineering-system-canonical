@@ -174,6 +174,7 @@ Declares (typed signatures, from the plan):
   planning_modes(data: object) -> dict[str, str]
   planning_setting(repo: Path, key: str) -> str
   copier_answer_on(repo: Path, key: str) -> bool
+  validator_source(repo: Path) -> tuple[str, str] | None
 [[[end]]]
 """
 

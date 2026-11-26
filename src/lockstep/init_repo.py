@@ -126,6 +126,9 @@ sources:
 planning:
   gate: block            # the Company Planning package (docs/planning/planning-package.json) must pass its validator
   one_page_plans: block  # a one-page plan under docs/plans/ must be complete
+  # validator:            # where the validator comes from; unset means your local company-planning checkout
+  #   repo: <git address of Company Planning or its mirror>
+  #   ref: main
 
 # Folders where every file must be planned (for example [src/]). Empty means the edit guard checks no folder.
 governed: []

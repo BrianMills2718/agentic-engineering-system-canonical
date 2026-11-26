@@ -105,6 +105,7 @@ layout:
   - 'planning_modes(data: object) -> dict[str, str]'
   - 'planning_setting(repo: Path, key: str) -> str'
   - 'copier_answer_on(repo: Path, key: str) -> bool'
+  - 'validator_source(repo: Path) -> tuple[str, str] | None'
   tests:
   - tests/lockstep/checks/test_lockstep_checks_config.py
 - path: src/lockstep/checks/docmeta.py
@@ -384,6 +385,7 @@ layout:
   purpose: '`lockstep plan check [--repo PATH] [--json]`: run Company Planning''s validator on the repository''s plan'
   implements:
   - lockstep-plan-check/lockstep-plan-check-runs-company-planning-s-validator
+  - lockstep-plan-check/the-validator-s-source-is-set-in-lockstep-yaml
   exports:
   - 'fetch_planning_validator(run: Run) -> tuple[str | None, str | None]'
   - 'run_validator(repo: Path) -> tuple[int, str]'
@@ -1245,6 +1247,22 @@ layout:
 - path: meta-process/templates/agents.md.template
   purpose: Defines generated AGENTS structure and provenance placeholders for canonical instructions, relationship digest,
     commands and workflow.
+  implements: []
+  tests: []
+- path: openspec/changes/archive/2026-11-25-planning-validator-source/prior-art.json
+  purpose: Prior-art record for the planning validator source setting (removed after its merge)
+  implements: []
+  tests: []
+- path: openspec/changes/archive/2026-11-25-planning-validator-source/proposal.md
+  purpose: Proposal: the planning validator's source is a lockstep.yaml setting (removed after its merge)
+  implements: []
+  tests: []
+- path: openspec/changes/archive/2026-11-25-planning-validator-source/specs/lockstep-plan-check/spec.md
+  purpose: Spec delta adding the validator-source requirement (removed after its merge)
+  implements: []
+  tests: []
+- path: openspec/changes/archive/2026-11-25-planning-validator-source/tasks.md
+  purpose: Tasks for the planning validator source setting (removed after its merge)
   implements: []
   tests: []
 - path: openspec/changes/archive/.gitkeep
