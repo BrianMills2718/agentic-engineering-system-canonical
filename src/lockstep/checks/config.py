@@ -366,3 +366,24 @@ def copier_answer_on(repo: Path, key: str) -> bool:
     import re
     found = re.search(rf"^{re.escape(key)}:[ \t]*(\S+)[ \t]*$", _on_default_branch(repo, ".copier-answers.yml"), re.M)
     return not (found and found.group(1).strip("'\"").lower() == "false")
+
+
+def validator_source(repo: Path) -> tuple[str, str] | None:
+    """(address, branch) from `planning.validator` in lockstep.yaml on the default branch at origin, else None.
+
+    Raises:
+        ConfigError: That file is not YAML, or `planning.validator` is not a mapping of a text `repo` and optional `ref`.
+    """
+    try:
+        data = yaml.safe_load(_on_default_branch(repo, SIDE_FILE)) or {}
+    except yaml.YAMLError as exc:
+        raise ConfigError(f"{SIDE_FILE} on the default branch is not YAML ({exc})") from exc
+    planning = data.get("planning") if isinstance(data, dict) else None
+    setting = planning.get("validator") if isinstance(planning, dict) else None
+    if setting is None:
+        return None
+    if (not isinstance(setting, dict) or set(setting) - {"repo", "ref"} or not isinstance(setting.get("repo"), str)
+            or not isinstance(setting.get("ref", "main"), str)):
+        raise ConfigError(f"{SIDE_FILE}: planning.validator must be a mapping of a text repo and an optional text ref "
+                          f"(a branch), not {setting!r}")
+    return setting["repo"], setting.get("ref", "main")
