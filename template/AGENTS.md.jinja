@@ -35,3 +35,20 @@ requirements and decisions.{% if code2_workspace %} Workspace rules: `~/code2/AG
 - Change structure in `docs/architecture/model.c4`, then run `uv run lockstep check arch gen`.
   Never edit `.importlinter` by hand.
 - `make fast` runs on commit; `make check` runs on push and must exit 0 before merging.
+
+## When a check refuses
+
+Each check ends with a `RESULT` or `OUTCOME` line. Fix the cause it names; there is no need to read Lockstep's
+source. These are the refusals a from-scratch build met most (the aes_test run, 2026-11-25):
+
+| The line says | It means | Fix |
+| --- | --- | --- |
+| `RESULT project stale=<n> exit=1` | a planned file's generated plan text is older than its spec or layout row | `uv run lockstep check project`, then commit what it rewrote |
+| `RESULT changed ... no_plan_size=<n>` | a change's `proposal.md` has no `Plan size:` line | add `Plan size: small` or `Plan size: full` |
+| `RESULT changed ... no_planning_package=<n>` | `Plan size: full` without a package | add `Planning package: <path>` naming a committed file, or use `small` |
+| `unimplemented <capability>/<requirement>` (trace) | no module says it implements the requirement | list it under the file's layout row `implements:` and run `uv run lockstep check project` |
+| `untested <capability>/<scenario>` (trace) | no test is marked for the scenario | add a test with `@pytest.mark.req("<capability>/<scenario>")`; after removing the starter, also remove `openspec/specs/core/` |
+| `BLOCK <file>: would define the function ...` | a public name is not in the layout row's `exports:` | add it there with its types first, or name it with a leading `_` |
+| `new file-growth <file>: <n> lines, over 800` (maintainability) | the branch grew a file past the cap | move the new code into its own planned module |
+| `FAIL cold_review: missing` (`lockstep plan check`) | the planning package has no recorded independent review | run the planning-compliance reviewer and record its verdict and the revision it read |
+| `FAIL freshness: reviewed at <rev>` | plan files changed after that review | review again and record the new revision; `ship` only warns about this |
