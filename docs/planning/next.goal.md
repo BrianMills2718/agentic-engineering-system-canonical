@@ -206,14 +206,17 @@ Dry-run result, 2026-11-25 (steps 1 and 2; $1.48 measured from the `llm_client` 
 
 | Job | Would do | Judge marks | Stop rule tripped |
 | --- | --- | --- | --- |
-| `problems.py` | file 7 issues, update 3, open 8 concerns, about 1,125 Sonnet sessions (worked out from its strong-model setting) | 3 actionable, 12 duplicate, 3 noise | a Telegram digest reaches Brian; spend passes $2 |
+| `problems.py` | file 7 issues, update 3, open 8 concerns, about 1,125 subscription Sonnet sessions (worked out from its strong-model setting) | 3 actionable, 12 duplicate, 3 noise | a Telegram digest reaches Brian; under a third useful |
 | effects | revoke 6 of 17 rules, reopen 6 concerns | all 6 noise | 6 Telegram messages reach Brian |
-| `fix_owner.py` | 10 comments, 1 bypass-permissions session that can merge | 2 actionable, 5 duplicate, 3 noise | one session costs $0.49 to $17.59 (October traces), over $2 a day |
+| `fix_owner.py` | 10 comments, 1 bypass-permissions session that can merge | 2 actionable, 5 duplicate, 3 noise | under a third useful; all 192 open concerns are `on-hold` (its sessions run on the subscription, so their $0.49 to $17.59 is notional, not spend) |
 | ecosystem-ops worker | no current work in its four registrations | not independent (judged from past actions) | none shown; kept off with no unique work today |
 | watchdog | urgent push to Brian on failure | not run (restart is a side effect) | reaches Brian |
 
-Before any job is turned on again: its messages to Brian go to a digest he asked for or stop, its strong model is a
-plain API model with a per-run cap under $2, and a rerun of this dry run passes the one-third acted-on rule.
+Spend is counted two ways (Brian, 2026-11-25: "shouldnt it use subscription usage which isnt modney anyways?"):
+Claude Code sessions (`claude -p`, the `claude-code/` route) run on the subscription and count as a share of its
+weekly limit, not dollars; only API calls (the labelling model, about $1.12 a cold run) count toward the $2-a-day
+rule. Before any job is turned on again: its messages to Brian go to a digest he asked for or stop, it skips items
+already open, and a rerun of this dry run passes the one-third acted-on rule.
 
 ## Parking list (later slices, not planned yet)
 
