@@ -454,6 +454,7 @@ layout:
   - ship/a-plan-repair-is-never-refused
   - ship/an-upkeep-only-change-is-never-refused
   - ship/refuse-a-merge-whose-openspec-change-lacks-a-prior-art-record
+  - ship/every-planning-gate-run-is-recorded
   - ship/a-record-only-change-is-never-refused
   - ship/refuse-a-planning-package-the-validator-rejects
   - ship/hold-a-new-repository-to-a-deployed-plan
@@ -1254,6 +1255,22 @@ layout:
 - path: openspec/config.yaml
   purpose: Selects OpenSpec’s spec-driven schema; optional context, artifact rules and operation guidance remain commented
     examples rather than active custom requirements.
+  implements: []
+  tests: []
+- path: openspec/changes/archive/2026-11-25-planning-gates-warn-and-record/prior-art.json
+  purpose: "Prior-art record: recording every planning-gate run (removed after its merge)"
+  implements: []
+  tests: []
+- path: openspec/changes/archive/2026-11-25-planning-gates-warn-and-record/proposal.md
+  purpose: "Proposal: absent planning settings warn, and every planning-gate run is recorded (removed after its merge)"
+  implements: []
+  tests: []
+- path: openspec/changes/archive/2026-11-25-planning-gates-warn-and-record/specs/ship/spec.md
+  purpose: "Spec delta: absent planning settings warn; every planning-gate run is recorded (removed after its merge)"
+  implements: []
+  tests: []
+- path: openspec/changes/archive/2026-11-25-planning-gates-warn-and-record/tasks.md
+  purpose: "Tasks: planning gates warn by default and are recorded (removed after its merge)"
   implements: []
   tests: []
 - path: openspec/specs/.gitkeep

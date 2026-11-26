@@ -116,6 +116,14 @@ def make_repo(tmp_path: Path, monkeypatch, first_commit: str, *, package: bool) 
     return work, remote, tmp_path / "gh.log"
 
 
+@pytest.fixture(autouse=True)
+def gates_block_when_absent(monkeypatch):
+    """Most tests here are about what a blocking gate does, so an absent setting means `block` in them; the default
+    (`warn`, since 2026-11-25) has its own tests, which undo this."""
+    import lockstep.checks.config as config
+    monkeypatch.setattr(config, "PLANNING_DEFAULT", "block")
+
+
 @pytest.fixture
 def repo(tmp_path, monkeypatch):
     """An older repository with a passing planning package: its first commit is one second before a repository counts as new."""
@@ -1969,3 +1977,44 @@ def test_non_text_planning_keys_refuse_instead_of_crashing():
     from lockstep.checks.config import ConfigError, planning_modes
     with pytest.raises(ConfigError, match="unknown key"):
         planning_modes({"planning": {1: "x", "a": "y"}})
+
+
+# ---- absent means warn, and every gate run is recorded (2026-11-25) ----------------------------------------------
+
+
+def verdicts() -> list[dict]:
+    """Every planning-gate record ship wrote under $SHIP_LOG_DIR."""
+    folder = Path(os.environ["SHIP_LOG_DIR"]) / "planning-verdicts"
+    return [json.loads(line) for f in sorted(folder.glob("*.jsonl")) for line in f.read_text().splitlines()]
+
+
+@pytest.mark.req("ship/an-absent-planning-setting-warns")
+def test_an_absent_planning_setting_warns(new_repo, monkeypatch, capsys):
+    import lockstep.checks.config as config
+    monkeypatch.setattr(config, "PLANNING_DEFAULT", "warn")
+    work, remote, _ = new_repo
+    assert ship.main(["--repo", str(work), "--check", "true"]) == 0
+    assert on_remote(remote, "feature")
+    assert "ship: warning: planning gate:" in capsys.readouterr().out
+
+
+@pytest.mark.req("ship/a-warned-gate-is-recorded")
+def test_a_warned_gate_is_recorded(new_repo, monkeypatch):
+    import lockstep.checks.config as config
+    monkeypatch.setattr(config, "PLANNING_DEFAULT", "warn")
+    work, remote, _ = new_repo
+    assert ship.main(["--repo", str(work), "--check", "true"]) == 0
+    [warned] = [v for v in verdicts() if v["gate"] == "planning gate"]
+    assert warned["outcome"] == "warn" and warned["mode"] == "warn" and warned["reason"]
+    assert warned["branch"] == "feature" and len(warned["head"]) == 40 and warned["log"].endswith(".log")
+
+
+@pytest.mark.req("ship/refused-passed-and-off-gates-are-recorded")
+def test_refused_passed_and_off_gates_are_recorded(new_repo, tmp_path):
+    work, remote, _ = new_repo
+    refused_before_the_check(work, remote, tmp_path)
+    assert [v["outcome"] for v in verdicts() if v["gate"] == "planning gate"] == ["refuse"]
+    lockstep_on_main(work, "planning:\n  gate: off\n")
+    assert ship.main(["--repo", str(work), "--check", "true"]) == 0
+    outcomes = {(v["gate"], v["outcome"]) for v in verdicts()}
+    assert ("planning gate", "off") in outcomes and ("one-page plans", "pass") in outcomes
