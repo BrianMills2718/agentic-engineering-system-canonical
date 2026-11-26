@@ -29,6 +29,10 @@ agentic-engineering-system = { git = "{{ lockstep_git }}", branch = "main" }
 requires = ["uv_build>=0.12.5,<0.13.0"]
 build-backend = "uv_build"
 
+[tool.uv.build-backend]
+# uv_build looks for src/<project name>/ unless told; a package named differently from the project needs this
+module-name = "{{ package_name }}"
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 
