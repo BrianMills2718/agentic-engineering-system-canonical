@@ -220,6 +220,8 @@ already open, and a rerun of this dry run passes the one-third acted-on rule.
 
 ## aes_test result (2026-11-25, one run per arm)
 
+Next evaluation: [game benchmark plan](game-benchmark.md) (2026-11-26; Brian: the TinyDB test was too easy).
+
 Brian approved the test on 2026-11-25 ("i approve your recommdnation"): TinyDB 4.8.0 rebuilt from its documentation
 only, AES full planning by one Sonnet session, building by a second, judged by TinyDB's own 201 tests hidden from both.
 
