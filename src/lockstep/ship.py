@@ -86,7 +86,7 @@ Implements: ship/regenerate-a-status-page-conflict-and-rerun-hidden-tests-after-
 [[[cog import lockstep.cogtext as c; c.docstring("src:lockstep:ship.py", indent=0)]]]
 Plan (generated from lockstep.yaml layout and OpenSpec; edit the spec or the layout row, not this text):
 
-Implements: ship/install-ship-as-a-command-from-the-public-repository, ship/merge-only-the-commit-whose-check-passed, ship/rebase-a-branch-that-is-behind-the-default-branch-before-checking-it, ship/refuse-a-new-repository-with-no-planning-package, ship/check-every-one-page-plan-a-merge-adds-or-changes, ship/add-on-gates-switch-off-from-the-copier-answers, ship/refuse-a-branch-whose-hidden-acceptance-run-failed-or-is-out-of-date, ship/a-plan-repair-is-never-refused, ship/an-upkeep-only-change-is-never-refused, ship/refuse-a-merge-whose-openspec-change-lacks-a-prior-art-record, ship/every-planning-gate-run-is-recorded, ship/a-record-only-change-is-never-refused, ship/refuse-a-planning-package-the-validator-rejects, ship/hold-a-new-repository-to-a-deployed-plan, ship/prepare-a-fresh-worktree-s-environment-before-the-check, ship/skip-a-check-that-already-passed-on-the-same-tree, ship/keep-its-own-lane-when-the-caller-still-needs-it, ship/refuse-goals-that-do-not-name-their-sources, ship/merge-with-a-method-the-repository-allows, ship/limit-how-many-checks-run-at-once, ship/settings-come-from-config, ship/regenerate-a-status-page-conflict-and-rerun-hidden-tests-after-ship-s-own-rebase, ship/validate-the-planning-package-only-when-the-merge-changes-plan-content
+Implements: ship/install-ship-as-a-command-from-the-public-repository, ship/merge-only-the-commit-whose-check-passed, ship/rebase-a-branch-that-is-behind-the-default-branch-before-checking-it, ship/refuse-a-new-repository-with-no-planning-package, ship/check-every-one-page-plan-a-merge-adds-or-changes, ship/add-on-gates-switch-off-from-the-copier-answers, ship/refuse-a-branch-whose-hidden-acceptance-run-failed-or-is-out-of-date, ship/a-plan-repair-is-never-refused, ship/an-upkeep-only-change-is-never-refused, ship/refuse-a-merge-whose-openspec-change-lacks-a-prior-art-record, ship/a-record-only-change-is-never-refused, ship/refuse-a-planning-package-the-validator-rejects, ship/hold-a-new-repository-to-a-deployed-plan, ship/prepare-a-fresh-worktree-s-environment-before-the-check, ship/skip-a-check-that-already-passed-on-the-same-tree, ship/keep-its-own-lane-when-the-caller-still-needs-it, ship/refuse-goals-that-do-not-name-their-sources, ship/merge-with-a-method-the-repository-allows, ship/limit-how-many-checks-run-at-once, ship/settings-come-from-config, ship/regenerate-a-status-page-conflict-and-rerun-hidden-tests-after-ship-s-own-rebase, ship/validate-the-planning-package-only-when-the-merge-changes-plan-content
 
 ### Requirement: Install ship as a command from the public repository
 
@@ -431,24 +431,6 @@ Source: Brian, 2026-11-17: "every cpaability/featuer shoul dhave a prior art sea
 - **GIVEN** a branch that adds an OpenSpec change whose prior-art check exits 2
 - **WHEN** `ship` runs
 - **THEN** it exits 1 with nothing pushed, and says the exit status and that this is not a verdict on the record
-
-### Requirement: Every planning-gate run is recorded
-
-Each time ship runs one of its two planning gates it SHALL append one JSON line to `planning-verdicts/<YYYY-MM-DD>.jsonl` beside the day's ship log, holding `time`, `repo` (owner/name from origin), `branch`, `head`, `gate`, `mode`, `outcome` (`pass`, `warn`, `refuse`, `unavailable` or `off`), `reason` (the refusal text, or null) and `log` (the day's ship log). A record that cannot be written SHALL NOT stop the merge; the day's log SHALL say so.
-
-Source: Brian, 2026-11-25: "i agree witht he warn but we should be recoridn these so we can review them afterwards to see whether they were helpful or not and how to make the paperwork actually valuable". Recording passes and refusals as well as warnings, and the fields, were inferred by agent: a review needs the rate and the commit to follow up.
-
-#### Scenario: A warned gate is recorded
-
-- **GIVEN** a new repository with no planning package and no planning setting
-- **WHEN** ship merges it with a warning
-- **THEN** a `planning gate` record has outcome `warn`, the reason, the branch, the 40-character head and the log path
-
-#### Scenario: Refused, passed and off gates are recorded
-
-- **GIVEN** a new repository with no planning package and the gate set to block
-- **WHEN** ship refuses it, and then merges it after the default branch sets the gate off
-- **THEN** the records hold a `refuse` and an `off` for the planning gate and a `pass` for the one-page plans
 
 ### Requirement: A record-only change is never refused
 
@@ -1447,60 +1429,25 @@ def addon_off_line(run: "Run", gate: str, key: str) -> None:
 
 
 def _gated(run: "Run", repo: Path, gate: str, key: str, answers_key: str, check: Callable[["Run", Path], str | None]) -> str | None:
-    """Run one planning gate in its mode (lockstep.yaml `planning.<key>` on the default branch, or the copier answers);
-    its refusal, or None when the gate is off or its plan verdict is only warned of. Every run is recorded
-    (record_gate_verdict)."""
+    """Run and record one planning gate in its mode (lockstep.yaml `planning.<key>`, else the copier answers): its refusal."""
     from lockstep.checks.config import copier_answer_on, planning_setting
-    mode = planning_setting(repo, key)
-    if mode == "off" or not copier_answer_on(repo, answers_key):
-        if mode == "off":
-            line = f"ship: {gate}: off (lockstep.yaml planning.{key}: off)"
-            print(line)
-            run.write(line)
-        else:
-            addon_off_line(run, gate, answers_key)
-        record_gate_verdict(run, repo, gate, "off" if mode == "off" else f"off ({ANSWERS} {answers_key})", "off", None)
-        return None
-    refused = check(run, repo)
-    if refused and mode == "warn" and not isinstance(refused, _Unavailable):
-        line = f"ship: warning: {gate}: {refused}; not refused (lockstep.yaml planning.{key}: warn)"
+    from lockstep.checks.gate_records import record_gate_verdict
+    mode, refused, outcome, line = planning_setting(repo, key), None, "off", ""
+    if mode == "off":
+        line = f"ship: {gate}: off (lockstep.yaml planning.{key}: off)"
+    elif not copier_answer_on(repo, answers_key):
+        addon_off_line(run, gate, answers_key)
+        mode = f"off ({ANSWERS} {answers_key})"
+    else:
+        refused = check(run, repo)
+        outcome = "pass" if not refused else "unavailable" if isinstance(refused, _Unavailable) else "warn" if mode == "warn" else "refuse"
+        if outcome == "warn":
+            line = f"ship: warning: {gate}: {refused}; not refused (lockstep.yaml planning.{key}: warn)"
+    if line:
         print(line)
         run.write(line)
-        record_gate_verdict(run, repo, gate, mode, "warn", refused)
-        return None
-    outcome = "pass" if not refused else "unavailable" if isinstance(refused, _Unavailable) else "refuse"
-    record_gate_verdict(run, repo, gate, mode, outcome, refused)
-    return refused
-
-
-def record_gate_verdict(run: "Run", repo: Path, gate: str, mode: str, outcome: str, reason: str | None) -> None:
-    """Append one JSON line for this planning-gate run to <ship log dir>/planning-verdicts/<date>.jsonl, so a later
-    review can ask, per warning or refusal, whether the paperwork was written anyway and whether the change held.
-
-    Implements: ship/every-planning-gate-run-is-recorded
-
-    Requirement text (generated):
-        ship/every-planning-gate-run-is-recorded: Each time ship runs one of its two planning gates
-            it SHALL append one JSON line to `planning-verdicts/<YYYY-MM-DD>.jsonl` beside the day's
-            ship log, holding `time`, `repo` (owner/name from origin), `branch`, `head`, `gate`,
-            `mode`, `outcome` (`pass`, `warn`, `refuse`, `unavailable` or `off`), `reason` (the
-            refusal text, or null) and `log` (the day's ship log). A record that cannot be written
-            SHALL NOT stop the merge; the day's log SHALL say so.
-    """
-    def git(*args: str) -> str:
-        done = subprocess.run(["git", "-C", str(repo), *args], capture_output=True, text=True, errors="replace")
-        return done.stdout.strip() if done.returncode == 0 else ""
-    found = ORIGIN_NAME.search(git("remote", "get-url", "origin"))
-    record = {"time": datetime.datetime.now().isoformat(timespec="seconds"), "repo": "/".join(found.groups()) if found else str(repo),
-              "branch": git("rev-parse", "--abbrev-ref", "HEAD"), "head": git("rev-parse", "HEAD"), "gate": gate,
-              "mode": mode, "outcome": outcome, "reason": reason, "log": str(run.log)}
-    folder = run.log.parent / "planning-verdicts"
-    try:
-        folder.mkdir(parents=True, exist_ok=True)
-        with (folder / f"{datetime.date.today().isoformat()}.jsonl").open("a", encoding="utf-8") as fh:
-            fh.write(json.dumps(record) + "\n")
-    except OSError as exc:  # a record that cannot be written never stops a merge; the day's log says so
-        run.write(f"ship: warning: could not record the {gate} verdict ({exc})")
+    record_gate_verdict(run.log, repo, gate, mode, outcome, refused, on_error=run.write)
+    return refused if outcome in ("refuse", "unavailable") else None
 
 
 def accept_refusal(run: "Run", repo: Path, branch: str) -> str | None:

@@ -107,6 +107,14 @@ layout:
   - 'copier_answer_on(repo: Path, key: str) -> bool'
   tests:
   - tests/lockstep/checks/test_lockstep_checks_config.py
+- path: src/lockstep/checks/gate_records.py
+  purpose: Record each run of ship's planning gates as one JSON line beside ship's day log
+  implements:
+  - ship/every-planning-gate-run-is-recorded
+  exports:
+  - 'record_gate_verdict(log: Path, repo: Path, gate: str, mode: str, outcome: str, reason: str | None, *, on_error: Callable[[str], None]) -> None'
+  tests:
+  - tests/test_ship.py
 - path: src/lockstep/checks/docmeta.py
   purpose: 'Docmeta check: the OKF front matter of every page under `wiki/` is complete, fresh and findable'
   implements:
@@ -454,7 +462,6 @@ layout:
   - ship/a-plan-repair-is-never-refused
   - ship/an-upkeep-only-change-is-never-refused
   - ship/refuse-a-merge-whose-openspec-change-lacks-a-prior-art-record
-  - ship/every-planning-gate-run-is-recorded
   - ship/a-record-only-change-is-never-refused
   - ship/refuse-a-planning-package-the-validator-rejects
   - ship/hold-a-new-repository-to-a-deployed-plan

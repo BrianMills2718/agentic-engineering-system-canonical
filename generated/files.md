@@ -22,6 +22,7 @@ Generated from [lockstep.yaml](../lockstep.yaml); edit the source, not this bloc
 | [src/lockstep/checks/changed.py](../src/lockstep/checks/changed.py) | Changed check: requirements whose text differs from a base revision, with their code, tests and plan |
 | [src/lockstep/checks/cli.py](../src/lockstep/checks/cli.py) | `lockstep check &lt;name&gt; [options]`: run one commit check and apply its mode from `lockstep.yaml` |
 | [src/lockstep/checks/config.py](../src/lockstep/checks/config.py) | Read the commit checks' settings from `lockstep.yaml` at the repository root |
+| [src/lockstep/checks/gate_records.py](../src/lockstep/checks/gate_records.py) | Record each run of ship's planning gates as one JSON line beside ship's day log |
 | [src/lockstep/checks/docmeta.py](../src/lockstep/checks/docmeta.py) | Docmeta check: the OKF front matter of every page under `wiki/` is complete, fresh and findable |
 | [src/lockstep/checks/instructions.py](../src/lockstep/checks/instructions.py) | Instructions check: the agent instruction files of one repository obey the size, filename and delta-only rules |
 | [src/lockstep/checks/markers.py](../src/lockstep/checks/markers.py) | Find `Implements:` docstring lines in source (and comment lines in configured non-Python files) and `req` markers in tests |
