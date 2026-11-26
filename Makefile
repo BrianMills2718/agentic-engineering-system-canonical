@@ -71,9 +71,17 @@ check-format:  ## The code2 format checks the template's make check runs: import
 	out=$$($(LOCKSTEP) check --repo . --base "$$base" 2>&1); ec=$$?; \
 	if [ $$ec -ne 0 ] || ! printf '%s\n' "$$out" | grep -q '^OUTCOME '; then printf '%s\n' "$$out" | tail -n 20; echo "check-format: the whole-tree check failed (exit $$ec)"; exit 1; fi; \
 	printf '%s\n' "$$out" | grep '^OUTCOME '
+	@$(MAKE) --no-print-directory check-prior-art
 	@$(MAKE) --no-print-directory check-md-cap
 	@$(MAKE) --no-print-directory check-maintainability
 	@echo "RESULT check-format exit=0"
+
+check-prior-art:  ## The prior-art record check ship runs, on the OpenSpec changes this branch adds or changes since $(FORMAT_BASE), so a bad record fails here and not first at merge (src/lockstep/prior_art.py)
+	@base=$$(git merge-base HEAD $(FORMAT_BASE) 2>/dev/null); \
+	files=$$(git diff --name-only --diff-filter=d $$base HEAD -- openspec/changes 2>/dev/null); \
+	if [ -n "$$base" ] && [ -z "$$files" ]; then echo "check-prior-art: no OpenSpec change added or changed"; exit 0; fi; \
+	if [ -n "$$base" ]; then $(PYTHON) src/lockstep/prior_art.py --repo . --files $$files; else $(PYTHON) src/lockstep/prior_art.py --repo .; fi; \
+	ec=$$?; if [ $$ec -ne 0 ]; then echo "check-prior-art: failed (exit $$ec)"; exit 1; fi
 
 check-maintainability:  ## Fail on a blind except, a more complex function, more duplicate code or a large file that grew since the branch left $(FORMAT_BASE); old findings never block (lockstep check maintainability, on in lockstep.yaml)
 	@out=$$($(LOCKSTEP) check maintainability --repo . --base $(FORMAT_BASE) 2>&1); ec=$$?; \
