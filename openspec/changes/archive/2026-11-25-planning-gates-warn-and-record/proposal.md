@@ -2,6 +2,12 @@
 
 Brian, 2026-11-25, on whether ship's paperwork checks give more friction than value: "i agree witht he warn but we should be recoridn these so we can review them afterwards to see whether they were helpful or not and how to make the paperwork actually valuable". Nothing records how often a planning gate refuses or whether a refusal helped.
 
+Plan: `docs/planning/next.goal.md` (parking list, "Review the planning-gate records").
+
+Plan size: full
+
+Planning package: `docs/planning/planning-package.json`
+
 ## What Changes
 
 - An absent `planning.gate` or `planning.one_page_plans` now means `warn`, not `block`. `block` stays one line away.
