@@ -22,6 +22,7 @@ Generated from [lockstep.yaml](../lockstep.yaml); edit the source, not this bloc
 | [src/lockstep/checks/changed.py](../src/lockstep/checks/changed.py) | Changed check: requirements whose text differs from a base revision, with their code, tests and plan |
 | [src/lockstep/checks/cli.py](../src/lockstep/checks/cli.py) | `lockstep check &lt;name&gt; [options]`: run one commit check and apply its mode from `lockstep.yaml` |
 | [src/lockstep/checks/config.py](../src/lockstep/checks/config.py) | Read the commit checks' settings from `lockstep.yaml` at the repository root |
+| [src/lockstep/checks/gate_records.py](../src/lockstep/checks/gate_records.py) | Record each run of ship's planning gates as one JSON line beside ship's day log |
 | [src/lockstep/checks/docmeta.py](../src/lockstep/checks/docmeta.py) | Docmeta check: the OKF front matter of every page under `wiki/` is complete, fresh and findable |
 | [src/lockstep/checks/instructions.py](../src/lockstep/checks/instructions.py) | Instructions check: the agent instruction files of one repository obey the size, filename and delta-only rules |
 | [src/lockstep/checks/markers.py](../src/lockstep/checks/markers.py) | Find `Implements:` docstring lines in source (and comment lines in configured non-Python files) and `req` markers in tests |
@@ -230,6 +231,10 @@ Generated from [lockstep.yaml](../lockstep.yaml); edit the source, not this bloc
 | [meta-process/templates/agents.md.template](../meta-process/templates/agents.md.template) | Defines generated AGENTS structure and provenance placeholders for canonical instructions, relationship digest, commands and workflow. |
 | [openspec/changes/archive/.gitkeep](../openspec/changes/archive/.gitkeep) | Empty placeholder that keeps the archive folder in git after its change folders were removed. |
 | [openspec/config.yaml](../openspec/config.yaml) | Selects OpenSpec’s spec-driven schema; optional context, artifact rules and operation guidance remain commented examples rather than active custom requirements. |
+| [openspec/changes/archive/2026-11-25-planning-gates-warn-and-record/prior-art.json](../openspec/changes/archive/2026-11-25-planning-gates-warn-and-record/prior-art.json) | Prior-art record: recording every planning-gate run (removed after its merge) |
+| [openspec/changes/archive/2026-11-25-planning-gates-warn-and-record/proposal.md](../openspec/changes/archive/2026-11-25-planning-gates-warn-and-record/proposal.md) | Proposal: absent planning settings warn, and every planning-gate run is recorded (removed after its merge) |
+| [openspec/changes/archive/2026-11-25-planning-gates-warn-and-record/specs/ship/spec.md](../openspec/changes/archive/2026-11-25-planning-gates-warn-and-record/specs/ship/spec.md) | Spec delta: absent planning settings warn; every planning-gate run is recorded (removed after its merge) |
+| [openspec/changes/archive/2026-11-25-planning-gates-warn-and-record/tasks.md](../openspec/changes/archive/2026-11-25-planning-gates-warn-and-record/tasks.md) | Tasks: planning gates warn by default and are recorded (removed after its merge) |
 | [openspec/specs/.gitkeep](../openspec/specs/.gitkeep) | Empty tracked placeholder retaining the directory in Git, with no substantive requirement or history. |
 | [openspec/specs/client-manifest/spec.md](../openspec/specs/client-manifest/spec.md) | Specification of the manifest that lists each Claude Code and Codex client setting on a machine and its owner. |
 | [openspec/specs/concern-issue/spec.md](../openspec/specs/concern-issue/spec.md) | Specification of the keyed feedback-concern adapter that opens, closes and retitles concern issues on GitHub. |

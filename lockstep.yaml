@@ -107,6 +107,14 @@ layout:
   - 'copier_answer_on(repo: Path, key: str) -> bool'
   tests:
   - tests/lockstep/checks/test_lockstep_checks_config.py
+- path: src/lockstep/checks/gate_records.py
+  purpose: Record each run of ship's planning gates as one JSON line beside ship's day log
+  implements:
+  - ship/every-planning-gate-run-is-recorded
+  exports:
+  - 'record_gate_verdict(log: Path, repo: Path, gate: str, mode: str, outcome: str, reason: str | None, *, on_error: Callable[[str], None]) -> None'
+  tests:
+  - tests/test_ship.py
 - path: src/lockstep/checks/docmeta.py
   purpose: 'Docmeta check: the OKF front matter of every page under `wiki/` is complete, fresh and findable'
   implements:
@@ -1254,6 +1262,22 @@ layout:
 - path: openspec/config.yaml
   purpose: Selects OpenSpec’s spec-driven schema; optional context, artifact rules and operation guidance remain commented
     examples rather than active custom requirements.
+  implements: []
+  tests: []
+- path: openspec/changes/archive/2026-11-25-planning-gates-warn-and-record/prior-art.json
+  purpose: "Prior-art record: recording every planning-gate run (removed after its merge)"
+  implements: []
+  tests: []
+- path: openspec/changes/archive/2026-11-25-planning-gates-warn-and-record/proposal.md
+  purpose: "Proposal: absent planning settings warn, and every planning-gate run is recorded (removed after its merge)"
+  implements: []
+  tests: []
+- path: openspec/changes/archive/2026-11-25-planning-gates-warn-and-record/specs/ship/spec.md
+  purpose: "Spec delta: absent planning settings warn; every planning-gate run is recorded (removed after its merge)"
+  implements: []
+  tests: []
+- path: openspec/changes/archive/2026-11-25-planning-gates-warn-and-record/tasks.md
+  purpose: "Tasks: planning gates warn by default and are recorded (removed after its merge)"
   implements: []
   tests: []
 - path: openspec/specs/.gitkeep

@@ -1429,25 +1429,25 @@ def addon_off_line(run: "Run", gate: str, key: str) -> None:
 
 
 def _gated(run: "Run", repo: Path, gate: str, key: str, answers_key: str, check: Callable[["Run", Path], str | None]) -> str | None:
-    """Run one planning gate in its mode (lockstep.yaml `planning.<key>` on the default branch, or the copier answers);
-    its refusal, or None when the gate is off or its plan verdict is only warned of."""
+    """Run and record one planning gate in its mode (lockstep.yaml `planning.<key>`, else the copier answers): its refusal."""
     from lockstep.checks.config import copier_answer_on, planning_setting
-    mode = planning_setting(repo, key)
-    if mode == "off" or not copier_answer_on(repo, answers_key):
-        if mode == "off":
-            line = f"ship: {gate}: off (lockstep.yaml planning.{key}: off)"
-            print(line)
-            run.write(line)
-        else:
-            addon_off_line(run, gate, answers_key)
-        return None
-    refused = check(run, repo)
-    if refused and mode == "warn" and not isinstance(refused, _Unavailable):
-        line = f"ship: warning: {gate}: {refused}; not refused (lockstep.yaml planning.{key}: warn)"
+    from lockstep.checks.gate_records import record_gate_verdict
+    mode, refused, outcome, line = planning_setting(repo, key), None, "off", ""
+    if mode == "off":
+        line = f"ship: {gate}: off (lockstep.yaml planning.{key}: off)"
+    elif not copier_answer_on(repo, answers_key):
+        addon_off_line(run, gate, answers_key)
+        mode = f"off ({ANSWERS} {answers_key})"
+    else:
+        refused = check(run, repo)
+        outcome = "pass" if not refused else "unavailable" if isinstance(refused, _Unavailable) else "warn" if mode == "warn" else "refuse"
+        if outcome == "warn":
+            line = f"ship: warning: {gate}: {refused}; not refused (lockstep.yaml planning.{key}: warn)"
+    if line:
         print(line)
         run.write(line)
-        return None
-    return refused
+    record_gate_verdict(run.log, repo, gate, mode, outcome, refused, on_error=run.write)
+    return refused if outcome in ("refuse", "unavailable") else None
 
 
 def accept_refusal(run: "Run", repo: Path, branch: str) -> str | None:

@@ -230,6 +230,13 @@ already open, and a rerun of this dry run passes the one-third acted-on rule.
   - `policies.py` reads the configured source.
 - The feedback part's per-repository scope and `issue_repo`, read by the collector and the labels job.
 - `lockstep status` prints each part's mode and last result.
+- Review the planning-gate records (since 2026-11-25, Brian: "i agree witht he warn but we should be recoridn these so
+  we can review them afterwards"). An absent `planning:` setting now warns, and ship appends every gate run to
+  `~/code2/.ship-logs/planning-verdicts/<date>.jsonl` (spec `ship`, "Every planning-gate run is recorded"). Review
+  after 30 warn or refuse records, or on 2026-12-09, whichever comes first. For each record, follow its `head`:
+  - Was the missing plan or package written within a week anyway?
+  - Was the change reverted or fixed soon after?
+  - Then keep, change or drop each check. The first data is the `aes_test` checks-on arm's refusals (2026-11-25).
 
 ## Authorized source-fact upkeep follow-on
 
