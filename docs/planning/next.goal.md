@@ -218,6 +218,29 @@ weekly limit, not dollars; only API calls (the labelling model, about $1.12 a co
 rule. Before any job is turned on again: its messages to Brian go to a digest he asked for or stop, it skips items
 already open, and a rerun of this dry run passes the one-third acted-on rule.
 
+## aes_test result (2026-11-25, one run per arm)
+
+Brian approved the test on 2026-11-25 ("i approve your recommdnation"): TinyDB 4.8.0 rebuilt from its documentation
+only, AES full planning by one Sonnet session, building by a second, judged by TinyDB's own 201 tests hidden from both.
+
+| | checks on | checks off |
+|---|---|---|
+| Hidden tests using only documented names (179) | 156 passed | 144 passed |
+| Builder wall time | 21 min | 21 min |
+| Builder turns | 38 | 91 |
+| Builder cost (notional: subscription session) | $3.66 | $5.72 |
+| Check or hook refusals | 0 | 0 (hooks off) |
+
+- The checks-on arm's failures are a subset of the checks-off arm's. The 12-test gap is one private name the tests
+  read (`table._query_cache`), in neither the documentation nor the plan.
+- Unadapted, both arms score 0: the tests' `conftest.py` imports `JSONStorage` from the package top level, which the
+  documentation never shows. 22 more tests import undocumented helpers (`touch`, `freeze`).
+- Planning took the whole 90-minute cap, ending in the second cold-review round. The planner read Lockstep's installed
+  source to learn what the checks want.
+- Reading: the build checks neither refused nor visibly changed the code. The cost is in planning paperwork. This
+  is one run, so it is a lead rather than a measurement. The first planning-gate review (parking list) takes it as its
+  first data.
+
 ## Parking list (later slices, not planned yet)
 
 - Slice 3: `planning.skills`. `lockstep init` writes the Company Planning marketplace and plugin into the repository's
