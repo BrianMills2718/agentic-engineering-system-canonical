@@ -200,6 +200,21 @@ These steps are zero-code and run before any timer is turned on:
      run shows work `fix_owner.py` cannot do; in that case one home is chosen and the other retired.
    - The watchdog only watches the worker, so it goes wherever the worker goes.
 
+Dry-run result, 2026-11-25 (steps 1 and 2; $1.48 measured from the `llm_client` call log, projects
+`aes-feedback-dryrun` and `aes-feedback-dryrun-judge`; inputs, judge marks and traces in
+`~/projects/data/aes-feedback-dryrun/`, outside git). Every job stays off, each for a stop rule:
+
+| Job | Would do | Judge marks | Stop rule tripped |
+| --- | --- | --- | --- |
+| `problems.py` | file 7 issues, update 3, open 8 concerns, about 1,125 Sonnet sessions (worked out from its strong-model setting) | 3 actionable, 12 duplicate, 3 noise | a Telegram digest reaches Brian; spend passes $2 |
+| effects | revoke 6 of 17 rules, reopen 6 concerns | all 6 noise | 6 Telegram messages reach Brian |
+| `fix_owner.py` | 10 comments, 1 bypass-permissions session that can merge | 2 actionable, 5 duplicate, 3 noise | one session costs $0.49 to $17.59 (October traces), over $2 a day |
+| ecosystem-ops worker | no current work in its four registrations | not independent (judged from past actions) | none shown; kept off with no unique work today |
+| watchdog | urgent push to Brian on failure | not run (restart is a side effect) | reaches Brian |
+
+Before any job is turned on again: its messages to Brian go to a digest he asked for or stop, its strong model is a
+plain API model with a per-run cap under $2, and a rerun of this dry run passes the one-third acted-on rule.
+
 ## Parking list (later slices, not planned yet)
 
 - Slice 3: `planning.skills`. `lockstep init` writes the Company Planning marketplace and plugin into the repository's
