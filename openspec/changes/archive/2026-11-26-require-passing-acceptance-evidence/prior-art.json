@@ -1,0 +1,37 @@
+{
+  "need": "Establish from a fresh hidden pytest run that one or more tests passed before Lockstep or ship calls it a pass.",
+  "searched": [
+    {
+      "place": "own",
+      "where": "src/lockstep/checks/test_first.py, src/lockstep/checks/status.py, template/Makefile",
+      "query": "rg -n 'junit|XML' src/lockstep template",
+      "found": "The test-first check and projected status already consume pytest JUnit XML for different run boundaries. The template uses pytest's built-in JUnit reporter."
+    },
+    {
+      "place": "outside",
+      "where": "https://docs.pytest.org/en/stable/how-to/output.html#creating-junitxml-format-files and https://docs.pytest.org/en/stable/reference/reference.html#envvar-PYTEST_ADDOPTS",
+      "query": "How does pytest expose structured outcomes without changing how a wrapper receives test filenames?",
+      "found": "The standard pytest reporter writes JUnit XML and can be configured through PYTEST_ADDOPTS."
+    }
+  ],
+  "candidates": [
+    {
+      "name": "Pytest JUnit reporter",
+      "url": "https://docs.pytest.org/en/stable/how-to/output.html#creating-junitxml-format-files",
+      "covers": "Structured passing, failing, error and skipped outcomes using pytest itself.",
+      "misses": "Lockstep must associate the report with the current hidden test invocation and apply its merge rule.",
+      "verdict": "adopt",
+      "reason": "The reporter is available in the existing pytest dependency, including behind wrappers that preserve its environment."
+    },
+    {
+      "name": "Lockstep test-first and status checks",
+      "url": "https://github.com/BrianMills2718/agentic-engineering-system-canonical/tree/26b2e8575/src/lockstep/checks",
+      "covers": "Precedent for counting and classifying native pytest JUnit cases.",
+      "misses": "Those checks own base-revision regressions and tracked suite status, respectively. Neither reads hidden acceptance runs.",
+      "verdict": "reject",
+      "reason": "Reuse the native reporter without coupling the hidden run to another check's invocation or evidence store."
+    }
+  ],
+  "decision": "adopt",
+  "decided": "2026-11-26"
+}

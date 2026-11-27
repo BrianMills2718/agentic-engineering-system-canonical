@@ -326,9 +326,11 @@ Source: Brian, 2026-11-20: "the whole thing should be configurable and shareable
 
 ### Requirement: Refuse a branch whose hidden acceptance run failed or is out of date
 
-After it has caught up with the default branch and before it runs the check, `scripts/ship.py` SHALL read every readable `summary.json` under `${XDG_STATE_HOME:-~/.local/state}/lockstep-runs/<repository>/` (the main checkout's folder name) whose `branch` is the branch being shipped or whose `head` is a commit reachable from HEAD and not from the default branch; an unreadable one SHALL be skipped with a printed warning. When there is at least one, ship SHALL refuse the merge with nothing pushed, naming `lockstep accept check <change>` as the way to record a new run, unless the newest by run id has `accept.exit` 0, `uncommitted` 0, and `head` equal to HEAD as it will be merged (so a branch that was rebased must be checked again). With none, ship SHALL print and log `ship: no hidden-test run recorded for this branch` and go on; a run made by another user or under another `XDG_STATE_HOME` is not found, which this message makes visible.
+After it has caught up with the default branch and before it runs the check, `scripts/ship.py` SHALL read every readable `summary.json` under `${XDG_STATE_HOME:-~/.local/state}/lockstep-runs/<repository>/` (the main checkout's folder name) whose `branch` is the branch being shipped or whose `head` is a commit reachable from HEAD and not from the default branch; an unreadable one SHALL be skipped with a printed warning. When there is at least one, ship SHALL refuse the merge with nothing pushed, naming `lockstep accept check <change>` as the way to record a new run, unless the newest by run id has `accept.exit` 0, a positive integer `accept.passed`, zero `accept.failed` and `accept.errors`, `uncommitted` 0, and `head` equal to HEAD as it will be merged (so a branch that was rebased must be checked again). With none, ship SHALL print and log `ship: no hidden-test run recorded for this branch` and go on; a run made by another user or under another `XDG_STATE_HOME` is not found, which this message makes visible. Missing or malformed acceptance counts SHALL refuse a matching record, including a record rewritten after ship's own rebase. A legacy record with valid exit, pass, failure and error fields may omit the skipped count.
 
 Source: minimal-core-2026-11-20.md section 6 step 2, hidden tests "must pass before `ship`" (inferred by agent from the 2026-11-20 plan-fidelity test, where they were the check that measured success), under Brian, 2026-11-20: "the goal is to give a well specified plan to an agent on some proejct nad have it faithfulyy and successfully impelemnt it".
+
+Source: the positive-evidence check is inferred by agent from the all-skipped audit reproduction and Brian's 2026-11-26 instruction "make any high confidence imrpvoements".
 
 #### Scenario: A passing record at HEAD merges
 
@@ -347,6 +349,12 @@ Source: minimal-core-2026-11-20.md section 6 step 2, hidden tests "must pass bef
 - **GIVEN** no run record for the branch
 - **WHEN** ship runs with a passing check
 - **THEN** it merges and prints `ship: no hidden-test run recorded for this branch`
+
+#### Scenario: A successful exit without a passing count is refused
+
+- **GIVEN** a matching hidden-test receipt with exit zero and zero, missing or malformed passing evidence, either from the original run or from a rerun
+- **WHEN** ship reads the receipt
+- **THEN** it refuses the merge and names `lockstep accept check` as the recovery command
 
 ### Requirement: A plan repair is never refused
 
@@ -861,6 +869,8 @@ import tempfile
 import time
 from pathlib import Path
 from collections.abc import Callable
+
+from lockstep.plan_run import acceptance_passed
 
 METHODS = {"MERGE": "merge", "REBASE": "rebase", "SQUASH": "squash"}
 # The repository settings that enable each method, and the order tried when the wanted one is not allowed.
@@ -1470,11 +1480,14 @@ def accept_refusal(run: "Run", repo: Path, branch: str) -> str | None:
             reachable from HEAD and not from the default branch; an unreadable one SHALL be skipped
             with a printed warning. When there is at least one, ship SHALL refuse the merge with
             nothing pushed, naming `lockstep accept check <change>` as the way to record a new run,
-            unless the newest by run id has `accept.exit` 0, `uncommitted` 0, and `head` equal to
-            HEAD as it will be merged (so a branch that was rebased must be checked again). With
-            none, ship SHALL print and log `ship: no hidden-test run recorded for this branch` and
-            go on; a run made by another user or under another `XDG_STATE_HOME` is not found, which
-            this message makes visible.
+            unless the newest by run id has `accept.exit` 0, a positive integer `accept.passed`,
+            zero `accept.failed` and `accept.errors`, `uncommitted` 0, and `head` equal to HEAD as
+            it will be merged (so a branch that was rebased must be checked again). With none, ship
+            SHALL print and log `ship: no hidden-test run recorded for this branch` and go on; a run
+            made by another user or under another `XDG_STATE_HOME` is not found, which this message
+            makes visible. Missing or malformed acceptance counts SHALL refuse a matching record,
+            including a record rewritten after ship's own rebase. A legacy record with valid exit,
+            pass, failure and error fields may omit the skipped count.
     """
     common = Path(git(repo, "rev-parse", "--path-format=absolute", "--git-common-dir"))
     state = os.environ.get("XDG_STATE_HOME") or str(Path.home() / ".local" / "state")
@@ -1492,8 +1505,11 @@ def accept_refusal(run: "Run", repo: Path, branch: str) -> str | None:
             print(line)
             run.write(line)
             continue
-        if isinstance(rec, dict) and (rec.get("branch") == branch or rec.get("head") in on_branch
-                                     or (run.rebased_from and rec.get("head") == run.rebased_from)):
+        if not isinstance(rec, dict):
+            continue
+        recorded_head = rec.get("head")
+        if (rec.get("branch") == branch or (isinstance(recorded_head, str) and recorded_head in on_branch)
+                or (run.rebased_from and recorded_head == run.rebased_from)):
             records.append((str(rec.get("run_id") or path.parent.name), rec, path.parent))
     if not records:
         line = "ship: no hidden-test run recorded for this branch"
@@ -1501,9 +1517,10 @@ def accept_refusal(run: "Run", repo: Path, branch: str) -> str | None:
         run.write(line)
         return None
     run_id, rec, run_dir = max(records, key=lambda item: item[0])
-    accept = rec.get("accept") or {}
+    accept = rec.get("accept")
+    uncommitted = rec.get("uncommitted")
     if (run.rebased_from and rec.get("head") == run.rebased_from and rec.get("head") != head
-            and accept.get("exit") == 0 and not rec.get("uncommitted")):
+            and acceptance_passed(accept) and type(uncommitted) is int and uncommitted == 0):
         # ship's own rebase moved the branch past a passing run: run the hidden tests again on the rebased commit.
         line = f"ship: rebased past run {run_id}; running the hidden tests again at {head[:12]}"
         print(line)
@@ -1514,14 +1531,19 @@ def accept_refusal(run: "Run", repo: Path, branch: str) -> str | None:
         run.step("hidden tests again", command, shell=True)
         try:
             rec = json.loads((run_dir / "summary.json").read_text(encoding="utf-8"))
+            if not isinstance(rec, dict):
+                raise ValueError("expected a run record object")
         except (OSError, ValueError):
             return f"the hidden-test rerun left no readable record in {run_dir}; run `lockstep accept check` in this worktree"
-        accept = rec.get("accept") or {}
+        accept = rec.get("accept")
+        uncommitted = rec.get("uncommitted")
     again = f"run `lockstep accept check {rec.get('change', '<change>')}` in this worktree to record a new run"
-    if accept.get("exit") != 0:
-        return f"hidden acceptance tests did not pass in run {run_id} ({accept or 'no hidden test ran'}); fix the code, then {again}"
-    if rec.get("uncommitted"):
-        return f"run {run_id} counted {rec['uncommitted']} uncommitted file(s); commit them, then {again}"
+    if not acceptance_passed(accept):
+        return f"hidden acceptance tests did not pass in run {run_id} ({accept or 'no hidden test ran'}); {again}"
+    if type(uncommitted) is not int or uncommitted < 0:
+        return f"run {run_id} did not record a valid count of uncommitted files; {again}"
+    if uncommitted:
+        return f"run {run_id} counted {uncommitted} uncommitted file(s); commit them, then {again}"
     if rec.get("head") != head:
         return (f"run {run_id} checked {str(rec.get('head'))[:12]}, but the branch is now at {head[:12]} "
                 f"(new commits or a rebase); {again}")
