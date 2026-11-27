@@ -29,7 +29,7 @@ A repository made from the template SHALL hold tracked, executable `.githooks/pr
 
 Implemented by:
 
-- `copier.yml` — [copier.yml:30](../../copier.yml#L30)
+- `copier.yml` — [copier.yml:32](../../copier.yml#L32)
 
 - Scenario `a-moved-copy-and-a-worktree-still-run-the-hooks`: tested by `tests/test_template_portable.py::test_a_moved_copy_and_a_worktree_still_run_the_hooks` ([tests/test_template_portable.py:89](../../tests/test_template_portable.py#L89))
 
@@ -37,11 +37,13 @@ Implemented by:
 
 ID: `portable-template/a-fresh-copy-generates-and-checks-its-wiki`
 
-Status: **unimplemented**
+Status: **implemented and tested**
 
 A repository made with `copier copy` SHALL set `generated_wiki: true` in its `lockstep.yaml`, hold committed `generated/wiki/` pages written by its `lockstep check project`, and run `lockstep check project --check`, `python -m lockstep.wiki_reach` and `lockstep check docmeta` in its `make check`. Its `AGENTS.md` SHALL tell the agent to read `generated/wiki/index.md` first, and its `docs/index.md` SHALL name that index.
 
-Implemented by: nothing yet
+Implemented by:
+
+- `copier.yml` — [copier.yml:9](../../copier.yml#L9)
 
 - Scenario `a-fresh-copy-has-the-wiki-and-checks-it`: tested by `tests/test_template_portable.py::test_a_fresh_copy_has_the_wiki_and_checks_it` ([tests/test_template_portable.py:307](../../tests/test_template_portable.py#L307))
 
@@ -126,6 +128,6 @@ Status: **implemented and tested**
 
 Implemented by:
 
-- `copier.yml` — [copier.yml:9](../../copier.yml#L9)
+- `copier.yml` — [copier.yml:11](../../copier.yml#L11)
 
 - Scenario `an-update-of-an-older-copy-keeps-it-without-a-plan`: tested by `tests/test_template_portable.py::test_an_update_of_an_older_copy_keeps_it_without_a_plan` ([tests/test_template_portable.py:201](../../tests/test_template_portable.py#L201))

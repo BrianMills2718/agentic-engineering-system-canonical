@@ -147,10 +147,10 @@ which tests cover each scenario at this commit. For pass or fail, run `make chec
 | `lockstep-projection/a-fixed-planned-file-without-a-plan-copy-is-reported` | not run at this revision | `lockstep.checks.project` (`src/lockstep/checks/project.py:1`), `lockstep.checks.project.missing_copies` (`src/lockstep/checks/project.py:288`) |
 | `lockstep-projection/status-lists-each-part-with-its-mode-and-last-gate-result` | not run at this revision | `lockstep.checks.cli` (`src/lockstep/checks/cli.py:1`), `lockstep.checks.cli._run_parts` (`src/lockstep/checks/cli.py:454`), `lockstep.checks.parts` (`src/lockstep/checks/parts.py:1`), `lockstep.checks.parts.parts` (`src/lockstep/checks/parts.py:115`) |
 | `lockstep-projection/the-project-check-reports-company-planning-plugin-drift` | not run at this revision | `lockstep.checks.plugin_settings` (`src/lockstep/checks/plugin_settings.py:1`) |
-| `lockstep-wiki/a-layout-repository-generates-one-wiki-page-per-capability` | untested | `lockstep.checks.project._wiki` (`src/lockstep/checks/project.py:380`), `lockstep.layout_wiki` (`src/lockstep/layout_wiki.py:1`) |
-| `lockstep-wiki/project-check-fails-on-stale-or-unreachable-wiki-pages` | untested | `lockstep.checks.project.wiki_problems` (`src/lockstep/checks/project.py:419`), `lockstep.layout_wiki` (`src/lockstep/layout_wiki.py:1`) |
-| `lockstep-wiki/generated-wiki-pages-need-no-layout-row` | unimplemented | - |
-| `lockstep-wiki/python-m-lockstep-wiki-prints-the-layout-wiki` | untested | `lockstep.layout_wiki` (`src/lockstep/layout_wiki.py:1`) |
+| `lockstep-wiki/a-layout-repository-generates-one-wiki-page-per-capability` | not run at this revision | `lockstep.checks.project._wiki` (`src/lockstep/checks/project.py:380`), `lockstep.layout_wiki` (`src/lockstep/layout_wiki.py:1`) |
+| `lockstep-wiki/project-check-fails-on-stale-or-unreachable-wiki-pages` | not run at this revision | `lockstep.checks.project.wiki_problems` (`src/lockstep/checks/project.py:419`), `lockstep.layout_wiki` (`src/lockstep/layout_wiki.py:1`) |
+| `lockstep-wiki/generated-wiki-pages-need-no-layout-row` | not run at this revision | `lockstep.unplanned_files.unplanned_reason` (`src/lockstep/unplanned_files.py:111`) |
+| `lockstep-wiki/python-m-lockstep-wiki-prints-the-layout-wiki` | not run at this revision | `lockstep.layout_wiki` (`src/lockstep/layout_wiki.py:1`) |
 | `machine-manifest/every-unit-has-a-source` | not run at this revision | `machine_manifest` (`scripts/machine_manifest.py:1`) |
 | `machine-manifest/local-only-units-are-reported` | not run at this revision | `machine_manifest` (`scripts/machine_manifest.py:1`), `machine_manifest.findings` (`scripts/machine_manifest.py:314`) |
 | `machine-manifest/missing-or-untracked-target-is-reported` | not run at this revision | `machine_manifest` (`scripts/machine_manifest.py:1`), `machine_manifest.findings` (`scripts/machine_manifest.py:314`) |
@@ -170,12 +170,12 @@ which tests cover each scenario at this commit. For pass or fail, run `make chec
 | `portable-template/a-repository-made-with-the-defaults-works-for-anyone` | not run at this revision | `template/lefthook.yml.jinja` (`template/lefthook.yml.jinja:1`) |
 | `portable-template/a-workspace-repository-keeps-the-shared-hooks` | not run at this revision | `template/lefthook.yml.jinja` (`template/lefthook.yml.jinja:1`) |
 | `portable-template/make-a-repository-from-this-repository` | not run at this revision | `copier.yml` (`copier.yml:2`) |
-| `portable-template/a-copy-runs-its-commit-checks-after-a-move-and-in-every-worktree` | not run at this revision | `copier.yml` (`copier.yml:30`) |
+| `portable-template/a-copy-runs-its-commit-checks-after-a-move-and-in-every-worktree` | not run at this revision | `copier.yml` (`copier.yml:32`) |
 | `portable-template/the-commit-check-stages-rewritten-files-that-git-tracks` | not run at this revision | `template/lefthook.yml.jinja` (`template/lefthook.yml.jinja:1`) |
 | `portable-template/a-copy-hands-an-editing-agent-the-requirement-text` | not run at this revision | `copier.yml` (`copier.yml:5`) |
 | `portable-template/a-fresh-copy-ships-its-planned-file-layout` | not run at this revision | `template/lockstep.yaml.jinja` (`template/lockstep.yaml.jinja:1`) |
-| `portable-template/updating-an-older-copy-adds-no-layout-plan` | not run at this revision | `copier.yml` (`copier.yml:9`) |
-| `portable-template/a-fresh-copy-generates-and-checks-its-wiki` | unimplemented | - |
+| `portable-template/updating-an-older-copy-adds-no-layout-plan` | not run at this revision | `copier.yml` (`copier.yml:11`) |
+| `portable-template/a-fresh-copy-generates-and-checks-its-wiki` | not run at this revision | `copier.yml` (`copier.yml:9`) |
 | `prior-art-check/a-change-that-adds-a-requirement-carries-a-prior-art-record` | not run at this revision | `lockstep.prior_art` (`src/lockstep/prior_art.py:1`), `lockstep.prior_art` (`src/lockstep/prior_art.py:1`) |
 | `prior-art-check/a-candidate-cannot-be-left-undecided-and-the-decision-must-follow-from-the-candidates` | not run at this revision | `lockstep.prior_art` (`src/lockstep/prior_art.py:1`), `lockstep.prior_art` (`src/lockstep/prior_art.py:1`) |
 | `prior-art-check/only-a-change-that-adds-a-requirement-from-the-start-date-needs-a-record` | not run at this revision | `lockstep.prior_art` (`src/lockstep/prior_art.py:1`), `lockstep.prior_art` (`src/lockstep/prior_art.py:1`) |
@@ -551,11 +551,11 @@ which tests cover each scenario at this commit. For pass or fail, run `make chec
 | `lockstep-projection/a-conflict-only-warns` | `lockstep-projection/the-project-check-reports-company-planning-plugin-drift` | not run at this revision | `tests/test_plugin_settings.py::test_a_conflict_only_warns` |
 | `lockstep-projection/off-is-not-looked-at` | `lockstep-projection/the-project-check-reports-company-planning-plugin-drift` | not run at this revision | `tests/test_plugin_settings.py::test_off_is_not_looked_at` |
 | `lockstep-projection/a-bad-skills-value-is-named-with-its-line-and-ship-ignores-it` | `lockstep-projection/the-project-check-reports-company-planning-plugin-drift` | not run at this revision | `tests/test_plugin_settings.py::test_a_bad_skills_value_is_named_with_its_line_and_ship_ignores_it` |
-| `lockstep-wiki/a-capability-page-shows-requirement-code-and-tests` | `lockstep-wiki/a-layout-repository-generates-one-wiki-page-per-capability` | untested | - |
-| `lockstep-wiki/a-repository-without-the-switch-gets-no-pages` | `lockstep-wiki/a-layout-repository-generates-one-wiki-page-per-capability` | untested | - |
-| `lockstep-wiki/a-stale-page-fails-the-check` | `lockstep-wiki/project-check-fails-on-stale-or-unreachable-wiki-pages` | untested | - |
-| `lockstep-wiki/a-generated-page-is-not-unplanned` | `lockstep-wiki/generated-wiki-pages-need-no-layout-row` | untested | - |
-| `lockstep-wiki/the-wiki-command-works-in-a-layout-repository` | `lockstep-wiki/python-m-lockstep-wiki-prints-the-layout-wiki` | untested | - |
+| `lockstep-wiki/a-capability-page-shows-requirement-code-and-tests` | `lockstep-wiki/a-layout-repository-generates-one-wiki-page-per-capability` | not run at this revision | `tests/lockstep/test_lockstep_layout_wiki.py::test_capability_page_shows_requirement_code_and_tests`, `tests/lockstep/test_lockstep_layout_wiki.py::test_page_of_a_removed_capability_is_removed` |
+| `lockstep-wiki/a-repository-without-the-switch-gets-no-pages` | `lockstep-wiki/a-layout-repository-generates-one-wiki-page-per-capability` | not run at this revision | `tests/lockstep/test_lockstep_layout_wiki.py::test_repository_without_the_switch_gets_no_pages` |
+| `lockstep-wiki/a-stale-page-fails-the-check` | `lockstep-wiki/project-check-fails-on-stale-or-unreachable-wiki-pages` | not run at this revision | `tests/lockstep/test_lockstep_layout_wiki.py::test_stale_page_fails_the_check_and_writes_nothing`, `tests/lockstep/test_lockstep_layout_wiki.py::test_link_without_summary_is_reported` |
+| `lockstep-wiki/a-generated-page-is-not-unplanned` | `lockstep-wiki/generated-wiki-pages-need-no-layout-row` | not run at this revision | `tests/lockstep/test_lockstep_layout_wiki.py::test_generated_page_is_not_unplanned`, `tests/test_md_file_cap.py::test_generated_wiki_pages_are_not_counted_and_other_generated_names_stay_narrow` |
+| `lockstep-wiki/the-wiki-command-works-in-a-layout-repository` | `lockstep-wiki/python-m-lockstep-wiki-prints-the-layout-wiki` | not run at this revision | `tests/lockstep/test_lockstep_layout_wiki.py::test_python_m_wiki_prints_the_pages_in_a_layout_repository` |
 | `machine-manifest/every-unit-has-a-source` | `machine-manifest/every-unit-has-a-source` | not run at this revision | `tests/test_machine_manifest.py::test_every_unit_and_dropin_has_a_source` |
 | `machine-manifest/local-only-units-are-reported` | `machine-manifest/local-only-units-are-reported` | not run at this revision | `tests/test_machine_manifest.py::test_local_only_files_are_reported_and_fail_the_check` |
 | `machine-manifest/identical-copies-do-not-fail` | `machine-manifest/local-only-units-are-reported` | not run at this revision | `tests/test_machine_manifest.py::test_identical_repository_copies_are_counted_and_do_not_fail`, `tests/test_machine_manifest.py::test_a_missing_differing_or_absent_copy_still_fails`, `tests/test_machine_manifest.py::test_a_recorded_link_counts_only_when_its_target_matches`, `tests/test_machine_manifest.py::test_a_recorded_link_to_a_file_outside_git_still_fails` |

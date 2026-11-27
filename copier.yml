@@ -6,6 +6,8 @@
 _subdirectory: template
 _min_copier_version: "9.4.0"
 _answers_file: .copier-answers.yml
+# Implements: portable-template/a-fresh-copy-generates-and-checks-its-wiki
+# (template/lockstep.yaml.jinja sets generated_wiki; template/Makefile runs the wiki checks; template/AGENTS.md.jinja names the index.)
 # Implements: portable-template/updating-an-older-copy-adds-no-layout-plan
 # A fresh copy gets lockstep.yaml; `copier update` of an older copy does not, since a plan added to existing files
 # would refuse them (`_skip_if_exists` protects only a file that already exists). The starter source files are left

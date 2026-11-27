@@ -482,7 +482,7 @@ def test_archived_openspec_change_is_not_counted(tmp_path):
     assert m.count_md(str(repo), "HEAD") == 3
 
 
-@pytest.mark.req("lockstep-wiki/generated-wiki-pages-need-no-layout-row")
+@pytest.mark.req("lockstep-wiki/a-generated-page-is-not-unplanned")
 def test_generated_wiki_pages_are_not_counted_and_other_generated_names_stay_narrow(tmp_path):
     """The generated wiki pages (`generated/wiki/`) are not counted; a Markdown file beside them under docs/ is."""
     repo = git_repo(tmp_path, "w", {"generated/wiki/index.md": "x", "generated/wiki/core.md": "x", "docs/generated/wiki/a.md": "x"})
