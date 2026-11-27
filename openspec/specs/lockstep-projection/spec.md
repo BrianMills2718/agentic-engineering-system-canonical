@@ -218,3 +218,33 @@ when a docstring's plan copy is stale or a `fixed:` file has no copy block?"; al
 - **GIVEN** `fixed: ["src/greeter/*"]` and a layout row for `src/greeter/__init__.py` whose file has a docstring with no cog plan copy
 - **WHEN** `lockstep check project --check` runs
 - **THEN** it prints `no-copy src/greeter/__init__.py` and exits 1, and once the file holds the copy that `lockstep layout` writes it reports nothing for that file
+
+### Requirement: The project check reports Company Planning plugin drift
+
+`lockstep check project` SHALL compare `.claude/settings.json` in the working tree with `planning.skills` in `lockstep.yaml`, with no network, looking only at whether `extraKnownMarketplaces.inside-success.source` is `{source: github, repo: <marketplace>}` (repository compared without letter case) and `enabledPlugins."company-planning@inside-success"` is `true`. A missing key or file SHALL print a `refused:` line under `mode: block` (and make the check exit 1) and a `warning:` line under `warn`; under `off` or no `skills` key nothing SHALL be looked at. A conflict (another source or repository, or an `enabledPlugins` value that is not `true`, such as an opt-out `false`) SHALL only print a `warning:` line naming the key, whatever the mode. Each line SHALL name `lockstep init` as the fix. A bad `skills` value (unknown mode, marketplace not `owner/repo` or missing when on) SHALL be refused naming its line in `lockstep.yaml`, and SHALL also be named by the side-file check; `ship`'s `planning_modes` SHALL NOT validate `skills`, so it never stops a merge. The check adds no name to `checks:`.
+
+Source: Brian, 2026-11-25, the settings model adopted in docs/planning/next.goal.md ("Company Planning skills | per-person plugin install | slice 3"); slice 3 planned in full 2026-11-26 in docs/planning/next.goal.md ("Drift check, inside `lockstep check project`", "Not a ship gate"). Inferred by agent: the check rides on `project` so the lefthook command init generates stays unchanged in existing repositories.
+
+#### Scenario: A deleted enabledPlugins entry refuses under block and warns under warn
+
+- **GIVEN** a repository init wrote the keys into, then `enabledPlugins` lost its `company-planning@inside-success` entry
+- **WHEN** `lockstep check project` runs with `planning.skills.mode` block, then warn
+- **THEN** under block it prints a `refused:` line naming the key and `lockstep init` and exits 1; under warn it prints a `warning:` line and exits 0
+
+#### Scenario: A conflict only warns
+
+- **GIVEN** `.claude/settings.json` naming another `inside-success` repository, or `enabledPlugins` set to `false`
+- **WHEN** `lockstep check project` runs under `block`
+- **THEN** it prints a `warning:` line naming the key and the drift adds no failure
+
+#### Scenario: Off is not looked at
+
+- **GIVEN** `planning.skills.mode: off` and no plugin keys
+- **WHEN** `lockstep check project` runs
+- **THEN** it prints no skills line
+
+#### Scenario: A bad skills value is named with its line and ship ignores it
+
+- **GIVEN** `planning.skills` with an unknown mode, or a marketplace that is not `owner/repo`
+- **WHEN** the side-file check and `lockstep check project` run, and `planning_modes` reads the file
+- **THEN** both checks name `planning.skills` and the line, and `planning_modes` returns the gate modes without error

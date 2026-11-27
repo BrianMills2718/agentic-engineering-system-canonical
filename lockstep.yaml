@@ -151,6 +151,21 @@ layout:
   - lockstep-projection/the-pytest-plugin-ships-as-a-pytest11-entry-point
   tests:
   - tests/lockstep/checks/test_lockstep_check_plugin.py
+- path: src/lockstep/checks/plugin_settings.py
+  purpose: 'planning.skills: merge the Company Planning plugin keys into .claude/settings.json and report their drift'
+  implements:
+  - lockstep-init/init-writes-the-company-planning-plugin-keys-when-planning-skills-is-on
+  - lockstep-projection/the-project-check-reports-company-planning-plugin-drift
+  exports:
+  - 'read_setting(text: str) -> tuple[Setting, str | None]'
+  - 'setting(root: Path) -> Setting'
+  - 'wanted(marketplace: str) -> dict'
+  - 'merge(path: Path, wanted_setting: Setting) -> tuple[str, list[str]]'
+  - 'drift(root: Path) -> tuple[list[str], list[str]]'
+  - 'codex_commands(marketplace: str) -> list[str]'
+  - 'agents_note(path: Path) -> str'
+  tests:
+  - tests/test_plugin_settings.py
 - path: src/lockstep/checks/project.py
   purpose: 'Projection: write each requirement''s text into the docstrings that implement it, and each plan''s coverage into
     the plan'
@@ -350,6 +365,7 @@ layout:
   - lockstep-init/installed-files-name-no-machine-and-read-their-settings-from-lockstep-yaml
   tests:
   - tests/lockstep/test_lockstep_init.py
+  - tests/test_plugin_settings.py
 - path: src/lockstep/lane_sweep.py
   purpose: Remove finished git worktrees (lanes) and report the rest
   implements:
@@ -1278,6 +1294,26 @@ layout:
   tests: []
 - path: openspec/changes/archive/2026-11-25-planning-gates-warn-and-record/tasks.md
   purpose: "Tasks: planning gates warn by default and are recorded (removed after its merge)"
+  implements: []
+  tests: []
+- path: openspec/changes/archive/2026-11-26-planning-skills-setting/prior-art.json
+  purpose: "Prior-art record: planning.skills loads Company Planning through Claude Code's plugin keys (removed after its merge)"
+  implements: []
+  tests: []
+- path: openspec/changes/archive/2026-11-26-planning-skills-setting/proposal.md
+  purpose: "Proposal: planning.skills writes the Company Planning plugin keys and reports drift (removed after its merge)"
+  implements: []
+  tests: []
+- path: openspec/changes/archive/2026-11-26-planning-skills-setting/specs/lockstep-init/spec.md
+  purpose: "Spec delta: init writes the Company Planning plugin keys (removed after its merge)"
+  implements: []
+  tests: []
+- path: openspec/changes/archive/2026-11-26-planning-skills-setting/specs/lockstep-projection/spec.md
+  purpose: "Spec delta: the project check reports Company Planning plugin drift (removed after its merge)"
+  implements: []
+  tests: []
+- path: openspec/changes/archive/2026-11-26-planning-skills-setting/tasks.md
+  purpose: "Tasks: planning.skills setting (removed after its merge)"
   implements: []
   tests: []
 - path: openspec/specs/.gitkeep
@@ -2929,6 +2965,10 @@ layout:
 - path: tests/test_scan_doc_freshness_ecosystem.py
   purpose: Tests that root instruction freshness follows the active source during migration in the ecosystem doc freshness
     scanner.
+  implements: []
+  tests: []
+- path: tests/test_plugin_settings.py
+  purpose: Tests that lockstep init writes the Company Planning plugin keys and that the project check reports their drift.
   implements: []
   tests: []
 - path: tests/test_ship.py

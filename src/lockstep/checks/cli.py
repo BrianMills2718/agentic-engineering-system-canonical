@@ -159,7 +159,7 @@ import sys
 
 import yaml
 
-from lockstep.checks import (arch, changed, docmeta, helper_reuse, instructions, maintainability, mutation, project, show,
+from lockstep.checks import (arch, changed, docmeta, helper_reuse, instructions, maintainability, mutation, plugin_settings, project, show,
                              sources, status, suppressions, test_first, trace)
 from lockstep.checks.config import CHECK_NAMES, Config, ConfigError, load
 
@@ -351,14 +351,20 @@ def _project(root: Path, args: argparse.Namespace, cfg: Config) -> int:
     if missing:
         print("a planned file under a fixed: glob has no plan copy; add one (lockstep layout writes the form)"
               " then run: lockstep check project")
+    refusals, warnings = plugin_settings.drift(root)  # planning.skills; not a ship gate
+    for line in warnings:
+        print(f"warning: {line}")
+    for line in refusals:
+        print(f"refused: {line}")
     if args.check:
         if changed:
             print("generated blocks are out of date; run: lockstep check project")
-        failed = bool(changed or missing)
+        failed = bool(changed or missing or refusals)
         print(f"RESULT project stale={len(changed)} no_copy={len(missing)} exit={int(failed)}")
         return int(failed)
-    print(f"RESULT project rewrote={len(changed)} no_copy={len(missing)} exit={int(bool(missing))}")
-    return int(bool(missing))
+    failed = bool(missing or refusals)
+    print(f"RESULT project rewrote={len(changed)} no_copy={len(missing)} exit={int(failed)}")
+    return int(failed)
 
 
 def run_status(argv: list[str]) -> int:

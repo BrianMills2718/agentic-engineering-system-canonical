@@ -68,7 +68,7 @@ Source: Brian, 2026-11-11: "i approve single tool desing re d4"; proposals/one-p
 - **WHEN** it is copied into another repository
 - **THEN** that repository's checks read the same modes and owner
 
-Tested by: tests/lockstep/test_lockstep_init.py
+Tested by: tests/lockstep/test_lockstep_init.py, tests/test_plugin_settings.py
 [[[end]]]
 """
 
@@ -81,6 +81,7 @@ import sys
 
 from ruamel.yaml import YAML
 
+from lockstep.checks import plugin_settings
 from lockstep.checks.config import CHECK_NAMES, DEFAULT_OFF
 from lockstep.checks.sources import DEFAULT_HUMAN_PATTERN
 
@@ -126,6 +127,9 @@ sources:
 planning:
   gate: block            # the Company Planning package (docs/planning/planning-package.json) must pass its validator
   one_page_plans: block  # a one-page plan under docs/plans/ must be complete
+  # Load the Company Planning plugin for agents here: `lockstep init` writes its keys into .claude/settings.json and
+  # `lockstep check project` reports drift (block, warn or off; marketplace is the plugin's GitHub OWNER/REPO).
+  # skills: {{mode: block, marketplace: Inside-Success/company-planning}}
 
 # Folders where every file must be planned (for example [src/]). Empty means the edit guard checks no folder.
 governed: []
@@ -224,6 +228,7 @@ def init_repo(root: Path, owner: str | None = None, source: str = SOURCE,
     root = root.resolve()
     owner = owner or _origin_owner(root) or OWNER_PLACEHOLDER
     results: list[tuple[str, str]] = []
+    skills = plugin_settings.setting(root)  # a bad planning.skills value stops init before anything is written
     config = root / "lockstep.yaml"
     if config.exists():
         results.append(("lockstep.yaml", "skipped"))
@@ -234,8 +239,23 @@ def init_repo(root: Path, owner: str | None = None, source: str = SOURCE,
     results.append((".codex/hooks.json", _install_hooks(root / ".codex/hooks.json", source, "codex")))
     results.append(("lefthook.yml", _lefthook(root / "lefthook.yml", source)))
     results.append((".gitignore", _gitignore(root / ".gitignore")))
+    notes: list[str] = []
+    if skills.mode != "off" and skills.marketplace:
+        status, notes = plugin_settings.merge(root / plugin_settings.SETTINGS, skills)
+        results.append(("planning.skills", status))
+        agents = plugin_settings.agents_note(root / "AGENTS.md")
+        if agents != "absent":
+            results.append(("AGENTS.md", agents))
     for rel, what in results:
         print(f"{what:7} {rel}")
+    for note in notes:
+        print(f"        {note}")
+    if skills.mode != "off" and skills.marketplace:
+        print("Each person runs once per clone, for Claude Code (the settings turn the plugin on but do not download it):")
+        print(f"  {plugin_settings.INSTALL_LINE}")
+        print("and once per machine for Codex (it has no per-repository plugin setting):")
+        for command in plugin_settings.codex_commands(skills.marketplace):
+            print(f"  {command}")
     print(f"RESULT init wrote={sum(w == 'wrote' for _, w in results)} skipped={sum(w == 'skipped' for _, w in results)} exit=0")
     return 0
 

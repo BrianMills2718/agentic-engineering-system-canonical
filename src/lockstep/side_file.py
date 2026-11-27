@@ -265,4 +265,8 @@ def side_file_problems(root: Path, plan: dict) -> list[str]:
     fixed = data.get("fixed")
     if fixed is not None and (not isinstance(fixed, list) or not all(_text(g) for g in fixed)):
         problems.append(f"{SIDE_FILE}: fixed must be a list of path globs, such as [\"src/core/*\"].")
+    from lockstep.checks.plugin_settings import read_setting
+    _, skills_problem = read_setting((root / SIDE_FILE).read_text(encoding="utf-8"))
+    if skills_problem:
+        problems.append(f"{skills_problem}.")
     return problems
