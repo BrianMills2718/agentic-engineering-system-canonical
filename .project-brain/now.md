@@ -31,7 +31,8 @@ and planning-plugin setup were exercised together. The local source proof ran th
 validator package and loaded Company Planning in a fresh Claude session after explicit marketplace
 registration. The Codex registration and installation commands passed in a fresh client as well.
 The [current plan](../docs/planning/next.goal.md#slice-2-next-outline-only-the-validators-source-is-a-setting)
-records the local Git substitute and proof limits.
+records the local Git substitute and proof limits. It merged as AES #1081 (`cea57f309`; 1,644 tests passed,
+28 skipped).
 
 Brian, 2026-11-20: "the whole thing should be configurable and shareable/protable. we shoudl start with the minimal
 core". The first milestone is met: a repository made from the template ran one plan each in Claude and Codex in a
