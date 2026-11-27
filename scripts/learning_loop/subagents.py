@@ -408,18 +408,6 @@ def verify(run: dict, commands: list[list[str]], verdict: Literal["pass", "fail"
                         ts=dt.datetime.now(dt.timezone.utc).isoformat(), verdict=verdict, feedback=feedback, checks=checks)
 
 
-# Lifecycle states that say nothing beyond "a subagent ran": no failure, no check, no feedback.
-NO_FINDING = frozenset({"assigned", "dispatch_unresolved", "interruption_requested", "completed_unverified"})
-
-
-def has_no_finding(rep: dict) -> bool:
-    """True for a subagent report holding only the automatic lifecycle sentence. The collector keeps it in
-    the day's report file and files no issue for it: 672 of 1,257 reports on 2026-11-27 were these, and
-    filing them used up GitHub's hourly limit for content creation."""
-    return (rep.get("field") == "Subagent outcome" and len(rep["records"]) == 1
-            and rep["subagent"]["outcome"] in NO_FINDING)
-
-
 def persist(rep: dict, out: Path, file: bool) -> dict:
     """Use exactly the collector's daily report log and report-dedup table."""
     import feedback_log as FL

@@ -476,6 +476,18 @@ def dedupe_human(reports: list[dict], filed: set[str]) -> tuple[list[dict], int]
     return keep, len(reports) - len(keep)
 
 
+# Lifecycle states that say nothing beyond "a subagent ran": no failure, no check, no feedback.
+NO_FINDING = frozenset({"assigned", "dispatch_unresolved", "interruption_requested", "completed_unverified"})
+
+
+def _has_no_finding(rep: dict) -> bool:
+    """True for a subagent report holding only the automatic lifecycle sentence. The collector keeps it in
+    the day's report file and files no issue for it: 672 of 1,257 reports on 2026-11-27 were these, and
+    filing them used up GitHub's hourly limit for content creation."""
+    return (rep.get("field") == "Subagent outcome" and len(rep["records"]) == 1
+            and rep["subagent"]["outcome"] in NO_FINDING)
+
+
 class HourlyPacer:
     """Holds issue filing to `per_hour` issues in any one window of an hour. GitHub allows at most
     500 content-creating requests an hour (and 80 a minute) before its secondary rate limit refuses
@@ -593,7 +605,7 @@ def main() -> int:
                 continue
             if not r["records"]:
                 r["filing"] = "no_records"
-            elif SA.has_no_finding(r):
+            elif _has_no_finding(r):
                 r["filing"] = "local_only"
             elif not args.file:
                 r["filing"] = "not_filed (run without --file)"
