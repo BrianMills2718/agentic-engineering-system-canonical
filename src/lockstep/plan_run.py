@@ -61,7 +61,7 @@ Source: inferred by agent from the template-layout proof run of 2026-11-23 (docs
 
 `lockstep accept write <change>` SHALL run one headless agent session, in a detached worktree at `REF` that is removed afterwards and with no session history kept on disk, that writes pytest files into the run folder outside every worktree, and SHALL then run those tests once at `REF` and record the result. `lockstep accept check <change>` SHALL, in the implementer's worktree, count uncommitted files, copy the hidden tests into `tests/` without overwriting any file, run the test command, remove the copies, run the check command, write the departure report, and record the head commit, all results and the transcripts in the run folder's `summary.json`. Neither command merges.
 
-The hidden-run result SHALL preserve the test command exit status and report the passed, failed, error and skipped counts from a fresh pytest JUnit report for the copied tests. `lockstep accept check` and `lockstep run-plan` SHALL require exit 0, at least one passing hidden case and zero failures or errors before returning success. A missing or unreadable report, no tests or an all-skipped run SHALL fail the acceptance check. A custom `--test-cmd` SHALL continue to receive the copied filenames as arguments and must run pytest with the supplied `PYTEST_ADDOPTS` environment so the check can read its report.
+The hidden-run result SHALL preserve the test command exit status and report the passed, failed, error and skipped counts from a fresh pytest JUnit report for the copied tests. `lockstep accept check` and `lockstep run-plan` SHALL require exit 0, at least one passing hidden case and zero failures or errors before returning success. When the invocation produces a report, Lockstep SHALL keep the report beside the corresponding log and name it in the receipt. When the invocation produces no report, the receipt SHALL identify no report and earlier reports SHALL NOT count as evidence for it. A missing or unreadable report, no tests or an all-skipped run SHALL fail the acceptance check. A custom `--test-cmd` SHALL continue to receive the copied filenames as arguments and must run pytest with the supplied `PYTEST_ADDOPTS` environment so the check can read its report.
 
 Source: Brian, 2026-11-20: "the goal is to give a well specified plan to an agent on some proejct nad have it faithfulyy and successfully impelemnt it"; "we shoudl start with the minimal core". Procedure from the plan-fidelity test of 2026-11-20 (minimal-core-2026-11-20.md section 4, C3), inferred by agent.
 
@@ -156,7 +156,7 @@ import tempfile
 import xml.etree.ElementTree as ET
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Protocol, TypeGuard
+from typing import Any, Protocol
 
 RUNS = "lockstep-runs"
 DEFAULT_TEST_CMD = "uv run pytest -q"
@@ -361,11 +361,16 @@ def _run_tests(cwd: Path, test_cmd: str, files: list[str], log: Path) -> dict[st
         except (OSError, ValueError, ET.ParseError):
             result = {"passed": None, "failed": None, "errors": None, "skipped": None,
                       "report_error": "No readable pytest JUnit report. Use a pytest command that preserves PYTEST_ADDOPTS."}
+        result["report"] = None
+        if report.is_file():
+            saved_report = log.with_suffix(".xml")
+            report.replace(saved_report)
+            result["report"] = saved_report.name
     log.write_text(f"$ {cmd}\n{r.stdout}\n{r.stderr}")
     return {"exit": r.returncode, **result}
 
 
-def acceptance_passed(result: object) -> TypeGuard[dict[str, Any]]:
+def acceptance_passed(result: object) -> bool:
     """Check positive hidden-test evidence shared by the CLI and ship, including legacy receipts."""
     if not isinstance(result, dict):
         return False
@@ -383,9 +388,56 @@ def _save(run_dir: Path, summary: dict[str, Any]) -> None:
     (run_dir / "summary.json").write_text(json.dumps(summary, indent=2) + "\n")
 
 
+def load_acceptance_record(run_dir: Path) -> dict[str, Any]:
+    """Read an acceptance receipt, requiring a JSON object."""
+    summary = json.loads((run_dir / "summary.json").read_text(encoding="utf-8"))
+    if not isinstance(summary, dict):
+        raise ValueError("expected a run record object")
+    return summary
+
+
 def _load(run_dir: Path) -> dict[str, Any]:
-    p = run_dir / "summary.json"
-    return json.loads(p.read_text()) if p.exists() else {}
+    try:
+        return load_acceptance_record(run_dir)
+    except FileNotFoundError:
+        return {}
+
+
+def latest_acceptance_record(
+    repo: Path, branch: str, base: str, rebased_from: str | None,
+) -> tuple[tuple[str, dict[str, Any], Path] | None, list[Path]]:
+    """Find the newest receipt for the branch and identify unreadable receipts."""
+    heads = set(_git(repo, "rev-list", f"{base}..HEAD" if base else "HEAD", check=False).splitlines())
+    if rebased_from:
+        heads.add(rebased_from)
+    records, unreadable = [], []
+    for path in sorted(runs_root(repo).glob("*/summary.json")):
+        try:
+            record = load_acceptance_record(path.parent)
+        except (OSError, ValueError):
+            unreadable.append(path)
+            continue
+        head = record.get("head")
+        if record.get("branch") == branch or (isinstance(head, str) and head in heads):
+            records.append((str(record.get("run_id") or path.parent.name), record, path.parent))
+    return max(records, key=lambda item: item[0], default=None), unreadable
+
+
+def acceptance_record_refusal(run_id: str, record: dict[str, Any], head: str) -> str | None:
+    """Name any receipt defect that prevents accepting it as evidence for head."""
+    again = f"run `lockstep accept check {record.get('change', '<change>')}` in this worktree to record a new run"
+    accept = record.get("accept")
+    if not acceptance_passed(accept):
+        return f"hidden acceptance tests did not pass in run {run_id} ({accept or 'no hidden test ran'}); {again}"
+    uncommitted = record.get("uncommitted")
+    if type(uncommitted) is not int or uncommitted < 0:
+        return f"run {run_id} did not record a valid count of uncommitted files; {again}"
+    if uncommitted:
+        return f"run {run_id} counted {uncommitted} uncommitted file(s); commit them, then {again}"
+    if record.get("head") != head:
+        return (f"run {run_id} checked {str(record.get('head'))[:12]}, but the branch is now at {head[:12]} "
+                f"(new commits or a rebase); {again}")
+    return None
 
 
 # ---- the three steps -----------------------------------------------------------------------------
