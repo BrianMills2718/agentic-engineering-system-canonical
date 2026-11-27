@@ -1,0 +1,5 @@
+{"type":"object","additionalProperties":false,"required":["loads","verdicts"],
+ "properties":{"loads":{"type":"boolean"},
+  "verdicts":{"type":"array","items":{"type":"object","additionalProperties":false,"required":["id","verdict","evidence","method"],
+   "properties":{"id":{"type":"string"},"verdict":{"type":"string","enum":["pass","partial","fail"]},
+    "evidence":{"type":"string"},"method":{"type":"string","enum":["play","source"]}}}}}}

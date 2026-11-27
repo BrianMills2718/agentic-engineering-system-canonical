@@ -1,0 +1,5 @@
+Build the game described in docs/game-design.md as a 2D browser game with Phaser. Phaser is already in this repository at vendor/phaser.min.js; use it rather than installing another copy. The sprite library is in assets/. The game must run by serving the repository root with any static web server and opening index.html.
+
+Every requirement in the design document must work. Test your work as you go, and commit as you go. You have 3 hours in total, including any planning.
+
+When you finish, say what you built, what you tested, and anything that got in your way.

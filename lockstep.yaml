@@ -1264,22 +1264,6 @@ layout:
     examples rather than active custom requirements.
   implements: []
   tests: []
-- path: openspec/changes/archive/2026-11-25-planning-gates-warn-and-record/prior-art.json
-  purpose: "Prior-art record: recording every planning-gate run (removed after its merge)"
-  implements: []
-  tests: []
-- path: openspec/changes/archive/2026-11-25-planning-gates-warn-and-record/proposal.md
-  purpose: "Proposal: absent planning settings warn, and every planning-gate run is recorded (removed after its merge)"
-  implements: []
-  tests: []
-- path: openspec/changes/archive/2026-11-25-planning-gates-warn-and-record/specs/ship/spec.md
-  purpose: "Spec delta: absent planning settings warn; every planning-gate run is recorded (removed after its merge)"
-  implements: []
-  tests: []
-- path: openspec/changes/archive/2026-11-25-planning-gates-warn-and-record/tasks.md
-  purpose: "Tasks: planning gates warn by default and are recorded (removed after its merge)"
-  implements: []
-  tests: []
 - path: openspec/specs/.gitkeep
   purpose: Empty tracked placeholder retaining the directory in Git, with no substantive requirement or history.
   implements: []
@@ -1844,6 +1828,50 @@ layout:
   tests: []
 - path: scripts/failed_unit_watch.py
   purpose: Turn each failed systemd user unit into one keyed concern issue so timer crashes are reported.
+  implements: []
+  tests: []
+- path: scripts/game_benchmark/fetch_game.py
+  purpose: Downloads one A2Z GameSpec-Bench game (design document, contract, sprites) and checks every sha256.
+  implements: []
+  tests: []
+- path: scripts/game_benchmark/builder-prompt.txt
+  purpose: "The one prompt both benchmark arms get: build every requirement of the design document in Phaser."
+  implements: []
+  tests: []
+- path: scripts/game_benchmark/setup_arm.sh
+  purpose: Makes one benchmark build repository, AES template (on) or plain git (off), with the same game files.
+  implements: []
+  tests: []
+- path: scripts/game_benchmark/run_build.sh
+  purpose: Runs one Sonnet builder for 3 hours with a full stream-json trace and writes its time, exit and cost.
+  implements: []
+  tests: []
+- path: scripts/game_benchmark/blind_copy.sh
+  purpose: Copies a finished build for grading under a random id with every AES file removed.
+  implements: []
+  tests: []
+- path: scripts/game_benchmark/items.py
+  purpose: Lists the contract items the grader scores, minus the items the decidability pilot dropped.
+  implements: []
+  tests: []
+- path: scripts/game_benchmark/grader-prompt.txt
+  purpose: Tells the Codex grader to play the blind build in a headless browser and judge every contract item.
+  implements: []
+  tests: []
+- path: scripts/game_benchmark/verdict-schema.json
+  purpose: The JSON schema of the grader answer, one pass, partial or fail verdict with evidence per item.
+  implements: []
+  tests: []
+- path: scripts/game_benchmark/grade.sh
+  purpose: Grades one blind build with Codex against the contract items, then scores it.
+  implements: []
+  tests: []
+- path: scripts/game_benchmark/score.py
+  purpose: Scores a graded build as the mean over items (pass 1, partial 0.5, fail 0), overall and by item kind.
+  implements: []
+  tests: []
+- path: scripts/game_benchmark/run_all.sh
+  purpose: Runs the whole game benchmark in order and continues where it stopped when rerun.
   implements: []
   tests: []
 - path: scripts/hive/README.md
