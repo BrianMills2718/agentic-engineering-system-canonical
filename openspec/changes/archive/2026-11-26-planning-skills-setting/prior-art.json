@@ -1,0 +1,46 @@
+{
+  "need": "Let a repository say in lockstep.yaml that agents working in it load the Company Planning plugin, write that into the agent clients' own per-repository settings, and notice when the two drift apart.",
+  "searched": [
+    {
+      "place": "own",
+      "where": "AES src/lockstep/init_repo.py (_merge_hooks), template/ (copier), Company Planning usage guide ('Install', 'Staying current'), ~/code2/workspace/docs/capabilities.md",
+      "query": "plugin install per repository, settings.json merge",
+      "found": "init already merges its hooks into .claude/settings.json keeping other keys; Company Planning's guide gives the extraKnownMarketplaces/enabledPlugins shape and the two Codex commands; nothing writes them per repository."
+    },
+    {
+      "place": "outside",
+      "where": "Claude Code docs code.claude.com/docs/en/plugins/install.md, loading.md, settings.md, headless.md; Codex 0.172 CLI (codex plugin marketplace list with a project .codex/config.toml and .agents/plugins/marketplace.json)",
+      "query": "project-scoped plugin marketplace and enablement",
+      "found": "Claude Code reads extraKnownMarketplaces and enabledPlugins from a trusted project's .claude/settings.json; the plugin is enabled, not downloaded, and each person runs `claude plugin install <p>@<m> --scope project` once per clone. Codex 0.172 ignores both project files, trusted or not."
+    }
+  ],
+  "candidates": [
+    {
+      "name": "Claude Code project settings plugin keys plus the documented per-clone install",
+      "url": "https://code.claude.com/docs/en/plugins/install.md",
+      "covers": "Declaring the marketplace and turning the plugin on for everyone who opens the repository.",
+      "misses": "Does not download the plugin; the per-clone install line is still each person's step.",
+      "verdict": "adopt",
+      "reason": "Step 0 (2026-11-26) showed the keys load the plugin with no plugin_errors and leave a person's own source in place; init writes the keys and prints the install line."
+    },
+    {
+      "name": "The copier template writing the keys statically",
+      "url": "https://github.com/BrianMills2718/agentic-engineering-system-canonical/tree/main/template",
+      "covers": "New repositories made from the template.",
+      "misses": "Most repositories did not start from the template, and a static file cannot follow the setting.",
+      "verdict": "reject",
+      "reason": "lockstep init runs in every adopting repository; the template does not."
+    },
+    {
+      "name": "A Codex per-repository plugin config",
+      "url": "https://github.com/openai/codex",
+      "covers": "Nothing: Codex 0.172 lists only the person's marketplaces whatever the project files say.",
+      "misses": "Per-repository plugin loading.",
+      "verdict": "reject",
+      "reason": "The probe in next.goal.md slice 3 shows none exists; init prints the two commands instead."
+    }
+  ],
+  "decision": "adopt",
+  "decided": "2026-11-26",
+  "gap": "A merge of the documented keys that never overwrites another source or an opt-out, plus a drift check inside the existing project check."
+}
