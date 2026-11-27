@@ -10,7 +10,7 @@ last_checked: 2026-11-11
 
 This page is history. Nothing here is a current rule; current state is on [goal.md](goal.md) ([CLAUDE.md:31-32](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/b0d4cbd174e78c075eed5248beb00509d636d0b0/CLAUDE.md#L31-L32)).
 
-On 2026-11-27 the archived layout-wiki change was removed after its merge ([record](../docs/retired/2026-11-27.md)). On 2026-11-24, 326 fully merged remote branches were removed; their names, commits and the restore command are in [the branch record](../docs/retired/2026-11-24.md).
+On 2026-11-27 the archived layout-wiki OpenSpec change was removed after its merge (#1085); its requirements are in `lockstep-plan-format` and `portable-template`. Last commit holding it: `616706a34e6bd19491f01b914c66add52b395eb2`; restore with `git checkout 616706a34e6bd19491f01b914c66add52b395eb2 -- openspec/changes/archive/2026-11-27-layout-wiki` (kept here, not in `docs/retired/`, because a new record would pass the Markdown cap). On 2026-11-24, 326 fully merged remote branches were removed; their names, commits and the restore command are in [the branch record](../docs/retired/2026-11-24.md).
 
 ## v0.1 bootstrap (2026-09-16 to 2026-09-25)
 

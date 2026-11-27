@@ -1236,10 +1236,6 @@ layout:
   purpose: Record of the AES rules register and its page retired on 2026-11-25 so rules have one home, with the restore command.
   implements: []
   tests: []
-- path: docs/retired/2026-11-27.md
-  purpose: Record of the archived layout-wiki OpenSpec change removed after its merge (#1085), with the restore command.
-  implements: []
-  tests: []
 - path: docs/rules/legacy-dispositions.yaml
   purpose: Publishes identifiers, proposed dispositions and hashes for 263 legacy policy rows with no activation; their text
     stays in the private Project Meta registry. Kept as history after the register was retired on 2026-11-25.
