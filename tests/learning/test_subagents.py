@@ -378,3 +378,8 @@ def test_child_final_text_cannot_override_native_failure_or_cancellation(tmp_pat
           codex_record("message", role="assistant", phase="final_answer", content="I finished successfully"))
     S.enrich(r, S.codex_index(tmp_path))
     assert S.report(r)["subagent"]["outcome"] == status
+
+
+def test_only_a_report_with_a_finding_is_filed_as_an_issue(tmp_path):
+    assert S.report(run(tmp_path))["filing"] == "local_only"
+    assert "filing" not in S.report(run(tmp_path, "failed"))

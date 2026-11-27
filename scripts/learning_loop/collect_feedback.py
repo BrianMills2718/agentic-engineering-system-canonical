@@ -589,7 +589,7 @@ def main() -> int:
         n = 0
         pacer = HourlyPacer(args.reports_per_hour)
         for r in reps:
-            if r.get("filing") == "split_failed":
+            if r.get("filing") in ("split_failed", "local_only"):
                 continue
             if not r["records"]:
                 r["filing"] = "no_records"
