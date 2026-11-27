@@ -513,7 +513,7 @@ def main() -> int:
     # about 450 new reports a day; at 450 an hour the run files for about 71 minutes, inside the unit's
     # 2-hour timeout. Filing makes no model call, so the cap bounds GitHub load, not spend.
     ap.add_argument("--max-reports", type=int, default=900, help="cap on private-log report issues per run")
-    ap.add_argument("--reports-per-hour", type=int, default=450,
+    ap.add_argument("--reports-per-hour", type=int, default=200,
                     help="pace report filing under GitHub's 500 content-creating requests an hour (0 = no pacing)")
     ap.add_argument("--min-p", type=float, default=0.8, help="Jev probability needed to file")
     ap.add_argument("--min-reusable", type=float, default=0.6,
@@ -593,6 +593,8 @@ def main() -> int:
                 continue
             if not r["records"]:
                 r["filing"] = "no_records"
+            elif SA.has_no_finding(r):
+                r["filing"] = "local_only"
             elif not args.file:
                 r["filing"] = "not_filed (run without --file)"
             elif n >= args.max_reports:
