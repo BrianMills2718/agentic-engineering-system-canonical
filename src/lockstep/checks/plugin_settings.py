@@ -102,6 +102,7 @@ Source: Brian, 2026-11-25, the settings model adopted in docs/planning/next.goal
 Tested by: tests/test_plugin_settings.py
 
 Declares (typed signatures, from the plan):
+  Setting
   read_setting(text: str) -> tuple[Setting, str | None]
   setting(root: Path) -> Setting
   wanted(marketplace: str) -> dict

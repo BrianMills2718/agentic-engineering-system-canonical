@@ -42,6 +42,9 @@ a reference the plan does not hold), and `python -m lockstep.unplanned_files` fa
 Plan (generated from lockstep.yaml layout and OpenSpec; edit the spec or the layout row, not this text):
 
 Names no requirement; the layout row says why.
+
+Declares (typed signatures, from the plan):
+  guard_mode(data: dict) -> str | None
 [[[end]]]
 """
 

@@ -42,6 +42,7 @@ Source: Brian, 2026-11-25: "the whole systm should be configurable so you can co
 Tested by: tests/lockstep/checks/test_lockstep_check_parts.py
 
 Declares (typed signatures, from the plan):
+  Part
   verdicts_dir() -> Path
   last_results(repo_name: str, folder: Path) -> dict[str, str]
   parts(repo: Path) -> list[Part]
@@ -145,6 +146,8 @@ def parts(repo: Path) -> list[Part]:
         data = (yaml.safe_load(path.read_text()) or {}) if path.is_file() else {}
     except yaml.YAMLError as exc:
         raise config.ConfigError(f"{config.SIDE_FILE} is not YAML ({exc})") from exc
+    except (OSError, UnicodeDecodeError) as exc:
+        raise config.ConfigError(f"{config.SIDE_FILE} cannot be read ({exc})") from exc
     planning = data.get("planning") or {}
     last = last_results(_repo_name(repo), verdicts_dir())
     rows = [Part(name, cfg.mode(name)) for name in config.CHECK_NAMES]

@@ -159,6 +159,7 @@ layout:
   implements:
   - lockstep-projection/status-lists-each-part-with-its-mode-and-last-gate-result
   exports:
+  - Part
   - 'verdicts_dir() -> Path'
   - 'last_results(repo_name: str, folder: Path) -> dict[str, str]'
   - 'parts(repo: Path) -> list[Part]'
@@ -172,6 +173,7 @@ layout:
   - lockstep-init/init-writes-the-company-planning-plugin-keys-when-planning-skills-is-on
   - lockstep-projection/the-project-check-reports-company-planning-plugin-drift
   exports:
+  - Setting
   - 'read_setting(text: str) -> tuple[Setting, str | None]'
   - 'setting(root: Path) -> Setting'
   - 'wanted(marketplace: str) -> dict'
@@ -529,6 +531,8 @@ layout:
 - path: src/lockstep/side_file.py
   purpose: Read and check Lockstep's side file, `lockstep.yaml` beside the plan (behaviors 1.1, 2.1 and 5.1)
   implements: []
+  exports:
+  - 'guard_mode(data: dict) -> str | None'
   tests: []
 - path: src/lockstep/signature_text.py
   purpose: Copy the typed signatures the plan declares for a file into its docstring (behavior 3.2)
