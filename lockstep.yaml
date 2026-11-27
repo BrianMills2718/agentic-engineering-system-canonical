@@ -1236,6 +1236,10 @@ layout:
   purpose: Record of the AES rules register and its page retired on 2026-11-25 so rules have one home, with the restore command.
   implements: []
   tests: []
+- path: docs/retired/2026-11-27.md
+  purpose: Record of the archived layout-wiki OpenSpec change removed after its merge (#1085), with the restore command.
+  implements: []
+  tests: []
 - path: docs/rules/legacy-dispositions.yaml
   purpose: Publishes identifiers, proposed dispositions and hashes for 263 legacy policy rows with no activation; their text
     stays in the private Project Meta registry. Kept as history after the register was retired on 2026-11-25.
@@ -3146,30 +3150,6 @@ layout:
   - lockstep-plan-format/project-check-fails-on-stale-or-unreachable-wiki-pages
   - lockstep-plan-format/generated-wiki-pages-need-no-layout-row
   - lockstep-plan-format/python-m-lockstep-wiki-prints-the-layout-wiki
-  tests: []
-- path: openspec/changes/archive/2026-11-27-layout-wiki/proposal.md
-  purpose: The layout-wiki OpenSpec change, archived; removed in the commit after the merge that archived it
-  implements: []
-  tests: []
-- path: openspec/changes/archive/2026-11-27-layout-wiki/tasks.md
-  purpose: The layout-wiki OpenSpec change, archived; removed in the commit after the merge that archived it
-  implements: []
-  tests: []
-- path: openspec/changes/archive/2026-11-27-layout-wiki/prior-art.json
-  purpose: The layout-wiki OpenSpec change, archived; removed in the commit after the merge that archived it
-  implements: []
-  tests: []
-- path: openspec/changes/archive/2026-11-27-layout-wiki/specs/lockstep-wiki/spec.md
-  purpose: The layout-wiki OpenSpec change, archived; removed in the commit after the merge that archived it
-  implements: []
-  tests: []
-- path: openspec/changes/archive/2026-11-27-layout-wiki/specs/lockstep-plan-format/spec.md
-  purpose: The layout-wiki OpenSpec change, archived; removed in the commit after the merge that archived it
-  implements: []
-  tests: []
-- path: openspec/changes/archive/2026-11-27-layout-wiki/specs/portable-template/spec.md
-  purpose: The layout-wiki OpenSpec change, archived; removed in the commit after the merge that archived it
-  implements: []
   tests: []
 # These declared fact blocks follow the general lockstep-doc-facts capability (openspec/specs/lockstep-doc-facts);
 # AES keeps no separate spec for them (Brian, 2026-11-23: "i approve", to Q51).
