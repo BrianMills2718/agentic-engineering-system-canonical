@@ -232,9 +232,35 @@ def test_driver_does_not_merge(repo: Path, capsys) -> None:
     assert "ship" in capsys.readouterr().out
 
 
-def test_pytest_counts_parsed() -> None:
-    assert plan_run.pytest_counts("2 failed, 3 passed, 1 error in 0.1s") == {"passed": 3, "failed": 2, "errors": 1}
-    assert plan_run.pytest_counts("no summary") == {"passed": None, "failed": None, "errors": None}
+@pytest.mark.req("plan-run/a-zero-exit-needs-evidence-of-passing-hidden-tests")
+@pytest.mark.parametrize("source, status, expected", [
+    ("def test_pass(): pass\n", 0, (0, 1, 0, 0, 0)),
+    ("import pytest\ndef test_skip(): pytest.skip()\n", 1, (0, 0, 0, 0, 1)),
+    ("import pytest\ndef test_skip(): pytest.skip()\ndef test_pass(): pass\n", 0, (0, 1, 0, 0, 1)),
+    ("value = 1\n", 1, (5, 0, 0, 0, 0)),
+    ("raise RuntimeError('collection error')\n", 1, (2, 0, 0, 1, 0)),
+    ("def test_fail(): assert False\n", 1, (1, 0, 1, 0, 0)),
+], ids=["passing", "skipped", "mixed", "no-tests", "collection-error", "failing"])
+def test_accept_check_cli_requires_pass_evidence(repo: Path, tmp_path: Path, source, status, expected) -> None:
+    run_dir = tmp_path / "run with spaces"
+    (run_dir / "accept").mkdir(parents=True)
+    (run_dir / "accept" / "test_accept_1.py").write_text(source)
+    args = ["check", CHANGE, "--repo", str(repo), "--run-dir", str(run_dir), "--check-cmd", "none"]
+    assert plan_run.cli([*args, "--test-cmd", f"{py_test_cmd()} --no-summary -q"]) == status
+    receipt = json.loads((run_dir / "summary.json").read_text())["accept"]
+    assert tuple(receipt.get(field) for field in ("exit", "passed", "failed", "errors", "skipped")) == expected
+
+
+@pytest.mark.req("plan-run/a-zero-exit-needs-evidence-of-passing-hidden-tests")
+def test_a_custom_command_without_pytest_evidence_is_refused(repo: Path, tmp_path: Path, capsys) -> None:
+    run_dir = tmp_path / "run"
+    (run_dir / "accept").mkdir(parents=True)
+    (run_dir / "accept" / "test_accept_1.py").write_text("def test_pass(): pass\n")
+    args = ["check", CHANGE, "--repo", str(repo), "--run-dir", str(run_dir), "--check-cmd", "none"]
+    assert plan_run.cli([*args, "--test-cmd", "printf '1 passed in 0.1s\\n'"]) == 1
+    receipt = json.loads((run_dir / "summary.json").read_text())["accept"]
+    assert receipt["exit"] == 0 and receipt["passed"] is None
+    assert "PYTEST_ADDOPTS" in capsys.readouterr().out
 
 
 @pytest.mark.req("plan-run/the-printed-ship-command-matches-the-repository")
