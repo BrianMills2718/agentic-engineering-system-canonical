@@ -1,0 +1,79 @@
+{
+ "entry": "milestone-1-step-3",
+ "title": "The edit hook's requirement text reaches the agent in Claude Code and Codex",
+ "run_at": "2026-11-27T23:16:03Z",
+ "lockstep_revision": "fb0339668",
+ "verdict": "PASS (both clients, when hooks run)",
+ "method": "Throwaway git repo <scratch>/handover: openspec/specs/greeter/spec.md holds a made-up verification word ORCHID-5823; src/greet.py says Implements: greeter/the-greeter-says-hello. Each client was told to edit src/greet.py, read no other file, and quote any hook context. The word appears nowhere else the agent was allowed to read, so quoting it proves the hook text reached the agent.",
+ "claude": {
+  "command": "claude -p --model haiku --permission-mode acceptEdits --allowedTools 'Read Edit' --output-format json '<prompt>'",
+  "hook": "PreToolUse Edit|Write|MultiEdit|Bash -> .venv/bin/lockstep-hook --client claude",
+  "session_id": "2bc9a1cc-9a65-441c-80a9-70697a0431ae",
+  "tool_calls": [
+   "Read src/greet.py",
+   "Edit src/greet.py"
+  ],
+  "transcript_evidence": "attachment type hook_additional_context, hookName PreToolUse:Edit, contains ORCHID-5823",
+  "agent_quoted_word": true,
+  "cost_usd_measured": 0.00962396,
+  "also_seen": "a second global hook (code2check.hook, ~/.claude/settings.json) handed over overlapping requirement text on the same Edit"
+ },
+ "codex": {
+  "command": "codex exec --trust --enable hooks --dangerously-bypass-hook-trust -s workspace-write --json '<prompt>' </dev/null",
+  "hook": ".codex/hooks.json PreToolUse apply_patch|Edit|Write|Bash|shell|exec_command -> lockstep-hook --client codex",
+  "thread_id": "01a21f4b-17d1-7de1-b981-4ff34410e86d",
+  "tool_calls": [
+   "exec_command cat src/greet.py",
+   "exec_command apply_patch"
+  ],
+  "transcript_evidence": "session rollout ordinals 17 and 25: developer messages holding the requirement text, each right after one of the two calls (25 follows the apply_patch at 23)",
+  "agent_quoted_word": true,
+  "usage_measured": {
+   "input_tokens": 80641,
+   "cached_input_tokens": 53120,
+   "cache_write_input_tokens": 0,
+   "output_tokens": 573,
+   "reasoning_output_tokens": 0
+  },
+  "caveat": "Brian's ~/.codex/config.toml has features.hooks = false (kept by agent-skills .rulesync/client-settings.jsonc, no recorded decision; origin 2026-11-14 not found in transcripts), and project hook files also need the project trusted. So in everyday Codex sessions no hook runs and the text does not arrive. This run turned hooks on for one run only; the trust entry it wrote was removed (config restored byte for byte)."
+ },
+ "hook_log": [
+  {
+   "decision": "allow",
+   "why": "openspec_text",
+   "file": "src/greet.py",
+   "requirements": [
+    "greeter/the-greeter-says-hello"
+   ],
+   "command": ""
+  },
+  {
+   "decision": "allow",
+   "why": "openspec_text",
+   "file": "src/greet.py",
+   "requirements": [
+    "greeter/the-greeter-says-hello"
+   ],
+   "command": ""
+  },
+  {
+   "decision": "allow",
+   "why": "openspec_text",
+   "file": null,
+   "requirements": [
+    "greeter/the-greeter-says-hello"
+   ],
+   "command": "cat src/greet.py"
+  },
+  {
+   "decision": "allow",
+   "why": "openspec_text",
+   "file": null,
+   "requirements": [
+    "greeter/the-greeter-says-hello"
+   ],
+   "command": "apply_patch <<'PATCH'\n*** Begi"
+  }
+ ],
+ "finding_session_folder": "Claude loads project hooks from the folder the session starts in. AES's hook log has no record after 2026-11-24 although this session edited AES on 2026-11-27 from a session started in ~/code2, so an agent working from a parent folder gets no hand-over."
+}
