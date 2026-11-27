@@ -2,35 +2,38 @@
 
 Implements: lockstep-init/init-installs-lockstep-in-a-repository-without-overwriting
 Implements: lockstep-init/installed-files-name-no-machine-and-read-their-settings-from-lockstep-yaml
+Implements: lockstep-init/init-upgrades-its-own-old-hook-command-only-where-lockstep-yaml-sets-the-guard
 
 Writes, each only when absent (nothing is overwritten; what was written and what was skipped is printed):
 
-    lockstep.yaml          every commit check set to block, owner, sources.human_pattern, the planning gates, empty
-                           governed and layout
+    lockstep.yaml          every commit check set to block, owner, sources.human_pattern, the planning gates,
+                           `guard: {mode: block}`, empty governed and layout
     .claude/settings.json  a PreToolUse hook running `lockstep-hook` (merged into an existing file)
     .codex/hooks.json      the same hook for Codex (merged into an existing file)
     lefthook.yml           a `lockstep` pre-commit command (added to an existing file)
     .gitignore             a `.lockstep/` line, the edit guard's log folder
 
 The hook and lefthook commands install Lockstep from a git address with `uvx`, so no file holds an absolute path.
+The hook command sets no `PCW_MODE`; an earlier init's `PCW_MODE=block` command is rewritten only when lockstep.yaml
+already has a `guard:` section, so an installed repository never drops from refusing to warning unasked.
 
 [[[cog import lockstep.cogtext as c; c.docstring("src:lockstep:init_repo.py", indent=0)]]]
 Plan (generated from lockstep.yaml layout and OpenSpec; edit the spec or the layout row, not this text):
 
-Implements: lockstep-init/init-installs-lockstep-in-a-repository-without-overwriting, lockstep-init/installed-files-name-no-machine-and-read-their-settings-from-lockstep-yaml
+Implements: lockstep-init/init-installs-lockstep-in-a-repository-without-overwriting, lockstep-init/installed-files-name-no-machine-and-read-their-settings-from-lockstep-yaml, lockstep-init/init-upgrades-its-own-old-hook-command-only-where-lockstep-yaml-sets-the-guard
 
 ### Requirement: Init installs Lockstep in a repository without overwriting
 
-`lockstep init` SHALL write, for each of these that is absent, `lockstep.yaml` (a `checks:` map setting every commit check to `block` except `maintainability`, `helper-reuse` and `mutation`, which it writes as `off` with a comment saying what each does, `owner`, `sources.human_pattern`, a `planning:` section setting `gate` and `one_page_plans` to `block` with a comment saying what each does, empty `governed` and `layout`), a Claude Code PreToolUse hook in `.claude/settings.json`, a Codex PreToolUse hook in `.codex/hooks.json`, and a `lockstep` pre-commit command in `lefthook.yml` (which leaves those three out). It SHALL print one line per file it wrote or skipped, SHALL leave an existing `lockstep.yaml` unchanged, SHALL add its hook to an existing settings or hooks file without removing other keys, and a second run SHALL change nothing.
+`lockstep init` SHALL write, for each of these that is absent, `lockstep.yaml` (a `checks:` map setting every commit check to `block` except `maintainability`, `helper-reuse` and `mutation`, which it writes as `off` with a comment saying what each does, `owner`, `sources.human_pattern`, a `planning:` section setting `gate` and `one_page_plans` to `block` with a comment saying what each does, a `guard:` section setting `mode` to `block` with a comment saying what it does, empty `governed` and `layout`), a Claude Code PreToolUse hook in `.claude/settings.json`, a Codex PreToolUse hook in `.codex/hooks.json`, neither setting `PCW_MODE`, and a `lockstep` pre-commit command in `lefthook.yml` (which leaves those three out). It SHALL print one line per file it wrote or skipped, SHALL leave an existing `lockstep.yaml` unchanged, SHALL add its hook to an existing settings or hooks file without removing other keys, and a second run SHALL change nothing.
 
-Source: Brian, 2026-11-25: "ia prpove yourr ecommednations" (the three written off); Brian, 2026-11-25: "the whole systm should be configurable so you can congfigure what is on or off" (the planning section, docs/planning/next.goal.md slice 1); Brian, 2026-11-11: "i approve single tool desing re d4"; proposals/one-planning-tool/DESIGN.md, "A concrete example of the finished tool" step 1
+Source: Brian, 2026-11-25: "ia prpove yourr ecommednations" (the three written off); Brian, 2026-11-25: "the whole systm should be configurable so you can congfigure what is on or off" (the planning section, docs/planning/next.goal.md slice 1, and the guard section, parking item `guard.mode`); Brian, 2026-11-11: "i approve single tool desing re d4"; proposals/one-planning-tool/DESIGN.md, "A concrete example of the finished tool" step 1. Writing `block` so a fresh install refuses as the hardcoded `PCW_MODE=block` did is inferred by agent.
 
 #### Scenario: Fresh repository gets all four
 
 - **GIVEN** an empty git repository
 - **WHEN** `lockstep init` runs
 - **THEN** `lockstep.yaml`, `.claude/settings.json`, `.codex/hooks.json` and `lefthook.yml` exist and each names Lockstep,
-  and `lockstep.yaml` sets every check to `block` except `maintainability`, `helper-reuse` and `mutation`, set to `off`, and `planning:` sets `gate` and `one_page_plans` to `block`
+  and `lockstep.yaml` sets every check to `block` except `maintainability`, `helper-reuse` and `mutation`, set to `off`, `planning:` sets `gate` and `one_page_plans` to `block`, `guard:` sets `mode` to `block`, and no hook command holds `PCW_MODE`
 
 #### Scenario: A second run changes nothing
 
@@ -68,6 +71,30 @@ Source: Brian, 2026-11-11: "i approve single tool desing re d4"; proposals/one-p
 - **WHEN** it is copied into another repository
 - **THEN** that repository's checks read the same modes and owner
 
+### Requirement: Init upgrades its own old hook command only where lockstep.yaml sets the guard
+
+When a settings or hooks file holds the edit-guard command an earlier `lockstep init` wrote (exactly `PCW_MODE=block uvx --from <source> lockstep-hook`, with its client prefix or suffix), `lockstep init` SHALL rewrite that command to the current one when the repository's `lockstep.yaml` has a `guard:` section, and SHALL otherwise leave it unchanged and print a line saying to add `guard: {mode: block}` to `lockstep.yaml` and run `lockstep init` again. Any other Lockstep hook command SHALL be left unchanged.
+
+Source: inferred by agent: dropping the hardcode without this would leave installed repositories with `PCW_MODE=block`, which wins over `guard.mode`, while rewriting it in a repository whose `lockstep.yaml` has no `guard:` would silently turn its refusals into warnings; the same exact-match rule `lockstep init` already uses for its lefthook command.
+
+#### Scenario: An old hook command is upgraded where guard is set
+
+- **GIVEN** `.claude/settings.json` holding the old `PCW_MODE=block` command and `lockstep.yaml` with `guard: {mode: block}`
+- **WHEN** `lockstep init` runs
+- **THEN** the command no longer holds `PCW_MODE`, the file is reported as written, and a second run reports it skipped
+
+#### Scenario: An old hook command stays where guard is not set
+
+- **GIVEN** `.claude/settings.json` holding the old `PCW_MODE=block` command and `lockstep.yaml` with no `guard:` section
+- **WHEN** `lockstep init` runs
+- **THEN** the command is unchanged and the output says to add `guard: {mode: block}`
+
+#### Scenario: A custom hook command is left alone
+
+- **GIVEN** `.claude/settings.json` holding a `lockstep-hook` command init did not write and `lockstep.yaml` with `guard:`
+- **WHEN** `lockstep init` runs
+- **THEN** the command is unchanged
+
 Tested by: tests/lockstep/test_lockstep_init.py
 [[[end]]]
 """
@@ -80,6 +107,7 @@ import subprocess
 import sys
 
 from ruamel.yaml import YAML
+from ruamel.yaml.error import YAMLError
 
 from lockstep.checks.config import CHECK_NAMES, DEFAULT_OFF
 from lockstep.checks.sources import DEFAULT_HUMAN_PATTERN
@@ -127,6 +155,11 @@ planning:
   gate: block            # the Company Planning package (docs/planning/planning-package.json) must pass its validator
   one_page_plans: block  # a one-page plan under docs/plans/ must be complete
 
+# The edit guard (the agent hook): block refuses an edit to an unplanned governed file, warn lets it through with the
+# refusal text as a warning. A set PCW_MODE environment variable wins for that session.
+guard:
+  mode: block
+
 # Folders where every file must be planned (for example [src/]). Empty means the edit guard checks no folder.
 governed: []
 
@@ -135,24 +168,53 @@ layout: []
 """
 
 
+def _guard_command(source: str, client: str, prefix: str = "") -> str:
+    """The edit-guard command for `client`; `prefix` is what an earlier init put before uvx (`PCW_MODE=block `)."""
+    guard = f"{prefix}uvx --from {source} lockstep-hook"
+    return f"{guard} --client codex" if client == "codex" else f'cd "$CLAUDE_PROJECT_DIR" && {guard}'
+
+
 def _hook_entry(source: str, client: str) -> dict:
-    """One PreToolUse entry for `client` (`claude` or `codex`): the edit guard, installed from `source` by uvx."""
-    guard = f"PCW_MODE=block uvx --from {source} lockstep-hook"
-    if client == "codex":
-        return {"matcher": "apply_patch|Edit|Write|Bash|shell|exec_command",
-                "hooks": [{"type": "command", "command": f"{guard} --client codex", "timeout": 30}]}
-    return {"matcher": "Edit|Write|MultiEdit|NotebookEdit|Bash",
-            "hooks": [{"type": "command", "command": f'cd "$CLAUDE_PROJECT_DIR" && {guard}', "timeout": 30}]}
+    """One PreToolUse entry for `client` (`claude` or `codex`): the edit guard, installed from `source` by uvx.
+
+    No `PCW_MODE` in the command: the hook reads `guard.mode` from lockstep.yaml, which init writes.
+    """
+    matcher = "apply_patch|Edit|Write|Bash|shell|exec_command" if client == "codex" else "Edit|Write|MultiEdit|NotebookEdit|Bash"
+    return {"matcher": matcher, "hooks": [{"type": "command", "command": _guard_command(source, client), "timeout": 30}]}
 
 
-def _merge_hooks(path: Path, entry: dict, event: str = "PreToolUse") -> str:
-    """Add `entry` to the file's PreToolUse hooks, keeping everything else. Returns `wrote` or `skipped`."""
+def _upgrade_old_guard(hooks: list, source: str, client: str, upgrade: bool) -> str | None:
+    """Rewrite the exact command an earlier init wrote (`PCW_MODE=block uvx ...`) when `upgrade`.
+
+    Returns `wrote` after a rewrite, `old` when the old command is there but `upgrade` is False, None when it is absent.
+    """
+    old, new = _guard_command(source, client, "PCW_MODE=block "), _guard_command(source, client)
+    found = [h for e in hooks for h in e.get("hooks", []) if h.get("command") == old]
+    if not found:
+        return None
+    if not upgrade:
+        return "old"
+    for h in found:
+        h["command"] = new
+    return "wrote"
+
+
+def _merge_hooks(path: Path, entry: dict, event: str = "PreToolUse",
+                 upgrade: tuple[str, str, bool] | None = None) -> str:
+    """Add `entry` to the file's `event` hooks, keeping everything else. Returns `wrote`, `skipped` or `old`.
+
+    `upgrade` is (source, client, allowed) for the PreToolUse guard: its old generated command is rewritten when
+    allowed, else left and `old` returned.
+    """
     data = json.loads(path.read_text(encoding="utf-8")) if path.is_file() else {}
     pre = data.setdefault("hooks", {}).setdefault(event, [])
     names = ("lockstep refresh",) if event == "PostToolUse" else HOOK_NAMES
     if any(name in h.get("command", "") for e in pre for h in e.get("hooks", []) for name in names):
-        return "skipped"
-    pre.append(entry)
+        status = _upgrade_old_guard(pre, *upgrade) if upgrade else None
+        if status != "wrote":
+            return status or "skipped"
+    else:
+        pre.append(entry)
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(data, indent=2) + "\n", encoding="utf-8")
     return "wrote"
@@ -167,10 +229,23 @@ def _refresh_entry(source: str, client: str) -> dict:
     return {"matcher": matcher, "hooks": [{"type": "command", "command": command, "timeout": 30}]}
 
 
-def _install_hooks(path: Path, source: str, client: str) -> str:
-    before = _merge_hooks(path, _hook_entry(source, client))
+def _install_hooks(path: Path, source: str, client: str, upgrade: bool = False, notes: list[str] | None = None) -> str:
+    """Install the guard and refresh hooks; `upgrade` allows rewriting init's old `PCW_MODE=block` guard command."""
+    before = _merge_hooks(path, _hook_entry(source, client), upgrade=(source, client, upgrade))
     after = _merge_hooks(path, _refresh_entry(source, client), "PostToolUse")
+    if before == "old" and notes is not None:
+        notes.append(f"{path.parent.name}/{path.name} keeps PCW_MODE=block in its hook command; add `guard: {{mode: block}}` "
+                     "to lockstep.yaml and run `lockstep init` again to move the setting there")
     return "wrote" if "wrote" in (before, after) else "skipped"
+
+
+def _has_guard(config: Path) -> bool:
+    """True when lockstep.yaml has a `guard:` section (an unreadable file counts as not having one)."""
+    try:
+        data = YAML(typ="safe").load(config.read_text(encoding="utf-8")) if config.is_file() else None
+    except (YAMLError, OSError, UnicodeDecodeError):  # unreadable: do not rewrite the hook
+        return False
+    return isinstance(data, dict) and "guard" in data
 
 
 def _lefthook(path: Path, source: str) -> str:
@@ -230,12 +305,15 @@ def init_repo(root: Path, owner: str | None = None, source: str = SOURCE,
     else:
         config.write_text(lockstep_yaml(owner, human_pattern), encoding="utf-8")
         results.append(("lockstep.yaml", "wrote"))
-    results.append((".claude/settings.json", _install_hooks(root / ".claude/settings.json", source, "claude")))
-    results.append((".codex/hooks.json", _install_hooks(root / ".codex/hooks.json", source, "codex")))
+    upgrade, notes = _has_guard(config), []
+    results.append((".claude/settings.json", _install_hooks(root / ".claude/settings.json", source, "claude", upgrade, notes)))
+    results.append((".codex/hooks.json", _install_hooks(root / ".codex/hooks.json", source, "codex", upgrade, notes)))
     results.append(("lefthook.yml", _lefthook(root / "lefthook.yml", source)))
     results.append((".gitignore", _gitignore(root / ".gitignore")))
     for rel, what in results:
         print(f"{what:7} {rel}")
+    for note in notes:
+        print(f"note    {note}")
     print(f"RESULT init wrote={sum(w == 'wrote' for _, w in results)} skipped={sum(w == 'skipped' for _, w in results)} exit=0")
     return 0
 

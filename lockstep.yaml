@@ -348,6 +348,7 @@ layout:
   implements:
   - lockstep-init/init-installs-lockstep-in-a-repository-without-overwriting
   - lockstep-init/installed-files-name-no-machine-and-read-their-settings-from-lockstep-yaml
+  - lockstep-init/init-upgrades-its-own-old-hook-command-only-where-lockstep-yaml-sets-the-guard
   tests:
   - tests/lockstep/test_lockstep_init.py
 - path: src/lockstep/lane_sweep.py
@@ -1278,6 +1279,26 @@ layout:
   tests: []
 - path: openspec/changes/archive/2026-11-25-planning-gates-warn-and-record/tasks.md
   purpose: "Tasks: planning gates warn by default and are recorded (removed after its merge)"
+  implements: []
+  tests: []
+- path: openspec/changes/archive/2026-11-26-guard-mode-setting/prior-art.json
+  purpose: "Prior-art record: guard.mode in lockstep.yaml replaces the PCW_MODE hardcode (removed after its merge)"
+  implements: []
+  tests: []
+- path: openspec/changes/archive/2026-11-26-guard-mode-setting/proposal.md
+  purpose: "Proposal: the edit guard reads guard.mode from lockstep.yaml; init writes it (removed after its merge)"
+  implements: []
+  tests: []
+- path: openspec/changes/archive/2026-11-26-guard-mode-setting/specs/lockstep-guard/spec.md
+  purpose: "Spec delta: guard mode from PCW_MODE, then guard.mode, then warn (removed after its merge)"
+  implements: []
+  tests: []
+- path: openspec/changes/archive/2026-11-26-guard-mode-setting/specs/lockstep-init/spec.md
+  purpose: "Spec delta: init writes guard.mode and upgrades its own old hook command (removed after its merge)"
+  implements: []
+  tests: []
+- path: openspec/changes/archive/2026-11-26-guard-mode-setting/tasks.md
+  purpose: "Tasks: guard.mode setting (removed after its merge)"
   implements: []
   tests: []
 - path: openspec/specs/.gitkeep

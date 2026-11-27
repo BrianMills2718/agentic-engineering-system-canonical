@@ -36,7 +36,7 @@ Independent read: reviewer subagent, 2026-11-25, verdict revise. Its 11 findings
 
 | Part | Where it lives | Switchable per repository today? |
 | --- | --- | --- |
-| Lockstep (edit guard, commit checks, layout, docstrings) | AES `src/lockstep/` | Commit checks: yes, `lockstep.yaml` `checks:` (block, warn or off). Edit guard strictness: only through the `PCW_MODE` environment variable, which the installed hook command hardcodes (`src/lockstep/init_repo.py:133`). |
+| Lockstep (edit guard, commit checks, layout, docstrings) | AES `src/lockstep/` | Commit checks: yes, `lockstep.yaml` `checks:` (block, warn or off). Edit guard strictness: was only through the `PCW_MODE` environment variable, which the installed hook command hardcoded; now `guard.mode` (2026-11-26). |
 | Planning (Company Planning skills and package validator) | `BrianMills2718/company-planning` (private); Inside Success installs it from the private mirror `Inside-Success/company-planning` | Partly, and in a second file. `.copier-answers.yml` keys `ship_planning_gate` and `ship_one_page_plans` switch `ship`'s two planning gates off, read from the default branch so a branch cannot turn its own gate off (`copier_answer_on` in `src/lockstep/checks/config.py`). The validator's source is hardcoded as `~/code2/company-planning` (`src/lockstep/plan_check.py:113`). The skills are installed per person, not per repository. |
 | Agent rules | code2-workspace `agents/`, loaded machine-wide by `~/.claude/CLAUDE.md` | No. One person and one machine only. |
 | Feedback loop | AES `scripts/learning_loop/` and its systemd user timers on Brian's PC. A second, older sweep lives in `~/code/ecosystem-ops` (`ecosystem-feedback-worker` and `-watchdog`). | No. The loop runs per machine. Of 8 timers, 5 are disabled: the 3 AES analysis jobs and the 2 ecosystem-ops jobs. |
@@ -63,7 +63,7 @@ planning:                                        # slice 1 (gates) and slice 2 (
   one_page_plans: block                          # ship's one-page-plan check
   validator: {repo: <git address>, ref: main}    # slice 2; no default address is written
   skills: block                                  # slice 3: write the plugin into .claude/settings.json
-guard: {mode: warn}                              # parking: replaces the PCW_MODE hardcode
+guard: {mode: block}                             # built: absent means warn; PCW_MODE still wins; init writes block
 rules: {mode: block, source: {repo: <address>, ref: main, files: [agents/core.md]}}  # parking
 feedback: {mode: block, issue_repo: OWNER/NAME}  # parking
 ```
@@ -82,7 +82,7 @@ part built so far.
 | One-page-plan check | `.copier-answers.yml` `ship_one_page_plans` | `planning.one_page_plans` (slice 1), with the same fallback |
 | Validator source | env `SHIP_COMPANY_PLANNING` or `~/code2/company-planning` | `planning.validator` (slice 2) |
 | Plan-list graph | env `PROJECT_GRAPH` or `~/code2/aes-config/` (`ship.py:883`) | parking: a `planning.project_graph` key |
-| Edit-guard strictness | `PCW_MODE` hardcoded in the hook command | parking: `guard.mode` |
+| Edit-guard strictness | `PCW_MODE` hardcoded in the hook command | `guard.mode` (built 2026-11-26, OpenSpec change `guard-mode-setting`) |
 | Company Planning skills | per-person plugin install | slice 3: `planning.skills` |
 | Rules | machine-wide `~/.claude/CLAUDE.md` | parking: `rules:` |
 | Feedback scope | machine-wide timers | parking: `feedback:` |
@@ -222,7 +222,6 @@ already open, and a rerun of this dry run passes the one-third acted-on rule.
 
 - Slice 3: `planning.skills`. `lockstep init` writes the Company Planning marketplace and plugin into the repository's
   `.claude/settings.json` (`extraKnownMarketplaces`, `enabledPlugins`), and writes the Codex equivalent.
-- `guard.mode` replaces the `PCW_MODE` hardcode in the hook command.
 - `planning.project_graph` replaces the `~/code2/aes-config` default.
 - The rules part:
   - `rules.source` names the rule text;

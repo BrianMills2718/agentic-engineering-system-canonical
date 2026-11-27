@@ -419,3 +419,46 @@ def test_the_list_is_capped_and_puts_the_same_folder_first(tmp_path, monkeypatch
     listed = reason.split("The plan does allow these files")[1]
     assert "src/pkg/near.py" in listed.splitlines()[1]  # first: it shares the refused file's folder
     assert "and 6 more" in listed and listed.count("docs/a") == 14
+
+
+def guard(proj, mode: str) -> None:
+    (proj / "lockstep.yaml").write_text(f"schema: lockstep.side.v1\nguard: {{mode: {mode}}}\n")
+
+
+@pytest.mark.req("lockstep-guard/guard-mode-block-refuses-an-unplanned-governed-file")
+def test_guard_mode_in_lockstep_yaml_sets_refuse_or_warn(proj, monkeypatch, capsys):
+    unplanned = {"file_path": str(proj / "src/greeter/extra.py")}
+    for mode in ("block", "true"):
+        guard(proj, mode)
+        out = hook(proj, "Write", unplanned)
+        assert out["permissionDecision"] == "deny" and "is not in the plan" in out["permissionDecisionReason"], mode
+    for mode in ("warn", "false"):
+        guard(proj, mode)
+        out = run_hook(proj, "Write", unplanned, monkeypatch, capsys)
+        assert "permissionDecision" not in out and out["additionalContext"].startswith(WARN_PREFIX), mode
+        assert log_lines(proj)[-1]["decision"] == "would_block"
+
+
+@pytest.mark.req("lockstep-guard/pcw-mode-overrides-guard-mode")
+def test_a_set_pcw_mode_wins_over_guard_mode(proj, monkeypatch):
+    unplanned = {"file_path": str(proj / "src/greeter/extra.py")}
+    guard(proj, "block")
+    monkeypatch.setenv("PCW_MODE", "warn")
+    out = hook(proj, "Write", unplanned)
+    assert out["permissionDecision"] == "allow" and out["additionalContext"].startswith(WARN_PREFIX)
+    guard(proj, "warn")
+    monkeypatch.setenv("PCW_MODE", "block")
+    assert hook(proj, "Write", unplanned)["permissionDecision"] == "deny"
+    monkeypatch.setenv("PCW_MODE", "")  # set but empty: guard.mode decides
+    assert hook(proj, "Write", unplanned)["permissionDecision"] == "allow"
+
+
+@pytest.mark.req("lockstep-guard/an-unknown-guard-mode-refuses-and-is-reported")
+def test_an_unknown_guard_mode_refuses_and_is_reported(proj):
+    from lockstep.side_file import side_file_problems
+    guard(proj, "strict")
+    assert hook(proj, "Write", {"file_path": str(proj / "src/greeter/extra.py")})["permissionDecision"] == "deny"
+    problems = side_file_problems(proj, {})
+    assert any("guard.mode" in p and "strict" in p for p in problems), problems
+    guard(proj, "block")
+    assert not [p for p in side_file_problems(proj, {}) if "guard" in p]
