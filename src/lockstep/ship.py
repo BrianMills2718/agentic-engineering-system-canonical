@@ -1360,7 +1360,7 @@ def planning_gate(run: Run, repo: Path, *, always_validate: bool = False) -> str
         refused = plan_list_refusal(run, repo)
         if refused:
             return refused
-    from lockstep.plan_check import fetch_planning_validator  # here, not at the top: plan_check imports ship
+    from lockstep.plan_check import fetch_planning_validator, validator_command  # here, not at the top: plan_check imports ship
     validator, refused = fetch_planning_validator(run)
     if validator is None:
         return _Unavailable(refused or "the planning validator could not be fetched")
@@ -1375,7 +1375,8 @@ def planning_gate(run: Run, repo: Path, *, always_validate: bool = False) -> str
         print(line)
         run.write(line)
         return None
-    result = run.step("planning package", [*python, validator, "--repo", str(repo), str(repo / PACKAGE)])
+    command = validator_command(python, validator, repo)
+    result = run.step("planning package", command)
     print((result.stdout + result.stderr).rstrip())
     broken = import_failure(result)
     if broken:
@@ -1389,8 +1390,7 @@ def planning_gate(run: Run, repo: Path, *, always_validate: bool = False) -> str
     if result.returncode != 0:
         # Decision 6 of the Work flow row (2026-11-07): a package that fails only freshness warns, not refuses. Since
         # 2026-11-10 (Brian, "i approve decision 1-2") freshness means plan content changed since the cold review.
-        aged = run.step("planning package without the freshness check",
-                        [*python, validator, "--repo", str(repo), str(repo / PACKAGE), "--no-freshness"])
+        aged = run.step("planning package without the freshness check", [*command, "--no-freshness"])
         if aged.returncode == 0:
             line = (f"ship: warning: the planning package {PACKAGE} is out of date: its plan content changed "
                     "since its cold review (it passes without that check); not refused. Run the cold review again "

@@ -1,5 +1,7 @@
 # Minimal core met; audit repairs recorded (updated 2026-11-27)
 
+**Clean validator install, 2026-11-27:** A fresh Linux home with an independently installed graph schema ran the configured validator on a real planning package. The package passed with its existing freshness warning. An extra field on one graph node caused a rejection. The [setup steps](../wiki/lockstep.md#install-the-planning-validator-on-a-clean-linux-account) apply to the plan command and the merge gate.
+
 **Game benchmark, 2026-11-27:** The [pre-build protocol](../docs/planning/next.goal.md#pre-build-review-2026-11-27)
 was verified before starting the six-build comparison. It pins the AES revision, models, browser and 112 scoring items.
 The run started with AES #1078 as its template revision. AES #1079 merged the harness fixes.
