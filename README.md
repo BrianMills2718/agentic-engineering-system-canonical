@@ -46,6 +46,8 @@ A new copy ships `lockstep.yaml` with a `layout:` row for each starter file, so 
 a file under `src/<package>/` that no row names; a plan adds rows with its OpenSpec change, and
 `uv run lockstep layout` creates the planned files with their requirement text. `copier update` of a copy made
 before this adds no `lockstep.yaml` and leaves its starter files under `src/<package>/` unchanged.
+The project and Python package names can differ. The copy's `AGENTS.md` explains how to recover
+from the checks its Makefile runs.
 Spec: [portable-template](openspec/specs/portable-template/spec.md); why this layout:
 [decision 0015](docs/decisions/0015-off-the-shelf-documentation-stack.md).
 
