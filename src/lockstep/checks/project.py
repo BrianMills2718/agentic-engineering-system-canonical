@@ -373,4 +373,66 @@ def _project_once(root: Path, check: bool = False) -> list[str]:
         contents[page] = markdown(coverage)
     if page.parent.is_dir() and not (check and _ignored(root, LINKS_FILE)):
         contents[root / LINKS_FILE] = json.dumps(links(coverage, root), indent=1) + "\n"
-    return project_facts(root, check=check, rendered=render(root, contents))
+    gone = _wiki(root, coverage, contents, check)
+    return project_facts(root, check=check, rendered=render(root, contents)) + gone
+
+
+def _wiki(root: Path, coverage: Report, contents: dict[Path, str], check: bool) -> list[str]:
+    """Add the generated wiki pages to `contents`; return the old pages it no longer writes, removing them unless check.
+
+    Implements: lockstep-wiki/a-layout-repository-generates-one-wiki-page-per-capability
+
+    Requirement text (generated):
+        lockstep-wiki/a-layout-repository-generates-one-wiki-page-per-capability: In a layout
+            repository whose `lockstep.yaml` says `generated_wiki: true`, `lockstep check project`
+            SHALL write `generated/wiki/index.md`, with one line per OpenSpec capability (its
+            summary and a link to its page), and `generated/wiki/<capability>.md` for each
+            capability. A capability page SHALL list each requirement's text, the symbols whose
+            docstrings implement it with their `file:line`, each scenario with the tests tagged with
+            its ID, and the requirement's coverage state (unimplemented, untested, or implemented
+            and tested). The pages SHALL hold no commit hash and no pass or fail result, so they are
+            the same in every checkout; `lockstep status` gives pass or fail. A page for a
+            capability that no longer exists SHALL be removed.
+
+    Args:
+        root: Repository root.
+        coverage: The coverage-only report the pages are rendered from.
+        contents: The staged outputs, extended in place.
+        check: Report without writing or removing.
+
+    Returns:
+        Paths relative to root of the removed (or, with check, stale) pages for capabilities that are gone.
+    """
+    from lockstep.layout_wiki import orphan_pages, wiki_contents
+
+    pages = wiki_contents(root, coverage)
+    contents.update(pages)
+    if pages and not check:
+        next(iter(pages)).parent.mkdir(parents=True, exist_ok=True)
+    gone = orphan_pages(root, set(pages))
+    if not check:
+        for path in gone:
+            path.unlink()
+    return [p.relative_to(root).as_posix() for p in gone]
+
+
+def wiki_problems(root: Path) -> list[str]:
+    """List the ways the generated wiki breaks the two-link and summary rule.
+
+    Implements: lockstep-wiki/project-check-fails-on-stale-or-unreachable-wiki-pages
+
+    Requirement text (generated):
+        lockstep-wiki/project-check-fails-on-stale-or-unreachable-wiki-pages: `lockstep check
+            project --check` SHALL name each `generated/wiki/` page that differs from what would be
+            written, and SHALL exit 1. It SHALL also report each generated page that is more than
+            two links from the index or whose link has no summary beside it, and exit 1.
+
+    Args:
+        root: Repository root.
+
+    Returns:
+        Plain-words problems; empty when the repository has no generated wiki or it is sound.
+    """
+    from lockstep.layout_wiki import wiki_problems as problems
+
+    return problems(root, report(root, use_results=False))

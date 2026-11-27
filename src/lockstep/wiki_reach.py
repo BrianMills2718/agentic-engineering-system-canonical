@@ -97,12 +97,21 @@ def reach_problems(pages: dict[str, str], front: str = "index.md") -> list[str]:
 
 def main(argv: list[str] | None = None) -> int:
     """`python -m lockstep.wiki_reach [--root DIR] [--package NAME]`: build the wiki pages, print each problem; exit 1 if any."""
+    from lockstep.layout_plan import has_layout
     from lockstep.wiki import pages as wiki_pages  # lockstep.wiki runs AES; imported only when the check runs
 
     ap = argparse.ArgumentParser(prog="lockstep.wiki_reach", description=__doc__.splitlines()[0])
     ap.add_argument("--root", type=Path, default=Path.cwd())
     ap.add_argument("--package", default="src", help="the package the code page renders (default src)")
     args = ap.parse_args(argv)
+    if has_layout(args.root):  # the layout route: check the pages `lockstep check project` writes
+        from lockstep.checks.project import wiki_problems
+
+        problems = wiki_problems(args.root)
+        for p in problems:
+            print(p)
+        print(f"wiki_reach: layout problems={len(problems)}")
+        return 1 if problems else 0
     root = find_root(args.root)
     if root is None:
         print(f"no .aes/project.yaml at or above {args.root}", file=sys.stderr)

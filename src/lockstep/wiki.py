@@ -146,7 +146,12 @@ def main() -> int:
     import sys
 
     from lockstep.aes_bridge import find_root
+    from lockstep.layout_plan import has_layout
 
+    if has_layout(Path.cwd()):  # the layout route: the generated wiki (lockstep.layout_wiki)
+        from lockstep.layout_wiki import print_wiki
+
+        return print_wiki(Path.cwd())
     root = find_root(Path.cwd())
     if root is None:
         print("no .aes/project.yaml here or above", file=sys.stderr)

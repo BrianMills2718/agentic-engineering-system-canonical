@@ -119,6 +119,8 @@ def unplanned_reason(root: Path, rel: str, base: str | None = None) -> str | Non
     """
     if artifact_for_path(root, rel) is not None:
         return None
+    if has_layout(root) and PurePosixPath(rel).parent == PurePosixPath("generated/wiki") and rel.endswith(".md"):
+        return None  # generator output of `lockstep check project` (lockstep.layout_wiki), not a planned file
     try:
         side, unreadable = load_side_file(root, base), ""
     except ValueError as exc:

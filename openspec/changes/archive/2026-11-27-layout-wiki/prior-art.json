@@ -1,0 +1,53 @@
+{
+  "need": "A layout repository (lockstep.yaml layout rows, no .aes/target.yaml) gets generated wiki pages per OpenSpec capability showing requirement text, implementing code, tagged tests and status, kept fresh by lockstep check project, and the copier template ships them.",
+  "searched": [
+    {
+      "place": "own",
+      "where": "AES src/lockstep/wiki.py and wiki_reach.py, plan-code-wiki src/pcw/wiki.py, src/lockstep/checks/status.py (links.json, status.md), src/lockstep/openspec_text.py, ~/code2/workspace/docs/capabilities.md",
+      "query": "wiki generator, requirement to code and tests links, generated pages, reachability check",
+      "found": "wiki.py builds pages only from .aes/target.yaml via aes_bridge; checks/status.py already computes requirement implementers with file:line and scenario tests for docs/status.md and links.json; wiki_reach.reach_problems already checks two-link reach and link summaries on any page dict."
+    },
+    {
+      "place": "outside",
+      "where": "OpenSpec CLI, sphinx-needs (needs.json, needtable), mkdocstrings, Backstage TechDocs",
+      "query": "generate requirement traceability pages from specs, code references and tests",
+      "found": "sphinx-needs renders requirement-to-code-to-test tables but needs Sphinx directives authored by hand; OpenSpec has no traceability page; mkdocstrings renders docstrings only."
+    }
+  ],
+  "candidates": [
+    {
+      "name": "lockstep.checks.status report() and links()",
+      "url": "https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/main/src/lockstep/checks/status.py",
+      "covers": "Requirement text sources, implementing symbols with file:line, scenario tests and coverage state, recomputed from the repository.",
+      "misses": "Writes a gitignored flat status table and JSON, not per-capability reading pages with an index.",
+      "verdict": "combine",
+      "reason": "The new renderer reads this report instead of parsing again."
+    },
+    {
+      "name": "lockstep.wiki_reach.reach_problems",
+      "url": "https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/main/src/lockstep/wiki_reach.py",
+      "covers": "Two-link reach and a summary beside every link, over any dict of pages.",
+      "misses": "Finds its root only through .aes/project.yaml.",
+      "verdict": "combine",
+      "reason": "Reused as is for the generated pages; only its root lookup learns lockstep.yaml."
+    },
+    {
+      "name": "lockstep.wiki pages() (old route)",
+      "url": "https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/main/src/lockstep/wiki.py",
+      "covers": "The page layout idea: an index by question, one page per part.",
+      "misses": "Reads only .aes/target.yaml; crashes in a layout repository.",
+      "verdict": "reject",
+      "reason": "Kept unchanged for repositories that still run it; its data source is the retired route."
+    },
+    {
+      "name": "sphinx-needs",
+      "url": "https://github.com/useblocks/sphinx-needs",
+      "covers": "Requirement, test and code traceability tables.",
+      "misses": "Needs hand-authored directives and Sphinx; the data here already exists in OpenSpec and docstrings.",
+      "verdict": "reject",
+      "reason": "A second authoring surface and a second toolchain for data Lockstep already reads."
+    }
+  ],
+  "decision": "combine",
+  "decided": "2026-11-27"
+}

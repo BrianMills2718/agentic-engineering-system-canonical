@@ -386,6 +386,7 @@ def _project(root: Path, args: argparse.Namespace, cfg: Config) -> int:
         print("a planned file under a fixed: glob has no plan copy; add one (lockstep layout writes the form)"
               " then run: lockstep check project")
     refusals, warnings = plugin_settings.drift(root)  # planning.skills; not a ship gate
+    refusals += [f"generated wiki: {line}" for line in project.wiki_problems(root)]
     for line in warnings:
         print(f"warning: {line}")
     for line in refusals:

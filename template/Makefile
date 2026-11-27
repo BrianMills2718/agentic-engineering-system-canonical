@@ -27,6 +27,8 @@ check: docs-specs fast
 	@base=$$(git merge-base origin/main HEAD 2>/dev/null || git rev-list --max-parents=0 HEAD 2>/dev/null | tail -n 1); \
 	if [ -z "$$base" ]; then echo "whole-tree check skipped: no commit yet"; else uv run lockstep check --repo . --base "$$base"; fi
 	uv run lockstep check project
+	uv run python -m lockstep.wiki_reach
+	uv run lockstep check docmeta
 	uv run zensical build --strict
 # docs/status.md is build output (ignored by git): `lockstep check project` writes it before each docs build.
 docs: docs-specs

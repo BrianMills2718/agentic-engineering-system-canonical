@@ -302,3 +302,13 @@ def test_a_default_copy_with_no_remote_passes_make_check(tmp_path):
     refused = subprocess.run(["make", "check"], cwd=out, capture_output=True, text=True, env=env, timeout=900)
     assert refused.returncode != 0
     assert "src/demo/extra.py" in refused.stdout + refused.stderr
+
+
+@pytest.mark.req("portable-template/a-fresh-copy-has-the-wiki-and-checks-it")
+def test_a_fresh_copy_has_the_wiki_and_checks_it(tmp_path):
+    out = render(tmp_path)
+    assert "generated_wiki: true" in (out / "lockstep.yaml").read_text(encoding="utf-8")
+    makefile = (out / "Makefile").read_text(encoding="utf-8")
+    assert "python -m lockstep.wiki_reach" in makefile and "lockstep check docmeta" in makefile
+    for name in ("AGENTS.md", "docs/index.md"):
+        assert "generated/wiki/index.md" in (out / name).read_text(encoding="utf-8")

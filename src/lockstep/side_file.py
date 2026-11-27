@@ -62,7 +62,8 @@ SCHEMA = "lockstep.side.v1"
 _TOP = {"schema", "documents", "rubrics", "fixed", "files", "actions",  # actions: read by lockstep.action_check (behavior 5.4)
         "checks", "sources", "owner", "likec4", "mutation",  # the commit checks (lockstep.checks)
         "planning", "guard", "rules", "feedback",  # the parts' settings (docs/planning/next.goal.md)
-        "layout", "governed", "projections", "source_base_url"}  # the layout plan (lockstep.layout_plan)
+        "layout", "governed", "projections", "source_base_url",
+        "generated_wiki"}  # generated_wiki: true turns on generated/wiki/ (lockstep.layout_wiki)  # the layout plan (lockstep.layout_plan)
 _DOCUMENTS = {"include", "declared"}
 _DOCUMENT = {"path", "purpose", "refs"}
 _RUBRIC = {"criterion", "rubric"}

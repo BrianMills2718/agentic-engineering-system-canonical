@@ -1,6 +1,8 @@
 # {{ project_name }} instructions
 
-Index for agents. Read [docs/index.md](docs/index.md) first; it lists the architecture, diagram,
+Index for agents. Read the generated wiki index [generated/wiki/index.md](generated/wiki/index.md) first: one line per
+capability, each page showing its requirements, the code that implements them and their tests (`uv run lockstep check
+project` writes it; never edit it). Then [docs/index.md](docs/index.md), which lists the architecture, diagram,
 requirements and decisions.{% if code2_workspace %} Workspace rules: `~/code2/AGENTS.md`.{% endif %}
 
 - Behavior changes go through OpenSpec (`openspec/changes/<name>/`), then archive with
