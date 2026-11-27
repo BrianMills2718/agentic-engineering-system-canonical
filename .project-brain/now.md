@@ -45,8 +45,11 @@ clean home folder (hidden tests 0/3 then 3/3, and 0/10 then 10/10) and merged wi
   `generated_wiki: true`; the template turns it on and tells the agent to read the index first. Step 2:
   pass or fail at this checkout is in the git-ignored `generated/wiki/results.md` (requirements, scenarios,
   plans not yet passing, and the commit the results are from), written after the tests in `make check`;
-  committed pages stay coverage-only because a committed result is stale once committed. Next: step 3,
-  the edit-hook hand-over proven live in Claude and Codex.
+  committed pages stay coverage-only because a committed result is stale once committed. Step 3 (2026-11-27): the edit hook's requirement text
+  was proven to reach the agent live in Claude Code and in Codex
+  (`docs/planning/runs/edit-hook-handover/2026-11-27.json`). In everyday use Codex gets nothing,
+  because `features.hooks = false`, and Claude gets nothing when the session starts in a parent folder.
+  Next: count read-before-write.
 
 - One plan checker (2026-11-25, Brian: "ia prpove yourr ecommednations though"): `lockstep plan check` runs Company
   Planning's validator the way `ship` does, instead of a copy of two of its checks; the copy and

@@ -1160,6 +1160,11 @@ layout:
     replay, self-governance and plan-adoption checks.
   implements: []
   tests: []
+- path: docs/planning/runs/edit-hook-handover/2026-11-27.json
+  purpose: Live proof (Milestone 1 step 3) that the edit hook's requirement text reaches the agent in Claude Code and
+    in Codex with hooks on; Codex hooks are off in everyday sessions, so the Codex result is mechanism-only.
+  implements: []
+  tests: []
 - path: docs/planning/runs/lockstep-acceptance/a1.json
   purpose: Retains A1 fresh-install command, generated files and seven compared setup outcomes; written artifacts are narrower
     evidence than active hook enforcement.
