@@ -89,8 +89,8 @@ def _link(where: str) -> str:
     """A `file:line` as a Markdown link, relative to a page in generated/wiki/ so it is the same in every checkout."""
     path, _, number = where.rpartition(":")
     if not number.isdigit():
-        return f"[{where}](../../{where})"
-    return f"[{where}](../../{path}#L{number})"
+        return f"[`{where}`](../../{where})"
+    return f"[`{where}`](../../{path}#L{number})"
 
 
 def _label(requirement: Row, scenarios: list[Row]) -> str:

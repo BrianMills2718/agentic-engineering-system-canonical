@@ -14,10 +14,10 @@ A repository made from the template SHALL include `.claude/settings.json` and `.
 
 Implemented by:
 
-- `copier.yml` — [copier.yml:5](../../copier.yml#L5)
+- `copier.yml` — [`copier.yml:5`](../../copier.yml#L5)
 
-- Scenario `a-rendered-copy-has-both-hook-files`: tested by `tests/test_template_portable.py::test_a_rendered_copy_has_both_hook_files` ([tests/test_template_portable.py:140](../../tests/test_template_portable.py#L140))
-- Scenario `a-rendered-copy-s-decision-governs-a-real-file`: tested by `tests/test_template_portable.py::test_a_rendered_copy_s_decision_governs_a_real_file` ([tests/test_template_portable.py:153](../../tests/test_template_portable.py#L153))
+- Scenario `a-rendered-copy-has-both-hook-files`: tested by `tests/test_template_portable.py::test_a_rendered_copy_has_both_hook_files` ([`tests/test_template_portable.py:140`](../../tests/test_template_portable.py#L140))
+- Scenario `a-rendered-copy-s-decision-governs-a-real-file`: tested by `tests/test_template_portable.py::test_a_rendered_copy_s_decision_governs_a_real_file` ([`tests/test_template_portable.py:153`](../../tests/test_template_portable.py#L153))
 
 ## a copy runs its commit checks after a move and in every worktree
 
@@ -29,9 +29,9 @@ A repository made from the template SHALL hold tracked, executable `.githooks/pr
 
 Implemented by:
 
-- `copier.yml` — [copier.yml:32](../../copier.yml#L32)
+- `copier.yml` — [`copier.yml:32`](../../copier.yml#L32)
 
-- Scenario `a-moved-copy-and-a-worktree-still-run-the-hooks`: tested by `tests/test_template_portable.py::test_a_moved_copy_and_a_worktree_still_run_the_hooks` ([tests/test_template_portable.py:89](../../tests/test_template_portable.py#L89))
+- Scenario `a-moved-copy-and-a-worktree-still-run-the-hooks`: tested by `tests/test_template_portable.py::test_a_moved_copy_and_a_worktree_still_run_the_hooks` ([`tests/test_template_portable.py:89`](../../tests/test_template_portable.py#L89))
 
 ## a fresh copy generates and checks its wiki
 
@@ -43,9 +43,9 @@ A repository made with `copier copy` SHALL set `generated_wiki: true` in its `lo
 
 Implemented by:
 
-- `copier.yml` — [copier.yml:9](../../copier.yml#L9)
+- `copier.yml` — [`copier.yml:9`](../../copier.yml#L9)
 
-- Scenario `a-fresh-copy-has-the-wiki-and-checks-it`: tested by `tests/test_template_portable.py::test_a_fresh_copy_has_the_wiki_and_checks_it` ([tests/test_template_portable.py:307](../../tests/test_template_portable.py#L307))
+- Scenario `a-fresh-copy-has-the-wiki-and-checks-it`: tested by `tests/test_template_portable.py::test_a_fresh_copy_has_the_wiki_and_checks_it` ([`tests/test_template_portable.py:307`](../../tests/test_template_portable.py#L307))
 
 ## a fresh copy ships its planned file layout
 
@@ -57,10 +57,10 @@ A repository made with `copier copy` SHALL include `lockstep.yaml` with `governe
 
 Implemented by:
 
-- `template/lockstep.yaml.jinja` — [template/lockstep.yaml.jinja:1](../../template/lockstep.yaml.jinja#L1)
+- `template/lockstep.yaml.jinja` — [`template/lockstep.yaml.jinja:1`](../../template/lockstep.yaml.jinja#L1)
 
-- Scenario `a-fresh-copy-refuses-an-unplanned-source-file`: tested by `tests/test_template_portable.py::test_a_fresh_copy_refuses_an_unplanned_source_file` ([tests/test_template_portable.py:169](../../tests/test_template_portable.py#L169))
-- Scenario `a-default-copy-with-no-remote-passes-make-check`: tested by `tests/test_template_portable.py::test_a_default_copy_with_no_remote_passes_make_check` ([tests/test_template_portable.py:257](../../tests/test_template_portable.py#L257))
+- Scenario `a-fresh-copy-refuses-an-unplanned-source-file`: tested by `tests/test_template_portable.py::test_a_fresh_copy_refuses_an_unplanned_source_file` ([`tests/test_template_portable.py:169`](../../tests/test_template_portable.py#L169))
+- Scenario `a-default-copy-with-no-remote-passes-make-check`: tested by `tests/test_template_portable.py::test_a_default_copy_with_no_remote_passes_make_check` ([`tests/test_template_portable.py:257`](../../tests/test_template_portable.py#L257))
 
 ## a repository made with the defaults works for anyone
 
@@ -72,9 +72,9 @@ A repository made with `copier copy --defaults` SHALL have a `lefthook.yml` with
 
 Implemented by:
 
-- `template/lefthook.yml.jinja` — [template/lefthook.yml.jinja:1](../../template/lefthook.yml.jinja#L1)
+- `template/lefthook.yml.jinja` — [`template/lefthook.yml.jinja:1`](../../template/lefthook.yml.jinja#L1)
 
-- Scenario `default-copy-has-no-machine-bound-parts`: tested by `tests/test_template_portable.py::test_default_copy_has_no_machine_bound_parts` ([tests/test_template_portable.py:51](../../tests/test_template_portable.py#L51))
+- Scenario `default-copy-has-no-machine-bound-parts`: tested by `tests/test_template_portable.py::test_default_copy_has_no_machine_bound_parts` ([`tests/test_template_portable.py:51`](../../tests/test_template_portable.py#L51))
 
 ## a workspace repository keeps the shared hooks
 
@@ -86,9 +86,9 @@ With `code2_workspace: true`, the template SHALL write today's `lefthook.yml` (t
 
 Implemented by:
 
-- `template/lefthook.yml.jinja` — [template/lefthook.yml.jinja:1](../../template/lefthook.yml.jinja#L1)
+- `template/lefthook.yml.jinja` — [`template/lefthook.yml.jinja:1`](../../template/lefthook.yml.jinja#L1)
 
-- Scenario `workspace-copy-keeps-the-remote`: tested by `tests/test_template_portable.py::test_workspace_copy_keeps_the_remote` ([tests/test_template_portable.py:63](../../tests/test_template_portable.py#L63))
+- Scenario `workspace-copy-keeps-the-remote`: tested by `tests/test_template_portable.py::test_workspace_copy_keeps_the_remote` ([`tests/test_template_portable.py:63`](../../tests/test_template_portable.py#L63))
 
 ## make a repository from this repository
 
@@ -100,9 +100,9 @@ This repository SHALL hold the template, so `copier copy --trust gh:BrianMills27
 
 Implemented by:
 
-- `copier.yml` — [copier.yml:2](../../copier.yml#L2)
+- `copier.yml` — [`copier.yml:2`](../../copier.yml#L2)
 
-- Scenario `the-template-is-served-from-here`: tested by `tests/test_template_portable.py::test_the_template_is_served_from_here` ([tests/test_template_portable.py:72](../../tests/test_template_portable.py#L72))
+- Scenario `the-template-is-served-from-here`: tested by `tests/test_template_portable.py::test_the_template_is_served_from_here` ([`tests/test_template_portable.py:72`](../../tests/test_template_portable.py#L72))
 
 ## the commit check stages rewritten files that git tracks
 
@@ -114,9 +114,9 @@ The `lockstep-fast` pre-commit job of a copy SHALL stage each file `lockstep che
 
 Implemented by:
 
-- `template/lefthook.yml.jinja` — [template/lefthook.yml.jinja:1](../../template/lefthook.yml.jinja#L1)
+- `template/lefthook.yml.jinja` — [`template/lefthook.yml.jinja:1`](../../template/lefthook.yml.jinja#L1)
 
-- Scenario `an-ignored-status-page-does-not-block-a-commit`: tested by `tests/test_template_portable.py::test_an_ignored_status_page_does_not_block_a_commit` ([tests/test_template_portable.py:120](../../tests/test_template_portable.py#L120))
+- Scenario `an-ignored-status-page-does-not-block-a-commit`: tested by `tests/test_template_portable.py::test_an_ignored_status_page_does_not_block_a_commit` ([`tests/test_template_portable.py:120`](../../tests/test_template_portable.py#L120))
 
 ## updating an older copy adds no layout plan
 
@@ -128,6 +128,6 @@ Status: **implemented and tested**
 
 Implemented by:
 
-- `copier.yml` — [copier.yml:11](../../copier.yml#L11)
+- `copier.yml` — [`copier.yml:11`](../../copier.yml#L11)
 
-- Scenario `an-update-of-an-older-copy-keeps-it-without-a-plan`: tested by `tests/test_template_portable.py::test_an_update_of_an_older_copy_keeps_it_without_a_plan` ([tests/test_template_portable.py:201](../../tests/test_template_portable.py#L201))
+- Scenario `an-update-of-an-older-copy-keeps-it-without-a-plan`: tested by `tests/test_template_portable.py::test_an_update_of_an_older_copy_keeps_it_without_a_plan` ([`tests/test_template_portable.py:201`](../../tests/test_template_portable.py#L201))

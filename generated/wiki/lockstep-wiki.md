@@ -14,11 +14,11 @@ In a layout repository whose `lockstep.yaml` says `generated_wiki: true`, `locks
 
 Implemented by:
 
-- `lockstep.checks.project._wiki` — [src/lockstep/checks/project.py:380](../../src/lockstep/checks/project.py#L380)
-- `lockstep.layout_wiki` — [src/lockstep/layout_wiki.py:1](../../src/lockstep/layout_wiki.py#L1)
+- `lockstep.checks.project._wiki` — [`src/lockstep/checks/project.py:380`](../../src/lockstep/checks/project.py#L380)
+- `lockstep.layout_wiki` — [`src/lockstep/layout_wiki.py:1`](../../src/lockstep/layout_wiki.py#L1)
 
-- Scenario `a-capability-page-shows-requirement-code-and-tests`: tested by `tests/lockstep/test_lockstep_layout_wiki.py::test_capability_page_shows_requirement_code_and_tests` ([tests/lockstep/test_lockstep_layout_wiki.py:127](../../tests/lockstep/test_lockstep_layout_wiki.py#L127)), `tests/lockstep/test_lockstep_layout_wiki.py::test_page_of_a_removed_capability_is_removed` ([tests/lockstep/test_lockstep_layout_wiki.py:147](../../tests/lockstep/test_lockstep_layout_wiki.py#L147))
-- Scenario `a-repository-without-the-switch-gets-no-pages`: tested by `tests/lockstep/test_lockstep_layout_wiki.py::test_repository_without_the_switch_gets_no_pages` ([tests/lockstep/test_lockstep_layout_wiki.py:141](../../tests/lockstep/test_lockstep_layout_wiki.py#L141))
+- Scenario `a-capability-page-shows-requirement-code-and-tests`: tested by `tests/lockstep/test_lockstep_layout_wiki.py::test_capability_page_shows_requirement_code_and_tests` ([`tests/lockstep/test_lockstep_layout_wiki.py:127`](../../tests/lockstep/test_lockstep_layout_wiki.py#L127)), `tests/lockstep/test_lockstep_layout_wiki.py::test_page_of_a_removed_capability_is_removed` ([`tests/lockstep/test_lockstep_layout_wiki.py:147`](../../tests/lockstep/test_lockstep_layout_wiki.py#L147))
+- Scenario `a-repository-without-the-switch-gets-no-pages`: tested by `tests/lockstep/test_lockstep_layout_wiki.py::test_repository_without_the_switch_gets_no_pages` ([`tests/lockstep/test_lockstep_layout_wiki.py:141`](../../tests/lockstep/test_lockstep_layout_wiki.py#L141))
 
 ## generated wiki pages need no layout row
 
@@ -30,9 +30,9 @@ A file under `generated/wiki/` SHALL NOT be reported as unplanned in a layout re
 
 Implemented by:
 
-- `lockstep.unplanned_files.unplanned_reason` — [src/lockstep/unplanned_files.py:111](../../src/lockstep/unplanned_files.py#L111)
+- `lockstep.unplanned_files.unplanned_reason` — [`src/lockstep/unplanned_files.py:111`](../../src/lockstep/unplanned_files.py#L111)
 
-- Scenario `a-generated-page-is-not-unplanned`: tested by `tests/lockstep/test_lockstep_layout_wiki.py::test_generated_page_is_not_unplanned` ([tests/lockstep/test_lockstep_layout_wiki.py:178](../../tests/lockstep/test_lockstep_layout_wiki.py#L178)), `tests/test_md_file_cap.py::test_generated_wiki_pages_are_not_counted_and_other_generated_names_stay_narrow` ([tests/test_md_file_cap.py:485](../../tests/test_md_file_cap.py#L485))
+- Scenario `a-generated-page-is-not-unplanned`: tested by `tests/lockstep/test_lockstep_layout_wiki.py::test_generated_page_is_not_unplanned` ([`tests/lockstep/test_lockstep_layout_wiki.py:178`](../../tests/lockstep/test_lockstep_layout_wiki.py#L178)), `tests/test_md_file_cap.py::test_generated_wiki_pages_are_not_counted_and_other_generated_names_stay_narrow` ([`tests/test_md_file_cap.py:485`](../../tests/test_md_file_cap.py#L485))
 
 ## project check fails on stale or unreachable wiki pages
 
@@ -44,10 +44,10 @@ Status: **implemented and tested**
 
 Implemented by:
 
-- `lockstep.checks.project.wiki_problems` — [src/lockstep/checks/project.py:419](../../src/lockstep/checks/project.py#L419)
-- `lockstep.layout_wiki` — [src/lockstep/layout_wiki.py:1](../../src/lockstep/layout_wiki.py#L1)
+- `lockstep.checks.project.wiki_problems` — [`src/lockstep/checks/project.py:419`](../../src/lockstep/checks/project.py#L419)
+- `lockstep.layout_wiki` — [`src/lockstep/layout_wiki.py:1`](../../src/lockstep/layout_wiki.py#L1)
 
-- Scenario `a-stale-page-fails-the-check`: tested by `tests/lockstep/test_lockstep_layout_wiki.py::test_stale_page_fails_the_check_and_writes_nothing` ([tests/lockstep/test_lockstep_layout_wiki.py:159](../../tests/lockstep/test_lockstep_layout_wiki.py#L159)), `tests/lockstep/test_lockstep_layout_wiki.py::test_link_without_summary_is_reported` ([tests/lockstep/test_lockstep_layout_wiki.py:168](../../tests/lockstep/test_lockstep_layout_wiki.py#L168))
+- Scenario `a-stale-page-fails-the-check`: tested by `tests/lockstep/test_lockstep_layout_wiki.py::test_stale_page_fails_the_check_and_writes_nothing` ([`tests/lockstep/test_lockstep_layout_wiki.py:159`](../../tests/lockstep/test_lockstep_layout_wiki.py#L159)), `tests/lockstep/test_lockstep_layout_wiki.py::test_link_without_summary_is_reported` ([`tests/lockstep/test_lockstep_layout_wiki.py:168`](../../tests/lockstep/test_lockstep_layout_wiki.py#L168))
 
 ## python m lockstep wiki prints the layout wiki
 
@@ -59,6 +59,6 @@ Status: **implemented and tested**
 
 Implemented by:
 
-- `lockstep.layout_wiki` — [src/lockstep/layout_wiki.py:1](../../src/lockstep/layout_wiki.py#L1)
+- `lockstep.layout_wiki` — [`src/lockstep/layout_wiki.py:1`](../../src/lockstep/layout_wiki.py#L1)
 
-- Scenario `the-wiki-command-works-in-a-layout-repository`: tested by `tests/lockstep/test_lockstep_layout_wiki.py::test_python_m_wiki_prints_the_pages_in_a_layout_repository` ([tests/lockstep/test_lockstep_layout_wiki.py:185](../../tests/lockstep/test_lockstep_layout_wiki.py#L185))
+- Scenario `the-wiki-command-works-in-a-layout-repository`: tested by `tests/lockstep/test_lockstep_layout_wiki.py::test_python_m_wiki_prints_the_pages_in_a_layout_repository` ([`tests/lockstep/test_lockstep_layout_wiki.py:185`](../../tests/lockstep/test_lockstep_layout_wiki.py#L185))

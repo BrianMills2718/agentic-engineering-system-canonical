@@ -14,12 +14,12 @@ Status: **implemented and tested**
 
 Implemented by:
 
-- `lockstep.plan_check` — [src/lockstep/plan_check.py:1](../../src/lockstep/plan_check.py#L1)
+- `lockstep.plan_check` — [`src/lockstep/plan_check.py:1`](../../src/lockstep/plan_check.py#L1)
 
-- Scenario `the-validator-s-verdict-is-the-command-s-verdict`: tested by `tests/lockstep/test_lockstep_plan_check.py::test_the_validators_verdict_is_the_commands_verdict` ([tests/lockstep/test_lockstep_plan_check.py:31](../../tests/lockstep/test_lockstep_plan_check.py#L31))
-- Scenario `a-package-out-of-date-only-by-freshness-passes-with-a-warning`: tested by `tests/lockstep/test_lockstep_plan_check.py::test_a_package_out_of_date_only_by_freshness_passes_with_a_warning` ([tests/lockstep/test_lockstep_plan_check.py:40](../../tests/lockstep/test_lockstep_plan_check.py#L40))
-- Scenario `a-repository-with-no-planning-package-cannot-be-checked`: tested by `tests/lockstep/test_lockstep_plan_check.py::test_a_repository_with_no_planning_package_cannot_be_checked` ([tests/lockstep/test_lockstep_plan_check.py:73](../../tests/lockstep/test_lockstep_plan_check.py#L73))
-- Scenario `work-unit-problems-are-added`: tested by `tests/lockstep/test_lockstep_plan_check.py::test_work_unit_problems_are_added` ([tests/lockstep/test_lockstep_plan_check.py:81](../../tests/lockstep/test_lockstep_plan_check.py#L81))
+- Scenario `the-validator-s-verdict-is-the-command-s-verdict`: tested by `tests/lockstep/test_lockstep_plan_check.py::test_the_validators_verdict_is_the_commands_verdict` ([`tests/lockstep/test_lockstep_plan_check.py:31`](../../tests/lockstep/test_lockstep_plan_check.py#L31))
+- Scenario `a-package-out-of-date-only-by-freshness-passes-with-a-warning`: tested by `tests/lockstep/test_lockstep_plan_check.py::test_a_package_out_of_date_only_by_freshness_passes_with_a_warning` ([`tests/lockstep/test_lockstep_plan_check.py:40`](../../tests/lockstep/test_lockstep_plan_check.py#L40))
+- Scenario `a-repository-with-no-planning-package-cannot-be-checked`: tested by `tests/lockstep/test_lockstep_plan_check.py::test_a_repository_with_no_planning_package_cannot_be_checked` ([`tests/lockstep/test_lockstep_plan_check.py:73`](../../tests/lockstep/test_lockstep_plan_check.py#L73))
+- Scenario `work-unit-problems-are-added`: tested by `tests/lockstep/test_lockstep_plan_check.py::test_work_unit_problems_are_added` ([`tests/lockstep/test_lockstep_plan_check.py:81`](../../tests/lockstep/test_lockstep_plan_check.py#L81))
 
 ## the validator s source is set in lockstep yaml
 
@@ -31,14 +31,14 @@ Status: **implemented and tested**
 
 Implemented by:
 
-- `lockstep.plan_check` — [src/lockstep/plan_check.py:1](../../src/lockstep/plan_check.py#L1)
-- `lockstep.plan_check.fetch_planning_validator` — [src/lockstep/plan_check.py:180](../../src/lockstep/plan_check.py#L180)
+- `lockstep.plan_check` — [`src/lockstep/plan_check.py:1`](../../src/lockstep/plan_check.py#L1)
+- `lockstep.plan_check.fetch_planning_validator` — [`src/lockstep/plan_check.py:180`](../../src/lockstep/plan_check.py#L180)
 
-- Scenario `a-configured-repository-is-the-source`: tested by `tests/lockstep/test_lockstep_plan_check.py::test_a_configured_repository_is_the_source` ([tests/lockstep/test_lockstep_plan_check.py:151](../../tests/lockstep/test_lockstep_plan_check.py#L151)), `tests/lockstep/test_lockstep_plan_check.py::test_two_first_uses_share_one_validator_cache` ([tests/lockstep/test_lockstep_plan_check.py:198](../../tests/lockstep/test_lockstep_plan_check.py#L198))
-- Scenario `an-environment-variable-overrides-a-configured-repository-with-a-warning`: tested by `tests/lockstep/test_lockstep_plan_check.py::test_an_environment_variable_overrides_a_configured_repository_with_a_warning` ([tests/lockstep/test_lockstep_plan_check.py:161](../../tests/lockstep/test_lockstep_plan_check.py#L161))
-- Scenario `the-ref-picks-the-branch`: tested by `tests/lockstep/test_lockstep_plan_check.py::test_the_ref_picks_the_branch` ([tests/lockstep/test_lockstep_plan_check.py:175](../../tests/lockstep/test_lockstep_plan_check.py#L175))
-- Scenario `an-unreachable-configured-repository-cannot-be-fetched`: tested by `tests/lockstep/test_lockstep_plan_check.py::test_an_unreachable_configured_repository_cannot_be_fetched` ([tests/lockstep/test_lockstep_plan_check.py:183](../../tests/lockstep/test_lockstep_plan_check.py#L183))
-- Scenario `a-bad-validator-setting-is-a-configuration-error`: tested by `tests/lockstep/test_lockstep_plan_check.py::test_a_bad_validator_setting_is_a_configuration_error` ([tests/lockstep/test_lockstep_plan_check.py:191](../../tests/lockstep/test_lockstep_plan_check.py#L191))
+- Scenario `a-configured-repository-is-the-source`: tested by `tests/lockstep/test_lockstep_plan_check.py::test_a_configured_repository_is_the_source` ([`tests/lockstep/test_lockstep_plan_check.py:151`](../../tests/lockstep/test_lockstep_plan_check.py#L151)), `tests/lockstep/test_lockstep_plan_check.py::test_two_first_uses_share_one_validator_cache` ([`tests/lockstep/test_lockstep_plan_check.py:198`](../../tests/lockstep/test_lockstep_plan_check.py#L198))
+- Scenario `an-environment-variable-overrides-a-configured-repository-with-a-warning`: tested by `tests/lockstep/test_lockstep_plan_check.py::test_an_environment_variable_overrides_a_configured_repository_with_a_warning` ([`tests/lockstep/test_lockstep_plan_check.py:161`](../../tests/lockstep/test_lockstep_plan_check.py#L161))
+- Scenario `the-ref-picks-the-branch`: tested by `tests/lockstep/test_lockstep_plan_check.py::test_the_ref_picks_the_branch` ([`tests/lockstep/test_lockstep_plan_check.py:175`](../../tests/lockstep/test_lockstep_plan_check.py#L175))
+- Scenario `an-unreachable-configured-repository-cannot-be-fetched`: tested by `tests/lockstep/test_lockstep_plan_check.py::test_an_unreachable_configured_repository_cannot_be_fetched` ([`tests/lockstep/test_lockstep_plan_check.py:183`](../../tests/lockstep/test_lockstep_plan_check.py#L183))
+- Scenario `a-bad-validator-setting-is-a-configuration-error`: tested by `tests/lockstep/test_lockstep_plan_check.py::test_a_bad_validator_setting_is_a_configuration_error` ([`tests/lockstep/test_lockstep_plan_check.py:191`](../../tests/lockstep/test_lockstep_plan_check.py#L191))
 
 ## work units form a checked dag
 
@@ -50,11 +50,11 @@ Status: **implemented and tested**
 
 Implemented by:
 
-- `lockstep.work_units` — [src/lockstep/work_units.py:1](../../src/lockstep/work_units.py#L1)
-- `lockstep.work_units` — [src/lockstep/work_units.py:1](../../src/lockstep/work_units.py#L1)
+- `lockstep.work_units` — [`src/lockstep/work_units.py:1`](../../src/lockstep/work_units.py#L1)
+- `lockstep.work_units` — [`src/lockstep/work_units.py:1`](../../src/lockstep/work_units.py#L1)
 
-- Scenario `independent-units-are-both-ready`: tested by `tests/lockstep/test_lockstep_work_units.py::test_independent_units_are_both_ready` ([tests/lockstep/test_lockstep_work_units.py:21](../../tests/lockstep/test_lockstep_work_units.py#L21))
-- Scenario `a-cycle-fails`: tested by `tests/lockstep/test_lockstep_work_units.py::test_cycle_fails` ([tests/lockstep/test_lockstep_work_units.py:27](../../tests/lockstep/test_lockstep_work_units.py#L27))
-- Scenario `a-dependency-on-a-missing-unit-fails`: tested by `tests/lockstep/test_lockstep_work_units.py::test_missing_dependency_fails` ([tests/lockstep/test_lockstep_work_units.py:33](../../tests/lockstep/test_lockstep_work_units.py#L33))
-- Scenario `independent-units-touching-one-file-are-flagged`: tested by `tests/lockstep/test_lockstep_work_units.py::test_independent_units_touching_one_file_conflict_but_dependent_ones_do_not` ([tests/lockstep/test_lockstep_work_units.py:39](../../tests/lockstep/test_lockstep_work_units.py#L39))
-- Scenario `a-merged-unit-needs-evidence`: tested by `tests/lockstep/test_lockstep_work_units.py::test_merged_needs_evidence_and_unlocks_dependents` ([tests/lockstep/test_lockstep_work_units.py:47](../../tests/lockstep/test_lockstep_work_units.py#L47))
+- Scenario `independent-units-are-both-ready`: tested by `tests/lockstep/test_lockstep_work_units.py::test_independent_units_are_both_ready` ([`tests/lockstep/test_lockstep_work_units.py:21`](../../tests/lockstep/test_lockstep_work_units.py#L21))
+- Scenario `a-cycle-fails`: tested by `tests/lockstep/test_lockstep_work_units.py::test_cycle_fails` ([`tests/lockstep/test_lockstep_work_units.py:27`](../../tests/lockstep/test_lockstep_work_units.py#L27))
+- Scenario `a-dependency-on-a-missing-unit-fails`: tested by `tests/lockstep/test_lockstep_work_units.py::test_missing_dependency_fails` ([`tests/lockstep/test_lockstep_work_units.py:33`](../../tests/lockstep/test_lockstep_work_units.py#L33))
+- Scenario `independent-units-touching-one-file-are-flagged`: tested by `tests/lockstep/test_lockstep_work_units.py::test_independent_units_touching_one_file_conflict_but_dependent_ones_do_not` ([`tests/lockstep/test_lockstep_work_units.py:39`](../../tests/lockstep/test_lockstep_work_units.py#L39))
+- Scenario `a-merged-unit-needs-evidence`: tested by `tests/lockstep/test_lockstep_work_units.py::test_merged_needs_evidence_and_unlocks_dependents` ([`tests/lockstep/test_lockstep_work_units.py:47`](../../tests/lockstep/test_lockstep_work_units.py#L47))

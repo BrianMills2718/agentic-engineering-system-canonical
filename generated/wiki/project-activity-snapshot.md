@@ -14,9 +14,9 @@ Each project whose checkout exists SHALL show its last commit, branch and uncomm
 
 Implemented by:
 
-- `build_project_activity` — [scripts/build_project_activity.py:1](../../scripts/build_project_activity.py#L1)
+- `build_project_activity` — [`scripts/build_project_activity.py:1`](../../scripts/build_project_activity.py#L1)
 
-- Scenario `last-commit-per-checkout`: tested by `tests/test_build_project_activity.py::test_checkout_state_and_missing_path` ([tests/test_build_project_activity.py:27](../../tests/test_build_project_activity.py#L27)), `tests/test_build_project_activity.py::test_failed_pr_lookup_is_recorded` ([tests/test_build_project_activity.py:55](../../tests/test_build_project_activity.py#L55)), `tests/test_build_project_activity.py::test_a_git_call_that_hangs_reads_as_empty` ([tests/test_build_project_activity.py:65](../../tests/test_build_project_activity.py#L65))
+- Scenario `last-commit-per-checkout`: tested by `tests/test_build_project_activity.py::test_checkout_state_and_missing_path` ([`tests/test_build_project_activity.py:27`](../../tests/test_build_project_activity.py#L27)), `tests/test_build_project_activity.py::test_failed_pr_lookup_is_recorded` ([`tests/test_build_project_activity.py:55`](../../tests/test_build_project_activity.py#L55)), `tests/test_build_project_activity.py::test_a_git_call_that_hangs_reads_as_empty` ([`tests/test_build_project_activity.py:65`](../../tests/test_build_project_activity.py#L65))
 
 ## settings come from config
 
@@ -28,6 +28,6 @@ The owner and the map of GitHub accounts to `gh` wrappers SHALL come from `graph
 
 Implemented by:
 
-- `build_project_activity` — [scripts/build_project_activity.py:1](../../scripts/build_project_activity.py#L1)
+- `build_project_activity` — [`scripts/build_project_activity.py:1`](../../scripts/build_project_activity.py#L1)
 
-- Scenario `settings-come-from-config`: tested by `tests/test_build_project_activity.py::test_missing_accounts_setting_stops_loudly_naming_where_to_set_it` ([tests/test_build_project_activity.py:75](../../tests/test_build_project_activity.py#L75)), `tests/test_build_project_activity.py::test_accounts_and_owner_are_read_beside_the_graph` ([tests/test_build_project_activity.py:84](../../tests/test_build_project_activity.py#L84))
+- Scenario `settings-come-from-config`: tested by `tests/test_build_project_activity.py::test_missing_accounts_setting_stops_loudly_naming_where_to_set_it` ([`tests/test_build_project_activity.py:75`](../../tests/test_build_project_activity.py#L75)), `tests/test_build_project_activity.py::test_accounts_and_owner_are_read_beside_the_graph` ([`tests/test_build_project_activity.py:84`](../../tests/test_build_project_activity.py#L84))

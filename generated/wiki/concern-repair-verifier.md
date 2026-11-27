@@ -14,9 +14,9 @@ The recurrence proof SHALL fail closed: when its harness files are missing, when
 
 Implemented by:
 
-- `concern_repair_feedback.recurrence_proof` — [scripts/concern_repair_feedback.py:287](../../scripts/concern_repair_feedback.py#L287)
+- `concern_repair_feedback.recurrence_proof` — [`scripts/concern_repair_feedback.py:287`](../../scripts/concern_repair_feedback.py#L287)
 
-- Scenario `proof-fails-closed`: tested by `tests/test_concern_repair.py::test_recurrence_proof_can_fail_when_the_control_is_the_fix_itself` ([tests/test_concern_repair.py:377](../../tests/test_concern_repair.py#L377)), `tests/test_concern_repair.py::test_recurrence_proof_rejects_harness_that_copies_the_fix_onto_observed` ([tests/test_concern_repair.py:393](../../tests/test_concern_repair.py#L393))
+- Scenario `proof-fails-closed`: tested by `tests/test_concern_repair.py::test_recurrence_proof_can_fail_when_the_control_is_the_fix_itself` ([`tests/test_concern_repair.py:377`](../../tests/test_concern_repair.py#L377)), `tests/test_concern_repair.py::test_recurrence_proof_rejects_harness_that_copies_the_fix_onto_observed` ([`tests/test_concern_repair.py:393`](../../tests/test_concern_repair.py#L393))
 
 ## closure needs all five gates judged by the verifier
 
@@ -28,7 +28,7 @@ The verifier SHALL pass a repair only when all five gates pass: the committed re
 
 Implemented by:
 
-- `concern_repair_feedback` — [scripts/concern_repair_feedback.py:1](../../scripts/concern_repair_feedback.py#L1)
+- `concern_repair_feedback` — [`scripts/concern_repair_feedback.py:1`](../../scripts/concern_repair_feedback.py#L1)
 
-- Scenario `five-gates-pass-root-cause-fix`: tested by `tests/test_concern_repair.py::test_verifier_passes_a_root_cause_fix_and_uses_the_other_client_as_reviewer` ([tests/test_concern_repair.py:333](../../tests/test_concern_repair.py#L333))
-- Scenario `patch-is-rejected`: tested by `tests/test_concern_repair.py::test_verifier_rejects_patch_whose_control_does_not_fail_on_observed_revision` ([tests/test_concern_repair.py:347](../../tests/test_concern_repair.py#L347)), `tests/test_concern_repair.py::test_verifier_rejects_fix_that_does_not_pass_its_own_control` ([tests/test_concern_repair.py:361](../../tests/test_concern_repair.py#L361)), `tests/test_concern_repair.py::test_verifier_rejects_when_reviewer_judges_patch_only` ([tests/test_concern_repair.py:406](../../tests/test_concern_repair.py#L406)), `tests/test_concern_repair.py::test_verifier_rejects_unresolved_source_signal` ([tests/test_concern_repair.py:417](../../tests/test_concern_repair.py#L417)), `tests/test_concern_repair.py::test_verifier_rejects_prevention_path_not_in_diff` ([tests/test_concern_repair.py:424](../../tests/test_concern_repair.py#L424))
+- Scenario `five-gates-pass-root-cause-fix`: tested by `tests/test_concern_repair.py::test_verifier_passes_a_root_cause_fix_and_uses_the_other_client_as_reviewer` ([`tests/test_concern_repair.py:333`](../../tests/test_concern_repair.py#L333))
+- Scenario `patch-is-rejected`: tested by `tests/test_concern_repair.py::test_verifier_rejects_patch_whose_control_does_not_fail_on_observed_revision` ([`tests/test_concern_repair.py:347`](../../tests/test_concern_repair.py#L347)), `tests/test_concern_repair.py::test_verifier_rejects_fix_that_does_not_pass_its_own_control` ([`tests/test_concern_repair.py:361`](../../tests/test_concern_repair.py#L361)), `tests/test_concern_repair.py::test_verifier_rejects_when_reviewer_judges_patch_only` ([`tests/test_concern_repair.py:406`](../../tests/test_concern_repair.py#L406)), `tests/test_concern_repair.py::test_verifier_rejects_unresolved_source_signal` ([`tests/test_concern_repair.py:417`](../../tests/test_concern_repair.py#L417)), `tests/test_concern_repair.py::test_verifier_rejects_prevention_path_not_in_diff` ([`tests/test_concern_repair.py:424`](../../tests/test_concern_repair.py#L424))

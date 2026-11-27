@@ -14,9 +14,9 @@ A waiting issue carrying a label under the optional `agent_labels` setting (labe
 
 Implemented by:
 
-- `hub_page` — [scripts/hub_page.py:1](../../scripts/hub_page.py#L1)
+- `hub_page` — [`scripts/hub_page.py:1`](../../scripts/hub_page.py#L1)
 
-- Scenario `agent-work-is-not-needs-you`: tested by `tests/test_hub_page.py::test_an_issue_an_agent_owns_goes_to_agent_work_not_needs_you` ([tests/test_hub_page.py:313](../../tests/test_hub_page.py#L313))
+- Scenario `agent-work-is-not-needs-you`: tested by `tests/test_hub_page.py::test_an_issue_an_agent_owns_goes_to_agent_work_not_needs_you` ([`tests/test_hub_page.py:313`](../../tests/test_hub_page.py#L313))
 
 ## an unread source is not checked
 
@@ -28,9 +28,9 @@ A source that cannot be read, or a label that does not exist in `concern_repo`, 
 
 Implemented by:
 
-- `hub_page` — [scripts/hub_page.py:1](../../scripts/hub_page.py#L1)
+- `hub_page` — [`scripts/hub_page.py:1`](../../scripts/hub_page.py#L1)
 
-- Scenario `an-unread-source-is-not-checked`: tested by `tests/test_hub_page.py::test_a_source_that_cannot_be_read_is_not_checked_never_zero` ([tests/test_hub_page.py:139](../../tests/test_hub_page.py#L139)), `tests/test_hub_page.py::test_unread_failure_reasons_are_not_checked_and_the_services_still_show` ([tests/test_hub_page.py:149](../../tests/test_hub_page.py#L149)), `tests/test_hub_page.py::test_a_missing_label_is_reported_not_read_as_none` ([tests/test_hub_page.py:157](../../tests/test_hub_page.py#L157))
+- Scenario `an-unread-source-is-not-checked`: tested by `tests/test_hub_page.py::test_a_source_that_cannot_be_read_is_not_checked_never_zero` ([`tests/test_hub_page.py:139`](../../tests/test_hub_page.py#L139)), `tests/test_hub_page.py::test_unread_failure_reasons_are_not_checked_and_the_services_still_show` ([`tests/test_hub_page.py:149`](../../tests/test_hub_page.py#L149)), `tests/test_hub_page.py::test_a_missing_label_is_reported_not_read_as_none` ([`tests/test_hub_page.py:157`](../../tests/test_hub_page.py#L157))
 
 ## approvals are a footer count
 
@@ -42,9 +42,9 @@ The requirements an agent inferred, read from `approvals_file`, SHALL be shown o
 
 Implemented by:
 
-- `hub_page` — [scripts/hub_page.py:1](../../scripts/hub_page.py#L1)
+- `hub_page` — [`scripts/hub_page.py:1`](../../scripts/hub_page.py#L1)
 
-- Scenario `approvals-are-a-footer-count`: tested by `tests/test_hub_page.py::test_approvals_are_a_footer_count_with_no_significance_field` ([tests/test_hub_page.py:276](../../tests/test_hub_page.py#L276))
+- Scenario `approvals-are-a-footer-count`: tested by `tests/test_hub_page.py::test_approvals_are_a_footer_count_with_no_significance_field` ([`tests/test_hub_page.py:276`](../../tests/test_hub_page.py#L276))
 
 ## broken services grouped by cause
 
@@ -56,9 +56,9 @@ Failed systemd user units, except those under `quiet_units`, SHALL be shown in a
 
 Implemented by:
 
-- `hub_page` — [scripts/hub_page.py:1](../../scripts/hub_page.py#L1)
+- `hub_page` — [`scripts/hub_page.py:1`](../../scripts/hub_page.py#L1)
 
-- Scenario `broken-services-grouped-by-cause`: tested by `tests/test_hub_page.py::test_failed_services_are_grouped_by_cause_and_not_counted_under_needs_you` ([tests/test_hub_page.py:233](../../tests/test_hub_page.py#L233)), `tests/test_hub_page.py::test_an_issue_that_belongs_to_a_service_is_listed_once` ([tests/test_hub_page.py:251](../../tests/test_hub_page.py#L251)), `tests/test_hub_page.py::test_issues_moved_to_another_repository_are_sorted_by_their_concern_key` ([tests/test_hub_page.py:294](../../tests/test_hub_page.py#L294))
+- Scenario `broken-services-grouped-by-cause`: tested by `tests/test_hub_page.py::test_failed_services_are_grouped_by_cause_and_not_counted_under_needs_you` ([`tests/test_hub_page.py:233`](../../tests/test_hub_page.py#L233)), `tests/test_hub_page.py::test_an_issue_that_belongs_to_a_service_is_listed_once` ([`tests/test_hub_page.py:251`](../../tests/test_hub_page.py#L251)), `tests/test_hub_page.py::test_issues_moved_to_another_repository_are_sorted_by_their_concern_key` ([`tests/test_hub_page.py:294`](../../tests/test_hub_page.py#L294))
 
 ## links to each source page
 
@@ -70,9 +70,9 @@ The page SHALL link every page listed under `links`, each with what it shows.
 
 Implemented by:
 
-- `hub_page` — [scripts/hub_page.py:1](../../scripts/hub_page.py#L1)
+- `hub_page` — [`scripts/hub_page.py:1`](../../scripts/hub_page.py#L1)
 
-- Scenario `links-to-each-source-page`: tested by `tests/test_hub_page.py::test_each_configured_source_page_is_linked` ([tests/test_hub_page.py:187](../../tests/test_hub_page.py#L187))
+- Scenario `links-to-each-source-page`: tested by `tests/test_hub_page.py::test_each_configured_source_page_is_linked` ([`tests/test_hub_page.py:187`](../../tests/test_hub_page.py#L187))
 
 ## moved issues are matched by concern key
 
@@ -84,9 +84,9 @@ The hub SHALL read each waiting issue's concern key from the `<!-- concern-key: 
 
 Implemented by:
 
-- `hub_page` — [scripts/hub_page.py:1](../../scripts/hub_page.py#L1)
+- `hub_page` — [`scripts/hub_page.py:1`](../../scripts/hub_page.py#L1)
 
-- Scenario `moved-issues-are-matched-by-concern-key`: tested by `tests/test_hub_page.py::test_issues_moved_to_another_repository_are_sorted_by_their_concern_key` ([tests/test_hub_page.py:296](../../tests/test_hub_page.py#L296))
+- Scenario `moved-issues-are-matched-by-concern-key`: tested by `tests/test_hub_page.py::test_issues_moved_to_another_repository_are_sorted_by_their_concern_key` ([`tests/test_hub_page.py:296`](../../tests/test_hub_page.py#L296))
 
 ## needs you comes first
 
@@ -98,9 +98,9 @@ Status: **implemented and tested**
 
 Implemented by:
 
-- `hub_page` — [scripts/hub_page.py:1](../../scripts/hub_page.py#L1)
+- `hub_page` — [`scripts/hub_page.py:1`](../../scripts/hub_page.py#L1)
 
-- Scenario `needs-you-comes-first`: tested by `tests/test_hub_page.py::test_needs_you_is_the_first_section_and_lists_only_what_waits` ([tests/test_hub_page.py:112](../../tests/test_hub_page.py#L112)), `tests/test_hub_page.py::test_every_colour_comes_with_a_word_and_the_page_fits_a_phone` ([tests/test_hub_page.py:129](../../tests/test_hub_page.py#L129))
+- Scenario `needs-you-comes-first`: tested by `tests/test_hub_page.py::test_needs_you_is_the_first_section_and_lists_only_what_waits` ([`tests/test_hub_page.py:112`](../../tests/test_hub_page.py#L112)), `tests/test_hub_page.py::test_every_colour_comes_with_a_word_and_the_page_fits_a_phone` ([`tests/test_hub_page.py:129`](../../tests/test_hub_page.py#L129))
 
 ## page goes to a private data branch
 
@@ -112,9 +112,9 @@ The page and `hub.json` SHALL be committed only to `data_branch` of `repo` (neve
 
 Implemented by:
 
-- `hub_page` — [scripts/hub_page.py:1](../../scripts/hub_page.py#L1)
+- `hub_page` — [`scripts/hub_page.py:1`](../../scripts/hub_page.py#L1)
 
-- Scenario `page-goes-to-a-private-data-branch`: tested by `tests/test_hub_page.py::test_settings_name_the_private_branch_and_a_missing_one_stops` ([tests/test_hub_page.py:194](../../tests/test_hub_page.py#L194)), `tests/test_hub_page.py::test_publish_pushes_only_to_the_data_branch` ([tests/test_hub_page.py:203](../../tests/test_hub_page.py#L203))
+- Scenario `page-goes-to-a-private-data-branch`: tested by `tests/test_hub_page.py::test_settings_name_the_private_branch_and_a_missing_one_stops` ([`tests/test_hub_page.py:194`](../../tests/test_hub_page.py#L194)), `tests/test_hub_page.py::test_publish_pushes_only_to_the_data_branch` ([`tests/test_hub_page.py:203`](../../tests/test_hub_page.py#L203))
 
 ## records updates are for information
 
@@ -126,9 +126,9 @@ A waiting issue that carries the label of an `fyi_rules` entry and whose title s
 
 Implemented by:
 
-- `hub_page` — [scripts/hub_page.py:1](../../scripts/hub_page.py#L1)
+- `hub_page` — [`scripts/hub_page.py:1`](../../scripts/hub_page.py#L1)
 
-- Scenario `records-updates-are-for-information`: tested by `tests/test_hub_page.py::test_records_status_notices_go_to_fyi_by_label_and_title_prefix` ([tests/test_hub_page.py:263](../../tests/test_hub_page.py#L263)), `tests/test_hub_page.py::test_issues_moved_to_another_repository_are_sorted_by_their_concern_key` ([tests/test_hub_page.py:295](../../tests/test_hub_page.py#L295))
+- Scenario `records-updates-are-for-information`: tested by `tests/test_hub_page.py::test_records_status_notices_go_to_fyi_by_label_and_title_prefix` ([`tests/test_hub_page.py:263`](../../tests/test_hub_page.py#L263)), `tests/test_hub_page.py::test_issues_moved_to_another_repository_are_sorted_by_their_concern_key` ([`tests/test_hub_page.py:295`](../../tests/test_hub_page.py#L295))
 
 ## what changed since the last run
 
@@ -140,6 +140,6 @@ Status: **implemented and tested**
 
 Implemented by:
 
-- `hub_page` — [scripts/hub_page.py:1](../../scripts/hub_page.py#L1)
+- `hub_page` — [`scripts/hub_page.py:1`](../../scripts/hub_page.py#L1)
 
-- Scenario `what-changed-since-the-last-run`: tested by `tests/test_hub_page.py::test_what_changed_names_new_and_cleared_items` ([tests/test_hub_page.py:165](../../tests/test_hub_page.py#L165)), `tests/test_hub_page.py::test_an_unread_source_is_never_shown_as_cleared` ([tests/test_hub_page.py:179](../../tests/test_hub_page.py#L179)), `tests/test_hub_page.py::test_an_item_that_only_moved_section_is_neither_new_nor_cleared` ([tests/test_hub_page.py:219](../../tests/test_hub_page.py#L219))
+- Scenario `what-changed-since-the-last-run`: tested by `tests/test_hub_page.py::test_what_changed_names_new_and_cleared_items` ([`tests/test_hub_page.py:165`](../../tests/test_hub_page.py#L165)), `tests/test_hub_page.py::test_an_unread_source_is_never_shown_as_cleared` ([`tests/test_hub_page.py:179`](../../tests/test_hub_page.py#L179)), `tests/test_hub_page.py::test_an_item_that_only_moved_section_is_neither_new_nor_cleared` ([`tests/test_hub_page.py:219`](../../tests/test_hub_page.py#L219))

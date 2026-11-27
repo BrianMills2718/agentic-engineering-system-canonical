@@ -14,9 +14,9 @@ A systemd user timer SHALL run `external_ideas.py` with the project profile once
 
 Implemented by:
 
-- `learning_loop.external_ideas` — [scripts/learning_loop/external_ideas.py:1](../../scripts/learning_loop/external_ideas.py#L1)
+- `learning_loop.external_ideas` — [`scripts/learning_loop/external_ideas.py:1`](../../scripts/learning_loop/external_ideas.py#L1)
 
-- Scenario `daily-timer-runs-intake`: tested by `tests/learning/test_external_ideas_timer.py::test_timer_is_daily_and_service_runs_intake_with_profile` ([tests/learning/test_external_ideas_timer.py:9](../../tests/learning/test_external_ideas_timer.py#L9))
+- Scenario `daily-timer-runs-intake`: tested by `tests/learning/test_external_ideas_timer.py::test_timer_is_daily_and_service_runs_intake_with_profile` ([`tests/learning/test_external_ideas_timer.py:9`](../../tests/learning/test_external_ideas_timer.py#L9))
 
 ## a project profile makes the digest rank by usefulness to brian s projects
 
@@ -28,10 +28,10 @@ When a project profile is given, the command SHALL ask a light model, once per s
 
 Implemented by:
 
-- `learning_loop.external_ideas` — [scripts/learning_loop/external_ideas.py:1](../../scripts/learning_loop/external_ideas.py#L1)
+- `learning_loop.external_ideas` — [`scripts/learning_loop/external_ideas.py:1`](../../scripts/learning_loop/external_ideas.py#L1)
 
-- Scenario `useful-digest-groups-by-project`: tested by `tests/learning/test_external_ideas.py::test_useful_digest_groups_and_ignores_unknown_id` ([tests/learning/test_external_ideas.py:141](../../tests/learning/test_external_ideas.py#L141)), `tests/learning/test_external_ideas.py::test_unknown_project_names_dropped_and_judged_posts_marked_seen` ([tests/learning/test_external_ideas.py:184](../../tests/learning/test_external_ideas.py#L184))
-- Scenario `judge-failure-keeps-posts-unseen`: tested by `tests/learning/test_external_ideas.py::test_judge_failure_keeps_posts_unseen` ([tests/learning/test_external_ideas.py:153](../../tests/learning/test_external_ideas.py#L153)), `tests/learning/test_external_ideas.py::test_failed_subreddit_is_named_in_digest_and_others_continue` ([tests/learning/test_external_ideas.py:171](../../tests/learning/test_external_ideas.py#L171)), `tests/learning/test_external_ideas.py::test_unjudged_posts_stay_unseen_and_are_offered_again` ([tests/learning/test_external_ideas.py:206](../../tests/learning/test_external_ideas.py#L206))
+- Scenario `useful-digest-groups-by-project`: tested by `tests/learning/test_external_ideas.py::test_useful_digest_groups_and_ignores_unknown_id` ([`tests/learning/test_external_ideas.py:141`](../../tests/learning/test_external_ideas.py#L141)), `tests/learning/test_external_ideas.py::test_unknown_project_names_dropped_and_judged_posts_marked_seen` ([`tests/learning/test_external_ideas.py:184`](../../tests/learning/test_external_ideas.py#L184))
+- Scenario `judge-failure-keeps-posts-unseen`: tested by `tests/learning/test_external_ideas.py::test_judge_failure_keeps_posts_unseen` ([`tests/learning/test_external_ideas.py:153`](../../tests/learning/test_external_ideas.py#L153)), `tests/learning/test_external_ideas.py::test_failed_subreddit_is_named_in_digest_and_others_continue` ([`tests/learning/test_external_ideas.py:171`](../../tests/learning/test_external_ideas.py#L171)), `tests/learning/test_external_ideas.py::test_unjudged_posts_stay_unseen_and_are_offered_again` ([`tests/learning/test_external_ideas.py:206`](../../tests/learning/test_external_ideas.py#L206))
 
 ## every run is traced and a repeated failure is reported as down
 
@@ -43,9 +43,9 @@ Each run SHALL append one record per step to the day's run log (config, each lis
 
 Implemented by:
 
-- `learning_loop.external_ideas` — [scripts/learning_loop/external_ideas.py:1](../../scripts/learning_loop/external_ideas.py#L1)
+- `learning_loop.external_ideas` — [`scripts/learning_loop/external_ideas.py:1`](../../scripts/learning_loop/external_ideas.py#L1)
 
-- Scenario `repeated-failure-is-down`: tested by `tests/learning/test_external_ideas.py::test_repeated_failure_is_down_others_continue` ([tests/learning/test_external_ideas.py:67](../../tests/learning/test_external_ideas.py#L67)), `tests/learning/test_external_ideas.py::test_retry_success_and_different_errors` ([tests/learning/test_external_ideas.py:109](../../tests/learning/test_external_ideas.py#L109))
+- Scenario `repeated-failure-is-down`: tested by `tests/learning/test_external_ideas.py::test_repeated_failure_is_down_others_continue` ([`tests/learning/test_external_ideas.py:67`](../../tests/learning/test_external_ideas.py#L67)), `tests/learning/test_external_ideas.py::test_retry_success_and_different_errors` ([`tests/learning/test_external_ideas.py:109`](../../tests/learning/test_external_ideas.py#L109))
 
 ## output stays outside the repository and the register is never written
 
@@ -57,9 +57,9 @@ Fetched posts, the digest, the seen list and the run log SHALL be written under 
 
 Implemented by:
 
-- `learning_loop.external_ideas` — [scripts/learning_loop/external_ideas.py:1](../../scripts/learning_loop/external_ideas.py#L1)
+- `learning_loop.external_ideas` — [`scripts/learning_loop/external_ideas.py:1`](../../scripts/learning_loop/external_ideas.py#L1)
 
-- Scenario `output-outside-repo`: tested by `tests/learning/test_external_ideas.py::test_all_files_under_out` ([tests/learning/test_external_ideas.py:81](../../tests/learning/test_external_ideas.py#L81))
+- Scenario `output-outside-repo`: tested by `tests/learning/test_external_ideas.py::test_all_files_under_out` ([`tests/learning/test_external_ideas.py:81`](../../tests/learning/test_external_ideas.py#L81))
 
 ## posts already assessed into raw sources are never offered again
 
@@ -71,9 +71,9 @@ The command SHALL treat every Reddit post whose capture folder exists in `raw/so
 
 Implemented by:
 
-- `learning_loop.external_ideas` — [scripts/learning_loop/external_ideas.py:1](../../scripts/learning_loop/external_ideas.py#L1)
+- `learning_loop.external_ideas` — [`scripts/learning_loop/external_ideas.py:1`](../../scripts/learning_loop/external_ideas.py#L1)
 
-- Scenario `already-assessed-dropped`: tested by `tests/learning/test_external_ideas.py::test_already_assessed_posts_are_dropped` ([tests/learning/test_external_ideas.py:196](../../tests/learning/test_external_ideas.py#L196))
+- Scenario `already-assessed-dropped`: tested by `tests/learning/test_external_ideas.py::test_already_assessed_posts_are_dropped` ([`tests/learning/test_external_ideas.py:196`](../../tests/learning/test_external_ideas.py#L196))
 
 ## the digest ranks new posts by score and age only
 
@@ -85,9 +85,9 @@ For each configured subreddit the command SHALL fetch one listing, drop posts al
 
 Implemented by:
 
-- `learning_loop.external_ideas` — [scripts/learning_loop/external_ideas.py:1](../../scripts/learning_loop/external_ideas.py#L1)
+- `learning_loop.external_ideas` — [`scripts/learning_loop/external_ideas.py:1`](../../scripts/learning_loop/external_ideas.py#L1)
 
-- Scenario `digest-filters-and-ranks`: tested by `tests/learning/test_external_ideas.py::test_filters_and_ranks_and_second_run_is_empty` ([tests/learning/test_external_ideas.py:48](../../tests/learning/test_external_ideas.py#L48)), `tests/learning/test_external_ideas.py::test_malformed_post_is_skipped_not_fatal` ([tests/learning/test_external_ideas.py:99](../../tests/learning/test_external_ideas.py#L99))
+- Scenario `digest-filters-and-ranks`: tested by `tests/learning/test_external_ideas.py::test_filters_and_ranks_and_second_run_is_empty` ([`tests/learning/test_external_ideas.py:48`](../../tests/learning/test_external_ideas.py#L48)), `tests/learning/test_external_ideas.py::test_malformed_post_is_skipped_not_fatal` ([`tests/learning/test_external_ideas.py:99`](../../tests/learning/test_external_ideas.py#L99))
 
 ## the profile may list interests and the judge treats them like projects
 
@@ -99,12 +99,12 @@ The private profile MAY carry an `interests` list whose entries each need a name
 
 Implemented by:
 
-- `learning_loop.external_ideas` — [scripts/learning_loop/external_ideas.py:1](../../scripts/learning_loop/external_ideas.py#L1)
-- `learning_loop.external_ideas.load_profile` — [scripts/learning_loop/external_ideas.py:113](../../scripts/learning_loop/external_ideas.py#L113)
-- `learning_loop.external_judge` — [scripts/learning_loop/external_judge.py:1](../../scripts/learning_loop/external_judge.py#L1)
+- `learning_loop.external_ideas` — [`scripts/learning_loop/external_ideas.py:1`](../../scripts/learning_loop/external_ideas.py#L1)
+- `learning_loop.external_ideas.load_profile` — [`scripts/learning_loop/external_ideas.py:113`](../../scripts/learning_loop/external_ideas.py#L113)
+- `learning_loop.external_judge` — [`scripts/learning_loop/external_judge.py:1`](../../scripts/learning_loop/external_judge.py#L1)
 
-- Scenario `interests-listed-and-named`: tested by `tests/learning/test_external_interests.py::test_profile_loads_interests_and_judge_prompt_lists_them` ([tests/learning/test_external_interests.py:19](../../tests/learning/test_external_interests.py#L19)), `tests/learning/test_external_interests.py::test_no_interests_section_without_interests` ([tests/learning/test_external_interests.py:37](../../tests/learning/test_external_interests.py#L37)), `tests/learning/test_external_interests.py::test_useful_digest_prints_interests_line_separately` ([tests/learning/test_external_interests.py:55](../../tests/learning/test_external_interests.py#L55))
-- Scenario `bad-interest-refused`: tested by `tests/learning/test_external_interests.py::test_interest_without_goal_is_refused` ([tests/learning/test_external_interests.py:46](../../tests/learning/test_external_interests.py#L46))
+- Scenario `interests-listed-and-named`: tested by `tests/learning/test_external_interests.py::test_profile_loads_interests_and_judge_prompt_lists_them` ([`tests/learning/test_external_interests.py:19`](../../tests/learning/test_external_interests.py#L19)), `tests/learning/test_external_interests.py::test_no_interests_section_without_interests` ([`tests/learning/test_external_interests.py:37`](../../tests/learning/test_external_interests.py#L37)), `tests/learning/test_external_interests.py::test_useful_digest_prints_interests_line_separately` ([`tests/learning/test_external_interests.py:55`](../../tests/learning/test_external_interests.py#L55))
+- Scenario `bad-interest-refused`: tested by `tests/learning/test_external_interests.py::test_interest_without_goal_is_refused` ([`tests/learning/test_external_interests.py:46`](../../tests/learning/test_external_interests.py#L46))
 
 ## the usefulness judge reads more only when it asks to and only what it asks for
 
@@ -116,9 +116,9 @@ For each post the judge SHALL return useful, not useful or need more (comments, 
 
 Implemented by:
 
-- `learning_loop.external_judge` — [scripts/learning_loop/external_judge.py:1](../../scripts/learning_loop/external_judge.py#L1)
+- `learning_loop.external_judge` — [`scripts/learning_loop/external_judge.py:1`](../../scripts/learning_loop/external_judge.py#L1)
 
-- Scenario `depth-judge-reads-more-when-asked`: tested by `tests/learning/test_external_judge.py::test_reads_only_what_was_asked_and_uses_final_verdict` ([tests/learning/test_external_judge.py:19](../../tests/learning/test_external_judge.py#L19)), `tests/learning/test_external_judge.py::test_no_second_call_when_nothing_needs_more_and_unknown_ids_ignored` ([tests/learning/test_external_judge.py:39](../../tests/learning/test_external_judge.py#L39)), `tests/learning/test_external_judge.py::test_reader_gets_comments_and_links_and_skips_reddit_links` ([tests/learning/test_external_judge.py:50](../../tests/learning/test_external_judge.py#L50)), `tests/learning/test_external_judge.py::test_reader_refuses_non_public_and_non_http` ([tests/learning/test_external_judge.py:59](../../tests/learning/test_external_judge.py#L59)), `tests/learning/test_external_judge.py::test_links_hostname_check_and_reader_survives_fetch_error` ([tests/learning/test_external_judge.py:65](../../tests/learning/test_external_judge.py#L65)), `tests/learning/test_external_judge.py::test_omitted_and_repeat_need_more_are_logged_and_left_unseen` ([tests/learning/test_external_judge.py:73](../../tests/learning/test_external_judge.py#L73)), `tests/learning/test_external_judge.py::test_stranger_text_is_inside_random_markers_in_both_rounds_and_breakout_is_stripped` ([tests/learning/test_external_judge.py:88](../../tests/learning/test_external_judge.py#L88)), `tests/learning/test_external_judge.py::test_redirect_to_internal_or_non_http_is_refused_and_public_is_allowed` ([tests/learning/test_external_judge.py:112](../../tests/learning/test_external_judge.py#L112))
+- Scenario `depth-judge-reads-more-when-asked`: tested by `tests/learning/test_external_judge.py::test_reads_only_what_was_asked_and_uses_final_verdict` ([`tests/learning/test_external_judge.py:19`](../../tests/learning/test_external_judge.py#L19)), `tests/learning/test_external_judge.py::test_no_second_call_when_nothing_needs_more_and_unknown_ids_ignored` ([`tests/learning/test_external_judge.py:39`](../../tests/learning/test_external_judge.py#L39)), `tests/learning/test_external_judge.py::test_reader_gets_comments_and_links_and_skips_reddit_links` ([`tests/learning/test_external_judge.py:50`](../../tests/learning/test_external_judge.py#L50)), `tests/learning/test_external_judge.py::test_reader_refuses_non_public_and_non_http` ([`tests/learning/test_external_judge.py:59`](../../tests/learning/test_external_judge.py#L59)), `tests/learning/test_external_judge.py::test_links_hostname_check_and_reader_survives_fetch_error` ([`tests/learning/test_external_judge.py:65`](../../tests/learning/test_external_judge.py#L65)), `tests/learning/test_external_judge.py::test_omitted_and_repeat_need_more_are_logged_and_left_unseen` ([`tests/learning/test_external_judge.py:73`](../../tests/learning/test_external_judge.py#L73)), `tests/learning/test_external_judge.py::test_stranger_text_is_inside_random_markers_in_both_rounds_and_breakout_is_stripped` ([`tests/learning/test_external_judge.py:88`](../../tests/learning/test_external_judge.py#L88)), `tests/learning/test_external_judge.py::test_redirect_to_internal_or_non_http_is_refused_and_public_is_allowed` ([`tests/learning/test_external_judge.py:112`](../../tests/learning/test_external_judge.py#L112))
 
 ## the watch list is configuration and an invalid one is refused
 
@@ -130,6 +130,6 @@ The command SHALL read the subreddits to watch from `scripts/learning_loop/exter
 
 Implemented by:
 
-- `learning_loop.external_ideas` — [scripts/learning_loop/external_ideas.py:1](../../scripts/learning_loop/external_ideas.py#L1)
+- `learning_loop.external_ideas` — [`scripts/learning_loop/external_ideas.py:1`](../../scripts/learning_loop/external_ideas.py#L1)
 
-- Scenario `invalid-config-refused`: tested by `tests/learning/test_external_ideas.py::test_invalid_config_refused_without_fetch` ([tests/learning/test_external_ideas.py:33](../../tests/learning/test_external_ideas.py#L33)), `tests/learning/test_external_ideas.py::test_duplicate_name_refused` ([tests/learning/test_external_ideas.py:41](../../tests/learning/test_external_ideas.py#L41)), `tests/learning/test_external_ideas.py::test_shipped_config_is_valid_and_excludes_locallama` ([tests/learning/test_external_ideas.py:92](../../tests/learning/test_external_ideas.py#L92)), `tests/learning/test_external_ideas.py::test_corrupt_seen_and_bad_yaml_refused` ([tests/learning/test_external_ideas.py:126](../../tests/learning/test_external_ideas.py#L126))
+- Scenario `invalid-config-refused`: tested by `tests/learning/test_external_ideas.py::test_invalid_config_refused_without_fetch` ([`tests/learning/test_external_ideas.py:33`](../../tests/learning/test_external_ideas.py#L33)), `tests/learning/test_external_ideas.py::test_duplicate_name_refused` ([`tests/learning/test_external_ideas.py:41`](../../tests/learning/test_external_ideas.py#L41)), `tests/learning/test_external_ideas.py::test_shipped_config_is_valid_and_excludes_locallama` ([`tests/learning/test_external_ideas.py:92`](../../tests/learning/test_external_ideas.py#L92)), `tests/learning/test_external_ideas.py::test_corrupt_seen_and_bad_yaml_refused` ([`tests/learning/test_external_ideas.py:126`](../../tests/learning/test_external_ideas.py#L126))

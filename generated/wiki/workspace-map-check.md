@@ -14,10 +14,10 @@ The alert SHALL open (or comment on) the keyed concern and send one phone messag
 
 Implemented by:
 
-- `workspace_map_alert` — [scripts/workspace_map_alert.py:1](../../scripts/workspace_map_alert.py#L1)
+- `workspace_map_alert` — [`scripts/workspace_map_alert.py:1`](../../scripts/workspace_map_alert.py#L1)
 
-- Scenario `alert-once-per-state-change`: tested by `tests/test_workspace_map.py::test_changed_findings_open_once_then_stay_silent` ([tests/test_workspace_map.py:194](../../tests/test_workspace_map.py#L194))
-- Scenario `clean-run-closes-only-an-open-concern`: tested by `tests/test_workspace_map.py::test_a_clean_run_closes_nothing_when_no_concern_is_open` ([tests/test_workspace_map.py:185](../../tests/test_workspace_map.py#L185))
+- Scenario `alert-once-per-state-change`: tested by `tests/test_workspace_map.py::test_changed_findings_open_once_then_stay_silent` ([`tests/test_workspace_map.py:194`](../../tests/test_workspace_map.py#L194))
+- Scenario `clean-run-closes-only-an-open-concern`: tested by `tests/test_workspace_map.py::test_a_clean_run_closes_nothing_when_no_concern_is_open` ([`tests/test_workspace_map.py:185`](../../tests/test_workspace_map.py#L185))
 
 ## crash is not a finding
 
@@ -29,9 +29,9 @@ A crash of the check SHALL exit 2 and print CRASH, so it never looks like an ord
 
 Implemented by:
 
-- `workspace_map_alert` — [scripts/workspace_map_alert.py:1](../../scripts/workspace_map_alert.py#L1)
+- `workspace_map_alert` — [`scripts/workspace_map_alert.py:1`](../../scripts/workspace_map_alert.py#L1)
 
-- Scenario `crash-is-not-a-finding`: tested by `tests/test_workspace_map.py::test_a_crash_exits_2_not_the_findings_code_1` ([tests/test_workspace_map.py:71](../../tests/test_workspace_map.py#L71))
+- Scenario `crash-is-not-a-finding`: tested by `tests/test_workspace_map.py::test_a_crash_exits_2_not_the_findings_code_1` ([`tests/test_workspace_map.py:71`](../../tests/test_workspace_map.py#L71))
 
 ## offloaded archive entry is not gone
 
@@ -43,9 +43,9 @@ An `archive_map_registry.yaml` entry whose folder is absent from `~/archive` SHA
 
 Implemented by:
 
-- `archive_map.offloaded` — [scripts/archive_map.py:163](../../scripts/archive_map.py#L163)
+- `archive_map.offloaded` — [`scripts/archive_map.py:163`](../../scripts/archive_map.py#L163)
 
-- Scenario `offloaded-archive-entry-is-not-gone`: tested by `tests/test_workspace_map.py::test_an_offloaded_archive_entry_is_not_reported_gone` ([tests/test_workspace_map.py:234](../../tests/test_workspace_map.py#L234))
+- Scenario `offloaded-archive-entry-is-not-gone`: tested by `tests/test_workspace_map.py::test_an_offloaded_archive_entry_is_not_reported_gone` ([`tests/test_workspace_map.py:234`](../../tests/test_workspace_map.py#L234))
 
 ## settings come from config
 
@@ -57,10 +57,10 @@ The project graph SHALL be read from `PROJECT_GRAPH` or `~/code2/aes-config/PROJ
 
 Implemented by:
 
-- `archive_map` — [scripts/archive_map.py:1](../../scripts/archive_map.py#L1)
-- `workspace_map` — [scripts/workspace_map.py:1](../../scripts/workspace_map.py#L1)
+- `archive_map` — [`scripts/archive_map.py:1`](../../scripts/archive_map.py#L1)
+- `workspace_map` — [`scripts/workspace_map.py:1`](../../scripts/workspace_map.py#L1)
 
-- Scenario `settings-come-from-config`: tested by `tests/test_workspace_map.py::test_missing_extras_file_stops_loudly` ([tests/test_workspace_map.py:128](../../tests/test_workspace_map.py#L128))
+- Scenario `settings-come-from-config`: tested by `tests/test_workspace_map.py::test_missing_extras_file_stops_loudly` ([`tests/test_workspace_map.py:128`](../../tests/test_workspace_map.py#L128))
 
 ## undeclared dependency is a finding
 
@@ -72,6 +72,6 @@ The check SHALL run the dependency scanner (`scripts/check_capability_consumptio
 
 Implemented by:
 
-- `workspace_map` — [scripts/workspace_map.py:1](../../scripts/workspace_map.py#L1)
+- `workspace_map` — [`scripts/workspace_map.py:1`](../../scripts/workspace_map.py#L1)
 
-- Scenario `undeclared-dependency-is-a-finding`: tested by `tests/test_workspace_map.py::test_the_real_scanner_runs_over_the_configured_graph` ([tests/test_workspace_map.py:109](../../tests/test_workspace_map.py#L109))
+- Scenario `undeclared-dependency-is-a-finding`: tested by `tests/test_workspace_map.py::test_the_real_scanner_runs_over_the_configured_graph` ([`tests/test_workspace_map.py:109`](../../tests/test_workspace_map.py#L109))

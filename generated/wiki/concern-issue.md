@@ -14,10 +14,10 @@ Status: **implemented and tested**
 
 Implemented by:
 
-- `concern_issue` — [scripts/concern_issue.py:1](../../scripts/concern_issue.py#L1)
+- `concern_issue` — [`scripts/concern_issue.py:1`](../../scripts/concern_issue.py#L1)
 
-- Scenario `an-open-concern-s-title-follows-the-repository-s-current-status`: tested by `tests/test_concern_issue.py::test_open_retitles_an_open_issue_whose_status_changed` ([tests/test_concern_issue.py:112](../../tests/test_concern_issue.py#L112))
-- Scenario `a-current-title-is-left-alone`: tested by `tests/test_concern_issue.py::test_open_leaves_a_current_title_alone` ([tests/test_concern_issue.py:124](../../tests/test_concern_issue.py#L124))
-- Scenario `a-reopened-concern-takes-the-current-title`: tested by `tests/test_concern_issue.py::test_open_retitles_a_reopened_issue` ([tests/test_concern_issue.py:132](../../tests/test_concern_issue.py#L132))
-- Scenario `an-issue-that-already-records-the-occurrence-is-still-retitled`: tested by `tests/test_concern_issue.py::test_open_retitles_even_when_the_occurrence_is_already_recorded` ([tests/test_concern_issue.py:140](../../tests/test_concern_issue.py#L140))
-- Scenario `a-failed-retitle-fails-the-call`: tested by `tests/test_concern_issue.py::test_a_failed_retitle_is_loud` ([tests/test_concern_issue.py:158](../../tests/test_concern_issue.py#L158))
+- Scenario `an-open-concern-s-title-follows-the-repository-s-current-status`: tested by `tests/test_concern_issue.py::test_open_retitles_an_open_issue_whose_status_changed` ([`tests/test_concern_issue.py:112`](../../tests/test_concern_issue.py#L112))
+- Scenario `a-current-title-is-left-alone`: tested by `tests/test_concern_issue.py::test_open_leaves_a_current_title_alone` ([`tests/test_concern_issue.py:124`](../../tests/test_concern_issue.py#L124))
+- Scenario `a-reopened-concern-takes-the-current-title`: tested by `tests/test_concern_issue.py::test_open_retitles_a_reopened_issue` ([`tests/test_concern_issue.py:132`](../../tests/test_concern_issue.py#L132))
+- Scenario `an-issue-that-already-records-the-occurrence-is-still-retitled`: tested by `tests/test_concern_issue.py::test_open_retitles_even_when_the_occurrence_is_already_recorded` ([`tests/test_concern_issue.py:140`](../../tests/test_concern_issue.py#L140))
+- Scenario `a-failed-retitle-fails-the-call`: tested by `tests/test_concern_issue.py::test_a_failed_retitle_is_loud` ([`tests/test_concern_issue.py:158`](../../tests/test_concern_issue.py#L158))

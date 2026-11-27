@@ -14,15 +14,15 @@ Status: **implemented and tested**
 
 Implemented by:
 
-- `lockstep.prior_art` — [src/lockstep/prior_art.py:1](../../src/lockstep/prior_art.py#L1)
-- `lockstep.prior_art` — [src/lockstep/prior_art.py:1](../../src/lockstep/prior_art.py#L1)
+- `lockstep.prior_art` — [`src/lockstep/prior_art.py:1`](../../src/lockstep/prior_art.py#L1)
+- `lockstep.prior_art` — [`src/lockstep/prior_art.py:1`](../../src/lockstep/prior_art.py#L1)
 
-- Scenario `verdict-not-yet-evaluated`: tested by `tests/lockstep/test_lockstep_prior_art.py::test_verdict_not_yet_evaluated` ([tests/lockstep/test_lockstep_prior_art.py:81](../../tests/lockstep/test_lockstep_prior_art.py#L81))
-- Scenario `build-without-a-gap`: tested by `tests/lockstep/test_lockstep_prior_art.py::test_build_without_a_gap` ([tests/lockstep/test_lockstep_prior_art.py:89](../../tests/lockstep/test_lockstep_prior_art.py#L89))
-- Scenario `build-while-a-candidate-is-adopted`: tested by `tests/lockstep/test_lockstep_prior_art.py::test_build_while_a_candidate_is_adopted` ([tests/lockstep/test_lockstep_prior_art.py:97](../../tests/lockstep/test_lockstep_prior_art.py#L97))
-- Scenario `adopt-without-an-adopted-candidate`: tested by `tests/lockstep/test_lockstep_prior_art.py::test_adopt_without_an_adopted_candidate` ([tests/lockstep/test_lockstep_prior_art.py:105](../../tests/lockstep/test_lockstep_prior_art.py#L105))
-- Scenario `search-with-nothing-outside`: tested by `tests/lockstep/test_lockstep_prior_art.py::test_search_with_nothing_outside` ([tests/lockstep/test_lockstep_prior_art.py:111](../../tests/lockstep/test_lockstep_prior_art.py#L111))
-- Scenario `real-record-against-the-real-schema`: tested by `tests/lockstep/test_lockstep_prior_art.py::test_real_record_against_the_real_schema` ([tests/lockstep/test_lockstep_prior_art.py:193](../../tests/lockstep/test_lockstep_prior_art.py#L193))
+- Scenario `verdict-not-yet-evaluated`: tested by `tests/lockstep/test_lockstep_prior_art.py::test_verdict_not_yet_evaluated` ([`tests/lockstep/test_lockstep_prior_art.py:81`](../../tests/lockstep/test_lockstep_prior_art.py#L81))
+- Scenario `build-without-a-gap`: tested by `tests/lockstep/test_lockstep_prior_art.py::test_build_without_a_gap` ([`tests/lockstep/test_lockstep_prior_art.py:89`](../../tests/lockstep/test_lockstep_prior_art.py#L89))
+- Scenario `build-while-a-candidate-is-adopted`: tested by `tests/lockstep/test_lockstep_prior_art.py::test_build_while_a_candidate_is_adopted` ([`tests/lockstep/test_lockstep_prior_art.py:97`](../../tests/lockstep/test_lockstep_prior_art.py#L97))
+- Scenario `adopt-without-an-adopted-candidate`: tested by `tests/lockstep/test_lockstep_prior_art.py::test_adopt_without_an_adopted_candidate` ([`tests/lockstep/test_lockstep_prior_art.py:105`](../../tests/lockstep/test_lockstep_prior_art.py#L105))
+- Scenario `search-with-nothing-outside`: tested by `tests/lockstep/test_lockstep_prior_art.py::test_search_with_nothing_outside` ([`tests/lockstep/test_lockstep_prior_art.py:111`](../../tests/lockstep/test_lockstep_prior_art.py#L111))
+- Scenario `real-record-against-the-real-schema`: tested by `tests/lockstep/test_lockstep_prior_art.py::test_real_record_against_the_real_schema` ([`tests/lockstep/test_lockstep_prior_art.py:193`](../../tests/lockstep/test_lockstep_prior_art.py#L193))
 
 ## a change that adds a requirement carries a prior art record
 
@@ -34,12 +34,12 @@ Status: **implemented and tested**
 
 Implemented by:
 
-- `lockstep.prior_art` — [src/lockstep/prior_art.py:1](../../src/lockstep/prior_art.py#L1)
-- `lockstep.prior_art` — [src/lockstep/prior_art.py:1](../../src/lockstep/prior_art.py#L1)
+- `lockstep.prior_art` — [`src/lockstep/prior_art.py:1`](../../src/lockstep/prior_art.py#L1)
+- `lockstep.prior_art` — [`src/lockstep/prior_art.py:1`](../../src/lockstep/prior_art.py#L1)
 
-- Scenario `no-record-on-a-change-that-adds-a-requirement`: tested by `tests/lockstep/test_lockstep_prior_art.py::test_no_record_on_a_change_that_adds_a_requirement` ([tests/lockstep/test_lockstep_prior_art.py:59](../../tests/lockstep/test_lockstep_prior_art.py#L59))
-- Scenario `complete-record`: tested by `tests/lockstep/test_lockstep_prior_art.py::test_complete_record` ([tests/lockstep/test_lockstep_prior_art.py:67](../../tests/lockstep/test_lockstep_prior_art.py#L67)), `tests/lockstep/test_lockstep_prior_art.py::test_lockstep_command_runs_the_check` ([tests/lockstep/test_lockstep_prior_art.py:205](../../tests/lockstep/test_lockstep_prior_art.py#L205))
-- Scenario `invalid-json`: tested by `tests/lockstep/test_lockstep_prior_art.py::test_invalid_json` ([tests/lockstep/test_lockstep_prior_art.py:75](../../tests/lockstep/test_lockstep_prior_art.py#L75))
+- Scenario `no-record-on-a-change-that-adds-a-requirement`: tested by `tests/lockstep/test_lockstep_prior_art.py::test_no_record_on_a_change_that_adds_a_requirement` ([`tests/lockstep/test_lockstep_prior_art.py:59`](../../tests/lockstep/test_lockstep_prior_art.py#L59))
+- Scenario `complete-record`: tested by `tests/lockstep/test_lockstep_prior_art.py::test_complete_record` ([`tests/lockstep/test_lockstep_prior_art.py:67`](../../tests/lockstep/test_lockstep_prior_art.py#L67)), `tests/lockstep/test_lockstep_prior_art.py::test_lockstep_command_runs_the_check` ([`tests/lockstep/test_lockstep_prior_art.py:205`](../../tests/lockstep/test_lockstep_prior_art.py#L205))
+- Scenario `invalid-json`: tested by `tests/lockstep/test_lockstep_prior_art.py::test_invalid_json` ([`tests/lockstep/test_lockstep_prior_art.py:75`](../../tests/lockstep/test_lockstep_prior_art.py#L75))
 
 ## only a change that adds a requirement from the start date needs a record
 
@@ -51,13 +51,13 @@ The check SHALL require a record only for a change whose date is on or after `--
 
 Implemented by:
 
-- `lockstep.prior_art` — [src/lockstep/prior_art.py:1](../../src/lockstep/prior_art.py#L1)
-- `lockstep.prior_art` — [src/lockstep/prior_art.py:1](../../src/lockstep/prior_art.py#L1)
+- `lockstep.prior_art` — [`src/lockstep/prior_art.py:1`](../../src/lockstep/prior_art.py#L1)
+- `lockstep.prior_art` — [`src/lockstep/prior_art.py:1`](../../src/lockstep/prior_art.py#L1)
 
-- Scenario `only-modified-requirements`: tested by `tests/lockstep/test_lockstep_prior_art.py::test_only_modified_requirements` ([tests/lockstep/test_lockstep_prior_art.py:119](../../tests/lockstep/test_lockstep_prior_art.py#L119))
-- Scenario `change-before-the-start-date`: tested by `tests/lockstep/test_lockstep_prior_art.py::test_change_before_the_start_date` ([tests/lockstep/test_lockstep_prior_art.py:127](../../tests/lockstep/test_lockstep_prior_art.py#L127))
-- Scenario `undated-change-first-committed-before-the-start-date`: tested by `tests/lockstep/test_lockstep_prior_art.py::test_undated_change_first_committed_before_the_start_date` ([tests/lockstep/test_lockstep_prior_art.py:147](../../tests/lockstep/test_lockstep_prior_art.py#L147))
-- Scenario `undated-change-never-committed`: tested by `tests/lockstep/test_lockstep_prior_art.py::test_undated_change_never_committed` ([tests/lockstep/test_lockstep_prior_art.py:158](../../tests/lockstep/test_lockstep_prior_art.py#L158))
-- Scenario `archived-change`: tested by `tests/lockstep/test_lockstep_prior_art.py::test_archived_change` ([tests/lockstep/test_lockstep_prior_art.py:167](../../tests/lockstep/test_lockstep_prior_art.py#L167))
-- Scenario `archived-change-named-by-files`: tested by `tests/lockstep/test_lockstep_prior_art.py::test_archived_change_named_by_files` ([tests/lockstep/test_lockstep_prior_art.py:175](../../tests/lockstep/test_lockstep_prior_art.py#L175))
-- Scenario `files-limit-the-check`: tested by `tests/lockstep/test_lockstep_prior_art.py::test_files_limit_the_check` ([tests/lockstep/test_lockstep_prior_art.py:184](../../tests/lockstep/test_lockstep_prior_art.py#L184))
+- Scenario `only-modified-requirements`: tested by `tests/lockstep/test_lockstep_prior_art.py::test_only_modified_requirements` ([`tests/lockstep/test_lockstep_prior_art.py:119`](../../tests/lockstep/test_lockstep_prior_art.py#L119))
+- Scenario `change-before-the-start-date`: tested by `tests/lockstep/test_lockstep_prior_art.py::test_change_before_the_start_date` ([`tests/lockstep/test_lockstep_prior_art.py:127`](../../tests/lockstep/test_lockstep_prior_art.py#L127))
+- Scenario `undated-change-first-committed-before-the-start-date`: tested by `tests/lockstep/test_lockstep_prior_art.py::test_undated_change_first_committed_before_the_start_date` ([`tests/lockstep/test_lockstep_prior_art.py:147`](../../tests/lockstep/test_lockstep_prior_art.py#L147))
+- Scenario `undated-change-never-committed`: tested by `tests/lockstep/test_lockstep_prior_art.py::test_undated_change_never_committed` ([`tests/lockstep/test_lockstep_prior_art.py:158`](../../tests/lockstep/test_lockstep_prior_art.py#L158))
+- Scenario `archived-change`: tested by `tests/lockstep/test_lockstep_prior_art.py::test_archived_change` ([`tests/lockstep/test_lockstep_prior_art.py:167`](../../tests/lockstep/test_lockstep_prior_art.py#L167))
+- Scenario `archived-change-named-by-files`: tested by `tests/lockstep/test_lockstep_prior_art.py::test_archived_change_named_by_files` ([`tests/lockstep/test_lockstep_prior_art.py:175`](../../tests/lockstep/test_lockstep_prior_art.py#L175))
+- Scenario `files-limit-the-check`: tested by `tests/lockstep/test_lockstep_prior_art.py::test_files_limit_the_check` ([`tests/lockstep/test_lockstep_prior_art.py:184`](../../tests/lockstep/test_lockstep_prior_art.py#L184))

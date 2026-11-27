@@ -14,12 +14,12 @@ Status: **implemented and tested**
 
 Implemented by:
 
-- `lockstep.checks.arch` — [src/lockstep/checks/arch.py:1](../../src/lockstep/checks/arch.py#L1)
-- `lockstep.checks.arch` — [src/lockstep/checks/arch.py:1](../../src/lockstep/checks/arch.py#L1)
+- `lockstep.checks.arch` — [`src/lockstep/checks/arch.py:1`](../../src/lockstep/checks/arch.py#L1)
+- `lockstep.checks.arch` — [`src/lockstep/checks/arch.py:1`](../../src/lockstep/checks/arch.py#L1)
 
-- Scenario `arch-a-missing-npx-is-a-tool-failure`: tested by `tests/lockstep/checks/test_lockstep_check_arch.py::test_a_missing_npx_is_a_tool_failure` ([tests/lockstep/checks/test_lockstep_check_arch.py:149](../../tests/lockstep/checks/test_lockstep_check_arch.py#L149))
-- Scenario `arch-a-likec4-that-cannot-start-is-a-tool-failure`: tested by `tests/lockstep/checks/test_lockstep_check_arch.py::test_a_likec4_that_cannot_start_is_a_tool_failure` ([tests/lockstep/checks/test_lockstep_check_arch.py:160](../../tests/lockstep/checks/test_lockstep_check_arch.py#L160))
-- Scenario `arch-a-failing-diagram-export-is-a-tool-failure`: tested by `tests/lockstep/checks/test_lockstep_check_arch.py::test_a_failing_json_export_is_a_tool_failure` ([tests/lockstep/checks/test_lockstep_check_arch.py:173](../../tests/lockstep/checks/test_lockstep_check_arch.py#L173))
+- Scenario `arch-a-missing-npx-is-a-tool-failure`: tested by `tests/lockstep/checks/test_lockstep_check_arch.py::test_a_missing_npx_is_a_tool_failure` ([`tests/lockstep/checks/test_lockstep_check_arch.py:149`](../../tests/lockstep/checks/test_lockstep_check_arch.py#L149))
+- Scenario `arch-a-likec4-that-cannot-start-is-a-tool-failure`: tested by `tests/lockstep/checks/test_lockstep_check_arch.py::test_a_likec4_that_cannot_start_is_a_tool_failure` ([`tests/lockstep/checks/test_lockstep_check_arch.py:160`](../../tests/lockstep/checks/test_lockstep_check_arch.py#L160))
+- Scenario `arch-a-failing-diagram-export-is-a-tool-failure`: tested by `tests/lockstep/checks/test_lockstep_check_arch.py::test_a_failing_json_export_is_a_tool_failure` ([`tests/lockstep/checks/test_lockstep_check_arch.py:173`](../../tests/lockstep/checks/test_lockstep_check_arch.py#L173))
 
 ## arch code imports match the diagram
 
@@ -31,13 +31,13 @@ Status: **implemented and tested**
 
 Implemented by:
 
-- `lockstep.checks.arch` — [src/lockstep/checks/arch.py:1](../../src/lockstep/checks/arch.py#L1)
-- `lockstep.checks.arch` — [src/lockstep/checks/arch.py:1](../../src/lockstep/checks/arch.py#L1)
-- `lockstep.checks.arch.lint_imports` — [src/lockstep/checks/arch.py:314](../../src/lockstep/checks/arch.py#L314)
+- `lockstep.checks.arch` — [`src/lockstep/checks/arch.py:1`](../../src/lockstep/checks/arch.py#L1)
+- `lockstep.checks.arch` — [`src/lockstep/checks/arch.py:1`](../../src/lockstep/checks/arch.py#L1)
+- `lockstep.checks.arch.lint_imports` — [`src/lockstep/checks/arch.py:314`](../../src/lockstep/checks/arch.py#L314)
 
-- Scenario `arch-an-import-the-diagram-forbids-is-refused`: tested by `tests/lockstep/checks/test_lockstep_check_arch.py::test_an_import_the_diagram_forbids_is_refused` ([tests/lockstep/checks/test_lockstep_check_arch.py:86](../../tests/lockstep/checks/test_lockstep_check_arch.py#L86)), `tests/lockstep/checks/test_lockstep_check_arch.py::test_code_that_follows_the_diagram_is_accepted` ([tests/lockstep/checks/test_lockstep_check_arch.py:94](../../tests/lockstep/checks/test_lockstep_check_arch.py#L94))
-- Scenario `arch-missing-import-linter-fails-loudly`: tested by `tests/lockstep/checks/test_lockstep_check_arch.py::test_a_missing_import_linter_fails_loudly` ([tests/lockstep/checks/test_lockstep_check_arch.py:101](../../tests/lockstep/checks/test_lockstep_check_arch.py#L101))
-- Scenario `arch-a-diagram-that-maps-no-packages-passes`: tested by `tests/lockstep/checks/test_lockstep_check_arch.py::test_a_diagram_that_maps_no_packages_passes_without_running_import_linter` ([tests/lockstep/checks/test_lockstep_check_arch.py:109](../../tests/lockstep/checks/test_lockstep_check_arch.py#L109))
+- Scenario `arch-an-import-the-diagram-forbids-is-refused`: tested by `tests/lockstep/checks/test_lockstep_check_arch.py::test_an_import_the_diagram_forbids_is_refused` ([`tests/lockstep/checks/test_lockstep_check_arch.py:86`](../../tests/lockstep/checks/test_lockstep_check_arch.py#L86)), `tests/lockstep/checks/test_lockstep_check_arch.py::test_code_that_follows_the_diagram_is_accepted` ([`tests/lockstep/checks/test_lockstep_check_arch.py:94`](../../tests/lockstep/checks/test_lockstep_check_arch.py#L94))
+- Scenario `arch-missing-import-linter-fails-loudly`: tested by `tests/lockstep/checks/test_lockstep_check_arch.py::test_a_missing_import_linter_fails_loudly` ([`tests/lockstep/checks/test_lockstep_check_arch.py:101`](../../tests/lockstep/checks/test_lockstep_check_arch.py#L101))
+- Scenario `arch-a-diagram-that-maps-no-packages-passes`: tested by `tests/lockstep/checks/test_lockstep_check_arch.py::test_a_diagram_that_maps_no_packages_passes_without_running_import_linter` ([`tests/lockstep/checks/test_lockstep_check_arch.py:109`](../../tests/lockstep/checks/test_lockstep_check_arch.py#L109))
 
 ## arch committed contracts match the diagram
 
@@ -49,10 +49,10 @@ Status: **implemented and tested**
 
 Implemented by:
 
-- `lockstep.checks.arch` — [src/lockstep/checks/arch.py:1](../../src/lockstep/checks/arch.py#L1)
-- `lockstep.checks.arch` — [src/lockstep/checks/arch.py:1](../../src/lockstep/checks/arch.py#L1)
+- `lockstep.checks.arch` — [`src/lockstep/checks/arch.py:1`](../../src/lockstep/checks/arch.py#L1)
+- `lockstep.checks.arch` — [`src/lockstep/checks/arch.py:1`](../../src/lockstep/checks/arch.py#L1)
 
-- Scenario `arch-diagram-changed-without-regenerating`: tested by `tests/lockstep/checks/test_lockstep_check_arch.py::test_diagram_changed_without_regenerating` ([tests/lockstep/checks/test_lockstep_check_arch.py:33](../../tests/lockstep/checks/test_lockstep_check_arch.py#L33))
+- Scenario `arch-diagram-changed-without-regenerating`: tested by `tests/lockstep/checks/test_lockstep_check_arch.py::test_diagram_changed_without_regenerating` ([`tests/lockstep/checks/test_lockstep_check_arch.py:33`](../../tests/lockstep/checks/test_lockstep_check_arch.py#L33))
 
 ## arch diagram becomes import contracts
 
@@ -64,11 +64,11 @@ Status: **implemented and tested**
 
 Implemented by:
 
-- `lockstep.checks.arch` — [src/lockstep/checks/arch.py:1](../../src/lockstep/checks/arch.py#L1)
-- `lockstep.checks.arch` — [src/lockstep/checks/arch.py:1](../../src/lockstep/checks/arch.py#L1)
+- `lockstep.checks.arch` — [`src/lockstep/checks/arch.py:1`](../../src/lockstep/checks/arch.py#L1)
+- `lockstep.checks.arch` — [`src/lockstep/checks/arch.py:1`](../../src/lockstep/checks/arch.py#L1)
 
-- Scenario `arch-missing-arrow-forbids-the-import`: tested by `tests/lockstep/checks/test_lockstep_check_arch.py::test_missing_arrow_forbids_the_import` ([tests/lockstep/checks/test_lockstep_check_arch.py:23](../../tests/lockstep/checks/test_lockstep_check_arch.py#L23))
-- Scenario `arch-invalid-diagram-stops-generation`: tested by `tests/lockstep/checks/test_lockstep_check_arch.py::test_invalid_diagram_stops_generation` ([tests/lockstep/checks/test_lockstep_check_arch.py:44](../../tests/lockstep/checks/test_lockstep_check_arch.py#L44)), `tests/lockstep/checks/test_lockstep_check_arch.py::test_an_invalid_diagram_is_still_an_invalid_diagram` ([tests/lockstep/checks/test_lockstep_check_arch.py:191](../../tests/lockstep/checks/test_lockstep_check_arch.py#L191)), `tests/lockstep/checks/test_lockstep_check_arch.py::test_a_real_invalid_diagram_reports_invalid_diagram` ([tests/lockstep/checks/test_lockstep_check_arch.py:204](../../tests/lockstep/checks/test_lockstep_check_arch.py#L204))
+- Scenario `arch-missing-arrow-forbids-the-import`: tested by `tests/lockstep/checks/test_lockstep_check_arch.py::test_missing_arrow_forbids_the_import` ([`tests/lockstep/checks/test_lockstep_check_arch.py:23`](../../tests/lockstep/checks/test_lockstep_check_arch.py#L23))
+- Scenario `arch-invalid-diagram-stops-generation`: tested by `tests/lockstep/checks/test_lockstep_check_arch.py::test_invalid_diagram_stops_generation` ([`tests/lockstep/checks/test_lockstep_check_arch.py:44`](../../tests/lockstep/checks/test_lockstep_check_arch.py#L44)), `tests/lockstep/checks/test_lockstep_check_arch.py::test_an_invalid_diagram_is_still_an_invalid_diagram` ([`tests/lockstep/checks/test_lockstep_check_arch.py:191`](../../tests/lockstep/checks/test_lockstep_check_arch.py#L191)), `tests/lockstep/checks/test_lockstep_check_arch.py::test_a_real_invalid_diagram_reports_invalid_diagram` ([`tests/lockstep/checks/test_lockstep_check_arch.py:204`](../../tests/lockstep/checks/test_lockstep_check_arch.py#L204))
 
 ## changed a changed statement needs a changed scenario or a wording only declaration
 
@@ -80,12 +80,12 @@ The changed check SHALL report `no-scenario-changed` and exit 1 when a requireme
 
 Implemented by:
 
-- `lockstep.checks.changed` — [src/lockstep/checks/changed.py:1](../../src/lockstep/checks/changed.py#L1)
-- `lockstep.checks.changed` — [src/lockstep/checks/changed.py:1](../../src/lockstep/checks/changed.py#L1)
-- `lockstep.checks.changed.check` — [src/lockstep/checks/changed.py:582](../../src/lockstep/checks/changed.py#L582)
+- `lockstep.checks.changed` — [`src/lockstep/checks/changed.py:1`](../../src/lockstep/checks/changed.py#L1)
+- `lockstep.checks.changed` — [`src/lockstep/checks/changed.py:1`](../../src/lockstep/checks/changed.py#L1)
+- `lockstep.checks.changed.check` — [`src/lockstep/checks/changed.py:582`](../../src/lockstep/checks/changed.py#L582)
 
-- Scenario `changed-a-statement-changed-with-no-scenario-changed-fails`: tested by `tests/lockstep/checks/test_lockstep_check_changed.py::test_a_statement_changed_with_no_scenario_changed_fails` ([tests/lockstep/checks/test_lockstep_check_changed.py:165](../../tests/lockstep/checks/test_lockstep_check_changed.py#L165))
-- Scenario `changed-a-wording-only-declaration-is-accepted-and-printed`: tested by `tests/lockstep/checks/test_lockstep_check_changed.py::test_a_wording_only_declaration_is_accepted_and_printed` ([tests/lockstep/checks/test_lockstep_check_changed.py:176](../../tests/lockstep/checks/test_lockstep_check_changed.py#L176))
+- Scenario `changed-a-statement-changed-with-no-scenario-changed-fails`: tested by `tests/lockstep/checks/test_lockstep_check_changed.py::test_a_statement_changed_with_no_scenario_changed_fails` ([`tests/lockstep/checks/test_lockstep_check_changed.py:165`](../../tests/lockstep/checks/test_lockstep_check_changed.py#L165))
+- Scenario `changed-a-wording-only-declaration-is-accepted-and-printed`: tested by `tests/lockstep/checks/test_lockstep_check_changed.py::test_a_wording_only_declaration_is_accepted_and_printed` ([`tests/lockstep/checks/test_lockstep_check_changed.py:176`](../../tests/lockstep/checks/test_lockstep_check_changed.py#L176))
 
 ## changed and test first the base is where the branch started
 
@@ -97,11 +97,11 @@ Status: **implemented and tested**
 
 Implemented by:
 
-- `lockstep.checks.changed` — [src/lockstep/checks/changed.py:1](../../src/lockstep/checks/changed.py#L1)
-- `lockstep.checks.changed.compare_with` — [src/lockstep/checks/changed.py:459](../../src/lockstep/checks/changed.py#L459)
+- `lockstep.checks.changed` — [`src/lockstep/checks/changed.py:1`](../../src/lockstep/checks/changed.py#L1)
+- `lockstep.checks.changed.compare_with` — [`src/lockstep/checks/changed.py:459`](../../src/lockstep/checks/changed.py#L459)
 
-- Scenario `changed-a-requirement-added-on-the-base-branch-after-the-branch-started-is-not-listed`: tested by `tests/lockstep/checks/test_lockstep_check_changed.py::test_a_requirement_added_on_the_base_branch_after_the_branch_started_is_not_listed` ([tests/lockstep/checks/test_lockstep_check_changed.py:229](../../tests/lockstep/checks/test_lockstep_check_changed.py#L229))
-- Scenario `test-first-a-scenario-reworded-on-the-base-branch-after-the-branch-started-is-not-checked`: tested by `tests/lockstep/checks/test_lockstep_check_test_first.py::test_a_scenario_reworded_on_the_base_branch_after_the_branch_started_is_not_checked` ([tests/lockstep/checks/test_lockstep_check_test_first.py:240](../../tests/lockstep/checks/test_lockstep_check_test_first.py#L240))
+- Scenario `changed-a-requirement-added-on-the-base-branch-after-the-branch-started-is-not-listed`: tested by `tests/lockstep/checks/test_lockstep_check_changed.py::test_a_requirement_added_on_the_base_branch_after_the_branch_started_is_not_listed` ([`tests/lockstep/checks/test_lockstep_check_changed.py:229`](../../tests/lockstep/checks/test_lockstep_check_changed.py#L229))
+- Scenario `test-first-a-scenario-reworded-on-the-base-branch-after-the-branch-started-is-not-checked`: tested by `tests/lockstep/checks/test_lockstep_check_test_first.py::test_a_scenario_reworded_on_the_base_branch_after_the_branch_started_is_not_checked` ([`tests/lockstep/checks/test_lockstep_check_test_first.py:240`](../../tests/lockstep/checks/test_lockstep_check_test_first.py#L240))
 
 ## changed count line and exit status
 
@@ -113,14 +113,14 @@ The changed check SHALL end with the line `RESULT changed requirements=<n> unpla
 
 Implemented by:
 
-- `lockstep.checks.changed` — [src/lockstep/checks/changed.py:1](../../src/lockstep/checks/changed.py#L1)
-- `lockstep.checks.changed` — [src/lockstep/checks/changed.py:1](../../src/lockstep/checks/changed.py#L1)
-- `lockstep.checks.cli` — [src/lockstep/checks/cli.py:1](../../src/lockstep/checks/cli.py#L1)
-- `lockstep.checks.cli` — [src/lockstep/checks/cli.py:1](../../src/lockstep/checks/cli.py#L1)
+- `lockstep.checks.changed` — [`src/lockstep/checks/changed.py:1`](../../src/lockstep/checks/changed.py#L1)
+- `lockstep.checks.changed` — [`src/lockstep/checks/changed.py:1`](../../src/lockstep/checks/changed.py#L1)
+- `lockstep.checks.cli` — [`src/lockstep/checks/cli.py:1`](../../src/lockstep/checks/cli.py#L1)
+- `lockstep.checks.cli` — [`src/lockstep/checks/cli.py:1`](../../src/lockstep/checks/cli.py#L1)
 
-- Scenario `changed-nothing-changed-gives-a-zero-count-and-exit-0`: tested by `tests/lockstep/checks/test_lockstep_check_changed.py::test_nothing_changed_gives_a_zero_count_and_exit_0` ([tests/lockstep/checks/test_lockstep_check_changed.py:186](../../tests/lockstep/checks/test_lockstep_check_changed.py#L186))
-- Scenario `changed-a-missing-base-is-reported-not-crashed`: tested by `tests/lockstep/checks/test_lockstep_check_changed.py::test_a_missing_base_is_reported_not_crashed` ([tests/lockstep/checks/test_lockstep_check_changed.py:194](../../tests/lockstep/checks/test_lockstep_check_changed.py#L194)), `tests/lockstep/checks/test_lockstep_check_changed.py::test_the_lockstep_entry_point_routes_changed_to_the_commit_check` ([tests/lockstep/checks/test_lockstep_check_changed.py:211](../../tests/lockstep/checks/test_lockstep_check_changed.py#L211))
-- Scenario `changed-mode-off-skips-the-check`: tested by `tests/lockstep/checks/test_lockstep_check_changed.py::test_mode_off_skips_the_check` ([tests/lockstep/checks/test_lockstep_check_changed.py:202](../../tests/lockstep/checks/test_lockstep_check_changed.py#L202))
+- Scenario `changed-nothing-changed-gives-a-zero-count-and-exit-0`: tested by `tests/lockstep/checks/test_lockstep_check_changed.py::test_nothing_changed_gives_a_zero_count_and_exit_0` ([`tests/lockstep/checks/test_lockstep_check_changed.py:186`](../../tests/lockstep/checks/test_lockstep_check_changed.py#L186))
+- Scenario `changed-a-missing-base-is-reported-not-crashed`: tested by `tests/lockstep/checks/test_lockstep_check_changed.py::test_a_missing_base_is_reported_not_crashed` ([`tests/lockstep/checks/test_lockstep_check_changed.py:194`](../../tests/lockstep/checks/test_lockstep_check_changed.py#L194)), `tests/lockstep/checks/test_lockstep_check_changed.py::test_the_lockstep_entry_point_routes_changed_to_the_commit_check` ([`tests/lockstep/checks/test_lockstep_check_changed.py:211`](../../tests/lockstep/checks/test_lockstep_check_changed.py#L211))
+- Scenario `changed-mode-off-skips-the-check`: tested by `tests/lockstep/checks/test_lockstep_check_changed.py::test_mode_off_skips_the_check` ([`tests/lockstep/checks/test_lockstep_check_changed.py:202`](../../tests/lockstep/checks/test_lockstep_check_changed.py#L202))
 
 ## changed documents that quote a listed requirement are listed with it
 
@@ -132,10 +132,10 @@ The changed check SHALL print, for each requirement it lists, every marked quote
 
 Implemented by:
 
-- `lockstep.checks.changed` — [src/lockstep/checks/changed.py:1](../../src/lockstep/checks/changed.py#L1)
-- `lockstep.checks.changed` — [src/lockstep/checks/changed.py:1](../../src/lockstep/checks/changed.py#L1)
+- `lockstep.checks.changed` — [`src/lockstep/checks/changed.py:1`](../../src/lockstep/checks/changed.py#L1)
+- `lockstep.checks.changed` — [`src/lockstep/checks/changed.py:1`](../../src/lockstep/checks/changed.py#L1)
 
-- Scenario `changed-a-document-quoting-a-changed-requirement-is-listed-as-stale`: tested by `tests/lockstep/checks/test_lockstep_check_changed.py::test_a_document_quoting_a_changed_requirement_is_listed_as_stale` ([tests/lockstep/checks/test_lockstep_check_changed.py:250](../../tests/lockstep/checks/test_lockstep_check_changed.py#L250))
+- Scenario `changed-a-document-quoting-a-changed-requirement-is-listed-as-stale`: tested by `tests/lockstep/checks/test_lockstep_check_changed.py::test_a_document_quoting_a_changed_requirement_is_listed_as_stale` ([`tests/lockstep/checks/test_lockstep_check_changed.py:250`](../../tests/lockstep/checks/test_lockstep_check_changed.py#L250))
 
 ## changed every listed requirement is named by a plan in the same change set
 
@@ -147,13 +147,13 @@ The changed check SHALL report a listed requirement as `unplanned` and exit 1 wh
 
 Implemented by:
 
-- `lockstep.checks.changed` — [src/lockstep/checks/changed.py:1](../../src/lockstep/checks/changed.py#L1)
-- `lockstep.checks.changed` — [src/lockstep/checks/changed.py:1](../../src/lockstep/checks/changed.py#L1)
-- `lockstep.checks.changed.change_set` — [src/lockstep/checks/changed.py:401](../../src/lockstep/checks/changed.py#L401)
+- `lockstep.checks.changed` — [`src/lockstep/checks/changed.py:1`](../../src/lockstep/checks/changed.py#L1)
+- `lockstep.checks.changed` — [`src/lockstep/checks/changed.py:1`](../../src/lockstep/checks/changed.py#L1)
+- `lockstep.checks.changed.change_set` — [`src/lockstep/checks/changed.py:401`](../../src/lockstep/checks/changed.py#L401)
 
-- Scenario `changed-a-spec-edited-with-no-plan-is-unplanned`: tested by `tests/lockstep/checks/test_lockstep_check_changed.py::test_a_spec_edited_with_no_plan_is_unplanned` ([tests/lockstep/checks/test_lockstep_check_changed.py:132](../../tests/lockstep/checks/test_lockstep_check_changed.py#L132))
-- Scenario `changed-an-archived-change-in-the-same-change-set-is-its-plan`: tested by `tests/lockstep/checks/test_lockstep_check_changed.py::test_an_archived_change_in_the_same_change_set_is_its_plan` ([tests/lockstep/checks/test_lockstep_check_changed.py:142](../../tests/lockstep/checks/test_lockstep_check_changed.py#L142))
-- Scenario `changed-a-plan-page-that-was-not-touched-does-not-count`: tested by `tests/lockstep/checks/test_lockstep_check_changed.py::test_a_plan_page_that_was_not_touched_does_not_count` ([tests/lockstep/checks/test_lockstep_check_changed.py:153](../../tests/lockstep/checks/test_lockstep_check_changed.py#L153))
+- Scenario `changed-a-spec-edited-with-no-plan-is-unplanned`: tested by `tests/lockstep/checks/test_lockstep_check_changed.py::test_a_spec_edited_with_no_plan_is_unplanned` ([`tests/lockstep/checks/test_lockstep_check_changed.py:132`](../../tests/lockstep/checks/test_lockstep_check_changed.py#L132))
+- Scenario `changed-an-archived-change-in-the-same-change-set-is-its-plan`: tested by `tests/lockstep/checks/test_lockstep_check_changed.py::test_an_archived_change_in_the_same_change_set_is_its_plan` ([`tests/lockstep/checks/test_lockstep_check_changed.py:142`](../../tests/lockstep/checks/test_lockstep_check_changed.py#L142))
+- Scenario `changed-a-plan-page-that-was-not-touched-does-not-count`: tested by `tests/lockstep/checks/test_lockstep_check_changed.py::test_a_plan_page_that_was_not_touched_does_not_count` ([`tests/lockstep/checks/test_lockstep_check_changed.py:153`](../../tests/lockstep/checks/test_lockstep_check_changed.py#L153))
 
 ## changed every plan that names a listed requirement states its size
 
@@ -165,18 +165,18 @@ The changed check SHALL read, in each plan that names a listed requirement, ever
 
 Implemented by:
 
-- `lockstep.checks.changed` — [src/lockstep/checks/changed.py:1](../../src/lockstep/checks/changed.py#L1)
-- `lockstep.checks.changed` — [src/lockstep/checks/changed.py:1](../../src/lockstep/checks/changed.py#L1)
-- `lockstep.checks.changed._size` — [src/lockstep/checks/changed.py:544](../../src/lockstep/checks/changed.py#L544)
+- `lockstep.checks.changed` — [`src/lockstep/checks/changed.py:1`](../../src/lockstep/checks/changed.py#L1)
+- `lockstep.checks.changed` — [`src/lockstep/checks/changed.py:1`](../../src/lockstep/checks/changed.py#L1)
+- `lockstep.checks.changed._size` — [`src/lockstep/checks/changed.py:544`](../../src/lockstep/checks/changed.py#L544)
 
-- Scenario `changed-a-plan-marked-small-passes`: tested by `tests/lockstep/checks/test_lockstep_check_changed.py::test_a_plan_marked_small_passes` ([tests/lockstep/checks/test_lockstep_check_changed.py:274](../../tests/lockstep/checks/test_lockstep_check_changed.py#L274))
-- Scenario `changed-a-plan-with-no-size-line-fails`: tested by `tests/lockstep/checks/test_lockstep_check_changed.py::test_a_plan_with_no_size_line_fails` ([tests/lockstep/checks/test_lockstep_check_changed.py:288](../../tests/lockstep/checks/test_lockstep_check_changed.py#L288))
-- Scenario `changed-a-size-line-inside-a-code-block-does-not-count`: tested by `tests/lockstep/checks/test_lockstep_check_changed.py::test_a_size_line_inside_a_code_block_does_not_count` ([tests/lockstep/checks/test_lockstep_check_changed.py:301](../../tests/lockstep/checks/test_lockstep_check_changed.py#L301))
-- Scenario `changed-a-full-plan-that-names-an-existing-planning-package-passes`: tested by `tests/lockstep/checks/test_lockstep_check_changed.py::test_a_full_plan_that_names_an_existing_planning_package_passes` ([tests/lockstep/checks/test_lockstep_check_changed.py:309](../../tests/lockstep/checks/test_lockstep_check_changed.py#L309))
-- Scenario `changed-a-full-plan-with-no-planning-package-line-fails`: tested by `tests/lockstep/checks/test_lockstep_check_changed.py::test_a_full_plan_with_no_planning_package_line_fails` ([tests/lockstep/checks/test_lockstep_check_changed.py:320](../../tests/lockstep/checks/test_lockstep_check_changed.py#L320))
-- Scenario `changed-a-full-plan-naming-a-planning-package-that-does-not-exist-fails`: tested by `tests/lockstep/checks/test_lockstep_check_changed.py::test_a_full_plan_naming_a_planning_package_that_does_not_exist_fails` ([tests/lockstep/checks/test_lockstep_check_changed.py:329](../../tests/lockstep/checks/test_lockstep_check_changed.py#L329))
-- Scenario `changed-small-in-one-plan-and-full-in-another-counts-as-full`: tested by `tests/lockstep/checks/test_lockstep_check_changed.py::test_small_in_one_plan_and_full_in_another_counts_as_full` ([tests/lockstep/checks/test_lockstep_check_changed.py:338](../../tests/lockstep/checks/test_lockstep_check_changed.py#L338))
-- Scenario `changed-an-unplanned-requirement-gets-no-size-finding`: tested by `tests/lockstep/checks/test_lockstep_check_changed.py::test_an_unplanned_requirement_gets_no_size_finding` ([tests/lockstep/checks/test_lockstep_check_changed.py:351](../../tests/lockstep/checks/test_lockstep_check_changed.py#L351))
+- Scenario `changed-a-plan-marked-small-passes`: tested by `tests/lockstep/checks/test_lockstep_check_changed.py::test_a_plan_marked_small_passes` ([`tests/lockstep/checks/test_lockstep_check_changed.py:274`](../../tests/lockstep/checks/test_lockstep_check_changed.py#L274))
+- Scenario `changed-a-plan-with-no-size-line-fails`: tested by `tests/lockstep/checks/test_lockstep_check_changed.py::test_a_plan_with_no_size_line_fails` ([`tests/lockstep/checks/test_lockstep_check_changed.py:288`](../../tests/lockstep/checks/test_lockstep_check_changed.py#L288))
+- Scenario `changed-a-size-line-inside-a-code-block-does-not-count`: tested by `tests/lockstep/checks/test_lockstep_check_changed.py::test_a_size_line_inside_a_code_block_does_not_count` ([`tests/lockstep/checks/test_lockstep_check_changed.py:301`](../../tests/lockstep/checks/test_lockstep_check_changed.py#L301))
+- Scenario `changed-a-full-plan-that-names-an-existing-planning-package-passes`: tested by `tests/lockstep/checks/test_lockstep_check_changed.py::test_a_full_plan_that_names_an_existing_planning_package_passes` ([`tests/lockstep/checks/test_lockstep_check_changed.py:309`](../../tests/lockstep/checks/test_lockstep_check_changed.py#L309))
+- Scenario `changed-a-full-plan-with-no-planning-package-line-fails`: tested by `tests/lockstep/checks/test_lockstep_check_changed.py::test_a_full_plan_with_no_planning_package_line_fails` ([`tests/lockstep/checks/test_lockstep_check_changed.py:320`](../../tests/lockstep/checks/test_lockstep_check_changed.py#L320))
+- Scenario `changed-a-full-plan-naming-a-planning-package-that-does-not-exist-fails`: tested by `tests/lockstep/checks/test_lockstep_check_changed.py::test_a_full_plan_naming_a_planning_package_that_does_not_exist_fails` ([`tests/lockstep/checks/test_lockstep_check_changed.py:329`](../../tests/lockstep/checks/test_lockstep_check_changed.py#L329))
+- Scenario `changed-small-in-one-plan-and-full-in-another-counts-as-full`: tested by `tests/lockstep/checks/test_lockstep_check_changed.py::test_small_in_one_plan_and_full_in_another_counts_as_full` ([`tests/lockstep/checks/test_lockstep_check_changed.py:338`](../../tests/lockstep/checks/test_lockstep_check_changed.py#L338))
+- Scenario `changed-an-unplanned-requirement-gets-no-size-finding`: tested by `tests/lockstep/checks/test_lockstep_check_changed.py::test_an_unplanned_requirement_gets_no_size_finding` ([`tests/lockstep/checks/test_lockstep_check_changed.py:351`](../../tests/lockstep/checks/test_lockstep_check_changed.py#L351))
 
 ## changed requirements that differ from the base are listed with their code and tests
 
@@ -188,17 +188,17 @@ Status: **implemented and tested**
 
 Implemented by:
 
-- `lockstep.checks.changed` — [src/lockstep/checks/changed.py:1](../../src/lockstep/checks/changed.py#L1)
-- `lockstep.checks.changed` — [src/lockstep/checks/changed.py:1](../../src/lockstep/checks/changed.py#L1)
-- `lockstep.checks.changed.check` — [src/lockstep/checks/changed.py:582](../../src/lockstep/checks/changed.py#L582)
-- `lockstep.checks.spec` — [src/lockstep/checks/spec.py:1](../../src/lockstep/checks/spec.py#L1)
-- `lockstep.checks.spec.effective_plan` — [src/lockstep/checks/spec.py:154](../../src/lockstep/checks/spec.py#L154)
+- `lockstep.checks.changed` — [`src/lockstep/checks/changed.py:1`](../../src/lockstep/checks/changed.py#L1)
+- `lockstep.checks.changed` — [`src/lockstep/checks/changed.py:1`](../../src/lockstep/checks/changed.py#L1)
+- `lockstep.checks.changed.check` — [`src/lockstep/checks/changed.py:582`](../../src/lockstep/checks/changed.py#L582)
+- `lockstep.checks.spec` — [`src/lockstep/checks/spec.py:1`](../../src/lockstep/checks/spec.py#L1)
+- `lockstep.checks.spec.effective_plan` — [`src/lockstep/checks/spec.py:154`](../../src/lockstep/checks/spec.py#L154)
 
-- Scenario `changed-a-reworded-requirement-is-listed-with-its-implementer-and-tests`: tested by `tests/lockstep/checks/test_lockstep_check_changed.py::test_a_reworded_requirement_is_listed_with_its_implementer_and_tests` ([tests/lockstep/checks/test_lockstep_check_changed.py:80](../../tests/lockstep/checks/test_lockstep_check_changed.py#L80)), `tests/lockstep/checks/test_lockstep_check_changed.py::test_the_working_tree_is_not_touched` ([tests/lockstep/checks/test_lockstep_check_changed.py:220](../../tests/lockstep/checks/test_lockstep_check_changed.py#L220))
-- Scenario `changed-re-wrapped-text-is-not-a-change`: tested by `tests/lockstep/checks/test_lockstep_check_changed.py::test_re_wrapped_text_is_not_a_change` ([tests/lockstep/checks/test_lockstep_check_changed.py:96](../../tests/lockstep/checks/test_lockstep_check_changed.py#L96))
-- Scenario `changed-a-changed-scenario-marks-its-requirement-changed`: tested by `tests/lockstep/checks/test_lockstep_check_changed.py::test_a_changed_scenario_marks_its_requirement_changed` ([tests/lockstep/checks/test_lockstep_check_changed.py:104](../../tests/lockstep/checks/test_lockstep_check_changed.py#L104))
-- Scenario `changed-text-in-an-active-change-counts-before-it-is-archived`: tested by `tests/lockstep/checks/test_lockstep_check_changed.py::test_text_in_an_active_change_counts_before_it_is_archived` ([tests/lockstep/checks/test_lockstep_check_changed.py:113](../../tests/lockstep/checks/test_lockstep_check_changed.py#L113))
-- Scenario `changed-a-test-edited-since-the-base-is-labelled-changed`: tested by `tests/lockstep/checks/test_lockstep_check_changed.py::test_a_test_edited_since_the_base_is_labelled_changed` ([tests/lockstep/checks/test_lockstep_check_changed.py:124](../../tests/lockstep/checks/test_lockstep_check_changed.py#L124))
+- Scenario `changed-a-reworded-requirement-is-listed-with-its-implementer-and-tests`: tested by `tests/lockstep/checks/test_lockstep_check_changed.py::test_a_reworded_requirement_is_listed_with_its_implementer_and_tests` ([`tests/lockstep/checks/test_lockstep_check_changed.py:80`](../../tests/lockstep/checks/test_lockstep_check_changed.py#L80)), `tests/lockstep/checks/test_lockstep_check_changed.py::test_the_working_tree_is_not_touched` ([`tests/lockstep/checks/test_lockstep_check_changed.py:220`](../../tests/lockstep/checks/test_lockstep_check_changed.py#L220))
+- Scenario `changed-re-wrapped-text-is-not-a-change`: tested by `tests/lockstep/checks/test_lockstep_check_changed.py::test_re_wrapped_text_is_not_a_change` ([`tests/lockstep/checks/test_lockstep_check_changed.py:96`](../../tests/lockstep/checks/test_lockstep_check_changed.py#L96))
+- Scenario `changed-a-changed-scenario-marks-its-requirement-changed`: tested by `tests/lockstep/checks/test_lockstep_check_changed.py::test_a_changed_scenario_marks_its_requirement_changed` ([`tests/lockstep/checks/test_lockstep_check_changed.py:104`](../../tests/lockstep/checks/test_lockstep_check_changed.py#L104))
+- Scenario `changed-text-in-an-active-change-counts-before-it-is-archived`: tested by `tests/lockstep/checks/test_lockstep_check_changed.py::test_text_in_an_active_change_counts_before_it_is_archived` ([`tests/lockstep/checks/test_lockstep_check_changed.py:113`](../../tests/lockstep/checks/test_lockstep_check_changed.py#L113))
+- Scenario `changed-a-test-edited-since-the-base-is-labelled-changed`: tested by `tests/lockstep/checks/test_lockstep_check_changed.py::test_a_test_edited_since_the_base_is_labelled_changed` ([`tests/lockstep/checks/test_lockstep_check_changed.py:124`](../../tests/lockstep/checks/test_lockstep_check_changed.py#L124))
 
 ## docmeta count line and exit status
 
@@ -210,12 +210,12 @@ The docmeta check SHALL print one count line `docmeta: pages=N missing_type=N st
 
 Implemented by:
 
-- `lockstep.checks.docmeta` — [src/lockstep/checks/docmeta.py:1](../../src/lockstep/checks/docmeta.py#L1)
-- `lockstep.checks.docmeta` — [src/lockstep/checks/docmeta.py:1](../../src/lockstep/checks/docmeta.py#L1)
+- `lockstep.checks.docmeta` — [`src/lockstep/checks/docmeta.py:1`](../../src/lockstep/checks/docmeta.py#L1)
+- `lockstep.checks.docmeta` — [`src/lockstep/checks/docmeta.py:1`](../../src/lockstep/checks/docmeta.py#L1)
 
-- Scenario `docmeta-clean-wiki-passes`: tested by `tests/lockstep/checks/test_lockstep_check_docmeta.py::test_clean_wiki_passes` ([tests/lockstep/checks/test_lockstep_check_docmeta.py:102](../../tests/lockstep/checks/test_lockstep_check_docmeta.py#L102))
-- Scenario `docmeta-repository-without-wiki-passes`: tested by `tests/lockstep/checks/test_lockstep_check_docmeta.py::test_repository_without_wiki_passes` ([tests/lockstep/checks/test_lockstep_check_docmeta.py:113](../../tests/lockstep/checks/test_lockstep_check_docmeta.py#L113))
-- Scenario `sources-a-configured-human-pattern-replaces-the-default`: tested by `tests/lockstep/checks/test_lockstep_checks_config.py::test_a_configured_human_pattern_replaces_the_default` ([tests/lockstep/checks/test_lockstep_checks_config.py:72](../../tests/lockstep/checks/test_lockstep_checks_config.py#L72))
+- Scenario `docmeta-clean-wiki-passes`: tested by `tests/lockstep/checks/test_lockstep_check_docmeta.py::test_clean_wiki_passes` ([`tests/lockstep/checks/test_lockstep_check_docmeta.py:102`](../../tests/lockstep/checks/test_lockstep_check_docmeta.py#L102))
+- Scenario `docmeta-repository-without-wiki-passes`: tested by `tests/lockstep/checks/test_lockstep_check_docmeta.py::test_repository_without_wiki_passes` ([`tests/lockstep/checks/test_lockstep_check_docmeta.py:113`](../../tests/lockstep/checks/test_lockstep_check_docmeta.py#L113))
+- Scenario `sources-a-configured-human-pattern-replaces-the-default`: tested by `tests/lockstep/checks/test_lockstep_checks_config.py::test_a_configured_human_pattern_replaces_the_default` ([`tests/lockstep/checks/test_lockstep_checks_config.py:72`](../../tests/lockstep/checks/test_lockstep_checks_config.py#L72))
 
 ## docmeta current pages are checked within 60 days
 
@@ -227,10 +227,10 @@ The docmeta check SHALL report a page whose `status` is `current` (or absent, wh
 
 Implemented by:
 
-- `lockstep.checks.docmeta` — [src/lockstep/checks/docmeta.py:1](../../src/lockstep/checks/docmeta.py#L1)
-- `lockstep.checks.docmeta` — [src/lockstep/checks/docmeta.py:1](../../src/lockstep/checks/docmeta.py#L1)
+- `lockstep.checks.docmeta` — [`src/lockstep/checks/docmeta.py:1`](../../src/lockstep/checks/docmeta.py#L1)
+- `lockstep.checks.docmeta` — [`src/lockstep/checks/docmeta.py:1`](../../src/lockstep/checks/docmeta.py#L1)
 
-- Scenario `docmeta-stale-current-page-fails`: tested by `tests/lockstep/checks/test_lockstep_check_docmeta.py::test_stale_current_page_fails` ([tests/lockstep/checks/test_lockstep_check_docmeta.py:53](../../tests/lockstep/checks/test_lockstep_check_docmeta.py#L53))
+- Scenario `docmeta-stale-current-page-fails`: tested by `tests/lockstep/checks/test_lockstep_check_docmeta.py::test_stale_current_page_fails` ([`tests/lockstep/checks/test_lockstep_check_docmeta.py:53`](../../tests/lockstep/checks/test_lockstep_check_docmeta.py#L53))
 
 ## docmeta every current page is within two links of the index
 
@@ -242,10 +242,10 @@ The docmeta check SHALL report every current page under `wiki/` that cannot be r
 
 Implemented by:
 
-- `lockstep.checks.docmeta` — [src/lockstep/checks/docmeta.py:1](../../src/lockstep/checks/docmeta.py#L1)
-- `lockstep.checks.docmeta` — [src/lockstep/checks/docmeta.py:1](../../src/lockstep/checks/docmeta.py#L1)
+- `lockstep.checks.docmeta` — [`src/lockstep/checks/docmeta.py:1`](../../src/lockstep/checks/docmeta.py#L1)
+- `lockstep.checks.docmeta` — [`src/lockstep/checks/docmeta.py:1`](../../src/lockstep/checks/docmeta.py#L1)
 
-- Scenario `docmeta-page-three-links-away-fails`: tested by `tests/lockstep/checks/test_lockstep_check_docmeta.py::test_page_three_links_away_fails` ([tests/lockstep/checks/test_lockstep_check_docmeta.py:84](../../tests/lockstep/checks/test_lockstep_check_docmeta.py#L84))
+- Scenario `docmeta-page-three-links-away-fails`: tested by `tests/lockstep/checks/test_lockstep_check_docmeta.py::test_page_three_links_away_fails` ([`tests/lockstep/checks/test_lockstep_check_docmeta.py:84`](../../tests/lockstep/checks/test_lockstep_check_docmeta.py#L84))
 
 ## docmeta every wiki page declares its type
 
@@ -257,11 +257,11 @@ The docmeta check SHALL report every Markdown page under `wiki/` whose OKF front
 
 Implemented by:
 
-- `lockstep.checks.docmeta` — [src/lockstep/checks/docmeta.py:1](../../src/lockstep/checks/docmeta.py#L1)
-- `lockstep.checks.docmeta` — [src/lockstep/checks/docmeta.py:1](../../src/lockstep/checks/docmeta.py#L1)
+- `lockstep.checks.docmeta` — [`src/lockstep/checks/docmeta.py:1`](../../src/lockstep/checks/docmeta.py#L1)
+- `lockstep.checks.docmeta` — [`src/lockstep/checks/docmeta.py:1`](../../src/lockstep/checks/docmeta.py#L1)
 
-- Scenario `docmeta-page-without-type-fails`: tested by `tests/lockstep/checks/test_lockstep_check_docmeta.py::test_page_without_type_fails` ([tests/lockstep/checks/test_lockstep_check_docmeta.py:36](../../tests/lockstep/checks/test_lockstep_check_docmeta.py#L36))
-- Scenario `docmeta-index-and-log-need-no-front-matter`: tested by `tests/lockstep/checks/test_lockstep_check_docmeta.py::test_index_and_log_need_no_front_matter` ([tests/lockstep/checks/test_lockstep_check_docmeta.py:45](../../tests/lockstep/checks/test_lockstep_check_docmeta.py#L45))
+- Scenario `docmeta-page-without-type-fails`: tested by `tests/lockstep/checks/test_lockstep_check_docmeta.py::test_page_without_type_fails` ([`tests/lockstep/checks/test_lockstep_check_docmeta.py:36`](../../tests/lockstep/checks/test_lockstep_check_docmeta.py#L36))
+- Scenario `docmeta-index-and-log-need-no-front-matter`: tested by `tests/lockstep/checks/test_lockstep_check_docmeta.py::test_index_and_log_need_no_front_matter` ([`tests/lockstep/checks/test_lockstep_check_docmeta.py:45`](../../tests/lockstep/checks/test_lockstep_check_docmeta.py#L45))
 
 ## docmeta field values have their allowed form
 
@@ -273,10 +273,10 @@ The docmeta check SHALL report a `status` other than `current`, `history` or `su
 
 Implemented by:
 
-- `lockstep.checks.docmeta` — [src/lockstep/checks/docmeta.py:1](../../src/lockstep/checks/docmeta.py#L1)
-- `lockstep.checks.docmeta` — [src/lockstep/checks/docmeta.py:1](../../src/lockstep/checks/docmeta.py#L1)
+- `lockstep.checks.docmeta` — [`src/lockstep/checks/docmeta.py:1`](../../src/lockstep/checks/docmeta.py#L1)
+- `lockstep.checks.docmeta` — [`src/lockstep/checks/docmeta.py:1`](../../src/lockstep/checks/docmeta.py#L1)
 
-- Scenario `docmeta-unknown-status-fails`: tested by `tests/lockstep/checks/test_lockstep_check_docmeta.py::test_unknown_status_fails` ([tests/lockstep/checks/test_lockstep_check_docmeta.py:94](../../tests/lockstep/checks/test_lockstep_check_docmeta.py#L94))
+- Scenario `docmeta-unknown-status-fails`: tested by `tests/lockstep/checks/test_lockstep_check_docmeta.py::test_unknown_status_fails` ([`tests/lockstep/checks/test_lockstep_check_docmeta.py:94`](../../tests/lockstep/checks/test_lockstep_check_docmeta.py#L94))
 
 ## docmeta one page owns each topic
 
@@ -288,10 +288,10 @@ The docmeta check SHALL report every topic listed in the `source_of_truth_for` o
 
 Implemented by:
 
-- `lockstep.checks.docmeta` — [src/lockstep/checks/docmeta.py:1](../../src/lockstep/checks/docmeta.py#L1)
-- `lockstep.checks.docmeta` — [src/lockstep/checks/docmeta.py:1](../../src/lockstep/checks/docmeta.py#L1)
+- `lockstep.checks.docmeta` — [`src/lockstep/checks/docmeta.py:1`](../../src/lockstep/checks/docmeta.py#L1)
+- `lockstep.checks.docmeta` — [`src/lockstep/checks/docmeta.py:1`](../../src/lockstep/checks/docmeta.py#L1)
 
-- Scenario `docmeta-two-owners-of-one-topic-fail`: tested by `tests/lockstep/checks/test_lockstep_check_docmeta.py::test_two_owners_of_one_topic_fail` ([tests/lockstep/checks/test_lockstep_check_docmeta.py:73](../../tests/lockstep/checks/test_lockstep_check_docmeta.py#L73))
+- Scenario `docmeta-two-owners-of-one-topic-fail`: tested by `tests/lockstep/checks/test_lockstep_check_docmeta.py::test_two_owners_of_one_topic_fail` ([`tests/lockstep/checks/test_lockstep_check_docmeta.py:73`](../../tests/lockstep/checks/test_lockstep_check_docmeta.py#L73))
 
 ## docmeta superseded pages name a successor
 
@@ -303,10 +303,10 @@ The docmeta check SHALL report a page whose `status` is `superseded` and which h
 
 Implemented by:
 
-- `lockstep.checks.docmeta` — [src/lockstep/checks/docmeta.py:1](../../src/lockstep/checks/docmeta.py#L1)
-- `lockstep.checks.docmeta` — [src/lockstep/checks/docmeta.py:1](../../src/lockstep/checks/docmeta.py#L1)
+- `lockstep.checks.docmeta` — [`src/lockstep/checks/docmeta.py:1`](../../src/lockstep/checks/docmeta.py#L1)
+- `lockstep.checks.docmeta` — [`src/lockstep/checks/docmeta.py:1`](../../src/lockstep/checks/docmeta.py#L1)
 
-- Scenario `docmeta-superseded-page-without-successor-fails`: tested by `tests/lockstep/checks/test_lockstep_check_docmeta.py::test_superseded_page_without_successor_fails` ([tests/lockstep/checks/test_lockstep_check_docmeta.py:64](../../tests/lockstep/checks/test_lockstep_check_docmeta.py#L64))
+- Scenario `docmeta-superseded-page-without-successor-fails`: tested by `tests/lockstep/checks/test_lockstep_check_docmeta.py::test_superseded_page_without_successor_fails` ([`tests/lockstep/checks/test_lockstep_check_docmeta.py:64`](../../tests/lockstep/checks/test_lockstep_check_docmeta.py#L64))
 
 ## each check can be set to block warn or off in lockstep yaml
 
@@ -318,21 +318,21 @@ Status: **implemented and tested**
 
 Implemented by:
 
-- `lockstep.checks.cli` — [src/lockstep/checks/cli.py:1](../../src/lockstep/checks/cli.py#L1)
-- `lockstep.checks.cli` — [src/lockstep/checks/cli.py:1](../../src/lockstep/checks/cli.py#L1)
-- `lockstep.checks.config` — [src/lockstep/checks/config.py:1](../../src/lockstep/checks/config.py#L1)
-- `lockstep.checks.config` — [src/lockstep/checks/config.py:1](../../src/lockstep/checks/config.py#L1)
+- `lockstep.checks.cli` — [`src/lockstep/checks/cli.py:1`](../../src/lockstep/checks/cli.py#L1)
+- `lockstep.checks.cli` — [`src/lockstep/checks/cli.py:1`](../../src/lockstep/checks/cli.py#L1)
+- `lockstep.checks.config` — [`src/lockstep/checks/config.py:1`](../../src/lockstep/checks/config.py#L1)
+- `lockstep.checks.config` — [`src/lockstep/checks/config.py:1`](../../src/lockstep/checks/config.py#L1)
 
-- Scenario `a-missing-lockstep-yaml-means-every-check-blocks`: tested by `tests/lockstep/checks/test_lockstep_checks_config.py::test_a_missing_lockstep_yaml_means_every_check_blocks` ([tests/lockstep/checks/test_lockstep_checks_config.py:16](../../tests/lockstep/checks/test_lockstep_checks_config.py#L16))
-- Scenario `warn-prints-a-warning-and-exits-zero`: tested by `tests/lockstep/checks/test_lockstep_checks_config.py::test_warn_prints_a_warning_and_exits_zero` ([tests/lockstep/checks/test_lockstep_checks_config.py:23](../../tests/lockstep/checks/test_lockstep_checks_config.py#L23))
-- Scenario `off-skips-the-check-and-exits-zero`: tested by `tests/lockstep/checks/test_lockstep_checks_config.py::test_off_skips_the_check_and_exits_zero` ([tests/lockstep/checks/test_lockstep_checks_config.py:31](../../tests/lockstep/checks/test_lockstep_checks_config.py#L31))
-- Scenario `block-set-explicitly-exits-one-and-other-checks-keep-their-own-mode`: tested by `tests/lockstep/checks/test_lockstep_checks_config.py::test_block_set_explicitly_exits_one_and_other_checks_keep_their_own_mode` ([tests/lockstep/checks/test_lockstep_checks_config.py:39](../../tests/lockstep/checks/test_lockstep_checks_config.py#L39))
-- Scenario `a-bad-mode-or-unknown-check-is-an-error`: tested by `tests/lockstep/checks/test_lockstep_checks_config.py::test_a_bad_mode_or_unknown_check_is_an_error` ([tests/lockstep/checks/test_lockstep_checks_config.py:47](../../tests/lockstep/checks/test_lockstep_checks_config.py#L47))
-- Scenario `defaults-when-keys-are-absent`: tested by `tests/lockstep/checks/test_lockstep_checks_config.py::test_defaults_when_keys_are_absent` ([tests/lockstep/checks/test_lockstep_checks_config.py:58](../../tests/lockstep/checks/test_lockstep_checks_config.py#L58))
-- Scenario `likec4-pin-and-owner-are-read`: tested by `tests/lockstep/checks/test_lockstep_checks_config.py::test_likec4_pin_and_owner_are_read` ([tests/lockstep/checks/test_lockstep_checks_config.py:65](../../tests/lockstep/checks/test_lockstep_checks_config.py#L65))
-- Scenario `lockstep-check-without-a-name-still-runs-the-tree-check`: tested by `tests/lockstep/checks/test_lockstep_checks_config.py::test_lockstep_check_without_a_name_still_runs_the_tree_check` ([tests/lockstep/checks/test_lockstep_checks_config.py:83](../../tests/lockstep/checks/test_lockstep_checks_config.py#L83))
-- Scenario `the-lockstep-command-runs-a-named-check`: tested by `tests/lockstep/checks/test_lockstep_checks_config.py::test_the_lockstep_command_runs_a_named_check` ([tests/lockstep/checks/test_lockstep_checks_config.py:93](../../tests/lockstep/checks/test_lockstep_checks_config.py#L93))
-- Scenario `the-three-switched-on-checks-are-off-when-absent`: tested by `tests/lockstep/checks/test_lockstep_checks_config.py::test_the_three_switched_on_checks_are_off_when_absent` ([tests/lockstep/checks/test_lockstep_checks_config.py:101](../../tests/lockstep/checks/test_lockstep_checks_config.py#L101))
+- Scenario `a-missing-lockstep-yaml-means-every-check-blocks`: tested by `tests/lockstep/checks/test_lockstep_checks_config.py::test_a_missing_lockstep_yaml_means_every_check_blocks` ([`tests/lockstep/checks/test_lockstep_checks_config.py:16`](../../tests/lockstep/checks/test_lockstep_checks_config.py#L16))
+- Scenario `warn-prints-a-warning-and-exits-zero`: tested by `tests/lockstep/checks/test_lockstep_checks_config.py::test_warn_prints_a_warning_and_exits_zero` ([`tests/lockstep/checks/test_lockstep_checks_config.py:23`](../../tests/lockstep/checks/test_lockstep_checks_config.py#L23))
+- Scenario `off-skips-the-check-and-exits-zero`: tested by `tests/lockstep/checks/test_lockstep_checks_config.py::test_off_skips_the_check_and_exits_zero` ([`tests/lockstep/checks/test_lockstep_checks_config.py:31`](../../tests/lockstep/checks/test_lockstep_checks_config.py#L31))
+- Scenario `block-set-explicitly-exits-one-and-other-checks-keep-their-own-mode`: tested by `tests/lockstep/checks/test_lockstep_checks_config.py::test_block_set_explicitly_exits_one_and_other_checks_keep_their_own_mode` ([`tests/lockstep/checks/test_lockstep_checks_config.py:39`](../../tests/lockstep/checks/test_lockstep_checks_config.py#L39))
+- Scenario `a-bad-mode-or-unknown-check-is-an-error`: tested by `tests/lockstep/checks/test_lockstep_checks_config.py::test_a_bad_mode_or_unknown_check_is_an_error` ([`tests/lockstep/checks/test_lockstep_checks_config.py:47`](../../tests/lockstep/checks/test_lockstep_checks_config.py#L47))
+- Scenario `defaults-when-keys-are-absent`: tested by `tests/lockstep/checks/test_lockstep_checks_config.py::test_defaults_when_keys_are_absent` ([`tests/lockstep/checks/test_lockstep_checks_config.py:58`](../../tests/lockstep/checks/test_lockstep_checks_config.py#L58))
+- Scenario `likec4-pin-and-owner-are-read`: tested by `tests/lockstep/checks/test_lockstep_checks_config.py::test_likec4_pin_and_owner_are_read` ([`tests/lockstep/checks/test_lockstep_checks_config.py:65`](../../tests/lockstep/checks/test_lockstep_checks_config.py#L65))
+- Scenario `lockstep-check-without-a-name-still-runs-the-tree-check`: tested by `tests/lockstep/checks/test_lockstep_checks_config.py::test_lockstep_check_without_a_name_still_runs_the_tree_check` ([`tests/lockstep/checks/test_lockstep_checks_config.py:83`](../../tests/lockstep/checks/test_lockstep_checks_config.py#L83))
+- Scenario `the-lockstep-command-runs-a-named-check`: tested by `tests/lockstep/checks/test_lockstep_checks_config.py::test_the_lockstep_command_runs_a_named_check` ([`tests/lockstep/checks/test_lockstep_checks_config.py:93`](../../tests/lockstep/checks/test_lockstep_checks_config.py#L93))
+- Scenario `the-three-switched-on-checks-are-off-when-absent`: tested by `tests/lockstep/checks/test_lockstep_checks_config.py::test_the_three_switched_on_checks_are_off_when_absent` ([`tests/lockstep/checks/test_lockstep_checks_config.py:101`](../../tests/lockstep/checks/test_lockstep_checks_config.py#L101))
 
 ## helper reuse flags a rewrite of an existing function
 
@@ -344,10 +344,10 @@ Status: **implemented and tested**
 
 Implemented by:
 
-- `lockstep.checks.helper_reuse` — [src/lockstep/checks/helper_reuse.py:1](../../src/lockstep/checks/helper_reuse.py#L1)
-- `lockstep.checks.helper_reuse` — [src/lockstep/checks/helper_reuse.py:1](../../src/lockstep/checks/helper_reuse.py#L1)
+- `lockstep.checks.helper_reuse` — [`src/lockstep/checks/helper_reuse.py:1`](../../src/lockstep/checks/helper_reuse.py#L1)
+- `lockstep.checks.helper_reuse` — [`src/lockstep/checks/helper_reuse.py:1`](../../src/lockstep/checks/helper_reuse.py#L1)
 
-- Scenario `helper-reuse-flags-a-rewrite-of-an-existing-function`: tested by `tests/lockstep/checks/test_lockstep_check_helper_reuse.py::test_a_rewrite_under_a_new_name_is_flagged` ([tests/lockstep/checks/test_lockstep_check_helper_reuse.py:98](../../tests/lockstep/checks/test_lockstep_check_helper_reuse.py#L98)), `tests/lockstep/checks/test_lockstep_check_helper_reuse.py::test_a_function_with_a_new_job_passes` ([tests/lockstep/checks/test_lockstep_check_helper_reuse.py:111](../../tests/lockstep/checks/test_lockstep_check_helper_reuse.py#L111)), `tests/lockstep/checks/test_lockstep_check_helper_reuse.py::test_partial_overlap_is_reported_but_passes` ([tests/lockstep/checks/test_lockstep_check_helper_reuse.py:121](../../tests/lockstep/checks/test_lockstep_check_helper_reuse.py#L121)), `tests/lockstep/checks/test_lockstep_check_helper_reuse.py::test_a_short_wrapper_is_still_read` ([tests/lockstep/checks/test_lockstep_check_helper_reuse.py:130](../../tests/lockstep/checks/test_lockstep_check_helper_reuse.py#L130)), `tests/lockstep/checks/test_lockstep_check_helper_reuse.py::test_moved_function_and_skipped_kinds_are_not_new` ([tests/lockstep/checks/test_lockstep_check_helper_reuse.py:139](../../tests/lockstep/checks/test_lockstep_check_helper_reuse.py#L139)), `tests/lockstep/checks/test_lockstep_check_helper_reuse.py::test_methods_are_named_by_class` ([tests/lockstep/checks/test_lockstep_check_helper_reuse.py:151](../../tests/lockstep/checks/test_lockstep_check_helper_reuse.py#L151)), `tests/lockstep/checks/test_lockstep_check_helper_reuse.py::test_a_failed_call_fails_closed` ([tests/lockstep/checks/test_lockstep_check_helper_reuse.py:160](../../tests/lockstep/checks/test_lockstep_check_helper_reuse.py#L160)), `tests/lockstep/checks/test_lockstep_check_helper_reuse.py::test_a_missing_base_fails_closed` ([tests/lockstep/checks/test_lockstep_check_helper_reuse.py:169](../../tests/lockstep/checks/test_lockstep_check_helper_reuse.py#L169)), `tests/lockstep/checks/test_lockstep_check_helper_reuse.py::test_a_second_run_reads_the_cache` ([tests/lockstep/checks/test_lockstep_check_helper_reuse.py:177](../../tests/lockstep/checks/test_lockstep_check_helper_reuse.py#L177)), `tests/lockstep/checks/test_lockstep_check_helper_reuse.py::test_a_damaged_cache_entry_is_asked_again` ([tests/lockstep/checks/test_lockstep_check_helper_reuse.py:188](../../tests/lockstep/checks/test_lockstep_check_helper_reuse.py#L188)), `tests/lockstep/checks/test_lockstep_check_helper_reuse.py::test_a_candidate_not_in_the_index_is_dropped` ([tests/lockstep/checks/test_lockstep_check_helper_reuse.py:200](../../tests/lockstep/checks/test_lockstep_check_helper_reuse.py#L200)), `tests/lockstep/checks/test_lockstep_check_helper_reuse.py::test_head_revision_reads_a_commit_not_the_working_tree` ([tests/lockstep/checks/test_lockstep_check_helper_reuse.py:209](../../tests/lockstep/checks/test_lockstep_check_helper_reuse.py#L209)), `tests/lockstep/checks/test_lockstep_check_helper_reuse.py::test_candidates_prompt_for_the_largest_real_case_fits_the_input_budget` ([tests/lockstep/checks/test_lockstep_check_helper_reuse.py:233](../../tests/lockstep/checks/test_lockstep_check_helper_reuse.py#L233)), `tests/lockstep/checks/test_lockstep_check_helper_reuse.py::test_judge_batches_for_the_worst_real_case_each_fit_the_input_budget` ([tests/lockstep/checks/test_lockstep_check_helper_reuse.py:244](../../tests/lockstep/checks/test_lockstep_check_helper_reuse.py#L244)), `tests/lockstep/checks/test_lockstep_check_helper_reuse.py::test_a_prompt_over_the_budget_fails_before_any_call` ([tests/lockstep/checks/test_lockstep_check_helper_reuse.py:259](../../tests/lockstep/checks/test_lockstep_check_helper_reuse.py#L259)), `tests/lockstep/checks/test_lockstep_check_helper_reuse.py::test_templates_use_only_the_context_the_script_passes` ([tests/lockstep/checks/test_lockstep_check_helper_reuse.py:270](../../tests/lockstep/checks/test_lockstep_check_helper_reuse.py#L270)), `tests/lockstep/checks/test_lockstep_check_helper_reuse.py::test_a_missing_verdict_fails_closed` ([tests/lockstep/checks/test_lockstep_check_helper_reuse.py:285](../../tests/lockstep/checks/test_lockstep_check_helper_reuse.py#L285)), `tests/lockstep/checks/test_lockstep_check_helper_reuse.py::test_a_verdict_naming_a_function_outside_its_candidates_fails_closed` ([tests/lockstep/checks/test_lockstep_check_helper_reuse.py:294](../../tests/lockstep/checks/test_lockstep_check_helper_reuse.py#L294)), `tests/lockstep/checks/test_lockstep_check_helper_reuse.py::test_a_candidates_answer_missing_a_function_fails_closed` ([tests/lockstep/checks/test_lockstep_check_helper_reuse.py:305](../../tests/lockstep/checks/test_lockstep_check_helper_reuse.py#L305)), `tests/lockstep/checks/test_lockstep_check_helper_reuse.py::test_a_file_that_does_not_parse_fails_closed` ([tests/lockstep/checks/test_lockstep_check_helper_reuse.py:314](../../tests/lockstep/checks/test_lockstep_check_helper_reuse.py#L314)), `tests/lockstep/checks/test_lockstep_check_helper_reuse.py::test_a_function_renamed_in_place_is_not_new` ([tests/lockstep/checks/test_lockstep_check_helper_reuse.py:323](../../tests/lockstep/checks/test_lockstep_check_helper_reuse.py#L323)), `tests/lockstep/checks/test_lockstep_check_helper_reuse.py::test_a_renamed_and_edited_file_keeps_its_functions` ([tests/lockstep/checks/test_lockstep_check_helper_reuse.py:332](../../tests/lockstep/checks/test_lockstep_check_helper_reuse.py#L332)), `tests/lockstep/checks/test_lockstep_check_helper_reuse.py::test_a_verbatim_copy_in_another_file_is_still_judged` ([tests/lockstep/checks/test_lockstep_check_helper_reuse.py:343](../../tests/lockstep/checks/test_lockstep_check_helper_reuse.py#L343)), `tests/lockstep/checks/test_lockstep_check_helper_reuse.py::test_a_function_moved_to_another_file_is_not_new` ([tests/lockstep/checks/test_lockstep_check_helper_reuse.py:352](../../tests/lockstep/checks/test_lockstep_check_helper_reuse.py#L352)), `tests/lockstep/checks/test_lockstep_check_helper_reuse.py::test_a_recursive_function_renamed_in_place_is_not_new` ([tests/lockstep/checks/test_lockstep_check_helper_reuse.py:362](../../tests/lockstep/checks/test_lockstep_check_helper_reuse.py#L362)), `tests/lockstep/checks/test_lockstep_check_helper_reuse.py::test_ids_copied_with_their_arguments_are_cut_at_the_bracket` ([tests/lockstep/checks/test_lockstep_check_helper_reuse.py:372](../../tests/lockstep/checks/test_lockstep_check_helper_reuse.py#L372)), `tests/lockstep/checks/test_lockstep_check_helper_reuse.py::test_a_path_with_a_space_is_read` ([tests/lockstep/checks/test_lockstep_check_helper_reuse.py:381](../../tests/lockstep/checks/test_lockstep_check_helper_reuse.py#L381)), `tests/lockstep/checks/test_lockstep_check_helper_reuse.py::test_a_changed_reasoning_setting_asks_again` ([tests/lockstep/checks/test_lockstep_check_helper_reuse.py:390](../../tests/lockstep/checks/test_lockstep_check_helper_reuse.py#L390)), `tests/lockstep/checks/test_lockstep_check_helper_reuse.py::test_same_job_with_no_existing_function_fails_closed` ([tests/lockstep/checks/test_lockstep_check_helper_reuse.py:401](../../tests/lockstep/checks/test_lockstep_check_helper_reuse.py#L401))
+- Scenario `helper-reuse-flags-a-rewrite-of-an-existing-function`: tested by `tests/lockstep/checks/test_lockstep_check_helper_reuse.py::test_a_rewrite_under_a_new_name_is_flagged` ([`tests/lockstep/checks/test_lockstep_check_helper_reuse.py:98`](../../tests/lockstep/checks/test_lockstep_check_helper_reuse.py#L98)), `tests/lockstep/checks/test_lockstep_check_helper_reuse.py::test_a_function_with_a_new_job_passes` ([`tests/lockstep/checks/test_lockstep_check_helper_reuse.py:111`](../../tests/lockstep/checks/test_lockstep_check_helper_reuse.py#L111)), `tests/lockstep/checks/test_lockstep_check_helper_reuse.py::test_partial_overlap_is_reported_but_passes` ([`tests/lockstep/checks/test_lockstep_check_helper_reuse.py:121`](../../tests/lockstep/checks/test_lockstep_check_helper_reuse.py#L121)), `tests/lockstep/checks/test_lockstep_check_helper_reuse.py::test_a_short_wrapper_is_still_read` ([`tests/lockstep/checks/test_lockstep_check_helper_reuse.py:130`](../../tests/lockstep/checks/test_lockstep_check_helper_reuse.py#L130)), `tests/lockstep/checks/test_lockstep_check_helper_reuse.py::test_moved_function_and_skipped_kinds_are_not_new` ([`tests/lockstep/checks/test_lockstep_check_helper_reuse.py:139`](../../tests/lockstep/checks/test_lockstep_check_helper_reuse.py#L139)), `tests/lockstep/checks/test_lockstep_check_helper_reuse.py::test_methods_are_named_by_class` ([`tests/lockstep/checks/test_lockstep_check_helper_reuse.py:151`](../../tests/lockstep/checks/test_lockstep_check_helper_reuse.py#L151)), `tests/lockstep/checks/test_lockstep_check_helper_reuse.py::test_a_failed_call_fails_closed` ([`tests/lockstep/checks/test_lockstep_check_helper_reuse.py:160`](../../tests/lockstep/checks/test_lockstep_check_helper_reuse.py#L160)), `tests/lockstep/checks/test_lockstep_check_helper_reuse.py::test_a_missing_base_fails_closed` ([`tests/lockstep/checks/test_lockstep_check_helper_reuse.py:169`](../../tests/lockstep/checks/test_lockstep_check_helper_reuse.py#L169)), `tests/lockstep/checks/test_lockstep_check_helper_reuse.py::test_a_second_run_reads_the_cache` ([`tests/lockstep/checks/test_lockstep_check_helper_reuse.py:177`](../../tests/lockstep/checks/test_lockstep_check_helper_reuse.py#L177)), `tests/lockstep/checks/test_lockstep_check_helper_reuse.py::test_a_damaged_cache_entry_is_asked_again` ([`tests/lockstep/checks/test_lockstep_check_helper_reuse.py:188`](../../tests/lockstep/checks/test_lockstep_check_helper_reuse.py#L188)), `tests/lockstep/checks/test_lockstep_check_helper_reuse.py::test_a_candidate_not_in_the_index_is_dropped` ([`tests/lockstep/checks/test_lockstep_check_helper_reuse.py:200`](../../tests/lockstep/checks/test_lockstep_check_helper_reuse.py#L200)), `tests/lockstep/checks/test_lockstep_check_helper_reuse.py::test_head_revision_reads_a_commit_not_the_working_tree` ([`tests/lockstep/checks/test_lockstep_check_helper_reuse.py:209`](../../tests/lockstep/checks/test_lockstep_check_helper_reuse.py#L209)), `tests/lockstep/checks/test_lockstep_check_helper_reuse.py::test_candidates_prompt_for_the_largest_real_case_fits_the_input_budget` ([`tests/lockstep/checks/test_lockstep_check_helper_reuse.py:233`](../../tests/lockstep/checks/test_lockstep_check_helper_reuse.py#L233)), `tests/lockstep/checks/test_lockstep_check_helper_reuse.py::test_judge_batches_for_the_worst_real_case_each_fit_the_input_budget` ([`tests/lockstep/checks/test_lockstep_check_helper_reuse.py:244`](../../tests/lockstep/checks/test_lockstep_check_helper_reuse.py#L244)), `tests/lockstep/checks/test_lockstep_check_helper_reuse.py::test_a_prompt_over_the_budget_fails_before_any_call` ([`tests/lockstep/checks/test_lockstep_check_helper_reuse.py:259`](../../tests/lockstep/checks/test_lockstep_check_helper_reuse.py#L259)), `tests/lockstep/checks/test_lockstep_check_helper_reuse.py::test_templates_use_only_the_context_the_script_passes` ([`tests/lockstep/checks/test_lockstep_check_helper_reuse.py:270`](../../tests/lockstep/checks/test_lockstep_check_helper_reuse.py#L270)), `tests/lockstep/checks/test_lockstep_check_helper_reuse.py::test_a_missing_verdict_fails_closed` ([`tests/lockstep/checks/test_lockstep_check_helper_reuse.py:285`](../../tests/lockstep/checks/test_lockstep_check_helper_reuse.py#L285)), `tests/lockstep/checks/test_lockstep_check_helper_reuse.py::test_a_verdict_naming_a_function_outside_its_candidates_fails_closed` ([`tests/lockstep/checks/test_lockstep_check_helper_reuse.py:294`](../../tests/lockstep/checks/test_lockstep_check_helper_reuse.py#L294)), `tests/lockstep/checks/test_lockstep_check_helper_reuse.py::test_a_candidates_answer_missing_a_function_fails_closed` ([`tests/lockstep/checks/test_lockstep_check_helper_reuse.py:305`](../../tests/lockstep/checks/test_lockstep_check_helper_reuse.py#L305)), `tests/lockstep/checks/test_lockstep_check_helper_reuse.py::test_a_file_that_does_not_parse_fails_closed` ([`tests/lockstep/checks/test_lockstep_check_helper_reuse.py:314`](../../tests/lockstep/checks/test_lockstep_check_helper_reuse.py#L314)), `tests/lockstep/checks/test_lockstep_check_helper_reuse.py::test_a_function_renamed_in_place_is_not_new` ([`tests/lockstep/checks/test_lockstep_check_helper_reuse.py:323`](../../tests/lockstep/checks/test_lockstep_check_helper_reuse.py#L323)), `tests/lockstep/checks/test_lockstep_check_helper_reuse.py::test_a_renamed_and_edited_file_keeps_its_functions` ([`tests/lockstep/checks/test_lockstep_check_helper_reuse.py:332`](../../tests/lockstep/checks/test_lockstep_check_helper_reuse.py#L332)), `tests/lockstep/checks/test_lockstep_check_helper_reuse.py::test_a_verbatim_copy_in_another_file_is_still_judged` ([`tests/lockstep/checks/test_lockstep_check_helper_reuse.py:343`](../../tests/lockstep/checks/test_lockstep_check_helper_reuse.py#L343)), `tests/lockstep/checks/test_lockstep_check_helper_reuse.py::test_a_function_moved_to_another_file_is_not_new` ([`tests/lockstep/checks/test_lockstep_check_helper_reuse.py:352`](../../tests/lockstep/checks/test_lockstep_check_helper_reuse.py#L352)), `tests/lockstep/checks/test_lockstep_check_helper_reuse.py::test_a_recursive_function_renamed_in_place_is_not_new` ([`tests/lockstep/checks/test_lockstep_check_helper_reuse.py:362`](../../tests/lockstep/checks/test_lockstep_check_helper_reuse.py#L362)), `tests/lockstep/checks/test_lockstep_check_helper_reuse.py::test_ids_copied_with_their_arguments_are_cut_at_the_bracket` ([`tests/lockstep/checks/test_lockstep_check_helper_reuse.py:372`](../../tests/lockstep/checks/test_lockstep_check_helper_reuse.py#L372)), `tests/lockstep/checks/test_lockstep_check_helper_reuse.py::test_a_path_with_a_space_is_read` ([`tests/lockstep/checks/test_lockstep_check_helper_reuse.py:381`](../../tests/lockstep/checks/test_lockstep_check_helper_reuse.py#L381)), `tests/lockstep/checks/test_lockstep_check_helper_reuse.py::test_a_changed_reasoning_setting_asks_again` ([`tests/lockstep/checks/test_lockstep_check_helper_reuse.py:390`](../../tests/lockstep/checks/test_lockstep_check_helper_reuse.py#L390)), `tests/lockstep/checks/test_lockstep_check_helper_reuse.py::test_same_job_with_no_existing_function_fails_closed` ([`tests/lockstep/checks/test_lockstep_check_helper_reuse.py:401`](../../tests/lockstep/checks/test_lockstep_check_helper_reuse.py#L401))
 
 ## helper reuse off unless switched on and needs llm client
 
@@ -359,10 +359,10 @@ Status: **implemented and tested**
 
 Implemented by:
 
-- `lockstep.checks.helper_reuse` — [src/lockstep/checks/helper_reuse.py:1](../../src/lockstep/checks/helper_reuse.py#L1)
-- `lockstep.checks.helper_reuse` — [src/lockstep/checks/helper_reuse.py:1](../../src/lockstep/checks/helper_reuse.py#L1)
+- `lockstep.checks.helper_reuse` — [`src/lockstep/checks/helper_reuse.py:1`](../../src/lockstep/checks/helper_reuse.py#L1)
+- `lockstep.checks.helper_reuse` — [`src/lockstep/checks/helper_reuse.py:1`](../../src/lockstep/checks/helper_reuse.py#L1)
 
-- Scenario `helper-reuse-off-unless-switched-on-and-needs-llm-client`: tested by `tests/lockstep/checks/test_lockstep_check_helper_reuse.py::test_off_unless_switched_on_and_needs_llm_client` ([tests/lockstep/checks/test_lockstep_check_helper_reuse.py:410](../../tests/lockstep/checks/test_lockstep_check_helper_reuse.py#L410)), `tests/lockstep/checks/test_lockstep_check_helper_reuse.py::test_the_prompts_ship_inside_the_package` ([tests/lockstep/checks/test_lockstep_check_helper_reuse.py:422](../../tests/lockstep/checks/test_lockstep_check_helper_reuse.py#L422))
+- Scenario `helper-reuse-off-unless-switched-on-and-needs-llm-client`: tested by `tests/lockstep/checks/test_lockstep_check_helper_reuse.py::test_off_unless_switched_on_and_needs_llm_client` ([`tests/lockstep/checks/test_lockstep_check_helper_reuse.py:410`](../../tests/lockstep/checks/test_lockstep_check_helper_reuse.py#L410)), `tests/lockstep/checks/test_lockstep_check_helper_reuse.py::test_the_prompts_ship_inside_the_package` ([`tests/lockstep/checks/test_lockstep_check_helper_reuse.py:422`](../../tests/lockstep/checks/test_lockstep_check_helper_reuse.py#L422))
 
 ## instructions a nested file repeats nothing from its parents
 
@@ -374,10 +374,10 @@ The instructions check SHALL report `duplicated` for a nested `AGENTS.md` that h
 
 Implemented by:
 
-- `lockstep.checks.instructions` — [src/lockstep/checks/instructions.py:1](../../src/lockstep/checks/instructions.py#L1)
-- `lockstep.checks.instructions` — [src/lockstep/checks/instructions.py:1](../../src/lockstep/checks/instructions.py#L1)
+- `lockstep.checks.instructions` — [`src/lockstep/checks/instructions.py:1`](../../src/lockstep/checks/instructions.py#L1)
+- `lockstep.checks.instructions` — [`src/lockstep/checks/instructions.py:1`](../../src/lockstep/checks/instructions.py#L1)
 
-- Scenario `instructions-a-repeated-parent-block-fails`: tested by `tests/lockstep/checks/test_lockstep_check_instructions.py::test_repeated_parent_block_fails` ([tests/lockstep/checks/test_lockstep_check_instructions.py:64](../../tests/lockstep/checks/test_lockstep_check_instructions.py#L64))
+- Scenario `instructions-a-repeated-parent-block-fails`: tested by `tests/lockstep/checks/test_lockstep_check_instructions.py::test_repeated_parent_block_fails` ([`tests/lockstep/checks/test_lockstep_check_instructions.py:64`](../../tests/lockstep/checks/test_lockstep_check_instructions.py#L64))
 
 ## instructions count line and exit status
 
@@ -389,10 +389,10 @@ The instructions check SHALL print one count line `instructions: files=N payload
 
 Implemented by:
 
-- `lockstep.checks.instructions` — [src/lockstep/checks/instructions.py:1](../../src/lockstep/checks/instructions.py#L1)
-- `lockstep.checks.instructions` — [src/lockstep/checks/instructions.py:1](../../src/lockstep/checks/instructions.py#L1)
+- `lockstep.checks.instructions` — [`src/lockstep/checks/instructions.py:1`](../../src/lockstep/checks/instructions.py#L1)
+- `lockstep.checks.instructions` — [`src/lockstep/checks/instructions.py:1`](../../src/lockstep/checks/instructions.py#L1)
 
-- Scenario `instructions-a-clean-repository-passes`: tested by `tests/lockstep/checks/test_lockstep_check_instructions.py::test_clean_repository_passes` ([tests/lockstep/checks/test_lockstep_check_instructions.py:75](../../tests/lockstep/checks/test_lockstep_check_instructions.py#L75)), `tests/lockstep/checks/test_lockstep_check_instructions.py::test_repository_without_agents_md_passes` ([tests/lockstep/checks/test_lockstep_check_instructions.py:83](../../tests/lockstep/checks/test_lockstep_check_instructions.py#L83))
+- Scenario `instructions-a-clean-repository-passes`: tested by `tests/lockstep/checks/test_lockstep_check_instructions.py::test_clean_repository_passes` ([`tests/lockstep/checks/test_lockstep_check_instructions.py:75`](../../tests/lockstep/checks/test_lockstep_check_instructions.py#L75)), `tests/lockstep/checks/test_lockstep_check_instructions.py::test_repository_without_agents_md_passes` ([`tests/lockstep/checks/test_lockstep_check_instructions.py:83`](../../tests/lockstep/checks/test_lockstep_check_instructions.py#L83))
 
 ## instructions no claude md with its own content
 
@@ -404,11 +404,11 @@ The instructions check SHALL report `claude_md_content` for every `CLAUDE.md` in
 
 Implemented by:
 
-- `lockstep.checks.instructions` — [src/lockstep/checks/instructions.py:1](../../src/lockstep/checks/instructions.py#L1)
-- `lockstep.checks.instructions` — [src/lockstep/checks/instructions.py:1](../../src/lockstep/checks/instructions.py#L1)
+- `lockstep.checks.instructions` — [`src/lockstep/checks/instructions.py:1`](../../src/lockstep/checks/instructions.py#L1)
+- `lockstep.checks.instructions` — [`src/lockstep/checks/instructions.py:1`](../../src/lockstep/checks/instructions.py#L1)
 
-- Scenario `instructions-a-claude-md-with-content-fails`: tested by `tests/lockstep/checks/test_lockstep_check_instructions.py::test_claude_md_with_content_fails` ([tests/lockstep/checks/test_lockstep_check_instructions.py:41](../../tests/lockstep/checks/test_lockstep_check_instructions.py#L41))
-- Scenario `instructions-a-pointer-claude-md-passes`: tested by `tests/lockstep/checks/test_lockstep_check_instructions.py::test_pointer_claude_md_passes` ([tests/lockstep/checks/test_lockstep_check_instructions.py:53](../../tests/lockstep/checks/test_lockstep_check_instructions.py#L53))
+- Scenario `instructions-a-claude-md-with-content-fails`: tested by `tests/lockstep/checks/test_lockstep_check_instructions.py::test_claude_md_with_content_fails` ([`tests/lockstep/checks/test_lockstep_check_instructions.py:41`](../../tests/lockstep/checks/test_lockstep_check_instructions.py#L41))
+- Scenario `instructions-a-pointer-claude-md-passes`: tested by `tests/lockstep/checks/test_lockstep_check_instructions.py::test_pointer_claude_md_passes` ([`tests/lockstep/checks/test_lockstep_check_instructions.py:53`](../../tests/lockstep/checks/test_lockstep_check_instructions.py#L53))
 
 ## instructions the agent chain fits its budget
 
@@ -420,11 +420,11 @@ The instructions check SHALL report `payload_over_cap` when the byte sizes of th
 
 Implemented by:
 
-- `lockstep.checks.instructions` — [src/lockstep/checks/instructions.py:1](../../src/lockstep/checks/instructions.py#L1)
-- `lockstep.checks.instructions` — [src/lockstep/checks/instructions.py:1](../../src/lockstep/checks/instructions.py#L1)
+- `lockstep.checks.instructions` — [`src/lockstep/checks/instructions.py:1`](../../src/lockstep/checks/instructions.py#L1)
+- `lockstep.checks.instructions` — [`src/lockstep/checks/instructions.py:1`](../../src/lockstep/checks/instructions.py#L1)
 
-- Scenario `instructions-an-oversized-root-fails`: tested by `tests/lockstep/checks/test_lockstep_check_instructions.py::test_oversized_root_fails` ([tests/lockstep/checks/test_lockstep_check_instructions.py:20](../../tests/lockstep/checks/test_lockstep_check_instructions.py#L20))
-- Scenario `instructions-a-chain-over-the-cap-fails`: tested by `tests/lockstep/checks/test_lockstep_check_instructions.py::test_chain_over_cap_fails` ([tests/lockstep/checks/test_lockstep_check_instructions.py:28](../../tests/lockstep/checks/test_lockstep_check_instructions.py#L28))
+- Scenario `instructions-an-oversized-root-fails`: tested by `tests/lockstep/checks/test_lockstep_check_instructions.py::test_oversized_root_fails` ([`tests/lockstep/checks/test_lockstep_check_instructions.py:20`](../../tests/lockstep/checks/test_lockstep_check_instructions.py#L20))
+- Scenario `instructions-a-chain-over-the-cap-fails`: tested by `tests/lockstep/checks/test_lockstep_check_instructions.py::test_chain_over_cap_fails` ([`tests/lockstep/checks/test_lockstep_check_instructions.py:28`](../../tests/lockstep/checks/test_lockstep_check_instructions.py#L28))
 
 ## maintainability off unless switched on
 
@@ -436,10 +436,10 @@ Status: **implemented and tested**
 
 Implemented by:
 
-- `lockstep.checks.maintainability` — [src/lockstep/checks/maintainability.py:1](../../src/lockstep/checks/maintainability.py#L1)
-- `lockstep.checks.maintainability` — [src/lockstep/checks/maintainability.py:1](../../src/lockstep/checks/maintainability.py#L1)
+- `lockstep.checks.maintainability` — [`src/lockstep/checks/maintainability.py:1`](../../src/lockstep/checks/maintainability.py#L1)
+- `lockstep.checks.maintainability` — [`src/lockstep/checks/maintainability.py:1`](../../src/lockstep/checks/maintainability.py#L1)
 
-- Scenario `maintainability-off-unless-switched-on`: tested by `tests/lockstep/checks/test_lockstep_check_maintainability.py::test_off_unless_switched_on` ([tests/lockstep/checks/test_lockstep_check_maintainability.py:241](../../tests/lockstep/checks/test_lockstep_check_maintainability.py#L241))
+- Scenario `maintainability-off-unless-switched-on`: tested by `tests/lockstep/checks/test_lockstep_check_maintainability.py::test_off_unless_switched_on` ([`tests/lockstep/checks/test_lockstep_check_maintainability.py:241`](../../tests/lockstep/checks/test_lockstep_check_maintainability.py#L241))
 
 ## maintainability only findings the branch adds fail
 
@@ -451,10 +451,10 @@ Status: **implemented and tested**
 
 Implemented by:
 
-- `lockstep.checks.maintainability` — [src/lockstep/checks/maintainability.py:1](../../src/lockstep/checks/maintainability.py#L1)
-- `lockstep.checks.maintainability` — [src/lockstep/checks/maintainability.py:1](../../src/lockstep/checks/maintainability.py#L1)
+- `lockstep.checks.maintainability` — [`src/lockstep/checks/maintainability.py:1`](../../src/lockstep/checks/maintainability.py#L1)
+- `lockstep.checks.maintainability` — [`src/lockstep/checks/maintainability.py:1`](../../src/lockstep/checks/maintainability.py#L1)
 
-- Scenario `maintainability-only-findings-the-branch-adds-fail`: tested by `tests/lockstep/checks/test_lockstep_check_maintainability.py::test_new_blind_except_fails` ([tests/lockstep/checks/test_lockstep_check_maintainability.py:64](../../tests/lockstep/checks/test_lockstep_check_maintainability.py#L64)), `tests/lockstep/checks/test_lockstep_check_maintainability.py::test_old_blind_except_moved_by_unrelated_edit_passes` ([tests/lockstep/checks/test_lockstep_check_maintainability.py:72](../../tests/lockstep/checks/test_lockstep_check_maintainability.py#L72)), `tests/lockstep/checks/test_lockstep_check_maintainability.py::test_body_edit_raising_complexity_fails` ([tests/lockstep/checks/test_lockstep_check_maintainability.py:81](../../tests/lockstep/checks/test_lockstep_check_maintainability.py#L81)), `tests/lockstep/checks/test_lockstep_check_maintainability.py::test_unrelated_edit_in_complex_function_passes` ([tests/lockstep/checks/test_lockstep_check_maintainability.py:89](../../tests/lockstep/checks/test_lockstep_check_maintainability.py#L89)), `tests/lockstep/checks/test_lockstep_check_maintainability.py::test_lowering_complexity_passes` ([tests/lockstep/checks/test_lockstep_check_maintainability.py:97](../../tests/lockstep/checks/test_lockstep_check_maintainability.py#L97)), `tests/lockstep/checks/test_lockstep_check_maintainability.py::test_renamed_file_keeps_its_old_findings` ([tests/lockstep/checks/test_lockstep_check_maintainability.py:105](../../tests/lockstep/checks/test_lockstep_check_maintainability.py#L105)), `tests/lockstep/checks/test_lockstep_check_maintainability.py::test_new_duplicate_block_fails` ([tests/lockstep/checks/test_lockstep_check_maintainability.py:113](../../tests/lockstep/checks/test_lockstep_check_maintainability.py#L113)), `tests/lockstep/checks/test_lockstep_check_maintainability.py::test_existing_duplicate_passes` ([tests/lockstep/checks/test_lockstep_check_maintainability.py:121](../../tests/lockstep/checks/test_lockstep_check_maintainability.py#L121)), `tests/lockstep/checks/test_lockstep_check_maintainability.py::test_large_file_growing_fails_and_shrinking_passes` ([tests/lockstep/checks/test_lockstep_check_maintainability.py:129](../../tests/lockstep/checks/test_lockstep_check_maintainability.py#L129)), `tests/lockstep/checks/test_lockstep_check_maintainability.py::test_untracked_new_file_is_read` ([tests/lockstep/checks/test_lockstep_check_maintainability.py:141](../../tests/lockstep/checks/test_lockstep_check_maintainability.py#L141)), `tests/lockstep/checks/test_lockstep_check_maintainability.py::test_missing_base_is_skipped` ([tests/lockstep/checks/test_lockstep_check_maintainability.py:149](../../tests/lockstep/checks/test_lockstep_check_maintainability.py#L149)), `tests/lockstep/checks/test_lockstep_check_maintainability.py::test_no_python_change_skips_the_tools` ([tests/lockstep/checks/test_lockstep_check_maintainability.py:157](../../tests/lockstep/checks/test_lockstep_check_maintainability.py#L157)), `tests/lockstep/checks/test_lockstep_check_maintainability.py::test_ruff_failure_fails_closed_and_caches_nothing` ([tests/lockstep/checks/test_lockstep_check_maintainability.py:169](../../tests/lockstep/checks/test_lockstep_check_maintainability.py#L169)), `tests/lockstep/checks/test_lockstep_check_maintainability.py::test_rename_inside_a_package_keeps_old_duplicates` ([tests/lockstep/checks/test_lockstep_check_maintainability.py:178](../../tests/lockstep/checks/test_lockstep_check_maintainability.py#L178)), `tests/lockstep/checks/test_lockstep_check_maintainability.py::test_old_finding_moved_to_another_file_passes` ([tests/lockstep/checks/test_lockstep_check_maintainability.py:193](../../tests/lockstep/checks/test_lockstep_check_maintainability.py#L193)), `tests/lockstep/checks/test_lockstep_check_maintainability.py::test_damaged_cache_is_recomputed` ([tests/lockstep/checks/test_lockstep_check_maintainability.py:203](../../tests/lockstep/checks/test_lockstep_check_maintainability.py#L203)), `tests/lockstep/checks/test_lockstep_check_maintainability.py::test_third_copy_of_an_existing_duplicate_fails` ([tests/lockstep/checks/test_lockstep_check_maintainability.py:215](../../tests/lockstep/checks/test_lockstep_check_maintainability.py#L215)), `tests/lockstep/checks/test_lockstep_check_maintainability.py::test_same_docstring_text_in_a_new_file_is_not_duplicate_code` ([tests/lockstep/checks/test_lockstep_check_maintainability.py:223](../../tests/lockstep/checks/test_lockstep_check_maintainability.py#L223)), `tests/lockstep/checks/test_lockstep_check_maintainability.py::test_shared_multi_line_import_is_not_duplicate_code` ([tests/lockstep/checks/test_lockstep_check_maintainability.py:232](../../tests/lockstep/checks/test_lockstep_check_maintainability.py#L232))
+- Scenario `maintainability-only-findings-the-branch-adds-fail`: tested by `tests/lockstep/checks/test_lockstep_check_maintainability.py::test_new_blind_except_fails` ([`tests/lockstep/checks/test_lockstep_check_maintainability.py:64`](../../tests/lockstep/checks/test_lockstep_check_maintainability.py#L64)), `tests/lockstep/checks/test_lockstep_check_maintainability.py::test_old_blind_except_moved_by_unrelated_edit_passes` ([`tests/lockstep/checks/test_lockstep_check_maintainability.py:72`](../../tests/lockstep/checks/test_lockstep_check_maintainability.py#L72)), `tests/lockstep/checks/test_lockstep_check_maintainability.py::test_body_edit_raising_complexity_fails` ([`tests/lockstep/checks/test_lockstep_check_maintainability.py:81`](../../tests/lockstep/checks/test_lockstep_check_maintainability.py#L81)), `tests/lockstep/checks/test_lockstep_check_maintainability.py::test_unrelated_edit_in_complex_function_passes` ([`tests/lockstep/checks/test_lockstep_check_maintainability.py:89`](../../tests/lockstep/checks/test_lockstep_check_maintainability.py#L89)), `tests/lockstep/checks/test_lockstep_check_maintainability.py::test_lowering_complexity_passes` ([`tests/lockstep/checks/test_lockstep_check_maintainability.py:97`](../../tests/lockstep/checks/test_lockstep_check_maintainability.py#L97)), `tests/lockstep/checks/test_lockstep_check_maintainability.py::test_renamed_file_keeps_its_old_findings` ([`tests/lockstep/checks/test_lockstep_check_maintainability.py:105`](../../tests/lockstep/checks/test_lockstep_check_maintainability.py#L105)), `tests/lockstep/checks/test_lockstep_check_maintainability.py::test_new_duplicate_block_fails` ([`tests/lockstep/checks/test_lockstep_check_maintainability.py:113`](../../tests/lockstep/checks/test_lockstep_check_maintainability.py#L113)), `tests/lockstep/checks/test_lockstep_check_maintainability.py::test_existing_duplicate_passes` ([`tests/lockstep/checks/test_lockstep_check_maintainability.py:121`](../../tests/lockstep/checks/test_lockstep_check_maintainability.py#L121)), `tests/lockstep/checks/test_lockstep_check_maintainability.py::test_large_file_growing_fails_and_shrinking_passes` ([`tests/lockstep/checks/test_lockstep_check_maintainability.py:129`](../../tests/lockstep/checks/test_lockstep_check_maintainability.py#L129)), `tests/lockstep/checks/test_lockstep_check_maintainability.py::test_untracked_new_file_is_read` ([`tests/lockstep/checks/test_lockstep_check_maintainability.py:141`](../../tests/lockstep/checks/test_lockstep_check_maintainability.py#L141)), `tests/lockstep/checks/test_lockstep_check_maintainability.py::test_missing_base_is_skipped` ([`tests/lockstep/checks/test_lockstep_check_maintainability.py:149`](../../tests/lockstep/checks/test_lockstep_check_maintainability.py#L149)), `tests/lockstep/checks/test_lockstep_check_maintainability.py::test_no_python_change_skips_the_tools` ([`tests/lockstep/checks/test_lockstep_check_maintainability.py:157`](../../tests/lockstep/checks/test_lockstep_check_maintainability.py#L157)), `tests/lockstep/checks/test_lockstep_check_maintainability.py::test_ruff_failure_fails_closed_and_caches_nothing` ([`tests/lockstep/checks/test_lockstep_check_maintainability.py:169`](../../tests/lockstep/checks/test_lockstep_check_maintainability.py#L169)), `tests/lockstep/checks/test_lockstep_check_maintainability.py::test_rename_inside_a_package_keeps_old_duplicates` ([`tests/lockstep/checks/test_lockstep_check_maintainability.py:178`](../../tests/lockstep/checks/test_lockstep_check_maintainability.py#L178)), `tests/lockstep/checks/test_lockstep_check_maintainability.py::test_old_finding_moved_to_another_file_passes` ([`tests/lockstep/checks/test_lockstep_check_maintainability.py:193`](../../tests/lockstep/checks/test_lockstep_check_maintainability.py#L193)), `tests/lockstep/checks/test_lockstep_check_maintainability.py::test_damaged_cache_is_recomputed` ([`tests/lockstep/checks/test_lockstep_check_maintainability.py:203`](../../tests/lockstep/checks/test_lockstep_check_maintainability.py#L203)), `tests/lockstep/checks/test_lockstep_check_maintainability.py::test_third_copy_of_an_existing_duplicate_fails` ([`tests/lockstep/checks/test_lockstep_check_maintainability.py:215`](../../tests/lockstep/checks/test_lockstep_check_maintainability.py#L215)), `tests/lockstep/checks/test_lockstep_check_maintainability.py::test_same_docstring_text_in_a_new_file_is_not_duplicate_code` ([`tests/lockstep/checks/test_lockstep_check_maintainability.py:223`](../../tests/lockstep/checks/test_lockstep_check_maintainability.py#L223)), `tests/lockstep/checks/test_lockstep_check_maintainability.py::test_shared_multi_line_import_is_not_duplicate_code` ([`tests/lockstep/checks/test_lockstep_check_maintainability.py:232`](../../tests/lockstep/checks/test_lockstep_check_maintainability.py#L232))
 
 ## mutation lists surviving mutants per repository
 
@@ -466,10 +466,10 @@ Status: **implemented and tested**
 
 Implemented by:
 
-- `lockstep.checks.mutation` — [src/lockstep/checks/mutation.py:1](../../src/lockstep/checks/mutation.py#L1)
-- `lockstep.checks.mutation` — [src/lockstep/checks/mutation.py:1](../../src/lockstep/checks/mutation.py#L1)
+- `lockstep.checks.mutation` — [`src/lockstep/checks/mutation.py:1`](../../src/lockstep/checks/mutation.py#L1)
+- `lockstep.checks.mutation` — [`src/lockstep/checks/mutation.py:1`](../../src/lockstep/checks/mutation.py#L1)
 
-- Scenario `mutation-lists-surviving-mutants-per-repository`: tested by `tests/lockstep/checks/test_lockstep_check_mutation.py::test_survivors_are_grouped_by_module` ([tests/lockstep/checks/test_lockstep_check_mutation.py:70](../../tests/lockstep/checks/test_lockstep_check_mutation.py#L70))
+- Scenario `mutation-lists-surviving-mutants-per-repository`: tested by `tests/lockstep/checks/test_lockstep_check_mutation.py::test_survivors_are_grouped_by_module` ([`tests/lockstep/checks/test_lockstep_check_mutation.py:70`](../../tests/lockstep/checks/test_lockstep_check_mutation.py#L70))
 
 ## mutation off unless switched on and set per repository
 
@@ -481,9 +481,9 @@ Status: **implemented and tested**
 
 Implemented by:
 
-- `lockstep.checks.mutation` — [src/lockstep/checks/mutation.py:1](../../src/lockstep/checks/mutation.py#L1)
+- `lockstep.checks.mutation` — [`src/lockstep/checks/mutation.py:1`](../../src/lockstep/checks/mutation.py#L1)
 
-- Scenario `mutation-off-unless-switched-on-and-set-per-repository`: tested by `tests/lockstep/checks/test_lockstep_check_mutation.py::test_off_unless_switched_on_and_set_per_repository` ([tests/lockstep/checks/test_lockstep_check_mutation.py:235](../../tests/lockstep/checks/test_lockstep_check_mutation.py#L235)), `tests/lockstep/checks/test_lockstep_check_mutation.py::test_the_issue_repository_defaults_to_origin_and_state_sits_in_the_git_folder` ([tests/lockstep/checks/test_lockstep_check_mutation.py:252](../../tests/lockstep/checks/test_lockstep_check_mutation.py#L252)), `tests/lockstep/checks/test_lockstep_check_mutation.py::test_mutmut_is_found_in_the_tree_venv_then_on_path` ([tests/lockstep/checks/test_lockstep_check_mutation.py:263](../../tests/lockstep/checks/test_lockstep_check_mutation.py#L263))
+- Scenario `mutation-off-unless-switched-on-and-set-per-repository`: tested by `tests/lockstep/checks/test_lockstep_check_mutation.py::test_off_unless_switched_on_and_set_per_repository` ([`tests/lockstep/checks/test_lockstep_check_mutation.py:235`](../../tests/lockstep/checks/test_lockstep_check_mutation.py#L235)), `tests/lockstep/checks/test_lockstep_check_mutation.py::test_the_issue_repository_defaults_to_origin_and_state_sits_in_the_git_folder` ([`tests/lockstep/checks/test_lockstep_check_mutation.py:252`](../../tests/lockstep/checks/test_lockstep_check_mutation.py#L252)), `tests/lockstep/checks/test_lockstep_check_mutation.py::test_mutmut_is_found_in_the_tree_venv_then_on_path` ([`tests/lockstep/checks/test_lockstep_check_mutation.py:263`](../../tests/lockstep/checks/test_lockstep_check_mutation.py#L263))
 
 ## mutation one agent issue carries the survivors
 
@@ -495,10 +495,10 @@ With `--issue`, the mutation check SHALL first rerun the shown survivors by name
 
 Implemented by:
 
-- `lockstep.checks.mutation` — [src/lockstep/checks/mutation.py:1](../../src/lockstep/checks/mutation.py#L1)
-- `lockstep.checks.mutation` — [src/lockstep/checks/mutation.py:1](../../src/lockstep/checks/mutation.py#L1)
+- `lockstep.checks.mutation` — [`src/lockstep/checks/mutation.py:1`](../../src/lockstep/checks/mutation.py#L1)
+- `lockstep.checks.mutation` — [`src/lockstep/checks/mutation.py:1`](../../src/lockstep/checks/mutation.py#L1)
 
-- Scenario `mutation-one-agent-issue-carries-the-survivors`: tested by `tests/lockstep/checks/test_lockstep_check_mutation.py::test_the_issue_is_opened_once_and_commented_on_when_the_survivors_change` ([tests/lockstep/checks/test_lockstep_check_mutation.py:174](../../tests/lockstep/checks/test_lockstep_check_mutation.py#L174)), `tests/lockstep/checks/test_lockstep_check_mutation.py::test_a_survivor_a_new_test_now_kills_leaves_the_issue` ([tests/lockstep/checks/test_lockstep_check_mutation.py:195](../../tests/lockstep/checks/test_lockstep_check_mutation.py#L195))
+- Scenario `mutation-one-agent-issue-carries-the-survivors`: tested by `tests/lockstep/checks/test_lockstep_check_mutation.py::test_the_issue_is_opened_once_and_commented_on_when_the_survivors_change` ([`tests/lockstep/checks/test_lockstep_check_mutation.py:174`](../../tests/lockstep/checks/test_lockstep_check_mutation.py#L174)), `tests/lockstep/checks/test_lockstep_check_mutation.py::test_a_survivor_a_new_test_now_kills_leaves_the_issue` ([`tests/lockstep/checks/test_lockstep_check_mutation.py:195`](../../tests/lockstep/checks/test_lockstep_check_mutation.py#L195))
 
 ## mutation survivors are a report and a broken run is a failure
 
@@ -510,10 +510,10 @@ The mutation check SHALL exit 0 when mutmut finished or was stopped at the time 
 
 Implemented by:
 
-- `lockstep.checks.mutation` — [src/lockstep/checks/mutation.py:1](../../src/lockstep/checks/mutation.py#L1)
-- `lockstep.checks.mutation` — [src/lockstep/checks/mutation.py:1](../../src/lockstep/checks/mutation.py#L1)
+- `lockstep.checks.mutation` — [`src/lockstep/checks/mutation.py:1`](../../src/lockstep/checks/mutation.py#L1)
+- `lockstep.checks.mutation` — [`src/lockstep/checks/mutation.py:1`](../../src/lockstep/checks/mutation.py#L1)
 
-- Scenario `mutation-survivors-are-a-report-and-a-broken-run-is-a-failure`: tested by `tests/lockstep/checks/test_lockstep_check_mutation.py::test_survivors_do_not_fail_the_night` ([tests/lockstep/checks/test_lockstep_check_mutation.py:80](../../tests/lockstep/checks/test_lockstep_check_mutation.py#L80)), `tests/lockstep/checks/test_lockstep_check_mutation.py::test_a_test_failing_in_mutmuts_copy_is_named` ([tests/lockstep/checks/test_lockstep_check_mutation.py:86](../../tests/lockstep/checks/test_lockstep_check_mutation.py#L86)), `tests/lockstep/checks/test_lockstep_check_mutation.py::test_a_run_stopped_at_the_limit_fails_only_without_progress` ([tests/lockstep/checks/test_lockstep_check_mutation.py:94](../../tests/lockstep/checks/test_lockstep_check_mutation.py#L94)), `tests/lockstep/checks/test_lockstep_check_mutation.py::test_an_unreadable_results_file_is_set_aside` ([tests/lockstep/checks/test_lockstep_check_mutation.py:109](../../tests/lockstep/checks/test_lockstep_check_mutation.py#L109)), `tests/lockstep/checks/test_lockstep_check_mutation.py::test_set_aside_files_are_made_again_by_mutmut` ([tests/lockstep/checks/test_lockstep_check_mutation.py:125](../../tests/lockstep/checks/test_lockstep_check_mutation.py#L125)), `tests/lockstep/checks/test_lockstep_check_mutation.py::test_the_limit_stops_mutmuts_whole_process_group` ([tests/lockstep/checks/test_lockstep_check_mutation.py:155](../../tests/lockstep/checks/test_lockstep_check_mutation.py#L155)), `tests/lockstep/checks/test_lockstep_check_mutation.py::test_no_mutmut_or_no_results_fails` ([tests/lockstep/checks/test_lockstep_check_mutation.py:166](../../tests/lockstep/checks/test_lockstep_check_mutation.py#L166)), `tests/lockstep/checks/test_lockstep_check_mutation.py::test_nothing_survived_opens_no_issue` ([tests/lockstep/checks/test_lockstep_check_mutation.py:218](../../tests/lockstep/checks/test_lockstep_check_mutation.py#L218)), `tests/lockstep/checks/test_lockstep_check_mutation.py::test_a_long_issue_body_keeps_whole_diffs_under_the_limit` ([tests/lockstep/checks/test_lockstep_check_mutation.py:227](../../tests/lockstep/checks/test_lockstep_check_mutation.py#L227))
+- Scenario `mutation-survivors-are-a-report-and-a-broken-run-is-a-failure`: tested by `tests/lockstep/checks/test_lockstep_check_mutation.py::test_survivors_do_not_fail_the_night` ([`tests/lockstep/checks/test_lockstep_check_mutation.py:80`](../../tests/lockstep/checks/test_lockstep_check_mutation.py#L80)), `tests/lockstep/checks/test_lockstep_check_mutation.py::test_a_test_failing_in_mutmuts_copy_is_named` ([`tests/lockstep/checks/test_lockstep_check_mutation.py:86`](../../tests/lockstep/checks/test_lockstep_check_mutation.py#L86)), `tests/lockstep/checks/test_lockstep_check_mutation.py::test_a_run_stopped_at_the_limit_fails_only_without_progress` ([`tests/lockstep/checks/test_lockstep_check_mutation.py:94`](../../tests/lockstep/checks/test_lockstep_check_mutation.py#L94)), `tests/lockstep/checks/test_lockstep_check_mutation.py::test_an_unreadable_results_file_is_set_aside` ([`tests/lockstep/checks/test_lockstep_check_mutation.py:109`](../../tests/lockstep/checks/test_lockstep_check_mutation.py#L109)), `tests/lockstep/checks/test_lockstep_check_mutation.py::test_set_aside_files_are_made_again_by_mutmut` ([`tests/lockstep/checks/test_lockstep_check_mutation.py:125`](../../tests/lockstep/checks/test_lockstep_check_mutation.py#L125)), `tests/lockstep/checks/test_lockstep_check_mutation.py::test_the_limit_stops_mutmuts_whole_process_group` ([`tests/lockstep/checks/test_lockstep_check_mutation.py:155`](../../tests/lockstep/checks/test_lockstep_check_mutation.py#L155)), `tests/lockstep/checks/test_lockstep_check_mutation.py::test_no_mutmut_or_no_results_fails` ([`tests/lockstep/checks/test_lockstep_check_mutation.py:166`](../../tests/lockstep/checks/test_lockstep_check_mutation.py#L166)), `tests/lockstep/checks/test_lockstep_check_mutation.py::test_nothing_survived_opens_no_issue` ([`tests/lockstep/checks/test_lockstep_check_mutation.py:218`](../../tests/lockstep/checks/test_lockstep_check_mutation.py#L218)), `tests/lockstep/checks/test_lockstep_check_mutation.py::test_a_long_issue_body_keeps_whole_diffs_under_the_limit` ([`tests/lockstep/checks/test_lockstep_check_mutation.py:227`](../../tests/lockstep/checks/test_lockstep_check_mutation.py#L227))
 
 ## sources every normative item names its source
 
@@ -525,12 +525,12 @@ The sources check SHALL fail when an OpenSpec requirement (in `openspec/specs` o
 
 Implemented by:
 
-- `lockstep.checks.sources` — [src/lockstep/checks/sources.py:1](../../src/lockstep/checks/sources.py#L1)
-- `lockstep.checks.sources` — [src/lockstep/checks/sources.py:1](../../src/lockstep/checks/sources.py#L1)
+- `lockstep.checks.sources` — [`src/lockstep/checks/sources.py:1`](../../src/lockstep/checks/sources.py#L1)
+- `lockstep.checks.sources` — [`src/lockstep/checks/sources.py:1`](../../src/lockstep/checks/sources.py#L1)
 
-- Scenario `sources-requirement-without-source-fails`: tested by `tests/lockstep/checks/test_lockstep_check_sources.py::test_requirement_without_source_fails` ([tests/lockstep/checks/test_lockstep_check_sources.py:38](../../tests/lockstep/checks/test_lockstep_check_sources.py#L38))
-- Scenario `sources-decision-without-source-fails`: tested by `tests/lockstep/checks/test_lockstep_check_sources.py::test_decision_without_source_fails` ([tests/lockstep/checks/test_lockstep_check_sources.py:46](../../tests/lockstep/checks/test_lockstep_check_sources.py#L46))
-- Scenario `sources-labeled-items-pass-and-are-classified`: tested by `tests/lockstep/checks/test_lockstep_check_sources.py::test_labeled_items_pass_and_are_classified` ([tests/lockstep/checks/test_lockstep_check_sources.py:54](../../tests/lockstep/checks/test_lockstep_check_sources.py#L54))
+- Scenario `sources-requirement-without-source-fails`: tested by `tests/lockstep/checks/test_lockstep_check_sources.py::test_requirement_without_source_fails` ([`tests/lockstep/checks/test_lockstep_check_sources.py:38`](../../tests/lockstep/checks/test_lockstep_check_sources.py#L38))
+- Scenario `sources-decision-without-source-fails`: tested by `tests/lockstep/checks/test_lockstep_check_sources.py::test_decision_without_source_fails` ([`tests/lockstep/checks/test_lockstep_check_sources.py:46`](../../tests/lockstep/checks/test_lockstep_check_sources.py#L46))
+- Scenario `sources-labeled-items-pass-and-are-classified`: tested by `tests/lockstep/checks/test_lockstep_check_sources.py::test_labeled_items_pass_and_are_classified` ([`tests/lockstep/checks/test_lockstep_check_sources.py:54`](../../tests/lockstep/checks/test_lockstep_check_sources.py#L54))
 
 ## sources the statement comes before its source line
 
@@ -542,9 +542,9 @@ The sources check SHALL fail when an OpenSpec requirement's first paragraph is i
 
 Implemented by:
 
-- `lockstep.checks.sources` — [src/lockstep/checks/sources.py:1](../../src/lockstep/checks/sources.py#L1)
+- `lockstep.checks.sources` — [`src/lockstep/checks/sources.py:1`](../../src/lockstep/checks/sources.py#L1)
 
-- Scenario `sources-a-source-line-before-the-statement-fails`: tested by `tests/lockstep/checks/test_lockstep_check_sources.py::test_a_source_line_before_the_statement_fails` ([tests/lockstep/checks/test_lockstep_check_sources.py:84](../../tests/lockstep/checks/test_lockstep_check_sources.py#L84))
+- Scenario `sources-a-source-line-before-the-statement-fails`: tested by `tests/lockstep/checks/test_lockstep_check_sources.py::test_a_source_line_before_the_statement_fails` ([`tests/lockstep/checks/test_lockstep_check_sources.py:84`](../../tests/lockstep/checks/test_lockstep_check_sources.py#L84))
 
 ## suppressions an added import linter ignore names its reason
 
@@ -556,10 +556,10 @@ The suppressions check SHALL report each entry added to an import-linter `ignore
 
 Implemented by:
 
-- `lockstep.checks.suppressions` — [src/lockstep/checks/suppressions.py:1](../../src/lockstep/checks/suppressions.py#L1)
-- `lockstep.checks.suppressions` — [src/lockstep/checks/suppressions.py:1](../../src/lockstep/checks/suppressions.py#L1)
+- `lockstep.checks.suppressions` — [`src/lockstep/checks/suppressions.py:1`](../../src/lockstep/checks/suppressions.py#L1)
+- `lockstep.checks.suppressions` — [`src/lockstep/checks/suppressions.py:1`](../../src/lockstep/checks/suppressions.py#L1)
 
-- Scenario `suppressions-an-ini-ignore-needs-a-comment-line-above-it`: tested by `tests/lockstep/checks/test_lockstep_check_suppressions.py::test_ini_ignore_needs_comment_above` ([tests/lockstep/checks/test_lockstep_check_suppressions.py:91](../../tests/lockstep/checks/test_lockstep_check_suppressions.py#L91)), `tests/lockstep/checks/test_lockstep_check_suppressions.py::test_pyproject_ignore_needs_same_line_comment` ([tests/lockstep/checks/test_lockstep_check_suppressions.py:102](../../tests/lockstep/checks/test_lockstep_check_suppressions.py#L102)), `tests/lockstep/checks/test_lockstep_check_suppressions.py::test_ini_unindented_and_semicolon_comments` ([tests/lockstep/checks/test_lockstep_check_suppressions.py:131](../../tests/lockstep/checks/test_lockstep_check_suppressions.py#L131))
+- Scenario `suppressions-an-ini-ignore-needs-a-comment-line-above-it`: tested by `tests/lockstep/checks/test_lockstep_check_suppressions.py::test_ini_ignore_needs_comment_above` ([`tests/lockstep/checks/test_lockstep_check_suppressions.py:91`](../../tests/lockstep/checks/test_lockstep_check_suppressions.py#L91)), `tests/lockstep/checks/test_lockstep_check_suppressions.py::test_pyproject_ignore_needs_same_line_comment` ([`tests/lockstep/checks/test_lockstep_check_suppressions.py:102`](../../tests/lockstep/checks/test_lockstep_check_suppressions.py#L102)), `tests/lockstep/checks/test_lockstep_check_suppressions.py::test_ini_unindented_and_semicolon_comments` ([`tests/lockstep/checks/test_lockstep_check_suppressions.py:131`](../../tests/lockstep/checks/test_lockstep_check_suppressions.py#L131))
 
 ## suppressions an added suppression comment names its reason
 
@@ -571,12 +571,12 @@ Status: **implemented and tested**
 
 Implemented by:
 
-- `lockstep.checks.suppressions` — [src/lockstep/checks/suppressions.py:1](../../src/lockstep/checks/suppressions.py#L1)
-- `lockstep.checks.suppressions` — [src/lockstep/checks/suppressions.py:1](../../src/lockstep/checks/suppressions.py#L1)
+- `lockstep.checks.suppressions` — [`src/lockstep/checks/suppressions.py:1`](../../src/lockstep/checks/suppressions.py#L1)
+- `lockstep.checks.suppressions` — [`src/lockstep/checks/suppressions.py:1`](../../src/lockstep/checks/suppressions.py#L1)
 
-- Scenario `suppressions-an-added-noqa-with-no-reason-fails`: tested by `tests/lockstep/checks/test_lockstep_check_suppressions.py::test_added_noqa_without_reason_fails` ([tests/lockstep/checks/test_lockstep_check_suppressions.py:37](../../tests/lockstep/checks/test_lockstep_check_suppressions.py#L37)), `tests/lockstep/checks/test_lockstep_check_suppressions.py::test_path_with_space_and_nested_config_are_read` ([tests/lockstep/checks/test_lockstep_check_suppressions.py:117](../../tests/lockstep/checks/test_lockstep_check_suppressions.py#L117))
-- Scenario `suppressions-a-reason-after-the-directive-passes`: tested by `tests/lockstep/checks/test_lockstep_check_suppressions.py::test_reason_after_directive_passes` ([tests/lockstep/checks/test_lockstep_check_suppressions.py:47](../../tests/lockstep/checks/test_lockstep_check_suppressions.py#L47)), `tests/lockstep/checks/test_lockstep_check_suppressions.py::test_short_reason_and_other_directives_fail` ([tests/lockstep/checks/test_lockstep_check_suppressions.py:59](../../tests/lockstep/checks/test_lockstep_check_suppressions.py#L59)), `tests/lockstep/checks/test_lockstep_check_suppressions.py::test_directive_inside_a_string_is_not_a_suppression` ([tests/lockstep/checks/test_lockstep_check_suppressions.py:74](../../tests/lockstep/checks/test_lockstep_check_suppressions.py#L74))
-- Scenario `suppressions-a-suppression-already-at-the-base-is-not-judged`: tested by `tests/lockstep/checks/test_lockstep_check_suppressions.py::test_existing_suppression_not_judged` ([tests/lockstep/checks/test_lockstep_check_suppressions.py:82](../../tests/lockstep/checks/test_lockstep_check_suppressions.py#L82))
+- Scenario `suppressions-an-added-noqa-with-no-reason-fails`: tested by `tests/lockstep/checks/test_lockstep_check_suppressions.py::test_added_noqa_without_reason_fails` ([`tests/lockstep/checks/test_lockstep_check_suppressions.py:37`](../../tests/lockstep/checks/test_lockstep_check_suppressions.py#L37)), `tests/lockstep/checks/test_lockstep_check_suppressions.py::test_path_with_space_and_nested_config_are_read` ([`tests/lockstep/checks/test_lockstep_check_suppressions.py:117`](../../tests/lockstep/checks/test_lockstep_check_suppressions.py#L117))
+- Scenario `suppressions-a-reason-after-the-directive-passes`: tested by `tests/lockstep/checks/test_lockstep_check_suppressions.py::test_reason_after_directive_passes` ([`tests/lockstep/checks/test_lockstep_check_suppressions.py:47`](../../tests/lockstep/checks/test_lockstep_check_suppressions.py#L47)), `tests/lockstep/checks/test_lockstep_check_suppressions.py::test_short_reason_and_other_directives_fail` ([`tests/lockstep/checks/test_lockstep_check_suppressions.py:59`](../../tests/lockstep/checks/test_lockstep_check_suppressions.py#L59)), `tests/lockstep/checks/test_lockstep_check_suppressions.py::test_directive_inside_a_string_is_not_a_suppression` ([`tests/lockstep/checks/test_lockstep_check_suppressions.py:74`](../../tests/lockstep/checks/test_lockstep_check_suppressions.py#L74))
+- Scenario `suppressions-a-suppression-already-at-the-base-is-not-judged`: tested by `tests/lockstep/checks/test_lockstep_check_suppressions.py::test_existing_suppression_not_judged` ([`tests/lockstep/checks/test_lockstep_check_suppressions.py:82`](../../tests/lockstep/checks/test_lockstep_check_suppressions.py#L82))
 
 ## suppressions count line and exit status
 
@@ -588,10 +588,10 @@ The suppressions check SHALL end with `RESULT suppressions added=<n> reasoned=<n
 
 Implemented by:
 
-- `lockstep.checks.suppressions` — [src/lockstep/checks/suppressions.py:1](../../src/lockstep/checks/suppressions.py#L1)
-- `lockstep.checks.suppressions` — [src/lockstep/checks/suppressions.py:1](../../src/lockstep/checks/suppressions.py#L1)
+- `lockstep.checks.suppressions` — [`src/lockstep/checks/suppressions.py:1`](../../src/lockstep/checks/suppressions.py#L1)
+- `lockstep.checks.suppressions` — [`src/lockstep/checks/suppressions.py:1`](../../src/lockstep/checks/suppressions.py#L1)
 
-- Scenario `suppressions-a-base-that-names-no-commit-skips`: tested by `tests/lockstep/checks/test_lockstep_check_suppressions.py::test_missing_base_skips` ([tests/lockstep/checks/test_lockstep_check_suppressions.py:142](../../tests/lockstep/checks/test_lockstep_check_suppressions.py#L142))
+- Scenario `suppressions-a-base-that-names-no-commit-skips`: tested by `tests/lockstep/checks/test_lockstep_check_suppressions.py::test_missing_base_skips` ([`tests/lockstep/checks/test_lockstep_check_suppressions.py:142`](../../tests/lockstep/checks/test_lockstep_check_suppressions.py#L142))
 
 ## test first a changed scenario needs a test that fails before the change
 
@@ -603,12 +603,12 @@ Status: **implemented and tested**
 
 Implemented by:
 
-- `lockstep.checks.test_first` — [src/lockstep/checks/test_first.py:1](../../src/lockstep/checks/test_first.py#L1)
-- `lockstep.checks.test_first` — [src/lockstep/checks/test_first.py:1](../../src/lockstep/checks/test_first.py#L1)
+- `lockstep.checks.test_first` — [`src/lockstep/checks/test_first.py:1`](../../src/lockstep/checks/test_first.py#L1)
+- `lockstep.checks.test_first` — [`src/lockstep/checks/test_first.py:1`](../../src/lockstep/checks/test_first.py#L1)
 
-- Scenario `test-first-a-changed-scenario-whose-tests-all-pass-on-the-base-fails-the-check`: tested by `tests/lockstep/checks/test_lockstep_check_test_first.py::test_a_changed_scenario_whose_tests_all_pass_on_the_base_fails_the_check` ([tests/lockstep/checks/test_lockstep_check_test_first.py:182](../../tests/lockstep/checks/test_lockstep_check_test_first.py#L182)), `tests/lockstep/checks/test_lockstep_check_test_first.py::test_a_test_skipped_on_the_base_is_not_a_failing_test` ([tests/lockstep/checks/test_lockstep_check_test_first.py:269](../../tests/lockstep/checks/test_lockstep_check_test_first.py#L269))
-- Scenario `test-first-one-test-that-fails-on-the-base-is-enough-for-a-changed-scenario`: tested by `tests/lockstep/checks/test_lockstep_check_test_first.py::test_one_test_that_fails_on_the_base_is_enough_for_a_changed_scenario` ([tests/lockstep/checks/test_lockstep_check_test_first.py:194](../../tests/lockstep/checks/test_lockstep_check_test_first.py#L194))
-- Scenario `test-first-a-wording-only-scenario-is-not-checked`: tested by `tests/lockstep/checks/test_lockstep_check_test_first.py::test_a_wording_only_scenario_is_not_checked` ([tests/lockstep/checks/test_lockstep_check_test_first.py:211](../../tests/lockstep/checks/test_lockstep_check_test_first.py#L211))
+- Scenario `test-first-a-changed-scenario-whose-tests-all-pass-on-the-base-fails-the-check`: tested by `tests/lockstep/checks/test_lockstep_check_test_first.py::test_a_changed_scenario_whose_tests_all_pass_on_the_base_fails_the_check` ([`tests/lockstep/checks/test_lockstep_check_test_first.py:182`](../../tests/lockstep/checks/test_lockstep_check_test_first.py#L182)), `tests/lockstep/checks/test_lockstep_check_test_first.py::test_a_test_skipped_on_the_base_is_not_a_failing_test` ([`tests/lockstep/checks/test_lockstep_check_test_first.py:269`](../../tests/lockstep/checks/test_lockstep_check_test_first.py#L269))
+- Scenario `test-first-one-test-that-fails-on-the-base-is-enough-for-a-changed-scenario`: tested by `tests/lockstep/checks/test_lockstep_check_test_first.py::test_one_test_that_fails_on_the_base_is_enough_for_a_changed_scenario` ([`tests/lockstep/checks/test_lockstep_check_test_first.py:194`](../../tests/lockstep/checks/test_lockstep_check_test_first.py#L194))
+- Scenario `test-first-a-wording-only-scenario-is-not-checked`: tested by `tests/lockstep/checks/test_lockstep_check_test_first.py::test_a_wording_only_scenario_is_not_checked` ([`tests/lockstep/checks/test_lockstep_check_test_first.py:211`](../../tests/lockstep/checks/test_lockstep_check_test_first.py#L211))
 
 ## test first a missing base revision is reported not crashed
 
@@ -620,10 +620,10 @@ Status: **implemented and tested**
 
 Implemented by:
 
-- `lockstep.checks.test_first` — [src/lockstep/checks/test_first.py:1](../../src/lockstep/checks/test_first.py#L1)
-- `lockstep.checks.test_first` — [src/lockstep/checks/test_first.py:1](../../src/lockstep/checks/test_first.py#L1)
+- `lockstep.checks.test_first` — [`src/lockstep/checks/test_first.py:1`](../../src/lockstep/checks/test_first.py#L1)
+- `lockstep.checks.test_first` — [`src/lockstep/checks/test_first.py:1`](../../src/lockstep/checks/test_first.py#L1)
 
-- Scenario `test-first-new-repository-without-a-base-passes-with-a-skip-notice`: tested by `tests/lockstep/checks/test_lockstep_check_test_first.py::test_new_repository_without_a_base_passes_with_a_skip_notice` ([tests/lockstep/checks/test_lockstep_check_test_first.py:79](../../tests/lockstep/checks/test_lockstep_check_test_first.py#L79))
+- Scenario `test-first-new-repository-without-a-base-passes-with-a-skip-notice`: tested by `tests/lockstep/checks/test_lockstep_check_test_first.py::test_new_repository_without_a_base_passes_with_a_skip_notice` ([`tests/lockstep/checks/test_lockstep_check_test_first.py:79`](../../tests/lockstep/checks/test_lockstep_check_test_first.py#L79))
 
 ## test first a test run that cannot start fails the check
 
@@ -635,10 +635,10 @@ Status: **implemented and tested**
 
 Implemented by:
 
-- `lockstep.checks.test_first` — [src/lockstep/checks/test_first.py:1](../../src/lockstep/checks/test_first.py#L1)
-- `lockstep.checks.test_first` — [src/lockstep/checks/test_first.py:1](../../src/lockstep/checks/test_first.py#L1)
+- `lockstep.checks.test_first` — [`src/lockstep/checks/test_first.py:1`](../../src/lockstep/checks/test_first.py#L1)
+- `lockstep.checks.test_first` — [`src/lockstep/checks/test_first.py:1`](../../src/lockstep/checks/test_first.py#L1)
 
-- Scenario `test-first-pytest-that-cannot-run-fails-loudly`: tested by `tests/lockstep/checks/test_lockstep_check_test_first.py::test_pytest_that_cannot_run_fails_loudly` ([tests/lockstep/checks/test_lockstep_check_test_first.py:138](../../tests/lockstep/checks/test_lockstep_check_test_first.py#L138)), `tests/lockstep/checks/test_lockstep_check_test_first.py::test_the_cli_exits_non_zero_when_pytest_cannot_run` ([tests/lockstep/checks/test_lockstep_check_test_first.py:150](../../tests/lockstep/checks/test_lockstep_check_test_first.py#L150))
+- Scenario `test-first-pytest-that-cannot-run-fails-loudly`: tested by `tests/lockstep/checks/test_lockstep_check_test_first.py::test_pytest_that_cannot_run_fails_loudly` ([`tests/lockstep/checks/test_lockstep_check_test_first.py:138`](../../tests/lockstep/checks/test_lockstep_check_test_first.py#L138)), `tests/lockstep/checks/test_lockstep_check_test_first.py::test_the_cli_exits_non_zero_when_pytest_cannot_run` ([`tests/lockstep/checks/test_lockstep_check_test_first.py:150`](../../tests/lockstep/checks/test_lockstep_check_test_first.py#L150))
 
 ## test first new scenario tests fail before the change
 
@@ -650,14 +650,14 @@ Status: **implemented and tested**
 
 Implemented by:
 
-- `lockstep.checks.test_first` — [src/lockstep/checks/test_first.py:1](../../src/lockstep/checks/test_first.py#L1)
-- `lockstep.checks.test_first` — [src/lockstep/checks/test_first.py:1](../../src/lockstep/checks/test_first.py#L1)
+- `lockstep.checks.test_first` — [`src/lockstep/checks/test_first.py:1`](../../src/lockstep/checks/test_first.py#L1)
+- `lockstep.checks.test_first` — [`src/lockstep/checks/test_first.py:1`](../../src/lockstep/checks/test_first.py#L1)
 
-- Scenario `test-first-test-that-already-passed-is-reported`: tested by `tests/lockstep/checks/test_lockstep_check_test_first.py::test_test_that_already_passed_is_reported` ([tests/lockstep/checks/test_lockstep_check_test_first.py:56](../../tests/lockstep/checks/test_lockstep_check_test_first.py#L56))
-- Scenario `test-first-test-that-failed-before-passes-the-check`: tested by `tests/lockstep/checks/test_lockstep_check_test_first.py::test_test_that_failed_before_passes_the_check` ([tests/lockstep/checks/test_lockstep_check_test_first.py:67](../../tests/lockstep/checks/test_lockstep_check_test_first.py#L67))
-- Scenario `test-first-a-scenario-in-an-active-change-is-checked`: tested by `tests/lockstep/checks/test_lockstep_check_test_first.py::test_a_scenario_in_an_active_change_is_checked` ([tests/lockstep/checks/test_lockstep_check_test_first.py:112](../../tests/lockstep/checks/test_lockstep_check_test_first.py#L112))
-- Scenario `test-first-archiving-a-change-makes-no-scenario-new`: tested by `tests/lockstep/checks/test_lockstep_check_test_first.py::test_archiving_a_change_makes_no_scenario_new` ([tests/lockstep/checks/test_lockstep_check_test_first.py:123](../../tests/lockstep/checks/test_lockstep_check_test_first.py#L123))
-- Scenario `test-first-configured-test-folders-run-against-the-base-source`: tested by `tests/lockstep/checks/test_lockstep_check_test_first.py::test_configured_test_root_runs_current_tests_against_base_source` ([tests/lockstep/checks/test_lockstep_check_test_first.py:33](../../tests/lockstep/checks/test_lockstep_check_test_first.py#L33))
+- Scenario `test-first-test-that-already-passed-is-reported`: tested by `tests/lockstep/checks/test_lockstep_check_test_first.py::test_test_that_already_passed_is_reported` ([`tests/lockstep/checks/test_lockstep_check_test_first.py:56`](../../tests/lockstep/checks/test_lockstep_check_test_first.py#L56))
+- Scenario `test-first-test-that-failed-before-passes-the-check`: tested by `tests/lockstep/checks/test_lockstep_check_test_first.py::test_test_that_failed_before_passes_the_check` ([`tests/lockstep/checks/test_lockstep_check_test_first.py:67`](../../tests/lockstep/checks/test_lockstep_check_test_first.py#L67))
+- Scenario `test-first-a-scenario-in-an-active-change-is-checked`: tested by `tests/lockstep/checks/test_lockstep_check_test_first.py::test_a_scenario_in_an_active_change_is_checked` ([`tests/lockstep/checks/test_lockstep_check_test_first.py:112`](../../tests/lockstep/checks/test_lockstep_check_test_first.py#L112))
+- Scenario `test-first-archiving-a-change-makes-no-scenario-new`: tested by `tests/lockstep/checks/test_lockstep_check_test_first.py::test_archiving_a_change_makes_no_scenario_new` ([`tests/lockstep/checks/test_lockstep_check_test_first.py:123`](../../tests/lockstep/checks/test_lockstep_check_test_first.py#L123))
+- Scenario `test-first-configured-test-folders-run-against-the-base-source`: tested by `tests/lockstep/checks/test_lockstep_check_test_first.py::test_configured_test_root_runs_current_tests_against_base_source` ([`tests/lockstep/checks/test_lockstep_check_test_first.py:33`](../../tests/lockstep/checks/test_lockstep_check_test_first.py#L33))
 
 ## test first tests for existing behavior are exempt and counted
 
@@ -669,11 +669,11 @@ The test-first check SHALL not run a test marked `req(..., existing=True)` for a
 
 Implemented by:
 
-- `lockstep.checks.test_first` — [src/lockstep/checks/test_first.py:1](../../src/lockstep/checks/test_first.py#L1)
-- `lockstep.checks.test_first` — [src/lockstep/checks/test_first.py:1](../../src/lockstep/checks/test_first.py#L1)
+- `lockstep.checks.test_first` — [`src/lockstep/checks/test_first.py:1`](../../src/lockstep/checks/test_first.py#L1)
+- `lockstep.checks.test_first` — [`src/lockstep/checks/test_first.py:1`](../../src/lockstep/checks/test_first.py#L1)
 
-- Scenario `test-first-existing-behavior-test-is-skipped-and-counted`: tested by `tests/lockstep/checks/test_lockstep_check_test_first.py::test_existing_behavior_test_is_skipped_and_counted` ([tests/lockstep/checks/test_lockstep_check_test_first.py:88](../../tests/lockstep/checks/test_lockstep_check_test_first.py#L88))
-- Scenario `test-first-an-existing-behavior-mark-does-not-exempt-a-changed-scenario`: tested by `tests/lockstep/checks/test_lockstep_check_test_first.py::test_an_existing_behavior_mark_does_not_exempt_a_changed_scenario` ([tests/lockstep/checks/test_lockstep_check_test_first.py:223](../../tests/lockstep/checks/test_lockstep_check_test_first.py#L223))
+- Scenario `test-first-existing-behavior-test-is-skipped-and-counted`: tested by `tests/lockstep/checks/test_lockstep_check_test_first.py::test_existing_behavior_test_is_skipped_and_counted` ([`tests/lockstep/checks/test_lockstep_check_test_first.py:88`](../../tests/lockstep/checks/test_lockstep_check_test_first.py#L88))
+- Scenario `test-first-an-existing-behavior-mark-does-not-exempt-a-changed-scenario`: tested by `tests/lockstep/checks/test_lockstep_check_test_first.py::test_an_existing_behavior_mark_does_not_exempt_a_changed_scenario` ([`tests/lockstep/checks/test_lockstep_check_test_first.py:223`](../../tests/lockstep/checks/test_lockstep_check_test_first.py#L223))
 
 ## trace a marked quote matches its requirement
 
@@ -685,20 +685,20 @@ The trace check SHALL read, in every Markdown file tracked by git outside `opens
 
 Implemented by:
 
-- `lockstep.checks.quotes` — [src/lockstep/checks/quotes.py:1](../../src/lockstep/checks/quotes.py#L1)
-- `lockstep.checks.quotes` — [src/lockstep/checks/quotes.py:1](../../src/lockstep/checks/quotes.py#L1)
-- `lockstep.checks.quotes.check` — [src/lockstep/checks/quotes.py:160](../../src/lockstep/checks/quotes.py#L160)
-- `lockstep.checks.trace` — [src/lockstep/checks/trace.py:1](../../src/lockstep/checks/trace.py#L1)
-- `lockstep.checks.trace` — [src/lockstep/checks/trace.py:1](../../src/lockstep/checks/trace.py#L1)
+- `lockstep.checks.quotes` — [`src/lockstep/checks/quotes.py:1`](../../src/lockstep/checks/quotes.py#L1)
+- `lockstep.checks.quotes` — [`src/lockstep/checks/quotes.py:1`](../../src/lockstep/checks/quotes.py#L1)
+- `lockstep.checks.quotes.check` — [`src/lockstep/checks/quotes.py:160`](../../src/lockstep/checks/quotes.py#L160)
+- `lockstep.checks.trace` — [`src/lockstep/checks/trace.py:1`](../../src/lockstep/checks/trace.py#L1)
+- `lockstep.checks.trace` — [`src/lockstep/checks/trace.py:1`](../../src/lockstep/checks/trace.py#L1)
 
-- Scenario `trace-a-quote-that-matches-passes`: tested by `tests/lockstep/checks/test_lockstep_check_quotes.py::test_a_quote_that_matches_passes` ([tests/lockstep/checks/test_lockstep_check_quotes.py:56](../../tests/lockstep/checks/test_lockstep_check_quotes.py#L56)), `tests/lockstep/checks/test_lockstep_spec_reader.py::test_a_statement_after_its_source_line_is_still_the_statement` ([tests/lockstep/checks/test_lockstep_spec_reader.py:23](../../tests/lockstep/checks/test_lockstep_spec_reader.py#L23)), `tests/lockstep/checks/test_lockstep_spec_reader.py::test_a_statement_before_its_source_line_is_unchanged` ([tests/lockstep/checks/test_lockstep_spec_reader.py:29](../../tests/lockstep/checks/test_lockstep_spec_reader.py#L29)), `tests/lockstep/checks/test_lockstep_spec_reader.py::test_notes_after_the_source_line_of_a_stated_requirement_are_not_the_statement` ([tests/lockstep/checks/test_lockstep_spec_reader.py:34](../../tests/lockstep/checks/test_lockstep_spec_reader.py#L34))
-- Scenario `trace-a-quote-left-behind-by-a-changed-requirement-fails`: tested by `tests/lockstep/checks/test_lockstep_check_quotes.py::test_a_quote_left_behind_by_a_changed_requirement_fails` ([tests/lockstep/checks/test_lockstep_check_quotes.py:65](../../tests/lockstep/checks/test_lockstep_check_quotes.py#L65))
-- Scenario `trace-a-quote-of-a-scenario-s-text-passes`: tested by `tests/lockstep/checks/test_lockstep_check_quotes.py::test_a_quote_of_a_scenarios_text_passes` ([tests/lockstep/checks/test_lockstep_check_quotes.py:81](../../tests/lockstep/checks/test_lockstep_check_quotes.py#L81))
-- Scenario `trace-a-quote-of-an-unknown-requirement-fails`: tested by `tests/lockstep/checks/test_lockstep_check_quotes.py::test_a_quote_of_an_unknown_requirement_fails` ([tests/lockstep/checks/test_lockstep_check_quotes.py:88](../../tests/lockstep/checks/test_lockstep_check_quotes.py#L88))
-- Scenario `trace-a-quote-matching-an-active-change-s-text-passes`: tested by `tests/lockstep/checks/test_lockstep_check_quotes.py::test_a_quote_matching_an_active_changes_text_passes` ([tests/lockstep/checks/test_lockstep_check_quotes.py:98](../../tests/lockstep/checks/test_lockstep_check_quotes.py#L98))
-- Scenario `trace-a-start-marker-with-no-end-marker-fails`: tested by `tests/lockstep/checks/test_lockstep_check_quotes.py::test_a_start_marker_with_no_end_marker_fails` ([tests/lockstep/checks/test_lockstep_check_quotes.py:113](../../tests/lockstep/checks/test_lockstep_check_quotes.py#L113))
-- Scenario `trace-a-marker-written-as-code-is-not-a-quote`: tested by `tests/lockstep/checks/test_lockstep_check_quotes.py::test_a_marker_written_as_code_is_not_a_quote` ([tests/lockstep/checks/test_lockstep_check_quotes.py:126](../../tests/lockstep/checks/test_lockstep_check_quotes.py#L126))
-- Scenario `trace-a-quoted-passage-keeps-its-code-words`: tested by `tests/lockstep/checks/test_lockstep_check_quotes.py::test_a_quoted_passage_keeps_its_code_words` ([tests/lockstep/checks/test_lockstep_check_quotes.py:141](../../tests/lockstep/checks/test_lockstep_check_quotes.py#L141))
+- Scenario `trace-a-quote-that-matches-passes`: tested by `tests/lockstep/checks/test_lockstep_check_quotes.py::test_a_quote_that_matches_passes` ([`tests/lockstep/checks/test_lockstep_check_quotes.py:56`](../../tests/lockstep/checks/test_lockstep_check_quotes.py#L56)), `tests/lockstep/checks/test_lockstep_spec_reader.py::test_a_statement_after_its_source_line_is_still_the_statement` ([`tests/lockstep/checks/test_lockstep_spec_reader.py:23`](../../tests/lockstep/checks/test_lockstep_spec_reader.py#L23)), `tests/lockstep/checks/test_lockstep_spec_reader.py::test_a_statement_before_its_source_line_is_unchanged` ([`tests/lockstep/checks/test_lockstep_spec_reader.py:29`](../../tests/lockstep/checks/test_lockstep_spec_reader.py#L29)), `tests/lockstep/checks/test_lockstep_spec_reader.py::test_notes_after_the_source_line_of_a_stated_requirement_are_not_the_statement` ([`tests/lockstep/checks/test_lockstep_spec_reader.py:34`](../../tests/lockstep/checks/test_lockstep_spec_reader.py#L34))
+- Scenario `trace-a-quote-left-behind-by-a-changed-requirement-fails`: tested by `tests/lockstep/checks/test_lockstep_check_quotes.py::test_a_quote_left_behind_by_a_changed_requirement_fails` ([`tests/lockstep/checks/test_lockstep_check_quotes.py:65`](../../tests/lockstep/checks/test_lockstep_check_quotes.py#L65))
+- Scenario `trace-a-quote-of-a-scenario-s-text-passes`: tested by `tests/lockstep/checks/test_lockstep_check_quotes.py::test_a_quote_of_a_scenarios_text_passes` ([`tests/lockstep/checks/test_lockstep_check_quotes.py:81`](../../tests/lockstep/checks/test_lockstep_check_quotes.py#L81))
+- Scenario `trace-a-quote-of-an-unknown-requirement-fails`: tested by `tests/lockstep/checks/test_lockstep_check_quotes.py::test_a_quote_of_an_unknown_requirement_fails` ([`tests/lockstep/checks/test_lockstep_check_quotes.py:88`](../../tests/lockstep/checks/test_lockstep_check_quotes.py#L88))
+- Scenario `trace-a-quote-matching-an-active-change-s-text-passes`: tested by `tests/lockstep/checks/test_lockstep_check_quotes.py::test_a_quote_matching_an_active_changes_text_passes` ([`tests/lockstep/checks/test_lockstep_check_quotes.py:98`](../../tests/lockstep/checks/test_lockstep_check_quotes.py#L98))
+- Scenario `trace-a-start-marker-with-no-end-marker-fails`: tested by `tests/lockstep/checks/test_lockstep_check_quotes.py::test_a_start_marker_with_no_end_marker_fails` ([`tests/lockstep/checks/test_lockstep_check_quotes.py:113`](../../tests/lockstep/checks/test_lockstep_check_quotes.py#L113))
+- Scenario `trace-a-marker-written-as-code-is-not-a-quote`: tested by `tests/lockstep/checks/test_lockstep_check_quotes.py::test_a_marker_written_as_code_is_not_a_quote` ([`tests/lockstep/checks/test_lockstep_check_quotes.py:126`](../../tests/lockstep/checks/test_lockstep_check_quotes.py#L126))
+- Scenario `trace-a-quoted-passage-keeps-its-code-words`: tested by `tests/lockstep/checks/test_lockstep_check_quotes.py::test_a_quoted_passage_keeps_its_code_words` ([`tests/lockstep/checks/test_lockstep_check_quotes.py:141`](../../tests/lockstep/checks/test_lockstep_check_quotes.py#L141))
 
 ## trace comment lines in configured files implement requirements
 
@@ -710,12 +710,12 @@ The trace check SHALL also read `Implements:` lines in the files, and the files 
 
 Implemented by:
 
-- `lockstep.checks.markers` — [src/lockstep/checks/markers.py:1](../../src/lockstep/checks/markers.py#L1)
-- `lockstep.checks.markers` — [src/lockstep/checks/markers.py:1](../../src/lockstep/checks/markers.py#L1)
+- `lockstep.checks.markers` — [`src/lockstep/checks/markers.py:1`](../../src/lockstep/checks/markers.py#L1)
+- `lockstep.checks.markers` — [`src/lockstep/checks/markers.py:1`](../../src/lockstep/checks/markers.py#L1)
 
-- Scenario `trace-a-jinja-comment-in-a-configured-folder-implements-a-requirement`: tested by `tests/lockstep/checks/test_lockstep_check_trace.py::test_a_jinja_comment_in_a_configured_folder_implements_a_requirement` ([tests/lockstep/checks/test_lockstep_check_trace.py:132](../../tests/lockstep/checks/test_lockstep_check_trace.py#L132))
-- Scenario `trace-a-docstring-line-in-a-configured-folder-is-not-read`: tested by `tests/lockstep/checks/test_lockstep_check_trace.py::test_a_docstring_line_in_a_configured_folder_is_not_read` ([tests/lockstep/checks/test_lockstep_check_trace.py:147](../../tests/lockstep/checks/test_lockstep_check_trace.py#L147))
-- Scenario `trace-an-unconfigured-file-is-not-read`: tested by `tests/lockstep/checks/test_lockstep_check_trace.py::test_an_unconfigured_file_is_not_read` ([tests/lockstep/checks/test_lockstep_check_trace.py:140](../../tests/lockstep/checks/test_lockstep_check_trace.py#L140))
+- Scenario `trace-a-jinja-comment-in-a-configured-folder-implements-a-requirement`: tested by `tests/lockstep/checks/test_lockstep_check_trace.py::test_a_jinja_comment_in_a_configured_folder_implements_a_requirement` ([`tests/lockstep/checks/test_lockstep_check_trace.py:132`](../../tests/lockstep/checks/test_lockstep_check_trace.py#L132))
+- Scenario `trace-a-docstring-line-in-a-configured-folder-is-not-read`: tested by `tests/lockstep/checks/test_lockstep_check_trace.py::test_a_docstring_line_in_a_configured_folder_is_not_read` ([`tests/lockstep/checks/test_lockstep_check_trace.py:147`](../../tests/lockstep/checks/test_lockstep_check_trace.py#L147))
+- Scenario `trace-an-unconfigured-file-is-not-read`: tested by `tests/lockstep/checks/test_lockstep_check_trace.py::test_an_unconfigured_file_is_not_read` ([`tests/lockstep/checks/test_lockstep_check_trace.py:140`](../../tests/lockstep/checks/test_lockstep_check_trace.py#L140))
 
 ## trace every requirement has an implementer
 
@@ -727,11 +727,11 @@ The trace check SHALL fail when an OpenSpec requirement has no source module, cl
 
 Implemented by:
 
-- `lockstep.checks.trace` — [src/lockstep/checks/trace.py:1](../../src/lockstep/checks/trace.py#L1)
-- `lockstep.checks.trace` — [src/lockstep/checks/trace.py:1](../../src/lockstep/checks/trace.py#L1)
+- `lockstep.checks.trace` — [`src/lockstep/checks/trace.py:1`](../../src/lockstep/checks/trace.py#L1)
+- `lockstep.checks.trace` — [`src/lockstep/checks/trace.py:1`](../../src/lockstep/checks/trace.py#L1)
 
-- Scenario `trace-requirement-without-implementer-fails`: tested by `tests/lockstep/checks/test_lockstep_check_trace.py::test_requirement_without_implementer_fails` ([tests/lockstep/checks/test_lockstep_check_trace.py:43](../../tests/lockstep/checks/test_lockstep_check_trace.py#L43))
-- Scenario `trace-implemented-requirement-passes`: tested by `tests/lockstep/checks/test_lockstep_check_trace.py::test_implemented_requirement_passes` ([tests/lockstep/checks/test_lockstep_check_trace.py:51](../../tests/lockstep/checks/test_lockstep_check_trace.py#L51)), `tests/lockstep/checks/test_lockstep_check_trace.py::test_implements_line_may_wrap` ([tests/lockstep/checks/test_lockstep_check_trace.py:78](../../tests/lockstep/checks/test_lockstep_check_trace.py#L78)), `tests/lockstep/checks/test_lockstep_check_trace.py::test_stacked_implements_lines_in_a_function_are_separate` ([tests/lockstep/checks/test_lockstep_check_trace.py:92](../../tests/lockstep/checks/test_lockstep_check_trace.py#L92))
+- Scenario `trace-requirement-without-implementer-fails`: tested by `tests/lockstep/checks/test_lockstep_check_trace.py::test_requirement_without_implementer_fails` ([`tests/lockstep/checks/test_lockstep_check_trace.py:43`](../../tests/lockstep/checks/test_lockstep_check_trace.py#L43))
+- Scenario `trace-implemented-requirement-passes`: tested by `tests/lockstep/checks/test_lockstep_check_trace.py::test_implemented_requirement_passes` ([`tests/lockstep/checks/test_lockstep_check_trace.py:51`](../../tests/lockstep/checks/test_lockstep_check_trace.py#L51)), `tests/lockstep/checks/test_lockstep_check_trace.py::test_implements_line_may_wrap` ([`tests/lockstep/checks/test_lockstep_check_trace.py:78`](../../tests/lockstep/checks/test_lockstep_check_trace.py#L78)), `tests/lockstep/checks/test_lockstep_check_trace.py::test_stacked_implements_lines_in_a_function_are_separate` ([`tests/lockstep/checks/test_lockstep_check_trace.py:92`](../../tests/lockstep/checks/test_lockstep_check_trace.py#L92))
 
 ## trace every scenario has a test
 
@@ -743,10 +743,10 @@ The trace check SHALL fail when an OpenSpec scenario has no test decorated with 
 
 Implemented by:
 
-- `lockstep.checks.trace` — [src/lockstep/checks/trace.py:1](../../src/lockstep/checks/trace.py#L1)
-- `lockstep.checks.trace` — [src/lockstep/checks/trace.py:1](../../src/lockstep/checks/trace.py#L1)
+- `lockstep.checks.trace` — [`src/lockstep/checks/trace.py:1`](../../src/lockstep/checks/trace.py#L1)
+- `lockstep.checks.trace` — [`src/lockstep/checks/trace.py:1`](../../src/lockstep/checks/trace.py#L1)
 
-- Scenario `trace-scenario-without-test-fails`: tested by `tests/lockstep/checks/test_lockstep_check_trace.py::test_scenario_without_test_fails` ([tests/lockstep/checks/test_lockstep_check_trace.py:58](../../tests/lockstep/checks/test_lockstep_check_trace.py#L58))
+- Scenario `trace-scenario-without-test-fails`: tested by `tests/lockstep/checks/test_lockstep_check_trace.py::test_scenario_without_test_fails` ([`tests/lockstep/checks/test_lockstep_check_trace.py:58`](../../tests/lockstep/checks/test_lockstep_check_trace.py#L58))
 
 ## trace ids from changes in progress are known
 
@@ -758,10 +758,10 @@ The trace check SHALL treat requirement and scenario IDs defined in an active ch
 
 Implemented by:
 
-- `lockstep.checks.trace` — [src/lockstep/checks/trace.py:1](../../src/lockstep/checks/trace.py#L1)
-- `lockstep.checks.trace` — [src/lockstep/checks/trace.py:1](../../src/lockstep/checks/trace.py#L1)
+- `lockstep.checks.trace` — [`src/lockstep/checks/trace.py:1`](../../src/lockstep/checks/trace.py#L1)
+- `lockstep.checks.trace` — [`src/lockstep/checks/trace.py:1`](../../src/lockstep/checks/trace.py#L1)
 
-- Scenario `trace-test-written-for-an-active-change-passes-trace`: tested by `tests/lockstep/checks/test_lockstep_check_trace.py::test_test_written_for_an_active_change_passes_trace` ([tests/lockstep/checks/test_lockstep_check_trace.py:107](../../tests/lockstep/checks/test_lockstep_check_trace.py#L107))
+- Scenario `trace-test-written-for-an-active-change-passes-trace`: tested by `tests/lockstep/checks/test_lockstep_check_trace.py::test_test_written_for_an_active_change_passes_trace` ([`tests/lockstep/checks/test_lockstep_check_trace.py:107`](../../tests/lockstep/checks/test_lockstep_check_trace.py#L107))
 
 ## trace source folders are configurable
 
@@ -773,10 +773,10 @@ The trace check SHALL search for `Implements:` lines in the folders listed under
 
 Implemented by:
 
-- `lockstep.checks.markers` — [src/lockstep/checks/markers.py:1](../../src/lockstep/checks/markers.py#L1)
-- `lockstep.checks.markers` — [src/lockstep/checks/markers.py:1](../../src/lockstep/checks/markers.py#L1)
+- `lockstep.checks.markers` — [`src/lockstep/checks/markers.py:1`](../../src/lockstep/checks/markers.py#L1)
+- `lockstep.checks.markers` — [`src/lockstep/checks/markers.py:1`](../../src/lockstep/checks/markers.py#L1)
 
-- Scenario `trace-implementer-outside-src-is-found`: tested by `tests/lockstep/checks/test_lockstep_check_trace.py::test_implementer_outside_src_is_found` ([tests/lockstep/checks/test_lockstep_check_trace.py:124](../../tests/lockstep/checks/test_lockstep_check_trace.py#L124))
+- Scenario `trace-implementer-outside-src-is-found`: tested by `tests/lockstep/checks/test_lockstep_check_trace.py::test_implementer_outside_src_is_found` ([`tests/lockstep/checks/test_lockstep_check_trace.py:124`](../../tests/lockstep/checks/test_lockstep_check_trace.py#L124))
 
 ## trace test folders are configurable
 
@@ -788,11 +788,11 @@ The marker reader SHALL discover `@pytest.mark.req` in `test_*.py` files under t
 
 Implemented by:
 
-- `lockstep.checks.markers` — [src/lockstep/checks/markers.py:1](../../src/lockstep/checks/markers.py#L1)
-- `lockstep.checks.markers` — [src/lockstep/checks/markers.py:1](../../src/lockstep/checks/markers.py#L1)
+- `lockstep.checks.markers` — [`src/lockstep/checks/markers.py:1`](../../src/lockstep/checks/markers.py#L1)
+- `lockstep.checks.markers` — [`src/lockstep/checks/markers.py:1`](../../src/lockstep/checks/markers.py#L1)
 
-- Scenario `trace-configured-test-folders-feed-trace`: tested by `tests/lockstep/checks/test_lockstep_check_trace.py::test_configured_test_folders_feed_trace` ([tests/lockstep/checks/test_lockstep_check_trace.py:9](../../tests/lockstep/checks/test_lockstep_check_trace.py#L9))
-- Scenario `trace-overlapping-test-folders-do-not-duplicate-markers`: tested by `tests/lockstep/checks/test_lockstep_check_trace.py::test_overlapping_test_folders_do_not_duplicate_markers` ([tests/lockstep/checks/test_lockstep_check_trace.py:20](../../tests/lockstep/checks/test_lockstep_check_trace.py#L20))
+- Scenario `trace-configured-test-folders-feed-trace`: tested by `tests/lockstep/checks/test_lockstep_check_trace.py::test_configured_test_folders_feed_trace` ([`tests/lockstep/checks/test_lockstep_check_trace.py:9`](../../tests/lockstep/checks/test_lockstep_check_trace.py#L9))
+- Scenario `trace-overlapping-test-folders-do-not-duplicate-markers`: tested by `tests/lockstep/checks/test_lockstep_check_trace.py::test_overlapping_test_folders_do_not_duplicate_markers` ([`tests/lockstep/checks/test_lockstep_check_trace.py:20`](../../tests/lockstep/checks/test_lockstep_check_trace.py#L20))
 
 ## trace unknown ids fail
 
@@ -804,7 +804,7 @@ The trace check SHALL fail when a docstring or test marker names an ID that no s
 
 Implemented by:
 
-- `lockstep.checks.trace` — [src/lockstep/checks/trace.py:1](../../src/lockstep/checks/trace.py#L1)
-- `lockstep.checks.trace` — [src/lockstep/checks/trace.py:1](../../src/lockstep/checks/trace.py#L1)
+- `lockstep.checks.trace` — [`src/lockstep/checks/trace.py:1`](../../src/lockstep/checks/trace.py#L1)
+- `lockstep.checks.trace` — [`src/lockstep/checks/trace.py:1`](../../src/lockstep/checks/trace.py#L1)
 
-- Scenario `trace-stale-marker-fails`: tested by `tests/lockstep/checks/test_lockstep_check_trace.py::test_stale_marker_fails` ([tests/lockstep/checks/test_lockstep_check_trace.py:65](../../tests/lockstep/checks/test_lockstep_check_trace.py#L65))
+- Scenario `trace-stale-marker-fails`: tested by `tests/lockstep/checks/test_lockstep_check_trace.py::test_stale_marker_fails` ([`tests/lockstep/checks/test_lockstep_check_trace.py:65`](../../tests/lockstep/checks/test_lockstep_check_trace.py#L65))

@@ -14,10 +14,10 @@ The manifest SHALL carry a hand-written `scripts` list, one record per script a 
 
 Implemented by:
 
-- `machine_manifest` — [scripts/machine_manifest.py:1](../../scripts/machine_manifest.py#L1)
-- `machine_manifest.unrecorded_scripts` — [scripts/machine_manifest.py:362](../../scripts/machine_manifest.py#L362)
+- `machine_manifest` — [`scripts/machine_manifest.py:1`](../../scripts/machine_manifest.py#L1)
+- `machine_manifest.unrecorded_scripts` — [`scripts/machine_manifest.py:362`](../../scripts/machine_manifest.py#L362)
 
-- Scenario `every-script-outside-git-has-a-record`: tested by `tests/test_machine_manifest.py::test_a_script_outside_git_needs_a_record_and_hand_sections_survive_build` ([tests/test_machine_manifest.py:283](../../tests/test_machine_manifest.py#L283))
+- Scenario `every-script-outside-git-has-a-record`: tested by `tests/test_machine_manifest.py::test_a_script_outside_git_needs_a_record_and_hand_sections_survive_build` ([`tests/test_machine_manifest.py:283`](../../tests/test_machine_manifest.py#L283))
 
 ## every unit has a source
 
@@ -29,9 +29,9 @@ Status: **implemented and tested**
 
 Implemented by:
 
-- `machine_manifest` — [scripts/machine_manifest.py:1](../../scripts/machine_manifest.py#L1)
+- `machine_manifest` — [`scripts/machine_manifest.py:1`](../../scripts/machine_manifest.py#L1)
 
-- Scenario `every-unit-has-a-source`: tested by `tests/test_machine_manifest.py::test_every_unit_and_dropin_has_a_source` ([tests/test_machine_manifest.py:60](../../tests/test_machine_manifest.py#L60))
+- Scenario `every-unit-has-a-source`: tested by `tests/test_machine_manifest.py::test_every_unit_and_dropin_has_a_source` ([`tests/test_machine_manifest.py:60`](../../tests/test_machine_manifest.py#L60))
 
 ## install never deletes or writes through links
 
@@ -43,10 +43,10 @@ Status: **implemented and tested**
 
 Implemented by:
 
-- `machine_manifest` — [scripts/machine_manifest.py:1](../../scripts/machine_manifest.py#L1)
-- `machine_manifest.install_units` — [scripts/machine_manifest.py:459](../../scripts/machine_manifest.py#L459)
+- `machine_manifest` — [`scripts/machine_manifest.py:1`](../../scripts/machine_manifest.py#L1)
+- `machine_manifest.install_units` — [`scripts/machine_manifest.py:459`](../../scripts/machine_manifest.py#L459)
 
-- Scenario `install-never-deletes-or-writes-through-links`: tested by `tests/test_machine_manifest.py::test_install_units_dry_run_is_the_default_and_writes_nothing` ([tests/test_machine_manifest.py:222](../../tests/test_machine_manifest.py#L222)), `tests/test_machine_manifest.py::test_install_units_backs_up_before_replacing_and_never_writes_through_a_link` ([tests/test_machine_manifest.py:230](../../tests/test_machine_manifest.py#L230))
+- Scenario `install-never-deletes-or-writes-through-links`: tested by `tests/test_machine_manifest.py::test_install_units_dry_run_is_the_default_and_writes_nothing` ([`tests/test_machine_manifest.py:222`](../../tests/test_machine_manifest.py#L222)), `tests/test_machine_manifest.py::test_install_units_backs_up_before_replacing_and_never_writes_through_a_link` ([`tests/test_machine_manifest.py:230`](../../tests/test_machine_manifest.py#L230))
 
 ## local only units are reported
 
@@ -58,11 +58,11 @@ Status: **implemented and tested**
 
 Implemented by:
 
-- `machine_manifest` — [scripts/machine_manifest.py:1](../../scripts/machine_manifest.py#L1)
-- `machine_manifest.findings` — [scripts/machine_manifest.py:314](../../scripts/machine_manifest.py#L314)
+- `machine_manifest` — [`scripts/machine_manifest.py:1`](../../scripts/machine_manifest.py#L1)
+- `machine_manifest.findings` — [`scripts/machine_manifest.py:314`](../../scripts/machine_manifest.py#L314)
 
-- Scenario `local-only-units-are-reported`: tested by `tests/test_machine_manifest.py::test_local_only_files_are_reported_and_fail_the_check` ([tests/test_machine_manifest.py:77](../../tests/test_machine_manifest.py#L77))
-- Scenario `identical-copies-do-not-fail`: tested by `tests/test_machine_manifest.py::test_identical_repository_copies_are_counted_and_do_not_fail` ([tests/test_machine_manifest.py:113](../../tests/test_machine_manifest.py#L113)), `tests/test_machine_manifest.py::test_a_missing_differing_or_absent_copy_still_fails` ([tests/test_machine_manifest.py:123](../../tests/test_machine_manifest.py#L123)), `tests/test_machine_manifest.py::test_a_recorded_link_counts_only_when_its_target_matches` ([tests/test_machine_manifest.py:137](../../tests/test_machine_manifest.py#L137)), `tests/test_machine_manifest.py::test_a_recorded_link_to_a_file_outside_git_still_fails` ([tests/test_machine_manifest.py:242](../../tests/test_machine_manifest.py#L242))
+- Scenario `local-only-units-are-reported`: tested by `tests/test_machine_manifest.py::test_local_only_files_are_reported_and_fail_the_check` ([`tests/test_machine_manifest.py:77`](../../tests/test_machine_manifest.py#L77))
+- Scenario `identical-copies-do-not-fail`: tested by `tests/test_machine_manifest.py::test_identical_repository_copies_are_counted_and_do_not_fail` ([`tests/test_machine_manifest.py:113`](../../tests/test_machine_manifest.py#L113)), `tests/test_machine_manifest.py::test_a_missing_differing_or_absent_copy_still_fails` ([`tests/test_machine_manifest.py:123`](../../tests/test_machine_manifest.py#L123)), `tests/test_machine_manifest.py::test_a_recorded_link_counts_only_when_its_target_matches` ([`tests/test_machine_manifest.py:137`](../../tests/test_machine_manifest.py#L137)), `tests/test_machine_manifest.py::test_a_recorded_link_to_a_file_outside_git_still_fails` ([`tests/test_machine_manifest.py:242`](../../tests/test_machine_manifest.py#L242))
 
 ## missing or untracked target is reported
 
@@ -74,10 +74,10 @@ Status: **implemented and tested**
 
 Implemented by:
 
-- `machine_manifest` — [scripts/machine_manifest.py:1](../../scripts/machine_manifest.py#L1)
-- `machine_manifest.findings` — [scripts/machine_manifest.py:314](../../scripts/machine_manifest.py#L314)
+- `machine_manifest` — [`scripts/machine_manifest.py:1`](../../scripts/machine_manifest.py#L1)
+- `machine_manifest.findings` — [`scripts/machine_manifest.py:314`](../../scripts/machine_manifest.py#L314)
 
-- Scenario `missing-or-untracked-target-is-reported`: tested by `tests/test_machine_manifest.py::test_missing_or_untracked_targets_and_drift_are_reported` ([tests/test_machine_manifest.py:146](../../tests/test_machine_manifest.py#L146)), `tests/test_machine_manifest.py::test_clean_machine_passes_the_check` ([tests/test_machine_manifest.py:158](../../tests/test_machine_manifest.py#L158))
+- Scenario `missing-or-untracked-target-is-reported`: tested by `tests/test_machine_manifest.py::test_missing_or_untracked_targets_and_drift_are_reported` ([`tests/test_machine_manifest.py:146`](../../tests/test_machine_manifest.py#L146)), `tests/test_machine_manifest.py::test_clean_machine_passes_the_check` ([`tests/test_machine_manifest.py:158`](../../tests/test_machine_manifest.py#L158))
 
 ## no environment values are written
 
@@ -89,9 +89,9 @@ The manifest SHALL record only how many `Environment=` and `EnvironmentFile=` li
 
 Implemented by:
 
-- `machine_manifest` — [scripts/machine_manifest.py:1](../../scripts/machine_manifest.py#L1)
+- `machine_manifest` — [`scripts/machine_manifest.py:1`](../../scripts/machine_manifest.py#L1)
 
-- Scenario `no-environment-values-are-written`: tested by `tests/test_machine_manifest.py::test_no_environment_value_or_argument_is_written` ([tests/test_machine_manifest.py:175](../../tests/test_machine_manifest.py#L175)), `tests/test_machine_manifest.py::test_inline_commands_keep_only_the_program_and_modules_are_named` ([tests/test_machine_manifest.py:184](../../tests/test_machine_manifest.py#L184))
+- Scenario `no-environment-values-are-written`: tested by `tests/test_machine_manifest.py::test_no_environment_value_or_argument_is_written` ([`tests/test_machine_manifest.py:175`](../../tests/test_machine_manifest.py#L175)), `tests/test_machine_manifest.py::test_inline_commands_keep_only_the_program_and_modules_are_named` ([`tests/test_machine_manifest.py:184`](../../tests/test_machine_manifest.py#L184))
 
 ## output is stable
 
@@ -103,10 +103,10 @@ The manifest SHALL carry no timestamp and SHALL list units and drop-ins in sorte
 
 Implemented by:
 
-- `machine_manifest` — [scripts/machine_manifest.py:1](../../scripts/machine_manifest.py#L1)
-- `machine_manifest.build` — [scripts/machine_manifest.py:274](../../scripts/machine_manifest.py#L274)
+- `machine_manifest` — [`scripts/machine_manifest.py:1`](../../scripts/machine_manifest.py#L1)
+- `machine_manifest.build` — [`scripts/machine_manifest.py:274`](../../scripts/machine_manifest.py#L274)
 
-- Scenario `output-is-stable`: tested by `tests/test_machine_manifest.py::test_output_is_sorted_and_identical_across_builds` ([tests/test_machine_manifest.py:167](../../tests/test_machine_manifest.py#L167))
+- Scenario `output-is-stable`: tested by `tests/test_machine_manifest.py::test_output_is_sorted_and_identical_across_builds` ([`tests/test_machine_manifest.py:167`](../../tests/test_machine_manifest.py#L167))
 
 ## repository copies can be compared
 
@@ -118,10 +118,10 @@ Status: **implemented and tested**
 
 Implemented by:
 
-- `machine_manifest` — [scripts/machine_manifest.py:1](../../scripts/machine_manifest.py#L1)
-- `machine_manifest.compare_units` — [scripts/machine_manifest.py:427](../../scripts/machine_manifest.py#L427)
+- `machine_manifest` — [`scripts/machine_manifest.py:1`](../../scripts/machine_manifest.py#L1)
+- `machine_manifest.compare_units` — [`scripts/machine_manifest.py:427`](../../scripts/machine_manifest.py#L427)
 
-- Scenario `repository-copies-can-be-compared`: tested by `tests/test_machine_manifest.py::test_check_units_counts_same_differ_missing_and_fails_on_differ` ([tests/test_machine_manifest.py:209](../../tests/test_machine_manifest.py#L209))
+- Scenario `repository-copies-can-be-compared`: tested by `tests/test_machine_manifest.py::test_check_units_counts_same_differ_missing_and_fails_on_differ` ([`tests/test_machine_manifest.py:209`](../../tests/test_machine_manifest.py#L209))
 
 ## script copies can be compared and installed
 
@@ -133,8 +133,8 @@ Status: **implemented and tested**
 
 Implemented by:
 
-- `machine_manifest` — [scripts/machine_manifest.py:1](../../scripts/machine_manifest.py#L1)
-- `machine_manifest.compare_scripts` — [scripts/machine_manifest.py:509](../../scripts/machine_manifest.py#L509)
-- `machine_manifest.install_scripts` — [scripts/machine_manifest.py:568](../../scripts/machine_manifest.py#L568)
+- `machine_manifest` — [`scripts/machine_manifest.py:1`](../../scripts/machine_manifest.py#L1)
+- `machine_manifest.compare_scripts` — [`scripts/machine_manifest.py:509`](../../scripts/machine_manifest.py#L509)
+- `machine_manifest.install_scripts` — [`scripts/machine_manifest.py:568`](../../scripts/machine_manifest.py#L568)
 
-- Scenario `script-copies-can-be-compared-and-installed`: tested by `tests/test_machine_manifest.py::test_check_scripts_compares_copies_and_repo_files` ([tests/test_machine_manifest.py:301](../../tests/test_machine_manifest.py#L301)), `tests/test_machine_manifest.py::test_install_scripts_is_a_dry_run_by_default_backs_up_and_skips_links` ([tests/test_machine_manifest.py:322](../../tests/test_machine_manifest.py#L322))
+- Scenario `script-copies-can-be-compared-and-installed`: tested by `tests/test_machine_manifest.py::test_check_scripts_compares_copies_and_repo_files` ([`tests/test_machine_manifest.py:301`](../../tests/test_machine_manifest.py#L301)), `tests/test_machine_manifest.py::test_install_scripts_is_a_dry_run_by_default_backs_up_and_skips_links` ([`tests/test_machine_manifest.py:322`](../../tests/test_machine_manifest.py#L322))

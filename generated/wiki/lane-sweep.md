@@ -14,20 +14,20 @@ Status: **implemented and tested**
 
 Implemented by:
 
-- `lockstep.lane_sweep` — [src/lockstep/lane_sweep.py:1](../../src/lockstep/lane_sweep.py#L1)
-- `lockstep.lane_sweep` — [src/lockstep/lane_sweep.py:1](../../src/lockstep/lane_sweep.py#L1)
+- `lockstep.lane_sweep` — [`src/lockstep/lane_sweep.py:1`](../../src/lockstep/lane_sweep.py#L1)
+- `lockstep.lane_sweep` — [`src/lockstep/lane_sweep.py:1`](../../src/lockstep/lane_sweep.py#L1)
 
-- Scenario `an-unmerged-lane-holding-ignored-non-cache-files-is-kept-and-not-archived`: tested by `tests/test_lane_sweep.py::test_an_unmerged_lane_holding_ignored_non_cache_files_is_kept_and_not_archived` ([tests/test_lane_sweep.py:821](../../tests/test_lane_sweep.py#L821))
-- Scenario `a-clean-idle-unmerged-lane-is-archived-and-removed-with-its-branch-kept`: tested by `tests/test_lane_sweep.py::test_a_clean_idle_unmerged_lane_is_archived_and_removed_with_its_branch_kept` ([tests/test_lane_sweep.py:626](../../tests/test_lane_sweep.py#L626))
-- Scenario `a-detached-unmerged-lane-gets-an-archive-ref`: tested by `tests/test_lane_sweep.py::test_a_detached_unmerged_lane_gets_an_archive_ref` ([tests/test_lane_sweep.py:646](../../tests/test_lane_sweep.py#L646))
-- Scenario `an-unmerged-lane-whose-tip-is-on-a-remote-branch-needs-no-bundle`: tested by `tests/test_lane_sweep.py::test_an_unmerged_lane_whose_tip_is_on_a_remote_branch_needs_no_bundle` ([tests/test_lane_sweep.py:664](../../tests/test_lane_sweep.py#L664))
-- Scenario `a-dirty-unmerged-lane-is-kept`: tested by `tests/test_lane_sweep.py::test_a_dirty_unmerged_lane_is_kept` ([tests/test_lane_sweep.py:676](../../tests/test_lane_sweep.py#L676))
-- Scenario `a-locked-unmerged-lane-is-kept`: tested by `tests/test_lane_sweep.py::test_a_locked_unmerged_lane_is_kept` ([tests/test_lane_sweep.py:687](../../tests/test_lane_sweep.py#L687))
-- Scenario `an-unmerged-lane-idle-less-than-the-limit-is-kept`: tested by `tests/test_lane_sweep.py::test_an_unmerged_lane_idle_less_than_the_limit_is_kept` ([tests/test_lane_sweep.py:698](../../tests/test_lane_sweep.py#L698))
-- Scenario `without-apply-an-unmerged-lane-is-only-reported`: tested by `tests/test_lane_sweep.py::test_without_apply_an_unmerged_lane_is_only_reported` ([tests/test_lane_sweep.py:707](../../tests/test_lane_sweep.py#L707))
-- Scenario `a-bundle-that-fails-to-verify-keeps-the-lane`: tested by `tests/test_lane_sweep.py::test_a_bundle_that_fails_to_verify_keeps_the_lane` ([tests/test_lane_sweep.py:719](../../tests/test_lane_sweep.py#L719))
-- Scenario `an-archive-ref-is-pushed-only-to-a-private-repository-of-the-configured-owner`: tested by `tests/test_lane_sweep.py::test_an_archive_ref_is_pushed_only_to_a_private_repository_of_the_configured_owner` ([tests/test_lane_sweep.py:745](../../tests/test_lane_sweep.py#L745))
-- Scenario `the-archive-limit-comes-from-graph-config`: tested by `tests/test_lane_sweep.py::test_the_archive_limit_comes_from_graph_config` ([tests/test_lane_sweep.py:778](../../tests/test_lane_sweep.py#L778))
+- Scenario `an-unmerged-lane-holding-ignored-non-cache-files-is-kept-and-not-archived`: tested by `tests/test_lane_sweep.py::test_an_unmerged_lane_holding_ignored_non_cache_files_is_kept_and_not_archived` ([`tests/test_lane_sweep.py:821`](../../tests/test_lane_sweep.py#L821))
+- Scenario `a-clean-idle-unmerged-lane-is-archived-and-removed-with-its-branch-kept`: tested by `tests/test_lane_sweep.py::test_a_clean_idle_unmerged_lane_is_archived_and_removed_with_its_branch_kept` ([`tests/test_lane_sweep.py:626`](../../tests/test_lane_sweep.py#L626))
+- Scenario `a-detached-unmerged-lane-gets-an-archive-ref`: tested by `tests/test_lane_sweep.py::test_a_detached_unmerged_lane_gets_an_archive_ref` ([`tests/test_lane_sweep.py:646`](../../tests/test_lane_sweep.py#L646))
+- Scenario `an-unmerged-lane-whose-tip-is-on-a-remote-branch-needs-no-bundle`: tested by `tests/test_lane_sweep.py::test_an_unmerged_lane_whose_tip_is_on_a_remote_branch_needs_no_bundle` ([`tests/test_lane_sweep.py:664`](../../tests/test_lane_sweep.py#L664))
+- Scenario `a-dirty-unmerged-lane-is-kept`: tested by `tests/test_lane_sweep.py::test_a_dirty_unmerged_lane_is_kept` ([`tests/test_lane_sweep.py:676`](../../tests/test_lane_sweep.py#L676))
+- Scenario `a-locked-unmerged-lane-is-kept`: tested by `tests/test_lane_sweep.py::test_a_locked_unmerged_lane_is_kept` ([`tests/test_lane_sweep.py:687`](../../tests/test_lane_sweep.py#L687))
+- Scenario `an-unmerged-lane-idle-less-than-the-limit-is-kept`: tested by `tests/test_lane_sweep.py::test_an_unmerged_lane_idle_less_than_the_limit_is_kept` ([`tests/test_lane_sweep.py:698`](../../tests/test_lane_sweep.py#L698))
+- Scenario `without-apply-an-unmerged-lane-is-only-reported`: tested by `tests/test_lane_sweep.py::test_without_apply_an_unmerged_lane_is_only_reported` ([`tests/test_lane_sweep.py:707`](../../tests/test_lane_sweep.py#L707))
+- Scenario `a-bundle-that-fails-to-verify-keeps-the-lane`: tested by `tests/test_lane_sweep.py::test_a_bundle_that_fails_to_verify_keeps_the_lane` ([`tests/test_lane_sweep.py:719`](../../tests/test_lane_sweep.py#L719))
+- Scenario `an-archive-ref-is-pushed-only-to-a-private-repository-of-the-configured-owner`: tested by `tests/test_lane_sweep.py::test_an_archive_ref_is_pushed_only_to_a_private_repository_of_the_configured_owner` ([`tests/test_lane_sweep.py:745`](../../tests/test_lane_sweep.py#L745))
+- Scenario `the-archive-limit-comes-from-graph-config`: tested by `tests/test_lane_sweep.py::test_the_archive_limit_comes_from_graph_config` ([`tests/test_lane_sweep.py:778`](../../tests/test_lane_sweep.py#L778))
 
 ## count kept lanes per repository
 
@@ -39,10 +39,10 @@ After the kept lanes, `scripts/lane_sweep.py` SHALL print, and append to the day
 
 Implemented by:
 
-- `lockstep.lane_sweep` — [src/lockstep/lane_sweep.py:1](../../src/lockstep/lane_sweep.py#L1)
-- `lockstep.lane_sweep` — [src/lockstep/lane_sweep.py:1](../../src/lockstep/lane_sweep.py#L1)
+- `lockstep.lane_sweep` — [`src/lockstep/lane_sweep.py:1`](../../src/lockstep/lane_sweep.py#L1)
+- `lockstep.lane_sweep` — [`src/lockstep/lane_sweep.py:1`](../../src/lockstep/lane_sweep.py#L1)
 
-- Scenario `the-sweep-counts-kept-lanes-per-repository`: tested by `tests/test_lane_sweep.py::test_the_sweep_counts_kept_lanes_per_repository` ([tests/test_lane_sweep.py:769](../../tests/test_lane_sweep.py#L769))
+- Scenario `the-sweep-counts-kept-lanes-per-repository`: tested by `tests/test_lane_sweep.py::test_the_sweep_counts_kept_lanes_per_repository` ([`tests/test_lane_sweep.py:769`](../../tests/test_lane_sweep.py#L769))
 
 ## fast forward primary checkouts that are clean and idle
 
@@ -54,18 +54,18 @@ After judging a repository's lanes, `scripts/lane_sweep.py` SHALL fast-forward t
 
 Implemented by:
 
-- `lockstep.lane_sweep` — [src/lockstep/lane_sweep.py:1](../../src/lockstep/lane_sweep.py#L1)
-- `lockstep.lane_sweep` — [src/lockstep/lane_sweep.py:1](../../src/lockstep/lane_sweep.py#L1)
+- `lockstep.lane_sweep` — [`src/lockstep/lane_sweep.py:1`](../../src/lockstep/lane_sweep.py#L1)
+- `lockstep.lane_sweep` — [`src/lockstep/lane_sweep.py:1`](../../src/lockstep/lane_sweep.py#L1)
 
-- Scenario `a-clean-idle-primary-checkout-is-fast-forwarded`: tested by `tests/test_lane_sweep.py::test_a_clean_idle_primary_checkout_is_fast_forwarded` ([tests/test_lane_sweep.py:353](../../tests/test_lane_sweep.py#L353))
-- Scenario `a-primary-checkout-with-uncommitted-changes-is-not-moved`: tested by `tests/test_lane_sweep.py::test_a_primary_checkout_with_uncommitted_changes_is_not_moved` ([tests/test_lane_sweep.py:387](../../tests/test_lane_sweep.py#L387))
-- Scenario `a-primary-checkout-on-another-branch-is-not-moved`: tested by `tests/test_lane_sweep.py::test_a_primary_checkout_on_another_branch_is_not_moved` ([tests/test_lane_sweep.py:397](../../tests/test_lane_sweep.py#L397))
-- Scenario `a-primary-checkout-with-its-own-commits-is-not-moved`: tested by `tests/test_lane_sweep.py::test_a_primary_checkout_with_its_own_commits_is_not_moved` ([tests/test_lane_sweep.py:407](../../tests/test_lane_sweep.py#L407))
-- Scenario `a-primary-checkout-a-process-is-working-in-is-not-moved`: tested by `tests/test_lane_sweep.py::test_a_primary_checkout_a_process_is_working_in_is_not_moved` ([tests/test_lane_sweep.py:418](../../tests/test_lane_sweep.py#L418))
-- Scenario `a-process-in-a-lane-nested-in-the-checkout-does-not-hold-it`: tested by `tests/test_lane_sweep.py::test_a_process_in_a_lane_nested_in_the_checkout_does_not_hold_it` ([tests/test_lane_sweep.py:432](../../tests/test_lane_sweep.py#L432))
-- Scenario `without-apply-the-checkout-is-only-reported`: tested by `tests/test_lane_sweep.py::test_without_apply_the_checkout_is_only_reported` ([tests/test_lane_sweep.py:449](../../tests/test_lane_sweep.py#L449))
-- Scenario `a-primary-checkout-with-a-git-lock-is-not-moved`: tested by `tests/test_lane_sweep.py::test_a_primary_checkout_with_a_git_lock_is_not_moved` ([tests/test_lane_sweep.py:552](../../tests/test_lane_sweep.py#L552))
-- Scenario `a-locked-primary-checkout-moves-through-canonical-lock-sync`: tested by `tests/test_lane_sweep.py::test_a_read_only_primary_checkout_is_moved_through_the_lock_tool` ([tests/test_lane_sweep.py:364](../../tests/test_lane_sweep.py#L364))
+- Scenario `a-clean-idle-primary-checkout-is-fast-forwarded`: tested by `tests/test_lane_sweep.py::test_a_clean_idle_primary_checkout_is_fast_forwarded` ([`tests/test_lane_sweep.py:353`](../../tests/test_lane_sweep.py#L353))
+- Scenario `a-primary-checkout-with-uncommitted-changes-is-not-moved`: tested by `tests/test_lane_sweep.py::test_a_primary_checkout_with_uncommitted_changes_is_not_moved` ([`tests/test_lane_sweep.py:387`](../../tests/test_lane_sweep.py#L387))
+- Scenario `a-primary-checkout-on-another-branch-is-not-moved`: tested by `tests/test_lane_sweep.py::test_a_primary_checkout_on_another_branch_is_not_moved` ([`tests/test_lane_sweep.py:397`](../../tests/test_lane_sweep.py#L397))
+- Scenario `a-primary-checkout-with-its-own-commits-is-not-moved`: tested by `tests/test_lane_sweep.py::test_a_primary_checkout_with_its_own_commits_is_not_moved` ([`tests/test_lane_sweep.py:407`](../../tests/test_lane_sweep.py#L407))
+- Scenario `a-primary-checkout-a-process-is-working-in-is-not-moved`: tested by `tests/test_lane_sweep.py::test_a_primary_checkout_a_process_is_working_in_is_not_moved` ([`tests/test_lane_sweep.py:418`](../../tests/test_lane_sweep.py#L418))
+- Scenario `a-process-in-a-lane-nested-in-the-checkout-does-not-hold-it`: tested by `tests/test_lane_sweep.py::test_a_process_in_a_lane_nested_in_the_checkout_does_not_hold_it` ([`tests/test_lane_sweep.py:432`](../../tests/test_lane_sweep.py#L432))
+- Scenario `without-apply-the-checkout-is-only-reported`: tested by `tests/test_lane_sweep.py::test_without_apply_the_checkout_is_only_reported` ([`tests/test_lane_sweep.py:449`](../../tests/test_lane_sweep.py#L449))
+- Scenario `a-primary-checkout-with-a-git-lock-is-not-moved`: tested by `tests/test_lane_sweep.py::test_a_primary_checkout_with_a_git_lock_is_not_moved` ([`tests/test_lane_sweep.py:552`](../../tests/test_lane_sweep.py#L552))
+- Scenario `a-locked-primary-checkout-moves-through-canonical-lock-sync`: tested by `tests/test_lane_sweep.py::test_a_read_only_primary_checkout_is_moved_through_the_lock_tool` ([`tests/test_lane_sweep.py:364`](../../tests/test_lane_sweep.py#L364))
 
 ## keep lanes git will not remove without force
 
@@ -77,10 +77,10 @@ The sweep SHALL keep a lane whose worktree contains a `.gitmodules` file and rep
 
 Implemented by:
 
-- `lockstep.lane_sweep` — [src/lockstep/lane_sweep.py:1](../../src/lockstep/lane_sweep.py#L1)
-- `lockstep.lane_sweep` — [src/lockstep/lane_sweep.py:1](../../src/lockstep/lane_sweep.py#L1)
+- `lockstep.lane_sweep` — [`src/lockstep/lane_sweep.py:1`](../../src/lockstep/lane_sweep.py#L1)
+- `lockstep.lane_sweep` — [`src/lockstep/lane_sweep.py:1`](../../src/lockstep/lane_sweep.py#L1)
 
-- Scenario `a-lane-with-submodules-is-kept-not-failed`: tested by `tests/test_lane_sweep.py::test_a_lane_with_submodules_is_kept_not_failed` ([tests/test_lane_sweep.py:111](../../tests/test_lane_sweep.py#L111))
+- Scenario `a-lane-with-submodules-is-kept-not-failed`: tested by `tests/test_lane_sweep.py::test_a_lane_with_submodules_is_kept_not_failed` ([`tests/test_lane_sweep.py:111`](../../tests/test_lane_sweep.py#L111))
 
 ## keep lanes that a systemd user unit runs from
 
@@ -92,12 +92,12 @@ Status: **implemented and tested**
 
 Implemented by:
 
-- `lockstep.lane_sweep` — [src/lockstep/lane_sweep.py:1](../../src/lockstep/lane_sweep.py#L1)
-- `lockstep.lane_sweep` — [src/lockstep/lane_sweep.py:1](../../src/lockstep/lane_sweep.py#L1)
+- `lockstep.lane_sweep` — [`src/lockstep/lane_sweep.py:1`](../../src/lockstep/lane_sweep.py#L1)
+- `lockstep.lane_sweep` — [`src/lockstep/lane_sweep.py:1`](../../src/lockstep/lane_sweep.py#L1)
 
-- Scenario `a-lane-a-pending-transient-timer-runs-from-is-kept`: tested by `tests/test_lane_sweep.py::test_a_lane_a_pending_transient_timer_runs_from_is_kept` ([tests/test_lane_sweep.py:188](../../tests/test_lane_sweep.py#L188))
-- Scenario `a-lane-named-only-in-a-unit-s-drop-in-is-kept`: tested by `tests/test_lane_sweep.py::test_a_lane_named_only_in_a_unit_drop_in_is_kept` ([tests/test_lane_sweep.py:214](../../tests/test_lane_sweep.py#L214))
-- Scenario `a-unit-that-names-another-folder-does-not-keep-a-lane`: tested by `tests/test_lane_sweep.py::test_a_unit_that_names_another_folder_does_not_keep_a_lane` ([tests/test_lane_sweep.py:229](../../tests/test_lane_sweep.py#L229))
+- Scenario `a-lane-a-pending-transient-timer-runs-from-is-kept`: tested by `tests/test_lane_sweep.py::test_a_lane_a_pending_transient_timer_runs_from_is_kept` ([`tests/test_lane_sweep.py:188`](../../tests/test_lane_sweep.py#L188))
+- Scenario `a-lane-named-only-in-a-unit-s-drop-in-is-kept`: tested by `tests/test_lane_sweep.py::test_a_lane_named_only_in_a_unit_drop_in_is_kept` ([`tests/test_lane_sweep.py:214`](../../tests/test_lane_sweep.py#L214))
+- Scenario `a-unit-that-names-another-folder-does-not-keep-a-lane`: tested by `tests/test_lane_sweep.py::test_a_unit_that_names_another_folder_does_not_keep_a_lane` ([`tests/test_lane_sweep.py:229`](../../tests/test_lane_sweep.py#L229))
 
 ## keep locked worktrees
 
@@ -109,10 +109,10 @@ Status: **implemented and tested**
 
 Implemented by:
 
-- `lockstep.lane_sweep` — [src/lockstep/lane_sweep.py:1](../../src/lockstep/lane_sweep.py#L1)
-- `lockstep.lane_sweep` — [src/lockstep/lane_sweep.py:1](../../src/lockstep/lane_sweep.py#L1)
+- `lockstep.lane_sweep` — [`src/lockstep/lane_sweep.py:1`](../../src/lockstep/lane_sweep.py#L1)
+- `lockstep.lane_sweep` — [`src/lockstep/lane_sweep.py:1`](../../src/lockstep/lane_sweep.py#L1)
 
-- Scenario `a-locked-worktree-is-kept`: tested by `tests/test_lane_sweep.py::test_a_locked_worktree_is_kept` ([tests/test_lane_sweep.py:126](../../tests/test_lane_sweep.py#L126)), `tests/test_lane_sweep.py::test_the_same_worktree_unlocked_is_removed` ([tests/test_lane_sweep.py:140](../../tests/test_lane_sweep.py#L140))
+- Scenario `a-locked-worktree-is-kept`: tested by `tests/test_lane_sweep.py::test_a_locked_worktree_is_kept` ([`tests/test_lane_sweep.py:126`](../../tests/test_lane_sweep.py#L126)), `tests/test_lane_sweep.py::test_the_same_worktree_unlocked_is_removed` ([`tests/test_lane_sweep.py:140`](../../tests/test_lane_sweep.py#L140))
 
 ## remove finished lanes and report the rest
 
@@ -124,31 +124,31 @@ Status: **implemented and tested**
 
 Implemented by:
 
-- `lockstep.lane_sweep` — [src/lockstep/lane_sweep.py:1](../../src/lockstep/lane_sweep.py#L1)
-- `lockstep.lane_sweep` — [src/lockstep/lane_sweep.py:1](../../src/lockstep/lane_sweep.py#L1)
-- `lockstep.lane_sweep.ignored_keep_reason` — [src/lockstep/lane_sweep.py:1155](../../src/lockstep/lane_sweep.py#L1155)
+- `lockstep.lane_sweep` — [`src/lockstep/lane_sweep.py:1`](../../src/lockstep/lane_sweep.py#L1)
+- `lockstep.lane_sweep` — [`src/lockstep/lane_sweep.py:1`](../../src/lockstep/lane_sweep.py#L1)
+- `lockstep.lane_sweep.ignored_keep_reason` — [`src/lockstep/lane_sweep.py:1155`](../../src/lockstep/lane_sweep.py#L1155)
 
-- Scenario `a-clean-lane-whose-commits-are-on-main-is-removed`: tested by `tests/test_lane_sweep.py::test_a_clean_lane_whose_commits_are_on_main_is_removed` ([tests/test_lane_sweep.py:76](../../tests/test_lane_sweep.py#L76))
-- Scenario `a-squash-merged-lane-is-removed`: tested by `tests/test_lane_sweep.py::test_a_squash_merged_lane_is_removed` ([tests/test_lane_sweep.py:88](../../tests/test_lane_sweep.py#L88))
-- Scenario `a-lane-with-uncommitted-changes-is-kept`: tested by `tests/test_lane_sweep.py::test_a_lane_with_uncommitted_changes_is_kept` ([tests/test_lane_sweep.py:100](../../tests/test_lane_sweep.py#L100))
-- Scenario `a-lane-with-work-not-on-main-is-kept`: tested by `tests/test_lane_sweep.py::test_a_lane_with_work_not_on_main_is_kept` ([tests/test_lane_sweep.py:150](../../tests/test_lane_sweep.py#L150))
-- Scenario `a-lane-a-process-is-working-in-is-kept`: tested by `tests/test_lane_sweep.py::test_a_lane_a_process_is_working_in_is_kept` ([tests/test_lane_sweep.py:159](../../tests/test_lane_sweep.py#L159))
-- Scenario `a-lane-a-systemd-unit-runs-from-is-kept`: tested by `tests/test_lane_sweep.py::test_a_lane_a_systemd_unit_runs_from_is_kept` ([tests/test_lane_sweep.py:174](../../tests/test_lane_sweep.py#L174))
-- Scenario `a-lane-a-process-runs-code-from-is-kept`: tested by `tests/test_lane_sweep.py::test_a_lane_a_process_runs_code_from_is_kept` ([tests/test_lane_sweep.py:243](../../tests/test_lane_sweep.py#L243))
-- Scenario `the-command-that-launched-the-sweep-does-not-hold-the-lane`: tested by `tests/test_lane_sweep.py::test_the_command_that_launched_the_sweep_does_not_hold_the_lane` ([tests/test_lane_sweep.py:295](../../tests/test_lane_sweep.py#L295))
-- Scenario `a-new-lane-with-no-commits-is-kept`: tested by `tests/test_lane_sweep.py::test_a_new_lane_with_no_commits_is_kept` ([tests/test_lane_sweep.py:261](../../tests/test_lane_sweep.py#L261))
-- Scenario `a-removal-can-be-undone`: tested by `tests/test_lane_sweep.py::test_a_removal_can_be_undone` ([tests/test_lane_sweep.py:270](../../tests/test_lane_sweep.py#L270))
-- Scenario `without-apply-nothing-changes`: tested by `tests/test_lane_sweep.py::test_without_apply_nothing_changes` ([tests/test_lane_sweep.py:284](../../tests/test_lane_sweep.py#L284))
-- Scenario `a-shipped-lane-is-removed-right-after-merge`: tested by `tests/test_ship.py::test_a_shipped_lane_is_removed_right_after_merge` ([tests/test_ship.py:611](../../tests/test_ship.py#L611))
-- Scenario `a-lane-at-a-merged-pull-request-head-is-removed`: tested by `tests/test_lane_sweep.py::test_a_lane_at_a_merged_pull_request_head_is_removed` ([tests/test_lane_sweep.py:315](../../tests/test_lane_sweep.py#L315))
-- Scenario `a-lane-a-process-imports-from-is-kept`: tested by `tests/test_lane_sweep.py::test_a_lane_a_process_imports_from_is_kept` ([tests/test_lane_sweep.py:458](../../tests/test_lane_sweep.py#L458))
-- Scenario `a-lane-an-editable-install-points-into-is-kept`: tested by `tests/test_lane_sweep.py::test_a_lane_an_editable_install_points_into_is_kept` ([tests/test_lane_sweep.py:476](../../tests/test_lane_sweep.py#L476))
-- Scenario `a-removal-that-fails-partway-leaves-no-half-tree-at-the-lane-s-path`: tested by `tests/test_lane_sweep.py::test_a_removal_that_fails_partway_leaves_no_half_tree_at_the_lanes_path` ([tests/test_lane_sweep.py:500](../../tests/test_lane_sweep.py#L500))
-- Scenario `a-lane-with-a-folder-that-cannot-be-written-is-kept-whole`: tested by `tests/test_lane_sweep.py::test_a_lane_with_a_folder_that_cannot_be_written_is_kept_whole` ([tests/test_lane_sweep.py:562](../../tests/test_lane_sweep.py#L562))
-- Scenario `a-removal-that-times-out-leaves-the-lane-whole`: tested by `tests/test_lane_sweep.py::test_a_removal_that_times_out_leaves_the_lane_whole` ([tests/test_lane_sweep.py:531](../../tests/test_lane_sweep.py#L531))
-- Scenario `a-lane-holding-ignored-non-cache-files-is-kept`: tested by `tests/test_lane_sweep.py::test_a_lane_holding_ignored_non_cache_files_is_kept` ([tests/test_lane_sweep.py:805](../../tests/test_lane_sweep.py#L805)), `tests/test_lane_sweep.py::test_an_unreadable_ignored_folder_keeps_the_lane` ([tests/test_lane_sweep.py:860](../../tests/test_lane_sweep.py#L860))
-- Scenario `ignored-non-cache-files-under-1-mib-do-not-keep-a-lane`: tested by `tests/test_lane_sweep.py::test_ignored_non_cache_files_under_1_mib_do_not_keep_a_lane` ([tests/test_lane_sweep.py:834](../../tests/test_lane_sweep.py#L834))
-- Scenario `regenerable-caches-do-not-keep-a-lane`: tested by `tests/test_lane_sweep.py::test_regenerable_caches_do_not_keep_a_lane` ([tests/test_lane_sweep.py:847](../../tests/test_lane_sweep.py#L847))
+- Scenario `a-clean-lane-whose-commits-are-on-main-is-removed`: tested by `tests/test_lane_sweep.py::test_a_clean_lane_whose_commits_are_on_main_is_removed` ([`tests/test_lane_sweep.py:76`](../../tests/test_lane_sweep.py#L76))
+- Scenario `a-squash-merged-lane-is-removed`: tested by `tests/test_lane_sweep.py::test_a_squash_merged_lane_is_removed` ([`tests/test_lane_sweep.py:88`](../../tests/test_lane_sweep.py#L88))
+- Scenario `a-lane-with-uncommitted-changes-is-kept`: tested by `tests/test_lane_sweep.py::test_a_lane_with_uncommitted_changes_is_kept` ([`tests/test_lane_sweep.py:100`](../../tests/test_lane_sweep.py#L100))
+- Scenario `a-lane-with-work-not-on-main-is-kept`: tested by `tests/test_lane_sweep.py::test_a_lane_with_work_not_on_main_is_kept` ([`tests/test_lane_sweep.py:150`](../../tests/test_lane_sweep.py#L150))
+- Scenario `a-lane-a-process-is-working-in-is-kept`: tested by `tests/test_lane_sweep.py::test_a_lane_a_process_is_working_in_is_kept` ([`tests/test_lane_sweep.py:159`](../../tests/test_lane_sweep.py#L159))
+- Scenario `a-lane-a-systemd-unit-runs-from-is-kept`: tested by `tests/test_lane_sweep.py::test_a_lane_a_systemd_unit_runs_from_is_kept` ([`tests/test_lane_sweep.py:174`](../../tests/test_lane_sweep.py#L174))
+- Scenario `a-lane-a-process-runs-code-from-is-kept`: tested by `tests/test_lane_sweep.py::test_a_lane_a_process_runs_code_from_is_kept` ([`tests/test_lane_sweep.py:243`](../../tests/test_lane_sweep.py#L243))
+- Scenario `the-command-that-launched-the-sweep-does-not-hold-the-lane`: tested by `tests/test_lane_sweep.py::test_the_command_that_launched_the_sweep_does_not_hold_the_lane` ([`tests/test_lane_sweep.py:295`](../../tests/test_lane_sweep.py#L295))
+- Scenario `a-new-lane-with-no-commits-is-kept`: tested by `tests/test_lane_sweep.py::test_a_new_lane_with_no_commits_is_kept` ([`tests/test_lane_sweep.py:261`](../../tests/test_lane_sweep.py#L261))
+- Scenario `a-removal-can-be-undone`: tested by `tests/test_lane_sweep.py::test_a_removal_can_be_undone` ([`tests/test_lane_sweep.py:270`](../../tests/test_lane_sweep.py#L270))
+- Scenario `without-apply-nothing-changes`: tested by `tests/test_lane_sweep.py::test_without_apply_nothing_changes` ([`tests/test_lane_sweep.py:284`](../../tests/test_lane_sweep.py#L284))
+- Scenario `a-shipped-lane-is-removed-right-after-merge`: tested by `tests/test_ship.py::test_a_shipped_lane_is_removed_right_after_merge` ([`tests/test_ship.py:611`](../../tests/test_ship.py#L611))
+- Scenario `a-lane-at-a-merged-pull-request-head-is-removed`: tested by `tests/test_lane_sweep.py::test_a_lane_at_a_merged_pull_request_head_is_removed` ([`tests/test_lane_sweep.py:315`](../../tests/test_lane_sweep.py#L315))
+- Scenario `a-lane-a-process-imports-from-is-kept`: tested by `tests/test_lane_sweep.py::test_a_lane_a_process_imports_from_is_kept` ([`tests/test_lane_sweep.py:458`](../../tests/test_lane_sweep.py#L458))
+- Scenario `a-lane-an-editable-install-points-into-is-kept`: tested by `tests/test_lane_sweep.py::test_a_lane_an_editable_install_points_into_is_kept` ([`tests/test_lane_sweep.py:476`](../../tests/test_lane_sweep.py#L476))
+- Scenario `a-removal-that-fails-partway-leaves-no-half-tree-at-the-lane-s-path`: tested by `tests/test_lane_sweep.py::test_a_removal_that_fails_partway_leaves_no_half_tree_at_the_lanes_path` ([`tests/test_lane_sweep.py:500`](../../tests/test_lane_sweep.py#L500))
+- Scenario `a-lane-with-a-folder-that-cannot-be-written-is-kept-whole`: tested by `tests/test_lane_sweep.py::test_a_lane_with_a_folder_that_cannot_be_written_is_kept_whole` ([`tests/test_lane_sweep.py:562`](../../tests/test_lane_sweep.py#L562))
+- Scenario `a-removal-that-times-out-leaves-the-lane-whole`: tested by `tests/test_lane_sweep.py::test_a_removal_that_times_out_leaves_the_lane_whole` ([`tests/test_lane_sweep.py:531`](../../tests/test_lane_sweep.py#L531))
+- Scenario `a-lane-holding-ignored-non-cache-files-is-kept`: tested by `tests/test_lane_sweep.py::test_a_lane_holding_ignored_non_cache_files_is_kept` ([`tests/test_lane_sweep.py:805`](../../tests/test_lane_sweep.py#L805)), `tests/test_lane_sweep.py::test_an_unreadable_ignored_folder_keeps_the_lane` ([`tests/test_lane_sweep.py:860`](../../tests/test_lane_sweep.py#L860))
+- Scenario `ignored-non-cache-files-under-1-mib-do-not-keep-a-lane`: tested by `tests/test_lane_sweep.py::test_ignored_non_cache_files_under_1_mib_do_not_keep_a_lane` ([`tests/test_lane_sweep.py:834`](../../tests/test_lane_sweep.py#L834))
+- Scenario `regenerable-caches-do-not-keep-a-lane`: tested by `tests/test_lane_sweep.py::test_regenerable_caches_do_not_keep_a_lane` ([`tests/test_lane_sweep.py:847`](../../tests/test_lane_sweep.py#L847))
 
 ## settings come from config
 
@@ -160,8 +160,8 @@ The gh command that asks GitHub for a merged pull request SHALL be `$LANE_SWEEP_
 
 Implemented by:
 
-- `lockstep.lane_sweep` — [src/lockstep/lane_sweep.py:1](../../src/lockstep/lane_sweep.py#L1)
-- `lockstep.lane_sweep` — [src/lockstep/lane_sweep.py:1](../../src/lockstep/lane_sweep.py#L1)
+- `lockstep.lane_sweep` — [`src/lockstep/lane_sweep.py:1`](../../src/lockstep/lane_sweep.py#L1)
+- `lockstep.lane_sweep` — [`src/lockstep/lane_sweep.py:1`](../../src/lockstep/lane_sweep.py#L1)
 
-- Scenario `the-gh-wrapper-comes-from-graph-config`: tested by `tests/test_lane_sweep.py::test_the_gh_wrapper_comes_from_graph_config` ([tests/test_lane_sweep.py:580](../../tests/test_lane_sweep.py#L580))
-- Scenario `no-config-uses-plain-gh-and-no-canonical-lock`: tested by `tests/test_lane_sweep.py::test_no_config_uses_plain_gh_and_no_canonical_lock` ([tests/test_lane_sweep.py:597](../../tests/test_lane_sweep.py#L597))
+- Scenario `the-gh-wrapper-comes-from-graph-config`: tested by `tests/test_lane_sweep.py::test_the_gh_wrapper_comes_from_graph_config` ([`tests/test_lane_sweep.py:580`](../../tests/test_lane_sweep.py#L580))
+- Scenario `no-config-uses-plain-gh-and-no-canonical-lock`: tested by `tests/test_lane_sweep.py::test_no_config_uses_plain_gh_and_no_canonical_lock` ([`tests/test_lane_sweep.py:597`](../../tests/test_lane_sweep.py#L597))

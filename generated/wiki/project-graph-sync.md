@@ -14,9 +14,9 @@ A non-archived GitHub repository with neither a graph record nor a reason in `wo
 
 Implemented by:
 
-- `project_graph_sync` — [scripts/project_graph_sync.py:1](../../scripts/project_graph_sync.py#L1)
+- `project_graph_sync` — [`scripts/project_graph_sync.py:1`](../../scripts/project_graph_sync.py#L1)
 
-- Scenario `missing-repositories-get-a-record`: tested by `tests/test_project_graph_sync.py::test_a_new_repo_in_any_account_is_missing` ([tests/test_project_graph_sync.py:36](../../tests/test_project_graph_sync.py#L36)), `tests/test_project_graph_sync.py::test_new_record_is_unreviewed_without_a_checkout_and_names_its_source` ([tests/test_project_graph_sync.py:59](../../tests/test_project_graph_sync.py#L59))
+- Scenario `missing-repositories-get-a-record`: tested by `tests/test_project_graph_sync.py::test_a_new_repo_in_any_account_is_missing` ([`tests/test_project_graph_sync.py:36`](../../tests/test_project_graph_sync.py#L36)), `tests/test_project_graph_sync.py::test_new_record_is_unreviewed_without_a_checkout_and_names_its_source` ([`tests/test_project_graph_sync.py:59`](../../tests/test_project_graph_sync.py#L59))
 
 ## settings come from config
 
@@ -28,6 +28,6 @@ The GitHub owner and accounts, `default_home`, `record_source` (`owner`, `other`
 
 Implemented by:
 
-- `project_graph_sync` — [scripts/project_graph_sync.py:1](../../scripts/project_graph_sync.py#L1)
+- `project_graph_sync` — [`scripts/project_graph_sync.py:1`](../../scripts/project_graph_sync.py#L1)
 
-- Scenario `settings-come-from-config`: tested by `tests/test_project_graph_sync.py::test_a_missing_setting_stops_loudly_and_writes_nothing` ([tests/test_project_graph_sync.py:109](../../tests/test_project_graph_sync.py#L109)), `tests/test_project_graph_sync.py::test_write_adds_records_using_the_configured_settings` ([tests/test_project_graph_sync.py:118](../../tests/test_project_graph_sync.py#L118))
+- Scenario `settings-come-from-config`: tested by `tests/test_project_graph_sync.py::test_a_missing_setting_stops_loudly_and_writes_nothing` ([`tests/test_project_graph_sync.py:109`](../../tests/test_project_graph_sync.py#L109)), `tests/test_project_graph_sync.py::test_write_adds_records_using_the_configured_settings` ([`tests/test_project_graph_sync.py:118`](../../tests/test_project_graph_sync.py#L118))

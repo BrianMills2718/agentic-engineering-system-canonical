@@ -14,7 +14,7 @@ Status: **implemented and tested**
 
 Implemented by:
 
-- `md_file_cap` — [scripts/md_file_cap.py:1](../../scripts/md_file_cap.py#L1)
+- `md_file_cap` — [`scripts/md_file_cap.py:1`](../../scripts/md_file_cap.py#L1)
 
-- Scenario `owner-from-config`: tested by `tests/test_md_file_cap.py::test_owner_is_read_from_the_settings_beside_the_graph` ([tests/test_md_file_cap.py:432](../../tests/test_md_file_cap.py#L432))
-- Scenario `no-owner-fails-loudly`: tested by `tests/test_md_file_cap.py::test_no_owner_named_fails_loudly` ([tests/test_md_file_cap.py:439](../../tests/test_md_file_cap.py#L439))
+- Scenario `owner-from-config`: tested by `tests/test_md_file_cap.py::test_owner_is_read_from_the_settings_beside_the_graph` ([`tests/test_md_file_cap.py:432`](../../tests/test_md_file_cap.py#L432))
+- Scenario `no-owner-fails-loudly`: tested by `tests/test_md_file_cap.py::test_no_owner_named_fails_loudly` ([`tests/test_md_file_cap.py:439`](../../tests/test_md_file_cap.py#L439))

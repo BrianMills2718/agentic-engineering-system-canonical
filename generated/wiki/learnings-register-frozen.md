@@ -14,6 +14,6 @@ The feedback collector SHALL read existing learnings only from the folder named 
 
 Implemented by:
 
-- `learning_loop.collect_feedback.file_item` — [scripts/learning_loop/collect_feedback.py:405](../../scripts/learning_loop/collect_feedback.py#L405)
+- `learning_loop.collect_feedback.file_item` — [`scripts/learning_loop/collect_feedback.py:405`](../../scripts/learning_loop/collect_feedback.py#L405)
 
-- Scenario `register-read-only`: tested by `tests/test_feedback_loop_notices.py::test_collector_reads_frozen_copy_and_refuses_writes` ([tests/test_feedback_loop_notices.py:111](../../tests/test_feedback_loop_notices.py#L111))
+- Scenario `register-read-only`: tested by `tests/test_feedback_loop_notices.py::test_collector_reads_frozen_copy_and_refuses_writes` ([`tests/test_feedback_loop_notices.py:111`](../../tests/test_feedback_loop_notices.py#L111))

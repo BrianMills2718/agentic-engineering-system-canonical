@@ -14,9 +14,9 @@ Status: **implemented and tested**
 
 Implemented by:
 
-- `learning_loop.notify.push` — [scripts/learning_loop/notify.py:57](../../scripts/learning_loop/notify.py#L57)
+- `learning_loop.notify.push` — [`scripts/learning_loop/notify.py:57`](../../scripts/learning_loop/notify.py#L57)
 
-- Scenario `link-preview-off-on-request`: tested by `tests/test_feedback_loop_notices.py::test_no_preview_sets_the_flag_and_message_id_is_returned` ([tests/test_feedback_loop_notices.py:70](../../tests/test_feedback_loop_notices.py#L70))
+- Scenario `link-preview-off-on-request`: tested by `tests/test_feedback_loop_notices.py::test_no_preview_sets_the_flag_and_message_id_is_returned` ([`tests/test_feedback_loop_notices.py:70`](../../tests/test_feedback_loop_notices.py#L70))
 
 ## a message counts as sent only on telegram acceptance
 
@@ -28,10 +28,10 @@ Status: **implemented and tested**
 
 Implemented by:
 
-- `learning_loop.notify` — [scripts/learning_loop/notify.py:1](../../scripts/learning_loop/notify.py#L1)
+- `learning_loop.notify` — [`scripts/learning_loop/notify.py:1`](../../scripts/learning_loop/notify.py#L1)
 
-- Scenario `attention-push-arrives`: tested by `tests/test_feedback_loop_notices.py::test_accepted_message_is_delivered_send_only_and_secrets_not_leaked` ([tests/test_feedback_loop_notices.py:35](../../tests/test_feedback_loop_notices.py#L35)), `tests/test_feedback_loop_notices.py::test_credentials_read_from_secrets_file_lines` ([tests/test_feedback_loop_notices.py:50](../../tests/test_feedback_loop_notices.py#L50))
-- Scenario `failed-push-is-not-delivered`: tested by `tests/test_feedback_loop_notices.py::test_missing_config_network_error_and_bad_answers` ([tests/test_feedback_loop_notices.py:58](../../tests/test_feedback_loop_notices.py#L58))
+- Scenario `attention-push-arrives`: tested by `tests/test_feedback_loop_notices.py::test_accepted_message_is_delivered_send_only_and_secrets_not_leaked` ([`tests/test_feedback_loop_notices.py:35`](../../tests/test_feedback_loop_notices.py#L35)), `tests/test_feedback_loop_notices.py::test_credentials_read_from_secrets_file_lines` ([`tests/test_feedback_loop_notices.py:50`](../../tests/test_feedback_loop_notices.py#L50))
+- Scenario `failed-push-is-not-delivered`: tested by `tests/test_feedback_loop_notices.py::test_missing_config_network_error_and_bad_answers` ([`tests/test_feedback_loop_notices.py:58`](../../tests/test_feedback_loop_notices.py#L58))
 
 ## loop failures are concerns
 
@@ -43,9 +43,9 @@ When a loop script fails (weekly problems, nightly collector, fix owner) or the 
 
 Implemented by:
 
-- `learning_loop.alert` — [scripts/learning_loop/alert.py:1](../../scripts/learning_loop/alert.py#L1)
+- `learning_loop.alert` — [`scripts/learning_loop/alert.py:1`](../../scripts/learning_loop/alert.py#L1)
 
-- Scenario `loop-failures-are-concerns`: tested by `tests/test_feedback_loop_notices.py::test_file_alert_runs_the_aes_concern_adapter` ([tests/test_feedback_loop_notices.py:99](../../tests/test_feedback_loop_notices.py#L99))
+- Scenario `loop-failures-are-concerns`: tested by `tests/test_feedback_loop_notices.py::test_file_alert_runs_the_aes_concern_adapter` ([`tests/test_feedback_loop_notices.py:99`](../../tests/test_feedback_loop_notices.py#L99))
 
 ## the loop runs without project meta
 
@@ -57,6 +57,6 @@ The feedback loop scripts that file concerns or send notices (`problems.py`, `la
 
 Implemented by:
 
-- `learning_loop.problems` — [scripts/learning_loop/problems.py:1](../../scripts/learning_loop/problems.py#L1)
+- `learning_loop.problems` — [`scripts/learning_loop/problems.py:1`](../../scripts/learning_loop/problems.py#L1)
 
-- Scenario `no-project-meta-path`: tested by `tests/test_feedback_loop_notices.py::test_loop_scripts_call_no_project_meta_script` ([tests/test_feedback_loop_notices.py:88](../../tests/test_feedback_loop_notices.py#L88))
+- Scenario `no-project-meta-path`: tested by `tests/test_feedback_loop_notices.py::test_loop_scripts_call_no_project_meta_script` ([`tests/test_feedback_loop_notices.py:88`](../../tests/test_feedback_loop_notices.py#L88))

@@ -14,14 +14,14 @@ The departure report SHALL list every file changed in commits since `REF` whose 
 
 Implemented by:
 
-- `lockstep.plan_run` — [src/lockstep/plan_run.py:1](../../src/lockstep/plan_run.py#L1)
-- `lockstep.plan_run` — [src/lockstep/plan_run.py:1](../../src/lockstep/plan_run.py#L1)
+- `lockstep.plan_run` — [`src/lockstep/plan_run.py:1`](../../src/lockstep/plan_run.py#L1)
+- `lockstep.plan_run` — [`src/lockstep/plan_run.py:1`](../../src/lockstep/plan_run.py#L1)
 
-- Scenario `a-file-outside-the-tasks-is-listed`: tested by `tests/lockstep/test_lockstep_plan_run.py::test_file_outside_tasks_listed` ([tests/lockstep/test_lockstep_plan_run.py:70](../../tests/lockstep/test_lockstep_plan_run.py#L70))
-- Scenario `a-name-added-to-tasks-md-after-ref-does-not-count`: tested by `tests/lockstep/test_lockstep_plan_run.py::test_name_added_after_ref_still_listed` ([tests/lockstep/test_lockstep_plan_run.py:85](../../tests/lockstep/test_lockstep_plan_run.py#L85))
-- Scenario `an-unticked-task-is-listed-archived-or-not`: tested by `tests/lockstep/test_lockstep_plan_run.py::test_unticked_task_listed_from_archive` ([tests/lockstep/test_lockstep_plan_run.py:95](../../tests/lockstep/test_lockstep_plan_run.py#L95))
-- Scenario `a-file-planned-by-a-layout-row-at-ref-is-not-listed`: tested by `tests/lockstep/test_lockstep_plan_run.py::test_file_planned_by_layout_row_not_listed` ([tests/lockstep/test_lockstep_plan_run.py:305](../../tests/lockstep/test_lockstep_plan_run.py#L305))
-- Scenario `a-row-s-test-file-and-a-spec-link-are-not-listed`: tested by `tests/lockstep/test_lockstep_plan_run.py::test_row_test_file_and_spec_link_not_listed` ([tests/lockstep/test_lockstep_plan_run.py:318](../../tests/lockstep/test_lockstep_plan_run.py#L318))
+- Scenario `a-file-outside-the-tasks-is-listed`: tested by `tests/lockstep/test_lockstep_plan_run.py::test_file_outside_tasks_listed` ([`tests/lockstep/test_lockstep_plan_run.py:70`](../../tests/lockstep/test_lockstep_plan_run.py#L70))
+- Scenario `a-name-added-to-tasks-md-after-ref-does-not-count`: tested by `tests/lockstep/test_lockstep_plan_run.py::test_name_added_after_ref_still_listed` ([`tests/lockstep/test_lockstep_plan_run.py:85`](../../tests/lockstep/test_lockstep_plan_run.py#L85))
+- Scenario `an-unticked-task-is-listed-archived-or-not`: tested by `tests/lockstep/test_lockstep_plan_run.py::test_unticked_task_listed_from_archive` ([`tests/lockstep/test_lockstep_plan_run.py:95`](../../tests/lockstep/test_lockstep_plan_run.py#L95))
+- Scenario `a-file-planned-by-a-layout-row-at-ref-is-not-listed`: tested by `tests/lockstep/test_lockstep_plan_run.py::test_file_planned_by_layout_row_not_listed` ([`tests/lockstep/test_lockstep_plan_run.py:305`](../../tests/lockstep/test_lockstep_plan_run.py#L305))
+- Scenario `a-row-s-test-file-and-a-spec-link-are-not-listed`: tested by `tests/lockstep/test_lockstep_plan_run.py::test_row_test_file_and_spec_link_not_listed` ([`tests/lockstep/test_lockstep_plan_run.py:318`](../../tests/lockstep/test_lockstep_plan_run.py#L318))
 
 ## hidden acceptance tests are written before and run after implementation
 
@@ -33,15 +33,15 @@ Status: **implemented and tested**
 
 Implemented by:
 
-- `lockstep.plan_run` — [src/lockstep/plan_run.py:1](../../src/lockstep/plan_run.py#L1)
-- `lockstep.plan_run` — [src/lockstep/plan_run.py:1](../../src/lockstep/plan_run.py#L1)
+- `lockstep.plan_run` — [`src/lockstep/plan_run.py:1`](../../src/lockstep/plan_run.py#L1)
+- `lockstep.plan_run` — [`src/lockstep/plan_run.py:1`](../../src/lockstep/plan_run.py#L1)
 
-- Scenario `hidden-tests-are-outside-the-worktree-until-the-last-commit`: tested by `tests/lockstep/test_lockstep_plan_run.py::test_hidden_tests_outside_worktree_until_last_commit` ([tests/lockstep/test_lockstep_plan_run.py:152](../../tests/lockstep/test_lockstep_plan_run.py#L152))
-- Scenario `a-hidden-test-that-passes-before-implementation-is-flagged`: tested by `tests/lockstep/test_lockstep_plan_run.py::test_hidden_test_passing_before_is_flagged` ([tests/lockstep/test_lockstep_plan_run.py:175](../../tests/lockstep/test_lockstep_plan_run.py#L175))
-- Scenario `a-name-collision-is-refused`: tested by `tests/lockstep/test_lockstep_plan_run.py::test_collision_refused` ([tests/lockstep/test_lockstep_plan_run.py:186](../../tests/lockstep/test_lockstep_plan_run.py#L186))
-- Scenario `uncommitted-work-is-reported`: tested by `tests/lockstep/test_lockstep_plan_run.py::test_uncommitted_reported` ([tests/lockstep/test_lockstep_plan_run.py:200](../../tests/lockstep/test_lockstep_plan_run.py#L200))
-- Scenario `the-implementer-is-not-told-where-the-tests-are`: tested by `tests/lockstep/test_lockstep_plan_run.py::test_implementer_not_told` ([tests/lockstep/test_lockstep_plan_run.py:207](../../tests/lockstep/test_lockstep_plan_run.py#L207))
-- Scenario `a-zero-exit-needs-evidence-of-passing-hidden-tests`: tested by `tests/lockstep/test_lockstep_plan_run.py::test_accept_check_cli_requires_pass_evidence` ([tests/lockstep/test_lockstep_plan_run.py:247](../../tests/lockstep/test_lockstep_plan_run.py#L247)), `tests/lockstep/test_lockstep_plan_run.py::test_a_custom_command_without_pytest_evidence_is_refused` ([tests/lockstep/test_lockstep_plan_run.py:268](../../tests/lockstep/test_lockstep_plan_run.py#L268)), `tests/lockstep/test_lockstep_plan_run.py::test_a_custom_command_that_runs_other_tests_is_refused` ([tests/lockstep/test_lockstep_plan_run.py:283](../../tests/lockstep/test_lockstep_plan_run.py#L283))
+- Scenario `hidden-tests-are-outside-the-worktree-until-the-last-commit`: tested by `tests/lockstep/test_lockstep_plan_run.py::test_hidden_tests_outside_worktree_until_last_commit` ([`tests/lockstep/test_lockstep_plan_run.py:152`](../../tests/lockstep/test_lockstep_plan_run.py#L152))
+- Scenario `a-hidden-test-that-passes-before-implementation-is-flagged`: tested by `tests/lockstep/test_lockstep_plan_run.py::test_hidden_test_passing_before_is_flagged` ([`tests/lockstep/test_lockstep_plan_run.py:175`](../../tests/lockstep/test_lockstep_plan_run.py#L175))
+- Scenario `a-name-collision-is-refused`: tested by `tests/lockstep/test_lockstep_plan_run.py::test_collision_refused` ([`tests/lockstep/test_lockstep_plan_run.py:186`](../../tests/lockstep/test_lockstep_plan_run.py#L186))
+- Scenario `uncommitted-work-is-reported`: tested by `tests/lockstep/test_lockstep_plan_run.py::test_uncommitted_reported` ([`tests/lockstep/test_lockstep_plan_run.py:200`](../../tests/lockstep/test_lockstep_plan_run.py#L200))
+- Scenario `the-implementer-is-not-told-where-the-tests-are`: tested by `tests/lockstep/test_lockstep_plan_run.py::test_implementer_not_told` ([`tests/lockstep/test_lockstep_plan_run.py:207`](../../tests/lockstep/test_lockstep_plan_run.py#L207))
+- Scenario `a-zero-exit-needs-evidence-of-passing-hidden-tests`: tested by `tests/lockstep/test_lockstep_plan_run.py::test_accept_check_cli_requires_pass_evidence` ([`tests/lockstep/test_lockstep_plan_run.py:247`](../../tests/lockstep/test_lockstep_plan_run.py#L247)), `tests/lockstep/test_lockstep_plan_run.py::test_a_custom_command_without_pytest_evidence_is_refused` ([`tests/lockstep/test_lockstep_plan_run.py:268`](../../tests/lockstep/test_lockstep_plan_run.py#L268)), `tests/lockstep/test_lockstep_plan_run.py::test_a_custom_command_that_runs_other_tests_is_refused` ([`tests/lockstep/test_lockstep_plan_run.py:283`](../../tests/lockstep/test_lockstep_plan_run.py#L283))
 
 ## one driver runs a plan with claude or codex
 
@@ -53,13 +53,13 @@ Status: **implemented and tested**
 
 Implemented by:
 
-- `lockstep.plan_run` — [src/lockstep/plan_run.py:1](../../src/lockstep/plan_run.py#L1)
-- `lockstep.plan_run` — [src/lockstep/plan_run.py:1](../../src/lockstep/plan_run.py#L1)
-- `lockstep.plan_run.ship_command` — [src/lockstep/plan_run.py:568](../../src/lockstep/plan_run.py#L568)
+- `lockstep.plan_run` — [`src/lockstep/plan_run.py:1`](../../src/lockstep/plan_run.py#L1)
+- `lockstep.plan_run` — [`src/lockstep/plan_run.py:1`](../../src/lockstep/plan_run.py#L1)
+- `lockstep.plan_run.ship_command` — [`src/lockstep/plan_run.py:568`](../../src/lockstep/plan_run.py#L568)
 
-- Scenario `each-agent-gets-its-own-command`: tested by `tests/lockstep/test_lockstep_plan_run.py::test_agent_commands` ([tests/lockstep/test_lockstep_plan_run.py:218](../../tests/lockstep/test_lockstep_plan_run.py#L218))
-- Scenario `the-driver-does-not-merge`: tested by `tests/lockstep/test_lockstep_plan_run.py::test_driver_does_not_merge` ([tests/lockstep/test_lockstep_plan_run.py:229](../../tests/lockstep/test_lockstep_plan_run.py#L229))
-- Scenario `the-printed-ship-command-matches-the-repository`: tested by `tests/lockstep/test_lockstep_plan_run.py::test_the_printed_ship_command_matches_the_repository` ([tests/lockstep/test_lockstep_plan_run.py:291](../../tests/lockstep/test_lockstep_plan_run.py#L291))
+- Scenario `each-agent-gets-its-own-command`: tested by `tests/lockstep/test_lockstep_plan_run.py::test_agent_commands` ([`tests/lockstep/test_lockstep_plan_run.py:218`](../../tests/lockstep/test_lockstep_plan_run.py#L218))
+- Scenario `the-driver-does-not-merge`: tested by `tests/lockstep/test_lockstep_plan_run.py::test_driver_does_not_merge` ([`tests/lockstep/test_lockstep_plan_run.py:229`](../../tests/lockstep/test_lockstep_plan_run.py#L229))
+- Scenario `the-printed-ship-command-matches-the-repository`: tested by `tests/lockstep/test_lockstep_plan_run.py::test_the_printed_ship_command_matches_the_repository` ([`tests/lockstep/test_lockstep_plan_run.py:291`](../../tests/lockstep/test_lockstep_plan_run.py#L291))
 
 ## the agents are told to lay out the planned files
 
@@ -71,7 +71,7 @@ The implementer's prompt and the acceptance-test writer's prompt SHALL say that 
 
 Implemented by:
 
-- `lockstep.plan_run` — [src/lockstep/plan_run.py:1](../../src/lockstep/plan_run.py#L1)
-- `lockstep.plan_run` — [src/lockstep/plan_run.py:1](../../src/lockstep/plan_run.py#L1)
+- `lockstep.plan_run` — [`src/lockstep/plan_run.py:1`](../../src/lockstep/plan_run.py#L1)
+- `lockstep.plan_run` — [`src/lockstep/plan_run.py:1`](../../src/lockstep/plan_run.py#L1)
 
-- Scenario `the-implementer-is-told-to-run-lockstep-layout`: tested by `tests/lockstep/test_lockstep_plan_run.py::test_implementer_told_to_run_lockstep_layout` ([tests/lockstep/test_lockstep_plan_run.py:333](../../tests/lockstep/test_lockstep_plan_run.py#L333))
+- Scenario `the-implementer-is-told-to-run-lockstep-layout`: tested by `tests/lockstep/test_lockstep_plan_run.py::test_implementer_told_to_run_lockstep_layout` ([`tests/lockstep/test_lockstep_plan_run.py:333`](../../tests/lockstep/test_lockstep_plan_run.py#L333))

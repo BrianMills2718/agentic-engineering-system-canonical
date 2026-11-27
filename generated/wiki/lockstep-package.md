@@ -14,10 +14,10 @@ Installing this repository SHALL provide the Python package `lockstep` and the c
 
 Implemented by:
 
-- `lockstep.check` — [src/lockstep/check.py:1](../../src/lockstep/check.py#L1)
-- `lockstep.hook` — [src/lockstep/hook.py:1](../../src/lockstep/hook.py#L1)
+- `lockstep.check` — [`src/lockstep/check.py:1`](../../src/lockstep/check.py#L1)
+- `lockstep.hook` — [`src/lockstep/hook.py:1`](../../src/lockstep/hook.py#L1)
 
-- Scenario `the-check-runs-from-an-install`: tested by `tests/lockstep/test_lockstep_package.py::test_the_lockstep_command_runs_the_check` ([tests/lockstep/test_lockstep_package.py:17](../../tests/lockstep/test_lockstep_package.py#L17))
+- Scenario `the-check-runs-from-an-install`: tested by `tests/lockstep/test_lockstep_package.py::test_the_lockstep_command_runs_the_check` ([`tests/lockstep/test_lockstep_package.py:17`](../../tests/lockstep/test_lockstep_package.py#L17))
 
 ## the old pcw names keep working
 
@@ -29,7 +29,7 @@ The commands `pcw` and `pcw-hook`, `python -m pcw.<module>` and cog blocks that 
 
 Implemented by:
 
-- `pcw` — [src/pcw/**init**.py:1](../../src/pcw/__init__.py#L1)
+- `pcw` — [`src/pcw/__init__.py:1`](../../src/pcw/__init__.py#L1)
 
-- Scenario `an-old-module-path-runs-the-new-code`: tested by `tests/lockstep/test_lockstep_package.py::test_python_m_pcw_runs_the_lockstep_module` ([tests/lockstep/test_lockstep_package.py:24](../../tests/lockstep/test_lockstep_package.py#L24))
-- Scenario `an-old-cog-block-is-still-a-valid-plan-copy`: tested by `tests/lockstep/test_lockstep_package.py::test_a_pcw_cog_block_is_judged_like_a_lockstep_one` ([tests/lockstep/test_lockstep_package.py:35](../../tests/lockstep/test_lockstep_package.py#L35))
+- Scenario `an-old-module-path-runs-the-new-code`: tested by `tests/lockstep/test_lockstep_package.py::test_python_m_pcw_runs_the_lockstep_module` ([`tests/lockstep/test_lockstep_package.py:24`](../../tests/lockstep/test_lockstep_package.py#L24))
+- Scenario `an-old-cog-block-is-still-a-valid-plan-copy`: tested by `tests/lockstep/test_lockstep_package.py::test_a_pcw_cog_block_is_judged_like_a_lockstep_one` ([`tests/lockstep/test_lockstep_package.py:35`](../../tests/lockstep/test_lockstep_package.py#L35))

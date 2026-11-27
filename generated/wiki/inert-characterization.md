@@ -14,7 +14,7 @@ Read-only characterization and source-checkout producer identification SHALL dis
 
 Implemented by:
 
-- `agentic_engineering_system.characterize` — [src/agentic_engineering_system/characterize.py:1](../../src/agentic_engineering_system/characterize.py#L1)
+- `agentic_engineering_system.characterize` — [`src/agentic_engineering_system/characterize.py:1`](../../src/agentic_engineering_system/characterize.py#L1)
 
-- Scenario `local-monitor-during-characterization`: tested by `tests/greenfield/test_characterize.py::test_readonly_inspection_does_not_run_repository_fsmonitor` ([tests/greenfield/test_characterize.py:100](../../tests/greenfield/test_characterize.py#L100))
-- Scenario `local-monitor-during-producer-identity`: tested by `tests/greenfield/test_characterize.py::test_readonly_inspection_does_not_run_repository_fsmonitor` ([tests/greenfield/test_characterize.py:101](../../tests/greenfield/test_characterize.py#L101))
+- Scenario `local-monitor-during-characterization`: tested by `tests/greenfield/test_characterize.py::test_readonly_inspection_does_not_run_repository_fsmonitor` ([`tests/greenfield/test_characterize.py:100`](../../tests/greenfield/test_characterize.py#L100))
+- Scenario `local-monitor-during-producer-identity`: tested by `tests/greenfield/test_characterize.py::test_readonly_inspection_does_not_run_repository_fsmonitor` ([`tests/greenfield/test_characterize.py:101`](../../tests/greenfield/test_characterize.py#L101))

@@ -14,11 +14,11 @@ When the planning gate would refuse (no package, or a package the validator reje
 
 Implemented by:
 
-- `lockstep.ship` — [src/lockstep/ship.py:1](../../src/lockstep/ship.py#L1)
-- `lockstep.ship` — [src/lockstep/ship.py:1](../../src/lockstep/ship.py#L1)
+- `lockstep.ship` — [`src/lockstep/ship.py:1`](../../src/lockstep/ship.py#L1)
+- `lockstep.ship` — [`src/lockstep/ship.py:1`](../../src/lockstep/ship.py#L1)
 
-- Scenario `a-plan-repair-merges-while-the-package-fails`: tested by `tests/test_ship.py::test_a_branch_that_only_repairs_the_plan_merges_while_the_package_fails` ([tests/test_ship.py:830](../../tests/test_ship.py#L830)), `tests/test_ship.py::test_a_plan_repair_still_validates_the_merge_base` ([tests/test_ship.py:961](../../tests/test_ship.py#L961))
-- Scenario `a-plan-repair-never-breaks-a-passing-package`: tested by `tests/test_ship.py::test_a_docs_branch_cannot_make_a_passing_package_fail` ([tests/test_ship.py:844](../../tests/test_ship.py#L844))
+- Scenario `a-plan-repair-merges-while-the-package-fails`: tested by `tests/test_ship.py::test_a_branch_that_only_repairs_the_plan_merges_while_the_package_fails` ([`tests/test_ship.py:830`](../../tests/test_ship.py#L830)), `tests/test_ship.py::test_a_plan_repair_still_validates_the_merge_base` ([`tests/test_ship.py:961`](../../tests/test_ship.py#L961))
+- Scenario `a-plan-repair-never-breaks-a-passing-package`: tested by `tests/test_ship.py::test_a_docs_branch_cannot_make_a_passing_package_fail` ([`tests/test_ship.py:844`](../../tests/test_ship.py#L844))
 
 ## a record only change is never refused
 
@@ -30,11 +30,11 @@ Status: **implemented and tested**
 
 Implemented by:
 
-- `lockstep.ship` — [src/lockstep/ship.py:1](../../src/lockstep/ship.py#L1)
-- `lockstep.ship` — [src/lockstep/ship.py:1](../../src/lockstep/ship.py#L1)
+- `lockstep.ship` — [`src/lockstep/ship.py:1`](../../src/lockstep/ship.py#L1)
+- `lockstep.ship` — [`src/lockstep/ship.py:1`](../../src/lockstep/ship.py#L1)
 
-- Scenario `a-branch-that-only-adds-a-case-record-merges-without-a-package`: tested by `tests/test_ship.py::test_a_record_only_branch_merges_in_a_repository_with_no_package` ([tests/test_ship.py:1098](../../tests/test_ship.py#L1098))
-- Scenario `a-code-change-beside-a-case-record-is-still-refused`: tested by `tests/test_ship.py::test_a_code_change_beside_a_record_is_still_refused` ([tests/test_ship.py:1107](../../tests/test_ship.py#L1107))
+- Scenario `a-branch-that-only-adds-a-case-record-merges-without-a-package`: tested by `tests/test_ship.py::test_a_record_only_branch_merges_in_a_repository_with_no_package` ([`tests/test_ship.py:1098`](../../tests/test_ship.py#L1098))
+- Scenario `a-code-change-beside-a-case-record-is-still-refused`: tested by `tests/test_ship.py::test_a_code_change_beside_a_record_is_still_refused` ([`tests/test_ship.py:1107`](../../tests/test_ship.py#L1107))
 
 ## add on gates switch off from the copier answers
 
@@ -46,14 +46,14 @@ Status: **implemented and tested**
 
 Implemented by:
 
-- `lockstep.checks.config` — [src/lockstep/checks/config.py:1](../../src/lockstep/checks/config.py#L1)
-- `lockstep.checks.config.copier_answer_on` — [src/lockstep/checks/config.py:356](../../src/lockstep/checks/config.py#L356)
-- `lockstep.ship` — [src/lockstep/ship.py:1](../../src/lockstep/ship.py#L1)
-- `lockstep.ship` — [src/lockstep/ship.py:1](../../src/lockstep/ship.py#L1)
+- `lockstep.checks.config` — [`src/lockstep/checks/config.py:1`](../../src/lockstep/checks/config.py#L1)
+- `lockstep.checks.config.copier_answer_on` — [`src/lockstep/checks/config.py:356`](../../src/lockstep/checks/config.py#L356)
+- `lockstep.ship` — [`src/lockstep/ship.py:1`](../../src/lockstep/ship.py#L1)
+- `lockstep.ship` — [`src/lockstep/ship.py:1`](../../src/lockstep/ship.py#L1)
 
-- Scenario `the-planning-gate-is-switched-off`: tested by `tests/test_ship.py::test_the_planning_gate_is_switched_off` ([tests/test_ship.py:1625](../../tests/test_ship.py#L1625))
-- Scenario `the-one-page-plan-check-is-switched-off`: tested by `tests/test_ship.py::test_the_one_page_plan_check_is_switched_off` ([tests/test_ship.py:1634](../../tests/test_ship.py#L1634))
-- Scenario `no-answers-file-keeps-every-gate-on`: tested by `tests/test_ship.py::test_no_answers_file_keeps_every_gate_on` ([tests/test_ship.py:1644](../../tests/test_ship.py#L1644)), `tests/test_ship.py::test_a_branch_cannot_switch_its_own_gate_off` ([tests/test_ship.py:1650](../../tests/test_ship.py#L1650))
+- Scenario `the-planning-gate-is-switched-off`: tested by `tests/test_ship.py::test_the_planning_gate_is_switched_off` ([`tests/test_ship.py:1625`](../../tests/test_ship.py#L1625))
+- Scenario `the-one-page-plan-check-is-switched-off`: tested by `tests/test_ship.py::test_the_one_page_plan_check_is_switched_off` ([`tests/test_ship.py:1634`](../../tests/test_ship.py#L1634))
+- Scenario `no-answers-file-keeps-every-gate-on`: tested by `tests/test_ship.py::test_no_answers_file_keeps_every_gate_on` ([`tests/test_ship.py:1644`](../../tests/test_ship.py#L1644)), `tests/test_ship.py::test_a_branch_cannot_switch_its_own_gate_off` ([`tests/test_ship.py:1650`](../../tests/test_ship.py#L1650))
 
 ## an upkeep only change is never refused
 
@@ -65,11 +65,11 @@ When the planning gate would refuse (no package, or a package the validator reje
 
 Implemented by:
 
-- `lockstep.ship` — [src/lockstep/ship.py:1](../../src/lockstep/ship.py#L1)
-- `lockstep.ship` — [src/lockstep/ship.py:1](../../src/lockstep/ship.py#L1)
+- `lockstep.ship` — [`src/lockstep/ship.py:1`](../../src/lockstep/ship.py#L1)
+- `lockstep.ship` — [`src/lockstep/ship.py:1`](../../src/lockstep/ship.py#L1)
 
-- Scenario `an-upkeep-only-branch-merges-without-a-package`: tested by `tests/test_ship.py::test_an_upkeep_only_branch_merges_in_a_repository_with_no_package` ([tests/test_ship.py:1064](../../tests/test_ship.py#L1064))
-- Scenario `a-behavior-change-beside-a-model-update-is-still-refused`: tested by `tests/test_ship.py::test_a_behavior_change_beside_a_model_update_is_still_refused` ([tests/test_ship.py:1073](../../tests/test_ship.py#L1073))
+- Scenario `an-upkeep-only-branch-merges-without-a-package`: tested by `tests/test_ship.py::test_an_upkeep_only_branch_merges_in_a_repository_with_no_package` ([`tests/test_ship.py:1064`](../../tests/test_ship.py#L1064))
+- Scenario `a-behavior-change-beside-a-model-update-is-still-refused`: tested by `tests/test_ship.py::test_a_behavior_change_beside_a_model_update_is_still_refused` ([`tests/test_ship.py:1073`](../../tests/test_ship.py#L1073))
 
 ## answer the plan content question for the push hook
 
@@ -81,9 +81,9 @@ Status: **implemented and tested**
 
 Implemented by:
 
-- `plan_content` — [scripts/plan_content.py:1](../../scripts/plan_content.py#L1)
+- `plan_content` — [`scripts/plan_content.py:1`](../../scripts/plan_content.py#L1)
 
-- Scenario `the-push-hook-asks-the-same-question`: tested by `tests/test_ship.py::test_the_push_hook_asks_the_same_question` ([tests/test_ship.py:1191](../../tests/test_ship.py#L1191)), `tests/test_ship.py::test_the_push_hook_question_takes_relative_paths` ([tests/test_ship.py:1210](../../tests/test_ship.py#L1210))
+- Scenario `the-push-hook-asks-the-same-question`: tested by `tests/test_ship.py::test_the_push_hook_asks_the_same_question` ([`tests/test_ship.py:1191`](../../tests/test_ship.py#L1191)), `tests/test_ship.py::test_the_push_hook_question_takes_relative_paths` ([`tests/test_ship.py:1210`](../../tests/test_ship.py#L1210))
 
 ## check every one page plan a merge adds or changes
 
@@ -95,20 +95,20 @@ A one-page plan is a `.md` file committed under `docs/plans/` that carries the l
 
 Implemented by:
 
-- `lockstep.ship` — [src/lockstep/ship.py:1](../../src/lockstep/ship.py#L1)
-- `lockstep.ship` — [src/lockstep/ship.py:1](../../src/lockstep/ship.py#L1)
-- `lockstep.ship.one_page_plan_refusal` — [src/lockstep/ship.py:1205](../../src/lockstep/ship.py#L1205)
+- `lockstep.ship` — [`src/lockstep/ship.py:1`](../../src/lockstep/ship.py#L1)
+- `lockstep.ship` — [`src/lockstep/ship.py:1`](../../src/lockstep/ship.py#L1)
+- `lockstep.ship.one_page_plan_refusal` — [`src/lockstep/ship.py:1205`](../../src/lockstep/ship.py#L1205)
 
-- Scenario `a-complete-one-page-plan-merges`: tested by `tests/test_ship.py::test_a_complete_one_page_plan_merges` ([tests/test_ship.py:1304](../../tests/test_ship.py#L1304))
-- Scenario `a-one-page-plan-missing-a-part-is-refused`: tested by `tests/test_ship.py::test_a_one_page_plan_missing_a_part_is_refused` ([tests/test_ship.py:1316](../../tests/test_ship.py#L1316)), `tests/test_ship.py::test_a_renamed_one_page_plan_is_checked_under_its_new_name` ([tests/test_ship.py:1334](../../tests/test_ship.py#L1334))
-- Scenario `a-one-page-plan-over-150-lines-is-refused`: tested by `tests/test_ship.py::test_a_one_page_plan_over_150_lines_is_refused` ([tests/test_ship.py:1378](../../tests/test_ship.py#L1378)), `tests/test_ship.py::test_a_one_page_plan_of_exactly_150_lines_merges` ([tests/test_ship.py:1388](../../tests/test_ship.py#L1388))
-- Scenario `a-one-page-plan-with-no-passing-independent-read-is-refused`: tested by `tests/test_ship.py::test_a_one_page_plan_with_no_passing_independent_read_is_refused` ([tests/test_ship.py:1399](../../tests/test_ship.py#L1399))
-- Scenario `a-plan-page-that-does-not-call-itself-small-is-not-checked`: tested by `tests/test_ship.py::test_a_plan_page_that_does_not_call_itself_small_is_not_checked` ([tests/test_ship.py:1418](../../tests/test_ship.py#L1418))
-- Scenario `a-one-page-plan-the-merge-does-not-touch-is-not-checked`: tested by `tests/test_ship.py::test_a_one_page_plan_the_merge_does_not_touch_is_not_checked` ([tests/test_ship.py:1457](../../tests/test_ship.py#L1457))
-- Scenario `a-one-page-plan-the-merge-deletes-is-not-checked`: tested by `tests/test_ship.py::test_a_one_page_plan_the_merge_deletes_is_not_checked` ([tests/test_ship.py:1443](../../tests/test_ship.py#L1443))
-- Scenario `a-format-quoted-in-a-code-block-is-not-a-one-page-plan`: tested by `tests/test_ship.py::test_a_format_quoted_in_a_code_block_is_not_a_one_page_plan` ([tests/test_ship.py:1431](../../tests/test_ship.py#L1431))
-- Scenario `a-plan-repair-or-an-upkeep-only-branch-does-not-excuse-an-incomplete-one-page-plan`: tested by `tests/test_ship.py::test_a_plan_repair_does_not_excuse_an_incomplete_one_page_plan` ([tests/test_ship.py:1344](../../tests/test_ship.py#L1344)), `tests/test_ship.py::test_an_upkeep_only_branch_does_not_excuse_an_incomplete_one_page_plan` ([tests/test_ship.py:1356](../../tests/test_ship.py#L1356))
-- Scenario `with-no-merge-base-every-committed-one-page-plan-is-checked`: tested by `tests/test_ship.py::test_with_no_merge_base_every_committed_one_page_plan_is_checked` ([tests/test_ship.py:1367](../../tests/test_ship.py#L1367))
+- Scenario `a-complete-one-page-plan-merges`: tested by `tests/test_ship.py::test_a_complete_one_page_plan_merges` ([`tests/test_ship.py:1304`](../../tests/test_ship.py#L1304))
+- Scenario `a-one-page-plan-missing-a-part-is-refused`: tested by `tests/test_ship.py::test_a_one_page_plan_missing_a_part_is_refused` ([`tests/test_ship.py:1316`](../../tests/test_ship.py#L1316)), `tests/test_ship.py::test_a_renamed_one_page_plan_is_checked_under_its_new_name` ([`tests/test_ship.py:1334`](../../tests/test_ship.py#L1334))
+- Scenario `a-one-page-plan-over-150-lines-is-refused`: tested by `tests/test_ship.py::test_a_one_page_plan_over_150_lines_is_refused` ([`tests/test_ship.py:1378`](../../tests/test_ship.py#L1378)), `tests/test_ship.py::test_a_one_page_plan_of_exactly_150_lines_merges` ([`tests/test_ship.py:1388`](../../tests/test_ship.py#L1388))
+- Scenario `a-one-page-plan-with-no-passing-independent-read-is-refused`: tested by `tests/test_ship.py::test_a_one_page_plan_with_no_passing_independent_read_is_refused` ([`tests/test_ship.py:1399`](../../tests/test_ship.py#L1399))
+- Scenario `a-plan-page-that-does-not-call-itself-small-is-not-checked`: tested by `tests/test_ship.py::test_a_plan_page_that_does_not_call_itself_small_is_not_checked` ([`tests/test_ship.py:1418`](../../tests/test_ship.py#L1418))
+- Scenario `a-one-page-plan-the-merge-does-not-touch-is-not-checked`: tested by `tests/test_ship.py::test_a_one_page_plan_the_merge_does_not_touch_is_not_checked` ([`tests/test_ship.py:1457`](../../tests/test_ship.py#L1457))
+- Scenario `a-one-page-plan-the-merge-deletes-is-not-checked`: tested by `tests/test_ship.py::test_a_one_page_plan_the_merge_deletes_is_not_checked` ([`tests/test_ship.py:1443`](../../tests/test_ship.py#L1443))
+- Scenario `a-format-quoted-in-a-code-block-is-not-a-one-page-plan`: tested by `tests/test_ship.py::test_a_format_quoted_in_a_code_block_is_not_a_one_page_plan` ([`tests/test_ship.py:1431`](../../tests/test_ship.py#L1431))
+- Scenario `a-plan-repair-or-an-upkeep-only-branch-does-not-excuse-an-incomplete-one-page-plan`: tested by `tests/test_ship.py::test_a_plan_repair_does_not_excuse_an_incomplete_one_page_plan` ([`tests/test_ship.py:1344`](../../tests/test_ship.py#L1344)), `tests/test_ship.py::test_an_upkeep_only_branch_does_not_excuse_an_incomplete_one_page_plan` ([`tests/test_ship.py:1356`](../../tests/test_ship.py#L1356))
+- Scenario `with-no-merge-base-every-committed-one-page-plan-is-checked`: tested by `tests/test_ship.py::test_with_no_merge_base_every_committed_one_page_plan_is_checked` ([`tests/test_ship.py:1367`](../../tests/test_ship.py#L1367))
 
 ## every planning gate run is recorded
 
@@ -120,11 +120,11 @@ Each time ship runs one of its two planning gates it SHALL append one JSON line 
 
 Implemented by:
 
-- `lockstep.checks.gate_records` — [src/lockstep/checks/gate_records.py:1](../../src/lockstep/checks/gate_records.py#L1)
-- `lockstep.checks.gate_records.record_gate_verdict` — [src/lockstep/checks/gate_records.py:46](../../src/lockstep/checks/gate_records.py#L46)
+- `lockstep.checks.gate_records` — [`src/lockstep/checks/gate_records.py:1`](../../src/lockstep/checks/gate_records.py#L1)
+- `lockstep.checks.gate_records.record_gate_verdict` — [`src/lockstep/checks/gate_records.py:46`](../../src/lockstep/checks/gate_records.py#L46)
 
-- Scenario `a-warned-gate-is-recorded`: tested by `tests/test_ship.py::test_a_warned_gate_is_recorded` ([tests/test_ship.py:2029](../../tests/test_ship.py#L2029))
-- Scenario `refused-passed-and-off-gates-are-recorded`: tested by `tests/test_ship.py::test_refused_passed_and_off_gates_are_recorded` ([tests/test_ship.py:2040](../../tests/test_ship.py#L2040))
+- Scenario `a-warned-gate-is-recorded`: tested by `tests/test_ship.py::test_a_warned_gate_is_recorded` ([`tests/test_ship.py:2029`](../../tests/test_ship.py#L2029))
+- Scenario `refused-passed-and-off-gates-are-recorded`: tested by `tests/test_ship.py::test_refused_passed_and_off_gates_are_recorded` ([`tests/test_ship.py:2040`](../../tests/test_ship.py#L2040))
 
 ## hold a new repository to a deployed plan
 
@@ -136,13 +136,13 @@ Status: **implemented and tested**
 
 Implemented by:
 
-- `lockstep.ship` — [src/lockstep/ship.py:1](../../src/lockstep/ship.py#L1)
-- `lockstep.ship` — [src/lockstep/ship.py:1](../../src/lockstep/ship.py#L1)
+- `lockstep.ship` — [`src/lockstep/ship.py:1`](../../src/lockstep/ship.py#L1)
+- `lockstep.ship` — [`src/lockstep/ship.py:1`](../../src/lockstep/ship.py#L1)
 
-- Scenario `a-new-repository-with-no-package-is-refused`: tested by `tests/test_ship.py::test_a_new_repository_with_no_package_is_refused` ([tests/test_ship.py:455](../../tests/test_ship.py#L455))
-- Scenario `a-new-repository-whose-package-is-not-on-the-plan-list-is-refused`: tested by `tests/test_ship.py::test_a_new_repository_whose_package_is_not_on_the_plan_list_is_refused` ([tests/test_ship.py:466](../../tests/test_ship.py#L466))
-- Scenario `a-new-repository-with-a-package-on-the-plan-list-proceeds`: tested by `tests/test_ship.py::test_a_new_repository_with_a_package_on_the_plan_list_proceeds` ([tests/test_ship.py:479](../../tests/test_ship.py#L479)), `tests/test_ship.py::test_a_new_repository_on_the_plan_list_must_still_pass_the_validator` ([tests/test_ship.py:489](../../tests/test_ship.py#L489))
-- Scenario `an-unreadable-plan-list-refuses`: tested by `tests/test_ship.py::test_an_unreadable_plan_list_refuses` ([tests/test_ship.py:498](../../tests/test_ship.py#L498))
+- Scenario `a-new-repository-with-no-package-is-refused`: tested by `tests/test_ship.py::test_a_new_repository_with_no_package_is_refused` ([`tests/test_ship.py:455`](../../tests/test_ship.py#L455))
+- Scenario `a-new-repository-whose-package-is-not-on-the-plan-list-is-refused`: tested by `tests/test_ship.py::test_a_new_repository_whose_package_is_not_on_the_plan_list_is_refused` ([`tests/test_ship.py:466`](../../tests/test_ship.py#L466))
+- Scenario `a-new-repository-with-a-package-on-the-plan-list-proceeds`: tested by `tests/test_ship.py::test_a_new_repository_with_a_package_on_the_plan_list_proceeds` ([`tests/test_ship.py:479`](../../tests/test_ship.py#L479)), `tests/test_ship.py::test_a_new_repository_on_the_plan_list_must_still_pass_the_validator` ([`tests/test_ship.py:489`](../../tests/test_ship.py#L489))
+- Scenario `an-unreadable-plan-list-refuses`: tested by `tests/test_ship.py::test_an_unreadable_plan_list_refuses` ([`tests/test_ship.py:498`](../../tests/test_ship.py#L498))
 
 ## install ship as a command from the public repository
 
@@ -154,11 +154,11 @@ The package SHALL install a `ship` command (`lockstep.ship:main`), so `uvx --fro
 
 Implemented by:
 
-- `lockstep.ship` — [src/lockstep/ship.py:1](../../src/lockstep/ship.py#L1)
-- `lockstep.ship` — [src/lockstep/ship.py:1](../../src/lockstep/ship.py#L1)
+- `lockstep.ship` — [`src/lockstep/ship.py:1`](../../src/lockstep/ship.py#L1)
+- `lockstep.ship` — [`src/lockstep/ship.py:1`](../../src/lockstep/ship.py#L1)
 
-- Scenario `the-command-and-the-old-file-both-run`: tested by `tests/test_ship.py::test_the_command_and_the_old_file_both_run` ([tests/test_ship.py:1832](../../tests/test_ship.py#L1832))
-- Scenario `the-old-import-path-is-the-moved-module`: tested by `tests/test_ship.py::test_the_old_import_path_is_the_moved_module` ([tests/test_ship.py:1844](../../tests/test_ship.py#L1844))
+- Scenario `the-command-and-the-old-file-both-run`: tested by `tests/test_ship.py::test_the_command_and_the_old_file_both_run` ([`tests/test_ship.py:1832`](../../tests/test_ship.py#L1832))
+- Scenario `the-old-import-path-is-the-moved-module`: tested by `tests/test_ship.py::test_the_old_import_path_is_the_moved_module` ([`tests/test_ship.py:1844`](../../tests/test_ship.py#L1844))
 
 ## keep its own lane when the caller still needs it
 
@@ -170,12 +170,12 @@ When given `--keep-lane`, or when the environment has `SHIP_KEEP_LANE=1`, `scrip
 
 Implemented by:
 
-- `lockstep.ship` — [src/lockstep/ship.py:1](../../src/lockstep/ship.py#L1)
-- `lockstep.ship` — [src/lockstep/ship.py:1](../../src/lockstep/ship.py#L1)
+- `lockstep.ship` — [`src/lockstep/ship.py:1`](../../src/lockstep/ship.py#L1)
+- `lockstep.ship` — [`src/lockstep/ship.py:1`](../../src/lockstep/ship.py#L1)
 
-- Scenario `keep-lane-leaves-this-lane-and-sweeps-the-others`: tested by `tests/test_ship.py::test_keep_lane_leaves_this_lane_and_sweeps_the_others` ([tests/test_ship.py:646](../../tests/test_ship.py#L646))
-- Scenario `the-lane-sweep-is-found-beside-the-real-ship`: tested by `tests/test_ship.py::test_the_lane_sweep_is_found_when_ship_runs_through_its_symlink` ([tests/test_ship.py:673](../../tests/test_ship.py#L673))
-- Scenario `the-environment-variable-keeps-the-lane-too`: tested by `tests/test_ship.py::test_the_environment_variable_keeps_the_lane_too` ([tests/test_ship.py:662](../../tests/test_ship.py#L662))
+- Scenario `keep-lane-leaves-this-lane-and-sweeps-the-others`: tested by `tests/test_ship.py::test_keep_lane_leaves_this_lane_and_sweeps_the_others` ([`tests/test_ship.py:646`](../../tests/test_ship.py#L646))
+- Scenario `the-lane-sweep-is-found-beside-the-real-ship`: tested by `tests/test_ship.py::test_the_lane_sweep_is_found_when_ship_runs_through_its_symlink` ([`tests/test_ship.py:673`](../../tests/test_ship.py#L673))
+- Scenario `the-environment-variable-keeps-the-lane-too`: tested by `tests/test_ship.py::test_the_environment_variable_keeps_the_lane_too` ([`tests/test_ship.py:662`](../../tests/test_ship.py#L662))
 
 ## limit how many checks run at once
 
@@ -187,12 +187,12 @@ Status: **implemented and tested**
 
 Implemented by:
 
-- `lockstep.ship` — [src/lockstep/ship.py:1](../../src/lockstep/ship.py#L1)
-- `lockstep.ship` — [src/lockstep/ship.py:1](../../src/lockstep/ship.py#L1)
+- `lockstep.ship` — [`src/lockstep/ship.py:1`](../../src/lockstep/ship.py#L1)
+- `lockstep.ship` — [`src/lockstep/ship.py:1`](../../src/lockstep/ship.py#L1)
 
-- Scenario `every-slot-taken-and-none-freed-stops-the-run-with-nothing-pushed`: tested by `tests/test_ship.py::test_every_slot_taken_and_none_freed_stops_the_run_with_nothing_pushed` ([tests/test_ship.py:1132](../../tests/test_ship.py#L1132))
-- Scenario `a-slot-that-frees-lets-the-check-run`: tested by `tests/test_ship.py::test_a_slot_that_frees_lets_the_check_run` ([tests/test_ship.py:1151](../../tests/test_ship.py#L1151))
-- Scenario `the-slot-is-released-after-the-check`: tested by `tests/test_ship.py::test_the_slot_is_released_after_the_check` ([tests/test_ship.py:1174](../../tests/test_ship.py#L1174))
+- Scenario `every-slot-taken-and-none-freed-stops-the-run-with-nothing-pushed`: tested by `tests/test_ship.py::test_every_slot_taken_and_none_freed_stops_the_run_with_nothing_pushed` ([`tests/test_ship.py:1132`](../../tests/test_ship.py#L1132))
+- Scenario `a-slot-that-frees-lets-the-check-run`: tested by `tests/test_ship.py::test_a_slot_that_frees_lets_the_check_run` ([`tests/test_ship.py:1151`](../../tests/test_ship.py#L1151))
+- Scenario `the-slot-is-released-after-the-check`: tested by `tests/test_ship.py::test_the_slot_is_released_after_the_check` ([`tests/test_ship.py:1174`](../../tests/test_ship.py#L1174))
 
 ## merge only the commit whose check passed
 
@@ -204,14 +204,14 @@ Status: **implemented and tested**
 
 Implemented by:
 
-- `lockstep.ship` — [src/lockstep/ship.py:1](../../src/lockstep/ship.py#L1)
-- `lockstep.ship` — [src/lockstep/ship.py:1](../../src/lockstep/ship.py#L1)
+- `lockstep.ship` — [`src/lockstep/ship.py:1`](../../src/lockstep/ship.py#L1)
+- `lockstep.ship` — [`src/lockstep/ship.py:1`](../../src/lockstep/ship.py#L1)
 
-- Scenario `a-failing-check-pushes-nothing`: tested by `tests/test_ship.py::test_a_failing_check_pushes_nothing` ([tests/test_ship.py:152](../../tests/test_ship.py#L152)), `tests/test_ship.py::test_a_check_that_fails_inside_a_pipe_pushes_nothing` ([tests/test_ship.py:159](../../tests/test_ship.py#L159))
-- Scenario `a-dirty-tree-is-refused-before-the-check`: tested by `tests/test_ship.py::test_a_dirty_tree_is_refused_before_the_check` ([tests/test_ship.py:167](../../tests/test_ship.py#L167))
-- Scenario `a-passing-check-merges-the-checked-commit`: tested by `tests/test_ship.py::test_a_passing_check_merges_the_checked_commit` ([tests/test_ship.py:177](../../tests/test_ship.py#L177))
-- Scenario `a-merge-that-does-not-read-back-as-merged-fails`: tested by `tests/test_ship.py::test_a_merge_that_does_not_read_back_as_merged_fails` ([tests/test_ship.py:268](../../tests/test_ship.py#L268))
-- Scenario `a-branch-whose-earlier-pull-request-merged-gets-a-new-pull-request`: tested by `tests/test_ship.py::test_a_branch_whose_earlier_pull_request_merged_gets_a_new_pull_request` ([tests/test_ship.py:189](../../tests/test_ship.py#L189))
+- Scenario `a-failing-check-pushes-nothing`: tested by `tests/test_ship.py::test_a_failing_check_pushes_nothing` ([`tests/test_ship.py:152`](../../tests/test_ship.py#L152)), `tests/test_ship.py::test_a_check_that_fails_inside_a_pipe_pushes_nothing` ([`tests/test_ship.py:159`](../../tests/test_ship.py#L159))
+- Scenario `a-dirty-tree-is-refused-before-the-check`: tested by `tests/test_ship.py::test_a_dirty_tree_is_refused_before_the_check` ([`tests/test_ship.py:167`](../../tests/test_ship.py#L167))
+- Scenario `a-passing-check-merges-the-checked-commit`: tested by `tests/test_ship.py::test_a_passing_check_merges_the_checked_commit` ([`tests/test_ship.py:177`](../../tests/test_ship.py#L177))
+- Scenario `a-merge-that-does-not-read-back-as-merged-fails`: tested by `tests/test_ship.py::test_a_merge_that_does_not_read_back_as_merged_fails` ([`tests/test_ship.py:268`](../../tests/test_ship.py#L268))
+- Scenario `a-branch-whose-earlier-pull-request-merged-gets-a-new-pull-request`: tested by `tests/test_ship.py::test_a_branch_whose_earlier_pull_request_merged_gets_a_new_pull_request` ([`tests/test_ship.py:189`](../../tests/test_ship.py#L189))
 
 ## merge with a method the repository allows
 
@@ -223,17 +223,17 @@ Before the check, `scripts/ship.py` SHALL read which merge methods the repositor
 
 Implemented by:
 
-- `lockstep.ship` — [src/lockstep/ship.py:1](../../src/lockstep/ship.py#L1)
-- `lockstep.ship` — [src/lockstep/ship.py:1](../../src/lockstep/ship.py#L1)
+- `lockstep.ship` — [`src/lockstep/ship.py:1`](../../src/lockstep/ship.py#L1)
+- `lockstep.ship` — [`src/lockstep/ship.py:1`](../../src/lockstep/ship.py#L1)
 
-- Scenario `a-repository-that-requires-linear-history-is-merged-by-rebase`: tested by `tests/test_ship.py::test_a_repository_that_requires_linear_history_is_merged_by_rebase` ([tests/test_ship.py:280](../../tests/test_ship.py#L280))
-- Scenario `a-merge-method-that-the-repository-does-not-allow-is-replaced-before-the-check`: tested by `tests/test_ship.py::test_a_merge_method_that_the_repository_does_not_allow_is_replaced` ([tests/test_ship.py:290](../../tests/test_ship.py#L290))
-- Scenario `an-allowed-method-that-was-asked-for-is-used`: tested by `tests/test_ship.py::test_an_allowed_method_that_was_asked_for_is_used` ([tests/test_ship.py:300](../../tests/test_ship.py#L300))
-- Scenario `a-ruleset-that-requires-linear-history-is-honored-too`: tested by `tests/test_ship.py::test_a_ruleset_that_requires_linear_history_is_honored_too` ([tests/test_ship.py:307](../../tests/test_ship.py#L307))
-- Scenario `a-repository-that-disables-a-method-falls-back-to-the-allowed-ones`: tested by `tests/test_ship.py::test_a_repository_that_disables_a_method_falls_back_to_the_allowed_ones` ([tests/test_ship.py:315](../../tests/test_ship.py#L315)), `tests/test_ship.py::test_the_repository_default_is_used_when_it_is_allowed` ([tests/test_ship.py:323](../../tests/test_ship.py#L323))
-- Scenario `a-repository-that-allows-no-merge-method-stops-before-the-check`: tested by `tests/test_ship.py::test_a_repository_that_allows_no_merge_method_stops_before_the_check` ([tests/test_ship.py:332](../../tests/test_ship.py#L332))
-- Scenario `the-merge-settings-are-read-before-the-check`: tested by `tests/test_ship.py::test_the_merge_settings_are_read_before_the_check` ([tests/test_ship.py:344](../../tests/test_ship.py#L344))
-- Scenario `settings-that-cannot-be-read-leave-the-method-unchanged`: tested by `tests/test_ship.py::test_settings_that_cannot_be_read_leave_the_method_unchanged` ([tests/test_ship.py:351](../../tests/test_ship.py#L351))
+- Scenario `a-repository-that-requires-linear-history-is-merged-by-rebase`: tested by `tests/test_ship.py::test_a_repository_that_requires_linear_history_is_merged_by_rebase` ([`tests/test_ship.py:280`](../../tests/test_ship.py#L280))
+- Scenario `a-merge-method-that-the-repository-does-not-allow-is-replaced-before-the-check`: tested by `tests/test_ship.py::test_a_merge_method_that_the_repository_does_not_allow_is_replaced` ([`tests/test_ship.py:290`](../../tests/test_ship.py#L290))
+- Scenario `an-allowed-method-that-was-asked-for-is-used`: tested by `tests/test_ship.py::test_an_allowed_method_that_was_asked_for_is_used` ([`tests/test_ship.py:300`](../../tests/test_ship.py#L300))
+- Scenario `a-ruleset-that-requires-linear-history-is-honored-too`: tested by `tests/test_ship.py::test_a_ruleset_that_requires_linear_history_is_honored_too` ([`tests/test_ship.py:307`](../../tests/test_ship.py#L307))
+- Scenario `a-repository-that-disables-a-method-falls-back-to-the-allowed-ones`: tested by `tests/test_ship.py::test_a_repository_that_disables_a_method_falls_back_to_the_allowed_ones` ([`tests/test_ship.py:315`](../../tests/test_ship.py#L315)), `tests/test_ship.py::test_the_repository_default_is_used_when_it_is_allowed` ([`tests/test_ship.py:323`](../../tests/test_ship.py#L323))
+- Scenario `a-repository-that-allows-no-merge-method-stops-before-the-check`: tested by `tests/test_ship.py::test_a_repository_that_allows_no_merge_method_stops_before_the_check` ([`tests/test_ship.py:332`](../../tests/test_ship.py#L332))
+- Scenario `the-merge-settings-are-read-before-the-check`: tested by `tests/test_ship.py::test_the_merge_settings_are_read_before_the_check` ([`tests/test_ship.py:344`](../../tests/test_ship.py#L344))
+- Scenario `settings-that-cannot-be-read-leave-the-method-unchanged`: tested by `tests/test_ship.py::test_settings_that_cannot_be_read_leave_the_method_unchanged` ([`tests/test_ship.py:351`](../../tests/test_ship.py#L351))
 
 ## planning gates are set in lockstep yaml
 
@@ -245,15 +245,15 @@ Status: **implemented and tested**
 
 Implemented by:
 
-- `lockstep.checks.config` — [src/lockstep/checks/config.py:1](../../src/lockstep/checks/config.py#L1)
-- `lockstep.checks.config.planning_modes` — [src/lockstep/checks/config.py:239](../../src/lockstep/checks/config.py#L239)
+- `lockstep.checks.config` — [`src/lockstep/checks/config.py:1`](../../src/lockstep/checks/config.py#L1)
+- `lockstep.checks.config.planning_modes` — [`src/lockstep/checks/config.py:239`](../../src/lockstep/checks/config.py#L239)
 
-- Scenario `off-in-lockstep-yaml-on-the-default-branch-skips-the-gate`: tested by `tests/test_ship.py::test_off_in_lockstep_yaml_on_the_default_branch_skips_the_gate` ([tests/test_ship.py:1675](../../tests/test_ship.py#L1675)), `tests/test_ship.py::test_one_page_plans_off_in_lockstep_yaml` ([tests/test_ship.py:1684](../../tests/test_ship.py#L1684))
-- Scenario `a-branch-cannot-switch-its-own-planning-gate-off-in-lockstep-yaml`: tested by `tests/test_ship.py::test_a_branch_cannot_switch_its_own_planning_gate_off_in_lockstep_yaml` ([tests/test_ship.py:1693](../../tests/test_ship.py#L1693))
-- Scenario `warn-passes-a-plan-verdict`: tested by `tests/test_ship.py::test_warn_passes_a_missing_package` ([tests/test_ship.py:1702](../../tests/test_ship.py#L1702)), `tests/test_ship.py::test_warn_passes_a_validator_rejection` ([tests/test_ship.py:1711](../../tests/test_ship.py#L1711))
-- Scenario `warn-still-refuses-a-validator-that-cannot-be-fetched`: tested by `tests/test_ship.py::test_warn_still_refuses_a_validator_that_cannot_be_fetched` ([tests/test_ship.py:1722](../../tests/test_ship.py#L1722))
-- Scenario `a-bad-planning-mode-refuses`: tested by `tests/test_ship.py::test_a_bad_planning_mode_refuses` ([tests/test_ship.py:1735](../../tests/test_ship.py#L1735)), `tests/test_ship.py::test_non_text_planning_keys_refuse_instead_of_crashing` ([tests/test_ship.py:2002](../../tests/test_ship.py#L2002))
-- Scenario `an-absent-planning-setting-warns`: tested by `tests/test_ship.py::test_an_absent_planning_setting_warns` ([tests/test_ship.py:2019](../../tests/test_ship.py#L2019))
+- Scenario `off-in-lockstep-yaml-on-the-default-branch-skips-the-gate`: tested by `tests/test_ship.py::test_off_in_lockstep_yaml_on_the_default_branch_skips_the_gate` ([`tests/test_ship.py:1675`](../../tests/test_ship.py#L1675)), `tests/test_ship.py::test_one_page_plans_off_in_lockstep_yaml` ([`tests/test_ship.py:1684`](../../tests/test_ship.py#L1684))
+- Scenario `a-branch-cannot-switch-its-own-planning-gate-off-in-lockstep-yaml`: tested by `tests/test_ship.py::test_a_branch_cannot_switch_its_own_planning_gate_off_in_lockstep_yaml` ([`tests/test_ship.py:1693`](../../tests/test_ship.py#L1693))
+- Scenario `warn-passes-a-plan-verdict`: tested by `tests/test_ship.py::test_warn_passes_a_missing_package` ([`tests/test_ship.py:1702`](../../tests/test_ship.py#L1702)), `tests/test_ship.py::test_warn_passes_a_validator_rejection` ([`tests/test_ship.py:1711`](../../tests/test_ship.py#L1711))
+- Scenario `warn-still-refuses-a-validator-that-cannot-be-fetched`: tested by `tests/test_ship.py::test_warn_still_refuses_a_validator_that_cannot_be_fetched` ([`tests/test_ship.py:1722`](../../tests/test_ship.py#L1722))
+- Scenario `a-bad-planning-mode-refuses`: tested by `tests/test_ship.py::test_a_bad_planning_mode_refuses` ([`tests/test_ship.py:1735`](../../tests/test_ship.py#L1735)), `tests/test_ship.py::test_non_text_planning_keys_refuse_instead_of_crashing` ([`tests/test_ship.py:2002`](../../tests/test_ship.py#L2002))
+- Scenario `an-absent-planning-setting-warns`: tested by `tests/test_ship.py::test_an_absent_planning_setting_warns` ([`tests/test_ship.py:2019`](../../tests/test_ship.py#L2019))
 
 ## prepare a fresh worktree s environment before the check
 
@@ -265,13 +265,13 @@ Before running the check, `scripts/ship.py` SHALL run `uv sync --all-extras` whe
 
 Implemented by:
 
-- `lockstep.ship` — [src/lockstep/ship.py:1](../../src/lockstep/ship.py#L1)
-- `lockstep.ship` — [src/lockstep/ship.py:1](../../src/lockstep/ship.py#L1)
+- `lockstep.ship` — [`src/lockstep/ship.py:1`](../../src/lockstep/ship.py#L1)
+- `lockstep.ship` — [`src/lockstep/ship.py:1`](../../src/lockstep/ship.py#L1)
 
-- Scenario `a-fresh-worktree-gets-its-environment-before-the-check`: tested by `tests/test_ship.py::test_a_fresh_worktree_gets_its_environment_before_the_check` ([tests/test_ship.py:717](../../tests/test_ship.py#L717))
-- Scenario `a-failing-environment-setup-pushes-nothing`: tested by `tests/test_ship.py::test_a_failing_environment_setup_pushes_nothing` ([tests/test_ship.py:730](../../tests/test_ship.py#L730))
-- Scenario `a-failing-environment-setup-leaves-no-empty-folder`: tested by `tests/test_ship.py::test_a_failing_environment_setup_leaves_no_empty_folder` ([tests/test_ship.py:743](../../tests/test_ship.py#L743))
-- Scenario `a-custom-check-does-not-sync-the-python-environment`: tested by `tests/test_ship.py::test_a_custom_check_does_not_sync_the_python_environment` ([tests/test_ship.py:754](../../tests/test_ship.py#L754)), `tests/test_ship.py::test_only_a_make_command_is_a_makefile_check` ([tests/test_ship.py:767](../../tests/test_ship.py#L767))
+- Scenario `a-fresh-worktree-gets-its-environment-before-the-check`: tested by `tests/test_ship.py::test_a_fresh_worktree_gets_its_environment_before_the_check` ([`tests/test_ship.py:717`](../../tests/test_ship.py#L717))
+- Scenario `a-failing-environment-setup-pushes-nothing`: tested by `tests/test_ship.py::test_a_failing_environment_setup_pushes_nothing` ([`tests/test_ship.py:730`](../../tests/test_ship.py#L730))
+- Scenario `a-failing-environment-setup-leaves-no-empty-folder`: tested by `tests/test_ship.py::test_a_failing_environment_setup_leaves_no_empty_folder` ([`tests/test_ship.py:743`](../../tests/test_ship.py#L743))
+- Scenario `a-custom-check-does-not-sync-the-python-environment`: tested by `tests/test_ship.py::test_a_custom_check_does_not_sync_the_python_environment` ([`tests/test_ship.py:754`](../../tests/test_ship.py#L754)), `tests/test_ship.py::test_only_a_make_command_is_a_makefile_check` ([`tests/test_ship.py:767`](../../tests/test_ship.py#L767))
 
 ## rebase a branch that is behind the default branch before checking it
 
@@ -283,13 +283,13 @@ After refusing a dirty tree and before the gates and the check, `scripts/ship.py
 
 Implemented by:
 
-- `lockstep.ship` — [src/lockstep/ship.py:1](../../src/lockstep/ship.py#L1)
-- `lockstep.ship` — [src/lockstep/ship.py:1](../../src/lockstep/ship.py#L1)
+- `lockstep.ship` — [`src/lockstep/ship.py:1`](../../src/lockstep/ship.py#L1)
+- `lockstep.ship` — [`src/lockstep/ship.py:1`](../../src/lockstep/ship.py#L1)
 
-- Scenario `a-branch-behind-the-default-branch-is-rebased-and-merged`: tested by `tests/test_ship.py::test_a_branch_behind_the_default_branch_is_rebased_and_merged` ([tests/test_ship.py:211](../../tests/test_ship.py#L211))
-- Scenario `two-top-entries-in-a-union-log-both-survive`: tested by `tests/test_ship.py::test_two_top_entries_in_a_union_log_both_survive` ([tests/test_ship.py:222](../../tests/test_ship.py#L222))
-- Scenario `a-conflicting-rebase-pushes-nothing`: tested by `tests/test_ship.py::test_a_conflicting_rebase_pushes_nothing` ([tests/test_ship.py:244](../../tests/test_ship.py#L244))
-- Scenario `a-branch-already-on-the-remote-is-not-rebased`: tested by `tests/test_ship.py::test_a_branch_already_on_the_remote_is_not_rebased` ([tests/test_ship.py:257](../../tests/test_ship.py#L257))
+- Scenario `a-branch-behind-the-default-branch-is-rebased-and-merged`: tested by `tests/test_ship.py::test_a_branch_behind_the_default_branch_is_rebased_and_merged` ([`tests/test_ship.py:211`](../../tests/test_ship.py#L211))
+- Scenario `two-top-entries-in-a-union-log-both-survive`: tested by `tests/test_ship.py::test_two_top_entries_in_a_union_log_both_survive` ([`tests/test_ship.py:222`](../../tests/test_ship.py#L222))
+- Scenario `a-conflicting-rebase-pushes-nothing`: tested by `tests/test_ship.py::test_a_conflicting_rebase_pushes_nothing` ([`tests/test_ship.py:244`](../../tests/test_ship.py#L244))
+- Scenario `a-branch-already-on-the-remote-is-not-rebased`: tested by `tests/test_ship.py::test_a_branch_already_on_the_remote_is_not_rebased` ([`tests/test_ship.py:257`](../../tests/test_ship.py#L257))
 
 ## refuse a branch whose hidden acceptance run failed or is out of date
 
@@ -301,14 +301,14 @@ After it has caught up with the default branch and before it runs the check, `sc
 
 Implemented by:
 
-- `lockstep.ship` — [src/lockstep/ship.py:1](../../src/lockstep/ship.py#L1)
-- `lockstep.ship` — [src/lockstep/ship.py:1](../../src/lockstep/ship.py#L1)
-- `lockstep.ship.accept_refusal` — [src/lockstep/ship.py:1454](../../src/lockstep/ship.py#L1454)
+- `lockstep.ship` — [`src/lockstep/ship.py:1`](../../src/lockstep/ship.py#L1)
+- `lockstep.ship` — [`src/lockstep/ship.py:1`](../../src/lockstep/ship.py#L1)
+- `lockstep.ship.accept_refusal` — [`src/lockstep/ship.py:1454`](../../src/lockstep/ship.py#L1454)
 
-- Scenario `a-passing-record-at-head-merges`: tested by `tests/test_ship.py::test_a_passing_hidden_test_record_at_head_merges` ([tests/test_ship.py:1754](../../tests/test_ship.py#L1754)), `tests/test_ship.py::test_a_record_made_on_a_detached_head_is_found_by_its_commit` ([tests/test_ship.py:1808](../../tests/test_ship.py#L1808))
-- Scenario `a-failing-or-out-of-date-record-is-refused`: tested by `tests/test_ship.py::test_a_failing_or_out_of_date_hidden_test_record_is_refused` ([tests/test_ship.py:1763](../../tests/test_ship.py#L1763)), `tests/test_ship.py::test_the_newest_record_counts` ([tests/test_ship.py:1792](../../tests/test_ship.py#L1792)), `tests/test_ship.py::test_an_unreadable_record_is_skipped_with_a_warning` ([tests/test_ship.py:1815](../../tests/test_ship.py#L1815))
-- Scenario `no-record-goes-on`: tested by `tests/test_ship.py::test_no_hidden_test_record_goes_on` ([tests/test_ship.py:1800](../../tests/test_ship.py#L1800))
-- Scenario `a-successful-exit-without-a-passing-count-is-refused`: tested by `tests/test_ship.py::test_ship_requires_positive_pass_evidence` ([tests/test_ship.py:1777](../../tests/test_ship.py#L1777)), `tests/test_ship.py::test_ship_requires_pass_evidence_before_and_after_rebase` ([tests/test_ship.py:1951](../../tests/test_ship.py#L1951))
+- Scenario `a-passing-record-at-head-merges`: tested by `tests/test_ship.py::test_a_passing_hidden_test_record_at_head_merges` ([`tests/test_ship.py:1754`](../../tests/test_ship.py#L1754)), `tests/test_ship.py::test_a_record_made_on_a_detached_head_is_found_by_its_commit` ([`tests/test_ship.py:1808`](../../tests/test_ship.py#L1808))
+- Scenario `a-failing-or-out-of-date-record-is-refused`: tested by `tests/test_ship.py::test_a_failing_or_out_of_date_hidden_test_record_is_refused` ([`tests/test_ship.py:1763`](../../tests/test_ship.py#L1763)), `tests/test_ship.py::test_the_newest_record_counts` ([`tests/test_ship.py:1792`](../../tests/test_ship.py#L1792)), `tests/test_ship.py::test_an_unreadable_record_is_skipped_with_a_warning` ([`tests/test_ship.py:1815`](../../tests/test_ship.py#L1815))
+- Scenario `no-record-goes-on`: tested by `tests/test_ship.py::test_no_hidden_test_record_goes_on` ([`tests/test_ship.py:1800`](../../tests/test_ship.py#L1800))
+- Scenario `a-successful-exit-without-a-passing-count-is-refused`: tested by `tests/test_ship.py::test_ship_requires_positive_pass_evidence` ([`tests/test_ship.py:1777`](../../tests/test_ship.py#L1777)), `tests/test_ship.py::test_ship_requires_pass_evidence_before_and_after_rebase` ([`tests/test_ship.py:1951`](../../tests/test_ship.py#L1951))
 
 ## refuse a merge whose openspec change lacks a prior art record
 
@@ -320,15 +320,15 @@ Before the planning gate and the check, `ship` SHALL run Lockstep's prior-art ch
 
 Implemented by:
 
-- `lockstep.ship` — [src/lockstep/ship.py:1](../../src/lockstep/ship.py#L1)
-- `lockstep.ship` — [src/lockstep/ship.py:1](../../src/lockstep/ship.py#L1)
-- `lockstep.ship.prior_art_refusal` — [src/lockstep/ship.py:1264](../../src/lockstep/ship.py#L1264)
+- `lockstep.ship` — [`src/lockstep/ship.py:1`](../../src/lockstep/ship.py#L1)
+- `lockstep.ship` — [`src/lockstep/ship.py:1`](../../src/lockstep/ship.py#L1)
+- `lockstep.ship.prior_art_refusal` — [`src/lockstep/ship.py:1264`](../../src/lockstep/ship.py#L1264)
 
-- Scenario `a-change-with-no-record-is-refused`: tested by `tests/test_ship.py::test_a_change_with_no_record_is_refused` ([tests/test_ship.py:1558](../../tests/test_ship.py#L1558))
-- Scenario `a-change-with-a-record-merges`: tested by `tests/test_ship.py::test_a_change_with_a_record_merges` ([tests/test_ship.py:1568](../../tests/test_ship.py#L1568))
-- Scenario `a-merge-that-touches-no-change-runs-nothing`: tested by `tests/test_ship.py::test_a_merge_that_touches_no_change_runs_nothing` ([tests/test_ship.py:1582](../../tests/test_ship.py#L1582))
-- Scenario `a-missing-prior-art-check-refuses`: tested by `tests/test_ship.py::test_a_missing_prior_art_check_refuses` ([tests/test_ship.py:1591](../../tests/test_ship.py#L1591))
-- Scenario `a-prior-art-check-that-cannot-run-refuses`: tested by `tests/test_ship.py::test_a_prior_art_check_that_cannot_run_refuses` ([tests/test_ship.py:1600](../../tests/test_ship.py#L1600))
+- Scenario `a-change-with-no-record-is-refused`: tested by `tests/test_ship.py::test_a_change_with_no_record_is_refused` ([`tests/test_ship.py:1558`](../../tests/test_ship.py#L1558))
+- Scenario `a-change-with-a-record-merges`: tested by `tests/test_ship.py::test_a_change_with_a_record_merges` ([`tests/test_ship.py:1568`](../../tests/test_ship.py#L1568))
+- Scenario `a-merge-that-touches-no-change-runs-nothing`: tested by `tests/test_ship.py::test_a_merge_that_touches_no_change_runs_nothing` ([`tests/test_ship.py:1582`](../../tests/test_ship.py#L1582))
+- Scenario `a-missing-prior-art-check-refuses`: tested by `tests/test_ship.py::test_a_missing_prior_art_check_refuses` ([`tests/test_ship.py:1591`](../../tests/test_ship.py#L1591))
+- Scenario `a-prior-art-check-that-cannot-run-refuses`: tested by `tests/test_ship.py::test_a_prior_art_check_that_cannot_run_refuses` ([`tests/test_ship.py:1600`](../../tests/test_ship.py#L1600))
 
 ## refuse a new repository with no planning package
 
@@ -340,14 +340,14 @@ Before running the check, `scripts/ship.py` SHALL refuse, with nothing pushed, a
 
 Implemented by:
 
-- `lockstep.ship` — [src/lockstep/ship.py:1](../../src/lockstep/ship.py#L1)
-- `lockstep.ship` — [src/lockstep/ship.py:1](../../src/lockstep/ship.py#L1)
+- `lockstep.ship` — [`src/lockstep/ship.py:1`](../../src/lockstep/ship.py#L1)
+- `lockstep.ship` — [`src/lockstep/ship.py:1`](../../src/lockstep/ship.py#L1)
 
-- Scenario `an-older-repository-with-no-package-merges-with-a-warning`: tested by `tests/test_ship.py::test_an_older_repository_with_no_package_merges_with_a_warning` ([tests/test_ship.py:430](../../tests/test_ship.py#L430))
-- Scenario `an-older-repository-with-a-passing-package-merges`: tested by `tests/test_ship.py::test_an_older_repository_with_a_passing_package_merges` ([tests/test_ship.py:447](../../tests/test_ship.py#L447))
-- Scenario `a-new-repository-with-a-one-page-plan-and-no-package-merges`: tested by `tests/test_ship.py::test_a_new_repository_with_a_one_page_plan_and_no_package_merges` ([tests/test_ship.py:1469](../../tests/test_ship.py#L1469)), `tests/test_ship.py::test_a_new_repository_keeps_merging_on_a_one_page_plan_already_on_main` ([tests/test_ship.py:1481](../../tests/test_ship.py#L1481))
-- Scenario `a-new-repository-whose-only-one-page-plan-is-incomplete-is-refused`: tested by `tests/test_ship.py::test_a_new_repository_whose_only_one_page_plan_is_incomplete_is_refused` ([tests/test_ship.py:1490](../../tests/test_ship.py#L1490))
-- Scenario `an-uncommitted-one-page-plan-does-not-stand-in-for-the-package`: tested by `tests/test_ship.py::test_an_uncommitted_one_page_plan_does_not_stand_in_for_the_package` ([tests/test_ship.py:1500](../../tests/test_ship.py#L1500))
+- Scenario `an-older-repository-with-no-package-merges-with-a-warning`: tested by `tests/test_ship.py::test_an_older_repository_with_no_package_merges_with_a_warning` ([`tests/test_ship.py:430`](../../tests/test_ship.py#L430))
+- Scenario `an-older-repository-with-a-passing-package-merges`: tested by `tests/test_ship.py::test_an_older_repository_with_a_passing_package_merges` ([`tests/test_ship.py:447`](../../tests/test_ship.py#L447))
+- Scenario `a-new-repository-with-a-one-page-plan-and-no-package-merges`: tested by `tests/test_ship.py::test_a_new_repository_with_a_one_page_plan_and_no_package_merges` ([`tests/test_ship.py:1469`](../../tests/test_ship.py#L1469)), `tests/test_ship.py::test_a_new_repository_keeps_merging_on_a_one_page_plan_already_on_main` ([`tests/test_ship.py:1481`](../../tests/test_ship.py#L1481))
+- Scenario `a-new-repository-whose-only-one-page-plan-is-incomplete-is-refused`: tested by `tests/test_ship.py::test_a_new_repository_whose_only_one_page_plan_is_incomplete_is_refused` ([`tests/test_ship.py:1490`](../../tests/test_ship.py#L1490))
+- Scenario `an-uncommitted-one-page-plan-does-not-stand-in-for-the-package`: tested by `tests/test_ship.py::test_an_uncommitted_one_page_plan_does_not_stand_in_for_the_package` ([`tests/test_ship.py:1500`](../../tests/test_ship.py#L1500))
 
 ## refuse a planning package the validator rejects
 
@@ -359,15 +359,15 @@ Before running the check, `scripts/ship.py` SHALL look for `docs/planning/planni
 
 Implemented by:
 
-- `lockstep.ship` — [src/lockstep/ship.py:1](../../src/lockstep/ship.py#L1)
-- `lockstep.ship` — [src/lockstep/ship.py:1](../../src/lockstep/ship.py#L1)
+- `lockstep.ship` — [`src/lockstep/ship.py:1`](../../src/lockstep/ship.py#L1)
+- `lockstep.ship` — [`src/lockstep/ship.py:1`](../../src/lockstep/ship.py#L1)
 
-- Scenario `a-failing-planning-package-pushes-nothing`: tested by `tests/test_ship.py::test_a_failing_planning_package_pushes_nothing` ([tests/test_ship.py:385](../../tests/test_ship.py#L385)), `tests/test_ship.py::test_a_code_change_beside_a_plan_repair_is_still_refused` ([tests/test_ship.py:864](../../tests/test_ship.py#L864))
-- Scenario `a-compliant-planning-package-lets-the-merge-proceed`: tested by `tests/test_ship.py::test_a_compliant_planning_package_lets_the_merge_proceed` ([tests/test_ship.py:405](../../tests/test_ship.py#L405)), `tests/test_ship.py::test_an_older_repository_with_a_package_needs_no_plan_list` ([tests/test_ship.py:509](../../tests/test_ship.py#L509))
-- Scenario `a-validator-that-cannot-run-stops-the-merge`: tested by `tests/test_ship.py::test_a_validator_that_cannot_run_stops_the_merge` ([tests/test_ship.py:518](../../tests/test_ship.py#L518)), `tests/test_ship.py::test_an_unreachable_company_planning_stops_the_merge` ([tests/test_ship.py:527](../../tests/test_ship.py#L527))
-- Scenario `a-package-that-is-only-out-of-date-warns-and-proceeds`: tested by `tests/test_ship.py::test_a_package_that_is_only_out_of_date_warns_and_proceeds` ([tests/test_ship.py:395](../../tests/test_ship.py#L395))
-- Scenario `the-validator-runs-under-an-interpreter-that-has-its-packages`: tested by `tests/test_ship.py::test_the_validator_runs_under_a_fixed_interpreter_not_the_callers` ([tests/test_ship.py:559](../../tests/test_ship.py#L559)), `tests/test_ship.py::test_an_interpreter_named_by_the_environment_runs_the_validator` ([tests/test_ship.py:573](../../tests/test_ship.py#L573))
-- Scenario `a-validator-that-cannot-run-is-not-reported-as-a-failing-package`: tested by `tests/test_ship.py::test_no_interpreter_with_the_packages_stops_the_merge_as_could_not_run` ([tests/test_ship.py:584](../../tests/test_ship.py#L584)), `tests/test_ship.py::test_a_validator_that_fails_to_import_is_not_reported_as_a_failing_package` ([tests/test_ship.py:597](../../tests/test_ship.py#L597))
+- Scenario `a-failing-planning-package-pushes-nothing`: tested by `tests/test_ship.py::test_a_failing_planning_package_pushes_nothing` ([`tests/test_ship.py:385`](../../tests/test_ship.py#L385)), `tests/test_ship.py::test_a_code_change_beside_a_plan_repair_is_still_refused` ([`tests/test_ship.py:864`](../../tests/test_ship.py#L864))
+- Scenario `a-compliant-planning-package-lets-the-merge-proceed`: tested by `tests/test_ship.py::test_a_compliant_planning_package_lets_the_merge_proceed` ([`tests/test_ship.py:405`](../../tests/test_ship.py#L405)), `tests/test_ship.py::test_an_older_repository_with_a_package_needs_no_plan_list` ([`tests/test_ship.py:509`](../../tests/test_ship.py#L509))
+- Scenario `a-validator-that-cannot-run-stops-the-merge`: tested by `tests/test_ship.py::test_a_validator_that_cannot_run_stops_the_merge` ([`tests/test_ship.py:518`](../../tests/test_ship.py#L518)), `tests/test_ship.py::test_an_unreachable_company_planning_stops_the_merge` ([`tests/test_ship.py:527`](../../tests/test_ship.py#L527))
+- Scenario `a-package-that-is-only-out-of-date-warns-and-proceeds`: tested by `tests/test_ship.py::test_a_package_that_is_only_out_of_date_warns_and_proceeds` ([`tests/test_ship.py:395`](../../tests/test_ship.py#L395))
+- Scenario `the-validator-runs-under-an-interpreter-that-has-its-packages`: tested by `tests/test_ship.py::test_the_validator_runs_under_a_fixed_interpreter_not_the_callers` ([`tests/test_ship.py:559`](../../tests/test_ship.py#L559)), `tests/test_ship.py::test_an_interpreter_named_by_the_environment_runs_the_validator` ([`tests/test_ship.py:573`](../../tests/test_ship.py#L573))
+- Scenario `a-validator-that-cannot-run-is-not-reported-as-a-failing-package`: tested by `tests/test_ship.py::test_no_interpreter_with_the_packages_stops_the_merge_as_could_not_run` ([`tests/test_ship.py:584`](../../tests/test_ship.py#L584)), `tests/test_ship.py::test_a_validator_that_fails_to_import_is_not_reported_as_a_failing_package` ([`tests/test_ship.py:597`](../../tests/test_ship.py#L597))
 
 ## refuse goals that do not name their sources
 
@@ -379,12 +379,12 @@ When ship extracts Company Planning's validator from company-planning's `origin/
 
 Implemented by:
 
-- `lockstep.ship` — [src/lockstep/ship.py:1](../../src/lockstep/ship.py#L1)
-- `lockstep.ship` — [src/lockstep/ship.py:1](../../src/lockstep/ship.py#L1)
+- `lockstep.ship` — [`src/lockstep/ship.py:1`](../../src/lockstep/ship.py#L1)
+- `lockstep.ship` — [`src/lockstep/ship.py:1`](../../src/lockstep/ship.py#L1)
 
-- Scenario `the-goal-provenance-check-is-extracted-beside-the-validator`: tested by `tests/test_ship.py::test_the_goal_provenance_check_is_extracted_beside_the_validator` ([tests/test_ship.py:1019](../../tests/test_ship.py#L1019))
-- Scenario `a-goal-provenance-failure-refuses-the-merge`: tested by `tests/test_ship.py::test_a_goal_provenance_failure_refuses_the_merge` ([tests/test_ship.py:1029](../../tests/test_ship.py#L1029))
-- Scenario `an-older-company-planning-without-the-check-still-validates`: tested by `tests/test_ship.py::test_an_older_company_planning_without_the_check_still_validates` ([tests/test_ship.py:1038](../../tests/test_ship.py#L1038))
+- Scenario `the-goal-provenance-check-is-extracted-beside-the-validator`: tested by `tests/test_ship.py::test_the_goal_provenance_check_is_extracted_beside_the_validator` ([`tests/test_ship.py:1019`](../../tests/test_ship.py#L1019))
+- Scenario `a-goal-provenance-failure-refuses-the-merge`: tested by `tests/test_ship.py::test_a_goal_provenance_failure_refuses_the_merge` ([`tests/test_ship.py:1029`](../../tests/test_ship.py#L1029))
+- Scenario `an-older-company-planning-without-the-check-still-validates`: tested by `tests/test_ship.py::test_an_older_company_planning_without_the_check_still_validates` ([`tests/test_ship.py:1038`](../../tests/test_ship.py#L1038))
 
 ## regenerate a status page conflict and rerun hidden tests after ship s own rebase
 
@@ -396,12 +396,12 @@ When the rebase in "Rebase a branch that is behind the default branch before che
 
 Implemented by:
 
-- `lockstep.ship` — [src/lockstep/ship.py:1](../../src/lockstep/ship.py#L1)
-- `lockstep.ship` — [src/lockstep/ship.py:1](../../src/lockstep/ship.py#L1)
-- `lockstep.ship.regenerate` — [src/lockstep/ship.py:1806](../../src/lockstep/ship.py#L1806)
+- `lockstep.ship` — [`src/lockstep/ship.py:1`](../../src/lockstep/ship.py#L1)
+- `lockstep.ship` — [`src/lockstep/ship.py:1`](../../src/lockstep/ship.py#L1)
+- `lockstep.ship.regenerate` — [`src/lockstep/ship.py:1806`](../../src/lockstep/ship.py#L1806)
 
-- Scenario `a-conflict-only-in-the-status-page-is-regenerated`: tested by `tests/test_ship.py::test_a_conflict_only_in_the_status_page_is_regenerated` ([tests/test_ship.py:1899](../../tests/test_ship.py#L1899)), `tests/test_ship.py::test_a_status_page_conflict_with_another_conflict_still_stops` ([tests/test_ship.py:1912](../../tests/test_ship.py#L1912)), `tests/test_ship.py::test_a_commit_that_only_changed_the_status_page_is_dropped_and_regenerated` ([tests/test_ship.py:1971](../../tests/test_ship.py#L1971)), `tests/test_ship.py::test_a_regenerate_that_changes_other_files_stops` ([tests/test_ship.py:1993](../../tests/test_ship.py#L1993))
-- Scenario `hidden-tests-run-again-after-ship-s-own-rebase`: tested by `tests/test_ship.py::test_hidden_tests_run_again_after_ships_own_rebase` ([tests/test_ship.py:1938](../../tests/test_ship.py#L1938)), `tests/test_ship.py::test_a_record_out_of_date_without_a_ship_rebase_is_still_refused` ([tests/test_ship.py:1962](../../tests/test_ship.py#L1962)), `tests/test_ship.py::test_a_record_under_another_branch_name_is_found_after_ships_rebase` ([tests/test_ship.py:1983](../../tests/test_ship.py#L1983))
+- Scenario `a-conflict-only-in-the-status-page-is-regenerated`: tested by `tests/test_ship.py::test_a_conflict_only_in_the_status_page_is_regenerated` ([`tests/test_ship.py:1899`](../../tests/test_ship.py#L1899)), `tests/test_ship.py::test_a_status_page_conflict_with_another_conflict_still_stops` ([`tests/test_ship.py:1912`](../../tests/test_ship.py#L1912)), `tests/test_ship.py::test_a_commit_that_only_changed_the_status_page_is_dropped_and_regenerated` ([`tests/test_ship.py:1971`](../../tests/test_ship.py#L1971)), `tests/test_ship.py::test_a_regenerate_that_changes_other_files_stops` ([`tests/test_ship.py:1993`](../../tests/test_ship.py#L1993))
+- Scenario `hidden-tests-run-again-after-ship-s-own-rebase`: tested by `tests/test_ship.py::test_hidden_tests_run_again_after_ships_own_rebase` ([`tests/test_ship.py:1938`](../../tests/test_ship.py#L1938)), `tests/test_ship.py::test_a_record_out_of_date_without_a_ship_rebase_is_still_refused` ([`tests/test_ship.py:1962`](../../tests/test_ship.py#L1962)), `tests/test_ship.py::test_a_record_under_another_branch_name_is_found_after_ships_rebase` ([`tests/test_ship.py:1983`](../../tests/test_ship.py#L1983))
 
 ## settings come from config
 
@@ -413,11 +413,11 @@ Where the plan list lives SHALL be read when it is needed: from `$SHIP_PERSONAL_
 
 Implemented by:
 
-- `lockstep.ship` — [src/lockstep/ship.py:1](../../src/lockstep/ship.py#L1)
-- `lockstep.ship` — [src/lockstep/ship.py:1](../../src/lockstep/ship.py#L1)
+- `lockstep.ship` — [`src/lockstep/ship.py:1`](../../src/lockstep/ship.py#L1)
+- `lockstep.ship` — [`src/lockstep/ship.py:1`](../../src/lockstep/ship.py#L1)
 
-- Scenario `a-new-repository-with-no-plan-list-named-is-refused`: tested by `tests/test_ship.py::test_a_new_repository_with_no_plan_list_named_is_refused` ([tests/test_ship.py:1515](../../tests/test_ship.py#L1515))
-- Scenario `the-plan-list-location-is-read-from-graph-config`: tested by `tests/test_ship.py::test_the_plan_list_location_is_read_from_graph_config` ([tests/test_ship.py:1527](../../tests/test_ship.py#L1527))
+- Scenario `a-new-repository-with-no-plan-list-named-is-refused`: tested by `tests/test_ship.py::test_a_new_repository_with_no_plan_list_named_is_refused` ([`tests/test_ship.py:1515`](../../tests/test_ship.py#L1515))
+- Scenario `the-plan-list-location-is-read-from-graph-config`: tested by `tests/test_ship.py::test_the_plan_list_location_is_read_from_graph_config` ([`tests/test_ship.py:1527`](../../tests/test_ship.py#L1527))
 
 ## skip a check that already passed on the same tree
 
@@ -429,12 +429,12 @@ After the check exits 0 on an unchanged tree, `scripts/ship.py` SHALL append the
 
 Implemented by:
 
-- `lockstep.ship` — [src/lockstep/ship.py:1](../../src/lockstep/ship.py#L1)
-- `lockstep.ship` — [src/lockstep/ship.py:1](../../src/lockstep/ship.py#L1)
+- `lockstep.ship` — [`src/lockstep/ship.py:1`](../../src/lockstep/ship.py#L1)
+- `lockstep.ship` — [`src/lockstep/ship.py:1`](../../src/lockstep/ship.py#L1)
 
-- Scenario `a-tree-that-already-passed-skips-the-check`: tested by `tests/test_ship.py::test_a_tree_that_already_passed_skips_the_check` ([tests/test_ship.py:785](../../tests/test_ship.py#L785))
-- Scenario `recheck-runs-the-check-again`: tested by `tests/test_ship.py::test_recheck_runs_the_check_again` ([tests/test_ship.py:808](../../tests/test_ship.py#L808))
-- Scenario `a-different-check-command-or-a-failed-check-is-not-skipped`: tested by `tests/test_ship.py::test_a_different_check_command_or_a_failed_check_is_not_skipped` ([tests/test_ship.py:817](../../tests/test_ship.py#L817))
+- Scenario `a-tree-that-already-passed-skips-the-check`: tested by `tests/test_ship.py::test_a_tree_that_already_passed_skips_the_check` ([`tests/test_ship.py:785`](../../tests/test_ship.py#L785))
+- Scenario `recheck-runs-the-check-again`: tested by `tests/test_ship.py::test_recheck_runs_the_check_again` ([`tests/test_ship.py:808`](../../tests/test_ship.py#L808))
+- Scenario `a-different-check-command-or-a-failed-check-is-not-skipped`: tested by `tests/test_ship.py::test_a_different_check_command_or_a_failed_check_is_not_skipped` ([`tests/test_ship.py:817`](../../tests/test_ship.py#L817))
 
 ## the project graph is named in lockstep yaml
 
@@ -446,14 +446,14 @@ Status: **implemented and tested**
 
 Implemented by:
 
-- `lockstep.checks.project_graph` — [src/lockstep/checks/project_graph.py:1](../../src/lockstep/checks/project_graph.py#L1)
-- `lockstep.checks.project_graph.project_graph` — [src/lockstep/checks/project_graph.py:81](../../src/lockstep/checks/project_graph.py#L81)
-- `lockstep.checks.project_graph.plan_list_config` — [src/lockstep/checks/project_graph.py:117](../../src/lockstep/checks/project_graph.py#L117)
+- `lockstep.checks.project_graph` — [`src/lockstep/checks/project_graph.py:1`](../../src/lockstep/checks/project_graph.py#L1)
+- `lockstep.checks.project_graph.project_graph` — [`src/lockstep/checks/project_graph.py:81`](../../src/lockstep/checks/project_graph.py#L81)
+- `lockstep.checks.project_graph.plan_list_config` — [`src/lockstep/checks/project_graph.py:117`](../../src/lockstep/checks/project_graph.py#L117)
 
-- Scenario `planning-project-graph-on-the-default-branch-names-the-graph`: tested by `tests/lockstep/checks/test_lockstep_check_project_graph.py::test_the_default_branch_setting_names_the_graph` ([tests/lockstep/checks/test_lockstep_check_project_graph.py:45](../../tests/lockstep/checks/test_lockstep_check_project_graph.py#L45)), `tests/lockstep/checks/test_lockstep_check_project_graph.py::test_a_branch_cannot_name_its_own_graph` ([tests/lockstep/checks/test_lockstep_check_project_graph.py:55](../../tests/lockstep/checks/test_lockstep_check_project_graph.py#L55)), `tests/lockstep/checks/test_lockstep_check_project_graph.py::test_the_planning_modes_accept_the_key` ([tests/lockstep/checks/test_lockstep_check_project_graph.py:108](../../tests/lockstep/checks/test_lockstep_check_project_graph.py#L108)), `tests/test_ship.py::test_planning_project_graph_on_the_default_branch_names_the_graph` ([tests/test_ship.py:2054](../../tests/test_ship.py#L2054))
-- Scenario `the-environment-wins-over-lockstep-yaml`: tested by `tests/lockstep/checks/test_lockstep_check_project_graph.py::test_the_environment_wins_over_lockstep_yaml` ([tests/lockstep/checks/test_lockstep_check_project_graph.py:64](../../tests/lockstep/checks/test_lockstep_check_project_graph.py#L64))
-- Scenario `with-neither-the-old-default-is-used`: tested by `tests/lockstep/checks/test_lockstep_check_project_graph.py::test_with_neither_the_old_default_is_used` ([tests/lockstep/checks/test_lockstep_check_project_graph.py:71](../../tests/lockstep/checks/test_lockstep_check_project_graph.py#L71))
-- Scenario `an-unusable-planning-project-graph-is-refused`: tested by `tests/lockstep/checks/test_lockstep_check_project_graph.py::test_an_unusable_value_is_refused` ([tests/lockstep/checks/test_lockstep_check_project_graph.py:80](../../tests/lockstep/checks/test_lockstep_check_project_graph.py#L80)), `tests/lockstep/checks/test_lockstep_check_project_graph.py::test_the_side_file_check_names_an_unusable_value` ([tests/lockstep/checks/test_lockstep_check_project_graph.py:97](../../tests/lockstep/checks/test_lockstep_check_project_graph.py#L97)), `tests/test_ship.py::test_an_unusable_planning_project_graph_is_refused` ([tests/test_ship.py:2071](../../tests/test_ship.py#L2071))
+- Scenario `planning-project-graph-on-the-default-branch-names-the-graph`: tested by `tests/lockstep/checks/test_lockstep_check_project_graph.py::test_the_default_branch_setting_names_the_graph` ([`tests/lockstep/checks/test_lockstep_check_project_graph.py:45`](../../tests/lockstep/checks/test_lockstep_check_project_graph.py#L45)), `tests/lockstep/checks/test_lockstep_check_project_graph.py::test_a_branch_cannot_name_its_own_graph` ([`tests/lockstep/checks/test_lockstep_check_project_graph.py:55`](../../tests/lockstep/checks/test_lockstep_check_project_graph.py#L55)), `tests/lockstep/checks/test_lockstep_check_project_graph.py::test_the_planning_modes_accept_the_key` ([`tests/lockstep/checks/test_lockstep_check_project_graph.py:108`](../../tests/lockstep/checks/test_lockstep_check_project_graph.py#L108)), `tests/test_ship.py::test_planning_project_graph_on_the_default_branch_names_the_graph` ([`tests/test_ship.py:2054`](../../tests/test_ship.py#L2054))
+- Scenario `the-environment-wins-over-lockstep-yaml`: tested by `tests/lockstep/checks/test_lockstep_check_project_graph.py::test_the_environment_wins_over_lockstep_yaml` ([`tests/lockstep/checks/test_lockstep_check_project_graph.py:64`](../../tests/lockstep/checks/test_lockstep_check_project_graph.py#L64))
+- Scenario `with-neither-the-old-default-is-used`: tested by `tests/lockstep/checks/test_lockstep_check_project_graph.py::test_with_neither_the_old_default_is_used` ([`tests/lockstep/checks/test_lockstep_check_project_graph.py:71`](../../tests/lockstep/checks/test_lockstep_check_project_graph.py#L71))
+- Scenario `an-unusable-planning-project-graph-is-refused`: tested by `tests/lockstep/checks/test_lockstep_check_project_graph.py::test_an_unusable_value_is_refused` ([`tests/lockstep/checks/test_lockstep_check_project_graph.py:80`](../../tests/lockstep/checks/test_lockstep_check_project_graph.py#L80)), `tests/lockstep/checks/test_lockstep_check_project_graph.py::test_the_side_file_check_names_an_unusable_value` ([`tests/lockstep/checks/test_lockstep_check_project_graph.py:97`](../../tests/lockstep/checks/test_lockstep_check_project_graph.py#L97)), `tests/test_ship.py::test_an_unusable_planning_project_graph_is_refused` ([`tests/test_ship.py:2071`](../../tests/test_ship.py#L2071))
 
 ## validate the planning package only when the merge changes plan content
 
@@ -465,9 +465,9 @@ Before running the validator, `scripts/ship.py` SHALL ask whether the merge (fro
 
 Implemented by:
 
-- `lockstep.ship` — [src/lockstep/ship.py:1](../../src/lockstep/ship.py#L1)
-- `lockstep.ship.plan_content_unchanged` — [src/lockstep/ship.py:1100](../../src/lockstep/ship.py#L1100)
+- `lockstep.ship` — [`src/lockstep/ship.py:1`](../../src/lockstep/ship.py#L1)
+- `lockstep.ship.plan_content_unchanged` — [`src/lockstep/ship.py:1100`](../../src/lockstep/ship.py#L1100)
 
-- Scenario `a-code-only-merge-skips-the-validator`: tested by `tests/test_ship.py::test_a_code_only_merge_skips_the_validator` ([tests/test_ship.py:904](../../tests/test_ship.py#L904))
-- Scenario `a-plan-change-is-validated`: tested by `tests/test_ship.py::test_a_plan_change_is_validated` ([tests/test_ship.py:916](../../tests/test_ship.py#L916)), `tests/test_ship.py::test_a_plan_change_that_passes_merges` ([tests/test_ship.py:929](../../tests/test_ship.py#L929)), `tests/test_ship.py::test_a_change_to_the_package_itself_is_validated` ([tests/test_ship.py:941](../../tests/test_ship.py#L941))
-- Scenario `a-validator-without-the-freshness-entry-point-validates-every-merge`: tested by `tests/test_ship.py::test_a_validator_without_the_freshness_entry_point_validates_every_merge` ([tests/test_ship.py:952](../../tests/test_ship.py#L952))
+- Scenario `a-code-only-merge-skips-the-validator`: tested by `tests/test_ship.py::test_a_code_only_merge_skips_the_validator` ([`tests/test_ship.py:904`](../../tests/test_ship.py#L904))
+- Scenario `a-plan-change-is-validated`: tested by `tests/test_ship.py::test_a_plan_change_is_validated` ([`tests/test_ship.py:916`](../../tests/test_ship.py#L916)), `tests/test_ship.py::test_a_plan_change_that_passes_merges` ([`tests/test_ship.py:929`](../../tests/test_ship.py#L929)), `tests/test_ship.py::test_a_change_to_the_package_itself_is_validated` ([`tests/test_ship.py:941`](../../tests/test_ship.py#L941))
+- Scenario `a-validator-without-the-freshness-entry-point-validates-every-merge`: tested by `tests/test_ship.py::test_a_validator_without_the_freshness_entry_point_validates_every_merge` ([`tests/test_ship.py:952`](../../tests/test_ship.py#L952))

@@ -14,6 +14,6 @@ Status: **implemented and tested**
 
 Implemented by:
 
-- `prune_merged_worktrees` — [scripts/prune_merged_worktrees.py:1](../../scripts/prune_merged_worktrees.py#L1)
+- `prune_merged_worktrees` — [`scripts/prune_merged_worktrees.py:1`](../../scripts/prune_merged_worktrees.py#L1)
 
-- Scenario `proven-merge-only`: tested by `tests/test_prune_merged_worktrees.py::test_exclude_keeps_a_provably_merged_worktree` ([tests/test_prune_merged_worktrees.py:60](../../tests/test_prune_merged_worktrees.py#L60)), `tests/test_prune_merged_worktrees.py::test_without_exclude_the_same_worktree_is_removed` ([tests/test_prune_merged_worktrees.py:74](../../tests/test_prune_merged_worktrees.py#L74)), `tests/test_prune_merged_worktrees.py::test_help_and_unknown_flags_never_prune` ([tests/test_prune_merged_worktrees.py:87](../../tests/test_prune_merged_worktrees.py#L87))
+- Scenario `proven-merge-only`: tested by `tests/test_prune_merged_worktrees.py::test_exclude_keeps_a_provably_merged_worktree` ([`tests/test_prune_merged_worktrees.py:60`](../../tests/test_prune_merged_worktrees.py#L60)), `tests/test_prune_merged_worktrees.py::test_without_exclude_the_same_worktree_is_removed` ([`tests/test_prune_merged_worktrees.py:74`](../../tests/test_prune_merged_worktrees.py#L74)), `tests/test_prune_merged_worktrees.py::test_help_and_unknown_flags_never_prune` ([`tests/test_prune_merged_worktrees.py:87`](../../tests/test_prune_merged_worktrees.py#L87))

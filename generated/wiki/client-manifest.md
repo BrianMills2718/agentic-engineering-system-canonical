@@ -14,10 +14,10 @@ Status: **implemented and tested**
 
 Implemented by:
 
-- `client_manifest` — [scripts/client_manifest.py:1](../../scripts/client_manifest.py#L1)
-- `client_manifest.compare` — [scripts/client_manifest.py:177](../../scripts/client_manifest.py#L177)
+- `client_manifest` — [`scripts/client_manifest.py:1`](../../scripts/client_manifest.py#L1)
+- `client_manifest.compare` — [`scripts/client_manifest.py:177`](../../scripts/client_manifest.py#L177)
 
-- Scenario `disk-is-compared-with-the-manifest`: tested by `tests/test_client_manifest.py::test_check_counts_and_exit` ([tests/test_client_manifest.py:97](../../tests/test_client_manifest.py#L97)), `tests/test_client_manifest.py::test_check_without_a_manifest_fails` ([tests/test_client_manifest.py:132](../../tests/test_client_manifest.py#L132))
+- Scenario `disk-is-compared-with-the-manifest`: tested by `tests/test_client_manifest.py::test_check_counts_and_exit` ([`tests/test_client_manifest.py:97`](../../tests/test_client_manifest.py#L97)), `tests/test_client_manifest.py::test_check_without_a_manifest_fails` ([`tests/test_client_manifest.py:132`](../../tests/test_client_manifest.py#L132))
 
 ## every setting has an owner
 
@@ -29,10 +29,10 @@ Status: **implemented and tested**
 
 Implemented by:
 
-- `client_manifest` — [scripts/client_manifest.py:1](../../scripts/client_manifest.py#L1)
-- `client_manifest.build` — [scripts/client_manifest.py:106](../../scripts/client_manifest.py#L106)
+- `client_manifest` — [`scripts/client_manifest.py:1`](../../scripts/client_manifest.py#L1)
+- `client_manifest.build` — [`scripts/client_manifest.py:106`](../../scripts/client_manifest.py#L106)
 
-- Scenario `every-setting-has-an-owner`: tested by `tests/test_client_manifest.py::test_every_setting_on_disk_gets_its_owner` ([tests/test_client_manifest.py:54](../../tests/test_client_manifest.py#L54))
+- Scenario `every-setting-has-an-owner`: tested by `tests/test_client_manifest.py::test_every_setting_on_disk_gets_its_owner` ([`tests/test_client_manifest.py:54`](../../tests/test_client_manifest.py#L54))
 
 ## no secret values are written
 
@@ -44,10 +44,10 @@ The manifest SHALL never hold a value whose key name looks like a credential (to
 
 Implemented by:
 
-- `client_manifest` — [scripts/client_manifest.py:1](../../scripts/client_manifest.py#L1)
-- `client_manifest.safe` — [scripts/client_manifest.py:58](../../scripts/client_manifest.py#L58)
+- `client_manifest` — [`scripts/client_manifest.py:1`](../../scripts/client_manifest.py#L1)
+- `client_manifest.safe` — [`scripts/client_manifest.py:58`](../../scripts/client_manifest.py#L58)
 
-- Scenario `no-secret-values-are-written`: tested by `tests/test_client_manifest.py::test_no_credential_reaches_the_manifest` ([tests/test_client_manifest.py:84](../../tests/test_client_manifest.py#L84))
+- Scenario `no-secret-values-are-written`: tested by `tests/test_client_manifest.py::test_no_credential_reaches_the_manifest` ([`tests/test_client_manifest.py:84`](../../tests/test_client_manifest.py#L84))
 
 ## output is stable
 
@@ -59,10 +59,10 @@ The manifest SHALL carry no timestamp and SHALL list entries in sorted order, so
 
 Implemented by:
 
-- `client_manifest` — [scripts/client_manifest.py:1](../../scripts/client_manifest.py#L1)
-- `client_manifest.build` — [scripts/client_manifest.py:106](../../scripts/client_manifest.py#L106)
+- `client_manifest` — [`scripts/client_manifest.py:1`](../../scripts/client_manifest.py#L1)
+- `client_manifest.build` — [`scripts/client_manifest.py:106`](../../scripts/client_manifest.py#L106)
 
-- Scenario `output-is-stable`: tested by `tests/test_client_manifest.py::test_build_is_stable_and_sorted` ([tests/test_client_manifest.py:139](../../tests/test_client_manifest.py#L139))
+- Scenario `output-is-stable`: tested by `tests/test_client_manifest.py::test_build_is_stable_and_sorted` ([`tests/test_client_manifest.py:139`](../../tests/test_client_manifest.py#L139))
 
 ## owned settings hold no value
 
@@ -74,7 +74,7 @@ A setting or marketplace owned by `client-layer` SHALL carry its value; every ot
 
 Implemented by:
 
-- `client_manifest` — [scripts/client_manifest.py:1](../../scripts/client_manifest.py#L1)
-- `client_manifest._entry` — [scripts/client_manifest.py:82](../../scripts/client_manifest.py#L82)
+- `client_manifest` — [`scripts/client_manifest.py:1`](../../scripts/client_manifest.py#L1)
+- `client_manifest._entry` — [`scripts/client_manifest.py:82`](../../scripts/client_manifest.py#L82)
 
-- Scenario `owned-settings-hold-no-value`: tested by `tests/test_client_manifest.py::test_only_unowned_settings_carry_a_value` ([tests/test_client_manifest.py:75](../../tests/test_client_manifest.py#L75))
+- Scenario `owned-settings-hold-no-value`: tested by `tests/test_client_manifest.py::test_only_unowned_settings_carry_a_value` ([`tests/test_client_manifest.py:75`](../../tests/test_client_manifest.py#L75))

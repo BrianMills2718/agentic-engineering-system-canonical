@@ -14,10 +14,10 @@ A concern body for a failed unit or a down Healthchecks.io check SHALL carry one
 
 Implemented by:
 
-- `failed_unit_watch` — [scripts/failed_unit_watch.py:1](../../scripts/failed_unit_watch.py#L1)
-- `public_text` — [scripts/public_text.py:1](../../scripts/public_text.py#L1)
+- `failed_unit_watch` — [`scripts/failed_unit_watch.py:1`](../../scripts/failed_unit_watch.py#L1)
+- `public_text` — [`scripts/public_text.py:1`](../../scripts/public_text.py#L1)
 
-- Scenario `issue-body-carries-one-line-not-the-log`: tested by `tests/test_failed_unit_watch.py::test_the_line_is_the_newest_one_the_job_printed_without_host_or_pid` ([tests/test_failed_unit_watch.py:315](../../tests/test_failed_unit_watch.py#L315)), `tests/test_failed_unit_watch.py::test_failed_unit_body_has_the_line_and_the_journalctl_pointer_and_no_log_block` ([tests/test_failed_unit_watch.py:341](../../tests/test_failed_unit_watch.py#L341)), `tests/test_public_text.py::test_redact_home_paths_windows_users_emails_and_ips` ([tests/test_public_text.py:14](../../tests/test_public_text.py#L14))
+- Scenario `issue-body-carries-one-line-not-the-log`: tested by `tests/test_failed_unit_watch.py::test_the_line_is_the_newest_one_the_job_printed_without_host_or_pid` ([`tests/test_failed_unit_watch.py:315`](../../tests/test_failed_unit_watch.py#L315)), `tests/test_failed_unit_watch.py::test_failed_unit_body_has_the_line_and_the_journalctl_pointer_and_no_log_block` ([`tests/test_failed_unit_watch.py:341`](../../tests/test_failed_unit_watch.py#L341)), `tests/test_public_text.py::test_redact_home_paths_windows_users_emails_and_ips` ([`tests/test_public_text.py:14`](../../tests/test_public_text.py#L14))
 
 ## settings come from config
 
@@ -29,9 +29,9 @@ The owner and the fallback concern repository SHALL come from the environment or
 
 Implemented by:
 
-- `failed_unit_watch` — [scripts/failed_unit_watch.py:1](../../scripts/failed_unit_watch.py#L1)
+- `failed_unit_watch` — [`scripts/failed_unit_watch.py:1`](../../scripts/failed_unit_watch.py#L1)
 
-- Scenario `settings-come-from-config`: tested by `tests/test_failed_unit_watch.py::test_missing_settings_stop_loudly` ([tests/test_failed_unit_watch.py:299](../../tests/test_failed_unit_watch.py#L299))
+- Scenario `settings-come-from-config`: tested by `tests/test_failed_unit_watch.py::test_missing_settings_stop_loudly` ([`tests/test_failed_unit_watch.py:299`](../../tests/test_failed_unit_watch.py#L299))
 
 ## ssh host alias remotes find their repository
 
@@ -43,6 +43,6 @@ Status: **implemented and tested**
 
 Implemented by:
 
-- `failed_unit_watch` — [scripts/failed_unit_watch.py:1](../../scripts/failed_unit_watch.py#L1)
+- `failed_unit_watch` — [`scripts/failed_unit_watch.py:1`](../../scripts/failed_unit_watch.py#L1)
 
-- Scenario `ssh-host-alias-remotes-find-their-repository`: tested by `tests/test_failed_unit_watch.py::test_repo_from_remote_reads_the_github_com_host_alias` ([tests/test_failed_unit_watch.py:359](../../tests/test_failed_unit_watch.py#L359))
+- Scenario `ssh-host-alias-remotes-find-their-repository`: tested by `tests/test_failed_unit_watch.py::test_repo_from_remote_reads_the_github_com_host_alias` ([`tests/test_failed_unit_watch.py:359`](../../tests/test_failed_unit_watch.py#L359))

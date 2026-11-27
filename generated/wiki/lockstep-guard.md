@@ -14,10 +14,10 @@ When the edit hook refuses (or warns about) a write to a file the plan does not 
 
 Implemented by:
 
-- `lockstep.hook` — [src/lockstep/hook.py:1](../../src/lockstep/hook.py#L1)
-- `lockstep.unplanned_files` — [src/lockstep/unplanned_files.py:1](../../src/lockstep/unplanned_files.py#L1)
+- `lockstep.hook` — [`src/lockstep/hook.py:1`](../../src/lockstep/hook.py#L1)
+- `lockstep.unplanned_files` — [`src/lockstep/unplanned_files.py:1`](../../src/lockstep/unplanned_files.py#L1)
 
-- Scenario `a-refusal-lists-the-files-the-plan-allows`: tested by `tests/lockstep/test_lockstep_hook.py::test_a_refusal_lists_the_files_the_plan_does_allow` ([tests/lockstep/test_lockstep_hook.py:399](../../tests/lockstep/test_lockstep_hook.py#L399)), `tests/lockstep/test_lockstep_hook.py::test_the_list_is_capped_and_puts_the_same_folder_first` ([tests/lockstep/test_lockstep_hook.py:410](../../tests/lockstep/test_lockstep_hook.py#L410))
+- Scenario `a-refusal-lists-the-files-the-plan-allows`: tested by `tests/lockstep/test_lockstep_hook.py::test_a_refusal_lists_the_files_the_plan_does_allow` ([`tests/lockstep/test_lockstep_hook.py:399`](../../tests/lockstep/test_lockstep_hook.py#L399)), `tests/lockstep/test_lockstep_hook.py::test_the_list_is_capped_and_puts_the_same_folder_first` ([`tests/lockstep/test_lockstep_hook.py:410`](../../tests/lockstep/test_lockstep_hook.py#L410))
 
 ## agents get requirement text from the shell too
 
@@ -29,11 +29,11 @@ In a repository with OpenSpec specs and no layout plan, the edit hook SHALL answ
 
 Implemented by:
 
-- `lockstep.hook` — [src/lockstep/hook.py:1](../../src/lockstep/hook.py#L1)
-- `lockstep.hook._shell_spec_text` — [src/lockstep/hook.py:445](../../src/lockstep/hook.py#L445)
-- `lockstep.openspec_text` — [src/lockstep/openspec_text.py:1](../../src/lockstep/openspec_text.py#L1)
+- `lockstep.hook` — [`src/lockstep/hook.py:1`](../../src/lockstep/hook.py#L1)
+- `lockstep.hook._shell_spec_text` — [`src/lockstep/hook.py:445`](../../src/lockstep/hook.py#L445)
+- `lockstep.openspec_text` — [`src/lockstep/openspec_text.py:1`](../../src/lockstep/openspec_text.py#L1)
 
-- Scenario `a-shell-command-on-an-implementing-file-gets-its-requirement-text`: tested by `tests/lockstep/test_lockstep_openspec_text.py::test_a_shell_command_on_an_implementing_file_gets_its_requirement_text` ([tests/lockstep/test_lockstep_openspec_text.py:164](../../tests/lockstep/test_lockstep_openspec_text.py#L164))
+- Scenario `a-shell-command-on-an-implementing-file-gets-its-requirement-text`: tested by `tests/lockstep/test_lockstep_openspec_text.py::test_a_shell_command_on_an_implementing_file_gets_its_requirement_text` ([`tests/lockstep/test_lockstep_openspec_text.py:164`](../../tests/lockstep/test_lockstep_openspec_text.py#L164))
 
 ## agents get the decisions that govern a file
 
@@ -45,10 +45,10 @@ In a repository with OpenSpec specs and a `docs/decisions/` folder, the edit hoo
 
 Implemented by:
 
-- `lockstep.decisions` — [src/lockstep/decisions.py:1](../../src/lockstep/decisions.py#L1)
-- `lockstep.decisions.packet` — [src/lockstep/decisions.py:136](../../src/lockstep/decisions.py#L136)
+- `lockstep.decisions` — [`src/lockstep/decisions.py:1`](../../src/lockstep/decisions.py#L1)
+- `lockstep.decisions.packet` — [`src/lockstep/decisions.py:136`](../../src/lockstep/decisions.py#L136)
 
-- Scenario `an-edit-to-a-governed-file-gets-its-decisions`: tested by `tests/lockstep/test_lockstep_decisions.py::test_an_edit_to_a_governed_file_gets_its_decisions` ([tests/lockstep/test_lockstep_decisions.py:105](../../tests/lockstep/test_lockstep_decisions.py#L105))
+- Scenario `an-edit-to-a-governed-file-gets-its-decisions`: tested by `tests/lockstep/test_lockstep_decisions.py::test_an_edit_to_a_governed_file_gets_its_decisions` ([`tests/lockstep/test_lockstep_decisions.py:105`](../../tests/lockstep/test_lockstep_decisions.py#L105))
 
 ## an unplanned file is refused where the plan marks it fixed and warned about elsewhere
 
@@ -60,16 +60,16 @@ The edit hook SHALL refuse a write to a file under a governed folder that no `la
 
 Implemented by:
 
-- `lockstep.hook` — [src/lockstep/hook.py:1](../../src/lockstep/hook.py#L1)
+- `lockstep.hook` — [`src/lockstep/hook.py:1`](../../src/lockstep/hook.py#L1)
 
-- Scenario `a-governed-file-outside-every-fixed-glob-is-warned-about`: tested by `tests/lockstep/test_lockstep_hook.py::test_by_default_an_undeclared_governed_file_is_warned_about_and_logged_as_would_block` ([tests/lockstep/test_lockstep_hook.py:138](../../tests/lockstep/test_lockstep_hook.py#L138))
-- Scenario `a-file-under-a-fixed-glob-is-refused`: tested by `tests/lockstep/test_lockstep_hook.py::test_a_file_the_side_file_marks_fixed_is_still_refused` ([tests/lockstep/test_lockstep_hook.py:147](../../tests/lockstep/test_lockstep_hook.py#L147))
-- Scenario `a-fresh-template-copy-refuses-an-unplanned-source-file`: tested by `tests/test_template_portable.py::test_a_fresh_copy_refuses_an_unplanned_source_file` ([tests/test_template_portable.py:170](../../tests/test_template_portable.py#L170))
-- Scenario `guard-mode-block-refuses-an-unplanned-governed-file`: tested by `tests/lockstep/test_lockstep_hook.py::test_guard_mode_in_lockstep_yaml_sets_refuse_or_warn` ([tests/lockstep/test_lockstep_hook.py:428](../../tests/lockstep/test_lockstep_hook.py#L428))
-- Scenario `pcw-mode-overrides-guard-mode`: tested by `tests/lockstep/test_lockstep_hook.py::test_a_set_pcw_mode_wins_over_guard_mode` ([tests/lockstep/test_lockstep_hook.py:442](../../tests/lockstep/test_lockstep_hook.py#L442))
-- Scenario `an-unknown-guard-mode-refuses-and-is-reported`: tested by `tests/lockstep/test_lockstep_hook.py::test_an_unknown_guard_mode_refuses_and_is_reported` ([tests/lockstep/test_lockstep_hook.py:456](../../tests/lockstep/test_lockstep_hook.py#L456))
-- Scenario `off-skips-a-fixed-file-edit-and-shell-write`: tested by `tests/lockstep/test_lockstep_hook.py::test_off_skips_a_fixed_file_edit_and_shell_write` ([tests/lockstep/test_lockstep_hook.py:467](../../tests/lockstep/test_lockstep_hook.py#L467))
-- Scenario `invalid-environment-mode-fails-closed`: tested by `tests/lockstep/test_lockstep_hook.py::test_invalid_environment_mode_fails_closed` ([tests/lockstep/test_lockstep_hook.py:481](../../tests/lockstep/test_lockstep_hook.py#L481))
+- Scenario `a-governed-file-outside-every-fixed-glob-is-warned-about`: tested by `tests/lockstep/test_lockstep_hook.py::test_by_default_an_undeclared_governed_file_is_warned_about_and_logged_as_would_block` ([`tests/lockstep/test_lockstep_hook.py:138`](../../tests/lockstep/test_lockstep_hook.py#L138))
+- Scenario `a-file-under-a-fixed-glob-is-refused`: tested by `tests/lockstep/test_lockstep_hook.py::test_a_file_the_side_file_marks_fixed_is_still_refused` ([`tests/lockstep/test_lockstep_hook.py:147`](../../tests/lockstep/test_lockstep_hook.py#L147))
+- Scenario `a-fresh-template-copy-refuses-an-unplanned-source-file`: tested by `tests/test_template_portable.py::test_a_fresh_copy_refuses_an_unplanned_source_file` ([`tests/test_template_portable.py:170`](../../tests/test_template_portable.py#L170))
+- Scenario `guard-mode-block-refuses-an-unplanned-governed-file`: tested by `tests/lockstep/test_lockstep_hook.py::test_guard_mode_in_lockstep_yaml_sets_refuse_or_warn` ([`tests/lockstep/test_lockstep_hook.py:428`](../../tests/lockstep/test_lockstep_hook.py#L428))
+- Scenario `pcw-mode-overrides-guard-mode`: tested by `tests/lockstep/test_lockstep_hook.py::test_a_set_pcw_mode_wins_over_guard_mode` ([`tests/lockstep/test_lockstep_hook.py:442`](../../tests/lockstep/test_lockstep_hook.py#L442))
+- Scenario `an-unknown-guard-mode-refuses-and-is-reported`: tested by `tests/lockstep/test_lockstep_hook.py::test_an_unknown_guard_mode_refuses_and_is_reported` ([`tests/lockstep/test_lockstep_hook.py:456`](../../tests/lockstep/test_lockstep_hook.py#L456))
+- Scenario `off-skips-a-fixed-file-edit-and-shell-write`: tested by `tests/lockstep/test_lockstep_hook.py::test_off_skips_a_fixed_file_edit_and_shell_write` ([`tests/lockstep/test_lockstep_hook.py:467`](../../tests/lockstep/test_lockstep_hook.py#L467))
+- Scenario `invalid-environment-mode-fails-closed`: tested by `tests/lockstep/test_lockstep_hook.py::test_invalid_environment_mode_fails_closed` ([`tests/lockstep/test_lockstep_hook.py:481`](../../tests/lockstep/test_lockstep_hook.py#L481))
 
 ## handing over text never approves an edit
 
@@ -81,9 +81,9 @@ When the edit hook lets a call through with only context (requirement text, a pl
 
 Implemented by:
 
-- `lockstep.hook` — [src/lockstep/hook.py:1](../../src/lockstep/hook.py#L1)
+- `lockstep.hook` — [`src/lockstep/hook.py:1`](../../src/lockstep/hook.py#L1)
 
-- Scenario `a-context-only-answer-carries-no-decision`: tested by `tests/lockstep/test_lockstep_hook.py::test_claude_context_only_answer_carries_no_decision_and_deny_keeps_it` ([tests/lockstep/test_lockstep_hook.py:55](../../tests/lockstep/test_lockstep_hook.py#L55))
+- Scenario `a-context-only-answer-carries-no-decision`: tested by `tests/lockstep/test_lockstep_hook.py::test_claude_context_only_answer_carries_no_decision_and_deny_keeps_it` ([`tests/lockstep/test_lockstep_hook.py:55`](../../tests/lockstep/test_lockstep_hook.py#L55))
 
 ## shell commands are judged by the paths they write
 
@@ -95,10 +95,10 @@ The edit hook SHALL find the files a shell command writes the way code2check's g
 
 Implemented by:
 
-- `lockstep.shell_targets` — [src/lockstep/shell_targets.py:1](../../src/lockstep/shell_targets.py#L1)
-- `lockstep.shell_targets` — [src/lockstep/shell_targets.py:1](../../src/lockstep/shell_targets.py#L1)
+- `lockstep.shell_targets` — [`src/lockstep/shell_targets.py:1`](../../src/lockstep/shell_targets.py#L1)
+- `lockstep.shell_targets` — [`src/lockstep/shell_targets.py:1`](../../src/lockstep/shell_targets.py#L1)
 
-- Scenario `a-heredoc-creating-an-unplanned-file-is-refused`: tested by `tests/lockstep/test_lockstep_shell_targets.py::test_heredoc_creating_an_unplanned_file_is_refused` ([tests/lockstep/test_lockstep_shell_targets.py:25](../../tests/lockstep/test_lockstep_shell_targets.py#L25))
-- Scenario `an-echo-redirect-creating-an-unplanned-file-is-refused`: tested by `tests/lockstep/test_lockstep_shell_targets.py::test_echo_redirect_creating_an_unplanned_file_is_refused` ([tests/lockstep/test_lockstep_shell_targets.py:30](../../tests/lockstep/test_lockstep_shell_targets.py#L30))
-- Scenario `a-python-one-liner-creating-an-unplanned-file-is-refused`: tested by `tests/lockstep/test_lockstep_shell_targets.py::test_python_one_liner_creating_an_unplanned_file_is_refused` ([tests/lockstep/test_lockstep_shell_targets.py:35](../../tests/lockstep/test_lockstep_shell_targets.py#L35))
-- Scenario `copying-a-planned-file-out-is-allowed`: tested by `tests/lockstep/test_lockstep_shell_targets.py::test_copying_a_planned_file_out_is_allowed` ([tests/lockstep/test_lockstep_shell_targets.py:40](../../tests/lockstep/test_lockstep_shell_targets.py#L40))
+- Scenario `a-heredoc-creating-an-unplanned-file-is-refused`: tested by `tests/lockstep/test_lockstep_shell_targets.py::test_heredoc_creating_an_unplanned_file_is_refused` ([`tests/lockstep/test_lockstep_shell_targets.py:25`](../../tests/lockstep/test_lockstep_shell_targets.py#L25))
+- Scenario `an-echo-redirect-creating-an-unplanned-file-is-refused`: tested by `tests/lockstep/test_lockstep_shell_targets.py::test_echo_redirect_creating_an_unplanned_file_is_refused` ([`tests/lockstep/test_lockstep_shell_targets.py:30`](../../tests/lockstep/test_lockstep_shell_targets.py#L30))
+- Scenario `a-python-one-liner-creating-an-unplanned-file-is-refused`: tested by `tests/lockstep/test_lockstep_shell_targets.py::test_python_one_liner_creating_an_unplanned_file_is_refused` ([`tests/lockstep/test_lockstep_shell_targets.py:35`](../../tests/lockstep/test_lockstep_shell_targets.py#L35))
+- Scenario `copying-a-planned-file-out-is-allowed`: tested by `tests/lockstep/test_lockstep_shell_targets.py::test_copying_a_planned_file_out_is_allowed` ([`tests/lockstep/test_lockstep_shell_targets.py:40`](../../tests/lockstep/test_lockstep_shell_targets.py#L40))

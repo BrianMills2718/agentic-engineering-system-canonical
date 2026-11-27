@@ -131,7 +131,7 @@ def test_capability_page_shows_requirement_code_and_tests(repo):
     assert "- [core](core.md) — Example." in index
     page = (repo / "generated/wiki/core.md").read_text()
     assert "The tool SHALL do the thing." in page
-    assert "`pkg.mod.run` — [src/pkg/mod.py:" in page
+    assert "`pkg.mod.run` — [`src/pkg/mod.py:" in page
     assert "(../../src/pkg/mod.py#L" in page
     assert "tested by `tests/test_mod.py::test_works`" in page
     assert "Status: **implemented and tested**" in page

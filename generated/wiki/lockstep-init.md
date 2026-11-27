@@ -14,12 +14,12 @@ Status: **implemented and tested**
 
 Implemented by:
 
-- `lockstep.init_repo` — [src/lockstep/init_repo.py:1](../../src/lockstep/init_repo.py#L1)
-- `lockstep.init_repo` — [src/lockstep/init_repo.py:1](../../src/lockstep/init_repo.py#L1)
+- `lockstep.init_repo` — [`src/lockstep/init_repo.py:1`](../../src/lockstep/init_repo.py#L1)
+- `lockstep.init_repo` — [`src/lockstep/init_repo.py:1`](../../src/lockstep/init_repo.py#L1)
 
-- Scenario `fresh-repository-gets-all-four`: tested by `tests/lockstep/test_lockstep_init.py::test_fresh_repository_gets_all_four` ([tests/lockstep/test_lockstep_init.py:28](../../tests/lockstep/test_lockstep_init.py#L28)), `tests/lockstep/test_lockstep_init.py::test_init_counts_brian_source_lines_as_human_by_default_and_takes_a_pattern` ([tests/lockstep/test_lockstep_init.py:192](../../tests/lockstep/test_lockstep_init.py#L192))
-- Scenario `a-second-run-changes-nothing`: tested by `tests/lockstep/test_lockstep_init.py::test_a_second_run_changes_nothing` ([tests/lockstep/test_lockstep_init.py:53](../../tests/lockstep/test_lockstep_init.py#L53)), `tests/lockstep/test_lockstep_init.py::test_an_existing_lockstep_yaml_is_never_overwritten` ([tests/lockstep/test_lockstep_init.py:65](../../tests/lockstep/test_lockstep_init.py#L65))
-- Scenario `existing-settings-keep-their-other-keys`: tested by `tests/lockstep/test_lockstep_init.py::test_existing_settings_keep_their_other_keys` ([tests/lockstep/test_lockstep_init.py:73](../../tests/lockstep/test_lockstep_init.py#L73)), `tests/lockstep/test_lockstep_init.py::test_an_existing_lefthook_keeps_its_commands` ([tests/lockstep/test_lockstep_init.py:92](../../tests/lockstep/test_lockstep_init.py#L92))
+- Scenario `fresh-repository-gets-all-four`: tested by `tests/lockstep/test_lockstep_init.py::test_fresh_repository_gets_all_four` ([`tests/lockstep/test_lockstep_init.py:28`](../../tests/lockstep/test_lockstep_init.py#L28)), `tests/lockstep/test_lockstep_init.py::test_init_counts_brian_source_lines_as_human_by_default_and_takes_a_pattern` ([`tests/lockstep/test_lockstep_init.py:192`](../../tests/lockstep/test_lockstep_init.py#L192))
+- Scenario `a-second-run-changes-nothing`: tested by `tests/lockstep/test_lockstep_init.py::test_a_second_run_changes_nothing` ([`tests/lockstep/test_lockstep_init.py:53`](../../tests/lockstep/test_lockstep_init.py#L53)), `tests/lockstep/test_lockstep_init.py::test_an_existing_lockstep_yaml_is_never_overwritten` ([`tests/lockstep/test_lockstep_init.py:65`](../../tests/lockstep/test_lockstep_init.py#L65))
+- Scenario `existing-settings-keep-their-other-keys`: tested by `tests/lockstep/test_lockstep_init.py::test_existing_settings_keep_their_other_keys` ([`tests/lockstep/test_lockstep_init.py:73`](../../tests/lockstep/test_lockstep_init.py#L73)), `tests/lockstep/test_lockstep_init.py::test_an_existing_lefthook_keeps_its_commands` ([`tests/lockstep/test_lockstep_init.py:92`](../../tests/lockstep/test_lockstep_init.py#L92))
 
 ## init upgrades its own old hook command only where lockstep yaml sets the guard
 
@@ -31,12 +31,12 @@ When a settings or hooks file holds the edit-guard command an earlier `lockstep 
 
 Implemented by:
 
-- `lockstep.init_repo` — [src/lockstep/init_repo.py:1](../../src/lockstep/init_repo.py#L1)
-- `lockstep.init_repo` — [src/lockstep/init_repo.py:1](../../src/lockstep/init_repo.py#L1)
+- `lockstep.init_repo` — [`src/lockstep/init_repo.py:1`](../../src/lockstep/init_repo.py#L1)
+- `lockstep.init_repo` — [`src/lockstep/init_repo.py:1`](../../src/lockstep/init_repo.py#L1)
 
-- Scenario `an-old-hook-command-is-upgraded-where-guard-is-set`: tested by `tests/lockstep/test_lockstep_init.py::test_an_old_hook_command_is_upgraded_where_guard_is_set` ([tests/lockstep/test_lockstep_init.py:249](../../tests/lockstep/test_lockstep_init.py#L249))
-- Scenario `an-old-hook-command-stays-where-guard-is-not-set`: tested by `tests/lockstep/test_lockstep_init.py::test_an_old_hook_command_stays_where_guard_is_not_set` ([tests/lockstep/test_lockstep_init.py:263](../../tests/lockstep/test_lockstep_init.py#L263))
-- Scenario `a-custom-hook-command-is-left-alone`: tested by `tests/lockstep/test_lockstep_init.py::test_a_custom_hook_command_is_left_alone` ([tests/lockstep/test_lockstep_init.py:273](../../tests/lockstep/test_lockstep_init.py#L273))
+- Scenario `an-old-hook-command-is-upgraded-where-guard-is-set`: tested by `tests/lockstep/test_lockstep_init.py::test_an_old_hook_command_is_upgraded_where_guard_is_set` ([`tests/lockstep/test_lockstep_init.py:249`](../../tests/lockstep/test_lockstep_init.py#L249))
+- Scenario `an-old-hook-command-stays-where-guard-is-not-set`: tested by `tests/lockstep/test_lockstep_init.py::test_an_old_hook_command_stays_where_guard_is_not_set` ([`tests/lockstep/test_lockstep_init.py:263`](../../tests/lockstep/test_lockstep_init.py#L263))
+- Scenario `a-custom-hook-command-is-left-alone`: tested by `tests/lockstep/test_lockstep_init.py::test_a_custom_hook_command_is_left_alone` ([`tests/lockstep/test_lockstep_init.py:273`](../../tests/lockstep/test_lockstep_init.py#L273))
 
 ## init writes the company planning plugin keys when planning skills is on
 
@@ -48,17 +48,17 @@ When `planning.skills` in `lockstep.yaml` is `{mode: block|warn, marketplace: OW
 
 Implemented by:
 
-- `lockstep.checks.plugin_settings` — [src/lockstep/checks/plugin_settings.py:1](../../src/lockstep/checks/plugin_settings.py#L1)
+- `lockstep.checks.plugin_settings` — [`src/lockstep/checks/plugin_settings.py:1`](../../src/lockstep/checks/plugin_settings.py#L1)
 
-- Scenario `block-writes-the-keys-and-a-second-run-skips-them`: tested by `tests/test_plugin_settings.py::test_block_writes_the_keys_and_a_second_run_skips_them` ([tests/test_plugin_settings.py:44](../../tests/test_plugin_settings.py#L44))
-- Scenario `warn-also-writes-the-keys`: tested by `tests/test_plugin_settings.py::test_warn_also_writes_the_keys` ([tests/test_plugin_settings.py:70](../../tests/test_plugin_settings.py#L70))
-- Scenario `the-keys-merge-into-existing-settings`: tested by `tests/test_plugin_settings.py::test_the_keys_merge_into_existing_settings` ([tests/test_plugin_settings.py:77](../../tests/test_plugin_settings.py#L77))
-- Scenario `a-malformed-settings-file-exits-2`: tested by `tests/test_plugin_settings.py::test_a_malformed_settings_file_exits_2` ([tests/test_plugin_settings.py:90](../../tests/test_plugin_settings.py#L90))
-- Scenario `off-writes-nothing-and-keeps-what-exists`: tested by `tests/test_plugin_settings.py::test_off_writes_nothing_and_keeps_what_exists` ([tests/test_plugin_settings.py:99](../../tests/test_plugin_settings.py#L99))
-- Scenario `another-source-or-an-opt-out-is-a-conflict-left-as-it-is`: tested by `tests/test_plugin_settings.py::test_another_source_or_an_opt_out_is_a_conflict_left_as_it_is` ([tests/test_plugin_settings.py:116](../../tests/test_plugin_settings.py#L116))
-- Scenario `autoupdate-is-tolerated`: tested by `tests/test_plugin_settings.py::test_autoupdate_is_tolerated` ([tests/test_plugin_settings.py:137](../../tests/test_plugin_settings.py#L137))
-- Scenario `init-prints-the-codex-commands-and-the-install-line`: tested by `tests/test_plugin_settings.py::test_init_prints_the_codex_commands_and_the_install_line` ([tests/test_plugin_settings.py:148](../../tests/test_plugin_settings.py#L148)), `tests/test_plugin_settings.py::test_init_leaves_a_missing_or_symlinked_agents_md_alone` ([tests/test_plugin_settings.py:168](../../tests/test_plugin_settings.py#L168))
-- Scenario `a-bad-skills-value-stops-init`: tested by `tests/test_plugin_settings.py::test_a_bad_skills_value_stops_init` ([tests/test_plugin_settings.py:181](../../tests/test_plugin_settings.py#L181))
+- Scenario `block-writes-the-keys-and-a-second-run-skips-them`: tested by `tests/test_plugin_settings.py::test_block_writes_the_keys_and_a_second_run_skips_them` ([`tests/test_plugin_settings.py:44`](../../tests/test_plugin_settings.py#L44))
+- Scenario `warn-also-writes-the-keys`: tested by `tests/test_plugin_settings.py::test_warn_also_writes_the_keys` ([`tests/test_plugin_settings.py:70`](../../tests/test_plugin_settings.py#L70))
+- Scenario `the-keys-merge-into-existing-settings`: tested by `tests/test_plugin_settings.py::test_the_keys_merge_into_existing_settings` ([`tests/test_plugin_settings.py:77`](../../tests/test_plugin_settings.py#L77))
+- Scenario `a-malformed-settings-file-exits-2`: tested by `tests/test_plugin_settings.py::test_a_malformed_settings_file_exits_2` ([`tests/test_plugin_settings.py:90`](../../tests/test_plugin_settings.py#L90))
+- Scenario `off-writes-nothing-and-keeps-what-exists`: tested by `tests/test_plugin_settings.py::test_off_writes_nothing_and_keeps_what_exists` ([`tests/test_plugin_settings.py:99`](../../tests/test_plugin_settings.py#L99))
+- Scenario `another-source-or-an-opt-out-is-a-conflict-left-as-it-is`: tested by `tests/test_plugin_settings.py::test_another_source_or_an_opt_out_is_a_conflict_left_as_it_is` ([`tests/test_plugin_settings.py:116`](../../tests/test_plugin_settings.py#L116))
+- Scenario `autoupdate-is-tolerated`: tested by `tests/test_plugin_settings.py::test_autoupdate_is_tolerated` ([`tests/test_plugin_settings.py:137`](../../tests/test_plugin_settings.py#L137))
+- Scenario `init-prints-the-codex-commands-and-the-install-line`: tested by `tests/test_plugin_settings.py::test_init_prints_the_codex_commands_and_the_install_line` ([`tests/test_plugin_settings.py:148`](../../tests/test_plugin_settings.py#L148)), `tests/test_plugin_settings.py::test_init_leaves_a_missing_or_symlinked_agents_md_alone` ([`tests/test_plugin_settings.py:168`](../../tests/test_plugin_settings.py#L168))
+- Scenario `a-bad-skills-value-stops-init`: tested by `tests/test_plugin_settings.py::test_a_bad_skills_value_stops_init` ([`tests/test_plugin_settings.py:181`](../../tests/test_plugin_settings.py#L181))
 
 ## installed files name no machine and read their settings from lockstep yaml
 
@@ -70,12 +70,12 @@ Files `lockstep init` writes SHALL contain no absolute path and no `/home/`; the
 
 Implemented by:
 
-- `lockstep.init_repo` — [src/lockstep/init_repo.py:1](../../src/lockstep/init_repo.py#L1)
-- `lockstep.init_repo` — [src/lockstep/init_repo.py:1](../../src/lockstep/init_repo.py#L1)
+- `lockstep.init_repo` — [`src/lockstep/init_repo.py:1`](../../src/lockstep/init_repo.py#L1)
+- `lockstep.init_repo` — [`src/lockstep/init_repo.py:1`](../../src/lockstep/init_repo.py#L1)
 
-- Scenario `no-written-file-holds-an-absolute-path`: tested by `tests/lockstep/test_lockstep_init.py::test_no_written_file_holds_an_absolute_path` ([tests/lockstep/test_lockstep_init.py:142](../../tests/lockstep/test_lockstep_init.py#L142))
-- Scenario `owner-lands-in-lockstep-yaml`: tested by `tests/lockstep/test_lockstep_init.py::test_owner_lands_in_lockstep_yaml` ([tests/lockstep/test_lockstep_init.py:153](../../tests/lockstep/test_lockstep_init.py#L153))
-- Scenario `a-lockstep-yaml-copied-to-another-repository-is-read-there`: tested by `tests/lockstep/test_lockstep_init.py::test_a_lockstep_yaml_copied_to_another_repository_is_read_there` ([tests/lockstep/test_lockstep_init.py:172](../../tests/lockstep/test_lockstep_init.py#L172))
+- Scenario `no-written-file-holds-an-absolute-path`: tested by `tests/lockstep/test_lockstep_init.py::test_no_written_file_holds_an_absolute_path` ([`tests/lockstep/test_lockstep_init.py:142`](../../tests/lockstep/test_lockstep_init.py#L142))
+- Scenario `owner-lands-in-lockstep-yaml`: tested by `tests/lockstep/test_lockstep_init.py::test_owner_lands_in_lockstep_yaml` ([`tests/lockstep/test_lockstep_init.py:153`](../../tests/lockstep/test_lockstep_init.py#L153))
+- Scenario `a-lockstep-yaml-copied-to-another-repository-is-read-there`: tested by `tests/lockstep/test_lockstep_init.py::test_a_lockstep_yaml_copied_to_another_repository_is_read_there` ([`tests/lockstep/test_lockstep_init.py:172`](../../tests/lockstep/test_lockstep_init.py#L172))
 
 ## the edit guard logs outside the checkout
 
@@ -87,8 +87,8 @@ The edit guard SHALL append its decision log to `hook-<date>.jsonl` in the folde
 
 Implemented by:
 
-- `lockstep.hook` — [src/lockstep/hook.py:1](../../src/lockstep/hook.py#L1)
+- `lockstep.hook` — [`src/lockstep/hook.py:1`](../../src/lockstep/hook.py#L1)
 
-- Scenario `a-decision-is-logged-outside-the-checkout`: tested by `tests/lockstep/test_lockstep_hook.py::test_a_decision_is_logged_outside_the_checkout_and_old_logs_still_count` ([tests/lockstep/test_lockstep_hook.py:332](../../tests/lockstep/test_lockstep_hook.py#L332))
-- Scenario `a-worktree-logs-under-its-repository-name`: tested by `tests/lockstep/test_lockstep_hook.py::test_a_worktree_logs_under_its_main_repository_name` ([tests/lockstep/test_lockstep_hook.py:344](../../tests/lockstep/test_lockstep_hook.py#L344)), `tests/lockstep/test_lockstep_hook.py::test_other_worktree_layouts_find_the_main_checkout` ([tests/lockstep/test_lockstep_hook.py:353](../../tests/lockstep/test_lockstep_hook.py#L353))
-- Scenario `an-override-names-the-folder`: tested by `tests/lockstep/test_lockstep_hook.py::test_lockstep_log_dir_overrides_the_folder` ([tests/lockstep/test_lockstep_hook.py:391](../../tests/lockstep/test_lockstep_hook.py#L391))
+- Scenario `a-decision-is-logged-outside-the-checkout`: tested by `tests/lockstep/test_lockstep_hook.py::test_a_decision_is_logged_outside_the_checkout_and_old_logs_still_count` ([`tests/lockstep/test_lockstep_hook.py:332`](../../tests/lockstep/test_lockstep_hook.py#L332))
+- Scenario `a-worktree-logs-under-its-repository-name`: tested by `tests/lockstep/test_lockstep_hook.py::test_a_worktree_logs_under_its_main_repository_name` ([`tests/lockstep/test_lockstep_hook.py:344`](../../tests/lockstep/test_lockstep_hook.py#L344)), `tests/lockstep/test_lockstep_hook.py::test_other_worktree_layouts_find_the_main_checkout` ([`tests/lockstep/test_lockstep_hook.py:353`](../../tests/lockstep/test_lockstep_hook.py#L353))
+- Scenario `an-override-names-the-folder`: tested by `tests/lockstep/test_lockstep_hook.py::test_lockstep_log_dir_overrides_the_folder` ([`tests/lockstep/test_lockstep_hook.py:391`](../../tests/lockstep/test_lockstep_hook.py#L391))

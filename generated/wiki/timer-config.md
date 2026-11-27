@@ -14,10 +14,10 @@ Status: **implemented and tested**
 
 Implemented by:
 
-- `timers` — [scripts/timers.py:1](../../scripts/timers.py#L1)
+- `timers` — [`scripts/timers.py:1`](../../scripts/timers.py#L1)
 
-- Scenario `jobs-become-units`: tested by `tests/test_timers.py::test_job_becomes_a_oneshot_service_and_a_scheduled_timer` ([tests/test_timers.py:24](../../tests/test_timers.py#L24)), `tests/test_timers.py::test_hourly_after_finish_schedule_and_log_name_are_rendered` ([tests/test_timers.py:62](../../tests/test_timers.py#L62))
-- Scenario `incomplete-job-is-refused`: tested by `tests/test_timers.py::test_incomplete_or_unknown_job_is_refused` ([tests/test_timers.py:33](../../tests/test_timers.py#L33)), `tests/test_timers.py::test_repeated_name_is_refused` ([tests/test_timers.py:40](../../tests/test_timers.py#L40))
+- Scenario `jobs-become-units`: tested by `tests/test_timers.py::test_job_becomes_a_oneshot_service_and_a_scheduled_timer` ([`tests/test_timers.py:24`](../../tests/test_timers.py#L24)), `tests/test_timers.py::test_hourly_after_finish_schedule_and_log_name_are_rendered` ([`tests/test_timers.py:62`](../../tests/test_timers.py#L62))
+- Scenario `incomplete-job-is-refused`: tested by `tests/test_timers.py::test_incomplete_or_unknown_job_is_refused` ([`tests/test_timers.py:33`](../../tests/test_timers.py#L33)), `tests/test_timers.py::test_repeated_name_is_refused` ([`tests/test_timers.py:40`](../../tests/test_timers.py#L40))
 
 ## installing never deletes
 
@@ -29,7 +29,7 @@ Status: **implemented and tested**
 
 Implemented by:
 
-- `timers` — [scripts/timers.py:1](../../scripts/timers.py#L1)
+- `timers` — [`scripts/timers.py:1`](../../scripts/timers.py#L1)
 
-- Scenario `install-backs-up-first`: tested by `tests/test_timers.py::test_install_backs_up_the_old_file_then_writes_then_reloads` ([tests/test_timers.py:46](../../tests/test_timers.py#L46))
-- Scenario `install-never-writes-through-a-link`: tested by `tests/test_timers.py::test_install_replaces_a_symlinked_unit_without_touching_its_target` ([tests/test_timers.py:71](../../tests/test_timers.py#L71))
+- Scenario `install-backs-up-first`: tested by `tests/test_timers.py::test_install_backs_up_the_old_file_then_writes_then_reloads` ([`tests/test_timers.py:46`](../../tests/test_timers.py#L46))
+- Scenario `install-never-writes-through-a-link`: tested by `tests/test_timers.py::test_install_replaces_a_symlinked_unit_without_touching_its_target` ([`tests/test_timers.py:71`](../../tests/test_timers.py#L71))

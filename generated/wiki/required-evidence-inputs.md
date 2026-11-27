@@ -14,9 +14,9 @@ Required-input qualification SHALL normalize lexical path components, permit a d
 
 Implemented by:
 
-- `agentic_engineering_system.evidence._dependency_path` — [src/agentic_engineering_system/evidence.py:455](../../src/agentic_engineering_system/evidence.py#L455)
+- `agentic_engineering_system.evidence._dependency_path` — [`src/agentic_engineering_system/evidence.py:455`](../../src/agentic_engineering_system/evidence.py#L455)
 
-- Scenario `unsafe-paths-fail`: tested by `tests/greenfield/test_evidence.py::test_required_inputs_reject_unsafe_paths` ([tests/greenfield/test_evidence.py:450](../../tests/greenfield/test_evidence.py#L450))
+- Scenario `unsafe-paths-fail`: tested by `tests/greenfield/test_evidence.py::test_required_inputs_reject_unsafe_paths` ([`tests/greenfield/test_evidence.py:450`](../../tests/greenfield/test_evidence.py#L450))
 
 ## required declared input coverage
 
@@ -28,8 +28,8 @@ The evidence and reconciliation library APIs SHALL accept an optional mapping fr
 
 Implemented by:
 
-- `agentic_engineering_system.evidence.assess` — [src/agentic_engineering_system/evidence.py:522](../../src/agentic_engineering_system/evidence.py#L522)
+- `agentic_engineering_system.evidence.assess` — [`src/agentic_engineering_system/evidence.py:522`](../../src/agentic_engineering_system/evidence.py#L522)
 
-- Scenario `weak-history-cannot-mask-staleness`: tested by `tests/greenfield/test_evidence.py::test_required_subprocess_inputs_qualify_old_and_new_support` ([tests/greenfield/test_evidence.py:409](../../tests/greenfield/test_evidence.py#L409))
-- Scenario `refutation-is-retained`: tested by `tests/greenfield/test_evidence.py::test_required_inputs_keep_qualified_refutation` ([tests/greenfield/test_evidence.py:437](../../tests/greenfield/test_evidence.py#L437))
-- Scenario `legacy-route-inference`: tested by `tests/greenfield/test_evidence.py::test_required_inputs_infer_legacy_route_and_preserve_dependency_fallback` ([tests/greenfield/test_evidence.py:468](../../tests/greenfield/test_evidence.py#L468))
+- Scenario `weak-history-cannot-mask-staleness`: tested by `tests/greenfield/test_evidence.py::test_required_subprocess_inputs_qualify_old_and_new_support` ([`tests/greenfield/test_evidence.py:409`](../../tests/greenfield/test_evidence.py#L409))
+- Scenario `refutation-is-retained`: tested by `tests/greenfield/test_evidence.py::test_required_inputs_keep_qualified_refutation` ([`tests/greenfield/test_evidence.py:437`](../../tests/greenfield/test_evidence.py#L437))
+- Scenario `legacy-route-inference`: tested by `tests/greenfield/test_evidence.py::test_required_inputs_infer_legacy_route_and_preserve_dependency_fallback` ([`tests/greenfield/test_evidence.py:468`](../../tests/greenfield/test_evidence.py#L468))

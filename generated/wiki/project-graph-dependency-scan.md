@@ -14,9 +14,9 @@ The scan SHALL read the graph named by `--project-graph`, else `PROJECT_GRAPH`, 
 
 Implemented by:
 
-- `check_capability_consumption` — [scripts/check_capability_consumption.py:1](../../scripts/check_capability_consumption.py#L1)
+- `check_capability_consumption` — [`scripts/check_capability_consumption.py:1`](../../scripts/check_capability_consumption.py#L1)
 
-- Scenario `graph-from-config`: tested by `tests/test_check_capability_consumption.py::test_graph_comes_from_project_graph_and_registry_is_optional` ([tests/test_check_capability_consumption.py:201](../../tests/test_check_capability_consumption.py#L201)), `tests/test_check_capability_consumption.py::test_a_missing_graph_stops_loudly_naming_where_to_put_it` ([tests/test_check_capability_consumption.py:219](../../tests/test_check_capability_consumption.py#L219))
+- Scenario `graph-from-config`: tested by `tests/test_check_capability_consumption.py::test_graph_comes_from_project_graph_and_registry_is_optional` ([`tests/test_check_capability_consumption.py:201`](../../tests/test_check_capability_consumption.py#L201)), `tests/test_check_capability_consumption.py::test_a_missing_graph_stops_loudly_naming_where_to_put_it` ([`tests/test_check_capability_consumption.py:219`](../../tests/test_check_capability_consumption.py#L219))
 
 ## undeclared use is found
 
@@ -28,9 +28,9 @@ The scan SHALL report each use of another active record's package, folder or com
 
 Implemented by:
 
-- `check_capability_consumption.detect_project_dependency_gaps` — [scripts/check_capability_consumption.py:526](../../scripts/check_capability_consumption.py#L526)
+- `check_capability_consumption.detect_project_dependency_gaps` — [`scripts/check_capability_consumption.py:526`](../../scripts/check_capability_consumption.py#L526)
 
-- Scenario `undeclared-use-is-found`: tested by `tests/test_check_capability_consumption.py::test_import_of_another_repos_src_package_is_a_link` ([tests/test_check_capability_consumption.py:54](../../tests/test_check_capability_consumption.py#L54))
+- Scenario `undeclared-use-is-found`: tested by `tests/test_check_capability_consumption.py::test_import_of_another_repos_src_package_is_a_link` ([`tests/test_check_capability_consumption.py:54`](../../tests/test_check_capability_consumption.py#L54))
 
 ## write only adds
 
@@ -42,6 +42,6 @@ With `--write` the scan SHALL add each undeclared provider to its consumer's `de
 
 Implemented by:
 
-- `check_capability_consumption.write_detected_dependencies` — [scripts/check_capability_consumption.py:689](../../scripts/check_capability_consumption.py#L689)
+- `check_capability_consumption.write_detected_dependencies` — [`scripts/check_capability_consumption.py:689`](../../scripts/check_capability_consumption.py#L689)
 
-- Scenario `write-only-adds`: tested by `tests/test_check_capability_consumption.py::test_write_only_adds_and_keeps_hand_written_links` ([tests/test_check_capability_consumption.py:119](../../tests/test_check_capability_consumption.py#L119))
+- Scenario `write-only-adds`: tested by `tests/test_check_capability_consumption.py::test_write_only_adds_and_keeps_hand_written_links` ([`tests/test_check_capability_consumption.py:119`](../../tests/test_check_capability_consumption.py#L119))

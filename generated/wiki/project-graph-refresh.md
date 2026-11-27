@@ -14,10 +14,10 @@ The concern body SHALL carry the first line of each problem and the path of the 
 
 Implemented by:
 
-- `project_graph_refresh` — [scripts/project_graph_refresh.py:1](../../scripts/project_graph_refresh.py#L1)
-- `public_text` — [scripts/public_text.py:1](../../scripts/public_text.py#L1)
+- `project_graph_refresh` — [`scripts/project_graph_refresh.py:1`](../../scripts/project_graph_refresh.py#L1)
+- `public_text` — [`scripts/public_text.py:1`](../../scripts/public_text.py#L1)
 
-- Scenario `concern-body-carries-first-lines-and-log-path`: tested by `tests/test_project_graph_refresh.py::test_the_concern_body_has_first_lines_and_the_log_path_from_home` ([tests/test_project_graph_refresh.py:227](../../tests/test_project_graph_refresh.py#L227))
+- Scenario `concern-body-carries-first-lines-and-log-path`: tested by `tests/test_project_graph_refresh.py::test_the_concern_body_has_first_lines_and_the_log_path_from_home` ([`tests/test_project_graph_refresh.py:227`](../../tests/test_project_graph_refresh.py#L227))
 
 ## failure opens one concern
 
@@ -29,9 +29,9 @@ A run with problems SHALL open (or comment on) the keyed concern `project-graph-
 
 Implemented by:
 
-- `project_graph_refresh` — [scripts/project_graph_refresh.py:1](../../scripts/project_graph_refresh.py#L1)
+- `project_graph_refresh` — [`scripts/project_graph_refresh.py:1`](../../scripts/project_graph_refresh.py#L1)
 
-- Scenario `failure-opens-one-concern`: tested by `tests/test_project_graph_refresh.py::test_concern_arguments_are_accepted_by_the_real_tool` ([tests/test_project_graph_refresh.py:195](../../tests/test_project_graph_refresh.py#L195))
+- Scenario `failure-opens-one-concern`: tested by `tests/test_project_graph_refresh.py::test_concern_arguments_are_accepted_by_the_real_tool` ([`tests/test_project_graph_refresh.py:195`](../../tests/test_project_graph_refresh.py#L195))
 
 ## graph lands in settings repo
 
@@ -43,9 +43,9 @@ The steps SHALL work on a staging copy of the graph. Only when the copy differs 
 
 Implemented by:
 
-- `project_graph_refresh` — [scripts/project_graph_refresh.py:1](../../scripts/project_graph_refresh.py#L1)
+- `project_graph_refresh` — [`scripts/project_graph_refresh.py:1`](../../scripts/project_graph_refresh.py#L1)
 
-- Scenario `graph-lands-in-settings-repo`: tested by `tests/test_project_graph_refresh.py::test_a_changed_graph_is_committed_and_pushed_to_main_with_the_configured_identity` ([tests/test_project_graph_refresh.py:120](../../tests/test_project_graph_refresh.py#L120)), `tests/test_project_graph_refresh.py::test_a_dirty_settings_repo_is_never_committed_or_pushed` ([tests/test_project_graph_refresh.py:143](../../tests/test_project_graph_refresh.py#L143))
+- Scenario `graph-lands-in-settings-repo`: tested by `tests/test_project_graph_refresh.py::test_a_changed_graph_is_committed_and_pushed_to_main_with_the_configured_identity` ([`tests/test_project_graph_refresh.py:120`](../../tests/test_project_graph_refresh.py#L120)), `tests/test_project_graph_refresh.py::test_a_dirty_settings_repo_is_never_committed_or_pushed` ([`tests/test_project_graph_refresh.py:143`](../../tests/test_project_graph_refresh.py#L143))
 
 ## no push changes nothing
 
@@ -57,9 +57,9 @@ With `--no-push` every step SHALL run but nothing SHALL be committed or pushed, 
 
 Implemented by:
 
-- `project_graph_refresh` — [scripts/project_graph_refresh.py:1](../../scripts/project_graph_refresh.py#L1)
+- `project_graph_refresh` — [`scripts/project_graph_refresh.py:1`](../../scripts/project_graph_refresh.py#L1)
 
-- Scenario `no-push-changes-nothing`: tested by `tests/test_project_graph_refresh.py::test_no_push_runs_every_step_but_commits_pushes_and_files_nothing` ([tests/test_project_graph_refresh.py:154](../../tests/test_project_graph_refresh.py#L154))
+- Scenario `no-push-changes-nothing`: tested by `tests/test_project_graph_refresh.py::test_no_push_runs_every_step_but_commits_pushes_and_files_nothing` ([`tests/test_project_graph_refresh.py:154`](../../tests/test_project_graph_refresh.py#L154))
 
 ## page goes to data branch
 
@@ -71,9 +71,9 @@ The activity snapshot and the page SHALL be rebuilt from the staged graph and pu
 
 Implemented by:
 
-- `project_graph_refresh` — [scripts/project_graph_refresh.py:1](../../scripts/project_graph_refresh.py#L1)
+- `project_graph_refresh` — [`scripts/project_graph_refresh.py:1`](../../scripts/project_graph_refresh.py#L1)
 
-- Scenario `page-goes-to-data-branch`: tested by `tests/test_project_graph_refresh.py::test_data_branch_starts_empty_then_adds_commits_without_touching_main` ([tests/test_project_graph_refresh.py:170](../../tests/test_project_graph_refresh.py#L170))
+- Scenario `page-goes-to-data-branch`: tested by `tests/test_project_graph_refresh.py::test_data_branch_starts_empty_then_adds_commits_without_touching_main` ([`tests/test_project_graph_refresh.py:170`](../../tests/test_project_graph_refresh.py#L170))
 
 ## step log
 
@@ -85,6 +85,6 @@ Each step SHALL be timed and appended to one log per day (`project-graph-refresh
 
 Implemented by:
 
-- `project_graph_refresh` — [scripts/project_graph_refresh.py:1](../../scripts/project_graph_refresh.py#L1)
+- `project_graph_refresh` — [`scripts/project_graph_refresh.py:1`](../../scripts/project_graph_refresh.py#L1)
 
-- Scenario `step-log`: tested by `tests/test_project_graph_refresh.py::test_refresh_stops_at_the_first_failed_step_and_logs_it` ([tests/test_project_graph_refresh.py:75](../../tests/test_project_graph_refresh.py#L75))
+- Scenario `step-log`: tested by `tests/test_project_graph_refresh.py::test_refresh_stops_at_the_first_failed_step_and_logs_it` ([`tests/test_project_graph_refresh.py:75`](../../tests/test_project_graph_refresh.py#L75))
