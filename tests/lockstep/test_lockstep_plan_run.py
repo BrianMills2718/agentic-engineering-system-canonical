@@ -6,6 +6,7 @@ No model is called: every agent session is a fake runner that writes files and c
 import json
 import shlex
 import subprocess
+import xml.etree.ElementTree as ET
 from pathlib import Path
 
 import pytest
@@ -177,6 +178,8 @@ def test_hidden_test_passing_before_is_flagged(repo: Path, capsys) -> None:
     s = plan_run.accept_write(repo, CHANGE, ref="HEAD", agent="claude", runner=fake,
                               test_cmd=py_test_cmd(), timeout=60)
     assert s["accept_before"]["passed"] == 1
+    report = Path(s["run_dir"]) / s["accept_before"]["report"]
+    assert report.name == "accept-before.xml" and ET.parse(report).find(".//testcase") is not None
     assert "WARNING" in capsys.readouterr().out
 
 
@@ -258,15 +261,22 @@ def test_accept_check_cli_requires_pass_evidence(repo: Path, run_dir: Path, sour
     assert plan_run.cli([*args, "--test-cmd", shlex.join(["sh", str(wrapper)])]) == status
     receipt = json.loads((run_dir / "summary.json").read_text())["accept"]
     assert tuple(receipt.get(field) for field in ("exit", "passed", "failed", "errors", "skipped")) == expected
+    assert receipt["report"] == "accept.xml"
+    assert ET.parse(run_dir / receipt["report"]).find("testsuite") is not None
 
 
 @pytest.mark.req("plan-run/a-zero-exit-needs-evidence-of-passing-hidden-tests")
 def test_a_custom_command_without_pytest_evidence_is_refused(repo: Path, run_dir: Path, capsys) -> None:
     (run_dir / "accept" / "test_accept_1.py").write_text("def test_pass(): pass\n")
     args = ["check", CHANGE, "--repo", str(repo), "--run-dir", str(run_dir), "--check-cmd", "none"]
+    assert plan_run.cli([*args, "--test-cmd", py_test_cmd()]) == 0
+    report = run_dir / "accept.xml"
+    prior_report = report.read_bytes()
+    capsys.readouterr()
     assert plan_run.cli([*args, "--test-cmd", "printf '1 passed in 0.1s\\n'"]) == 1
     receipt = json.loads((run_dir / "summary.json").read_text())["accept"]
-    assert receipt["exit"] == 0 and receipt["passed"] is None
+    assert receipt["exit"] == 0 and receipt["passed"] is None and receipt["report"] is None
+    assert report.read_bytes() == prior_report
     assert "PYTEST_ADDOPTS" in capsys.readouterr().out
 
 

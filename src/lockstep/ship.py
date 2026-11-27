@@ -870,7 +870,7 @@ import time
 from pathlib import Path
 from collections.abc import Callable
 
-from lockstep.plan_run import acceptance_passed
+from lockstep.plan_run import acceptance_record_refusal, latest_acceptance_record, load_acceptance_record
 
 METHODS = {"MERGE": "merge", "REBASE": "rebase", "SQUASH": "squash"}
 # The repository settings that enable each method, and the order tried when the wanted one is not allowed.
@@ -1489,38 +1489,20 @@ def accept_refusal(run: "Run", repo: Path, branch: str) -> str | None:
             including a record rewritten after ship's own rebase. A legacy record with valid exit,
             pass, failure and error fields may omit the skipped count.
     """
-    common = Path(git(repo, "rev-parse", "--path-format=absolute", "--git-common-dir"))
-    state = os.environ.get("XDG_STATE_HOME") or str(Path.home() / ".local" / "state")
-    root = Path(state) / "lockstep-runs" / common.parent.name
     head = git(repo, "rev-parse", "HEAD")
-    base = merge_base(repo)
-    on_branch = set(subprocess.run(["git", "-C", str(repo), "rev-list", f"{base}..HEAD" if base else "HEAD"],
-                                   capture_output=True, text=True).stdout.split())
-    records = []
-    for path in sorted(root.glob("*/summary.json")) if root.is_dir() else []:
-        try:
-            rec = json.loads(path.read_text(encoding="utf-8"))
-        except (OSError, ValueError):
-            line = f"ship: warning: skipped an unreadable run record {path}"
-            print(line)
-            run.write(line)
-            continue
-        if not isinstance(rec, dict):
-            continue
-        recorded_head = rec.get("head")
-        if (rec.get("branch") == branch or (isinstance(recorded_head, str) and recorded_head in on_branch)
-                or (run.rebased_from and recorded_head == run.rebased_from)):
-            records.append((str(rec.get("run_id") or path.parent.name), rec, path.parent))
-    if not records:
+    receipt, unreadable = latest_acceptance_record(repo, branch, merge_base(repo), run.rebased_from)
+    for path in unreadable:
+        line = f"ship: warning: skipped an unreadable run record {path}"
+        print(line)
+        run.write(line)
+    if receipt is None:
         line = "ship: no hidden-test run recorded for this branch"
         print(line)
         run.write(line)
         return None
-    run_id, rec, run_dir = max(records, key=lambda item: item[0])
-    accept = rec.get("accept")
-    uncommitted = rec.get("uncommitted")
-    if (run.rebased_from and rec.get("head") == run.rebased_from and rec.get("head") != head
-            and acceptance_passed(accept) and type(uncommitted) is int and uncommitted == 0):
+    run_id, rec, run_dir = receipt
+    if (run.rebased_from and run.rebased_from != head
+            and acceptance_record_refusal(run_id, rec, run.rebased_from) is None):
         # ship's own rebase moved the branch past a passing run: run the hidden tests again on the rebased commit.
         line = f"ship: rebased past run {run_id}; running the hidden tests again at {head[:12]}"
         print(line)
@@ -1530,24 +1512,13 @@ def accept_refusal(run: "Run", repo: Path, branch: str) -> str | None:
                    .replace("{run_dir}", shlex.quote(str(run_dir))))
         run.step("hidden tests again", command, shell=True)
         try:
-            rec = json.loads((run_dir / "summary.json").read_text(encoding="utf-8"))
-            if not isinstance(rec, dict):
-                raise ValueError("expected a run record object")
+            rec = load_acceptance_record(run_dir)
         except (OSError, ValueError):
             return f"the hidden-test rerun left no readable record in {run_dir}; run `lockstep accept check` in this worktree"
-        accept = rec.get("accept")
-        uncommitted = rec.get("uncommitted")
-    again = f"run `lockstep accept check {rec.get('change', '<change>')}` in this worktree to record a new run"
-    if not acceptance_passed(accept):
-        return f"hidden acceptance tests did not pass in run {run_id} ({accept or 'no hidden test ran'}); {again}"
-    if type(uncommitted) is not int or uncommitted < 0:
-        return f"run {run_id} did not record a valid count of uncommitted files; {again}"
-    if uncommitted:
-        return f"run {run_id} counted {uncommitted} uncommitted file(s); commit them, then {again}"
-    if rec.get("head") != head:
-        return (f"run {run_id} checked {str(rec.get('head'))[:12]}, but the branch is now at {head[:12]} "
-                f"(new commits or a rebase); {again}")
-    line = f"ship: hidden tests passed in run {run_id} at {head[:12]} ({accept.get('passed')} passed)"
+    refusal = acceptance_record_refusal(run_id, rec, head)
+    if refusal is not None:
+        return refusal
+    line = f"ship: hidden tests passed in run {run_id} at {head[:12]} ({rec['accept']['passed']} passed)"
     print(line)
     run.write(line)
     return None
