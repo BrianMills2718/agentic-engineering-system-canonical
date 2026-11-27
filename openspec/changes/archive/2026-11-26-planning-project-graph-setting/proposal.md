@@ -10,6 +10,11 @@ Plan: `docs/planning/next.goal.md` (parking list, "`planning.project_graph` repl
 
 Plan size: small
 
+Wording-only: ship/settings-come-from-config
+
+That requirement still reads the same plan-list keys with the same environment overrides and refusal.
+Its description of graph selection now points to the new requirement, which owns and tests the changed behavior.
+
 Planning package: none (small change: this proposal is the plan)
 
 ## What Changes
