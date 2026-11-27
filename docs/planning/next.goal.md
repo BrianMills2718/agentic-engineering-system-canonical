@@ -229,7 +229,8 @@ already open, and a rerun of this dry run passes the one-third acted-on rule.
   - `lockstep rules sync` fetches it into `.lockstep/rules/`, and `AGENTS.md` imports it;
   - `policies.py` reads the configured source.
 - The feedback part's per-repository scope and `issue_repo`, read by the collector and the labels job.
-- `lockstep status` prints each part's mode and last result.
+- `lockstep status` prints each part's mode and last result. Built 2026-11-26 as `lockstep status --parts`
+  (spec `lockstep-projection`, "Status lists each part with its mode and last gate result").
 - Review the planning-gate records (since 2026-11-25, Brian: "i agree witht he warn but we should be recoridn these so
   we can review them afterwards"). An absent `planning:` setting now warns, and ship appends every gate run to
   `~/code2/.ship-logs/planning-verdicts/<date>.jsonl` (spec `ship`, "Every planning-gate run is recorded"). Review

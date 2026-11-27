@@ -91,8 +91,10 @@ layout:
   - lockstep-checks/each-check-can-be-set-to-block-warn-or-off-in-lockstep-yaml
   - lockstep-checks/changed-count-line-and-exit-status
   - lockstep-projection/project-status-and-show-are-lockstep-commands
+  - lockstep-projection/status-lists-each-part-with-its-mode-and-last-gate-result
   tests:
   - tests/lockstep/checks/test_lockstep_check_changed.py
+  - tests/lockstep/checks/test_lockstep_check_parts.py
   - tests/lockstep/checks/test_lockstep_check_plugin.py
   - tests/lockstep/checks/test_lockstep_checks_config.py
 - path: src/lockstep/checks/config.py
@@ -151,6 +153,18 @@ layout:
   - lockstep-projection/the-pytest-plugin-ships-as-a-pytest11-entry-point
   tests:
   - tests/lockstep/checks/test_lockstep_check_plugin.py
+- path: src/lockstep/checks/parts.py
+  purpose: '`lockstep status --parts`: each AES part''s mode from lockstep.yaml and the newest planning-gate record'
+  implements:
+  - lockstep-projection/status-lists-each-part-with-its-mode-and-last-gate-result
+  exports:
+  - 'verdicts_dir() -> Path'
+  - 'last_results(repo_name: str, folder: Path) -> dict[str, str]'
+  - 'parts(repo: Path) -> list[Part]'
+  - 'as_json(rows: list[Part]) -> str'
+  - 'table(rows: list[Part]) -> str'
+  tests:
+  - tests/lockstep/checks/test_lockstep_check_parts.py
 - path: src/lockstep/checks/project.py
   purpose: 'Projection: write each requirement''s text into the docstrings that implement it, and each plan''s coverage into
     the plan'
@@ -1278,6 +1292,22 @@ layout:
   tests: []
 - path: openspec/changes/archive/2026-11-25-planning-gates-warn-and-record/tasks.md
   purpose: "Tasks: planning gates warn by default and are recorded (removed after its merge)"
+  implements: []
+  tests: []
+- path: openspec/changes/archive/2026-11-26-lockstep-status-command/prior-art.json
+  purpose: "Prior-art record: lockstep status --parts shows each part's mode and last result (removed after its merge)"
+  implements: []
+  tests: []
+- path: openspec/changes/archive/2026-11-26-lockstep-status-command/proposal.md
+  purpose: "Proposal: lockstep status --parts prints each part's mode and last gate result (removed after its merge)"
+  implements: []
+  tests: []
+- path: openspec/changes/archive/2026-11-26-lockstep-status-command/specs/lockstep-projection/spec.md
+  purpose: "Spec delta: status lists each part with its mode and last gate result (removed after its merge)"
+  implements: []
+  tests: []
+- path: openspec/changes/archive/2026-11-26-lockstep-status-command/tasks.md
+  purpose: "Tasks: lockstep status --parts (removed after its merge)"
   implements: []
   tests: []
 - path: openspec/specs/.gitkeep
@@ -2458,6 +2488,10 @@ layout:
   tests: []
 - path: tests/lockstep/checks/test_lockstep_check_links.py
   purpose: Tests the generated docs/links.json file that links requirements to the implementing code and tests.
+  implements: []
+  tests: []
+- path: tests/lockstep/checks/test_lockstep_check_parts.py
+  purpose: 'Tests for `lockstep status --parts`: modes per part, the newest matching gate record, unreadable settings'
   implements: []
   tests: []
 - path: tests/lockstep/checks/test_lockstep_check_plugin.py

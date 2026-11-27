@@ -35,7 +35,7 @@ it fails and its mode is `warn`; 0 with `skipped (off)` and nothing run when `of
 [[[cog import lockstep.cogtext as c; c.docstring("src:lockstep:checks:cli.py", indent=0)]]]
 Plan (generated from lockstep.yaml layout and OpenSpec; edit the spec or the layout row, not this text):
 
-Implements: lockstep-checks/each-check-can-be-set-to-block-warn-or-off-in-lockstep-yaml, lockstep-checks/changed-count-line-and-exit-status, lockstep-projection/project-status-and-show-are-lockstep-commands
+Implements: lockstep-checks/each-check-can-be-set-to-block-warn-or-off-in-lockstep-yaml, lockstep-checks/changed-count-line-and-exit-status, lockstep-projection/project-status-and-show-are-lockstep-commands, lockstep-projection/status-lists-each-part-with-its-mode-and-last-gate-result
 
 ### Requirement: Each check can be set to block, warn or off in lockstep.yaml
 
@@ -148,7 +148,41 @@ Source: Brian, 2026-11-11: "i approve single tool desing re d4"; proposals/one-p
 - **WHEN** `lockstep check project --check` runs with mode block, warn or off
 - **THEN** it exits 1, exits 0 with a warning, or skips
 
-Tested by: tests/lockstep/checks/test_lockstep_check_changed.py, tests/lockstep/checks/test_lockstep_check_plugin.py, tests/lockstep/checks/test_lockstep_checks_config.py
+### Requirement: Status lists each part with its mode and last gate result
+
+`lockstep status --parts` SHALL print one row per AES part: each commit check named in `lockstep-checks`' check list
+with its mode (`block`, `warn` or `off`, defaults as the commit checks apply them), `planning.gate` and
+`planning.one_page_plans` (default `warn`), `planning.validator` and `planning.skills` only when `lockstep.yaml` sets
+them, `guard.mode` (`warn (default)` when unset), and `rules` and `feedback` as `not built`. Modes SHALL be read from
+`lockstep.yaml` in the working tree, and the output SHALL say that ship reads the planning settings from the default
+branch at origin. For `planning.gate` and `planning.one_page_plans` the last result SHALL be the outcome, time and short
+head of the newest record (by its `time`) among `planning-verdicts/*.jsonl` in ship's log folder (`$SHIP_LOG_DIR`, else
+`~/code2/.ship-logs` where `~/code2` exists, else the XDG state folder) whose `repo` is this repository's owner/name from
+origin, gate `planning gate` or `one-page plans`; every other row, and a gate with no matching record, SHALL say
+`no record`. A record line that is not JSON SHALL be skipped. `--json` SHALL print the rows as a JSON list. The command
+SHALL exit 0, and 2 when `lockstep.yaml` cannot be read or holds a value the commit checks reject.
+
+Source: Brian, 2026-11-25: "the whole systm should be configurable so you can congfigure what is on or off or any other settings. for any piece" (docs/planning/next.goal.md, parking item "`lockstep status` prints each part's mode and last result"). Inferred by agent: the parts table is a `--parts` flag on the existing `lockstep status` (already the requirement report), the row list, and showing a record's outcome rather than its mode text.
+
+#### Scenario: Each part's mode comes from the working tree's settings
+
+- **GIVEN** a repository whose `lockstep.yaml` sets `checks: {trace: warn}` and `planning: {gate: block}` and no guard
+- **WHEN** `lockstep status --parts --json` runs
+- **THEN** trace is `warn`, mutation is `off`, arch is `block`, `planning.gate` is `block`, `planning.one_page_plans` is `warn`, `guard.mode` is `warn (default)`, rules and feedback are `not built`, and no validator row is listed
+
+#### Scenario: The newest planning-gate record for this repository is shown
+
+- **GIVEN** ship's log folder holding records for this repository's planning gate on two days and a newer record for another repository
+- **WHEN** `lockstep status --parts` runs
+- **THEN** the planning gate row shows the outcome and head of this repository's newer record, and `planning.one_page_plans` says `no record`
+
+#### Scenario: Unreadable settings exit 2
+
+- **GIVEN** a `lockstep.yaml` whose check mode is not block, warn or off
+- **WHEN** `lockstep status --parts` runs
+- **THEN** it exits 2 naming the problem
+
+Tested by: tests/lockstep/checks/test_lockstep_check_changed.py, tests/lockstep/checks/test_lockstep_check_parts.py, tests/lockstep/checks/test_lockstep_check_plugin.py, tests/lockstep/checks/test_lockstep_checks_config.py
 [[[end]]]
 """
 
@@ -383,10 +417,13 @@ def run_status(argv: list[str]) -> int:
     ap.add_argument("--repo", type=Path, default=Path.cwd())
     ap.add_argument("--json", action="store_true", help="print the report as JSON")
     ap.add_argument("--md", action="store_true", help="print the report as the Markdown status page")
+    ap.add_argument("--parts", action="store_true", help="each part's mode and last planning-gate result instead")
     try:
         args = ap.parse_args(argv)
     except SystemExit as exit_:
         return int(exit_.code or 0) if isinstance(exit_.code, int) else 2
+    if args.parts:
+        return _run_parts(args.repo, as_json=args.json, md=args.md)
     result = status.report(args.repo)
     if args.md:
         print(status.markdown(result))
@@ -404,6 +441,42 @@ def run_status(argv: list[str]) -> int:
             shown = ", ".join(f"{i} ({s})" for i, s in plan.open.items()) or "none"
             print(f"plan {plan.path}: {len(plan.closes)} closes, open: {shown}")
     print("RESULT status " + " ".join(f"{k}={v}" for k, v in result.counts().items()) + " exit=0")
+    return 0
+
+
+def _run_parts(repo: Path, *, as_json: bool, md: bool) -> int:
+    """`lockstep status --parts [--json]`: print each part's mode and last result; 2 for --md or unreadable settings.
+
+    Implements: lockstep-projection/status-lists-each-part-with-its-mode-and-last-gate-result
+
+    Requirement text (generated):
+        lockstep-projection/status-lists-each-part-with-its-mode-and-last-gate-result: `lockstep
+            status --parts` SHALL print one row per AES part: each commit check named in
+            `lockstep-checks`' check list with its mode (`block`, `warn` or `off`, defaults as the
+            commit checks apply them), `planning.gate` and `planning.one_page_plans` (default
+            `warn`), `planning.validator` and `planning.skills` only when `lockstep.yaml` sets them,
+            `guard.mode` (`warn (default)` when unset), and `rules` and `feedback` as `not built`.
+            Modes SHALL be read from `lockstep.yaml` in the working tree, and the output SHALL say
+            that ship reads the planning settings from the default branch at origin. For
+            `planning.gate` and `planning.one_page_plans` the last result SHALL be the outcome, time
+            and short head of the newest record (by its `time`) among `planning-verdicts/*.jsonl` in
+            ship's log folder (`$SHIP_LOG_DIR`, else `~/code2/.ship-logs` where `~/code2` exists,
+            else the XDG state folder) whose `repo` is this repository's owner/name from origin,
+            gate `planning gate` or `one-page plans`; every other row, and a gate with no matching
+            record, SHALL say `no record`. A record line that is not JSON SHALL be skipped. `--json`
+            SHALL print the rows as a JSON list. The command SHALL exit 0, and 2 when
+            `lockstep.yaml` cannot be read or holds a value the commit checks reject.
+    """
+    from lockstep.checks import parts
+    if md:
+        print("lockstep status: --parts has no Markdown page; use --json or the table", file=sys.stderr)
+        return 2
+    try:
+        rows = parts.parts(repo)
+    except ConfigError as exc:
+        print(f"lockstep status: {exc}", file=sys.stderr)
+        return 2
+    print(parts.as_json(rows) if as_json else parts.table(rows))
     return 0
 
 
