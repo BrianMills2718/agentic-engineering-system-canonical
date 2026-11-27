@@ -3147,30 +3147,6 @@ layout:
   - lockstep-plan-format/generated-wiki-pages-need-no-layout-row
   - lockstep-plan-format/python-m-lockstep-wiki-prints-the-layout-wiki
   tests: []
-- path: openspec/changes/archive/2026-11-27-layout-wiki/proposal.md
-  purpose: The layout-wiki OpenSpec change, archived; removed in the commit after the merge that archived it
-  implements: []
-  tests: []
-- path: openspec/changes/archive/2026-11-27-layout-wiki/tasks.md
-  purpose: The layout-wiki OpenSpec change, archived; removed in the commit after the merge that archived it
-  implements: []
-  tests: []
-- path: openspec/changes/archive/2026-11-27-layout-wiki/prior-art.json
-  purpose: The layout-wiki OpenSpec change, archived; removed in the commit after the merge that archived it
-  implements: []
-  tests: []
-- path: openspec/changes/archive/2026-11-27-layout-wiki/specs/lockstep-wiki/spec.md
-  purpose: The layout-wiki OpenSpec change, archived; removed in the commit after the merge that archived it
-  implements: []
-  tests: []
-- path: openspec/changes/archive/2026-11-27-layout-wiki/specs/lockstep-plan-format/spec.md
-  purpose: The layout-wiki OpenSpec change, archived; removed in the commit after the merge that archived it
-  implements: []
-  tests: []
-- path: openspec/changes/archive/2026-11-27-layout-wiki/specs/portable-template/spec.md
-  purpose: The layout-wiki OpenSpec change, archived; removed in the commit after the merge that archived it
-  implements: []
-  tests: []
 # These declared fact blocks follow the general lockstep-doc-facts capability (openspec/specs/lockstep-doc-facts);
 # AES keeps no separate spec for them (Brian, 2026-11-23: "i approve", to Q51).
 projections:

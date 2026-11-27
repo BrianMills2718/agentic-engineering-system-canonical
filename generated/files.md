@@ -649,11 +649,5 @@ Generated from [lockstep.yaml](../lockstep.yaml); edit the source, not this bloc
 | [wiki/system-model.md](../wiki/system-model.md) | Maps current parts to code, contracts, configuration and storage while distinguishing retained compatibility from active ownership. |
 | [src/lockstep/layout_wiki.py](../src/lockstep/layout_wiki.py) | Render the generated wiki of a layout repository (generated/wiki/index.md and one page per capability) from the requirements, Implements blocks, test tags and layout rows Lockstep already reads |
 | [tests/lockstep/test_lockstep_layout_wiki.py](../tests/lockstep/test_lockstep_layout_wiki.py) | Prove the layout wiki: pages per capability, stale check, no pages without the switch, unplanned exemption, python -m lockstep.wiki |
-| [openspec/changes/archive/2026-11-27-layout-wiki/proposal.md](../openspec/changes/archive/2026-11-27-layout-wiki/proposal.md) | The layout-wiki OpenSpec change, archived; removed in the commit after the merge that archived it |
-| [openspec/changes/archive/2026-11-27-layout-wiki/tasks.md](../openspec/changes/archive/2026-11-27-layout-wiki/tasks.md) | The layout-wiki OpenSpec change, archived; removed in the commit after the merge that archived it |
-| [openspec/changes/archive/2026-11-27-layout-wiki/prior-art.json](../openspec/changes/archive/2026-11-27-layout-wiki/prior-art.json) | The layout-wiki OpenSpec change, archived; removed in the commit after the merge that archived it |
-| [openspec/changes/archive/2026-11-27-layout-wiki/specs/lockstep-wiki/spec.md](../openspec/changes/archive/2026-11-27-layout-wiki/specs/lockstep-wiki/spec.md) | The layout-wiki OpenSpec change, archived; removed in the commit after the merge that archived it |
-| [openspec/changes/archive/2026-11-27-layout-wiki/specs/lockstep-plan-format/spec.md](../openspec/changes/archive/2026-11-27-layout-wiki/specs/lockstep-plan-format/spec.md) | The layout-wiki OpenSpec change, archived; removed in the commit after the merge that archived it |
-| [openspec/changes/archive/2026-11-27-layout-wiki/specs/portable-template/spec.md](../openspec/changes/archive/2026-11-27-layout-wiki/specs/portable-template/spec.md) | The layout-wiki OpenSpec change, archived; removed in the commit after the merge that archived it |
 
 <!-- /lockstep facts: projection-file-catalog -->
