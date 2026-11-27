@@ -269,7 +269,7 @@ def _results(root: Path) -> tuple[dict[tuple[str, str], str] | None, str]:
             outcome = "skipped"
         else:
             outcome = "passing"
-        if outcomes.get(key) in (None, "passing"):
+        if key not in outcomes or _ORDER.index(outcome) < _ORDER.index(outcomes[key]):  # keep the worst case
             outcomes[key] = outcome
     return outcomes, f"{RESULTS} at {head[:12]}, clean tree"
 
