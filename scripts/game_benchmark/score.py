@@ -9,7 +9,7 @@ from pathlib import Path
 POINTS = {"pass": 1.0, "partial": 0.5, "fail": 0.0}
 
 
-def main(g: Path) -> int:
+def _main(g: Path) -> int:
     items = [i["id"] for i in json.loads((g / "items.json").read_text())]
     got = {v["id"]: v for v in json.loads((g / "verdicts.json").read_text())["verdicts"]}
     missing = [i for i in items if i not in got]
@@ -27,4 +27,4 @@ def main(g: Path) -> int:
 
 
 if __name__ == "__main__":
-    sys.exit(main(Path(sys.argv[1])))
+    sys.exit(_main(Path(sys.argv[1])))

@@ -1180,6 +1180,10 @@ layout:
   purpose: Record of the AES rules register and its page retired on 2026-11-25 so rules have one home, with the restore command.
   implements: []
   tests: []
+- path: docs/retired/2026-11-26.md
+  purpose: Record of the archived OpenSpec change removed on 2026-11-26 after its merge, with the restore command.
+  implements: []
+  tests: []
 - path: docs/rules/legacy-dispositions.yaml
   purpose: Publishes identifiers, proposed dispositions and hashes for 263 legacy policy rows with no activation; their text
     stays in the private Project Meta registry. Kept as history after the register was retired on 2026-11-25.
@@ -1267,22 +1271,6 @@ layout:
 - path: openspec/config.yaml
   purpose: Selects OpenSpec’s spec-driven schema; optional context, artifact rules and operation guidance remain commented
     examples rather than active custom requirements.
-  implements: []
-  tests: []
-- path: openspec/changes/archive/2026-11-25-planning-gates-warn-and-record/prior-art.json
-  purpose: "Prior-art record: recording every planning-gate run (removed after its merge)"
-  implements: []
-  tests: []
-- path: openspec/changes/archive/2026-11-25-planning-gates-warn-and-record/proposal.md
-  purpose: "Proposal: absent planning settings warn, and every planning-gate run is recorded (removed after its merge)"
-  implements: []
-  tests: []
-- path: openspec/changes/archive/2026-11-25-planning-gates-warn-and-record/specs/ship/spec.md
-  purpose: "Spec delta: absent planning settings warn; every planning-gate run is recorded (removed after its merge)"
-  implements: []
-  tests: []
-- path: openspec/changes/archive/2026-11-25-planning-gates-warn-and-record/tasks.md
-  purpose: "Tasks: planning gates warn by default and are recorded (removed after its merge)"
   implements: []
   tests: []
 - path: openspec/specs/.gitkeep

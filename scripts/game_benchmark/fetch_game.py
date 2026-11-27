@@ -9,20 +9,20 @@ from pathlib import Path
 REPO = "https://huggingface.co/datasets/KRAFTON/A2Z-GameSpec-Bench"
 
 
-def get(path: str) -> bytes:
+def _get(path: str) -> bytes:
     with urllib.request.urlopen(f"{REPO}/resolve/main/{path}", timeout=60) as r:
         return r.read()
 
 
-def main(split: str, game: str, dest: Path) -> int:
-    manifest = {f["path"]: f["sha256"] for f in json.loads(get("metadata/manifest.json"))["files"]}
+def _main(split: str, game: str, dest: Path) -> int:
+    manifest = {f["path"]: f["sha256"] for f in json.loads(_get("metadata/manifest.json"))["files"]}
     wanted = [p for p in manifest if p == f"gdds/{split}/{game}.md"
               or p.startswith(f"contracts/{split}/{game}/") or p.startswith(f"library/{split}/{game}/")]
     if not any(p.startswith("gdds/") for p in wanted):
         print(f"no such game: {split}/{game}"); return 1
     bad = 0
     for p in wanted:
-        data = get(p)
+        data = _get(p)
         ok = hashlib.sha256(data).hexdigest() == manifest[p]
         bad += not ok
         out = dest / game / p.split("/", 2)[0] / Path(p).name
@@ -33,4 +33,4 @@ def main(split: str, game: str, dest: Path) -> int:
 
 
 if __name__ == "__main__":
-    sys.exit(main(sys.argv[1], sys.argv[2], Path(sys.argv[3])))
+    sys.exit(_main(sys.argv[1], sys.argv[2], Path(sys.argv[3])))

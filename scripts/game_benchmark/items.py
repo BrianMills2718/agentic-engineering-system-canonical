@@ -10,7 +10,7 @@ DROPPED = {"requirement:R1", "rule:R1", "invariant:SYN-INIT-runseed", "scenario:
            "scenario:enemy_roster_zone1"}  # pilot 2026-11-26, abyssal_chain
 
 
-def main(game: Path, out: Path) -> int:
+def _main(game: Path, out: Path) -> int:
     items = []
     for name, kind in [("requirements", "requirement"), ("rules", "rule"), ("invariants", "invariant"),
                        ("scenarios", "scenario")]:
@@ -24,4 +24,4 @@ def main(game: Path, out: Path) -> int:
 
 
 if __name__ == "__main__":
-    sys.exit(main(Path(sys.argv[1]), Path(sys.argv[2])))
+    sys.exit(_main(Path(sys.argv[1]), Path(sys.argv[2])))
