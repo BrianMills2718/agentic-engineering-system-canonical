@@ -4,6 +4,7 @@ No model is called: every agent session is a fake runner that writes files and c
 """
 
 import json
+import shlex
 import subprocess
 from pathlib import Path
 
@@ -232,6 +233,14 @@ def test_driver_does_not_merge(repo: Path, capsys) -> None:
     assert "ship" in capsys.readouterr().out
 
 
+@pytest.fixture
+def run_dir(tmp_path: Path) -> Path:
+    folder = tmp_path / "run with spaces"
+    (folder / "accept").mkdir(parents=True)
+    (folder / "summary.json").write_text(json.dumps({"run_id": "test-run"}))
+    return folder
+
+
 @pytest.mark.req("plan-run/a-zero-exit-needs-evidence-of-passing-hidden-tests")
 @pytest.mark.parametrize("source, status, expected", [
     ("def test_pass(): pass\n", 0, (0, 1, 0, 0, 0)),
@@ -241,26 +250,32 @@ def test_driver_does_not_merge(repo: Path, capsys) -> None:
     ("raise RuntimeError('collection error')\n", 1, (2, 0, 0, 1, 0)),
     ("def test_fail(): assert False\n", 1, (1, 0, 1, 0, 0)),
 ], ids=["passing", "skipped", "mixed", "no-tests", "collection-error", "failing"])
-def test_accept_check_cli_requires_pass_evidence(repo: Path, tmp_path: Path, source, status, expected) -> None:
-    run_dir = tmp_path / "run with spaces"
-    (run_dir / "accept").mkdir(parents=True)
+def test_accept_check_cli_requires_pass_evidence(repo: Path, run_dir: Path, source, status, expected) -> None:
     (run_dir / "accept" / "test_accept_1.py").write_text(source)
+    wrapper = run_dir / "pytest-wrapper.sh"
+    wrapper.write_text(f'exec {py_test_cmd()} --no-summary -q "$@"\n')
     args = ["check", CHANGE, "--repo", str(repo), "--run-dir", str(run_dir), "--check-cmd", "none"]
-    assert plan_run.cli([*args, "--test-cmd", f"{py_test_cmd()} --no-summary -q"]) == status
+    assert plan_run.cli([*args, "--test-cmd", shlex.join(["sh", str(wrapper)])]) == status
     receipt = json.loads((run_dir / "summary.json").read_text())["accept"]
     assert tuple(receipt.get(field) for field in ("exit", "passed", "failed", "errors", "skipped")) == expected
 
 
 @pytest.mark.req("plan-run/a-zero-exit-needs-evidence-of-passing-hidden-tests")
-def test_a_custom_command_without_pytest_evidence_is_refused(repo: Path, tmp_path: Path, capsys) -> None:
-    run_dir = tmp_path / "run"
-    (run_dir / "accept").mkdir(parents=True)
+def test_a_custom_command_without_pytest_evidence_is_refused(repo: Path, run_dir: Path, capsys) -> None:
     (run_dir / "accept" / "test_accept_1.py").write_text("def test_pass(): pass\n")
     args = ["check", CHANGE, "--repo", str(repo), "--run-dir", str(run_dir), "--check-cmd", "none"]
     assert plan_run.cli([*args, "--test-cmd", "printf '1 passed in 0.1s\\n'"]) == 1
     receipt = json.loads((run_dir / "summary.json").read_text())["accept"]
     assert receipt["exit"] == 0 and receipt["passed"] is None
     assert "PYTEST_ADDOPTS" in capsys.readouterr().out
+
+
+@pytest.mark.req("plan-run/a-zero-exit-needs-evidence-of-passing-hidden-tests")
+def test_a_custom_command_that_runs_other_tests_is_refused(repo: Path, run_dir: Path) -> None:
+    (run_dir / "accept" / "test_accept_1.py").write_text("def test_pass(): pass\n")
+    test_cmd = shlex.join(["sh", "-c", f"{py_test_cmd()} tests/test_app.py"])
+    assert plan_run.cli(["check", CHANGE, "--repo", str(repo), "--run-dir", str(run_dir),
+                         "--check-cmd", "none", "--test-cmd", test_cmd]) == 1
 
 
 @pytest.mark.req("plan-run/the-printed-ship-command-matches-the-repository")
