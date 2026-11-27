@@ -1,3 +1,5 @@
+Plan size: small
+
 ## Why
 
 Pytest can exit zero when every hidden test is skipped. The acceptance check and ship can currently treat that as proof the implementation passed, although no hidden test passed.
