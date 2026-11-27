@@ -608,7 +608,6 @@ Generated from [lockstep.yaml](../lockstep.yaml); edit the source, not this bloc
 | [tests/test_concern_repair.py](../tests/test_concern_repair.py) | Tests root-cause concern repair, including its validation and LLM-dependent steps that skip when llm_client is absent. |
 | [tests/test_discovery_journey_stale.py](../tests/test_discovery_journey_stale.py) | Tests stale-receipt detection in the discovery journey by comparing recorded source digests with current files. |
 | [tests/test_failed_unit_watch.py](../tests/test_failed_unit_watch.py) | Tests parsing and planning in the failed-unit watch script, without systemd or gh. |
-| [tests/test_feedback_no_finding.py](../tests/test_feedback_no_finding.py) | Tests that a subagent report holding only its lifecycle state is kept locally and gets no issue. |
 | [tests/test_feedback_loop_notices.py](../tests/test_feedback_loop_notices.py) | Tests the feedback-loop notification and alert scripts, using fake HTTP responses and no network. |
 | [tests/test_hub_page.py](../tests/test_hub_page.py) | Tests the hub page generator's rendering from configuration and workspace map data. |
 | [tests/test_lane_sweep.py](../tests/test_lane_sweep.py) | Tests the lane sweep script against a throwaway repository, bare remote and linked worktrees. |

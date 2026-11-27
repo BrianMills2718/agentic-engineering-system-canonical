@@ -365,9 +365,14 @@ def report(run: dict, verification: Verification | None = None) -> dict:
     if valid and verification.feedback:
         notes, rest = R.parse_feedback(verification.feedback, prov)
         records.extend(r.model_dump() for r in notes)
-    return {"id": rid, "field": "Subagent outcome", "transcript": run["parent_trace"],
-            "provenance": prov.model_dump(), "value": sentence, "records": records,
-            "rest": rest, "subagent": metadata}
+    out = {"id": rid, "field": "Subagent outcome", "transcript": run["parent_trace"],
+           "provenance": prov.model_dump(), "value": sentence, "records": records,
+           "rest": rest, "subagent": metadata}
+    # A bare lifecycle state (no failure, check or feedback) is kept in the day's report file, with no issue:
+    # 672 of 1,257 reports on 2026-11-27 were these and filing them used up GitHub's hourly limit.
+    if len(records) == 1 and state in {"assigned", "dispatch_unresolved", "interruption_requested", "completed_unverified"}:
+        out["filing"] = "local_only"
+    return out
 
 
 def reports(transcripts: list[T.Transcript], counts, sessions_root: Path | None = None) -> list[dict]:
