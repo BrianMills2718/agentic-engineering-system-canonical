@@ -332,8 +332,11 @@ def init_repo(root: Path, owner: str | None = None, source: str = SOURCE,
         print(f"note    {note}")
     if skills.mode != "off" and skills.marketplace:
         print("Each person runs once per clone, for Claude Code (the settings turn the plugin on but do not download it):")
+        print("  claude plugin marketplace list")
+        print("  Only register the source if there is no existing inside-success marketplace.")
+        print(f"  claude plugin marketplace add {skills.marketplace} --scope project  # only if the marketplace is absent")
         print(f"  {plugin_settings.INSTALL_LINE}")
-        print("and once per machine for Codex (it has no per-repository plugin setting):")
+        print("For Codex, register and install this Git marketplace in the client:")
         for command in plugin_settings.codex_commands(skills.marketplace):
             print(f"  {command}")
     print(f"RESULT init wrote={sum(w == 'wrote' for _, w in results)} skipped={sum(w == 'skipped' for _, w in results)} exit=0")

@@ -154,11 +154,15 @@ def test_init_prints_the_codex_commands_and_the_install_line(tmp_path, capsys):
     assert f"codex plugin marketplace add {MIRROR}" in out
     assert f"codex plugin add {PLUGIN}" in out
     assert INSTALL_LINE == f"claude plugin install {PLUGIN} --scope project" and INSTALL_LINE in out
+    registration = f"claude plugin marketplace add {MIRROR} --scope project"
+    assert registration in out and out.index(registration) < out.index(INSTALL_LINE)
+    assert "only if the marketplace is absent" in out
     assert "wrote   AGENTS.md" in out
     assert init_repo(root) == 0
     assert "skipped AGENTS.md" in capsys.readouterr().out
     text = (root / "AGENTS.md").read_text()
     assert text.startswith("# Agents\n\nRules.\n") and text.count(INSTALL_LINE) == 1
+    assert "marketplace is absent" in text
 
 
 @pytest.mark.req("lockstep-init/init-prints-the-codex-commands-and-the-install-line")
