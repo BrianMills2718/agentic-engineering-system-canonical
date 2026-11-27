@@ -282,11 +282,11 @@ def validator_command(python: list[str], validator: str, repo: Path) -> list[str
             leave the option absent so that the selected validator uses its own default. The
             validator SHALL continue to judge the graph.
     """
-    command = [*python, validator, "--repo", str(repo), str(repo / PACKAGE)]
+    command = [*python, validator, "--repo", str(repo)]
     schema = os.environ.get("SHIP_TYPED_GRAPH_SCHEMA")
     if schema:
         command.extend(["--typed-graph-schema", str(Path(schema).expanduser().absolute())])
-    return command
+    return [*command, str(repo / PACKAGE)]
 
 
 def run_validator(repo: Path) -> tuple[int, str]:
