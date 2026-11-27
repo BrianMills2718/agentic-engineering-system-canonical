@@ -61,7 +61,6 @@ source_modules = lockstep.ship
 forbidden_modules =
     agentic_engineering_system
     lockstep.hook
-    lockstep.plan_run
     pcw
 allow_indirect_imports = True
 

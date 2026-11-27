@@ -1772,6 +1772,21 @@ def test_a_failing_or_out_of_date_hidden_test_record_is_refused(repo, tmp_path, 
     assert "lockstep accept check add-x" in capsys.readouterr().out
 
 
+@pytest.mark.req("ship/a-successful-exit-without-a-passing-count-is-refused")
+@pytest.mark.parametrize("accept", [
+    {"exit": 0, "passed": 0, "failed": 0, "errors": 0, "skipped": 2},
+    {"exit": 0, "passed": None, "failed": None, "errors": None},
+    {"exit": 0, "passed": True, "failed": 0, "errors": 0},
+    {"exit": 0, "passed": 2, "failed": 1, "errors": 0},
+    ["exit", 0],
+], ids=["skipped", "unreadable-counts", "boolean-count", "contradictory-counts", "malformed-record"])
+def test_ship_requires_positive_pass_evidence(repo, tmp_path, monkeypatch, capsys, accept):
+    work, remote, _ = repo
+    run_record(tmp_path, monkeypatch, work, accept=accept)
+    refused_before_the_check(work, remote, tmp_path)
+    assert "lockstep accept check add-x" in capsys.readouterr().out
+
+
 @pytest.mark.req("ship/a-failing-or-out-of-date-record-is-refused")
 def test_the_newest_record_counts(repo, tmp_path, monkeypatch):
     work, remote, _ = repo
@@ -1904,7 +1919,7 @@ def test_a_status_page_conflict_with_another_conflict_still_stops(repo, monkeypa
     assert not (work / ".git" / "rebase-merge").exists() and not on_remote(remote, "feature")
 
 
-def fake_rerun(tmp_path: Path, monkeypatch, exit_status: int) -> Path:
+def fake_rerun(tmp_path: Path, monkeypatch, exit_status: int, *, passed: int = 2) -> Path:
     """A rerun command that rewrites the run record at the current HEAD with the given hidden-test exit."""
     script = tmp_path / "fake_rerun.py"
     script.write_text(
@@ -1912,7 +1927,7 @@ def fake_rerun(tmp_path: Path, monkeypatch, exit_status: int) -> Path:
         "run_dir = sys.argv[sys.argv.index('--run-dir') + 1]\n"
         "p = run_dir + '/summary.json'; rec = json.load(open(p))\n"
         "rec['head'] = subprocess.run(['git', 'rev-parse', 'HEAD'], capture_output=True, text=True).stdout.strip()\n"
-        f"rec['accept'] = {{'exit': {exit_status}, 'passed': 2, 'failed': {exit_status}, 'errors': 0}}\n"
+        f"rec['accept'] = {{'exit': {exit_status}, 'passed': {passed}, 'failed': {exit_status}, 'errors': 0}}\n"
         "json.dump(rec, open(p, 'w')); open(run_dir + '/rerun.log', 'w').write(' '.join(sys.argv[1:]))\n")
     monkeypatch.setenv("SHIP_ACCEPT_RERUN", f"{sys.executable} {script} {{change}} --run-dir {{run_dir}}")
     return tmp_path / "xdg" / "lockstep-runs" / "work" / "20261120T000000Z-0001" / "rerun.log"
@@ -1929,6 +1944,17 @@ def test_hidden_tests_run_again_after_ships_own_rebase(repo, tmp_path, monkeypat
     assert rerun_log.read_text().startswith("add-x --run-dir ")
     assert on_remote(remote, "feature") == (merged == 0)
     assert "running the hidden tests again" in capsys.readouterr().out
+
+
+@pytest.mark.req("ship/a-successful-exit-without-a-passing-count-is-refused")
+@pytest.mark.parametrize("passed, should_rerun", [(0, False), (2, True)], ids=["original", "rerun"])
+def test_ship_requires_pass_evidence_before_and_after_rebase(repo, tmp_path, monkeypatch, passed, should_rerun):
+    work, remote, _ = repo
+    run_record(tmp_path, monkeypatch, work, accept={"exit": 0, "passed": passed, "failed": 0, "errors": 0})
+    advance_main(work, "other.txt", "other\n")
+    rerun_log = fake_rerun(tmp_path, monkeypatch, 0, passed=0)
+    refused_before_the_check(work, remote, tmp_path)
+    assert rerun_log.exists() == should_rerun
 
 
 @pytest.mark.req("ship/hidden-tests-run-again-after-ship-s-own-rebase")

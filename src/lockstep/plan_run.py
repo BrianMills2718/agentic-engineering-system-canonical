@@ -61,7 +61,11 @@ Source: inferred by agent from the template-layout proof run of 2026-11-23 (docs
 
 `lockstep accept write <change>` SHALL run one headless agent session, in a detached worktree at `REF` that is removed afterwards and with no session history kept on disk, that writes pytest files into the run folder outside every worktree, and SHALL then run those tests once at `REF` and record the result. `lockstep accept check <change>` SHALL, in the implementer's worktree, count uncommitted files, copy the hidden tests into `tests/` without overwriting any file, run the test command, remove the copies, run the check command, write the departure report, and record the head commit, all results and the transcripts in the run folder's `summary.json`. Neither command merges.
 
+The hidden-run result SHALL preserve the test command exit status and report the passed, failed, error and skipped counts from a fresh pytest JUnit report for the copied tests. `lockstep accept check` and `lockstep run-plan` SHALL require exit 0, at least one passing hidden case and zero failures or errors before returning success. When the invocation produces a report, Lockstep SHALL keep the report beside the corresponding log and name it in the receipt. When the invocation produces no report, the receipt SHALL identify no report and earlier reports SHALL NOT count as evidence for it. A missing or unreadable report, no tests or an all-skipped run SHALL fail the acceptance check. A custom `--test-cmd` SHALL continue to receive the copied filenames as arguments and must run pytest with the supplied `PYTEST_ADDOPTS` environment so the check can read its report.
+
 Source: Brian, 2026-11-20: "the goal is to give a well specified plan to an agent on some proejct nad have it faithfulyy and successfully impelemnt it"; "we shoudl start with the minimal core". Procedure from the plan-fidelity test of 2026-11-20 (minimal-core-2026-11-20.md section 4, C3), inferred by agent.
+
+Source: C3 of `docs/planning/minimal-core-2026-11-20.md` requires hidden tests to pass. The evidence rule is inferred by agent from the all-skipped audit reproduction and Brian's 2026-11-26 instruction "make any high confidence imrpvoements".
 
 #### Scenario: Hidden tests are outside the worktree until the last commit
 
@@ -91,6 +95,12 @@ Source: Brian, 2026-11-20: "the goal is to give a well specified plan to an agen
 
 - **WHEN** the implementer prompt and environment are built
 - **THEN** neither contains the run folder's path, and `summary.json` counts implementer transcript lines naming `lockstep-runs` or the writer worktree's path as `peek_reads`
+
+#### Scenario: A zero exit needs evidence of passing hidden tests
+
+- **GIVEN** the check command succeeds and the worktree is clean
+- **WHEN** the hidden pytest invocation runs
+- **THEN** acceptance succeeds only with a readable fresh report showing a positive passing count and zero failures or errors, and an invocation exit of zero; the receipt shows the skipped count when a report was read
 
 ### Requirement: One driver runs a plan with Claude or Codex
 
@@ -128,6 +138,12 @@ Source: Brian, 2026-11-23: "i approve", item (c) of `https://github.com/BrianMil
 - **THEN** the implementer's names `uv run lockstep layout` and `layout:`, and the writer's names `layout:`
 
 Tested by: tests/lockstep/test_lockstep_plan_run.py
+
+Declares (typed signatures, from the plan):
+  acceptance_passed(result: object) -> bool
+  load_acceptance_record(run_dir: Path) -> dict[str, Any]
+  latest_acceptance_record(repo: Path, branch: str, base: str, rebased_from: str | None) -> tuple[tuple[str, dict[str, Any], Path] | None, list[Path]]
+  acceptance_record_refusal(run_id: str, record: dict[str, Any], head: str) -> str | None
 [[[end]]]
 """
 
@@ -143,6 +159,7 @@ import shutil
 import subprocess
 import sys
 import tempfile
+import xml.etree.ElementTree as ET
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Protocol
@@ -314,24 +331,59 @@ skipped, changed or reordered, with the reason, or "none"); check result and exi
 # ---- test runs -----------------------------------------------------------------------------------
 
 
-def pytest_counts(text: str) -> dict[str, int | None]:
-    """Pass, fail and error counts from pytest's final summary line; None when no such line is found."""
-    found: dict[str, int | None] = {"passed": None, "failed": None, "errors": None}
-    lines = [ln for ln in text.splitlines() if re.search(r"\d+ (passed|failed|errors?)\b", ln)]
-    if not lines:
-        return found
-    last = lines[-1]
-    for key, word in (("passed", "passed"), ("failed", "failed"), ("errors", "errors?")):
-        m = re.search(r"(\d+) " + word + r"\b", last)
-        found[key] = int(m.group(1)) if m else 0
-    return found
+def _junit_counts(report: Path, cwd: Path, files: list[str]) -> dict[str, int]:
+    """Count pytest outcomes for the copied hidden files in this invocation's JUnit report."""
+    root = ET.parse(report).getroot()
+    if root.tag != "testsuites" or root.find("testsuite") is None:
+        raise ValueError("expected a pytest JUnit testsuite")
+    hidden = {(cwd / file).resolve() for file in files}
+    counts = {"passed": 0, "failed": 0, "errors": 0, "skipped": 0}
+    for case in root.findall("./testsuite/testcase"):
+        file = case.get("file")
+        if case.find("error") is not None:
+            # Pytest can report an internal error without a source file.
+            counts["errors"] += 1
+        elif file is not None and (cwd / file).resolve() in hidden:
+            if case.find("failure") is not None:
+                counts["failed"] += 1
+            elif case.find("skipped") is not None:
+                counts["skipped"] += 1
+            elif case.get("name"):
+                counts["passed"] += 1
+    return counts
 
 
 def _run_tests(cwd: Path, test_cmd: str, files: list[str], log: Path) -> dict[str, Any]:
     cmd = f"{test_cmd} {' '.join(shlex.quote(f) for f in files)}"
-    r = subprocess.run(cmd, shell=True, cwd=cwd, capture_output=True, text=True)
+    with tempfile.TemporaryDirectory(prefix="pytest-", dir=log.parent.resolve()) as tmp:
+        report = Path(tmp) / "report.xml"
+        # Pass options via the environment so wrappers still receive just the hidden filenames.
+        args = shlex.join([f"--junitxml={report}", f"--rootdir={cwd}", "-o", "junit_family=xunit1"])
+        opts = f"{os.environ.get('PYTEST_ADDOPTS', '')} {args}".lstrip()
+        r = subprocess.run(cmd, shell=True, cwd=cwd, capture_output=True, text=True,
+                           env={**os.environ, "PYTEST_ADDOPTS": opts})
+        try:
+            result: dict[str, Any] = _junit_counts(report, cwd, files)
+        except (OSError, ValueError, ET.ParseError):
+            result = {"passed": None, "failed": None, "errors": None, "skipped": None,
+                      "report_error": "No readable pytest JUnit report. Use a pytest command that preserves PYTEST_ADDOPTS."}
+        result["report"] = None
+        if report.is_file():
+            saved_report = log.with_suffix(".xml")
+            report.replace(saved_report)
+            result["report"] = saved_report.name
     log.write_text(f"$ {cmd}\n{r.stdout}\n{r.stderr}")
-    return {"exit": r.returncode, **pytest_counts(r.stdout)}
+    return {"exit": r.returncode, **result}
+
+
+def acceptance_passed(result: object) -> bool:
+    """Check positive hidden-test evidence shared by the CLI and ship, including legacy receipts."""
+    if not isinstance(result, dict):
+        return False
+    passed = result.get("passed")
+    skipped = result.get("skipped", 0)  # older receipts omitted this count
+    return (type(passed) is int and passed > 0 and type(skipped) is int and skipped >= 0
+            and all(type(result.get(key)) is int and result[key] == 0 for key in ("exit", "failed", "errors")))
 
 
 def _hidden_files(run_dir: Path) -> list[Path]:
@@ -342,9 +394,56 @@ def _save(run_dir: Path, summary: dict[str, Any]) -> None:
     (run_dir / "summary.json").write_text(json.dumps(summary, indent=2) + "\n")
 
 
+def load_acceptance_record(run_dir: Path) -> dict[str, Any]:
+    """Read an acceptance receipt, requiring a JSON object."""
+    summary = json.loads((run_dir / "summary.json").read_text(encoding="utf-8"))
+    if not isinstance(summary, dict):
+        raise ValueError("expected a run record object")
+    return summary
+
+
 def _load(run_dir: Path) -> dict[str, Any]:
-    p = run_dir / "summary.json"
-    return json.loads(p.read_text()) if p.exists() else {}
+    try:
+        return load_acceptance_record(run_dir)
+    except FileNotFoundError:
+        return {}
+
+
+def latest_acceptance_record(
+    repo: Path, branch: str, base: str, rebased_from: str | None,
+) -> tuple[tuple[str, dict[str, Any], Path] | None, list[Path]]:
+    """Find the newest receipt for the branch and identify unreadable receipts."""
+    heads = set(_git(repo, "rev-list", f"{base}..HEAD" if base else "HEAD", check=False).splitlines())
+    if rebased_from:
+        heads.add(rebased_from)
+    records, unreadable = [], []
+    for path in sorted(runs_root(repo).glob("*/summary.json")):
+        try:
+            record = load_acceptance_record(path.parent)
+        except (OSError, ValueError):
+            unreadable.append(path)
+            continue
+        head = record.get("head")
+        if record.get("branch") == branch or (isinstance(head, str) and head in heads):
+            records.append((str(record.get("run_id") or path.parent.name), record, path.parent))
+    return max(records, key=lambda item: item[0], default=None), unreadable
+
+
+def acceptance_record_refusal(run_id: str, record: dict[str, Any], head: str) -> str | None:
+    """Name any receipt defect that prevents accepting it as evidence for head."""
+    again = f"run `lockstep accept check {record.get('change', '<change>')}` in this worktree to record a new run"
+    accept = record.get("accept")
+    if not acceptance_passed(accept):
+        return f"hidden acceptance tests did not pass in run {run_id} ({accept or 'no hidden test ran'}); {again}"
+    uncommitted = record.get("uncommitted")
+    if type(uncommitted) is not int or uncommitted < 0:
+        return f"run {run_id} did not record a valid count of uncommitted files; {again}"
+    if uncommitted:
+        return f"run {run_id} counted {uncommitted} uncommitted file(s); commit them, then {again}"
+    if record.get("head") != head:
+        return (f"run {run_id} checked {str(record.get('head'))[:12]}, but the branch is now at {head[:12]} "
+                f"(new commits or a rebase); {again}")
+    return None
 
 
 # ---- the three steps -----------------------------------------------------------------------------
@@ -441,7 +540,7 @@ def accept_check(worktree: Path, change: str, run_dir: Path, base: str | None = 
 def exit_code(summary: dict[str, Any]) -> int:
     """0 only when the hidden tests ran and passed, the check passed or was skipped, and nothing is uncommitted."""
     acc = summary.get("accept")
-    bad = (summary.get("collisions") or not acc or acc.get("exit") != 0
+    bad = (summary.get("collisions") or not acceptance_passed(acc)
            or summary.get("check_exit") not in (0, None) or summary.get("uncommitted"))
     return 1 if bad else 0
 
@@ -536,7 +635,8 @@ def cli(argv: list[str]) -> int:
     for p in (w, c, r):
         p.add_argument("change")
         p.add_argument("--repo", type=Path, default=Path.cwd())
-        p.add_argument("--test-cmd", default=DEFAULT_TEST_CMD)
+        p.add_argument("--test-cmd", default=DEFAULT_TEST_CMD,
+                       help="pytest command or wrapper that forwards the hidden filenames and PYTEST_ADDOPTS")
     for p in (w, r):
         p.add_argument("--ref", default="HEAD")
         p.add_argument("--agent", choices=["claude", "codex"], default="claude")

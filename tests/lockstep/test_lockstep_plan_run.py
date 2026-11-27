@@ -4,7 +4,9 @@ No model is called: every agent session is a fake runner that writes files and c
 """
 
 import json
+import shlex
 import subprocess
+import xml.etree.ElementTree as ET
 from pathlib import Path
 
 import pytest
@@ -176,6 +178,8 @@ def test_hidden_test_passing_before_is_flagged(repo: Path, capsys) -> None:
     s = plan_run.accept_write(repo, CHANGE, ref="HEAD", agent="claude", runner=fake,
                               test_cmd=py_test_cmd(), timeout=60)
     assert s["accept_before"]["passed"] == 1
+    report = Path(s["run_dir"]) / s["accept_before"]["report"]
+    assert report.name == "accept-before.xml" and ET.parse(report).find(".//testcase") is not None
     assert "WARNING" in capsys.readouterr().out
 
 
@@ -232,9 +236,56 @@ def test_driver_does_not_merge(repo: Path, capsys) -> None:
     assert "ship" in capsys.readouterr().out
 
 
-def test_pytest_counts_parsed() -> None:
-    assert plan_run.pytest_counts("2 failed, 3 passed, 1 error in 0.1s") == {"passed": 3, "failed": 2, "errors": 1}
-    assert plan_run.pytest_counts("no summary") == {"passed": None, "failed": None, "errors": None}
+@pytest.fixture
+def run_dir(tmp_path: Path) -> Path:
+    folder = tmp_path / "run with spaces"
+    (folder / "accept").mkdir(parents=True)
+    (folder / "summary.json").write_text(json.dumps({"run_id": "test-run", "run_dir": str(folder)}))
+    return folder
+
+
+@pytest.mark.req("plan-run/a-zero-exit-needs-evidence-of-passing-hidden-tests")
+@pytest.mark.parametrize("source, status, expected", [
+    ("def test_pass(): pass\n", 0, (0, 1, 0, 0, 0)),
+    ("import pytest\ndef test_skip(): pytest.skip()\n", 1, (0, 0, 0, 0, 1)),
+    ("import pytest\ndef test_skip(): pytest.skip()\ndef test_pass(): pass\n", 0, (0, 1, 0, 0, 1)),
+    ("value = 1\n", 1, (5, 0, 0, 0, 0)),
+    ("raise RuntimeError('collection error')\n", 1, (2, 0, 0, 1, 0)),
+    ("def test_fail(): assert False\n", 1, (1, 0, 1, 0, 0)),
+], ids=["passing", "skipped", "mixed", "no-tests", "collection-error", "failing"])
+def test_accept_check_cli_requires_pass_evidence(repo: Path, run_dir: Path, source, status, expected) -> None:
+    (run_dir / "accept" / "test_accept_1.py").write_text(source)
+    wrapper = run_dir / "pytest-wrapper.sh"
+    wrapper.write_text(f'exec {py_test_cmd()} --no-summary -q "$@"\n')
+    args = ["check", CHANGE, "--repo", str(repo), "--run-dir", str(run_dir), "--check-cmd", "none"]
+    assert plan_run.cli([*args, "--test-cmd", shlex.join(["sh", str(wrapper)])]) == status
+    receipt = json.loads((run_dir / "summary.json").read_text())["accept"]
+    assert tuple(receipt.get(field) for field in ("exit", "passed", "failed", "errors", "skipped")) == expected
+    assert receipt["report"] == "accept.xml"
+    assert ET.parse(run_dir / receipt["report"]).find("testsuite") is not None
+
+
+@pytest.mark.req("plan-run/a-zero-exit-needs-evidence-of-passing-hidden-tests")
+def test_a_custom_command_without_pytest_evidence_is_refused(repo: Path, run_dir: Path, capsys) -> None:
+    (run_dir / "accept" / "test_accept_1.py").write_text("def test_pass(): pass\n")
+    args = ["check", CHANGE, "--repo", str(repo), "--run-dir", str(run_dir), "--check-cmd", "none"]
+    assert plan_run.cli([*args, "--test-cmd", py_test_cmd()]) == 0
+    report = run_dir / "accept.xml"
+    prior_report = report.read_bytes()
+    capsys.readouterr()
+    assert plan_run.cli([*args, "--test-cmd", "printf '1 passed in 0.1s\\n'"]) == 1
+    receipt = json.loads((run_dir / "summary.json").read_text())["accept"]
+    assert receipt["exit"] == 0 and receipt["passed"] is None and receipt["report"] is None
+    assert report.read_bytes() == prior_report
+    assert "PYTEST_ADDOPTS" in capsys.readouterr().out
+
+
+@pytest.mark.req("plan-run/a-zero-exit-needs-evidence-of-passing-hidden-tests")
+def test_a_custom_command_that_runs_other_tests_is_refused(repo: Path, run_dir: Path) -> None:
+    (run_dir / "accept" / "test_accept_1.py").write_text("def test_pass(): pass\n")
+    test_cmd = shlex.join(["sh", "-c", f"{py_test_cmd()} tests/test_app.py"])
+    assert plan_run.cli(["check", CHANGE, "--repo", str(repo), "--run-dir", str(run_dir),
+                         "--check-cmd", "none", "--test-cmd", test_cmd]) == 1
 
 
 @pytest.mark.req("plan-run/the-printed-ship-command-matches-the-repository")

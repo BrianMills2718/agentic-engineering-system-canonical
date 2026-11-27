@@ -407,6 +407,11 @@ layout:
   - tests/lockstep/test_lockstep_plan_edit.py
 - path: src/lockstep/plan_run.py
   purpose: Run one OpenSpec plan with hidden acceptance tests and a departure report (spec plan-run)
+  exports:
+  - 'acceptance_passed(result: object) -> bool'
+  - 'load_acceptance_record(run_dir: Path) -> dict[str, Any]'
+  - 'latest_acceptance_record(repo: Path, branch: str, base: str, rebased_from: str | None) -> tuple[tuple[str, dict[str, Any], Path] | None, list[Path]]'
+  - 'acceptance_record_refusal(run_id: str, record: dict[str, Any], head: str) -> str | None'
   implements:
   - plan-run/a-departure-report-compares-the-change-with-its-plan
   - plan-run/hidden-acceptance-tests-are-written-before-and-run-after-implementation
@@ -3050,6 +3055,30 @@ layout:
 - path: wiki/system-model.md
   purpose: Maps current parts to code, contracts, configuration and storage while distinguishing retained compatibility from
     active ownership.
+  implements: []
+  tests: []
+- path: openspec/changes/archive/2026-11-26-require-passing-acceptance-evidence/.openspec.yaml
+  purpose: Records the OpenSpec schema and creation date of the archived positive hidden acceptance evidence repair.
+  implements: []
+  tests: []
+- path: openspec/changes/archive/2026-11-26-require-passing-acceptance-evidence/prior-art.json
+  purpose: Records reuse of pytest JUnit evidence and existing AES acceptance consumers for the hidden acceptance repair.
+  implements: []
+  tests: []
+- path: openspec/changes/archive/2026-11-26-require-passing-acceptance-evidence/proposal.md
+  purpose: Explains why a successful hidden-test command must demonstrate at least one passing acceptance case.
+  implements: []
+  tests: []
+- path: openspec/changes/archive/2026-11-26-require-passing-acceptance-evidence/specs/plan-run/spec.md
+  purpose: Preserves the archived plan-run requirement delta for structured hidden acceptance evidence.
+  implements: []
+  tests: []
+- path: openspec/changes/archive/2026-11-26-require-passing-acceptance-evidence/specs/ship/spec.md
+  purpose: Preserves the archived ship requirement delta refusing receipts without positive passing evidence.
+  implements: []
+  tests: []
+- path: openspec/changes/archive/2026-11-26-require-passing-acceptance-evidence/tasks.md
+  purpose: Records the completed implementation and regression checks for the hidden acceptance evidence repair.
   implements: []
   tests: []
 # These declared fact blocks follow the general lockstep-doc-facts capability (openspec/specs/lockstep-doc-facts);

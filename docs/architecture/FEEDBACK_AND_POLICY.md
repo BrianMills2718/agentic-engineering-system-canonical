@@ -30,7 +30,19 @@ Rules have one home: Brian's shared agent instructions and their source records 
 
 A blocking control should offer a runnable recovery path or an explicit human escalation boundary, as the [system boundary](SYSTEM_BOUNDARY.md) requires. Feedback about a control should remain attributable to that control rather than becoming an unexplained addition to general instructions.
 
-## Observed limits, 2026-11-13
+## Current disposition, 2026-11-26
+
+The collector and labels timers remain enabled, while analysis, fix-owner and effects remain disabled.
+The [November 25 dry run and restart conditions](../planning/next.goal.md) now provide the reason to leave the
+repair jobs off: duplicate or unrelated proposals and notices that do not meet the adopted stop rules.
+Q21's enable-or-keep-off decision is settled for this stage; collector reliability and proof of one complete
+correction-to-verified-repair path remain separate open concerns. No service is enabled by this documentation update.
+
+Policy discovery has also changed since the observation below: a read-only `policies.check(30)` on November 26
+returned 28 named policies, zero missing-source gaps and eight with report mentions. This establishes discovery
+for those identifiers, not enforcement coverage or an improvement in outcomes.
+
+## Historical observations, 2026-11-13
 
 Read-only local inspection on this date found:
 

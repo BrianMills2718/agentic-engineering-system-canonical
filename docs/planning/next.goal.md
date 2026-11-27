@@ -50,7 +50,10 @@ So settings sit in three places today: `lockstep.yaml`, `.copier-answers.yml` an
 **One vocabulary.** Every switch is `block`, `warn` or `off`. A bare YAML `true` or `on` means `block`, and a bare
 `false` means `off`, the same normalization `checks:` already has (`src/lockstep/checks/config.py:182`).
 
-**Defaults.** A missing section or key keeps today's behavior, so no repository changes on the day this lands.
+**Defaults.** Missing `planning.gate` and `planning.one_page_plans` settings warn, as adopted on
+2026-11-25 and implemented in `checks/config.py` (the planning-gate review below records that change).
+Explicit settings still select block, warn or off; the existing copier opt-out remains effective.
+Defaults for the other parts are specified in their own slices rather than inferred from this planning-gate change.
 
 **Where `ship` reads gates from.** `ship` reads every gate switch from the default branch at origin, never from the
 branch being shipped, as `copier_answer_on` (formerly ship's `addon_on`) does. Diagnostic commands such as `lockstep plan check` read the working
@@ -348,30 +351,43 @@ weekly limit, not dollars; only API calls (the labelling model, about $1.12 a co
 rule. Before any job is turned on again: its messages to Brian go to a digest he asked for or stop, it skips items
 already open, and a rerun of this dry run passes the one-third acted-on rule.
 
-## aes_test result (2026-11-25, one run per arm)
+## aes_test result (2026-11-25; corrected 2026-11-26)
 
-Next evaluation: the game benchmark plan (section below) (2026-11-26; Brian: the TinyDB test was too easy).
+Next evaluation: the game benchmark plan (section below), approved after Brian judged the TinyDB test too easy.
+Brian approved the TinyDB comparison on 2026-11-25 ("i approve your recommdnation"): TinyDB 4.8.0 rebuilt from its
+documentation only, planning by one Sonnet session, building by a second, judged by TinyDB's 201 tests hidden from both.
 
-Brian approved the test on 2026-11-25 ("i approve your recommdnation"): TinyDB 4.8.0 rebuilt from its documentation
-only, AES full planning by one Sonnet session, building by a second, judged by TinyDB's own 201 tests hidden from both.
+The November 25 comparison's [earlier interpretation](https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/0f913add7425f1beae3ccb459617f262a4c98bbc/docs/planning/next.goal.md)
+needs two corrections from the retained builder events and complete off-only failure traces.
+This section supersedes its claims of zero refusals and a single private-name cause for the score gap.
 
-| | checks on | checks off |
-|---|---|---|
-| Hidden tests using only documented names (179) | 156 passed | 144 passed |
-| Builder wall time | 21 min | 21 min |
-| Builder turns | 38 | 91 |
-| Builder cost (notional: subscription session) | $3.66 | $5.72 |
-| Check or hook refusals | 0 | 0 (hooks off) |
+- The adapted hidden suite returned 156 passed and 23 failed for checks on, against 144 passed and 35 failed for
+  checks off, with two collection errors in each arm. The denominator is 179 executable tests; another 22 reference
+  tests were in the files that did not collect. Both unadapted builds failed collection. The reference implementation
+  passed all 201 tests; that calibrates execution against the reference, not whether every assertion follows from
+  the supplied documentation.
+- At least two checks-on commits were refused: pydoclint DOC301, then DOC101/DOC201. The builder recovered by changing
+  a checker setting and then by editing docstrings. These were documentation refusals, not demonstrated catches of
+  incorrect library behavior. A successful surrounding shell command does not erase a failed inner commit.
+- The twelve failures unique to checks off comprise ten missing `_query_cache` failures, one query-hash commutativity
+  failure and one retained-table-cache failure. The plan leaves commutative query equality unspecified, and table-cache
+  identity is outside its stated behavior. The whole difference cannot be attributed to a single private name.
+- Checks on scored higher and used fewer turns in this one pair. The intervention also changed project settings, so
+  neither a causal benefit from gates alone nor a claim that the checks changed nothing follows from it.
 
-- The checks-on arm's failures are a subset of the checks-off arm's. The 12-test gap is one private name the tests
-  read (`table._query_cache`), in neither the documentation nor the plan.
-- Unadapted, both arms score 0: the tests' `conftest.py` imports `JSONStorage` from the package top level, which the
-  documentation never shows. 22 more tests import undocumented helpers (`touch`, `freeze`).
-- Planning took the whole 90-minute cap, ending in the second cold-review round. The planner read Lockstep's installed
-  source to learn what the checks want.
-- Reading: the build checks neither refused nor visibly changed the code. The cost is in planning paperwork. This
-  is one run, so it is a lead rather than a measurement. The first planning-gate review (parking list) takes it as its
-  first data.
+The earlier report also records a 90-minute planning cap ending in the second cold-review round, with the planner
+reading Lockstep's installed source to learn the check requirements. Reported builder session values are 1,271 seconds
+and 38 turns with checks on, versus 1,288 seconds and 91 turns with checks off; the reported notional subscription
+costs were $3.66 and $5.72, respectively, not API spend. These observations do not isolate the cause of the difference.
+
+Evidence remains in the existing private `aes-test` run store: `builder-on.jsonl` events at lines 87/98 and 353/363;
+`judge3-adapted-{on,off}.json`; `judge-9ire/junit.xml` and `pytest.log` compared with `judge-dofb/junit.xml`;
+`arm-on/openspec/specs/queries/spec.md:335` and `database/spec.md:101`. Private transcripts are not copied here.
+Use the already approved game-benchmark work for the next bundle comparison; do not start a duplicate experiment.
+
+Source: inferred by agent from the retained run evidence, 2026-11-26; Brian authorized high-confidence improvements
+after the audit on the same date. This corrects the interpretation without changing raw results or adopting a new benchmark.
+
 
 ## Parking list (later slices, not planned yet)
 

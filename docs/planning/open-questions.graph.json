@@ -61,58 +61,6 @@
    "explain": "One step of the one-tool build that merges when it works: move, plan format, guard, commit checks, plan check, switch users. Defined in proposals/one-planning-tool/DESIGN.md:64. No code."
   },
   {
-   "id": "Q19",
-   "label": "Q19: Who runs the plan check",
-   "kind": "AgentQuestion",
-   "explain": "Slice 5 merged (#832) and kept both copies of the plan and acceptance checks, with the same checks (wiki/lockstep.md:45): does Company Planning's adoption gate (method_conformance adopt) now call `lockstep plan check`, or keep its own copy for the Inside Success team? Settled by: An argument settles it: the design's reason for the slice is one definition of the format, which a kept copy defeats; the open fact is whether Inside Success repositories can install lockstep (Q2). Pointing the adoption gate at `lockstep plan check` is a change in the Company Planning plugin, not in this repository."
-  },
-  {
-   "id": "Q19-blocks",
-   "label": "slice 5's done-when line, and whether the plan format is defined in one place",
-   "kind": "Decision",
-   "explain": "slice 5's done-when line, and whether the plan format is defined in one place"
-  },
-  {
-   "id": "plan-check",
-   "label": "lockstep plan check",
-   "kind": "Concept",
-   "dashed": false,
-   "explain": "Runs Company Planning's validator, the one plan checker ship also runs, and adds the work-unit DAG check. Defined in proposals/one-planning-tool/DESIGN.md:74. Code: src/lockstep/plan_check.py:138."
-  },
-  {
-   "id": "acceptance_entry",
-   "label": "Acceptance entry",
-   "kind": "Concept",
-   "dashed": true,
-   "explain": "One outcome Brian judges by hand: criterion, steps on a working page, what he should see, a known broken case (docs/planning/acceptance-criteria.json). Defined in proposals/one-planning-tool/DESIGN.md:42. No code."
-  },
-  {
-   "id": "Q21",
-   "label": "Q21: Three feedback jobs switched off",
-   "kind": "BrianQuestion",
-   "explain": "Three of the feedback loop's five jobs (weekly analysis, effect counter, fix owner) have been switched off since about 2026-10-12, with no recorded reason; only the collector and the labels job run. Turn them back on? Recommendation: Inspect collector reliability (Q29), then restore one complete correction-to-verified-fix path before broad autonomous analysis. Do not enable jobs as part of a documentation repair. Default: They stay off; the collector and labels job keep running nightly."
-  },
-  {
-   "id": "Q21-blocks",
-   "label": "whether the feedback loop goes past filing reports to proposing and checking fixes",
-   "kind": "Decision",
-   "explain": "whether the feedback loop goes past filing reports to proposing and checking fixes"
-  },
-  {
-   "id": "feedback-loop",
-   "label": "Feedback loop",
-   "kind": "Concept",
-   "dashed": false,
-   "explain": "The nightly collector and labels jobs: read changed Claude and Codex transcripts, extract corrections, friction and learnings, file reports, label them. Defined in scripts/learning_loop/systemd/README.md:3. Code: scripts/learning_loop/collect_feedback.py:518."
-  },
-  {
-   "id": "feedback-report",
-   "label": "Feedback report",
-   "kind": "Concept",
-   "dashed": false,
-   "explain": "One issue in the private agent-feedback-log; a report from a human correction carries the label source:human. Defined in scripts/learning_loop/systemd/README.md:16. Code: scripts/learning_loop/feedback_log.py:212."
-  },
-  {
    "id": "Q24",
    "label": "Q24: Two projectors remain where the design says one",
    "kind": "AgentQuestion",
@@ -268,14 +216,14 @@
    "label": "Ecosystem consolidation",
    "kind": "Concept",
    "dashed": true,
-   "explain": "The adopted direction to make capabilities, providers, contracts, consumers and evidence discoverable through one route while preserving native owners; see docs/architecture/ECOSYSTEM.md."
+   "explain": "Adopted direction to make capabilities, providers, contracts, consumers and evidence discoverable through one route while preserving native owners. Defined in docs/architecture/ECOSYSTEM.md:18. No code."
   },
   {
    "id": "legacy-review",
    "label": "Legacy source review",
    "kind": "Concept",
    "dashed": true,
-   "explain": "The first-pass examination of predecessor sources and their reuse or retirement dispositions before migration; see docs/architecture/ECOSYSTEM.md and decision 0014."
+   "explain": "First-pass examination of predecessor sources and their proposed reuse or retirement dispositions before migration. Defined in docs/decisions/0014-ecosystem-consolidation-and-legacy-review.md:1. No code."
   },
   {
    "id": "Q37",
@@ -543,48 +491,6 @@
    "id": "Q2-slice",
    "source": "Q2",
    "target": "slice",
-   "label": "bears on"
-  },
-  {
-   "id": "Q19-to-decision",
-   "source": "Q19",
-   "target": "Q19-blocks",
-   "label": "blocks"
-  },
-  {
-   "id": "Q19-plan-check",
-   "source": "Q19",
-   "target": "plan-check",
-   "label": "bears on"
-  },
-  {
-   "id": "Q19-acceptance_entry",
-   "source": "Q19",
-   "target": "acceptance_entry",
-   "label": "bears on"
-  },
-  {
-   "id": "Q19-one-tool",
-   "source": "Q19",
-   "target": "one-tool",
-   "label": "bears on"
-  },
-  {
-   "id": "Q21-to-decision",
-   "source": "Q21",
-   "target": "Q21-blocks",
-   "label": "blocks"
-  },
-  {
-   "id": "Q21-feedback-loop",
-   "source": "Q21",
-   "target": "feedback-loop",
-   "label": "bears on"
-  },
-  {
-   "id": "Q21-feedback-report",
-   "source": "Q21",
-   "target": "feedback-report",
    "label": "bears on"
   },
   {

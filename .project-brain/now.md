@@ -1,4 +1,19 @@
-# Minimal core met; template and ship live here (updated 2026-11-25)
+# Minimal core met; audit repairs recorded (updated 2026-11-26)
+
+**Audit repairs, 2026-11-26:** hidden acceptance now requires a fresh pytest report with at least one passing
+hidden case, no failures or errors, and exit zero. `ship` refuses missing or malformed counts in matching receipts;
+valid older receipts remain compatible. Reports stay beside the run logs for inspection. The focused regression
+suite passed 41 tests. Feedback labeling now follows GitHub's returned next-page links, including cursor links,
+before changing labels; its 13 focused tests and all 151 learning-loop tests passed. A read-only live check traversed
+two pages and 200 distinct issues; a full labeling run and the paid collector route were not run. Repair jobs remain off.
+
+**Audit corrections, 2026-11-26:** Brian asked for high-confidence improvements after the audit. The current plan
+now corrects the TinyDB comparison: at least two documentation-related commit refusals occurred, and the twelve
+off-only failures were ten missing-cache-name failures plus two other compatibility assertions. The single pair
+does not identify a causal gate effect. The adopted game benchmark remains the next bundle comparison.
+Q21 is resolved as a decision to keep the repair jobs off under the November 25 dry-run stop rules; this does not
+close collector reliability or proof of the complete learning loop. The plan and operator guide now use that decision
+and the planning gates' actual warning defaults. See [current plan](../docs/planning/next.goal.md).
 
 Brian, 2026-11-20: "the whole thing should be configurable and shareable/protable. we shoudl start with the minimal
 core". The first milestone is met: a repository made from the template ran one plan each in Claude and Codex in a

@@ -19,8 +19,8 @@ probability. `confident` marks confidence >= `confident_at`.
 `family:*`, `fact` or `other` label yet, records Jev's answer as an issue
 comment, and prints the run summary (posted to --summary-issue if given).
 GitHub token: GH_TOKEN or GITHUB_TOKEN, else `gh auth token`. Exit status: 0 =
-every item labelled, 1 = some Jev or GitHub calls failed (those items stay
-unlabelled and are retried next run), 2 = could not list issues.
+the run completed, possibly with items deferred by --max-items, 1 = some Jev
+or GitHub writes failed, 2 = could not finish an issue listing.
 
 Jev is called through Brian's shared llm_client (`call_decisions`), which loads the
 OpenRouter key from ~/.secrets/api_keys.env and records every call in its ledger as task
@@ -39,10 +39,11 @@ import os
 import random
 import re
 import sys
-from concurrent.futures import ThreadPoolExecutor
 import time
 import urllib.error
 import urllib.request
+from collections.abc import Iterator
+from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -63,6 +64,7 @@ LEGACY_GLOB = "~/code2/learnings-archive/entries/*.json"  # frozen copy (Decisio
 # Feedback reports are filed here since 2026-10-08 (learned skill); the kind:lesson/friction/problem
 # issues in agentic-engineering-system-canonical are the earlier store.
 REPO = "BrianMills2718/agent-feedback-log"
+GITHUB_API = "https://api.github.com"
 KINDS = ("kind:observation", "kind:claim", "kind:action", "kind:lesson", "kind:friction", "kind:problem")
 CONCERN = Path(__file__).resolve().parents[1] / "concern_issue.py"  # AES copy (retirement plan, slice 2)
 OTHER_THRESHOLD = 2  # failure-modes.md: a new family requires two independent instances
@@ -203,25 +205,73 @@ def github_token() -> str:
     return tok
 
 
+def _github_path(url: str) -> str:
+    if not url.startswith(f"{GITHUB_API}/"):
+        raise ValueError("GitHub API link points outside api.github.com")
+    return url.removeprefix(GITHUB_API)
+
+
+class _GitHubRedirectHandler(urllib.request.HTTPRedirectHandler):
+    def redirect_request(self, req, fp, code, msg, headers, newurl):
+        # Keep Authorization on same-host redirects, such as a renamed repo.
+        _github_path(newurl)
+        return super().redirect_request(req, fp, code, msg, headers, newurl)
+
+
+_GITHUB_OPENER = urllib.request.build_opener(_GitHubRedirectHandler())
+
+
+def _github_response(method: str, path: str, tok: str, body: dict | None = None):
+    req = urllib.request.Request(
+        GITHUB_API + path,
+        method=method,
+        data=json.dumps(body).encode() if body is not None else None,
+        headers={"Authorization": f"Bearer {tok}", "Accept": "application/vnd.github+json"},
+    )
+    with _GITHUB_OPENER.open(req, timeout=30) as response:
+        return json.loads(response.read() or b"null"), response.headers.get_all("Link", [])
+
+
 def gh(method: str, path: str, tok: str, body: dict | None = None):
-    req = urllib.request.Request("https://api.github.com" + path, method=method,
-                                 data=json.dumps(body).encode() if body is not None else None,
-                                 headers={"Authorization": "Bearer " + tok, "Accept": "application/vnd.github+json"})
-    return json.loads(urllib.request.urlopen(req, timeout=30).read() or b"null")
+    payload, _ = _github_response(method, path, tok, body)
+    return payload
+
+
+def _next_issue_page(links: list[str]) -> str | None:
+    # GitHub's REST Link header carries either a page number or an opaque cursor.
+    for header in links:
+        for link in re.split(r",\s*(?=<)", header):
+            match = re.fullmatch(r'<([^>]+)>\s*;\s*rel="([^"]+)"', link.strip())
+            if match is None:
+                raise ValueError("invalid GitHub pagination Link header")
+            url, relation = match.groups()
+            if relation == "next":
+                return _github_path(url)
+    return None
+
+
+def _list_issues(path: str, tok: str) -> Iterator[dict]:
+    next_page: str | None = path
+    visited = set()
+    while next_page is not None:
+        if next_page in visited:
+            raise ValueError("GitHub pagination repeated a page URL")
+        visited.add(next_page)
+        batch, links = _github_response("GET", next_page, tok)
+        if not isinstance(batch, list):
+            raise ValueError("expected a list of GitHub issues")
+        yield from batch
+        next_page = _next_issue_page(links)
 
 
 def cmd_issues(args) -> int:
     qs, tok = question_set(), github_token()
+    seen = {}
     try:
-        seen = {}
-        # Every page: one page of 100 relabelled the same issues forever once they were labelled.
-        for page in range(1, 1000):
-            batch = gh("GET", f"/repos/{args.repo}/issues?state=open&per_page=100&page={page}", tok)
-            for i in batch:
-                if "pull_request" not in i and {l["name"] for l in i["labels"]} & set(KINDS):
-                    seen[i["number"]] = i
-            if len(batch) < 100:
-                break
+        # Finish listing before selecting the oldest items, or spending on labels.
+        for i in _list_issues(f"/repos/{args.repo}/issues?state=open&per_page=100", tok):
+            if "pull_request" not in i and {label["name"] for label in i["labels"]} & set(KINDS):
+                seen[i["number"]] = i
     except (urllib.error.URLError, TimeoutError, ValueError) as e:
         print(f"issues: could not list issues in {args.repo}: {e}", file=sys.stderr)
         return 2
@@ -264,7 +314,11 @@ def cmd_issues(args) -> int:
     print(summary)
     print("\n".join(lines))
     if args.other_concern_repo and not args.dry_run:
-        report_others(args.repo, args.other_concern_repo, tok)
+        try:
+            report_others(args.repo, args.other_concern_repo, tok)
+        except (urllib.error.URLError, TimeoutError, ValueError) as e:
+            print(f"issues: could not list unmatched issues in {args.repo}: {e}", file=sys.stderr)
+            return 2
     if args.summary_issue and not args.dry_run:
         gh("POST", f"/repos/{args.repo}/issues/{args.summary_issue}/comments", tok, {"body": summary + "\n\n" + "\n".join(lines)})
     return 1 if counts["error"] else 0
@@ -273,16 +327,12 @@ def cmd_issues(args) -> int:
 def report_others(repo: str, concern_repo: str, tok: str) -> None:
     """Hand open `other` items (failures no family fits) to an agent once two exist."""
     import subprocess
-    others = []
-    for page in range(1, 100):
-        batch = gh("GET", f"/repos/{repo}/issues?state=open&labels=other&per_page=100&page={page}", tok)
-        others += [i for i in batch if "pull_request" not in i]
-        if len(batch) < 100:
-            break
+    issues = _list_issues(f"/repos/{repo}/issues?state=open&labels=other&per_page=100", tok)
+    others = {i["number"]: i for i in issues if "pull_request" not in i}
     if len(others) < OTHER_THRESHOLD:
         print(f"other: {len(others)} open (below {OTHER_THRESHOLD}); no concern")
         return
-    listing = "\n".join(f"- {repo}#{i['number']} {i['title'][:100]}" for i in others)
+    listing = "\n".join(f"- {repo}#{i['number']} {i['title'][:100]}" for i in others.values())
     body = (f"{len(others)} open feedback items are failures that no family in "
             "`skills/review/references/failure-modes.md` fits (label `other`). For each: does it fit an "
             "existing family after all (relabel it), or do two independent items share a shape the list "
@@ -292,7 +342,7 @@ def report_others(repo: str, concern_repo: str, tok: str) -> None:
     done = subprocess.run([sys.executable, str(CONCERN), "open", "--repo", concern_repo,
                            "--key", "taxonomy:unmatched-failures", "--source", "learning-loop",
                            "--title", f"Failure-mode list: {len(others)} feedback items fit no family",
-                           "--body", body, "--occurrence", ",".join(str(i["number"]) for i in others),
+                           "--body", body, "--occurrence", ",".join(map(str, others)),
                            "--no-run-claim", "labels feedback issues; diagnoses no run"],
                           capture_output=True, text=True)
     print(f"other: {len(others)} open -> {done.stdout.strip() or done.stderr.strip()[-300:]}")

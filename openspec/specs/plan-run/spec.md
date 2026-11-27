@@ -50,7 +50,11 @@ Source: inferred by agent from the template-layout proof run of 2026-11-23 (docs
 
 `lockstep accept write <change>` SHALL run one headless agent session, in a detached worktree at `REF` that is removed afterwards and with no session history kept on disk, that writes pytest files into the run folder outside every worktree, and SHALL then run those tests once at `REF` and record the result. `lockstep accept check <change>` SHALL, in the implementer's worktree, count uncommitted files, copy the hidden tests into `tests/` without overwriting any file, run the test command, remove the copies, run the check command, write the departure report, and record the head commit, all results and the transcripts in the run folder's `summary.json`. Neither command merges.
 
+The hidden-run result SHALL preserve the test command exit status and report the passed, failed, error and skipped counts from a fresh pytest JUnit report for the copied tests. `lockstep accept check` and `lockstep run-plan` SHALL require exit 0, at least one passing hidden case and zero failures or errors before returning success. When the invocation produces a report, Lockstep SHALL keep the report beside the corresponding log and name it in the receipt. When the invocation produces no report, the receipt SHALL identify no report and earlier reports SHALL NOT count as evidence for it. A missing or unreadable report, no tests or an all-skipped run SHALL fail the acceptance check. A custom `--test-cmd` SHALL continue to receive the copied filenames as arguments and must run pytest with the supplied `PYTEST_ADDOPTS` environment so the check can read its report.
+
 Source: Brian, 2026-11-20: "the goal is to give a well specified plan to an agent on some proejct nad have it faithfulyy and successfully impelemnt it"; "we shoudl start with the minimal core". Procedure from the plan-fidelity test of 2026-11-20 (minimal-core-2026-11-20.md section 4, C3), inferred by agent.
+
+Source: C3 of `docs/planning/minimal-core-2026-11-20.md` requires hidden tests to pass. The evidence rule is inferred by agent from the all-skipped audit reproduction and Brian's 2026-11-26 instruction "make any high confidence imrpvoements".
 
 #### Scenario: Hidden tests are outside the worktree until the last commit
 
@@ -80,6 +84,12 @@ Source: Brian, 2026-11-20: "the goal is to give a well specified plan to an agen
 
 - **WHEN** the implementer prompt and environment are built
 - **THEN** neither contains the run folder's path, and `summary.json` counts implementer transcript lines naming `lockstep-runs` or the writer worktree's path as `peek_reads`
+
+#### Scenario: A zero exit needs evidence of passing hidden tests
+
+- **GIVEN** the check command succeeds and the worktree is clean
+- **WHEN** the hidden pytest invocation runs
+- **THEN** acceptance succeeds only with a readable fresh report showing a positive passing count and zero failures or errors, and an invocation exit of zero; the receipt shows the skipped count when a report was read
 
 ### Requirement: One driver runs a plan with Claude or Codex
 

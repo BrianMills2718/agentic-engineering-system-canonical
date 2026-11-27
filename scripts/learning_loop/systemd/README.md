@@ -1,13 +1,13 @@
 # Feedback loop jobs on Brian's PC (systemd user units)
 
-Two timers run the agent feedback loop today: the collector and the labels job. The other three
-units here (`feedback-problems`, `feedback-effects`, `feedback-fix-owner`) are installed in
-`~/.config/systemd/user` but their timers are **disabled and inactive** (`systemctl --user
-is-enabled`, checked 2026-11-10), and so is agent-skills' `taxonomy-feedback.timer`, which the
-labels job replaced on 2026-10-26. Their last outputs in `~/projects/data/feedback-collector/` are
-`problems-runs.jsonl` and `policies-runs.jsonl` (2026-10-12) and `fix-owner-runs.jsonl`
-(2026-10-13); the user journal (kept since 2026-11-09) has no entry for any of them. Git history
-does not record who turned them off or why; AES has been on hold since 2026-10-18 (`CLAUDE.md`).
+The collector and labels timers are enabled; scheduling alone does not establish a successful run.
+The other three units here (`feedback-problems`, `feedback-effects`, `feedback-fix-owner`) are installed in
+`~/.config/systemd/user` but their timers are **disabled and inactive** (read-only inspection, 2026-11-26).
+Their last retained production outputs are October 12–13. The reason to keep them off is now documented:
+the [November 25 dry run](../../../docs/planning/next.goal.md#feedback-loop-decision-b-running-alongside-slice-1)
+found duplicate or unrelated proposed actions and unwanted direct notices. Follow that plan's stop rules and
+bounded replay before enabling any of them; do not infer that turning on a timer repairs the learning loop.
+Agent-skills' old `taxonomy-feedback.timer` was replaced by the labels job on 2026-10-26.
 The sections below describe what each job does when it is on. Start page for the whole loop:
 [guide.html](../../../proposals/aes-learning-loop/review-page/guide.html).
 
