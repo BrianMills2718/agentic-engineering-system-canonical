@@ -52,8 +52,8 @@ python3 scripts/learning_loop/fix_owner.py --dry-run # what the next fix-owner r
 Reads every Claude Code and Codex session transcript from the last day and turns each closeout
 **Feedback** field (and the older **Learnings** heading) into one `feedback-report.v1` report. It
 files each report as one issue in the private log `BrianMills2718/agent-feedback-log`
-(`--max-reports`, default 900, paced at `--reports-per-hour` 200 to leave room under GitHub's 500
-content-creating requests an hour for other work (450 until 2026-11-27); filing makes no model call). A subagent report holding only its lifecycle state (no failure, check or
+(`--max-reports`, default 900, paced at `--reports-per-hour` 450 to stay under GitHub's 500
+content-creating requests an hour; filing makes no model call). A subagent report holding only its lifecycle state (no failure, check or
 feedback) stays in the day's report file and gets no issue (2026-11-27; Brian: "fix the collector"). Raised from 80 on 2026-11-10, when
 80 a night left 10,652 reports deferred against about 450 new ones a day. The legacy learnings register is frozen (2026-11-16, Decision 18): `--legacy-register` is refused. Exit 1 means some LLM, Jev or filing calls failed; exit 2 means a
 crash. Both fail the unit.
