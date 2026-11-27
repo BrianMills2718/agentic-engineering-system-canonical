@@ -161,8 +161,13 @@ timeout. Credentials come only from the user's own git or `gh` setup, and never 
 
 **The ref.** `ref` replaces the hardcoded `origin/main` at both places in `plan_check.py` (lines 120 and 126).
 
-**The proof.** Point skipper at the `Inside-Success/company-planning` mirror with no environment variables set. The log
-must name the mirror as the source.
+**Configured-source proof, 2026-11-27.** The original proof named the Inside Success mirror. In scope for
+this run, an owner-controlled local Git repository held the installed Company Planning package.
+A separate consumer set `planning.validator` on its default branch and ran `lockstep plan check`
+without source environment overrides. The log named the configured repository and ref, the
+empty cache created one bare clone, and the validator returned exit 0 after the existing freshness
+warning. This exercises configured source selection, caching and validation with the actual package.
+Availability of the named remote is outside the proof.
 
 ## Slice 3 (planned in full, 2026-11-26): `planning.skills` loads Company Planning per repository
 
@@ -192,11 +197,12 @@ subagent, 2026-11-26, verdict revise; its 11 findings are folded in below.
 - **Access.** Install clones the marketplace over HTTPS with the person's own git credentials (usage guide,
   "Install"). Anyone who cannot read the configured repository gets a failed install offer when they open the
   repository. Neither `lockstep init` nor the drift check can detect that, and init does not warn about it.
-- **Codex 0.172 has no per-repository equivalent.** Probe, rerunnable in an empty git folder. Write a
-  `.codex/config.toml` holding a `[marketplaces.probe-mkt]` table (`source`, `source_type = "git"`), and in a second run
-  an `.agents/plugins/marketplace.json` naming `probe-repo-mkt`. Run `codex plugin marketplace list`, once plain and once
-  with `-c 'projects."<folder>".trust_level="trusted"'`. All three runs exit 0 and list only the person's marketplaces,
-  never the probe's. For Codex, Lockstep can only print what to run.
+- **Codex registers this Git marketplace through client commands.** A 0.172 probe used project
+  `.codex/config.toml` with a Git marketplace table, then a project marketplace file in a second run.
+  Both plain and trusted-project listings showed the user's existing sources. This establishes the
+  CLI listing behavior of that probe. The [Codex plugin docs](https://developers.openai.com/plugins/build/plugins#enable-or-disable-a-plugin-for-a-repo)
+  describe enabling a plugin from a repo-local marketplace through trusted project settings.
+  This slice keeps the selected Git source and prints the client's registration commands.
 
 **The setting.**
 
@@ -238,8 +244,20 @@ planning:
   - `claude plugin marketplace list` still shows the person's own source.
 
    So the repository's keys are harmless for someone who already has the plugin, and their source wins.
-   Files: `~/projects/data/aes-week/slice3-proof/conflict-case-*`. The first case (a person without the plugin) is
-   still to run.
+   Files: `~/projects/data/aes-week/slice3-proof/conflict-case-*`.
+
+   First-use result (2026-11-27): in two isolated Claude homes, project settings alone did not
+   register a marketplace for the install CLI. Explicit project-scoped registration made the
+   install succeed both with handwritten settings and with settings produced by `lockstep init`.
+   Each native `system/init` event listed Company Planning with zero plugin errors. This used
+   the same GitHub-source settings layout and a local Git transport substitute, with inference
+   directed to loopback. The configured remote was outside the proof. On first use, list
+   marketplaces and register the configured source only when `inside-success` is absent.
+   Keep an existing registered source.
+
+   In an isolated Codex home, the printed Git marketplace commands registered the local transport
+   substitute, installed Company Planning and listed it afterward. It was absent before installation.
+   That proves the command sequence, with remote access still outside the proof.
 
 1. **`side_file.py`** validates `planning.skills` as a map with `mode` (the shared normalization) and `marketplace`
    (`owner/repo`). Problems are reported with their line.
@@ -255,9 +273,9 @@ planning:
 3. **`lockstep init`** calls `merge` when `mode` is `block` or `warn` and prints its result. A `.claude/settings.json`
    that is not valid JSON exits 2, as for hooks. For Codex it prints the two commands from the usage guide with the
    configured address (`codex plugin marketplace add OWNER/REPO`, `codex plugin add company-planning@inside-success`).
-   It reads and writes nothing in `~/.codex/`. For Claude Code it also prints the one step the docs say each person
-   still runs once per clone: `claude plugin install company-planning@inside-success --scope project`. The same line
-   goes in the repository's `AGENTS.md` setup notes, so a teammate who did not run init sees it too.
+   It reads and writes nothing in `~/.codex/`. For Claude Code it prints the marketplace listing, conditional
+   project registration and `claude plugin install company-planning@inside-success --scope project`.
+   The repository's `AGENTS.md` points to registration before the install command.
 4. **Drift check, inside `lockstep check project`.** It needs no network. Its compare looks only at three things: the
    source is `github`, the repository matches, and the `enabledPlugins` entry is `true`. A missing or different
    value refuses under `block`, warns under `warn`, and is not looked at under `off`. A `conflict` (including an
@@ -291,8 +309,8 @@ planning:
   `CODEX_HOME`, the printed commands are run once, and `codex plugin list` shows `company-planning@inside-success`.
 - `make check` exits 0 in AES.
 
-**Out of this slice:** removing the per-person install from machines that already have it; a Codex per-repository
-install (none exists); the rules and feedback parts.
+**Out of this slice:** removing existing per-person installs, adopting a repo-local marketplace in Codex,
+and the rules and feedback parts.
 
 ## Feedback loop (Decision b), running alongside slice 1
 

@@ -11,7 +11,7 @@ Implements: lockstep-init/init-writes-the-company-planning-plugin-keys-when-plan
 
 ### Requirement: Init writes the Company Planning plugin keys when planning.skills is on
 
-When `planning.skills` in `lockstep.yaml` is `{mode: block|warn, marketplace: OWNER/REPO}`, `lockstep init` SHALL merge into `.claude/settings.json` the marketplace `inside-success` (`extraKnownMarketplaces.inside-success.source` = `{source: github, repo: OWNER/REPO}`) and `enabledPlugins."company-planning@inside-success": true`, keeping every other key, and SHALL print `wrote`, `skipped` (everything already matches) or `conflict` for `planning.skills`. It SHALL never overwrite an `inside-success` entry with another source or repository, nor an `enabledPlugins` value that is not `true` (a `false` is a person opting out); each is named in a `conflict` line and left as it is. Extra fields such as `autoUpdate` SHALL be kept and SHALL NOT count as a difference. A `.claude/settings.json` that is not valid JSON SHALL make init exit 2. With `mode: off` or no `skills` key it SHALL write and remove nothing for this setting. When on, it SHALL print the two Codex commands with the configured address (`codex plugin marketplace add OWNER/REPO`, `codex plugin add company-planning@inside-success`), reading and writing nothing in `~/.codex/`, and the Claude Code per-clone line `claude plugin install company-planning@inside-success --scope project`; it SHALL add that line once to an existing, non-symlinked `AGENTS.md` under a `## Company Planning plugin` heading, and otherwise only print it. A `skills` value with an unknown mode or a marketplace that is not `owner/repo` (or missing when on) SHALL make init exit 2 naming the line. A fresh `lockstep.yaml` SHALL hold the key commented out.
+When `planning.skills` in `lockstep.yaml` is `{mode: block|warn, marketplace: OWNER/REPO}`, `lockstep init` SHALL merge into `.claude/settings.json` the marketplace `inside-success` (`extraKnownMarketplaces.inside-success.source` = `{source: github, repo: OWNER/REPO}`) and `enabledPlugins."company-planning@inside-success": true`, keeping every other key, and SHALL print `wrote`, `skipped` (everything already matches) or `conflict` for `planning.skills`. It SHALL never overwrite an `inside-success` entry with another source or repository, nor an `enabledPlugins` value that is not `true` (a `false` is a person opting out); each is named in a `conflict` line and left as it is. Extra fields such as `autoUpdate` SHALL be kept and SHALL NOT count as a difference. A `.claude/settings.json` that is not valid JSON SHALL make init exit 2. With `mode: off` or no `skills` key it SHALL write and remove nothing for this setting. When on, it SHALL print the two Codex commands with the configured address (`codex plugin marketplace add OWNER/REPO`, `codex plugin add company-planning@inside-success`), reading and writing nothing in `~/.codex/`, and the Claude Code project commands: list marketplaces, register the configured `OWNER/REPO` with `--scope project` only when `inside-success` is absent, then run `claude plugin install company-planning@inside-success --scope project`; it SHALL add that line once to an existing, non-symlinked `AGENTS.md` under a `## Company Planning plugin` heading, and otherwise only print it. A `skills` value with an unknown mode or a marketplace that is not `owner/repo` (or missing when on) SHALL make init exit 2 naming the line. A fresh `lockstep.yaml` SHALL hold the key commented out.
 
 Source: Brian, 2026-11-25, the settings model adopted in docs/planning/next.goal.md ("Company Planning skills | per-person plugin install | slice 3": "the whole systm should be configurable so you can congfigure what is on or off"); slice 3 planned in full 2026-11-26 in docs/planning/next.goal.md, with one independent read. Inferred by agent: `off` is the default (this switch writes files), no default address (as slice 2), the AGENTS.md note goes only into an existing non-symlinked file (a symlinked AGENTS.md is another repository's source).
 
@@ -61,7 +61,7 @@ Source: Brian, 2026-11-25, the settings model adopted in docs/planning/next.goal
 
 - **GIVEN** skills on with marketplace `Inside-Success/company-planning` and an existing `AGENTS.md`
 - **WHEN** `lockstep init` runs twice
-- **THEN** it prints `codex plugin marketplace add Inside-Success/company-planning`, `codex plugin add company-planning@inside-success` and `claude plugin install company-planning@inside-success --scope project`, and `AGENTS.md` holds the install line exactly once
+- **THEN** it prints `codex plugin marketplace add Inside-Success/company-planning`, `codex plugin add company-planning@inside-success` and the ordered Claude marketplace list, conditional project registration and project install commands, and `AGENTS.md` points to registration before its single install line
 
 #### Scenario: A bad skills value stops init
 
@@ -301,7 +301,7 @@ def drift(root: Path) -> tuple[list[str], list[str]]:
 
 
 def codex_commands(marketplace: str) -> list[str]:
-    """What a person runs once for Codex, which has no per-repository plugin config."""
+    """Register the selected Git marketplace and install the plugin in Codex."""
     return [f"codex plugin marketplace add {marketplace}", f"codex plugin add {PLUGIN}"]
 
 
@@ -317,7 +317,8 @@ def agents_note(path: Path) -> str:
     if INSTALL_LINE in text:
         return "skipped"
     note = (f"\n{AGENTS_HEADING}\n\nThis repository's agents use the Company Planning skills (`planning.skills` in"
-            f" `lockstep.yaml`). Once per clone, Claude Code: `{INSTALL_LINE}`. Codex has no per-repository"
-            f" plugin setting; run `lockstep init` to see its two commands.\n")
+            f" `lockstep.yaml`). Once per clone, if the `inside-success` marketplace is absent, use the"
+            f" registration command shown by `lockstep init`. Then run `{INSTALL_LINE}`. For Codex, run"
+            f" `lockstep init` to see the Git marketplace and installation commands.\n")
     path.write_text(text + ("" if text.endswith("\n") else "\n") + note, encoding="utf-8")
     return "wrote"

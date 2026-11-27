@@ -165,7 +165,6 @@ which the template does for its package), and the order environment, then file, 
 - **WHEN** an agent writes an unplanned governed file, and `python -m lockstep.unplanned_files` runs
 - **THEN** the edit hook refuses the write and the check names `guard.mode` and the value `strict`
 
-
 #### Scenario: Off skips a fixed-file edit and shell write
 
 - **GIVEN** a governed file covered by a fixed glob and no layout row for it
