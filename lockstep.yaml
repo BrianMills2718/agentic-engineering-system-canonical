@@ -151,6 +151,18 @@ layout:
   - lockstep-projection/the-pytest-plugin-ships-as-a-pytest11-entry-point
   tests:
   - tests/lockstep/checks/test_lockstep_check_plugin.py
+- path: src/lockstep/checks/project_graph.py
+  purpose: 'Where ship finds the project graph: $PROJECT_GRAPH, else planning.project_graph on the default branch, else the old default'
+  implements:
+  - ship/the-project-graph-is-named-in-lockstep-yaml
+  exports:
+  - 'project_graph_problem(value: object) -> str | None'
+  - 'project_graph(repo: Path) -> tuple[Path, str]'
+  - 'plan_list_config(repo: Path, log: Callable[[str], None]) -> tuple[Path | None, str]'
+  - 'graph_setting(key: str, env: str, config: Path) -> str | None'
+  tests:
+  - tests/lockstep/checks/test_lockstep_check_project_graph.py
+  - tests/test_ship.py
 - path: src/lockstep/checks/project.py
   purpose: 'Projection: write each requirement''s text into the docstrings that implement it, and each plan''s coverage into
     the plan'
@@ -1278,6 +1290,22 @@ layout:
   tests: []
 - path: openspec/changes/archive/2026-11-25-planning-gates-warn-and-record/tasks.md
   purpose: "Tasks: planning gates warn by default and are recorded (removed after its merge)"
+  implements: []
+  tests: []
+- path: openspec/changes/archive/2026-11-26-planning-project-graph-setting/prior-art.json
+  purpose: "Prior-art record: planning.project_graph names where ship finds the project graph (removed after its merge)"
+  implements: []
+  tests: []
+- path: openspec/changes/archive/2026-11-26-planning-project-graph-setting/proposal.md
+  purpose: "Proposal: planning.project_graph replaces the ~/code2/aes-config default (removed after its merge)"
+  implements: []
+  tests: []
+- path: openspec/changes/archive/2026-11-26-planning-project-graph-setting/specs/ship/spec.md
+  purpose: "Spec delta: the project graph is named in lockstep.yaml (removed after its merge)"
+  implements: []
+  tests: []
+- path: openspec/changes/archive/2026-11-26-planning-project-graph-setting/tasks.md
+  purpose: "Tasks: planning.project_graph setting (removed after its merge)"
   implements: []
   tests: []
 - path: openspec/specs/.gitkeep
@@ -2462,6 +2490,10 @@ layout:
   tests: []
 - path: tests/lockstep/checks/test_lockstep_check_plugin.py
   purpose: Tests for the pytest plugin, the top-level wiring and the modes of `lockstep check project`.
+  implements: []
+  tests: []
+- path: tests/lockstep/checks/test_lockstep_check_project_graph.py
+  purpose: Tests where ship finds the project graph and which values of planning.project_graph it refuses.
   implements: []
   tests: []
 - path: tests/lockstep/checks/test_lockstep_check_project.py

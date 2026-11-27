@@ -81,7 +81,7 @@ part built so far.
 | Planning-package gate | `.copier-answers.yml` `ship_planning_gate` | `planning.gate` (slice 1); the copier key is still read, and either one saying off turns the gate off |
 | One-page-plan check | `.copier-answers.yml` `ship_one_page_plans` | `planning.one_page_plans` (slice 1), with the same fallback |
 | Validator source | env `SHIP_COMPANY_PLANNING` or `~/code2/company-planning` | `planning.validator` (slice 2) |
-| Plan-list graph | env `PROJECT_GRAPH` or `~/code2/aes-config/` (`ship.py:883`) | parking: a `planning.project_graph` key |
+| Plan-list graph | env `PROJECT_GRAPH`, else `planning.project_graph` on the default branch, else `~/code2/aes-config/` (`checks/project_graph.py`) | built 2026-11-26 (OpenSpec change planning-project-graph-setting) |
 | Edit-guard strictness | `PCW_MODE` hardcoded in the hook command | parking: `guard.mode` |
 | Company Planning skills | per-person plugin install | slice 3: `planning.skills` |
 | Rules | machine-wide `~/.claude/CLAUDE.md` | parking: `rules:` |
@@ -223,7 +223,6 @@ already open, and a rerun of this dry run passes the one-third acted-on rule.
 - Slice 3: `planning.skills`. `lockstep init` writes the Company Planning marketplace and plugin into the repository's
   `.claude/settings.json` (`extraKnownMarketplaces`, `enabledPlugins`), and writes the Codex equivalent.
 - `guard.mode` replaces the `PCW_MODE` hardcode in the hook command.
-- `planning.project_graph` replaces the `~/code2/aes-config` default.
 - The rules part:
   - `rules.source` names the rule text;
   - `lockstep rules sync` fetches it into `.lockstep/rules/`, and `AGENTS.md` imports it;

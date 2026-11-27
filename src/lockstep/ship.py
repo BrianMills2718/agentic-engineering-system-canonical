@@ -767,7 +767,7 @@ the agent's, from a machine at load 27 to 31 on 20 cores.
 
 Where the plan list lives SHALL be read when it is needed: from `$SHIP_PERSONAL_VPS` and `$SHIP_PLAN_LIST`
 when set, else from the top-level `plan_list_checkout:` and `plan_list_path:` keys of `graph-config.yaml`
-beside the project graph (`$PROJECT_GRAPH`, default `~/code2/aes-config/PROJECT_GRAPH.json`). When either
+beside the project graph (found as requirement `the-project-graph-is-named-in-lockstep-yaml` says). When either
 is not named, a new repository with a package SHALL be refused with a message naming both keys; nothing is
 pushed. No other run reads them.
 
@@ -879,8 +879,6 @@ VALIDATOR_IMPORTS = "import jsonschema, pydantic"
 IMPORT_ERRORS = ("ModuleNotFoundError:", "ImportError:")   # the exception class that ends a Python traceback
 GOAL_LINE = re.compile(r"^(ok|WAIT|FAIL)\s+goal provenance:.*?\(required from (\d{4}-\d{2}-\d{2})\)", re.M)
 NEW_FROM = "2026-11-05"   # a first commit on or after this date is a new repository (Brian, 2026-11-04)
-# Where the plan list (the repositories whose review pages deploy) lives is a person's setting, not code.
-CONFIG = Path(os.environ.get("PROJECT_GRAPH") or Path.home() / "code2/aes-config/PROJECT_GRAPH.json").parent / "graph-config.yaml"
 
 
 def default_log_dir(name: str) -> Path:
@@ -961,23 +959,16 @@ def first_commit_day(repo: Path) -> str | None:
     return min(datetime.datetime.fromisoformat(stamp) for stamp in stamps).date().isoformat()
 
 
-def setting(key: str, env: str) -> str | None:
-    """One value from the environment, else top-level `key:` in graph-config.yaml, else None. Read when needed."""
-    named = os.environ.get(env)
-    if named:
-        return named
-    try:
-        found = re.search(rf"^{re.escape(key)}:[ \t]*([^\s#]+)", CONFIG.read_text(encoding="utf-8"), re.M)
-    except OSError:
-        found = None
-    return found.group(1) if found else None
-
-
 def plan_list_refusal(run: Run, repo: Path) -> str | None:
     """Return why a new repository's review page would not deploy, or None when it is on the plan list."""
-    checkout, plan_list = setting("plan_list_checkout", "SHIP_PERSONAL_VPS"), setting("plan_list_path", "SHIP_PLAN_LIST")
+    from lockstep.checks.project_graph import graph_setting, plan_list_config
+    config, why = plan_list_config(repo, run.write)
+    if config is None:
+        return f"{NEW_RULE}: {why}"
+    checkout, plan_list = (graph_setting("plan_list_checkout", "SHIP_PERSONAL_VPS", config),
+                           graph_setting("plan_list_path", "SHIP_PLAN_LIST", config))
     if not checkout or not plan_list:
-        return (f"{NEW_RULE}: no plan list is named: set `plan_list_checkout:` and `plan_list_path:` in {CONFIG} "
+        return (f"{NEW_RULE}: no plan list is named: set `plan_list_checkout:` and `plan_list_path:` in {config} "
                 "(or SHIP_PERSONAL_VPS and SHIP_PLAN_LIST), so ship cannot tell whether this repository's review page deploys")
     url = subprocess.run(["git", "-C", str(repo), "remote", "get-url", "origin"], capture_output=True, text=True)
     match = ORIGIN_NAME.search(url.stdout.strip())

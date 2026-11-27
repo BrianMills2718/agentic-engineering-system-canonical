@@ -272,9 +272,9 @@ def planning_modes(data: object) -> dict[str, str]:
         if mode not in MODES:
             raise ConfigError(f"{SIDE_FILE}: planning.{key} is {mode!r}; it must be one of {', '.join(MODES)}")
         modes[key] = mode
-    unknown = sorted(str(k) for k in set(planning) - set(PLANNING_KEYS) - {"validator", "skills"})  # slice 2 and 3 keys
+    unknown = sorted(str(k) for k in set(planning) - set(PLANNING_KEYS) - {"validator", "skills", "project_graph"})  # read elsewhere
     if unknown:
-        raise ConfigError(f"{SIDE_FILE}: planning has unknown key {unknown[0]!r}; known: {', '.join(PLANNING_KEYS)}, validator, skills")
+        raise ConfigError(f"{SIDE_FILE}: planning has unknown key {unknown[0]!r}; known: {', '.join(PLANNING_KEYS)}, validator, skills, project_graph")
     return modes
 
 

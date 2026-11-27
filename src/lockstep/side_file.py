@@ -265,4 +265,10 @@ def side_file_problems(root: Path, plan: dict) -> list[str]:
     fixed = data.get("fixed")
     if fixed is not None and (not isinstance(fixed, list) or not all(_text(g) for g in fixed)):
         problems.append(f"{SIDE_FILE}: fixed must be a list of path globs, such as [\"src/core/*\"].")
+    planning = data.get("planning")
+    if isinstance(planning, dict) and planning.get("project_graph") is not None:
+        from lockstep.checks.project_graph import project_graph_problem
+        problem = project_graph_problem(planning["project_graph"])
+        if problem:
+            problems.append(f"{SIDE_FILE}: planning.project_graph {problem}.")
     return problems
