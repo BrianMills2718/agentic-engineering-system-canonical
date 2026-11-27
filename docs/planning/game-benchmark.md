@@ -65,6 +65,17 @@ $1. Total about $40 to $80. Wall time about one day.
 
 - Third arm: template and instructions without gates or hooks (R2). Second and third game. Official A2Z grader.
 
+## Harness (scripts/game_benchmark/, built 2026-11-26)
+
+- `run_all.sh` runs everything in order and continues where it stopped: `fetch_game.py` (sha256-checked download),
+  `setup_arm.sh on|off N` (AES template via copier with planning gates on, or plain git; same design document, sprites
+  and Phaser 3.90.0 in both), `run_build.sh` (Sonnet, 3-hour timeout, stream-json trace, time/exit/cost record),
+  `blind_copy.sh` (random id, AES files removed, leftover traces reported), `grade.sh` (Codex with
+  `verdict-schema.json`, Playwright for Node, 2-hour timeout) and `score.py` (fidelity overall and by item kind).
+- Every step runs the storage gate first and refuses to redo finished work. Outputs: /home/brian/projects/data/aes-gamebench/.
+- Tested: fetch (105 files, 0 checksum mismatches), items (111), score (synthetic verdicts give the expected 50.0).
+  Not yet run: setup, build, blind copy, grade (disk gate closed until the rebuild).
+
 ## Results
 
 - Step 1, decidability pilot (2026-11-26 19:10): Claude Haiku, one call, the whole document plus all 116 items; cost

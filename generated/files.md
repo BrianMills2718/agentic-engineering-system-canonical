@@ -361,6 +361,17 @@ Generated from [lockstep.yaml](../lockstep.yaml); edit the source, not this bloc
 | [scripts/concern_repair_feedback.py](../scripts/concern_repair_feedback.py) | Select the oldest eligible repair concern (observe) and verify the repair agent's report mechanically (verify). |
 | [scripts/discovery_journey.py](../scripts/discovery_journey.py) | Run the ecosystem discovery journey for two capabilities and four failure exercises, writing one JSON receipt with inputs and results. |
 | [scripts/failed_unit_watch.py](../scripts/failed_unit_watch.py) | Turn each failed systemd user unit into one keyed concern issue so timer crashes are reported. |
+| [scripts/game_benchmark/fetch_game.py](../scripts/game_benchmark/fetch_game.py) | Downloads one A2Z GameSpec-Bench game (design document, contract, sprites) and checks every sha256. |
+| [scripts/game_benchmark/builder-prompt.txt](../scripts/game_benchmark/builder-prompt.txt) | The one prompt both benchmark arms get: build every requirement of the design document in Phaser. |
+| [scripts/game_benchmark/setup_arm.sh](../scripts/game_benchmark/setup_arm.sh) | Makes one benchmark build repository, AES template (on) or plain git (off), with the same game files. |
+| [scripts/game_benchmark/run_build.sh](../scripts/game_benchmark/run_build.sh) | Runs one Sonnet builder for 3 hours with a full stream-json trace and writes its time, exit and cost. |
+| [scripts/game_benchmark/blind_copy.sh](../scripts/game_benchmark/blind_copy.sh) | Copies a finished build for grading under a random id with every AES file removed. |
+| [scripts/game_benchmark/items.py](../scripts/game_benchmark/items.py) | Lists the contract items the grader scores, minus the items the decidability pilot dropped. |
+| [scripts/game_benchmark/grader-prompt.md](../scripts/game_benchmark/grader-prompt.md) | Tells the Codex grader to play the blind build in a headless browser and judge every contract item. |
+| [scripts/game_benchmark/verdict-schema.json](../scripts/game_benchmark/verdict-schema.json) | The JSON schema of the grader answer, one pass, partial or fail verdict with evidence per item. |
+| [scripts/game_benchmark/grade.sh](../scripts/game_benchmark/grade.sh) | Grades one blind build with Codex against the contract items, then scores it. |
+| [scripts/game_benchmark/score.py](../scripts/game_benchmark/score.py) | Scores a graded build as the mean over items (pass 1, partial 0.5, fail 0), overall and by item kind. |
+| [scripts/game_benchmark/run_all.sh](../scripts/game_benchmark/run_all.sh) | Runs the whole game benchmark in order and continues where it stopped when rerun. |
 | [scripts/hive/README.md](../scripts/hive/README.md) | Explains that Hive moved to personal-vps while brain_fresh.py stays for existing callers. |
 | [scripts/hive/brain_fresh.py](../scripts/hive/brain_fresh.py) | Is a project's brain older than the work done since? (hive brain v1, C-CONTEXT) |
 | [scripts/hub_page.py](../scripts/hub_page.py) | Build the AES hub page listing decisions needed from the owner, broken services, record updates and changes, each source shown as checked or not checked. |
