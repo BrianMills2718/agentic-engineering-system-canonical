@@ -34,4 +34,34 @@ requirements and decisions.{% if code2_workspace %} Workspace rules: `~/code2/AG
   elsewhere continuation lines are indented.
 - Change structure in `docs/architecture/model.c4`, then run `uv run lockstep check arch gen`.
   Never edit `.importlinter` by hand.
-- `make fast` runs on commit; `make check` runs on push and must exit 0 before merging.
+- `make fast` runs on commit and push. `ship` runs `make check` before merging.
+
+## When a check refuses
+
+Run the failing command again from the repository root after applying the fix.
+`make check` first runs `make docs-specs` and `make fast`, then the merge checks below.
+If a command is missing, install the named tool or run `uv sync` for a project dependency.
+
+| Command or message | What to fix |
+| --- | --- |
+| `make docs-specs` | Keep each capability at `openspec/specs/<capability>/spec.md`. This target links those files into `docs/specs/`; check the destination permissions if it cannot write. |
+| `lockstep check trace` | For an unimplemented requirement, list it in the module's layout row and regenerate. For an untested scenario, add a test with its `@pytest.mark.req("<capability>/<scenario>")` marker. Correct unknown IDs in the marker or implementation reference. |
+| `lockstep check sources` | Add a `Source:` line that names the actual decision or states the basis for an inference. |
+| `lockstep check project --check` | For `RESULT project stale=<n>`, run `uv run lockstep check project`, review the rewrites, and commit any tracked changes. |
+| `lint-imports` | Move the dependency to an allowed direction. If the intended architecture changed, update the diagram and run `uv run lockstep check arch gen`. |
+| `pydoclint src` | `DOC101`: document the missing arguments in the Google-style `Args:` section. `DOC201`: document the returned value in `Returns:`. `DOC301`: this template allows constructor docstrings; if the setting was lost, restore `allow-init-docstring = true` under `[tool.pydoclint]` so the constructor can also pass `interrogate`. |
+| `interrogate src` | Add meaningful docstrings to the reported modules, classes or functions, including constructors. |
+| `openspec validate --all --strict --no-interactive` | Correct the reported spec or change, including missing scenario headings or malformed delta sections. |
+| `.code2check/` and `pytest --junitxml=.code2check/junit.xml` | Ensure the directory is writable. Fix the failing behavior or collection error in the pytest output, then rerun the check to produce a fresh report. |
+| `lockstep check arch check` | Fix missing or invalid diagram entries or broken import contracts. Regenerate the import configuration from the diagram. |
+| `lockstep check test-first --base origin/main` | For `no-failing-test`, cover the new or changed scenario with a marked test that fails on the base. Use `existing=True` only for a new scenario documenting behavior already present on the base. |
+| `lockstep check changed --base origin/main` | Name the changed requirements in their plan. Add the required `Plan size:` declaration based on the project’s planning criteria. For a full plan, add `Planning package: <path>` pointing to a committed package. |
+| `lockstep check suppressions --base origin/main` | Remove the new suppression or add a nearby comment explaining why it is necessary. |
+| `lockstep check maintainability --base origin/main` | Address the cited growth or complexity. For a file beyond its limit, put cohesive new behavior in a planned module. |
+| `lockstep check --repo . --base <ref>` | For `BLOCK`, correct the cited layout, projected text or public symbol. Add the missing file row or typed `exports:` entry before rerunning `uv run lockstep check project`. Keep internal helpers private. |
+| `lockstep check project` | Fix the underlying spec, layout or file error it reports. This step refreshes generated evidence for the docs build. |
+| `zensical build --strict` | Fix the named broken link, missing source or API symbol, or warning in the documentation config. Build again before merging. |
+
+If the optional planning gate reports `FAIL cold_review: missing` or a stale review, have the planning
+package reviewed independently and record the verdict and the revision read. A stale review alone
+produces a warning if the package otherwise validates. Other failures follow the configured gate mode.

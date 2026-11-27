@@ -1,5 +1,11 @@
 # Minimal core met; audit repairs recorded (updated 2026-11-26)
 
+**Template consumer proof, 2026-11-27:** A full Copier run installed a repository named `demo-project` with
+Python package `demo`. Its wheel built, `demo` and `demo.core` imported, and both documentation linters
+accepted a documented constructor. The generated repository passed `make check` and then rejected an
+unplanned source file. The check guide now follows the template Makefile and explains the documentation-lint
+failures seen in the TinyDB trial. Next, verify the game benchmark's grader before starting scored builds.
+
 **Audit repairs, 2026-11-26:** hidden acceptance now requires a fresh pytest report with at least one passing
 hidden case, no failures or errors, and exit zero. `ship` refuses missing or malformed counts in matching receipts;
 valid older receipts remain compatible. Reports stay beside the run logs for inspection. The focused regression

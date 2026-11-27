@@ -263,11 +263,36 @@ def test_a_default_copy_with_no_remote_passes_make_check(tmp_path):
     shutil.copy(ROOT / "copier.yml", src)
     shutil.copytree(ROOT / "template", src / "template", ignore=shutil.ignore_patterns(".venv", "__pycache__"))
     out = tmp_path / "out"
-    subprocess.run(["uvx", "copier", "copy", "--trust", "--defaults", "--data", "project_name=demo", "--data",
-                    "description=Demo", str(src), str(out)], check=True, capture_output=True, text=True, timeout=900)
+    env = {k: v for k, v in os.environ.items() if not k.startswith(("GIT_", "VIRTUAL_ENV", "PYTHONPATH"))}
+    copied = subprocess.run(
+        ["uvx", "copier", "copy", "--trust", "--defaults", "--data", "project_name=demo-project",
+         "--data", "package_name=demo", "--data", "description=Demo", str(src), str(out)],
+        capture_output=True, text=True, env=env, timeout=900,
+    )
+    assert copied.returncode == 0, copied.stdout[-3000:] + copied.stderr[-3000:]
+    for command in (["uv", "build", "--wheel"], ["uv", "run", "python", "-c", "import demo; import demo.core"]):
+        result = subprocess.run(command, cwd=out, capture_output=True, text=True, env=env, timeout=180)
+        assert result.returncode == 0, result.stdout + result.stderr
+    constructor = out / ".code2check" / "constructor.py"
+    constructor.parent.mkdir(exist_ok=True)
+    constructor.write_text(
+        '"""Example for the generated documentation linter settings."""\n\n'
+        'class Example:\n'
+        '    """Store a value."""\n\n'
+        '    def __init__(self, value: str) -> None:\n'
+        '        """Set the initial value.\n\n'
+        '        Args:\n'
+        '            value: The initial value.\n'
+        '        """\n'
+        '        self.value = value\n',
+    )
+    for linter in ("pydoclint", "interrogate"):
+        result = subprocess.run(
+            ["uv", "run", linter, str(constructor)], cwd=out, capture_output=True, text=True, env=env, timeout=60,
+        )
+        assert result.returncode == 0, result.stdout + result.stderr
     _git(out, "add", "-A")
     _git(out, "commit", "-qm", "first", "--no-verify")
-    env = {k: v for k, v in os.environ.items() if not k.startswith(("GIT_", "VIRTUAL_ENV"))}
     done = subprocess.run(["make", "check"], cwd=out, capture_output=True, text=True, env=env, timeout=900)
     assert done.returncode == 0, done.stdout[-3000:] + done.stderr[-3000:]
     assert "OUTCOME decision=allow" in done.stdout

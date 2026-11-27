@@ -29,6 +29,10 @@ agentic-engineering-system = { git = "{{ lockstep_git }}", branch = "main" }
 requires = ["uv_build>=0.12.5,<0.13.0"]
 build-backend = "uv_build"
 
+[tool.uv.build-backend]
+# uv_build looks for src/<project name>/ unless told; a package named differently from the project needs this
+module-name = "{{ package_name }}"
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 
@@ -37,6 +41,9 @@ style = "google"
 arg-type-hints-in-docstring = false
 check-return-types = false
 skip-checking-short-docstrings = true
+# interrogate requires a docstring on __init__; without this pydoclint refuses that same docstring (DOC301).
+# Found by the aes_test build, 2026-11-25.
+allow-init-docstring = true
 exclude = "tests"
 
 [tool.interrogate]

@@ -3,6 +3,10 @@
 # that has none. A plan adds rows for its new or changed files in the same commit as its OpenSpec change; then
 # `uv run lockstep layout` creates them with their requirement text. See AGENTS.md.
 schema: lockstep.side.v1
+# ship's planning gates, read from the default branch: block, warn or off (absent means warn since 2026-11-25).
+planning:
+  gate: warn
+  one_page_plans: warn
 governed: [src/{{ package_name }}/]
 fixed: ["src/{{ package_name }}/*"]
 layout:
