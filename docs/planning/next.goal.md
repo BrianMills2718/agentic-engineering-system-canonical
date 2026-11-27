@@ -228,6 +228,16 @@ planning:
    which source loads. Output goes to `~/projects/data/aes-week/slice3-proof/`. If the plugin does not load, stop the
    slice and record the result here.
 
+   Result, second case (2026-11-26 22:15). This was run in a scratch repository rather than skipper, since the disk
+   guard refused new worktrees. The repository declared the mirror, and the person's own settings already declare
+   `inside-success` from `BrianMills2718/company-planning`. Results:
+  - `claude -p` loaded `company-planning` from the existing install, with no `plugin_errors`;
+  - `claude plugin marketplace list` still shows the person's own source.
+
+   So the repository's keys are harmless for someone who already has the plugin, and their source wins.
+   Files: `~/projects/data/aes-week/slice3-proof/conflict-case-*`. The first case (a person without the plugin) is
+   still to run.
+
 1. **`side_file.py`** validates `planning.skills` as a map with `mode` (the shared normalization) and `marketplace`
    (`owner/repo`). Problems are reported with their line.
 2. **New module `src/lockstep/checks/plugin_settings.py`**, with a `layout:` row (ship.py is at its size cap). It has
