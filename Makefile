@@ -17,7 +17,11 @@ test-quick:  ## Run pytest (no traceback)
 
 check: check-doc-facts  ## Run all checks (test, mypy, lint)
 	@echo "Running tests..."
-	@$(PYTHON) -m pytest tests/ -q --tb=short -n auto -m "not slow"
+	@mkdir -p .code2check && rm -f .code2check/junit.xml
+	@printf '{"commit": "%s", "clean": %s}\n' "$$(git rev-parse HEAD)" "$$(test -z "$$(git status --porcelain)" && echo true || echo false)" > .code2check/run.json
+	@$(PYTHON) -m pytest tests/ -q --tb=short -n auto -m "not slow" --junitxml=.code2check/junit.xml
+	@# Pass or fail per requirement at this checkout, for the agent reading generated/wiki (ignored by git).
+	@PYTHONPATH=src $(PYTHON) -c 'from pathlib import Path; from lockstep.checks.status import report; from lockstep.layout_wiki import RESULTS_PAGE, results_page; r = Path.cwd(); (r / RESULTS_PAGE).write_text(results_page(report(r)))'
 	@echo ""
 	@echo "Running the instruction-file check..."
 	@PYTHONPATH=src $(PYTHON) -c 'import sys; from lockstep.checks.cli import run; sys.exit(run(["instructions"]))'

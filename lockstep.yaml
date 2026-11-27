@@ -3131,10 +3131,12 @@ layout:
   - lockstep-plan-format/a-layout-repository-generates-one-wiki-page-per-capability
   - lockstep-plan-format/project-check-fails-on-stale-or-unreachable-wiki-pages
   - lockstep-plan-format/python-m-lockstep-wiki-prints-the-layout-wiki
+  - lockstep-plan-format/a-generated-wiki-shows-test-results-at-this-checkout
   tests:
   - tests/lockstep/test_lockstep_layout_wiki.py
   exports:
   - 'enabled(root: Path) -> bool'
+  - 'results_page(status: Report) -> str'
   - 'wiki_contents(root: Path, coverage: Report) -> dict[Path, str]'
   - 'wiki_problems(root: Path, coverage: Report) -> list[str]'
   - 'orphan_pages(root: Path, keep: set[Path]) -> list[Path]'
