@@ -4,6 +4,8 @@
 
 One page per OpenSpec capability: each requirement's text, the code that implements it, its tagged tests and its coverage state. Edit the specs, the code or the tests, not these pages.
 
+Pass or fail at this checkout: `generated/wiki/results.md`, written by `make check` and not committed (absent in a fresh clone until the check runs).
+
 - [client-manifest](client-manifest.md) — List every Claude Code and Codex client setting on a machine (models, effort, plugins, marketplaces, MCP servers and the rest of `~/.claude/settings.json` and `~/.codex/config.toml`) with who owns...
 - [concern-issue](concern-issue.md) — What `scripts/concern_issue.py` (AES's copy of the keyed feedback-concern adapter for GitHub Issues) must do.
 - [concern-repair-verifier](concern-repair-verifier.md) — Close a repair of a feedback concern only when the repair is proved, never on the repairing agent's own report, so a patch that would not catch the next recurrence cannot close the concern (retirem...

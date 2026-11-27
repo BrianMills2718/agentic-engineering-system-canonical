@@ -17,7 +17,8 @@ fast:
 check: docs-specs fast
 	mkdir -p .code2check && rm -f .code2check/junit.xml
 	printf '{"commit": "%s", "clean": %s}\n' "$$(git rev-parse HEAD)" "$$(test -z "$$(git status --porcelain)" && echo true || echo false)" > .code2check/run.json
-	uv run pytest --junitxml=.code2check/junit.xml
+	@# On a test failure, still write generated/wiki/results.md (pass or fail per requirement) before stopping.
+	uv run pytest --junitxml=.code2check/junit.xml || { status=$$?; uv run lockstep check project; exit $$status; }
 	uv run lockstep check arch check
 	uv run lockstep check test-first --base origin/main
 	uv run lockstep check changed --base origin/main

@@ -42,8 +42,11 @@ clean home folder (hidden tests 0/3 then 3/3, and 0/10 then 10/10) and merged wi
 - The generated wiki is back on the layout route (2026-11-27, Brian's plan doc "AES next steps", Milestone 1
   step 1): `lockstep check project` writes `generated/wiki/` (one page per capability: requirement text,
   implementing symbols with file and line, tagged tests, coverage) when `lockstep.yaml` says
-  `generated_wiki: true`; the template turns it on and tells the agent to read the index first. Pass or
-  fail written back to the pages is the next step.
+  `generated_wiki: true`; the template turns it on and tells the agent to read the index first. Step 2:
+  pass or fail at this checkout is in the git-ignored `generated/wiki/results.md` (requirements, scenarios,
+  plans not yet passing, and the commit the results are from), written after the tests in `make check`;
+  committed pages stay coverage-only because a committed result is stale once committed. Next: step 3,
+  the edit-hook hand-over proven live in Claude and Codex.
 
 - One plan checker (2026-11-25, Brian: "ia prpove yourr ecommednations though"): `lockstep plan check` runs Company
   Planning's validator the way `ship` does, instead of a copy of two of its checks; the copy and

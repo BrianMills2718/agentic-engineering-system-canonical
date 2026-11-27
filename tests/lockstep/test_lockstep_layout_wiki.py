@@ -224,3 +224,77 @@ def test_switch_that_is_not_a_boolean_is_refused(repo):
     write(repo, "lockstep.yaml", yaml.safe_dump(plan))
     with pytest.raises(ValueError, match="true or false"):
         project(repo)
+
+
+TWO_TESTS = '''
+    import pytest
+
+    @pytest.mark.req("core/it-works")
+    def test_works():
+        assert True
+
+    @pytest.mark.req("core/it-fails")
+    def test_fails():
+        assert False
+'''
+TWO_SCENARIOS = SPEC + "\n#### Scenario: It fails\n- **THEN** it fails\n"
+JUNIT = ('<testsuites><testsuite><testcase classname="tests.test_mod" name="test_works"/>'
+         '<testcase classname="tests.test_mod" name="test_fails"><failure message="x"/></testcase></testsuite></testsuites>')
+
+
+def git(repo: Path, *args: str) -> str:
+    """Run git in repo and return its output; fail the test if git fails."""
+    return subprocess.run(["git", "-C", str(repo), *args], check=True, capture_output=True, text=True).stdout.strip()
+
+
+def results_repo(repo: Path) -> Path:
+    """A committed layout repository with a passing and a failing scenario, a plan closing the failing one, and results at HEAD."""
+    write(repo, "openspec/specs/core/spec.md", TWO_SCENARIOS)
+    layout_repo(repo)
+    write(repo, "tests/test_mod.py", TWO_TESTS)
+    write(repo, "docs/plans/fix.md", "# Fix\n\nCloses: core/it-fails\n")
+    write(repo, ".gitignore", ".code2check/\ngenerated/wiki/results.md\n")
+    project(repo)
+    git(repo, "init", "-q")
+    git(repo, "add", "-A")
+    git(repo, "-c", "user.name=t", "-c", "user.email=t@t", "commit", "-qm", "init")
+    write(repo, ".code2check/junit.xml", JUNIT)
+    write(repo, ".code2check/run.json", '{"commit": "%s", "clean": true}' % git(repo, "rev-parse", "HEAD"))
+    return repo
+
+
+@pytest.mark.req("lockstep-plan-format/results-at-this-commit-show-on-the-page")
+def test_results_at_this_commit_show_on_the_page(repo):
+    results_repo(repo)
+    project(repo)
+    page = (repo / "generated/wiki/results.md").read_text()
+    head = git(repo, "rev-parse", "HEAD")[:12]
+    assert head in page
+    assert "`core/it-works` | passing" in page and "`core/it-fails` | failing" in page
+    assert "docs/plans/fix.md" in page and "`core/it-fails`: failing" in page
+    assert "`generated/wiki/results.md`" in (repo / "generated/wiki/index.md").read_text()
+    assert "(results.md)" not in (repo / "generated/wiki/index.md").read_text()
+
+
+@pytest.mark.req("lockstep-plan-format/results-from-another-commit-are-not-used")
+def test_results_from_another_commit_are_not_used(repo):
+    results_repo(repo)
+    write(repo, ".code2check/run.json", '{"commit": "0123456789abcdef", "clean": true}')
+    project(repo)
+    page = (repo / "generated/wiki/results.md").read_text()
+    assert "0123456789ab" in page
+    assert "`core/it-works` | not run at this revision" in page
+
+
+@pytest.mark.req("lockstep-plan-format/the-page-is-build-output")
+def test_results_page_is_build_output(repo):
+    results_repo(repo)
+    project(repo)
+    write(repo, ".code2check/junit.xml", JUNIT.replace('<failure message="x"/>', ""))
+    assert "generated/wiki/results.md" not in project(repo, check=True)
+    project(repo)
+    assert (repo / "generated/wiki/results.md").is_file()
+    write(repo, ".gitignore", ".code2check/\n")  # without the ignore entry the page is not written
+    (repo / "generated/wiki/results.md").unlink()
+    project(repo)
+    assert not (repo / "generated/wiki/results.md").exists()

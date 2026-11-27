@@ -407,6 +407,7 @@ def _project_once(root: Path, check: bool = False) -> list[str]:
     if page.parent.is_dir() and not (check and _ignored(root, LINKS_FILE)):
         contents[root / LINKS_FILE] = json.dumps(links(coverage, root), indent=1) + "\n"
     gone = _wiki(root, coverage, contents, check)
+    _results_page(root, status, contents, check)
     facts = project_facts(root, check=check, rendered=render(root, contents))
     if not check:  # remove old pages only once every output rendered and was written
         for rel in gone:
@@ -448,6 +449,35 @@ def _wiki(root: Path, coverage: Report, contents: dict[Path, str], check: bool) 
         next(iter(pages)).parent.mkdir(parents=True, exist_ok=True)
     gone = orphan_pages(root, set(pages))
     return [p.relative_to(root).as_posix() for p in gone]
+
+
+def _results_page(root: Path, status: Report, contents: dict[Path, str], check: bool) -> None:
+    """Stage `generated/wiki/results.md` when the wiki is on and git ignores the page; never under --check.
+
+    Implements: lockstep-plan-format/a-generated-wiki-shows-test-results-at-this-checkout
+
+    Requirement text (generated):
+        lockstep-plan-format/a-generated-wiki-shows-test-results-at-this-checkout: In a layout
+            repository whose `lockstep.yaml` says `generated_wiki: true` and whose git ignores
+            `generated/wiki/results.md`, `lockstep check project` SHALL write that page with every
+            requirement and scenario and the state `lockstep status` gives them (passing, failing,
+            skipped, not run at this revision, untested, unimplemented), a line naming the commit
+            the test results are from or why no results were used, and each plan or change whose
+            `Closes:` IDs are not all passing with those IDs. `--check` SHALL NOT report the page
+            and a run SHALL NOT remove it. When git does not ignore the path the page SHALL NOT be
+            written. The committed index SHALL name the page on one line without linking to it.
+
+    Args:
+        root: Repository root.
+        status: The status report read with test results.
+        contents: The staged outputs, extended in place.
+        check: Report only; the page is build output, so nothing is staged.
+    """
+    from lockstep.layout_wiki import RESULTS_PAGE, enabled, results_page
+
+    if not check and enabled(root) and _ignored(root, RESULTS_PAGE):
+        (root / RESULTS_PAGE).parent.mkdir(parents=True, exist_ok=True)
+        contents[root / RESULTS_PAGE] = results_page(status)
 
 
 def wiki_problems(root: Path) -> list[str]:

@@ -11,3 +11,5 @@ worktrees/
 # another never conflict on it (issue 37 of the former code2-template repository).
 docs/status.md
 docs/links.json
+# Pass or fail at this checkout (`lockstep check project`); stale the moment it is committed.
+generated/wiki/results.md

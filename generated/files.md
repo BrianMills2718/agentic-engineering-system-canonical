@@ -647,6 +647,10 @@ Generated from [lockstep.yaml](../lockstep.yaml); edit the source, not this bloc
 | [wiki/research-and-lessons.md](../wiki/research-and-lessons.md) | Indexes retained research syntheses with non-normative descriptions and revision-bound source links. |
 | [wiki/run-and-deploy.md](../wiki/run-and-deploy.md) | Provides retained install/check and feedback operation commands, distinguishing command existence from active installed enforcement. |
 | [wiki/system-model.md](../wiki/system-model.md) | Maps current parts to code, contracts, configuration and storage while distinguishing retained compatibility from active ownership. |
+| [openspec/changes/archive/2026-11-27-wiki-results-page/proposal.md](../openspec/changes/archive/2026-11-27-wiki-results-page/proposal.md) | The wiki-results-page OpenSpec change, archived; removed in the commit after the merge that archived it |
+| [openspec/changes/archive/2026-11-27-wiki-results-page/tasks.md](../openspec/changes/archive/2026-11-27-wiki-results-page/tasks.md) | The wiki-results-page OpenSpec change, archived; removed in the commit after the merge that archived it |
+| [openspec/changes/archive/2026-11-27-wiki-results-page/prior-art.json](../openspec/changes/archive/2026-11-27-wiki-results-page/prior-art.json) | The wiki-results-page OpenSpec change, archived; removed in the commit after the merge that archived it |
+| [openspec/changes/archive/2026-11-27-wiki-results-page/specs/lockstep-plan-format/spec.md](../openspec/changes/archive/2026-11-27-wiki-results-page/specs/lockstep-plan-format/spec.md) | The wiki-results-page OpenSpec change, archived; removed in the commit after the merge that archived it |
 | [src/lockstep/layout_wiki.py](../src/lockstep/layout_wiki.py) | Render the generated wiki of a layout repository (generated/wiki/index.md and one page per capability) from the requirements, Implements blocks, test tags and layout rows Lockstep already reads |
 | [tests/lockstep/test_lockstep_layout_wiki.py](../tests/lockstep/test_lockstep_layout_wiki.py) | Prove the layout wiki: pages per capability, stale check, no pages without the switch, unplanned exemption, python -m lockstep.wiki |
 

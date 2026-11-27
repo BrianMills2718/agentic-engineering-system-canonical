@@ -108,6 +108,16 @@ def test_skipped_test_is_not_passing(linked):
     assert report(linked).scenarios["core/it-works"].state == "skipped"
 
 
+@pytest.mark.req("lockstep-projection/results-from-this-revision-set-pass-and-fail")
+def test_a_failing_case_after_a_skipped_one_is_failing(linked):
+    sha = commit_all(linked)
+    record(linked, sha)
+    cases = ('<testcase classname="tests.test_mod" name="test_works[a]"><skipped message="later"/></testcase>'
+             '<testcase classname="tests.test_mod" name="test_works[b]"><failure message="boom"/></testcase>')
+    write(linked, ".code2check/junit.xml", f"<testsuites><testsuite>{cases}</testsuite></testsuites>")
+    assert report(linked).scenarios["core/it-works"].state == "failing"
+
+
 @pytest.mark.req("lockstep-projection/results-from-another-revision-are-not-used")
 def test_results_from_another_revision_are_not_used(linked):
     old = commit_all(linked)
