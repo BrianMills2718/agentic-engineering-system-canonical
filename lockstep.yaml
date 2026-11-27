@@ -3125,22 +3125,6 @@ layout:
     active ownership.
   implements: []
   tests: []
-- path: openspec/changes/archive/2026-11-27-wiki-results-page/proposal.md
-  purpose: The wiki-results-page OpenSpec change, archived; removed in the commit after the merge that archived it
-  implements: []
-  tests: []
-- path: openspec/changes/archive/2026-11-27-wiki-results-page/tasks.md
-  purpose: The wiki-results-page OpenSpec change, archived; removed in the commit after the merge that archived it
-  implements: []
-  tests: []
-- path: openspec/changes/archive/2026-11-27-wiki-results-page/prior-art.json
-  purpose: The wiki-results-page OpenSpec change, archived; removed in the commit after the merge that archived it
-  implements: []
-  tests: []
-- path: openspec/changes/archive/2026-11-27-wiki-results-page/specs/lockstep-plan-format/spec.md
-  purpose: The wiki-results-page OpenSpec change, archived; removed in the commit after the merge that archived it
-  implements: []
-  tests: []
 - path: src/lockstep/layout_wiki.py
   purpose: Render the generated wiki of a layout repository (generated/wiki/index.md and one page per capability) from the requirements, Implements blocks, test tags and layout rows Lockstep already reads
   implements:
