@@ -64,3 +64,12 @@ $1. Total about $40 to $80. Wall time about one day.
 ## Parking list (later slices)
 
 - Third arm: template and instructions without gates or hooks (R2). Second and third game. Official A2Z grader.
+
+## Results
+
+- Step 1, decidability pilot (2026-11-26 19:10): Claude Haiku, one call, the whole document plus all 116 items; cost
+  $0.16 (measured, `pilot-out.json`). 111 decidable, 5 flagged: requirement R1 and rule R1 ("Endless is armed" is never
+  defined; the Descend Deeper choice implies it), invariant SYN-INIT-runseed (counter origin not defined), scenario
+  chain_cluster (flag is wrong: the 12-link cap is stated at document line 190 and the scenario tests it), scenario
+  enemy_roster_zone1 (spawn distance against enemy range). All 5 dropped for both arms: 111 items graded.
+  Files: pilot-prompt.txt, pilot-verdicts.json in /home/brian/projects/data/aes-gamebench/.
