@@ -191,6 +191,7 @@ import os
 import re
 import shlex
 import sys
+from collections.abc import Iterator
 from pathlib import Path
 
 from lockstep.aes_bridge import artifact_for_path, context, find_root, plan_name
@@ -325,10 +326,12 @@ def _guard_override() -> str:
     return os.environ.get("PCW_MODE", "").strip().lower()
 
 
-def _guard_is_off(root: Path) -> bool:
+def _guard_is_off(root: Path | None) -> bool:
     override = _guard_override()
     if override:
         return override == "off"
+    if root is None:
+        return False
     try:
         side = load_side_file(root)
     except ValueError:
@@ -492,10 +495,10 @@ def decide_shell(call: dict, command: str) -> dict | None:
 
     cwd = Path(call.get("cwd") or os.getcwd())
     root = find_root(cwd)
-    if root is None:
-        return _shell_spec_text(call, cwd, command)
     if _guard_is_off(root):
         return None
+    if root is None:
+        return _shell_spec_text(call, cwd, command)
     entries = _log_entry_writes(root, cwd, command)
     if entries:
         log(root, {"tool": call.get("tool_name"), "files": entries, "decision": "deny", "why": "log_entry"})
@@ -544,20 +547,23 @@ def _changes(root: Path) -> str:
         return f"(The list of files this plan change touches could not be built: {exc})"
 
 
-def decide(call: dict) -> dict | None:
-    if _guard_override() == "off":
-        return None
-    command = shell_command(call)
-    if command is not None:
-        return decide_shell(call, command)
+def _enabled_edit_paths(call: dict) -> Iterator[tuple[Path, Path, Path | None]]:
+    """Yield each edit path and its roots where the guard is enabled."""
     cwd = Path(call.get("cwd") or os.getcwd())
-    allowed: list[str] = []  # each allowed path's text; a later path in the same call can still be refused
     for raw in paths_from_call(call):
         path = Path(raw) if Path(raw).is_absolute() else cwd / raw
         start = path.parent if path.parent.exists() else cwd
         root = find_root(start)
-        if root is not None and _guard_is_off(root):
-            continue
+        if not _guard_is_off(root):
+            yield path, start, root
+
+
+def decide(call: dict) -> dict | None:
+    command = shell_command(call)
+    if command is not None:
+        return decide_shell(call, command)
+    allowed: list[str] = []  # each allowed path's text; a later path in the same call can still be refused
+    for path, start, root in _enabled_edit_paths(call):
         spec_root, spec_ids, spec_text = _spec_packet(start, path)
         if root is None:
             # OpenSpec specs and no AES plan: the requirement text is all there is to hand over.
