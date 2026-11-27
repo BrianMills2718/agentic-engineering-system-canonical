@@ -655,6 +655,5 @@ Generated from [lockstep.yaml](../lockstep.yaml); edit the source, not this bloc
 | [openspec/changes/archive/2026-11-27-layout-wiki/specs/lockstep-wiki/spec.md](../openspec/changes/archive/2026-11-27-layout-wiki/specs/lockstep-wiki/spec.md) | The layout-wiki OpenSpec change, archived; removed in the commit after the merge that archived it |
 | [openspec/changes/archive/2026-11-27-layout-wiki/specs/lockstep-plan-format/spec.md](../openspec/changes/archive/2026-11-27-layout-wiki/specs/lockstep-plan-format/spec.md) | The layout-wiki OpenSpec change, archived; removed in the commit after the merge that archived it |
 | [openspec/changes/archive/2026-11-27-layout-wiki/specs/portable-template/spec.md](../openspec/changes/archive/2026-11-27-layout-wiki/specs/portable-template/spec.md) | The layout-wiki OpenSpec change, archived; removed in the commit after the merge that archived it |
-| [openspec/specs/lockstep-wiki/spec.md](../openspec/specs/lockstep-wiki/spec.md) | Requirements for the generated wiki of a layout repository (pages per capability, stale check, no layout row, python -m lockstep.wiki) |
 
 <!-- /lockstep facts: projection-file-catalog -->

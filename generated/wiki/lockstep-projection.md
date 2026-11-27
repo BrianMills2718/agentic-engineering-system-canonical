@@ -15,7 +15,7 @@ Status: **implemented and tested**
 Implemented by:
 
 - `lockstep.checks.project` — [`src/lockstep/checks/project.py:1`](../../src/lockstep/checks/project.py#L1)
-- `lockstep.checks.project.missing_copies` — [`src/lockstep/checks/project.py:288`](../../src/lockstep/checks/project.py#L288)
+- `lockstep.checks.project.missing_copies` — [`src/lockstep/checks/project.py:321`](../../src/lockstep/checks/project.py#L321)
 
 - Scenario `a-fixed-file-with-no-plan-copy-fails-the-check`: tested by `tests/lockstep/test_lockstep_layout_plan.py::test_a_fixed_file_with_no_plan_copy_fails_the_check` ([`tests/lockstep/test_lockstep_layout_plan.py:282`](../../tests/lockstep/test_lockstep_layout_plan.py#L282))
 

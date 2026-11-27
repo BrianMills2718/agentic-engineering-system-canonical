@@ -4,6 +4,23 @@
 
 [All capabilities](index.md) — the wiki index. Spec: `openspec/specs/lockstep-plan-format/spec.md`. Pass or fail is not shown here (it changes with each run); `lockstep status` gives it.
 
+## a layout repository generates one wiki page per capability
+
+ID: `lockstep-plan-format/a-layout-repository-generates-one-wiki-page-per-capability`
+
+Status: **implemented and tested**
+
+In a layout repository whose `lockstep.yaml` says `generated_wiki: true`, `lockstep check project` SHALL write `generated/wiki/index.md`, with one line per OpenSpec capability (its summary and a link to its page), and `generated/wiki/<capability>.md` for each capability. A capability page SHALL list each requirement's text, the symbols whose docstrings implement it with their `file:line`, each scenario with the tests tagged with its ID, and the requirement's coverage state (unimplemented, untested, or implemented and tested). The pages SHALL hold no commit hash and no pass or fail result, so they are the same in every checkout; `lockstep status` gives pass or fail. A page for a capability that no longer exists SHALL be removed.
+
+Implemented by:
+
+- `lockstep.checks.project` — [`src/lockstep/checks/project.py:1`](../../src/lockstep/checks/project.py#L1)
+- `lockstep.checks.project._wiki` — [`src/lockstep/checks/project.py:413`](../../src/lockstep/checks/project.py#L413)
+- `lockstep.layout_wiki` — [`src/lockstep/layout_wiki.py:1`](../../src/lockstep/layout_wiki.py#L1)
+
+- Scenario `a-capability-page-shows-requirement-code-and-tests`: tested by `tests/lockstep/test_lockstep_layout_wiki.py::test_capability_page_shows_requirement_code_and_tests` ([`tests/lockstep/test_lockstep_layout_wiki.py:127`](../../tests/lockstep/test_lockstep_layout_wiki.py#L127)), `tests/lockstep/test_lockstep_layout_wiki.py::test_page_of_a_removed_capability_is_removed` ([`tests/lockstep/test_lockstep_layout_wiki.py:147`](../../tests/lockstep/test_lockstep_layout_wiki.py#L147))
+- Scenario `a-repository-without-the-switch-gets-no-pages`: tested by `tests/lockstep/test_lockstep_layout_wiki.py::test_repository_without_the_switch_gets_no_pages` ([`tests/lockstep/test_lockstep_layout_wiki.py:141`](../../tests/lockstep/test_lockstep_layout_wiki.py#L141))
+
 ## a planned file without a cog plan copy is judged by its implements block
 
 ID: `lockstep-plan-format/a-planned-file-without-a-cog-plan-copy-is-judged-by-its-implements-block`
@@ -51,6 +68,20 @@ Implemented by:
 - Scenario `an-undeclared-public-symbol-names-the-layout-exports`: tested by `tests/lockstep/test_lockstep_layout_plan.py::test_an_undeclared_public_function_points_to_the_layout_row` ([`tests/lockstep/test_lockstep_layout_plan.py:250`](../../tests/lockstep/test_lockstep_layout_plan.py#L250))
 - Scenario `a-refusal-points-to-lockstep-show-not-the-wiki`: tested by `tests/lockstep/test_lockstep_layout_plan.py::test_a_refusal_in_a_layout_repository_points_to_lockstep_show` ([`tests/lockstep/test_lockstep_layout_plan.py:297`](../../tests/lockstep/test_lockstep_layout_plan.py#L297))
 
+## generated wiki pages need no layout row
+
+ID: `lockstep-plan-format/generated-wiki-pages-need-no-layout-row`
+
+Status: **implemented and tested**
+
+A file under `generated/wiki/` SHALL NOT be reported as unplanned in a layout repository, and the Markdown file cap SHALL NOT count it.
+
+Implemented by:
+
+- `lockstep.unplanned_files.unplanned_reason` — [`src/lockstep/unplanned_files.py:111`](../../src/lockstep/unplanned_files.py#L111)
+
+- Scenario `a-generated-page-is-not-unplanned`: tested by `tests/lockstep/test_lockstep_layout_wiki.py::test_generated_page_is_not_unplanned` ([`tests/lockstep/test_lockstep_layout_wiki.py:178`](../../tests/lockstep/test_lockstep_layout_wiki.py#L178)), `tests/test_md_file_cap.py::test_generated_wiki_pages_are_not_counted_and_other_generated_names_stay_narrow` ([`tests/test_md_file_cap.py:485`](../../tests/test_md_file_cap.py#L485))
+
 ## lockstep governs its own package
 
 ID: `lockstep-plan-format/lockstep-governs-its-own-package`
@@ -91,6 +122,36 @@ Implemented by:
 - `lockstep.wiki_reach` — [`src/lockstep/wiki_reach.py:1`](../../src/lockstep/wiki_reach.py#L1)
 
 - Scenario `an-aes-plan-repository-s-checks-still-run`: tested by `tests/lockstep/test_lockstep_action_check.py::test_a_matching_proposal_is_allowed_and_names_its_action` ([`tests/lockstep/test_lockstep_action_check.py:29`](../../tests/lockstep/test_lockstep_action_check.py#L29)), `tests/lockstep/test_lockstep_behavior_check.py::test_each_break_is_reported_once_and_nothing_else` ([`tests/lockstep/test_lockstep_behavior_check.py:38`](../../tests/lockstep/test_lockstep_behavior_check.py#L38)), `tests/lockstep/test_lockstep_change_list.py::test_accepted_plan_change_lists_every_linked_file_and_symbol` ([`tests/lockstep/test_lockstep_change_list.py:42`](../../tests/lockstep/test_lockstep_change_list.py#L42)), `tests/lockstep/test_lockstep_change_log.py::test_two_normative_changes_add_two_entries_and_leave_earlier_ones_unchanged` ([`tests/lockstep/test_lockstep_change_log.py:52`](../../tests/lockstep/test_lockstep_change_log.py#L52)), `tests/lockstep/test_lockstep_criterion_checks.py::test_a_test_or_a_sign_off_checks_a_criterion` ([`tests/lockstep/test_lockstep_criterion_checks.py:17`](../../tests/lockstep/test_lockstep_criterion_checks.py#L17)), `tests/lockstep/test_lockstep_declared_reason.py::test_a_file_with_an_empty_reason_list_is_reported` ([`tests/lockstep/test_lockstep_declared_reason.py:38`](../../tests/lockstep/test_lockstep_declared_reason.py#L38)), `tests/lockstep/test_lockstep_docstring_up.py::test_an_edit_becomes_a_draft_and_the_plan_waits_for_acceptance` ([`tests/lockstep/test_lockstep_docstring_up.py:43`](../../tests/lockstep/test_lockstep_docstring_up.py#L43)), `tests/lockstep/test_lockstep_linked_tests.py::test_linked_both_ways_reports_nothing` ([`tests/lockstep/test_lockstep_linked_tests.py:18`](../../tests/lockstep/test_lockstep_linked_tests.py#L18)), `tests/lockstep/test_lockstep_plan_edit.py::test_a_changed_item_is_named_with_every_linked_file_and_symbol` ([`tests/lockstep/test_lockstep_plan_edit.py:49`](../../tests/lockstep/test_lockstep_plan_edit.py#L49)), `tests/lockstep/test_lockstep_plan_to_code.py::test_code_matching_the_plan_reports_nothing` ([`tests/lockstep/test_lockstep_plan_to_code.py:22`](../../tests/lockstep/test_lockstep_plan_to_code.py#L22)), `tests/lockstep/test_lockstep_requirement_status.py::test_status_is_read_from_aes_at_the_current_commit` ([`tests/lockstep/test_lockstep_requirement_status.py:34`](../../tests/lockstep/test_lockstep_requirement_status.py#L34)), `tests/lockstep/test_lockstep_unplanned_symbols.py::test_declared_typed_symbols_are_not_reported` ([`tests/lockstep/test_lockstep_unplanned_symbols.py:42`](../../tests/lockstep/test_lockstep_unplanned_symbols.py#L42)), `tests/lockstep/test_lockstep_wiki_reach.py::test_a_built_wiki_reaches_every_page_within_two_links_with_summaries` ([`tests/lockstep/test_lockstep_wiki_reach.py:10`](../../tests/lockstep/test_lockstep_wiki_reach.py#L10))
+
+## project check fails on stale or unreachable wiki pages
+
+ID: `lockstep-plan-format/project-check-fails-on-stale-or-unreachable-wiki-pages`
+
+Status: **implemented and tested**
+
+`lockstep check project --check` SHALL name each `generated/wiki/` page that differs from what would be written, and SHALL exit 1. It SHALL also report each generated page that is more than two links from the index or whose link has no summary beside it, and exit 1.
+
+Implemented by:
+
+- `lockstep.checks.project` — [`src/lockstep/checks/project.py:1`](../../src/lockstep/checks/project.py#L1)
+- `lockstep.checks.project.wiki_problems` — [`src/lockstep/checks/project.py:452`](../../src/lockstep/checks/project.py#L452)
+- `lockstep.layout_wiki` — [`src/lockstep/layout_wiki.py:1`](../../src/lockstep/layout_wiki.py#L1)
+
+- Scenario `a-stale-page-fails-the-check`: tested by `tests/lockstep/test_lockstep_layout_wiki.py::test_stale_page_fails_the_check_and_writes_nothing` ([`tests/lockstep/test_lockstep_layout_wiki.py:159`](../../tests/lockstep/test_lockstep_layout_wiki.py#L159)), `tests/lockstep/test_lockstep_layout_wiki.py::test_link_without_summary_is_reported` ([`tests/lockstep/test_lockstep_layout_wiki.py:168`](../../tests/lockstep/test_lockstep_layout_wiki.py#L168))
+
+## python m lockstep wiki prints the layout wiki
+
+ID: `lockstep-plan-format/python-m-lockstep-wiki-prints-the-layout-wiki`
+
+Status: **implemented and tested**
+
+`python -m lockstep.wiki` in a layout repository SHALL print the generated wiki pages as plain text and exit 0, and `python -m lockstep.wiki_reach` there SHALL check them, instead of failing for want of `.aes/project.yaml`.
+
+Implemented by:
+
+- `lockstep.layout_wiki` — [`src/lockstep/layout_wiki.py:1`](../../src/lockstep/layout_wiki.py#L1)
+
+- Scenario `the-wiki-command-works-in-a-layout-repository`: tested by `tests/lockstep/test_lockstep_layout_wiki.py::test_python_m_wiki_prints_the_pages_in_a_layout_repository` ([`tests/lockstep/test_lockstep_layout_wiki.py:185`](../../tests/lockstep/test_lockstep_layout_wiki.py#L185))
 
 ## the plan is openspec plus layout rows
 

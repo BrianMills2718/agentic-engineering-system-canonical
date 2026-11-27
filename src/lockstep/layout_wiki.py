@@ -3,7 +3,7 @@
 [[[cog import lockstep.cogtext as c; c.docstring("src:lockstep:layout_wiki.py", indent=0)]]]
 Plan (generated from lockstep.yaml layout and OpenSpec; edit the spec or the layout row, not this text):
 
-Implements: lockstep-wiki/a-layout-repository-generates-one-wiki-page-per-capability, lockstep-wiki/project-check-fails-on-stale-or-unreachable-wiki-pages, lockstep-wiki/python-m-lockstep-wiki-prints-the-layout-wiki
+Implements: lockstep-plan-format/a-layout-repository-generates-one-wiki-page-per-capability, lockstep-plan-format/project-check-fails-on-stale-or-unreachable-wiki-pages, lockstep-plan-format/python-m-lockstep-wiki-prints-the-layout-wiki
 
 ### Requirement: A layout repository generates one wiki page per capability
 

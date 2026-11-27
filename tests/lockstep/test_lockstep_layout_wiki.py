@@ -3,7 +3,7 @@
 [[[cog import lockstep.cogtext as c; c.docstring("tests:lockstep:test_lockstep_layout_wiki.py", indent=0)]]]
 Plan (generated from lockstep.yaml layout and OpenSpec; edit the spec or the layout row, not this text):
 
-Implements: lockstep-wiki/a-layout-repository-generates-one-wiki-page-per-capability, lockstep-wiki/project-check-fails-on-stale-or-unreachable-wiki-pages, lockstep-wiki/generated-wiki-pages-need-no-layout-row, lockstep-wiki/python-m-lockstep-wiki-prints-the-layout-wiki
+Implements: lockstep-plan-format/a-layout-repository-generates-one-wiki-page-per-capability, lockstep-plan-format/project-check-fails-on-stale-or-unreachable-wiki-pages, lockstep-plan-format/generated-wiki-pages-need-no-layout-row, lockstep-plan-format/python-m-lockstep-wiki-prints-the-layout-wiki
 
 ### Requirement: A layout repository generates one wiki page per capability
 
@@ -124,7 +124,7 @@ def layout_repo(repo: Path, switch: bool = True) -> Path:
     return repo
 
 
-@pytest.mark.req("lockstep-wiki/a-capability-page-shows-requirement-code-and-tests")
+@pytest.mark.req("lockstep-plan-format/a-capability-page-shows-requirement-code-and-tests")
 def test_capability_page_shows_requirement_code_and_tests(repo):
     layout_repo(repo)
     index = (repo / "generated/wiki/index.md").read_text()
@@ -138,13 +138,13 @@ def test_capability_page_shows_requirement_code_and_tests(repo):
     assert project(repo, check=True) == []
 
 
-@pytest.mark.req("lockstep-wiki/a-repository-without-the-switch-gets-no-pages")
+@pytest.mark.req("lockstep-plan-format/a-repository-without-the-switch-gets-no-pages")
 def test_repository_without_the_switch_gets_no_pages(repo):
     layout_repo(repo, switch=False)
     assert not (repo / "generated").exists()
 
 
-@pytest.mark.req("lockstep-wiki/a-capability-page-shows-requirement-code-and-tests")
+@pytest.mark.req("lockstep-plan-format/a-capability-page-shows-requirement-code-and-tests")
 def test_page_of_a_removed_capability_is_removed(repo):
     layout_repo(repo)
     write(repo, "openspec/specs/other/spec.md", "## Purpose\nOther.\n\n## Requirements\n### Requirement: Go\nIt SHALL go.\n\n#### Scenario: Goes\n- **THEN** go\n")
@@ -156,7 +156,7 @@ def test_page_of_a_removed_capability_is_removed(repo):
     assert not (repo / "generated/wiki/other.md").exists()
 
 
-@pytest.mark.req("lockstep-wiki/a-stale-page-fails-the-check")
+@pytest.mark.req("lockstep-plan-format/a-stale-page-fails-the-check")
 def test_stale_page_fails_the_check_and_writes_nothing(repo):
     layout_repo(repo)
     write(repo, "tests/test_more.py", TEST.replace("test_works", "test_more"))
@@ -165,7 +165,7 @@ def test_stale_page_fails_the_check_and_writes_nothing(repo):
     assert (repo / "generated/wiki/core.md").read_text() == before
 
 
-@pytest.mark.req("lockstep-wiki/a-stale-page-fails-the-check")
+@pytest.mark.req("lockstep-plan-format/a-stale-page-fails-the-check")
 def test_link_without_summary_is_reported(repo, monkeypatch):
     from lockstep import layout_wiki
 
@@ -175,14 +175,14 @@ def test_link_without_summary_is_reported(repo, monkeypatch):
     assert any("no summary" in p for p in wiki_problems(repo))
 
 
-@pytest.mark.req("lockstep-wiki/a-generated-page-is-not-unplanned")
+@pytest.mark.req("lockstep-plan-format/a-generated-page-is-not-unplanned")
 def test_generated_page_is_not_unplanned(repo):
     layout_repo(repo)
     assert unplanned_reason(repo, "generated/wiki/core.md") is None
     assert unplanned_reason(repo, "generated/other.md") is not None
 
 
-@pytest.mark.req("lockstep-wiki/the-wiki-command-works-in-a-layout-repository")
+@pytest.mark.req("lockstep-plan-format/the-wiki-command-works-in-a-layout-repository")
 def test_python_m_wiki_prints_the_pages_in_a_layout_repository(repo):
     layout_repo(repo)
     done = subprocess.run([sys.executable, "-m", "lockstep.wiki"], cwd=repo, capture_output=True, text=True)

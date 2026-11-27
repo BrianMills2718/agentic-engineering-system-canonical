@@ -12,7 +12,7 @@ mutation:
   name: AES
 governed: [".", "src/lockstep/"]
 fixed: ["src/lockstep/*"]
-# `lockstep check project` writes generated/wiki/ (one page per capability; spec lockstep-wiki).
+# `lockstep check project` writes generated/wiki/ (one page per capability; spec lockstep-plan-format).
 generated_wiki: true
 layout:
 - path: src/lockstep/__init__.py
@@ -204,10 +204,15 @@ layout:
   - lockstep-projection/requirement-text-is-written-into-the-implementing-docstring
   - lockstep-projection/status-flows-back-into-the-plan
   - lockstep-projection/a-fixed-planned-file-without-a-plan-copy-is-reported
+  - lockstep-plan-format/a-layout-repository-generates-one-wiki-page-per-capability
+  - lockstep-plan-format/project-check-fails-on-stale-or-unreachable-wiki-pages
   tests:
   - tests/lockstep/checks/test_lockstep_check_plugin.py
   - tests/lockstep/checks/test_lockstep_check_project.py
   - tests/lockstep/test_lockstep_layout_plan.py
+  - tests/lockstep/test_lockstep_layout_wiki.py
+  exports:
+  - 'wiki_problems(root: Path) -> list[str]'
 - path: src/lockstep/checks/quotes.py
   purpose: 'Marked quotes: passages of requirement text copied into Markdown documents, compared with the specs'
   implements:
@@ -3123,9 +3128,9 @@ layout:
 - path: src/lockstep/layout_wiki.py
   purpose: Render the generated wiki of a layout repository (generated/wiki/index.md and one page per capability) from the requirements, Implements blocks, test tags and layout rows Lockstep already reads
   implements:
-  - lockstep-wiki/a-layout-repository-generates-one-wiki-page-per-capability
-  - lockstep-wiki/project-check-fails-on-stale-or-unreachable-wiki-pages
-  - lockstep-wiki/python-m-lockstep-wiki-prints-the-layout-wiki
+  - lockstep-plan-format/a-layout-repository-generates-one-wiki-page-per-capability
+  - lockstep-plan-format/project-check-fails-on-stale-or-unreachable-wiki-pages
+  - lockstep-plan-format/python-m-lockstep-wiki-prints-the-layout-wiki
   tests:
   - tests/lockstep/test_lockstep_layout_wiki.py
   exports:
@@ -3137,10 +3142,10 @@ layout:
 - path: tests/lockstep/test_lockstep_layout_wiki.py
   purpose: 'Prove the layout wiki: pages per capability, stale check, no pages without the switch, unplanned exemption, python -m lockstep.wiki'
   implements:
-  - lockstep-wiki/a-layout-repository-generates-one-wiki-page-per-capability
-  - lockstep-wiki/project-check-fails-on-stale-or-unreachable-wiki-pages
-  - lockstep-wiki/generated-wiki-pages-need-no-layout-row
-  - lockstep-wiki/python-m-lockstep-wiki-prints-the-layout-wiki
+  - lockstep-plan-format/a-layout-repository-generates-one-wiki-page-per-capability
+  - lockstep-plan-format/project-check-fails-on-stale-or-unreachable-wiki-pages
+  - lockstep-plan-format/generated-wiki-pages-need-no-layout-row
+  - lockstep-plan-format/python-m-lockstep-wiki-prints-the-layout-wiki
   tests: []
 - path: openspec/changes/archive/2026-11-27-layout-wiki/proposal.md
   purpose: The layout-wiki OpenSpec change, archived; removed in the commit after the merge that archived it
@@ -3164,10 +3169,6 @@ layout:
   tests: []
 - path: openspec/changes/archive/2026-11-27-layout-wiki/specs/portable-template/spec.md
   purpose: The layout-wiki OpenSpec change, archived; removed in the commit after the merge that archived it
-  implements: []
-  tests: []
-- path: openspec/specs/lockstep-wiki/spec.md
-  purpose: Requirements for the generated wiki of a layout repository (pages per capability, stale check, no layout row, python -m lockstep.wiki)
   implements: []
   tests: []
 # These declared fact blocks follow the general lockstep-doc-facts capability (openspec/specs/lockstep-doc-facts);
