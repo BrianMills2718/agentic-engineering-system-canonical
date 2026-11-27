@@ -175,8 +175,17 @@ subagent, 2026-11-26, verdict revise; its 11 findings are folded in below.
   (`.claude-plugin/marketplace.json`). The exact shape, as in Company Planning's usage guide ("Staying current"), is:
   `{"extraKnownMarketplaces": {"inside-success": {"source": {"source": "github", "repo": "OWNER/REPO"}}},
   "enabledPlugins": {"company-planning@inside-success": true}}`.
-- **Not yet shown:** that Claude Code offers the install when these keys sit in a repository's own
-  `.claude/settings.json` rather than the person's `~/.claude/settings.json`. Step 0 below proves it before any code.
+- **What the keys do from a repository's own `.claude/settings.json`** (Claude Code docs, read 2026-11-26):
+  - Once a person trusts the folder, the declared marketplace is cloned in the background
+    (code.claude.com/docs/en/plugins/loading.md, and settings.md: the keys "apply only after each teammate trusts the
+    folder").
+  - The plugin itself is not downloaded. "Committing that entry turns the plugin on for your collaborators but doesn't
+    download it to their machines. Each collaborator also runs `claude plugin install <name>@<marketplace> --scope
+    project` once per clone" (plugins/install.md).
+  - `claude -p` shows no trust dialog. It loads plugins only once they are installed and the folder is trusted
+    (headless.md). Its `system/init` event lists the loaded plugins.
+  - The docs do not say which wins when the person's own settings already declare `inside-success` with another source.
+    Step 0 tests it.
 - **Access.** Install clones the marketplace over HTTPS with the person's own git credentials (usage guide,
   "Install"). Anyone who cannot read the configured repository gets a failed install offer when they open the
   repository. Neither `lockstep init` nor the drift check can detect that, and init does not warn about it.
@@ -207,12 +216,17 @@ planning:
   branch" is deliberate: the check only keeps `.claude/settings.json` consistent; it protects nothing.
 
 **Steps.**
-0. **Proof first, no code.** In a skipper branch checkout, add the two keys by hand to `.claude/settings.json`, using
-   the mirror. Start a fresh `claude` session there and trust the folder. Expected: an offer to install the
-   `inside-success` marketplace, and after install `/plugin` lists `company-planning`. The session transcript is saved
-   to `~/projects/data/aes-week/slice3-proof/`. If no offer appears, stop the slice and record the result here. The
-   fallback, then, is for init to print `claude plugin marketplace add OWNER/REPO` and
-   `claude plugin install company-planning@inside-success`, as it does for Codex.
+0. **Proof first, no code.** In a skipper branch checkout:
+
+- add the two keys by hand to `.claude/settings.json`, using the mirror;
+- trust the folder;
+- run `claude plugin install company-planning@inside-success --scope project`;
+- then run `claude -p "list your skills" --output-format stream-json`.
+
+   Expected: its `system/init` event lists `company-planning` in `plugins` and nothing in `plugin_errors`. Repeat once
+   on a machine whose `~/.claude/settings.json` already declares `inside-success` from the other address, and record
+   which source loads. Output goes to `~/projects/data/aes-week/slice3-proof/`. If the plugin does not load, stop the
+   slice and record the result here.
 
 1. **`side_file.py`** validates `planning.skills` as a map with `mode` (the shared normalization) and `marketplace`
    (`owner/repo`). Problems are reported with their line.
@@ -228,14 +242,16 @@ planning:
 3. **`lockstep init`** calls `merge` when `mode` is `block` or `warn` and prints its result. A `.claude/settings.json`
    that is not valid JSON exits 2, as for hooks. For Codex it prints the two commands from the usage guide with the
    configured address (`codex plugin marketplace add OWNER/REPO`, `codex plugin add company-planning@inside-success`).
-   It reads and writes nothing in `~/.codex/`.
+   It reads and writes nothing in `~/.codex/`. For Claude Code it also prints the one step the docs say each person
+   still runs once per clone: `claude plugin install company-planning@inside-success --scope project`. The same line
+   goes in the repository's `AGENTS.md` setup notes, so a teammate who did not run init sees it too.
 4. **Drift check, inside `lockstep check project`.** It needs no network. Its compare looks only at three things: the
    source is `github`, the repository matches, and the `enabledPlugins` entry is `true`. A missing or different
    value refuses under `block`, warns under `warn`, and is not looked at under `off`. A `conflict` (including an
    opt-out `false`) only warns, whatever the mode, and names the key. The fix the message names is `lockstep init`.
 5. **`off` never removes keys** a person or another tool wrote.
 6. **OpenSpec change `planning-skills-setting`**, with `prior-art.json`. Candidates:
-   - Claude Code's own plugin keys in project settings: **adopt**, if step 0 passes.
+   - Claude Code's own plugin keys in project settings, plus its documented per-clone install: **adopt**, if step 0 passes.
    - The copier template writing the keys statically: **reject**, because most repositories did not start from the
      template.
    - A Codex project config: **reject**, because the probe above shows none.
@@ -256,8 +272,9 @@ planning:
   - `autoUpdate` passes;
   - a bad mode and a bad address are each reported with the line, and `ship`'s `planning_modes` ignores them;
   - init prints the two Codex commands with the configured address.
-- **Real proof:** step 0's transcript, judged by Brian or by the AES week run that records it. Then the same skipper
-  branch with the keys removed and written back by `lockstep init`, with the same offer seen again. Codex: in a scratch
+- **Real proof:** step 0's `system/init` event, saved and judged by the AES week run that records it. Then the same
+  skipper branch with the keys removed, written back by `lockstep init`, and the printed install line run: the
+  plugin loads again. Codex: in a scratch
   `CODEX_HOME`, the printed commands are run once, and `codex plugin list` shows `company-planning@inside-success`.
 - `make check` exits 0 in AES.
 
