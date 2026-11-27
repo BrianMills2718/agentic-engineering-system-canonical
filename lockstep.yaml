@@ -1158,6 +1158,10 @@ layout:
     profile.
   implements: []
   tests: []
+- path: docs/plans/rules-configuration.md
+  purpose: One-page plan for storing agent rules as a default configuration plus a user's own changes, first slice only.
+  implements: []
+  tests: []
 - path: docs/retired/2026-11-12.md
   purpose: Lists November 12 retired roots with counts, reasons, successors and pinned restoration command; records what stayed
     and related informational changes.

@@ -207,6 +207,7 @@ Generated from [lockstep.yaml](../lockstep.yaml); edit the source, not this bloc
 | [docs/planning/trace-accepted.txt](../docs/planning/trace-accepted.txt) | Empty placeholder for the accepted trace record of planning work; contains no lines. |
 | [docs/planning/work-units.json](../docs/planning/work-units.json) | Ordered list of retirement-plan work units (S0 onward), each with its dependencies and the files it touches; all planned. |
 | [docs/planning/workspace-into-aes-split.md](../docs/planning/workspace-into-aes-split.md) | Proposal for moving the portable parts of the workspace into AES and keeping personal rules in a separate private profile. |
+| [docs/plans/rules-configuration.md](../docs/plans/rules-configuration.md) | One-page plan for storing agent rules as a default configuration plus a user's own changes, first slice only. |
 | [docs/retired/2026-11-12.md](../docs/retired/2026-11-12.md) | Lists November 12 retired roots with counts, reasons, successors and pinned restoration command; records what stayed and related informational changes. |
 | [docs/retired/2026-11-14.md](../docs/retired/2026-11-14.md) | Record of the CLAUDE.md to AGENTS.md generator route removed on 2026-11-14, with last commit and restore command. |
 | [docs/retired/2026-11-24.md](../docs/retired/2026-11-24.md) | Record of five removals on 2026-11-24, including the OpenSpec change archive, with last commits and restore commands. |

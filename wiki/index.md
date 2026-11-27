@@ -36,6 +36,7 @@ and [open concerns](open-questions.md) remain visible.
 | What are the detailed requirements? | [Requirement navigation](requirements.md) | [System clauses](../docs/architecture/SYSTEM_BOUNDARY.md) and [Lockstep behavior spec](../openspec/specs/lockstep-plan-format/spec.md) |
 | Where are code, data and external boundaries? | [System model](system-model.md) | [Whole-system inventory](../docs/planning/SYSTEM_MODEL.md) |
 | How do I install, check and operate it? | [Commands](run-and-deploy.md) | [README](../README.md) and [feedback operator guide](../scripts/learning_loop/systemd/README.md) |
+| How will agent rules become one default configuration plus a user's changes? | [Rules plan](../docs/plans/rules-configuration.md) | [Workspace split](../docs/planning/workspace-into-aes-split.md) |
 | What does a term mean? | [Glossary](glossary.md) | [Domain model](../docs/planning/DOMAIN.md) |
 | Which older designs and choices were retained or retired? | [History](history.md) | [Retirement record](../docs/retired/2026-11-12.md) |
 | How do projects discover and compose existing capabilities, and what survives from older systems? | [Ecosystem and legacy review](../docs/architecture/ECOSYSTEM.md) | [Decision 0014](../docs/decisions/0014-ecosystem-consolidation-and-legacy-review.md), Q36–Q42 |
