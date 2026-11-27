@@ -1309,22 +1309,6 @@ layout:
     commands and workflow.
   implements: []
   tests: []
-- path: openspec/changes/archive/2026-11-25-planning-validator-source/prior-art.json
-  purpose: Prior-art record for the planning validator source setting (removed after its merge)
-  implements: []
-  tests: []
-- path: openspec/changes/archive/2026-11-25-planning-validator-source/proposal.md
-  purpose: "Proposal: the planning validator's source is a lockstep.yaml setting (removed after its merge)"
-  implements: []
-  tests: []
-- path: openspec/changes/archive/2026-11-25-planning-validator-source/specs/lockstep-plan-check/spec.md
-  purpose: Spec delta adding the validator-source requirement (removed after its merge)
-  implements: []
-  tests: []
-- path: openspec/changes/archive/2026-11-25-planning-validator-source/tasks.md
-  purpose: Tasks for the planning validator source setting (removed after its merge)
-  implements: []
-  tests: []
 - path: openspec/changes/archive/.gitkeep
   purpose: Empty placeholder that keeps the archive folder in git after its change folders were removed.
   implements: []
@@ -1332,78 +1316,6 @@ layout:
 - path: openspec/config.yaml
   purpose: Selects OpenSpec’s spec-driven schema; optional context, artifact rules and operation guidance remain commented
     examples rather than active custom requirements.
-  implements: []
-  tests: []
-- path: openspec/changes/archive/2026-11-26-guard-mode-setting/prior-art.json
-  purpose: "Prior-art record: guard.mode in lockstep.yaml replaces the PCW_MODE hardcode (removed after its merge)"
-  implements: []
-  tests: []
-- path: openspec/changes/archive/2026-11-26-guard-mode-setting/proposal.md
-  purpose: "Proposal: the edit guard reads guard.mode from lockstep.yaml; init writes it (removed after its merge)"
-  implements: []
-  tests: []
-- path: openspec/changes/archive/2026-11-26-guard-mode-setting/specs/lockstep-guard/spec.md
-  purpose: "Spec delta: guard mode from PCW_MODE, then guard.mode, then warn (removed after its merge)"
-  implements: []
-  tests: []
-- path: openspec/changes/archive/2026-11-26-guard-mode-setting/specs/lockstep-init/spec.md
-  purpose: "Spec delta: init writes guard.mode and upgrades its own old hook command (removed after its merge)"
-  implements: []
-  tests: []
-- path: openspec/changes/archive/2026-11-26-guard-mode-setting/tasks.md
-  purpose: "Tasks: guard.mode setting (removed after its merge)"
-  implements: []
-  tests: []
-- path: openspec/changes/archive/2026-11-26-planning-project-graph-setting/prior-art.json
-  purpose: "Prior-art record: planning.project_graph names where ship finds the project graph (removed after its merge)"
-  implements: []
-  tests: []
-- path: openspec/changes/archive/2026-11-26-planning-project-graph-setting/proposal.md
-  purpose: "Proposal: planning.project_graph replaces the ~/code2/aes-config default (removed after its merge)"
-  implements: []
-  tests: []
-- path: openspec/changes/archive/2026-11-26-planning-project-graph-setting/specs/ship/spec.md
-  purpose: "Spec delta: the project graph is named in lockstep.yaml (removed after its merge)"
-  implements: []
-  tests: []
-- path: openspec/changes/archive/2026-11-26-planning-project-graph-setting/tasks.md
-  purpose: "Tasks: planning.project_graph setting (removed after its merge)"
-  implements: []
-  tests: []
-- path: openspec/changes/archive/2026-11-26-lockstep-status-command/prior-art.json
-  purpose: "Prior-art record: lockstep status --parts shows each part's mode and last result (removed after its merge)"
-  implements: []
-  tests: []
-- path: openspec/changes/archive/2026-11-26-lockstep-status-command/proposal.md
-  purpose: "Proposal: lockstep status --parts prints each part's mode and last gate result (removed after its merge)"
-  implements: []
-  tests: []
-- path: openspec/changes/archive/2026-11-26-lockstep-status-command/specs/lockstep-projection/spec.md
-  purpose: "Spec delta: status lists each part with its mode and last gate result (removed after its merge)"
-  implements: []
-  tests: []
-- path: openspec/changes/archive/2026-11-26-lockstep-status-command/tasks.md
-  purpose: "Tasks: lockstep status --parts (removed after its merge)"
-  implements: []
-  tests: []
-- path: openspec/changes/archive/2026-11-26-planning-skills-setting/prior-art.json
-  purpose: "Prior-art record: planning.skills loads Company Planning through Claude Code's plugin keys (removed after its merge)"
-  implements: []
-  tests: []
-- path: openspec/changes/archive/2026-11-26-planning-skills-setting/proposal.md
-  purpose: "Proposal: planning.skills writes the Company Planning plugin keys and reports drift (removed after its merge)"
-  implements: []
-  tests: []
-- path: openspec/changes/archive/2026-11-26-planning-skills-setting/specs/lockstep-init/spec.md
-  purpose: "Spec delta: init writes the Company Planning plugin keys (removed after its merge)"
-  implements: []
-  tests: []
-- path: openspec/changes/archive/2026-11-26-planning-skills-setting/specs/lockstep-projection/spec.md
-  purpose: "Spec delta: the project check reports Company Planning plugin drift (removed after its merge)"
-  implements: []
-  tests: []
-- path: openspec/changes/archive/2026-11-26-planning-skills-setting/tasks.md
-  purpose: "Tasks: planning.skills setting (removed after its merge)"
   implements: []
   tests: []
 - path: openspec/specs/.gitkeep
