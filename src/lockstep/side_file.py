@@ -25,6 +25,10 @@ evidence kind for an AI-graded rubric. Lockstep keeps both in one small file at 
         purpose: post the status line on the tracking issue
         refs: [REQ-5]
     fixed: ["src/core/*"]           # files the edit hook refuses rather than warns about (behavior 5.1)
+    guard: {mode: block}            # optional: block or warn for every governed file; absent means warn
+
+`guard.mode` sets the edit hook's mode for the whole project; a set `PCW_MODE` environment variable wins over it
+(`guard_mode`; a value that is other than block, warn or off reads as block).
 
 `fixed` holds path globs matched against the whole project-relative path (`fnmatch`, so `*` also
 crosses `/`). The edit hook only warns by default (decision D7); a file matching one of these globs
@@ -38,6 +42,9 @@ a reference the plan does not hold), and `python -m lockstep.unplanned_files` fa
 Plan (generated from lockstep.yaml layout and OpenSpec; edit the spec or the layout row, not this text):
 
 Names no requirement; the layout row says why.
+
+Declares (typed signatures, from the plan):
+  guard_mode(data: dict) -> str | None
 [[[end]]]
 """
 
@@ -68,6 +75,7 @@ class SideFile(NamedTuple):
     fixed: list[str]  # path globs the edit hook refuses rather than warns about (behavior 5.1)
     files: dict[str, dict] = {}  # path or glob -> {"purpose", "refs"}: every other file (Q48)
     whole_repo: bool = False  # True when the side file has a `files` section: every tracked file must be declared
+    guard_mode: str | None = None  # `guard.mode`: block, warn, off, or None when absent (behavior 5.1)
 
 
 def _text(value: object) -> str:
@@ -93,6 +101,26 @@ def _read(root: Path, base: str | None = None) -> dict | None:
     if not isinstance(data, dict):
         raise ValueError(f"{SIDE_FILE} must hold a mapping (schema, documents, rubrics), not {type(data).__name__}")
     return data
+
+
+GUARD_MODES = ("block", "warn", "off")
+
+
+def guard_mode(data: dict) -> str | None:
+    """`guard.mode` from a parsed side file: `block`, `warn` or `off`, None when absent.
+
+    Any other value reads as `block`, so a mistyped setting cannot turn refusals into warnings.
+    """
+    section = data.get("guard")
+    if section is None:
+        return None
+    if not isinstance(section, dict):
+        return "block"
+    mode = section.get("mode")
+    if mode is None:
+        return None
+    mode = "block" if mode is True else "off" if mode is False else mode
+    return mode if mode in GUARD_MODES else "block"
 
 
 def _entries(data: dict, section: str, key: str) -> list:
@@ -139,7 +167,7 @@ def load_side_file(root: Path, base: str | None = None) -> SideFile | None:
         path, purpose, refs = _text(d.get("path")), _text(d.get("purpose")), d.get("refs")
         if path and purpose and isinstance(refs, list) and refs and path not in files:
             files[path] = {"purpose": purpose, "refs": [str(r) for r in refs]}
-    return SideFile(include, documents, rubrics, fixed, files, "files" in data)
+    return SideFile(include, documents, rubrics, fixed, files, "files" in data, guard_mode(data))
 
 
 def _plan_ids(plan: dict) -> set[str]:
@@ -153,6 +181,37 @@ def _plan_ids(plan: dict) -> set[str]:
                         if isinstance(er, dict) and isinstance(er.get("id"), str):
                             ids.add(er["id"])
     return ids
+
+
+def _guard_setting_problems(data: dict) -> list[str]:
+    """Diagnose invalid guard settings and keys."""
+    problems: list[str] = []
+    guard = data.get("guard")
+    if guard is not None and not isinstance(guard, dict):
+        problems.append(f"{SIDE_FILE}: guard must be a mapping such as {{mode: block}}.")
+    elif guard:
+        mode = guard.get("mode")
+        if mode is not None and not isinstance(mode, bool) and mode not in GUARD_MODES:
+            problems.append(f"{SIDE_FILE}: guard.mode is {mode!r}; it must be block, warn or off (the edit hook treats it as block).")
+        problems += [f"{SIDE_FILE}: guard has an unknown key '{k}'; it holds only mode."
+                     for k in sorted(set(guard) - {"mode"}, key=str)]
+    return problems
+
+
+def _planning_setting_problems(root: Path, data: dict) -> list[str]:
+    """Report invalid project graph or plugin settings with their source keys."""
+    problems: list[str] = []
+    planning = data.get("planning")
+    if isinstance(planning, dict) and planning.get("project_graph") is not None:
+        from lockstep.checks.project_graph import project_graph_problem
+        problem = project_graph_problem(planning["project_graph"])
+        if problem:
+            problems.append(f"{SIDE_FILE}: planning.project_graph {problem}.")
+    from lockstep.checks.plugin_settings import read_setting
+    _, skills_problem = read_setting((root / SIDE_FILE).read_text(encoding="utf-8"))
+    if skills_problem:
+        problems.append(f"{skills_problem}.")
+    return problems
 
 
 def side_file_problems(root: Path, plan: dict) -> list[str]:
@@ -241,6 +300,8 @@ def side_file_problems(root: Path, plan: dict) -> list[str]:
             if missing:
                 problems.append(f"{where} refers to {', '.join(missing)}, which .aes/target.yaml does not hold.")
 
+    problems.extend(_guard_setting_problems(data))
+
     rubrics = data.get("rubrics")
     if rubrics is not None and not isinstance(rubrics, list):
         problems.append(f"{SIDE_FILE}: rubrics must be a list.")
@@ -265,4 +326,5 @@ def side_file_problems(root: Path, plan: dict) -> list[str]:
     fixed = data.get("fixed")
     if fixed is not None and (not isinstance(fixed, list) or not all(_text(g) for g in fixed)):
         problems.append(f"{SIDE_FILE}: fixed must be a list of path globs, such as [\"src/core/*\"].")
+    problems.extend(_planning_setting_problems(root, data))
     return problems

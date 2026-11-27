@@ -26,6 +26,13 @@ Q21 is resolved as a decision to keep the repair jobs off under the November 25 
 close collector reliability or proof of the complete learning loop. The plan and operator guide now use that decision
 and the planning gates' actual warning defaults. See [current plan](../docs/planning/next.goal.md).
 
+**Configuration integration, 2026-11-27:** The configured validator, guard, project graph, part status
+and planning-plugin setup were exercised together. The local source proof ran the installed
+validator package and loaded Company Planning in a fresh Claude session after explicit marketplace
+registration. The Codex registration and installation commands passed in a fresh client as well.
+The [current plan](../docs/planning/next.goal.md#slice-2-next-outline-only-the-validators-source-is-a-setting)
+records the local Git substitute and proof limits.
+
 Brian, 2026-11-20: "the whole thing should be configurable and shareable/protable. we shoudl start with the minimal
 core". The first milestone is met: a repository made from the template ran one plan each in Claude and Codex in a
 clean home folder (hidden tests 0/3 then 3/3, and 0/10 then 10/10) and merged with `ship`

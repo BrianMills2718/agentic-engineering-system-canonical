@@ -102,7 +102,9 @@ def make_repo(tmp_path: Path, monkeypatch, first_commit: str, *, package: bool) 
     monkeypatch.setenv("LANE_SWEEP_LOG_DIR", str(tmp_path / "sweep-logs"))
     monkeypatch.setenv("SHIP_STATE_DIR", str(tmp_path / "state"))
     # No test reads the person's own settings; the plan list path is a test value.
-    monkeypatch.setattr(ship, "CONFIG", tmp_path / "no-config" / "graph-config.yaml")
+    import lockstep.checks.project_graph as project_graph
+    monkeypatch.delenv("PROJECT_GRAPH", raising=False)
+    monkeypatch.setattr(project_graph, "DEFAULT", tmp_path / "no-config" / "PROJECT_GRAPH.json")
     monkeypatch.setenv("SHIP_PLAN_LIST", PLAN_LIST)
     # The fake validators need no packages; tests of the interpreter choice unset this.
     monkeypatch.setenv("SHIP_VALIDATOR_PYTHON", sys.executable)
@@ -1525,16 +1527,16 @@ def test_a_new_repository_with_no_plan_list_named_is_refused(tmp_path, monkeypat
 @pytest.mark.req("ship/the-plan-list-location-is-read-from-graph-config")
 def test_the_plan_list_location_is_read_from_graph_config(tmp_path, monkeypatch):
     """graph-config.yaml names the checkout and path; the environment wins over it."""
+    from lockstep.checks.project_graph import graph_setting
     config = tmp_path / "graph-config.yaml"
     config.write_text("owner: someone\nplan_list_checkout: /srv/plans   # comment\nplan_list_path: a/b.conf\n")
-    monkeypatch.setattr(ship, "CONFIG", config)
     monkeypatch.delenv("SHIP_PERSONAL_VPS", raising=False)
     monkeypatch.delenv("SHIP_PLAN_LIST", raising=False)
-    assert ship.setting("plan_list_checkout", "SHIP_PERSONAL_VPS") == "/srv/plans"
-    assert ship.setting("plan_list_path", "SHIP_PLAN_LIST") == "a/b.conf"
+    assert graph_setting("plan_list_checkout", "SHIP_PERSONAL_VPS", config) == "/srv/plans"
+    assert graph_setting("plan_list_path", "SHIP_PLAN_LIST", config) == "a/b.conf"
     monkeypatch.setenv("SHIP_PLAN_LIST", "c.conf")
-    assert ship.setting("plan_list_path", "SHIP_PLAN_LIST") == "c.conf"
-    assert ship.setting("missing", "SHIP_NO_SUCH_VARIABLE") is None
+    assert graph_setting("plan_list_path", "SHIP_PLAN_LIST", config) == "c.conf"
+    assert graph_setting("missing", "SHIP_NO_SUCH_VARIABLE", config) is None
 
 
 # The prior-art record at the merge point (code2-workspace issue 833, slice 1).
@@ -2044,3 +2046,34 @@ def test_refused_passed_and_off_gates_are_recorded(new_repo, tmp_path):
     assert ship.main(["--repo", str(work), "--check", "true"]) == 0
     outcomes = {(v["gate"], v["outcome"]) for v in verdicts()}
     assert ("planning gate", "off") in outcomes and ("one-page plans", "pass") in outcomes
+
+
+# ---- the project graph named in lockstep.yaml (2026-11-26, docs/planning/next.goal.md parking list) ----------------
+
+
+@pytest.mark.req("ship/planning-project-graph-on-the-default-branch-names-the-graph")
+def test_planning_project_graph_on_the_default_branch_names_the_graph(tmp_path, monkeypatch, capsys):
+    """ship reads graph-config.yaml from the folder lockstep.yaml names, and says where it looked and why."""
+    work, remote, _ = make_repo(tmp_path, monkeypatch, "2026-11-06T00:00:00+00:00", package=True)
+    graph = tmp_path / "settings" / "PROJECT_GRAPH.json"
+    graph.parent.mkdir()
+    (graph.parent / "graph-config.yaml").write_text("owner: someone\n")   # names no plan list
+    lockstep_on_main(work, f"planning:\n  project_graph: {graph}\n")
+    monkeypatch.delenv("SHIP_PLAN_LIST")
+    monkeypatch.delenv("SHIP_PERSONAL_VPS", raising=False)
+    assert ship.main(["--repo", str(work), "--check", "true"]) == 1
+    out = capsys.readouterr().out
+    assert f"ship: project graph: {graph.parent} (lockstep.yaml planning.project_graph)" in out
+    assert f"no plan list is named" in out and str(graph.parent / "graph-config.yaml") in out
+    assert not on_remote(remote, "feature")
+
+
+@pytest.mark.req("ship/an-unusable-planning-project-graph-is-refused")
+def test_an_unusable_planning_project_graph_is_refused(tmp_path, monkeypatch, capsys):
+    """A git address is not a path ship can read; the merge stops naming the value."""
+    work, remote, _ = make_repo(tmp_path, monkeypatch, "2026-11-06T00:00:00+00:00", package=True)
+    lockstep_on_main(work, "planning:\n  project_graph: git@github.com:o/settings.git\n")
+    assert ship.main(["--repo", str(work), "--check", "true"]) == 1
+    out = capsys.readouterr().out
+    assert "planning.project_graph" in out and "git address" in out
+    assert not on_remote(remote, "feature")

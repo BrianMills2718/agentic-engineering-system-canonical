@@ -1,0 +1,46 @@
+{
+  "need": "Show, in one place, each AES part's setting in lockstep.yaml and the last recorded result of ship's planning gates for this repository.",
+  "searched": [
+    {
+      "place": "own",
+      "where": "AES src/lockstep/checks/cli.py (run_status, `lockstep check` modes), src/lockstep/checks/config.py (load, planning_modes, Config.mode), src/lockstep/checks/gate_records.py (record format, ORIGIN_NAME), ~/code2/workspace/docs/capabilities.md",
+      "query": "status command, list check modes, read planning-verdict records",
+      "found": "`lockstep status` exists as the requirement report; config.load already applies every mode default; gate_records writes one JSON line per gate run with repo from origin. No command lists the modes or reads the records."
+    },
+    {
+      "place": "outside",
+      "where": "pre-commit and lefthook (`lefthook dump`), ESLint `--print-config`, git config --list --show-origin",
+      "query": "print the effective configuration of a checking tool",
+      "found": "Checkers print their effective settings with defaults applied from a flag on an existing command; none joins settings with a run history."
+    }
+  ],
+  "candidates": [
+    {
+      "name": "`lockstep check --list`-style listing of check modes",
+      "url": "https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/main/src/lockstep/checks/cli.py",
+      "covers": "Commit check modes with defaults.",
+      "misses": "The planning gates, guard, validator and the recorded results; and no such flag exists today.",
+      "verdict": "reject",
+      "reason": "Covers one part of four; the planning gates live under ship, not `lockstep check`."
+    },
+    {
+      "name": "Reading lockstep.yaml and the planning-verdicts files by hand",
+      "url": "https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/main/lockstep.yaml",
+      "covers": "Everything, for someone who knows each default and the record folder.",
+      "misses": "Defaults are implicit (absent check means block, absent planning means warn); records for all repositories are mixed in daily files.",
+      "verdict": "reject",
+      "reason": "The defaults and the repository match are exactly what a command gets right once."
+    },
+    {
+      "name": "A `--parts` flag on the existing `lockstep status`, reusing config.load and gate_records.ORIGIN_NAME",
+      "url": "https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/main/src/lockstep/checks/config.py",
+      "covers": "All parts with their defaults, and the newest matching record per gate.",
+      "misses": "Rules and feedback parts are not built and show as such.",
+      "verdict": "combine",
+      "reason": "Reuses the existing readers; the effective-config-from-a-flag shape is the outside pattern."
+    }
+  ],
+  "decision": "combine",
+  "decided": "2026-11-26",
+  "gap": "A small module joining config.load's modes with the newest planning-verdict record per gate, shown by `lockstep status --parts`."
+}

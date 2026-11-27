@@ -25,8 +25,8 @@ It would refuse an edit when:
     behavior 3.4; PCW_BLOCK_STALE=0 turns that one into a plain allow).
 By default (decision D7, Brian 2026-11-07) it only warns: the edit goes through, the agent gets
 the refusal text after WARN_PREFIX, and the log records `"decision": "would_block"`. It refuses
-for a file matching a glob in the side file's `fixed` list, or everywhere with PCW_MODE=block
-(`blocks`). `pcw-hook --would-block [--days 14]` prints the would-block count per day.
+for a file matching a glob in the side file's `fixed` list, or everywhere when the guard mode is block: `PCW_MODE`
+when set, else `guard.mode` in lockstep.yaml (`blocks`). `pcw-hook --would-block [--days 14]` prints the would-block count per day.
 Every call the hook sees is appended to `hook-<date>.jsonl` in `log_dir()`, outside the project (#974): each decision, a
 shell write the plan has no rule for, and a call it lets through with nothing to say (`"decision":
 "pass"`), with the first characters of a shell command (Q21). Shell parsing misses a write whose path is built at run
@@ -112,22 +112,26 @@ Source: Brian, 2026-11-11, "i approve single tool desing re d4" (proposals/one-p
 
 ### Requirement: An unplanned file is refused where the plan marks it fixed and warned about elsewhere
 
-The edit hook SHALL refuse a write to a file under a governed folder that no `layout:` row names when the file
-matches a `fixed:` glob in `lockstep.yaml` or `PCW_MODE=block` is set, showing where the file must be planned. For any
-other governed file it SHALL let the write through with the refusal text as a warning and log
-`"decision": "would_block"`. The template SHALL mark its package folder `fixed:`, so a fresh copy refuses an
-unplanned source file.
+The edit hook SHALL refuse a write to a file under a governed folder that no `layout:` row names when the
+guard mode is `block`, or when it is `warn` and the file matches a `fixed:` glob. In other `warn` cases it
+SHALL allow the write with warning context and log `would_block`. In `off` it SHALL skip edit and shell
+guard checks, including fixed-file checks. The guard mode SHALL come from nonblank `PCW_MODE`, then
+`guard.mode` in `lockstep.yaml`, then `warn`. Each accepts `block`, `warn` or `off`; bare YAML `true`
+means block and `false` means off. The hook SHALL use block on invalid input and name invalid
+`PCW_MODE`. The side-file check SHALL name an invalid `guard.mode`. The template SHALL mark its
+package folder `fixed:`, so a fresh copy refuses an unplanned source file.
 
 Source: Brian, 2026-11-07, decision D7 (`lockstep` repository `.aes/plans/PLAN-014-WARN-BY-DEFAULT.yaml:5-7`):
 "Lockstep warns; it blocks only files the plan marks fixed, after two weeks of would-block counts"; Brian,
 2026-11-11, "i approve single tool desing re d4" (`proposals/one-planning-tool/DESIGN.md:30`, step 4: an unplanned
 write "is refused"); Brian, 2026-11-23, "i approve" to the template shipping its planned layout (back-on-design item
-c). Reading the two as one rule (refuse where marked fixed, which the template does for its package) is inferred by
-agent.
+c); Brian, 2026-11-25: "the whole systm should be configurable so you can congfigure what is on or off"
+(docs/planning/next.goal.md, parking item `guard.mode`). Reading the first two as one rule (refuse where marked fixed,
+which the template does for its package), and the order environment, then file, then warn, are inferred by agent.
 
 #### Scenario: A governed file outside every fixed glob is warned about
 
-- **GIVEN** a governed folder with no `fixed:` glob over it and no `PCW_MODE` set
+- **GIVEN** a governed folder with no `fixed:` glob over it, no `guard.mode` and no `PCW_MODE` set
 - **WHEN** an agent writes a file there that no layout row names
 - **THEN** the write goes through with the refusal text as a warning and the hook log records `would_block`
 
@@ -143,6 +147,36 @@ agent.
 - **WHEN** an agent writes an unplanned file in the package folder
 - **THEN** the edit hook refuses it
 
+#### Scenario: guard.mode block refuses an unplanned governed file
+
+- **GIVEN** `lockstep.yaml` with `guard: {mode: block}`, no `fixed:` glob and no `PCW_MODE` set
+- **WHEN** an agent writes a governed file no layout row names
+- **THEN** the edit hook refuses it, and with `guard: {mode: warn}` instead the write goes through with the warning
+
+#### Scenario: PCW_MODE overrides guard.mode
+
+- **GIVEN** `lockstep.yaml` with `guard: {mode: block}`
+- **WHEN** `PCW_MODE=warn` is set and an agent writes an unplanned governed file
+- **THEN** the write goes through with the warning, and with `guard: {mode: warn}` and `PCW_MODE=block` it is refused
+
+#### Scenario: An unknown guard mode refuses and is reported
+
+- **GIVEN** `lockstep.yaml` with `guard: {mode: strict}`
+- **WHEN** an agent writes an unplanned governed file, and `python -m lockstep.unplanned_files` runs
+- **THEN** the edit hook refuses the write and the check names `guard.mode` and the value `strict`
+
+#### Scenario: Off skips a fixed-file edit and shell write
+
+- **GIVEN** a governed file covered by a fixed glob and no layout row for it
+- **WHEN** the agent tries an edit and a shell write with `guard.mode: off`
+- **THEN** the guard returns no decision, context or log for either call
+
+#### Scenario: Invalid environment mode fails closed
+
+- **GIVEN** a governed unplanned file with `guard.mode: warn`
+- **WHEN** `PCW_MODE=strict` overrides the file setting
+- **THEN** the guard refuses the edit and names the invalid environment setting
+
 Tested by: tests/lockstep/test_lockstep_openspec_text.py
 [[[end]]]
 """
@@ -157,6 +191,7 @@ import os
 import re
 import shlex
 import sys
+from collections.abc import Iterator
 from pathlib import Path
 
 from lockstep.aes_bridge import artifact_for_path, context, find_root, plan_name
@@ -287,18 +322,41 @@ def _write_log(root: Path, record: dict) -> None:
               file=sys.stderr)
 
 
-def blocks(root: Path, rel: str) -> bool:
-    """True when the hook refuses rather than warns for `rel`: PCW_MODE=block, or a `fixed` glob in the side file matches it.
+def _guard_override() -> str:
+    return os.environ.get("PCW_MODE", "").strip().lower()
 
-    A side file that cannot be read counts as blocking, so a broken file cannot let a fixed file through.
-    """
-    if os.environ.get("PCW_MODE", "warn").strip().lower() == "block":
+
+def _guard_is_off(root: Path | None) -> bool:
+    override = _guard_override()
+    if override:
+        return override == "off"
+    if root is None:
+        return False
+    try:
+        side = load_side_file(root)
+    except ValueError:
+        return False
+    return side is not None and side.guard_mode == "off"
+
+
+def blocks(root: Path, rel: str) -> bool:
+    """True when the guard refuses an edit to `rel` rather than warning or skipping."""
+    env = _guard_override()
+    if env not in ("", "block", "warn", "off"):
+        print(f"lockstep-hook: invalid PCW_MODE {env!r}; expected block, warn or off; using block", file=sys.stderr)
         return True
+    if env in ("block", "off"):
+        return env == "block"
     try:
         side = load_side_file(root)
     except ValueError:
         return True
-    return side is not None and any(fnmatch.fnmatchcase(rel, g) for g in side.fixed)
+    if side is None:
+        return False
+    mode = env or side.guard_mode
+    if mode == "off":
+        return False
+    return mode == "block" or any(fnmatch.fnmatchcase(rel, glob) for glob in side.fixed)
 
 
 def _with_allowed(root: Path, rel: str, reason: str) -> str:
@@ -437,6 +495,8 @@ def decide_shell(call: dict, command: str) -> dict | None:
 
     cwd = Path(call.get("cwd") or os.getcwd())
     root = find_root(cwd)
+    if _guard_is_off(root):
+        return None
     if root is None:
         return _shell_spec_text(call, cwd, command)
     entries = _log_entry_writes(root, cwd, command)
@@ -487,16 +547,23 @@ def _changes(root: Path) -> str:
         return f"(The list of files this plan change touches could not be built: {exc})"
 
 
-def decide(call: dict) -> dict | None:
-    command = shell_command(call)
-    if command is not None:
-        return decide_shell(call, command)
+def _enabled_edit_paths(call: dict) -> Iterator[tuple[Path, Path, Path | None]]:
+    """Yield each edit path and its roots where the guard is enabled."""
     cwd = Path(call.get("cwd") or os.getcwd())
-    allowed: list[str] = []  # each allowed path's text; a later path in the same call can still be refused
     for raw in paths_from_call(call):
         path = Path(raw) if Path(raw).is_absolute() else cwd / raw
         start = path.parent if path.parent.exists() else cwd
         root = find_root(start)
+        if not _guard_is_off(root):
+            yield path, start, root
+
+
+def decide(call: dict) -> dict | None:
+    command = shell_command(call)
+    if command is not None:
+        return decide_shell(call, command)
+    allowed: list[str] = []  # each allowed path's text; a later path in the same call can still be refused
+    for path, start, root in _enabled_edit_paths(call):
         spec_root, spec_ids, spec_text = _spec_packet(start, path)
         if root is None:
             # OpenSpec specs and no AES plan: the requirement text is all there is to hand over.

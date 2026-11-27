@@ -36,7 +36,7 @@ Independent read: reviewer subagent, 2026-11-25, verdict revise. Its 11 findings
 
 | Part | Where it lives | Switchable per repository today? |
 | --- | --- | --- |
-| Lockstep (edit guard, commit checks, layout, docstrings) | AES `src/lockstep/` | Commit checks: yes, `lockstep.yaml` `checks:` (block, warn or off). Edit guard strictness: only through the `PCW_MODE` environment variable, which the installed hook command hardcodes (`src/lockstep/init_repo.py:133`). |
+| Lockstep (edit guard, commit checks, layout, docstrings) | AES `src/lockstep/` | Commit checks: yes, `lockstep.yaml` `checks:` (block, warn or off). Edit guard strictness: was only through the `PCW_MODE` environment variable, which the installed hook command hardcoded; now `guard.mode` (2026-11-26). |
 | Planning (Company Planning skills and package validator) | `BrianMills2718/company-planning` (private); Inside Success installs it from the private mirror `Inside-Success/company-planning` | Partly, and in a second file. `.copier-answers.yml` keys `ship_planning_gate` and `ship_one_page_plans` switch `ship`'s two planning gates off, read from the default branch so a branch cannot turn its own gate off (`copier_answer_on` in `src/lockstep/checks/config.py`). The validator's source is hardcoded as `~/code2/company-planning` (`src/lockstep/plan_check.py:113`). The skills are installed per person, not per repository. |
 | Agent rules | code2-workspace `agents/`, loaded machine-wide by `~/.claude/CLAUDE.md` | No. One person and one machine only. |
 | Feedback loop | AES `scripts/learning_loop/` and its systemd user timers on Brian's PC. A second, older sweep lives in `~/code/ecosystem-ops` (`ecosystem-feedback-worker` and `-watchdog`). | No. The loop runs per machine. Of 8 timers, 5 are disabled: the 3 AES analysis jobs and the 2 ecosystem-ops jobs. |
@@ -84,8 +84,8 @@ part built so far.
 | Planning-package gate | `.copier-answers.yml` `ship_planning_gate` | `planning.gate` (slice 1); the copier key is still read, and either one saying off turns the gate off |
 | One-page-plan check | `.copier-answers.yml` `ship_one_page_plans` | `planning.one_page_plans` (slice 1), with the same fallback |
 | Validator source | env `SHIP_COMPANY_PLANNING` or `~/code2/company-planning` | `planning.validator` (slice 2) |
-| Plan-list graph | env `PROJECT_GRAPH` or `~/code2/aes-config/` (`ship.py:883`) | parking: a `planning.project_graph` key |
-| Edit-guard strictness | `PCW_MODE` hardcoded in the hook command | parking: `guard.mode` |
+| Plan-list graph | env `PROJECT_GRAPH`, else `planning.project_graph` on the default branch, else `~/code2/aes-config/` (`checks/project_graph.py`) | built 2026-11-26 (OpenSpec change planning-project-graph-setting) |
+| Edit-guard strictness | `PCW_MODE` hardcoded in the hook command | `guard.mode` (built 2026-11-26, OpenSpec change `guard-mode-setting`) |
 | Company Planning skills | per-person plugin install | slice 3: `planning.skills` |
 | Rules | machine-wide `~/.claude/CLAUDE.md` | parking: `rules:` |
 | Feedback scope | machine-wide timers | parking: `feedback:` |
@@ -161,8 +161,13 @@ timeout. Credentials come only from the user's own git or `gh` setup, and never 
 
 **The ref.** `ref` replaces the hardcoded `origin/main` at both places in `plan_check.py` (lines 120 and 126).
 
-**The proof.** Point skipper at the `Inside-Success/company-planning` mirror with no environment variables set. The log
-must name the mirror as the source.
+**Configured-source proof, 2026-11-27.** The original proof named the Inside Success mirror. In scope for
+this run, an owner-controlled local Git repository held the installed Company Planning package.
+A separate consumer set `planning.validator` on its default branch and ran `lockstep plan check`
+without source environment overrides. The log named the configured repository and ref, the
+empty cache created one bare clone, and the validator returned exit 0 after the existing freshness
+warning. This exercises configured source selection, caching and validation with the actual package.
+Availability of the named remote is outside the proof.
 
 ## Slice 3 (planned in full, 2026-11-26): `planning.skills` loads Company Planning per repository
 
@@ -192,11 +197,12 @@ subagent, 2026-11-26, verdict revise; its 11 findings are folded in below.
 - **Access.** Install clones the marketplace over HTTPS with the person's own git credentials (usage guide,
   "Install"). Anyone who cannot read the configured repository gets a failed install offer when they open the
   repository. Neither `lockstep init` nor the drift check can detect that, and init does not warn about it.
-- **Codex 0.172 has no per-repository equivalent.** Probe, rerunnable in an empty git folder. Write a
-  `.codex/config.toml` holding a `[marketplaces.probe-mkt]` table (`source`, `source_type = "git"`), and in a second run
-  an `.agents/plugins/marketplace.json` naming `probe-repo-mkt`. Run `codex plugin marketplace list`, once plain and once
-  with `-c 'projects."<folder>".trust_level="trusted"'`. All three runs exit 0 and list only the person's marketplaces,
-  never the probe's. For Codex, Lockstep can only print what to run.
+- **Codex registers this Git marketplace through client commands.** A 0.172 probe used project
+  `.codex/config.toml` with a Git marketplace table, then a project marketplace file in a second run.
+  Both plain and trusted-project listings showed the user's existing sources. This establishes the
+  CLI listing behavior of that probe. The [Codex plugin docs](https://developers.openai.com/plugins/build/plugins#enable-or-disable-a-plugin-for-a-repo)
+  describe enabling a plugin from a repo-local marketplace through trusted project settings.
+  This slice keeps the selected Git source and prints the client's registration commands.
 
 **The setting.**
 
@@ -238,8 +244,20 @@ planning:
   - `claude plugin marketplace list` still shows the person's own source.
 
    So the repository's keys are harmless for someone who already has the plugin, and their source wins.
-   Files: `~/projects/data/aes-week/slice3-proof/conflict-case-*`. The first case (a person without the plugin) is
-   still to run.
+   Files: `~/projects/data/aes-week/slice3-proof/conflict-case-*`.
+
+   First-use result (2026-11-27): in two isolated Claude homes, project settings alone did not
+   register a marketplace for the install CLI. Explicit project-scoped registration made the
+   install succeed both with handwritten settings and with settings produced by `lockstep init`.
+   Each native `system/init` event listed Company Planning with zero plugin errors. This used
+   the same GitHub-source settings layout and a local Git transport substitute, with inference
+   directed to loopback. The configured remote was outside the proof. On first use, list
+   marketplaces and register the configured source only when `inside-success` is absent.
+   Keep an existing registered source.
+
+   In an isolated Codex home, the printed Git marketplace commands registered the local transport
+   substitute, installed Company Planning and listed it afterward. It was absent before installation.
+   That proves the command sequence, with remote access still outside the proof.
 
 1. **`side_file.py`** validates `planning.skills` as a map with `mode` (the shared normalization) and `marketplace`
    (`owner/repo`). Problems are reported with their line.
@@ -255,9 +273,9 @@ planning:
 3. **`lockstep init`** calls `merge` when `mode` is `block` or `warn` and prints its result. A `.claude/settings.json`
    that is not valid JSON exits 2, as for hooks. For Codex it prints the two commands from the usage guide with the
    configured address (`codex plugin marketplace add OWNER/REPO`, `codex plugin add company-planning@inside-success`).
-   It reads and writes nothing in `~/.codex/`. For Claude Code it also prints the one step the docs say each person
-   still runs once per clone: `claude plugin install company-planning@inside-success --scope project`. The same line
-   goes in the repository's `AGENTS.md` setup notes, so a teammate who did not run init sees it too.
+   It reads and writes nothing in `~/.codex/`. For Claude Code it prints the marketplace listing, conditional
+   project registration and `claude plugin install company-planning@inside-success --scope project`.
+   The repository's `AGENTS.md` points to registration before the install command.
 4. **Drift check, inside `lockstep check project`.** It needs no network. Its compare looks only at three things: the
    source is `github`, the repository matches, and the `enabledPlugins` entry is `true`. A missing or different
    value refuses under `block`, warns under `warn`, and is not looked at under `off`. A `conflict` (including an
@@ -291,8 +309,8 @@ planning:
   `CODEX_HOME`, the printed commands are run once, and `codex plugin list` shows `company-planning@inside-success`.
 - `make check` exits 0 in AES.
 
-**Out of this slice:** removing the per-person install from machines that already have it; a Codex per-repository
-install (none exists); the rules and feedback parts.
+**Out of this slice:** removing existing per-person installs, adopting a repo-local marketplace in Codex,
+and the rules and feedback parts.
 
 ## Feedback loop (Decision b), running alongside slice 1
 
@@ -391,13 +409,13 @@ after the audit on the same date. This corrects the interpretation without chang
 ## Parking list (later slices, not planned yet)
 
 - `guard.mode` replaces the `PCW_MODE` hardcode in the hook command.
-- `planning.project_graph` replaces the `~/code2/aes-config` default.
 - The rules part:
   - `rules.source` names the rule text;
   - `lockstep rules sync` fetches it into `.lockstep/rules/`, and `AGENTS.md` imports it;
   - `policies.py` reads the configured source.
 - The feedback part's per-repository scope and `issue_repo`, read by the collector and the labels job.
-- `lockstep status` prints each part's mode and last result.
+- `lockstep status` prints each part's mode and last result. Built 2026-11-26 as `lockstep status --parts`
+  (spec `lockstep-projection`, "Status lists each part with its mode and last gate result").
 - Review the planning-gate records (since 2026-11-25, Brian: "i agree witht he warn but we should be recoridn these so
   we can review them afterwards"). An absent `planning:` setting now warns, and ship appends every gate run to
   `~/code2/.ship-logs/planning-verdicts/<date>.jsonl` (spec `ship`, "Every planning-gate run is recorded"). Review
