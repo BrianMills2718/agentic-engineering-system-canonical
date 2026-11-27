@@ -237,7 +237,7 @@ def test_driver_does_not_merge(repo: Path, capsys) -> None:
 def run_dir(tmp_path: Path) -> Path:
     folder = tmp_path / "run with spaces"
     (folder / "accept").mkdir(parents=True)
-    (folder / "summary.json").write_text(json.dumps({"run_id": "test-run"}))
+    (folder / "summary.json").write_text(json.dumps({"run_id": "test-run", "run_dir": str(folder)}))
     return folder
 
 
