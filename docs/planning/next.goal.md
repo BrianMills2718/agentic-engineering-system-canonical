@@ -388,7 +388,6 @@ Use the already approved game-benchmark work for the next bundle comparison; do 
 Source: inferred by agent from the retained run evidence, 2026-11-26; Brian authorized high-confidence improvements
 after the audit on the same date. This corrects the interpretation without changing raw results or adopting a new benchmark.
 
-
 ## Parking list (later slices, not planned yet)
 
 - `guard.mode` replaces the `PCW_MODE` hardcode in the hook command.
@@ -481,7 +480,8 @@ $1. Total about $40 to $80. Wall time about one day.
 
 ### Blockers
 
-- Disk: `storage-policy` refuses at C: 8.7 GB free; builds start after tonight's rebuild frees C:.
+- Start only when the live `storage-policy --need-gib 2 gate` passes and the grader can launch its browser.
+  Preserve an interrupted attempt for diagnosis before continuing.
 
 ### Parking list (later slices)
 
@@ -496,13 +496,37 @@ $1. Total about $40 to $80. Wall time about one day.
   `verdict-schema.json`, Playwright for Node, 2-hour timeout) and `score.py` (fidelity overall and by item kind).
 - Every step runs the storage gate first and refuses to redo finished work. Outputs: /home/brian/projects/data/aes-gamebench/.
 - Tested: fetch (105 files, 0 checksum mismatches), items (111), score (synthetic verdicts give the expected 50.0).
-  Not yet run: setup, build, blind copy, grade (disk gate closed until the rebuild).
+  These were the harness's initial checks. See the pre-build review below for the current scoring set and launch protocol.
 
 ### Results
 
 - Step 1, decidability pilot (2026-11-26 19:10): Claude Haiku, one call, the whole document plus all 116 items; cost
   $0.16 (measured, `pilot-out.json`). 111 decidable, 5 flagged: requirement R1 and rule R1 ("Endless is armed" is never
   defined; the Descend Deeper choice implies it), invariant SYN-INIT-runseed (counter origin not defined), scenario
-  chain_cluster (flag is wrong: the 12-link cap is stated at document line 190 and the scenario tests it), scenario
-  enemy_roster_zone1 (spawn distance against enemy range). All 5 dropped for both arms: 111 items graded.
+  chain_cluster (the pilot treated 12 links as an absolute cap), scenario
+  enemy_roster_zone1 (spawn distance against enemy range). The pilot excluded all five; no build was graded.
   Files: pilot-prompt.txt, pilot-verdicts.json in /home/brian/projects/data/aes-gamebench/.
+
+### Pre-build review, 2026-11-27
+
+The design distinguishes destroyed objects from propagation links (lines 188–190). DBT-17 gives
+a base cap of 12, with queued blasts firing together on the final link. LED-10 allows Resonant
+Charge to raise the cap. The original `chain_cluster` setup does not name that modifier. Before
+any builds, retain the scenario with zero Resonant Charge, a cluster whose *uncapped* path exceeds
+12 links, and separate checks for the final-link cap and at least 15 objects destroyed. Keep the
+original scenario and pilot verdict for provenance. Both arms are scored on the same 112 items.
+
+Run `scripts/game_benchmark/run_all.sh --preflight` before any paid call. Select a local AES snapshot
+whose `main` is the full commit in `AES_REVISION`, and set `AES_TEMPLATE` to its absolute path. This
+pins both Copier and the installed Lockstep dependency. Set `GRADE_MODEL` to the selected Codex
+model and `PLAYWRIGHT_CHROMIUM_EXECUTABLE` to the tested browser. The preflight checks launch,
+input and screenshot capture without calling a model. It records the AES revision, model and CLI
+identities, prompts, scorer, item list, design inputs, browser and Phaser in the run manifest.
+A different manifest on resume requires review before more paid work.
+
+Use the same inputs and time limit for the alternating builds. A completed build that fails to
+load scores zero, and a capped build is judged as it stands. A builder or grader invocation
+that fails for infrastructure reasons leaves its attempt evidence and stops for diagnosis.
+Strip unchanged template scaffolding from blind copies and stop for review if arm markers remain.
+The scorer requires exactly one verdict with evidence per item. Missing verdicts are incomplete
+grading. The approved repeat-grade and hand-check calibration still applies before interpreting scores.
