@@ -4,7 +4,7 @@
 # OFF loads only user-level settings (--setting-sources user); ON also loads the repository's own (AES) settings.
 arm=$1; n=$2; BENCH=${BENCH:-/home/brian/projects/data/aes-gamebench}; MODEL=${BUILD_MODEL:-claude-sonnet-5-5}
 dir=$BENCH/runs/$arm-$n; repo=$dir/repo; here=$(cd "$(dirname "$0")" && pwd)
-[[ -d $repo ]] || { echo "no repo at $repo; run setup_arm.sh"; exit 1; }
+[[ -s $dir/meta-setup.json && -d $repo ]] || { echo "no repo at $repo; run setup_arm.sh"; exit 1; }
 [[ -e $dir/build.jsonl ]] && { echo "$dir already built; refusing to rerun"; exit 1; }
 /home/brian/.local/bin/storage-policy --need-gib 2 gate || exit 75
 extra=(); [[ $arm == off ]] && extra=(--setting-sources user)
@@ -13,7 +13,8 @@ start=$(date +%s)
   --permission-mode bypassPermissions --output-format stream-json --verbose "${extra[@]}" \
   > "$dir/build.jsonl" 2> "$dir/build.err")
 rc=$?; end=$(date +%s)
-python3 - "$dir/meta-build.json" "$arm" "$n" "$MODEL" "$start" "$end" "$rc" "$(git -C "$repo" rev-parse HEAD)" "$dir/build.jsonl" <<'PY'
+receipt="$dir/meta-build-attempt.json"
+python3 - "$receipt" "$arm" "$n" "$MODEL" "$start" "$end" "$rc" "$(git -C "$repo" rev-parse HEAD)" "$dir/build.jsonl" <<'PY' || exit 1
 import json, sys
 out, arm, n, model, start, end, rc, head, trace = sys.argv[1:]
 cost = None
@@ -27,4 +28,9 @@ for line in open(trace, errors="replace"):
 json.dump({"arm": arm, "run": int(n), "model": model, "seconds": int(end) - int(start), "exit": int(rc),
            "capped": int(rc) == 124, "end_commit": head, "cost_usd_notional": cost}, open(out, "w"), indent=1)
 PY
+if [[ $rc -ne 0 && $rc -ne 124 ]]; then
+  echo "Builder invocation failed; preserved trace and attempt receipt (exit $rc)" >&2
+  exit "$rc"
+fi
+mv "$receipt" "$dir/meta-build.json" || exit 1
 echo "RESULT build arm=$arm run=$n exit=$rc seconds=$((end-start))"
