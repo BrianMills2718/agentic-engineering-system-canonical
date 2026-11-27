@@ -1,7 +1,7 @@
 """Download one A2Z GameSpec-Bench game (design document, contract, sprite library) and check each file's sha256.
 
 Usage: python3 fetch_game.py <split> <game> <dest>   e.g. big abyssal_chain /home/brian/projects/data/aes-gamebench/games
-Source: https://huggingface.co/datasets/KRAFTON/A2Z-GameSpec-Bench (MIT). Plan: docs/planning/game-benchmark.md.
+Source: https://huggingface.co/datasets/KRAFTON/A2Z-GameSpec-Bench (MIT). Plan: docs/planning/next.goal.md, "Game benchmark plan".
 """
 import hashlib, json, sys, urllib.request
 from pathlib import Path

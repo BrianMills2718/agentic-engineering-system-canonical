@@ -10,7 +10,7 @@ NODE_PATH=${PLAYWRIGHT_NODE_PATH:-/home/brian/code2/representation-router/node_m
 python3 "$here/items.py" "$BENCH/games/$game" "$g/items.json" || exit 1
 mkdir -p "$g/evidence"
 port=$(python3 -c 'import socket; s=socket.socket(); s.bind(("",0)); print(s.getsockname()[1])')
-prompt="$(cat "$here/grader-prompt.md")
+prompt="$(cat "$here/grader-prompt.txt")
 
 PORT=$port
 NODE_PATH=$NODE_PATH"

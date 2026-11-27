@@ -1,5 +1,5 @@
 #!/bin/bash
-# Make one build repository for the AES game benchmark (plan: docs/planning/game-benchmark.md).
+# Make one build repository for the AES game benchmark (plan: docs/planning/next.goal.md, "Game benchmark plan").
 # Usage: setup_arm.sh <on|off> <run number> [game]. Writes $BENCH/runs/<arm>-<n>/repo and meta-setup.json.
 # Both arms get the same files: docs/game-design.md, assets/ (sprite library), vendor/phaser.min.js.
 # ON: the repository is made from the AES template (copier), so its instructions, make check and hooks apply.

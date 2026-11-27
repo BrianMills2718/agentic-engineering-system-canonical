@@ -1,5 +1,5 @@
 """Build the list of contract items the grader scores: every requirement, rule, invariant and scenario of one game,
-minus the items the decidability pilot dropped (docs/planning/game-benchmark.md, Results).
+minus the items the decidability pilot dropped (docs/planning/next.goal.md, "Game benchmark plan", Results).
 
 Usage: python3 items.py <game dir> <out.json>
 """

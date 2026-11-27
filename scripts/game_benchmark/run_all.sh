@@ -1,7 +1,7 @@
 #!/bin/bash
 # The whole AES game benchmark, one step at a time: 6 builds alternating ON/OFF, then blind copies and grading.
 # Each step refuses to redo finished work, so rerunning after a stop continues where it left off.
-# Usage: run_all.sh   (log: $BENCH/run_all.log). Plan: docs/planning/game-benchmark.md.
+# Usage: run_all.sh   (log: $BENCH/run_all.log). Plan: docs/planning/next.goal.md, "Game benchmark plan".
 BENCH=${BENCH:-/home/brian/projects/data/aes-gamebench}; here=$(cd "$(dirname "$0")" && pwd)
 exec >> "$BENCH/run_all.log" 2>&1; echo "== run_all $(date -Is)"
 [[ -d $BENCH/games/abyssal_chain ]] || python3 "$here/fetch_game.py" big abyssal_chain "$BENCH/games" || exit 1

@@ -188,7 +188,6 @@ Generated from [lockstep.yaml](../lockstep.yaml); edit the source, not this bloc
 | [docs/planning/lessons-from-older-systems-20261119.md](../docs/planning/lessons-from-older-systems-20261119.md) | Table of lessons from the older overlapping systems, each marked drop, keep or simplify, with what was done in AES. |
 | [docs/planning/minimal-core-2026-11-20.md](../docs/planning/minimal-core-2026-11-20.md) | Plan for the minimal AES core: Brian's stated wants, off-the-shelf options and what to keep, with milestone status. |
 | [docs/planning/next.goal.md](../docs/planning/next.goal.md) | The next plan, AES holding all four parts with every part switchable in lockstep.yaml (slice 1 moves the planning gates there; the feedback loop's dry run and friction measure), and a link to the finished one-tool build. |
-| [docs/planning/game-benchmark.md](../docs/planning/game-benchmark.md) | One-page plan for the AES game benchmark, the AES bundle on versus off building one A2Z GameSpec-Bench game from its full design document, graded per contract item. |
 | [docs/planning/open-questions.graph.json](../docs/planning/open-questions.graph.json) | Generated graph of open ledger questions, responsible actors and domain relationships; it is a derived reading view rather than another question authority. |
 | [docs/planning/open-questions.json](../docs/planning/open-questions.json) | Owns AES unresolved questions and dispositions, including Q30's inventory freshness concern and Q36–Q42 for ecosystem catalogue authority, identities, evidence, donor review and concern closure. |
 | [docs/planning/planning-package.json](../docs/planning/planning-package.json) | Indexes package parts, recorded checks, system scope, spectrum sources and generated artifacts at a named revision; it is not a fresh operational certification. |
@@ -212,7 +211,6 @@ Generated from [lockstep.yaml](../lockstep.yaml); edit the source, not this bloc
 | [docs/retired/2026-11-14.md](../docs/retired/2026-11-14.md) | Record of the CLAUDE.md to AGENTS.md generator route removed on 2026-11-14, with last commit and restore command. |
 | [docs/retired/2026-11-24.md](../docs/retired/2026-11-24.md) | Record of five removals on 2026-11-24, including the OpenSpec change archive, with last commits and restore commands. |
 | [docs/retired/2026-11-25.md](../docs/retired/2026-11-25.md) | Record of the AES rules register and its page retired on 2026-11-25 so rules have one home, with the restore command. |
-| [docs/retired/2026-11-26.md](../docs/retired/2026-11-26.md) | Record of the archived OpenSpec change removed on 2026-11-26 after its merge, with the restore command. |
 | [docs/rules/legacy-dispositions.yaml](../docs/rules/legacy-dispositions.yaml) | Publishes identifiers, proposed dispositions and hashes for 263 legacy policy rows with no activation; their text stays in the private Project Meta registry. Kept as history after the register was retired on 2026-11-25. |
 | [docs/status.md](../docs/status.md) | Generated table of each requirement, the code that implements it and the tests covering its scenarios at this commit. |
 | [enforced_planning/__init__.py](../enforced_planning/__init__.py) | Importable package surfaces for enforced-planning. Contains no executable definitions. |
@@ -364,7 +362,7 @@ Generated from [lockstep.yaml](../lockstep.yaml); edit the source, not this bloc
 | [scripts/game_benchmark/run_build.sh](../scripts/game_benchmark/run_build.sh) | Runs one Sonnet builder for 3 hours with a full stream-json trace and writes its time, exit and cost. |
 | [scripts/game_benchmark/blind_copy.sh](../scripts/game_benchmark/blind_copy.sh) | Copies a finished build for grading under a random id with every AES file removed. |
 | [scripts/game_benchmark/items.py](../scripts/game_benchmark/items.py) | Lists the contract items the grader scores, minus the items the decidability pilot dropped. |
-| [scripts/game_benchmark/grader-prompt.md](../scripts/game_benchmark/grader-prompt.md) | Tells the Codex grader to play the blind build in a headless browser and judge every contract item. |
+| [scripts/game_benchmark/grader-prompt.txt](../scripts/game_benchmark/grader-prompt.txt) | Tells the Codex grader to play the blind build in a headless browser and judge every contract item. |
 | [scripts/game_benchmark/verdict-schema.json](../scripts/game_benchmark/verdict-schema.json) | The JSON schema of the grader answer, one pass, partial or fail verdict with evidence per item. |
 | [scripts/game_benchmark/grade.sh](../scripts/game_benchmark/grade.sh) | Grades one blind build with Codex against the contract items, then scores it. |
 | [scripts/game_benchmark/score.py](../scripts/game_benchmark/score.py) | Scores a graded build as the mean over items (pass 1, partial 0.5, fail 0), overall and by item kind. |

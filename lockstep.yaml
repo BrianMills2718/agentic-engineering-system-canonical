@@ -1064,11 +1064,6 @@ layout:
     planning gates there; the feedback loop's dry run and friction measure), and a link to the finished one-tool build.
   implements: []
   tests: []
-- path: docs/planning/game-benchmark.md
-  purpose: One-page plan for the AES game benchmark, the AES bundle on versus off building one A2Z GameSpec-Bench game
-    from its full design document, graded per contract item.
-  implements: []
-  tests: []
 - path: docs/planning/open-questions.graph.json
   purpose: Generated graph of open ledger questions, responsible actors and domain relationships; it is a derived reading
     view rather than another question authority.
@@ -1178,10 +1173,6 @@ layout:
   tests: []
 - path: docs/retired/2026-11-25.md
   purpose: Record of the AES rules register and its page retired on 2026-11-25 so rules have one home, with the restore command.
-  implements: []
-  tests: []
-- path: docs/retired/2026-11-26.md
-  purpose: Record of the archived OpenSpec change removed on 2026-11-26 after its merge, with the restore command.
   implements: []
   tests: []
 - path: docs/rules/legacy-dispositions.yaml
@@ -1863,7 +1854,7 @@ layout:
   purpose: Lists the contract items the grader scores, minus the items the decidability pilot dropped.
   implements: []
   tests: []
-- path: scripts/game_benchmark/grader-prompt.md
+- path: scripts/game_benchmark/grader-prompt.txt
   purpose: Tells the Codex grader to play the blind build in a headless browser and judge every contract item.
   implements: []
   tests: []
