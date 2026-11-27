@@ -1,10 +1,15 @@
-# Minimal core met; audit repairs recorded (updated 2026-11-26)
+# Minimal core met; audit repairs recorded (updated 2026-11-27)
+
+**Game benchmark, 2026-11-27:** The [pre-build protocol](../docs/planning/next.goal.md#pre-build-review-2026-11-27)
+was verified before starting the six-build comparison. It pins the AES revision, models, browser and 112 scoring items.
+The run started with AES #1078 as its template revision. AES #1079 merged the harness fixes.
+The comparison still needs completed builds, blind grading and calibration before it can support a conclusion.
 
 **Template consumer proof, 2026-11-27:** A full Copier run installed a repository named `demo-project` with
 Python package `demo`. Its wheel built, `demo` and `demo.core` imported, and both documentation linters
 accepted a documented constructor. The generated repository passed `make check` and then rejected an
 unplanned source file. The check guide now follows the template Makefile and explains the documentation-lint
-failures seen in the TinyDB trial. Next, verify the game benchmark's grader before starting scored builds.
+failures seen in the TinyDB trial (AES #1078).
 
 **Audit repairs, 2026-11-26:** hidden acceptance now requires a fresh pytest report with at least one passing
 hidden case, no failures or errors, and exit zero. `ship` refuses missing or malformed counts in matching receipts;

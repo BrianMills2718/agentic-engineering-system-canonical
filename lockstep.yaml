@@ -3057,30 +3057,6 @@ layout:
     active ownership.
   implements: []
   tests: []
-- path: openspec/changes/archive/2026-11-26-require-passing-acceptance-evidence/.openspec.yaml
-  purpose: Records the OpenSpec schema and creation date of the archived positive hidden acceptance evidence repair.
-  implements: []
-  tests: []
-- path: openspec/changes/archive/2026-11-26-require-passing-acceptance-evidence/prior-art.json
-  purpose: Records reuse of pytest JUnit evidence and existing AES acceptance consumers for the hidden acceptance repair.
-  implements: []
-  tests: []
-- path: openspec/changes/archive/2026-11-26-require-passing-acceptance-evidence/proposal.md
-  purpose: Explains why a successful hidden-test command must demonstrate at least one passing acceptance case.
-  implements: []
-  tests: []
-- path: openspec/changes/archive/2026-11-26-require-passing-acceptance-evidence/specs/plan-run/spec.md
-  purpose: Preserves the archived plan-run requirement delta for structured hidden acceptance evidence.
-  implements: []
-  tests: []
-- path: openspec/changes/archive/2026-11-26-require-passing-acceptance-evidence/specs/ship/spec.md
-  purpose: Preserves the archived ship requirement delta refusing receipts without positive passing evidence.
-  implements: []
-  tests: []
-- path: openspec/changes/archive/2026-11-26-require-passing-acceptance-evidence/tasks.md
-  purpose: Records the completed implementation and regression checks for the hidden acceptance evidence repair.
-  implements: []
-  tests: []
 # These declared fact blocks follow the general lockstep-doc-facts capability (openspec/specs/lockstep-doc-facts);
 # AES keeps no separate spec for them (Brian, 2026-11-23: "i approve", to Q51).
 projections:

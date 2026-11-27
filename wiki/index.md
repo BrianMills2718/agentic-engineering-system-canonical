@@ -8,6 +8,8 @@ last_checked: 2026-11-13
 
 # Agentic Engineering System (AES)
 
+This is the build wiki for people and agents changing AES.
+
 ## What AES is now
 
 AES helps autonomous coding agents deliver software that stays true to its intent.
@@ -35,6 +37,7 @@ and [open concerns](open-questions.md) remain visible.
 | What is implemented, observed, unresolved or historical? | [Current state](../.project-brain/now.md) | [Discussion ledger](open-questions.md) |
 | What are the detailed requirements? | [Requirement navigation](requirements.md) | [System clauses](../docs/architecture/SYSTEM_BOUNDARY.md) and [Lockstep behavior spec](../openspec/specs/lockstep-plan-format/spec.md) |
 | Where are code, data and external boundaries? | [System model](system-model.md) | [Whole-system inventory](../docs/planning/SYSTEM_MODEL.md) |
+| What evidence measures whether AES helps coding agents? | [Benchmark plan and results](../docs/planning/next.goal.md#game-benchmark-plan-one-page-plan-2026-11-26-revised-after-one-cold-read) | [Current evidence and open work](../.project-brain/now.md) |
 | How do I install, check and operate it? | [Commands](run-and-deploy.md) | [README](../README.md) and [feedback operator guide](../scripts/learning_loop/systemd/README.md) |
 | What does a term mean? | [Glossary](glossary.md) | [Domain model](../docs/planning/DOMAIN.md) |
 | Which older designs and choices were retained or retired? | [History](history.md) | [Retirement record](../docs/retired/2026-11-12.md) |
