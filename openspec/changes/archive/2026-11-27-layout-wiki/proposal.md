@@ -20,6 +20,7 @@ Closes: lockstep-wiki/a-layout-repository-generates-one-wiki-page-per-capability
 <!-- /lockstep status -->
 
 Plan size: small
+Wording-only: lockstep-plan-format/every-refusal-in-a-layout-repository-names-a-layout-command
 
 ## What Changes
 
