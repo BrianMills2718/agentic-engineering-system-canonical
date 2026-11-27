@@ -21,7 +21,7 @@ Requirement text (generated):
 [[[cog import lockstep.cogtext as c; c.docstring("src:lockstep:checks:project.py", indent=0)]]]
 Plan (generated from lockstep.yaml layout and OpenSpec; edit the spec or the layout row, not this text):
 
-Implements: lockstep-projection/requirement-text-is-written-into-the-implementing-docstring, lockstep-projection/status-flows-back-into-the-plan, lockstep-projection/a-fixed-planned-file-without-a-plan-copy-is-reported
+Implements: lockstep-projection/requirement-text-is-written-into-the-implementing-docstring, lockstep-projection/status-flows-back-into-the-plan, lockstep-projection/a-fixed-planned-file-without-a-plan-copy-is-reported, lockstep-plan-format/a-layout-repository-generates-one-wiki-page-per-capability, lockstep-plan-format/project-check-fails-on-stale-or-unreachable-wiki-pages
 
 ### Requirement: Requirement text is written into the implementing docstring
 
@@ -86,7 +86,40 @@ when a docstring's plan copy is stale or a `fixed:` file has no copy block?"; al
 - **WHEN** `lockstep check project --check` runs
 - **THEN** it prints `no-copy src/greeter/__init__.py` and exits 1, and once the file holds the copy that `lockstep layout` writes it reports nothing for that file
 
-Tested by: tests/lockstep/checks/test_lockstep_check_plugin.py, tests/lockstep/checks/test_lockstep_check_project.py, tests/lockstep/test_lockstep_layout_plan.py
+### Requirement: A layout repository generates one wiki page per capability
+
+In a layout repository whose `lockstep.yaml` says `generated_wiki: true`, `lockstep check project` SHALL write `generated/wiki/index.md`, with one line per OpenSpec capability (its summary and a link to its page), and `generated/wiki/<capability>.md` for each capability. A capability page SHALL list each requirement's text, the symbols whose docstrings implement it with their `file:line`, each scenario with the tests tagged with its ID, and the requirement's coverage state (unimplemented, untested, or implemented and tested). The pages SHALL hold no commit hash and no pass or fail result, so they are the same in every checkout; `lockstep status` gives pass or fail. A page for a capability that no longer exists SHALL be removed.
+
+Source: Brian, 2026-11-27, plan doc "AES next steps: plan for discussion", Milestone 1 step 1 (restore the dropped wiki generator); told the agent to proceed without waiting. The `generated_wiki` switch, the coverage-only status and the page layout are inferred by agent.
+
+#### Scenario: A capability page shows requirement, code and tests
+
+- **GIVEN** a layout repository with `generated_wiki: true`, a requirement implemented by a function and a scenario with a tagged test
+- **WHEN** `lockstep check project` runs
+- **THEN** `generated/wiki/index.md` has one line for the capability and its page shows the requirement text, the function with its file and line, and the test
+
+#### Scenario: A repository without the switch gets no pages
+
+- **GIVEN** a layout repository without `generated_wiki`
+- **WHEN** `lockstep check project` runs
+- **THEN** no `generated/wiki/` folder is written
+
+### Requirement: Project check fails on stale or unreachable wiki pages
+
+`lockstep check project --check` SHALL name each `generated/wiki/` page that differs from what would be written, and SHALL exit 1. It SHALL also report each generated page that is more than two links from the index or whose link has no summary beside it, and exit 1.
+
+Source: Brian, 2026-11-27, plan doc "AES next steps: plan for discussion", Milestone 1 step 1 (restore the dropped wiki generator); told the agent to proceed without waiting. Reusing the existing reachability rule inferred by agent.
+
+#### Scenario: A stale page fails the check
+
+- **GIVEN** committed generated pages and a test added after
+- **WHEN** `lockstep check project --check` runs
+- **THEN** it names the capability page and exits 1, and it writes nothing
+
+Tested by: tests/lockstep/checks/test_lockstep_check_plugin.py, tests/lockstep/checks/test_lockstep_check_project.py, tests/lockstep/test_lockstep_layout_plan.py, tests/lockstep/test_lockstep_layout_wiki.py
+
+Declares (typed signatures, from the plan):
+  wiki_problems(root: Path) -> list[str]
 [[[end]]]
 """
 
@@ -373,4 +406,67 @@ def _project_once(root: Path, check: bool = False) -> list[str]:
         contents[page] = markdown(coverage)
     if page.parent.is_dir() and not (check and _ignored(root, LINKS_FILE)):
         contents[root / LINKS_FILE] = json.dumps(links(coverage, root), indent=1) + "\n"
-    return project_facts(root, check=check, rendered=render(root, contents))
+    gone = _wiki(root, coverage, contents, check)
+    facts = project_facts(root, check=check, rendered=render(root, contents))
+    if not check:  # remove old pages only once every output rendered and was written
+        for rel in gone:
+            (root / rel).unlink()
+    return facts + gone
+
+
+def _wiki(root: Path, coverage: Report, contents: dict[Path, str], check: bool) -> list[str]:
+    """Add the generated wiki pages to `contents`; return the old pages it no longer writes (the caller removes them).
+
+    Implements: lockstep-plan-format/a-layout-repository-generates-one-wiki-page-per-capability
+
+    Requirement text (generated):
+        lockstep-plan-format/a-layout-repository-generates-one-wiki-page-per-capability: In a layout
+            repository whose `lockstep.yaml` says `generated_wiki: true`, `lockstep check project`
+            SHALL write `generated/wiki/index.md`, with one line per OpenSpec capability (its
+            summary and a link to its page), and `generated/wiki/<capability>.md` for each
+            capability. A capability page SHALL list each requirement's text, the symbols whose
+            docstrings implement it with their `file:line`, each scenario with the tests tagged with
+            its ID, and the requirement's coverage state (unimplemented, untested, or implemented
+            and tested). The pages SHALL hold no commit hash and no pass or fail result, so they are
+            the same in every checkout; `lockstep status` gives pass or fail. A page for a
+            capability that no longer exists SHALL be removed.
+
+    Args:
+        root: Repository root.
+        coverage: The coverage-only report the pages are rendered from.
+        contents: The staged outputs, extended in place.
+        check: Report without writing or removing.
+
+    Returns:
+        Paths relative to root of the pages for capabilities that are gone (removed by `project` unless check).
+    """
+    from lockstep.layout_wiki import orphan_pages, wiki_contents
+
+    pages = wiki_contents(root, coverage)
+    contents.update(pages)
+    if pages and not check:
+        next(iter(pages)).parent.mkdir(parents=True, exist_ok=True)
+    gone = orphan_pages(root, set(pages))
+    return [p.relative_to(root).as_posix() for p in gone]
+
+
+def wiki_problems(root: Path) -> list[str]:
+    """List the ways the generated wiki breaks the two-link and summary rule.
+
+    Implements: lockstep-plan-format/project-check-fails-on-stale-or-unreachable-wiki-pages
+
+    Requirement text (generated):
+        lockstep-plan-format/project-check-fails-on-stale-or-unreachable-wiki-pages: `lockstep check
+            project --check` SHALL name each `generated/wiki/` page that differs from what would be
+            written, and SHALL exit 1. It SHALL also report each generated page that is more than
+            two links from the index or whose link has no summary beside it, and exit 1.
+
+    Args:
+        root: Repository root.
+
+    Returns:
+        Plain-words problems; empty when the repository has no generated wiki or it is sound.
+    """
+    from lockstep.layout_wiki import wiki_problems as problems
+
+    return problems(root, report(root, use_results=False))

@@ -19,7 +19,8 @@ def _git(*args: str) -> list[str]:
 @pytest.mark.req("lockstep-plan-format/every-tracked-file-has-a-planned-row-and-the-catalog-page-is-current")
 def test_every_tracked_file_has_a_planned_row_and_the_catalog_page_is_current():
     side = yaml.safe_load((ROOT / "lockstep.yaml").read_text())
-    tracked = set(_git("ls-files"))
+    # Generated wiki pages are generator output with no layout row (spec lockstep-plan-format/generated-wiki-pages-need-no-layout-row).
+    tracked = {p for p in _git("ls-files") if not (p.startswith("generated/wiki/") and p.endswith(".md"))}
     rows = {row["path"]: row for row in side.get("layout") or []}
     assert tracked
     assert not tracked - set(rows), f"tracked files with no layout row: {sorted(tracked - set(rows))[:20]}"

@@ -35,6 +35,7 @@ and [open concerns](open-questions.md) remain visible.
 | How should corrections become verified improvements? | [Feedback loop](feedback-loop.md) | [Feedback and policy contract](../docs/architecture/FEEDBACK_AND_POLICY.md) |
 | Where are rules, their sources and their enforcement? | [Policy](policy-and-rules.md) | [Agent rules in code2-workspace](https://github.com/BrianMills2718/code2-workspace/blob/main/agents/core.md) |
 | What is implemented, observed, unresolved or historical? | [Current state](../.project-brain/now.md) | [Discussion ledger](open-questions.md) |
+| Which code and tests implement each OpenSpec capability's requirements? | [Generated wiki index](../generated/wiki/index.md) | [OpenSpec specs](../openspec/specs/lockstep-plan-format/spec.md) (pages written by `lockstep check project`, never edited) |
 | What are the detailed requirements? | [Requirement navigation](requirements.md) | [System clauses](../docs/architecture/SYSTEM_BOUNDARY.md) and [Lockstep behavior spec](../openspec/specs/lockstep-plan-format/spec.md) |
 | Where are code, data and external boundaries? | [System model](system-model.md) | [Whole-system inventory](../docs/planning/SYSTEM_MODEL.md) |
 | What evidence measures whether AES helps coding agents? | [Benchmark plan and results](../docs/planning/next.goal.md#game-benchmark-plan-one-page-plan-2026-11-26-revised-after-one-cold-read) | [Current evidence and open work](../.project-brain/now.md) |

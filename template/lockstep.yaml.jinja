@@ -7,6 +7,9 @@ schema: lockstep.side.v1
 planning:
   gate: warn
   one_page_plans: warn
+# `lockstep check project` writes generated/wiki/ (one page per capability: requirements, implementing code, tests) and
+# `--check` fails when it is stale.
+generated_wiki: true
 governed: [src/{{ package_name }}/]
 fixed: ["src/{{ package_name }}/*"]
 layout:

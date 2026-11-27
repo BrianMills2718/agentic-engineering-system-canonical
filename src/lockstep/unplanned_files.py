@@ -111,6 +111,13 @@ def declared_file(side: SideFile, rel: str) -> str | None:
 def unplanned_reason(root: Path, rel: str, base: str | None = None) -> str | None:
     """Why `rel` is a file the plan does not declare, with how to declare it; or None.
 
+    Implements: lockstep-plan-format/generated-wiki-pages-need-no-layout-row
+
+    Requirement text (generated):
+        lockstep-plan-format/generated-wiki-pages-need-no-layout-row: A file under `generated/wiki/`
+            SHALL NOT be reported as unplanned in a layout repository, and the Markdown file cap
+            SHALL NOT count it.
+
     None when the plan or the side file declares the file, when it is a legacy file (`aes adopt`),
     or when it is neither under a governed folder nor a document the side file's include matches.
     While the side file cannot be read, every file outside the governed folders is refused except
@@ -119,6 +126,8 @@ def unplanned_reason(root: Path, rel: str, base: str | None = None) -> str | Non
     """
     if artifact_for_path(root, rel) is not None:
         return None
+    if has_layout(root) and PurePosixPath(rel).parent == PurePosixPath("generated/wiki") and rel.endswith(".md"):
+        return None  # generator output of `lockstep check project` (lockstep.layout_wiki), not a planned file
     try:
         side, unreadable = load_side_file(root, base), ""
     except ValueError as exc:
