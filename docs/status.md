@@ -156,7 +156,7 @@ which tests cover each scenario at this commit. For pass or fail, run `make chec
 | `operator-notify/an-open-legacy-concern-is-not-duplicated` | not run at this revision | `operator_notify_router.repo_holding_open_concern` (`scripts/operator_notify_router.py:168`) |
 | `plan-run/a-departure-report-compares-the-change-with-its-plan` | not run at this revision | `lockstep.plan_run` (`src/lockstep/plan_run.py:1`), `lockstep.plan_run` (`src/lockstep/plan_run.py:1`) |
 | `plan-run/hidden-acceptance-tests-are-written-before-and-run-after-implementation` | not run at this revision | `lockstep.plan_run` (`src/lockstep/plan_run.py:1`), `lockstep.plan_run` (`src/lockstep/plan_run.py:1`) |
-| `plan-run/one-driver-runs-a-plan-with-claude-or-codex` | not run at this revision | `lockstep.plan_run` (`src/lockstep/plan_run.py:1`), `lockstep.plan_run` (`src/lockstep/plan_run.py:1`), `lockstep.plan_run.ship_command` (`src/lockstep/plan_run.py:562`) |
+| `plan-run/one-driver-runs-a-plan-with-claude-or-codex` | not run at this revision | `lockstep.plan_run` (`src/lockstep/plan_run.py:1`), `lockstep.plan_run` (`src/lockstep/plan_run.py:1`), `lockstep.plan_run.ship_command` (`src/lockstep/plan_run.py:568`) |
 | `plan-run/the-agents-are-told-to-lay-out-the-planned-files` | not run at this revision | `lockstep.plan_run` (`src/lockstep/plan_run.py:1`), `lockstep.plan_run` (`src/lockstep/plan_run.py:1`) |
 | `portable-template/a-repository-made-with-the-defaults-works-for-anyone` | not run at this revision | `template/lefthook.yml.jinja` (`template/lefthook.yml.jinja:1`) |
 | `portable-template/a-workspace-repository-keeps-the-shared-hooks` | not run at this revision | `template/lefthook.yml.jinja` (`template/lefthook.yml.jinja:1`) |

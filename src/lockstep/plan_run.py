@@ -138,6 +138,12 @@ Source: Brian, 2026-11-23: "i approve", item (c) of `https://github.com/BrianMil
 - **THEN** the implementer's names `uv run lockstep layout` and `layout:`, and the writer's names `layout:`
 
 Tested by: tests/lockstep/test_lockstep_plan_run.py
+
+Declares (typed signatures, from the plan):
+  acceptance_passed(result: object) -> bool
+  load_acceptance_record(run_dir: Path) -> dict[str, Any]
+  latest_acceptance_record(repo: Path, branch: str, base: str, rebased_from: str | None) -> tuple[tuple[str, dict[str, Any], Path] | None, list[Path]]
+  acceptance_record_refusal(run_id: str, record: dict[str, Any], head: str) -> str | None
 [[[end]]]
 """
 
