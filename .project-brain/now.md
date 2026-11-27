@@ -39,6 +39,12 @@ core". The first milestone is met: a repository made from the template ran one p
 clean home folder (hidden tests 0/3 then 3/3, and 0/10 then 10/10) and merged with `ship`
 ([result](../docs/planning/minimal-core-2026-11-20.md), section 8; #996). Since then:
 
+- The generated wiki is back on the layout route (2026-11-27, Brian's plan doc "AES next steps", Milestone 1
+  step 1): `lockstep check project` writes `generated/wiki/` (one page per capability: requirement text,
+  implementing symbols with file and line, tagged tests, coverage) when `lockstep.yaml` says
+  `generated_wiki: true`; the template turns it on and tells the agent to read the index first. Pass or
+  fail written back to the pages is the next step.
+
 - One plan checker (2026-11-25, Brian: "ia prpove yourr ecommednations though"): `lockstep plan check` runs Company
   Planning's validator the way `ship` does, instead of a copy of two of its checks; the copy and
   `src/lockstep/citation_anchor.py` are gone (Q19 resolved).

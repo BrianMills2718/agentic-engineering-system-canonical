@@ -190,3 +190,37 @@ def test_python_m_wiki_prints_the_pages_in_a_layout_repository(repo):
     assert "===== generated/wiki/index.md" in done.stdout and "The tool SHALL do the thing." in done.stdout
     reach = subprocess.run([sys.executable, "-m", "lockstep.wiki_reach"], cwd=repo, capture_output=True, text=True)
     assert reach.returncode == 0 and "problems=0" in reach.stdout
+
+
+@pytest.mark.req("lockstep-plan-format/a-capability-page-shows-requirement-code-and-tests")
+def test_old_page_is_kept_when_writing_fails(repo, monkeypatch):
+    layout_repo(repo)
+    write(repo, "openspec/specs/other/spec.md", "## Purpose\nOther.\n\n## Requirements\n### Requirement: Go\nIt SHALL go.\n\n#### Scenario: Goes\n- **THEN** go\n")
+    project(repo)
+    (repo / "openspec/specs/other/spec.md").unlink()
+    import lockstep.checks.project as proj
+
+    def fail(*args, **kwargs):
+        raise RuntimeError("render failed")
+    monkeypatch.setattr(proj, "project_facts", fail)
+    with pytest.raises(RuntimeError):
+        project(repo)
+    assert (repo / "generated/wiki/other.md").is_file()
+
+
+@pytest.mark.req("lockstep-plan-format/a-capability-page-shows-requirement-code-and-tests")
+def test_capability_named_index_is_refused(repo):
+    layout_repo(repo)
+    write(repo, "openspec/specs/index/spec.md", "## Purpose\nIdx.\n\n## Requirements\n### Requirement: Go\nIt SHALL go.\n\n#### Scenario: Goes\n- **THEN** go\n")
+    with pytest.raises(ValueError, match="named `index`"):
+        project(repo)
+
+
+@pytest.mark.req("lockstep-plan-format/a-repository-without-the-switch-gets-no-pages")
+def test_switch_that_is_not_a_boolean_is_refused(repo):
+    layout_repo(repo, switch=False)
+    plan = yaml.safe_load((repo / "lockstep.yaml").read_text())
+    plan["generated_wiki"] = "true"
+    write(repo, "lockstep.yaml", yaml.safe_dump(plan))
+    with pytest.raises(ValueError, match="true or false"):
+        project(repo)

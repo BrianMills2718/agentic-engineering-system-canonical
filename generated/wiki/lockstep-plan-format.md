@@ -15,11 +15,11 @@ In a layout repository whose `lockstep.yaml` says `generated_wiki: true`, `locks
 Implemented by:
 
 - `lockstep.checks.project` — [`src/lockstep/checks/project.py:1`](../../src/lockstep/checks/project.py#L1)
-- `lockstep.checks.project._wiki` — [`src/lockstep/checks/project.py:413`](../../src/lockstep/checks/project.py#L413)
+- `lockstep.checks.project._wiki` — [`src/lockstep/checks/project.py:417`](../../src/lockstep/checks/project.py#L417)
 - `lockstep.layout_wiki` — [`src/lockstep/layout_wiki.py:1`](../../src/lockstep/layout_wiki.py#L1)
 
-- Scenario `a-capability-page-shows-requirement-code-and-tests`: tested by `tests/lockstep/test_lockstep_layout_wiki.py::test_capability_page_shows_requirement_code_and_tests` ([`tests/lockstep/test_lockstep_layout_wiki.py:127`](../../tests/lockstep/test_lockstep_layout_wiki.py#L127)), `tests/lockstep/test_lockstep_layout_wiki.py::test_page_of_a_removed_capability_is_removed` ([`tests/lockstep/test_lockstep_layout_wiki.py:147`](../../tests/lockstep/test_lockstep_layout_wiki.py#L147))
-- Scenario `a-repository-without-the-switch-gets-no-pages`: tested by `tests/lockstep/test_lockstep_layout_wiki.py::test_repository_without_the_switch_gets_no_pages` ([`tests/lockstep/test_lockstep_layout_wiki.py:141`](../../tests/lockstep/test_lockstep_layout_wiki.py#L141))
+- Scenario `a-capability-page-shows-requirement-code-and-tests`: tested by `tests/lockstep/test_lockstep_layout_wiki.py::test_capability_page_shows_requirement_code_and_tests` ([`tests/lockstep/test_lockstep_layout_wiki.py:127`](../../tests/lockstep/test_lockstep_layout_wiki.py#L127)), `tests/lockstep/test_lockstep_layout_wiki.py::test_page_of_a_removed_capability_is_removed` ([`tests/lockstep/test_lockstep_layout_wiki.py:147`](../../tests/lockstep/test_lockstep_layout_wiki.py#L147)), `tests/lockstep/test_lockstep_layout_wiki.py::test_old_page_is_kept_when_writing_fails` ([`tests/lockstep/test_lockstep_layout_wiki.py:195`](../../tests/lockstep/test_lockstep_layout_wiki.py#L195)), `tests/lockstep/test_lockstep_layout_wiki.py::test_capability_named_index_is_refused` ([`tests/lockstep/test_lockstep_layout_wiki.py:211`](../../tests/lockstep/test_lockstep_layout_wiki.py#L211))
+- Scenario `a-repository-without-the-switch-gets-no-pages`: tested by `tests/lockstep/test_lockstep_layout_wiki.py::test_repository_without_the_switch_gets_no_pages` ([`tests/lockstep/test_lockstep_layout_wiki.py:141`](../../tests/lockstep/test_lockstep_layout_wiki.py#L141)), `tests/lockstep/test_lockstep_layout_wiki.py::test_switch_that_is_not_a_boolean_is_refused` ([`tests/lockstep/test_lockstep_layout_wiki.py:219`](../../tests/lockstep/test_lockstep_layout_wiki.py#L219))
 
 ## a planned file without a cog plan copy is judged by its implements block
 
@@ -134,7 +134,7 @@ Status: **implemented and tested**
 Implemented by:
 
 - `lockstep.checks.project` — [`src/lockstep/checks/project.py:1`](../../src/lockstep/checks/project.py#L1)
-- `lockstep.checks.project.wiki_problems` — [`src/lockstep/checks/project.py:452`](../../src/lockstep/checks/project.py#L452)
+- `lockstep.checks.project.wiki_problems` — [`src/lockstep/checks/project.py:453`](../../src/lockstep/checks/project.py#L453)
 - `lockstep.layout_wiki` — [`src/lockstep/layout_wiki.py:1`](../../src/lockstep/layout_wiki.py#L1)
 
 - Scenario `a-stale-page-fails-the-check`: tested by `tests/lockstep/test_lockstep_layout_wiki.py::test_stale_page_fails_the_check_and_writes_nothing` ([`tests/lockstep/test_lockstep_layout_wiki.py:159`](../../tests/lockstep/test_lockstep_layout_wiki.py#L159)), `tests/lockstep/test_lockstep_layout_wiki.py::test_link_without_summary_is_reported` ([`tests/lockstep/test_lockstep_layout_wiki.py:168`](../../tests/lockstep/test_lockstep_layout_wiki.py#L168))

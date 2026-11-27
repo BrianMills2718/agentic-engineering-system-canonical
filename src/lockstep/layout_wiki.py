@@ -81,8 +81,17 @@ def enabled(root: Path) -> bool:
 
     Returns:
         True when both hold.
+
+    Raises:
+        ValueError: `generated_wiki` is set to something other than true or false, which would
+            otherwise turn the wiki off without a word.
     """
-    return has_layout(root) and _data(root).get("generated_wiki") is True
+    if not has_layout(root):
+        return False
+    value = _data(root).get("generated_wiki", False)
+    if not isinstance(value, bool):
+        raise ValueError(f"lockstep.yaml: generated_wiki must be true or false, not {value!r}")
+    return value
 
 
 def _link(where: str) -> str:
@@ -148,6 +157,8 @@ def _pages(root: Path, coverage: Report) -> dict[str, str]:
              "One page per OpenSpec capability: each requirement's text, the code that implements it, its tagged "
              "tests and its coverage state. Edit the specs, the code or the tests, not these pages.", ""]
     out: dict[str, str] = {}
+    if "index" in by_capability:
+        raise ValueError("an OpenSpec capability named `index` would overwrite generated/wiki/index.md; rename it")
     for capability, ids in by_capability.items():
         index.append(f"- [{capability}]({capability}.md) — {_summary(root, capability, ids, coverage)}")
         out[f"{capability}.md"] = _capability_page(capability, ids, coverage, text)

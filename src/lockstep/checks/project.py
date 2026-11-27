@@ -407,11 +407,15 @@ def _project_once(root: Path, check: bool = False) -> list[str]:
     if page.parent.is_dir() and not (check and _ignored(root, LINKS_FILE)):
         contents[root / LINKS_FILE] = json.dumps(links(coverage, root), indent=1) + "\n"
     gone = _wiki(root, coverage, contents, check)
-    return project_facts(root, check=check, rendered=render(root, contents)) + gone
+    facts = project_facts(root, check=check, rendered=render(root, contents))
+    if not check:  # remove old pages only once every output rendered and was written
+        for rel in gone:
+            (root / rel).unlink()
+    return facts + gone
 
 
 def _wiki(root: Path, coverage: Report, contents: dict[Path, str], check: bool) -> list[str]:
-    """Add the generated wiki pages to `contents`; return the old pages it no longer writes, removing them unless check.
+    """Add the generated wiki pages to `contents`; return the old pages it no longer writes (the caller removes them).
 
     Implements: lockstep-plan-format/a-layout-repository-generates-one-wiki-page-per-capability
 
@@ -434,7 +438,7 @@ def _wiki(root: Path, coverage: Report, contents: dict[Path, str], check: bool) 
         check: Report without writing or removing.
 
     Returns:
-        Paths relative to root of the removed (or, with check, stale) pages for capabilities that are gone.
+        Paths relative to root of the pages for capabilities that are gone (removed by `project` unless check).
     """
     from lockstep.layout_wiki import orphan_pages, wiki_contents
 
@@ -443,9 +447,6 @@ def _wiki(root: Path, coverage: Report, contents: dict[Path, str], check: bool) 
     if pages and not check:
         next(iter(pages)).parent.mkdir(parents=True, exist_ok=True)
     gone = orphan_pages(root, set(pages))
-    if not check:
-        for path in gone:
-            path.unlink()
     return [p.relative_to(root).as_posix() for p in gone]
 
 
