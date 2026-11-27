@@ -456,12 +456,15 @@ layout:
   implements:
   - lockstep-plan-check/lockstep-plan-check-runs-company-planning-s-validator
   - lockstep-plan-check/the-validator-s-source-is-set-in-lockstep-yaml
+  - lockstep-plan-check/the-validator-can-use-an-installed-graph-schema
   exports:
+  - 'validator_command(python: list[str], validator: str, repo: Path) -> list[str]'
   - 'fetch_planning_validator(run: Run) -> tuple[str | None, str | None]'
   - 'run_validator(repo: Path) -> tuple[int, str]'
   - 'unit_problems(repo: Path) -> list[str]'
   tests:
   - tests/lockstep/test_lockstep_plan_check.py
+  - tests/test_ship.py
 - path: src/lockstep/plan_edit.py
   purpose: Name the plan items an edit by hand to the plan file changes, and every file and symbol linked to them (behavior
     3.8)
@@ -1347,6 +1350,22 @@ layout:
 - path: meta-process/templates/agents.md.template
   purpose: Defines generated AGENTS structure and provenance placeholders for canonical instructions, relationship digest,
     commands and workflow.
+  implements: []
+  tests: []
+- path: openspec/changes/archive/2026-11-27-installed-validator-graph-schema/prior-art.json
+  purpose: Comparison of existing validator and Git installation options
+  implements: []
+  tests: []
+- path: openspec/changes/archive/2026-11-27-installed-validator-graph-schema/proposal.md
+  purpose: Proposal for using a separately installed typed graph schema
+  implements: []
+  tests: []
+- path: openspec/changes/archive/2026-11-27-installed-validator-graph-schema/specs/lockstep-plan-check/spec.md
+  purpose: The installed graph schema requirement
+  implements: []
+  tests: []
+- path: openspec/changes/archive/2026-11-27-installed-validator-graph-schema/tasks.md
+  purpose: Implementation and consumer verification tasks for the installed schema
   implements: []
   tests: []
 - path: openspec/changes/archive/.gitkeep

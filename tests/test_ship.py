@@ -2077,3 +2077,28 @@ def test_an_unusable_planning_project_graph_is_refused(tmp_path, monkeypatch, ca
     out = capsys.readouterr().out
     assert "planning.project_graph" in out and "git address" in out
     assert not on_remote(remote, "feature")
+
+
+@pytest.mark.req("lockstep-plan-check/both-validator-entry-points-use-the-installed-graph-schema")
+@pytest.mark.parametrize("command", ["plan", "ship"])
+def test_installed_graph_schema_reaches_both_validator_runs(repo, tmp_path, monkeypatch, command):
+    """The freshness retry uses the same schema as the strict check, including paths with spaces."""
+    from lockstep.plan_check import plan_cli
+
+    work, _, _ = repo
+    schema = tmp_path / "managed data" / "typed-graph.schema.json"
+    seen = tmp_path / "argv.jsonl"
+    monkeypatch.setenv("SHIP_TYPED_GRAPH_SCHEMA", str(schema))
+    validator = Path(os.environ["SHIP_PLANNING_VALIDATOR"])
+    validator.write_text(
+        "import json, sys\n"
+        f"with open({str(seen)!r}, 'a') as log: print(json.dumps(sys.argv[1:]), file=log)\n"
+        "sys.exit(0 if '--no-freshness' in sys.argv else 1)\n"
+    )
+    if command == "plan":
+        assert plan_cli(["check", "--repo", str(work)]) == 0
+    else:
+        assert ship.planning_gate(ship.Run(work), work, always_validate=True) is None
+    strict, retry = [json.loads(line) for line in seen.read_text().splitlines()]
+    assert strict[strict.index("--typed-graph-schema") + 1] == str(schema)
+    assert retry == [*strict, "--no-freshness"]
