@@ -218,3 +218,67 @@ when a docstring's plan copy is stale or a `fixed:` file has no copy block?"; al
 - **GIVEN** `fixed: ["src/greeter/*"]` and a layout row for `src/greeter/__init__.py` whose file has a docstring with no cog plan copy
 - **WHEN** `lockstep check project --check` runs
 - **THEN** it prints `no-copy src/greeter/__init__.py` and exits 1, and once the file holds the copy that `lockstep layout` writes it reports nothing for that file
+
+### Requirement: Status lists each part with its mode and last gate result
+
+`lockstep status --parts` SHALL print one row per AES part: each commit check named in `lockstep-checks`' check list
+with its mode (`block`, `warn` or `off`, defaults as the commit checks apply them), `planning.gate` and
+`planning.one_page_plans` (default `warn`), `planning.validator` and `planning.skills` only when `lockstep.yaml` sets
+them, `guard.mode` (`warn (default)` when unset), and `rules` and `feedback` as `per-repository control unavailable`. Modes SHALL be read from
+`lockstep.yaml` in the working tree with the same mode normalization as the hook and plugin settings, and the output SHALL say that ship reads the planning settings from the default
+branch at origin. For `planning.gate` and `planning.one_page_plans` the last result SHALL be the outcome, time and short
+head of the newest record (by its `time`) among `planning-verdicts/*.jsonl` in ship's log folder (`$SHIP_LOG_DIR`, else
+`~/code2/.ship-logs` where `~/code2` exists, else the XDG state folder) whose `repo` is this repository's owner/name from
+origin, gate `planning gate` or `one-page plans`; every other row, and a gate with no matching record, SHALL say
+`no record`. A record line that is not JSON SHALL be skipped. `--json` SHALL print the rows as a JSON list. The command
+SHALL exit 0, and 2 when `lockstep.yaml` cannot be read or holds a value the commit checks reject.
+
+Source: Brian, 2026-11-25: "the whole systm should be configurable so you can congfigure what is on or off or any other settings. for any piece" (docs/planning/next.goal.md, parking item "`lockstep status` prints each part's mode and last result"). Inferred by agent: the parts table is a `--parts` flag on the existing `lockstep status` (already the requirement report), the row list, and showing a record's outcome rather than its mode text.
+
+#### Scenario: Each part's mode comes from the working tree's settings
+
+- **GIVEN** a repository whose `lockstep.yaml` sets `checks: {trace: warn}` and `planning: {gate: block}` and no guard
+- **WHEN** `lockstep status --parts --json` runs
+- **THEN** trace is `warn`, mutation is `off`, arch is `block`, `planning.gate` is `block`, `planning.one_page_plans` is `warn`, `guard.mode` is `warn (default)`, rules and feedback are `per-repository control unavailable`, and no validator row is listed
+
+#### Scenario: The newest planning-gate record for this repository is shown
+
+- **GIVEN** ship's log folder holding records for this repository's planning gate on two days and a newer record for another repository
+- **WHEN** `lockstep status --parts` runs
+- **THEN** the planning gate row shows the outcome and head of this repository's newer record, and `planning.one_page_plans` says `no record`
+
+#### Scenario: Unreadable settings exit 2
+
+- **GIVEN** a `lockstep.yaml` whose check mode is not block, warn or off
+- **WHEN** `lockstep status --parts` runs
+- **THEN** it exits 2 naming the problem
+
+### Requirement: The project check reports Company Planning plugin drift
+
+`lockstep check project` SHALL compare `.claude/settings.json` in the working tree with `planning.skills` in `lockstep.yaml`, with no network, looking only at whether `extraKnownMarketplaces.inside-success.source` is `{source: github, repo: <marketplace>}` (repository compared without letter case) and `enabledPlugins."company-planning@inside-success"` is `true`. A missing key or file SHALL print a `refused:` line under `mode: block` (and make the check exit 1) and a `warning:` line under `warn`; under `off` or no `skills` key nothing SHALL be looked at. A conflict (another source or repository, or an `enabledPlugins` value that is not `true`, such as an opt-out `false`) SHALL only print a `warning:` line naming the key, whatever the mode. Each line SHALL name `lockstep init` as the fix. A bad `skills` value (unknown mode, marketplace not `owner/repo` or missing when on) SHALL be refused naming its line in `lockstep.yaml`, and SHALL also be named by the side-file check; `ship`'s `planning_modes` SHALL NOT validate `skills`, so it never stops a merge. The check adds no name to `checks:`.
+
+Source: Brian, 2026-11-25, the settings model adopted in docs/planning/next.goal.md ("Company Planning skills | per-person plugin install | slice 3"); slice 3 planned in full 2026-11-26 in docs/planning/next.goal.md ("Drift check, inside `lockstep check project`", "Not a ship gate"). Inferred by agent: the check rides on `project` so the lefthook command init generates stays unchanged in existing repositories.
+
+#### Scenario: A deleted enabledPlugins entry refuses under block and warns under warn
+
+- **GIVEN** a repository init wrote the keys into, then `enabledPlugins` lost its `company-planning@inside-success` entry
+- **WHEN** `lockstep check project` runs with `planning.skills.mode` block, then warn
+- **THEN** under block it prints a `refused:` line naming the key and `lockstep init` and exits 1; under warn it prints a `warning:` line and exits 0
+
+#### Scenario: A conflict only warns
+
+- **GIVEN** `.claude/settings.json` naming another `inside-success` repository, or `enabledPlugins` set to `false`
+- **WHEN** `lockstep check project` runs under `block`
+- **THEN** it prints a `warning:` line naming the key and the drift adds no failure
+
+#### Scenario: Off is not looked at
+
+- **GIVEN** `planning.skills.mode: off` and no plugin keys
+- **WHEN** `lockstep check project` runs
+- **THEN** it prints no skills line
+
+#### Scenario: A bad skills value is named with its line and ship ignores it
+
+- **GIVEN** `planning.skills` with an unknown mode, or a marketplace that is not `owner/repo`
+- **WHEN** the side-file check and `lockstep check project` run, and `planning_modes` reads the file
+- **THEN** both checks name `planning.skills` and the line, and `planning_modes` returns the gate modes without error

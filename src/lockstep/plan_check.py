@@ -15,7 +15,7 @@ fetched or run, or exits with another status.
 [[[cog import lockstep.cogtext as c; c.docstring("src:lockstep:plan_check.py", indent=0)]]]
 Plan (generated from lockstep.yaml layout and OpenSpec; edit the spec or the layout row, not this text):
 
-Implements: lockstep-plan-check/lockstep-plan-check-runs-company-planning-s-validator
+Implements: lockstep-plan-check/lockstep-plan-check-runs-company-planning-s-validator, lockstep-plan-check/the-validator-s-source-is-set-in-lockstep-yaml
 
 ### Requirement: `lockstep plan check` runs Company Planning's validator
 
@@ -54,6 +54,53 @@ Source: Brian, 2026-11-11: "i approve single tool desing re d4" (`proposals/one-
 - **GIVEN** a planning package the validator passes and a work-units file with a unit depending on a missing unit
 - **WHEN** `lockstep plan check` runs
 - **THEN** it exits 1 and names the work-unit problem
+
+### Requirement: The validator's source is set in lockstep.yaml
+
+`ship` and `lockstep plan check` SHALL take Company Planning's validator from the first of: `SHIP_PLANNING_VALIDATOR`
+(a file, used as given); `SHIP_COMPANY_PLANNING` (a local Company Planning checkout, read at `origin/<ref>`);
+`planning.validator.repo` in `lockstep.yaml` on the repository's default branch at `origin` (an address git can clone,
+kept as a bare clone under `$XDG_CACHE_HOME/lockstep/`, default `~/.cache/lockstep/`, in a folder named by a hash of
+the address, cloned or fetched under a file lock with `GIT_TERMINAL_PROMPT=0`, ssh `BatchMode=yes` and a 300-second
+timeout, and read at `<ref>`); else `~/code2/company-planning` read at `origin/<ref>`. `planning.validator.ref` SHALL
+name a branch, `main` when absent. Each run SHALL print and log the line `ship: planning validator: <source>` naming
+the source that won and why, and SHALL print and log a warning when an environment variable overrides a configured
+repository. A `planning.validator` that is not a mapping of a text `repo` and an optional text `ref` SHALL refuse with
+a configuration error naming the setting. A clone or fetch that fails or times out SHALL be reported as the validator
+not fetchable, naming the address. Credentials SHALL come only from the user's own git setup, never from
+`lockstep.yaml`.
+
+Source: Brian, 2026-11-25: "the whole systm should be configurable so you can congfigure what is on or off or any other settings. for any piece." Inferred by agent: the order of sources, the cache, the default branch `main` and the log line (`docs/planning/next.goal.md`, slice 2).
+
+#### Scenario: A configured repository is the source
+
+- **GIVEN** `lockstep.yaml` on the default branch naming `planning.validator.repo`, and neither environment variable set
+- **WHEN** `lockstep plan check` runs
+- **THEN** the validator from that repository runs, and the output names that repository as the source
+
+#### Scenario: An environment variable overrides a configured repository with a warning
+
+- **GIVEN** a configured repository and `SHIP_COMPANY_PLANNING` set
+- **WHEN** `lockstep plan check` runs
+- **THEN** the validator from `SHIP_COMPANY_PLANNING` runs and a warning names the configured repository it overrode
+
+#### Scenario: The ref picks the branch
+
+- **GIVEN** a configured repository whose `release` branch holds a different validator, and `ref: release`
+- **WHEN** `lockstep plan check` runs
+- **THEN** the validator from the `release` branch runs
+
+#### Scenario: An unreachable configured repository cannot be fetched
+
+- **GIVEN** a configured repository address that does not exist
+- **WHEN** `lockstep plan check` runs
+- **THEN** it exits 2 and names the address it could not fetch
+
+#### Scenario: A bad validator setting is a configuration error
+
+- **GIVEN** `planning.validator` set to a text instead of a mapping
+- **WHEN** `lockstep plan check` runs
+- **THEN** it exits 2 and names `planning.validator`
 
 Tested by: tests/lockstep/test_lockstep_plan_check.py
 
@@ -99,33 +146,107 @@ def _load(path: Path) -> Any:
         raise Unreadable(f"{path}: not JSON ({exc})") from exc
 
 
+def _say(run: Run, line: str) -> None:
+    print(line)
+    run.write(line)
+
+
+def _cached_clone(run: Run, address: str) -> tuple[Path | None, str | None]:
+    """A bare clone of `address` under $XDG_CACHE_HOME/lockstep/, cloned or fetched now under a lock: (folder, None),
+    or (None, why not). No password prompt (GIT_TERMINAL_PROMPT=0, ssh BatchMode) and a 300-second limit."""
+    import fcntl
+    import hashlib
+    cache = Path(os.environ.get("XDG_CACHE_HOME") or Path.home() / ".cache") / "lockstep"
+    cache.mkdir(parents=True, exist_ok=True)
+    folder = cache / f"{hashlib.sha256(address.encode()).hexdigest()[:16]}.git"
+    env = {**os.environ, "GIT_TERMINAL_PROMPT": "0",
+           "GIT_SSH_COMMAND": f"{os.environ.get('GIT_SSH_COMMAND', 'ssh')} -o BatchMode=yes"}
+    with open(cache / f"{folder.stem}.lock", "w") as lock:
+        fcntl.flock(lock, fcntl.LOCK_EX)
+        cmd = (["git", "-C", str(folder), "fetch", "-q", "--prune", address, "+refs/heads/*:refs/heads/*"]
+               if folder.is_dir() else ["git", "clone", "-q", "--bare", address, str(folder)])
+        try:
+            done = subprocess.run(cmd, capture_output=True, text=True, env=env, timeout=300)
+        except subprocess.TimeoutExpired:
+            return None, f"could not fetch {address} within 300 seconds, so the planning package cannot be validated"
+    _say(run, f"ship: fetch {address} into {folder}: exit status {done.returncode}")
+    run.write(done.stdout + done.stderr)
+    if done.returncode:
+        said = (done.stderr.strip().splitlines() or [""])[-1]
+        return None, f"could not fetch {address} ({said}), so the planning package cannot be validated"
+    return folder, None
+
+
 def fetch_planning_validator(run: Run) -> tuple[str | None, str | None]:
     """Return (path of Company Planning's validate_planning_package.py, None), or (None, why it cannot be had).
 
-    $SHIP_PLANNING_VALIDATOR is taken as given; otherwise the validator's folder is extracted from origin/main of
-    $SHIP_COMPANY_PLANNING (default ~/code2/company-planning) into the log folder. `ship` and `lockstep plan check` both
-    call this, so a plan is checked by one validator.
+    The source is the first of $SHIP_PLANNING_VALIDATOR (taken as given), $SHIP_COMPANY_PLANNING (a checkout read at
+    origin/<ref>), `planning.validator` in lockstep.yaml on the default branch (a cached bare clone read at <ref>), and
+    ~/code2/company-planning at origin/<ref>; the validator's folder is extracted into the log folder. `ship` and
+    `lockstep plan check` both call this, so a plan is checked by one validator.
+
+    Implements: lockstep-plan-check/the-validator-s-source-is-set-in-lockstep-yaml
+
+    Requirement text (generated):
+        lockstep-plan-check/the-validator-s-source-is-set-in-lockstep-yaml: `ship` and `lockstep
+            plan check` SHALL take Company Planning's validator from the first of:
+            `SHIP_PLANNING_VALIDATOR` (a file, used as given); `SHIP_COMPANY_PLANNING` (a local
+            Company Planning checkout, read at `origin/<ref>`); `planning.validator.repo` in
+            `lockstep.yaml` on the repository's default branch at `origin` (an address git can
+            clone, kept as a bare clone under `$XDG_CACHE_HOME/lockstep/`, default
+            `~/.cache/lockstep/`, in a folder named by a hash of the address, cloned or fetched
+            under a file lock with `GIT_TERMINAL_PROMPT=0`, ssh `BatchMode=yes` and a 300-second
+            timeout, and read at `<ref>`); else `~/code2/company-planning` read at `origin/<ref>`.
+            `planning.validator.ref` SHALL name a branch, `main` when absent. Each run SHALL print
+            and log the line `ship: planning validator: <source>` naming the source that won and
+            why, and SHALL print and log a warning when an environment variable overrides a
+            configured repository. A `planning.validator` that is not a mapping of a text `repo` and
+            an optional text `ref` SHALL refuse with a configuration error naming the setting. A
+            clone or fetch that fails or times out SHALL be reported as the validator not fetchable,
+            naming the address. Credentials SHALL come only from the user's own git setup, never
+            from `lockstep.yaml`.
+
+    Raises:
+        ConfigError: `planning.validator` in lockstep.yaml is malformed.
     """
+    from lockstep.checks.config import validator_source
     from lockstep.ship import GOAL_PROVENANCE, VALIDATOR
 
+    configured = validator_source(run.repo)
     validator = os.environ.get("SHIP_PLANNING_VALIDATOR")
-    if not validator:
-        source = Path(os.environ.get("SHIP_COMPANY_PLANNING", Path.home() / "code2" / "company-planning"))
-        if run.step("fetch company-planning", ["git", "-C", str(source), "fetch", "-q", "origin"]).returncode:
-            return None, f"could not fetch {source}, so the planning package cannot be validated"
+    checkout = os.environ.get("SHIP_COMPANY_PLANNING")
+    overriding = "SHIP_PLANNING_VALIDATOR" if validator else "SHIP_COMPANY_PLANNING" if checkout else None
+    if configured and overriding:
+        _say(run, f"ship: warning: {overriding} overrides planning.validator.repo {configured[0]} in lockstep.yaml")
+    if validator:
+        _say(run, f"ship: planning validator: {validator} (SHIP_PLANNING_VALIDATOR)")
+    else:
+        ref = configured[1] if configured else "main"
+        if configured and not checkout:
+            folder, refused = _cached_clone(run, configured[0])
+            if folder is None:
+                return None, refused
+            source, tree, said = folder, ref, f"{configured[0]} at {ref} (lockstep.yaml planning.validator)"
+        else:
+            source = Path(checkout or Path.home() / "code2" / "company-planning")
+            if run.step("fetch company-planning", ["git", "-C", str(source), "fetch", "-q", "origin"]).returncode:
+                return None, f"could not fetch {source}, so the planning package cannot be validated"
+            tree = f"origin/{ref}"
+            said = f"{source} at {tree} ({'SHIP_COMPANY_PLANNING' if checkout else 'the default checkout'})"
+        _say(run, f"ship: planning validator: {said}")
         # the validator imports its sibling modules (coverage_check.py), so extract the whole scripts folder;
         # it finds goal_provenance.py three folders up, so every path keeps its place in company-planning
         scripts_dir = str(Path(VALIDATOR).parent)
         present = [p for p in GOAL_PROVENANCE
-                   if subprocess.run(["git", "-C", str(source), "cat-file", "-e", f"origin/main:{p}"],
+                   if subprocess.run(["git", "-C", str(source), "cat-file", "-e", f"{tree}:{p}"],
                                      capture_output=True).returncode == 0]
         archive = Path(run.log.parent) / "planning-validator.tar"
         target = Path(run.log.parent) / "planning-validator"
         target.mkdir(parents=True, exist_ok=True)
-        made = run.step("archive the validator folder from company-planning origin/main",
-                        ["git", "-C", str(source), "archive", "-o", str(archive), "origin/main", scripts_dir, *present])
+        made = run.step(f"archive the validator folder from company-planning {tree}",
+                        ["git", "-C", str(source), "archive", "-o", str(archive), tree, scripts_dir, *present])
         if made.returncode:
-            return None, f"could not archive {scripts_dir} from {source} origin/main"
+            return None, f"could not archive {scripts_dir} from {source} {tree}"
         unpacked = run.step("unpack the validator folder", ["tar", "-x", "-f", str(archive), "-C", str(target)])
         if unpacked.returncode:
             return None, f"could not unpack {scripts_dir} into {target}"
@@ -152,7 +273,11 @@ def run_validator(repo: Path) -> tuple[int, str]:
     with tempfile.TemporaryDirectory(prefix="lockstep-plan-check-") as work:
         with contextlib.redirect_stdout(sys.stderr):
             run = Run(repo, log_dir=Path(work))  # its log and the unpacked validator live in this run's own folder
-            validator, refused = fetch_planning_validator(run)
+            from lockstep.checks.config import ConfigError
+            try:
+                validator, refused = fetch_planning_validator(run)
+            except ConfigError as exc:
+                validator, refused = None, str(exc)
             python = validator_python(run) if validator else None
         if validator is None:
             return 2, f"cannot check: {refused}"

@@ -91,8 +91,10 @@ layout:
   - lockstep-checks/each-check-can-be-set-to-block-warn-or-off-in-lockstep-yaml
   - lockstep-checks/changed-count-line-and-exit-status
   - lockstep-projection/project-status-and-show-are-lockstep-commands
+  - lockstep-projection/status-lists-each-part-with-its-mode-and-last-gate-result
   tests:
   - tests/lockstep/checks/test_lockstep_check_changed.py
+  - tests/lockstep/checks/test_lockstep_check_parts.py
   - tests/lockstep/checks/test_lockstep_check_plugin.py
   - tests/lockstep/checks/test_lockstep_checks_config.py
 - path: src/lockstep/checks/config.py
@@ -105,6 +107,7 @@ layout:
   - 'planning_modes(data: object) -> dict[str, str]'
   - 'planning_setting(repo: Path, key: str) -> str'
   - 'copier_answer_on(repo: Path, key: str) -> bool'
+  - 'validator_source(repo: Path) -> tuple[str, str] | None'
   tests:
   - tests/lockstep/checks/test_lockstep_checks_config.py
 - path: src/lockstep/checks/gate_records.py
@@ -151,6 +154,45 @@ layout:
   - lockstep-projection/the-pytest-plugin-ships-as-a-pytest11-entry-point
   tests:
   - tests/lockstep/checks/test_lockstep_check_plugin.py
+- path: src/lockstep/checks/parts.py
+  purpose: '`lockstep status --parts`: each AES part''s mode from lockstep.yaml and the newest planning-gate record'
+  implements:
+  - lockstep-projection/status-lists-each-part-with-its-mode-and-last-gate-result
+  exports:
+  - 'verdicts_dir() -> Path'
+  - 'last_results(repo_name: str, folder: Path) -> dict[str, str]'
+  - 'parts(repo: Path) -> list[Part]'
+  - 'as_json(rows: list[Part]) -> str'
+  - 'table(rows: list[Part]) -> str'
+  tests:
+  - tests/lockstep/checks/test_lockstep_check_parts.py
+- path: src/lockstep/checks/plugin_settings.py
+  purpose: 'planning.skills: merge the Company Planning plugin keys into .claude/settings.json and report their drift'
+  implements:
+  - lockstep-init/init-writes-the-company-planning-plugin-keys-when-planning-skills-is-on
+  - lockstep-projection/the-project-check-reports-company-planning-plugin-drift
+  exports:
+  - 'read_setting(text: str) -> tuple[Setting, str | None]'
+  - 'setting(root: Path) -> Setting'
+  - 'wanted(marketplace: str) -> dict'
+  - 'merge(path: Path, wanted_setting: Setting) -> tuple[str, list[str]]'
+  - 'drift(root: Path) -> tuple[list[str], list[str]]'
+  - 'codex_commands(marketplace: str) -> list[str]'
+  - 'agents_note(path: Path) -> str'
+  tests:
+  - tests/test_plugin_settings.py
+- path: src/lockstep/checks/project_graph.py
+  purpose: 'Where ship finds the project graph: $PROJECT_GRAPH, else planning.project_graph on the default branch, else the old default'
+  implements:
+  - ship/the-project-graph-is-named-in-lockstep-yaml
+  exports:
+  - 'project_graph_problem(value: object) -> str | None'
+  - 'project_graph(repo: Path) -> tuple[Path, str]'
+  - 'plan_list_config(repo: Path, log: Callable[[str], None]) -> tuple[Path | None, str]'
+  - 'graph_setting(key: str, env: str, config: Path) -> str | None'
+  tests:
+  - tests/lockstep/checks/test_lockstep_check_project_graph.py
+  - tests/test_ship.py
 - path: src/lockstep/checks/project.py
   purpose: 'Projection: write each requirement''s text into the docstrings that implement it, and each plan''s coverage into
     the plan'
@@ -348,8 +390,10 @@ layout:
   implements:
   - lockstep-init/init-installs-lockstep-in-a-repository-without-overwriting
   - lockstep-init/installed-files-name-no-machine-and-read-their-settings-from-lockstep-yaml
+  - lockstep-init/init-upgrades-its-own-old-hook-command-only-where-lockstep-yaml-sets-the-guard
   tests:
   - tests/lockstep/test_lockstep_init.py
+  - tests/test_plugin_settings.py
 - path: src/lockstep/lane_sweep.py
   purpose: Remove finished git worktrees (lanes) and report the rest
   implements:
@@ -392,6 +436,7 @@ layout:
   purpose: '`lockstep plan check [--repo PATH] [--json]`: run Company Planning''s validator on the repository''s plan'
   implements:
   - lockstep-plan-check/lockstep-plan-check-runs-company-planning-s-validator
+  - lockstep-plan-check/the-validator-s-source-is-set-in-lockstep-yaml
   exports:
   - 'fetch_planning_validator(run: Run) -> tuple[str | None, str | None]'
   - 'run_validator(repo: Path) -> tuple[int, str]'
@@ -1260,6 +1305,22 @@ layout:
     commands and workflow.
   implements: []
   tests: []
+- path: openspec/changes/archive/2026-11-25-planning-validator-source/prior-art.json
+  purpose: Prior-art record for the planning validator source setting (removed after its merge)
+  implements: []
+  tests: []
+- path: openspec/changes/archive/2026-11-25-planning-validator-source/proposal.md
+  purpose: "Proposal: the planning validator's source is a lockstep.yaml setting (removed after its merge)"
+  implements: []
+  tests: []
+- path: openspec/changes/archive/2026-11-25-planning-validator-source/specs/lockstep-plan-check/spec.md
+  purpose: Spec delta adding the validator-source requirement (removed after its merge)
+  implements: []
+  tests: []
+- path: openspec/changes/archive/2026-11-25-planning-validator-source/tasks.md
+  purpose: Tasks for the planning validator source setting (removed after its merge)
+  implements: []
+  tests: []
 - path: openspec/changes/archive/.gitkeep
   purpose: Empty placeholder that keeps the archive folder in git after its change folders were removed.
   implements: []
@@ -1267,6 +1328,78 @@ layout:
 - path: openspec/config.yaml
   purpose: Selects OpenSpec’s spec-driven schema; optional context, artifact rules and operation guidance remain commented
     examples rather than active custom requirements.
+  implements: []
+  tests: []
+- path: openspec/changes/archive/2026-11-26-guard-mode-setting/prior-art.json
+  purpose: "Prior-art record: guard.mode in lockstep.yaml replaces the PCW_MODE hardcode (removed after its merge)"
+  implements: []
+  tests: []
+- path: openspec/changes/archive/2026-11-26-guard-mode-setting/proposal.md
+  purpose: "Proposal: the edit guard reads guard.mode from lockstep.yaml; init writes it (removed after its merge)"
+  implements: []
+  tests: []
+- path: openspec/changes/archive/2026-11-26-guard-mode-setting/specs/lockstep-guard/spec.md
+  purpose: "Spec delta: guard mode from PCW_MODE, then guard.mode, then warn (removed after its merge)"
+  implements: []
+  tests: []
+- path: openspec/changes/archive/2026-11-26-guard-mode-setting/specs/lockstep-init/spec.md
+  purpose: "Spec delta: init writes guard.mode and upgrades its own old hook command (removed after its merge)"
+  implements: []
+  tests: []
+- path: openspec/changes/archive/2026-11-26-guard-mode-setting/tasks.md
+  purpose: "Tasks: guard.mode setting (removed after its merge)"
+  implements: []
+  tests: []
+- path: openspec/changes/archive/2026-11-26-planning-project-graph-setting/prior-art.json
+  purpose: "Prior-art record: planning.project_graph names where ship finds the project graph (removed after its merge)"
+  implements: []
+  tests: []
+- path: openspec/changes/archive/2026-11-26-planning-project-graph-setting/proposal.md
+  purpose: "Proposal: planning.project_graph replaces the ~/code2/aes-config default (removed after its merge)"
+  implements: []
+  tests: []
+- path: openspec/changes/archive/2026-11-26-planning-project-graph-setting/specs/ship/spec.md
+  purpose: "Spec delta: the project graph is named in lockstep.yaml (removed after its merge)"
+  implements: []
+  tests: []
+- path: openspec/changes/archive/2026-11-26-planning-project-graph-setting/tasks.md
+  purpose: "Tasks: planning.project_graph setting (removed after its merge)"
+  implements: []
+  tests: []
+- path: openspec/changes/archive/2026-11-26-lockstep-status-command/prior-art.json
+  purpose: "Prior-art record: lockstep status --parts shows each part's mode and last result (removed after its merge)"
+  implements: []
+  tests: []
+- path: openspec/changes/archive/2026-11-26-lockstep-status-command/proposal.md
+  purpose: "Proposal: lockstep status --parts prints each part's mode and last gate result (removed after its merge)"
+  implements: []
+  tests: []
+- path: openspec/changes/archive/2026-11-26-lockstep-status-command/specs/lockstep-projection/spec.md
+  purpose: "Spec delta: status lists each part with its mode and last gate result (removed after its merge)"
+  implements: []
+  tests: []
+- path: openspec/changes/archive/2026-11-26-lockstep-status-command/tasks.md
+  purpose: "Tasks: lockstep status --parts (removed after its merge)"
+  implements: []
+  tests: []
+- path: openspec/changes/archive/2026-11-26-planning-skills-setting/prior-art.json
+  purpose: "Prior-art record: planning.skills loads Company Planning through Claude Code's plugin keys (removed after its merge)"
+  implements: []
+  tests: []
+- path: openspec/changes/archive/2026-11-26-planning-skills-setting/proposal.md
+  purpose: "Proposal: planning.skills writes the Company Planning plugin keys and reports drift (removed after its merge)"
+  implements: []
+  tests: []
+- path: openspec/changes/archive/2026-11-26-planning-skills-setting/specs/lockstep-init/spec.md
+  purpose: "Spec delta: init writes the Company Planning plugin keys (removed after its merge)"
+  implements: []
+  tests: []
+- path: openspec/changes/archive/2026-11-26-planning-skills-setting/specs/lockstep-projection/spec.md
+  purpose: "Spec delta: the project check reports Company Planning plugin drift (removed after its merge)"
+  implements: []
+  tests: []
+- path: openspec/changes/archive/2026-11-26-planning-skills-setting/tasks.md
+  purpose: "Tasks: planning.skills setting (removed after its merge)"
   implements: []
   tests: []
 - path: openspec/specs/.gitkeep
@@ -2493,8 +2626,16 @@ layout:
   purpose: Tests the generated docs/links.json file that links requirements to the implementing code and tests.
   implements: []
   tests: []
+- path: tests/lockstep/checks/test_lockstep_check_parts.py
+  purpose: 'Tests for `lockstep status --parts`: modes per part, the newest matching gate record, unreadable settings'
+  implements: []
+  tests: []
 - path: tests/lockstep/checks/test_lockstep_check_plugin.py
   purpose: Tests for the pytest plugin, the top-level wiring and the modes of `lockstep check project`.
+  implements: []
+  tests: []
+- path: tests/lockstep/checks/test_lockstep_check_project_graph.py
+  purpose: Tests where ship finds the project graph and which values of planning.project_graph it refuses.
   implements: []
   tests: []
 - path: tests/lockstep/checks/test_lockstep_check_project.py
@@ -2962,6 +3103,10 @@ layout:
 - path: tests/test_scan_doc_freshness_ecosystem.py
   purpose: Tests that root instruction freshness follows the active source during migration in the ecosystem doc freshness
     scanner.
+  implements: []
+  tests: []
+- path: tests/test_plugin_settings.py
+  purpose: Tests that lockstep init writes the Company Planning plugin keys and that the project check reports their drift.
   implements: []
   tests: []
 - path: tests/test_ship.py

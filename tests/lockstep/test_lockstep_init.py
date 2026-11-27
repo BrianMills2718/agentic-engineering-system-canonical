@@ -37,9 +37,11 @@ def test_fresh_repository_gets_all_four(tmp_path, capsys):
     assert {m for m in cfg["checks"].values() if m is not False} == {"block"}
     assert cfg["layout"] == [] and "human_pattern" in cfg["sources"]
     assert cfg["planning"] == {"gate": "block", "one_page_plans": "block"}
+    assert cfg["guard"] == {"mode": "block"}
     for rel in (".claude/settings.json", ".codex/hooks.json"):
         hook = json.loads((root / rel).read_text())["hooks"]["PreToolUse"][0]["hooks"][0]
         assert "lockstep-hook" in hook["command"] and "uvx --from git+https://" in hook["command"]
+        assert "PCW_MODE" not in hook["command"]
     assert "--client codex" in (root / ".codex/hooks.json").read_text()
     lefthook = yaml.safe_load((root / "lefthook.yml").read_text())
     assert "lockstep" in lefthook["pre-commit"]["commands"]
@@ -222,3 +224,58 @@ def test_aes_own_lockstep_yaml_has_no_unknown_key():
     aes_root = Path(__file__).resolve().parents[2]
     assert (aes_root / "lockstep.yaml").is_file()
     assert not [p for p in side_file_problems(aes_root, {"outcomes": []}) if "unknown key" in p]
+
+
+OLD_CLAUDE = 'cd "$CLAUDE_PROJECT_DIR" && PCW_MODE=block uvx --from {s} lockstep-hook'
+OLD_CODEX = "PCW_MODE=block uvx --from {s} lockstep-hook --client codex"
+
+
+def _old_install(root: Path, guard: bool, claude: str = OLD_CLAUDE) -> None:
+    """A repository an earlier `lockstep init` set up: the hardcoded PCW_MODE=block hook, with or without `guard:`."""
+    from lockstep.init_repo import SOURCE
+    (root / "lockstep.yaml").write_text("schema: lockstep.side.v1\n" + ("guard: {mode: block}\n" if guard else ""))
+    for rel, cmd in ((".claude/settings.json", claude), (".codex/hooks.json", OLD_CODEX)):
+        (root / rel).parent.mkdir(parents=True, exist_ok=True)
+        (root / rel).write_text(json.dumps({"hooks": {"PreToolUse": [
+            {"matcher": "Edit", "hooks": [{"type": "command", "command": cmd.format(s=SOURCE), "timeout": 30}]}]}}))
+
+
+def _guard_commands(root: Path) -> list[str]:
+    return [h["command"] for rel in (".claude/settings.json", ".codex/hooks.json")
+            for e in json.loads((root / rel).read_text())["hooks"]["PreToolUse"] for h in e["hooks"]
+            if "lockstep-hook" in h["command"]]
+
+
+@pytest.mark.req("lockstep-init/an-old-hook-command-is-upgraded-where-guard-is-set")
+def test_an_old_hook_command_is_upgraded_where_guard_is_set(tmp_path, capsys):
+    root = _git_repo(tmp_path / "r")
+    _old_install(root, guard=True)
+    init_repo(root, owner="Acme")
+    commands = _guard_commands(root)
+    assert len(commands) == 2 and not any("PCW_MODE" in c for c in commands), commands
+    out = capsys.readouterr().out
+    assert "wrote   .claude/settings.json" in out and "wrote   .codex/hooks.json" in out
+    init_repo(root, owner="Acme")
+    out = capsys.readouterr().out
+    assert "skipped .claude/settings.json" in out and "skipped .codex/hooks.json" in out
+
+
+@pytest.mark.req("lockstep-init/an-old-hook-command-stays-where-guard-is-not-set")
+def test_an_old_hook_command_stays_where_guard_is_not_set(tmp_path, capsys):
+    root = _git_repo(tmp_path / "r")
+    _old_install(root, guard=False)
+    init_repo(root, owner="Acme")
+    commands = _guard_commands(root)
+    assert len(commands) == 2 and all("PCW_MODE=block" in c for c in commands), commands
+    assert "guard: {mode: block}" in capsys.readouterr().out
+
+
+@pytest.mark.req("lockstep-init/a-custom-hook-command-is-left-alone")
+def test_a_custom_hook_command_is_left_alone(tmp_path, capsys):
+    root = _git_repo(tmp_path / "r")
+    custom = "PCW_MODE=block uvx --from {s}@v1 lockstep-hook --extra"
+    _old_install(root, guard=True, claude=custom)
+    init_repo(root, owner="Acme")
+    from lockstep.init_repo import SOURCE
+    assert custom.format(s=SOURCE) in _guard_commands(root)
+    assert "guard: {mode: block}" not in capsys.readouterr().out
