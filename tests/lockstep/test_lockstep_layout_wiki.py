@@ -247,13 +247,13 @@ def git(repo: Path, *args: str) -> str:
     return subprocess.run(["git", "-C", str(repo), *args], check=True, capture_output=True, text=True).stdout.strip()
 
 
-def results_repo(repo: Path, ignore: bool = True) -> Path:
+def results_repo(repo: Path) -> Path:
     """A committed layout repository with a passing and a failing scenario, a plan closing the failing one, and results at HEAD."""
     write(repo, "openspec/specs/core/spec.md", TWO_SCENARIOS)
     layout_repo(repo)
     write(repo, "tests/test_mod.py", TWO_TESTS)
     write(repo, "docs/plans/fix.md", "# Fix\n\nCloses: core/it-fails\n")
-    write(repo, ".gitignore", ".code2check/\n" + ("generated/wiki/results.md\n" if ignore else ""))
+    write(repo, ".gitignore", ".code2check/\ngenerated/wiki/results.md\n")
     project(repo)
     git(repo, "init", "-q")
     git(repo, "add", "-A")
@@ -294,10 +294,7 @@ def test_results_page_is_build_output(repo):
     assert "generated/wiki/results.md" not in project(repo, check=True)
     project(repo)
     assert (repo / "generated/wiki/results.md").is_file()
-
-
-@pytest.mark.req("lockstep-plan-format/the-page-is-build-output")
-def test_results_page_not_written_unless_ignored(repo):
-    results_repo(repo, ignore=False)
+    write(repo, ".gitignore", ".code2check/\n")  # without the ignore entry the page is not written
+    (repo / "generated/wiki/results.md").unlink()
     project(repo)
     assert not (repo / "generated/wiki/results.md").exists()

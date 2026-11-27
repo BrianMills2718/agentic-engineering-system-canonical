@@ -20,7 +20,7 @@ Implemented by:
 
 - Scenario `results-at-this-commit-show-on-the-page`: tested by `tests/lockstep/test_lockstep_layout_wiki.py::test_results_at_this_commit_show_on_the_page` ([`tests/lockstep/test_lockstep_layout_wiki.py:266`](../../tests/lockstep/test_lockstep_layout_wiki.py#L266))
 - Scenario `results-from-another-commit-are-not-used`: tested by `tests/lockstep/test_lockstep_layout_wiki.py::test_results_from_another_commit_are_not_used` ([`tests/lockstep/test_lockstep_layout_wiki.py:279`](../../tests/lockstep/test_lockstep_layout_wiki.py#L279))
-- Scenario `the-page-is-build-output`: tested by `tests/lockstep/test_lockstep_layout_wiki.py::test_results_page_is_build_output` ([`tests/lockstep/test_lockstep_layout_wiki.py:289`](../../tests/lockstep/test_lockstep_layout_wiki.py#L289)), `tests/lockstep/test_lockstep_layout_wiki.py::test_results_page_not_written_unless_ignored` ([`tests/lockstep/test_lockstep_layout_wiki.py:299`](../../tests/lockstep/test_lockstep_layout_wiki.py#L299))
+- Scenario `the-page-is-build-output`: tested by `tests/lockstep/test_lockstep_layout_wiki.py::test_results_page_is_build_output` ([`tests/lockstep/test_lockstep_layout_wiki.py:289`](../../tests/lockstep/test_lockstep_layout_wiki.py#L289))
 
 ## a layout repository generates one wiki page per capability
 
