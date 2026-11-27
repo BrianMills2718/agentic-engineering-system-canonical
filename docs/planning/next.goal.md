@@ -9,7 +9,7 @@ Planning package: docs/planning/planning-package.json
 Plan size: full
 
 Full because Lockstep and `ship` are read by other repositories, and the `lockstep.yaml` sections are a contract
-every repository carries. Only slice 1 is planned in full; later slices are on the parking list below.
+every repository carries. Slices 1 and 3 are planned in full (slice 3 on 2026-11-26); slice 2 is outlined; later slices are on the parking list below.
 
 Previous plan, done: the one planning-and-checking tool, built in six slices (merged 2026-11-11 and 2026-11-12), then
 its retrofit, from-scratch and plan-fidelity proofs (adopted 2026-11-20, all passed by 2026-11-22). Rolling Lockstep
@@ -62,7 +62,7 @@ planning:                                        # slice 1 (gates) and slice 2 (
   gate: block                                    # ship's planning-package gate
   one_page_plans: block                          # ship's one-page-plan check
   validator: {repo: <git address>, ref: main}    # slice 2; no default address is written
-  skills: block                                  # slice 3: write the plugin into .claude/settings.json
+  skills: {mode: block, marketplace: OWNER/REPO}  # slice 3: write the plugin into .claude/settings.json
 guard: {mode: warn}                              # parking: replaces the PCW_MODE hardcode
 rules: {mode: block, source: {repo: <address>, ref: main, files: [agents/core.md]}}  # parking
 feedback: {mode: block, issue_repo: OWNER/NAME}  # parking
@@ -161,6 +161,82 @@ timeout. Credentials come only from the user's own git or `gh` setup, and never 
 **The proof.** Point skipper at the `Inside-Success/company-planning` mirror with no environment variables set. The log
 must name the mirror as the source.
 
+## Slice 3 (planned in full, 2026-11-26): `planning.skills` loads Company Planning per repository
+
+Source: the settings model above ("Company Planning skills | per-person plugin install | slice 3"), adopted by Brian
+2026-11-25; queue item 4 of the AES week (`~/projects/data/aes-week/WORKQUEUE.md`). Builds after slice 2 merges,
+because both read the `planning:` section through the same `side_file.py` keys.
+
+**What is true today (checked 2026-11-26).**
+
+- Claude Code reads two project-scope keys from a repository's `.claude/settings.json`: `extraKnownMarketplaces` (a
+  marketplace by GitHub `owner/repo`) and `enabledPlugins` (`"<plugin>@<marketplace>": true`). When someone opens the
+  repository and trusts it, Claude Code offers to install the marketplace and plugin. The Company Planning marketplace
+  is named `inside-success` and its plugin `company-planning` (`company-planning/.claude-plugin/marketplace.json`).
+- Codex 0.172 has no per-repository equivalent. A test repository with a `.codex/config.toml` `[marketplaces.*]`
+  table, and another with `.agents/plugins/marketplace.json`, were not listed by `codex plugin marketplace list`, even
+  with the folder marked trusted. Only `~/.codex/config.toml` and `~/.agents/plugins/` count (probe in this session's
+  scratch folder; both runs exit 0, neither listed the probe marketplace). So for Codex, Lockstep can only say what to
+  run and check whether it was run.
+
+**The setting.**
+
+```yaml
+planning:
+  skills: {mode: block, marketplace: OWNER/company-planning}   # mode: block | warn | off
+```
+
+- `mode` follows the one vocabulary. The default is `off` when the section or key is missing, so no repository changes
+  on the day this lands.
+- `marketplace` is a GitHub `owner/repo`. No default address is written, for the same reason as slice 2:
+  `company-planning` is private, and Inside Success uses the mirror `Inside-Success/company-planning`.
+  `lockstep init --skills-from OWNER/REPO` writes it; without that option, init writes the key commented out.
+
+**What changes.**
+
+1. **`side_file.py`** accepts `planning.skills` as a map with `mode` and `marketplace`. A bad mode or an address that
+   is not `owner/repo` is a side-file problem with its line.
+2. **New module `src/lockstep/checks/plugin_settings.py`** (ship.py is at its size cap). One function computes the two
+   Claude Code keys from `lockstep.yaml`. A second merges them into `.claude/settings.json`, keeping every other key, the
+   way `_merge_hooks` does.
+3. **`lockstep init`** calls the merge when `mode` is `block` or `warn`. For Codex it prints the two commands from
+   Company Planning's usage guide with the configured address
+   (`codex plugin marketplace add OWNER/REPO`, `codex plugin add company-planning@inside-success`). Then it prints
+   one line saying whether `~/.codex/config.toml` already enables `company-planning@inside-success`. It writes nothing
+   in `~/.codex/`: that is the person's file, not the repository's.
+4. **Drift check in `lockstep check`** (a commit check, seconds): `.claude/settings.json` must hold the keys that
+   `lockstep.yaml` implies. Missing or different keys refuse under `block`, print a warning under `warn`, and are not
+   looked at under `off`. The message names the fix: `lockstep init`, which re-merges and changes nothing on a second
+   run.
+5. **`off` never removes keys** a person or another tool wrote. It only stops Lockstep writing and checking them.
+6. **OpenSpec change `planning-skills-setting`**, with `prior-art.json`. Candidates:
+   - Claude Code's own project-scope plugin keys: **adopt** (they are the mechanism; Lockstep only writes them).
+   - The copier template writing the keys statically: **reject**, because repositories that did not start from the
+     template (most of them) would be left out.
+   - A Codex project config: **reject**, because it does not exist in 0.172 (probe above).
+
+   The change edits the `lockstep-init` spec (which files init writes) and adds a `lockstep-check` requirement for the
+   drift check. Tests are written first.
+
+**Done when.**
+
+- **Tests:**
+  - init with `mode: block` and an address writes both keys into an existing `.claude/settings.json` without losing its
+    hooks, and a second run reports `skipped`;
+  - `mode: off` writes nothing and removes nothing;
+  - the drift check refuses a deleted `enabledPlugins` entry under `block` and warns under `warn`;
+  - a bad mode and a bad address are each reported with the line;
+  - init prints the two Codex commands with the configured address and the installed or not-installed line, read from
+    a fixture `config.toml`.
+- **Real proof on another repository:** in skipper, on a branch, set `planning.skills` with the
+  `Inside-Success/company-planning` mirror and run `lockstep init`. Then open a fresh `claude` session in that checkout:
+  it must offer the `inside-success` marketplace, and after install `/plugin` must list `company-planning`. Record the
+  session's output. Codex proof: the printed commands, run once by hand in a scratch `CODEX_HOME`, install the plugin.
+- `make check` exits 0 in AES.
+
+**Out of this slice:** removing the per-person install from machines that already have it; a Codex per-repository
+install (none exists); the rules and feedback parts.
+
 ## Feedback loop (Decision b), running alongside slice 1
 
 These steps are zero-code and run before any timer is turned on:
@@ -245,8 +321,6 @@ only, AES full planning by one Sonnet session, building by a second, judged by T
 
 ## Parking list (later slices, not planned yet)
 
-- Slice 3: `planning.skills`. `lockstep init` writes the Company Planning marketplace and plugin into the repository's
-  `.claude/settings.json` (`extraKnownMarketplaces`, `enabledPlugins`), and writes the Codex equivalent.
 - `guard.mode` replaces the `PCW_MODE` hardcode in the hook command.
 - `planning.project_graph` replaces the `~/code2/aes-config` default.
 - The rules part:
