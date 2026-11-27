@@ -43,15 +43,16 @@ Sources: [proposals/one-planning-tool/DESIGN.md](../proposals/one-planning-tool/
 
 Owner: agent.
 
-### Q21: Three feedback jobs switched off
+### Q21: Three feedback jobs switched off — resolved 2026-11-26
 
-Three of the feedback loop's five jobs (weekly analysis, effect counter, fix owner) have been switched off since about 2026-10-12, with no recorded reason; only the collector and the labels job run. Turn them back on?
+The November 25 feedback plan and dry run settle the current enable-or-off decision: weekly analysis,
+effect counting and the fix owner stay off because the proposed actions and notices failed the adopted stop rules.
 
-Recommendation: Inspect collector reliability (Q29), then restore one complete correction-to-verified-fix path before broad autonomous analysis. Do not enable jobs as part of a documentation repair.
+The owning ledger now records that disposition. Collector reliability (Q29) and proof of the complete correction-to-repair
+path (Q42) remain open. Reopen the enablement decision only after the plan's bounded replay and restart conditions pass.
 
-Sources: [scripts/learning_loop/systemd/README.md](../scripts/learning_loop/systemd/README.md).
-
-Owner: brian.
+Sources: [adopted feedback plan](../docs/planning/next.goal.md#feedback-loop-decision-b-running-alongside-slice-1),
+[operator guide](../scripts/learning_loop/systemd/README.md), [owning ledger](../docs/planning/open-questions.json).
 
 ### Q24: Two projectors remain where the design says one
 

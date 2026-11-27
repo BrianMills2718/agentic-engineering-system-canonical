@@ -375,13 +375,15 @@
    "id": "Q21",
    "short": "Three feedback jobs switched off",
    "owner": "brian",
-   "status": "open",
-   "question": "Three of the feedback loop's five jobs (weekly analysis, effect counter, fix owner) have been switched off since about 2026-10-12, with no recorded reason; only the collector and the labels job run. Turn them back on?",
-   "blocks": "whether the feedback loop goes past filing reports to proposing and checking fixes",
-   "resolves_with": "Product/priority discussion after documentation repair. Historical correction backlog Q18 is resolved; the collector timeout and current disabled stages remain separate issues (Q29).",
-   "recommendation": "Inspect collector reliability (Q29), then restore one complete correction-to-verified-fix path before broad autonomous analysis. Do not enable jobs as part of a documentation repair.",
-   "default": "They stay off; the collector and labels job keep running nightly.",
+   "status": "resolved",
+   "question": "Should the three stopped repair jobs (weekly analysis, effect counter, fix owner) be enabled now?",
+   "blocks": "No current enable-or-off decision remains; collector reliability (Q29) and a verified correction-to-repair path (Q42) remain open.",
+   "resolves_with": "Resolved by the adopted November 25 feedback plan and its completed dry run; reopen only after the plan's explicit restart conditions are met.",
+   "recommendation": "Keep the repair jobs off. Correct duplicate or unrelated proposals and unwanted direct notices, then pass the bounded replay in next.goal.md before enabling them.",
+   "default": "The three repair jobs stay off under the November 25 stop rules. Enabled collector/labels schedules do not establish successful runs.",
+   "evidence": "Reconciled 2026-11-26: docs/planning/next.goal.md, Feedback loop (Decision b), records the November 25 dry run and stop reasons. This settles the enable-or-off question, not the effectiveness of the complete learning loop. Read-only November 26 service inspection confirmed the three timers disabled/inactive.",
    "sources": [
+    "docs/planning/next.goal.md",
     "scripts/learning_loop/systemd/README.md:3"
    ],
    "touches": [

@@ -1,4 +1,12 @@
-# Minimal core met; template and ship live here (updated 2026-11-25)
+# Minimal core met; audit corrections recorded (updated 2026-11-26)
+
+**Audit corrections, 2026-11-26:** Brian asked for high-confidence improvements after the audit. The current plan
+now corrects the TinyDB comparison: at least two documentation-related commit refusals occurred, and the twelve
+off-only failures were ten missing-cache-name failures plus two other compatibility assertions. The single pair
+does not identify a causal gate effect. The adopted game benchmark remains the next bundle comparison.
+Q21 is resolved as a decision to keep the repair jobs off under the November 25 dry-run stop rules; this does not
+close collector reliability or proof of the complete learning loop. The plan and operator guide now use that decision
+and the planning gates' actual warning defaults. See [current plan](../docs/planning/next.goal.md).
 
 Brian, 2026-11-20: "the whole thing should be configurable and shareable/protable. we shoudl start with the minimal
 core". The first milestone is met: a repository made from the template ran one plan each in Claude and Codex in a
