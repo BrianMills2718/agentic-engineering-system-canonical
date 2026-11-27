@@ -4,7 +4,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts" / "learning_loop"))
 
-import subagents as SA  # noqa: E402
+import subagents as SA  # noqa: E402  # the script folder joins sys.path just above
 
 
 def _report(outcome, records=1, field="Subagent outcome"):
