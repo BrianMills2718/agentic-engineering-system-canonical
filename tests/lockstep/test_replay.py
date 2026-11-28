@@ -250,3 +250,19 @@ def test_the_page_offers_the_view_as_a_toggle(repo):
     finally:
         server.shutdown()
         server.server_close()
+
+
+@pytest.mark.req("lockstep-guard/a-plan-write-is-marked-and-a-code-write-is-not")
+def test_a_plan_write_is_marked_and_a_code_write_is_not(repo):
+    t = _write(repo / "t.jsonl", _claude(
+        ("Write", {"file_path": str(repo / "lockstep.yaml"), "content": "layout: []\n"}, "File created successfully"),
+        ("Write", {"file_path": str(repo / "src/greet.py"), "content": "x = 1\n"}, "File written")))
+    tools = [e for e in session_events(t, repo) if e["kind"] == "tool"]
+    assert [(e["path"], e["plan_write"]) for e in tools] == [("lockstep.yaml", True), ("src/greet.py", False)]
+    server = _serve(repo)
+    try:
+        page = _get(server.server_address[1], "/")[1].decode()
+        assert 'id="aPlanW"' in page and 'id="svFirst"' in page
+    finally:
+        server.shutdown()
+        server.server_close()
