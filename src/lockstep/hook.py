@@ -35,7 +35,24 @@ time; `pcw check` before the commit stays the guarantee.
 [[[cog import lockstep.cogtext as c; c.docstring("src:lockstep:hook.py", indent=0)]]]
 Plan (generated from lockstep.yaml layout and OpenSpec; edit the spec or the layout row, not this text):
 
-Implements: lockstep-guard/agents-get-requirement-text-from-the-shell-too, lockstep-guard/handing-over-text-never-approves-an-edit, lockstep-init/the-edit-guard-logs-outside-the-checkout, lockstep-package/lockstep-installs-from-aes-canonical, lockstep-guard/a-refusal-lists-the-files-the-plan-allows, lockstep-guard/an-unplanned-file-is-refused-where-the-plan-marks-it-fixed-and-warned-about-elsewhere
+Implements: lockstep-guard/the-edit-hook-names-the-home-of-a-misplaced-document, lockstep-guard/agents-get-requirement-text-from-the-shell-too, lockstep-guard/handing-over-text-never-approves-an-edit, lockstep-init/the-edit-guard-logs-outside-the-checkout, lockstep-package/lockstep-installs-from-aes-canonical, lockstep-guard/a-refusal-lists-the-files-the-plan-allows, lockstep-guard/an-unplanned-file-is-refused-where-the-plan-marks-it-fixed-and-warned-about-elsewhere
+
+### Requirement: The edit hook names the home of a misplaced document
+
+When `lockstep.yaml` declares `document_homes:` and an agent writes a Markdown file that sits under no home (the
+same rule as the layout check), the edit hook SHALL let the write through with a warning that names each home and
+what belongs there, and log `would_block`, unless the guard mode is `block`, where it SHALL refuse the write.
+
+Source: Brian, 2026-11-27 19:05: "research goes in one place. generated files go in another". Warn rather than
+refuse by default is inferred by agent from the guard's existing default (Brian, 2026-11-07, decision D7: Lockstep
+warns and blocks only what the plan marks fixed).
+
+#### Scenario: Writing a note outside every home is warned about
+
+- **GIVEN** `document_homes:` declaring `research/`, and guard mode `warn`
+- **WHEN** an agent writes `notes.md`
+- **THEN** the write goes through with a warning naming `research/` and what belongs there; writing
+  `research/notes.md` gives no such warning
 
 ### Requirement: Agents get requirement text from the shell too
 

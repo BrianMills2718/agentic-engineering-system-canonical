@@ -1,6 +1,7 @@
 """The layout plan: OpenSpec says what the code must do, `layout:` rows in lockstep.yaml say which files exist and why.
 
-Implements: lockstep-plan-format/the-plan-is-openspec-plus-layout-rows, lockstep-plan-format/a-layout-row-lists-what-its-file-implements
+Implements: lockstep-plan-format/the-plan-is-openspec-plus-layout-rows, lockstep-plan-format/a-layout-row-lists-what-its-file-implements,
+    lockstep-plan-format/a-document-outside-its-home-is-reported
 
 Requirement text (generated):
     lockstep-plan-format/the-plan-is-openspec-plus-layout-rows: In a repository whose
@@ -14,6 +15,12 @@ Requirement text (generated):
         layout problem, a layout row whose file names in an `Implements:` line a requirement that
         the row's `implements` list leaves out, naming the row's path and each missing requirement
         ID, so that the plan always names every requirement its code says it implements.
+    lockstep-plan-format/a-document-outside-its-home-is-reported: When `lockstep.yaml` declares
+        `document_homes:` (a mapping from a folder ending in `/`, or a file path, to what belongs
+        there), Lockstep SHALL report, as a layout problem, every tracked Markdown file that sits
+        under no declared home, naming the file and listing the homes. `README.md`, `AGENTS.md` and
+        `CLAUDE.md` anywhere, files under a hidden folder and files under `tests/` are not documents
+        for this rule. A `lockstep.yaml` without `document_homes:` is not checked.
 
 This is the one plan format of the one-tool design (proposals/one-planning-tool/DESIGN.md, slice 2). A repository
 without `.aes/target.yaml` writes its plan as:
@@ -33,7 +40,26 @@ without `.aes/target.yaml` writes its plan as:
 [[[cog import lockstep.cogtext as c; c.docstring("src:lockstep:layout_plan.py", indent=0)]]]
 Plan (generated from lockstep.yaml layout and OpenSpec; edit the spec or the layout row, not this text):
 
-Implements: lockstep-plan-format/the-plan-is-openspec-plus-layout-rows, lockstep-plan-format/a-layout-row-lists-what-its-file-implements
+Implements: lockstep-plan-format/a-document-outside-its-home-is-reported, lockstep-plan-format/the-plan-is-openspec-plus-layout-rows, lockstep-plan-format/a-layout-row-lists-what-its-file-implements
+
+### Requirement: A document outside its home is reported
+
+When `lockstep.yaml` declares `document_homes:` (a mapping from a folder ending in `/`, or a file path, to what
+belongs there), Lockstep SHALL report, as a layout problem, every tracked Markdown file that sits under no declared
+home, naming the file and listing the homes. `README.md`, `AGENTS.md` and `CLAUDE.md` anywhere, files under a hidden
+folder and files under `tests/` are not documents for this rule. A `lockstep.yaml` without `document_homes:` is not
+checked.
+
+Source: Brian, 2026-11-27 19:05: "like research goes in one place. generated files go in another". The closed list
+(a document must sit in a declared home, rather than its kind being guessed from its name) is inferred by agent: a
+document's kind cannot be read from its path, and prose meaning is not inferred with patterns.
+
+#### Scenario: A note outside every home is reported
+
+- **GIVEN** `document_homes:` declaring `research/` and `docs/architecture/`, and a committed `docs/notes.md`
+- **WHEN** the layout is checked
+- **THEN** the problem names `docs/notes.md` and lists `research/` and `docs/architecture/`; moved to
+  `research/notes.md`, it is not reported, and without `document_homes:` nothing is reported
 
 ### Requirement: The plan is OpenSpec plus layout rows
 
@@ -106,6 +132,11 @@ the 2026-11-28 measurement: 0 contradictions in a fresh template copy, 37 files 
 - **THEN** the problem names the row's path and `greeting/greet-by-name`, and the check blocks; with the ID restored, neither reports it
 
 Tested by: tests/lockstep/test_lockstep_layout_plan.py
+
+Declares (typed signatures, from the plan):
+  document_homes(root: Path) -> dict[str, str]
+  misplaced_document(root: Path, rel: str) -> str | None
+  misplaced_documents(root: Path) -> list[str]
 [[[end]]]
 """
 

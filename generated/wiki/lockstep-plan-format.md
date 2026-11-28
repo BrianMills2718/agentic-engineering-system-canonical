@@ -4,6 +4,21 @@
 
 [All capabilities](index.md) — the wiki index. Spec: `openspec/specs/lockstep-plan-format/spec.md`. Pass or fail is not shown here (it changes with each run): read `generated/wiki/results.md` after `make check`, or run `lockstep status`.
 
+## a document outside its home is reported
+
+ID: `lockstep-plan-format/a-document-outside-its-home-is-reported`
+
+Status: **implemented and tested**
+
+When `lockstep.yaml` declares `document_homes:` (a mapping from a folder ending in `/`, or a file path, to what belongs there), Lockstep SHALL report, as a layout problem, every tracked Markdown file that sits under no declared home, naming the file and listing the homes. `README.md`, `AGENTS.md` and `CLAUDE.md` anywhere, files under a hidden folder and files under `tests/` are not documents for this rule. A `lockstep.yaml` without `document_homes:` is not checked.
+
+Implemented by:
+
+- `lockstep.layout_plan` — [`src/lockstep/layout_plan.py:1`](../../src/lockstep/layout_plan.py#L1)
+- `lockstep.layout_plan` — [`src/lockstep/layout_plan.py:1`](../../src/lockstep/layout_plan.py#L1)
+
+- Scenario `a-note-outside-every-home-is-reported`: tested by `tests/lockstep/test_lockstep_layout_plan.py::test_a_note_outside_every_home_is_reported` ([`tests/lockstep/test_lockstep_layout_plan.py:369`](../../tests/lockstep/test_lockstep_layout_plan.py#L369))
+
 ## a generated wiki shows test results at this checkout
 
 ID: `lockstep-plan-format/a-generated-wiki-shows-test-results-at-this-checkout`
