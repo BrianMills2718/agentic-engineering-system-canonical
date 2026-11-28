@@ -443,7 +443,7 @@ function setView(on) {
 $("viewtoggle").onclick = () => setView(!sysOn);
 const fileFromText = s => { const m = /(?:Requirement text for|Plan for) (\S+?)[,( ]/.exec(s || "") || /(\S+) is not in the plan/.exec(s || ""); return m ? m[1] : null; };
 function callTool(e) { return e.call ? D.events.find(x => x.kind === "tool" && x.call === e.call) : null; }
-const isPlanRead = e => e.kind === "tool" && !e.refused && /(^|\/)lockstep\.yaml$|^openspec\/changes\//.test(e.path || "");
+const isPlanRead = e => e.kind === "tool" && !e.refused && !!e.plan_file;
 function lit(id, on, text) { $(id).classList.toggle("on", !!on); const x = $(id).querySelector(".x"); if (x) x.textContent = on && text ? text : ""; }
 async function renderSys(t, token) {
   const cur = curAt(t);
