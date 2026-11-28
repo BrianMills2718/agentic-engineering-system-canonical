@@ -35,8 +35,8 @@ Implemented by:
 - `lockstep.init_repo` — [`src/lockstep/init_repo.py:1`](../../src/lockstep/init_repo.py#L1)
 
 - Scenario `an-old-hook-command-is-upgraded-where-guard-is-set`: tested by `tests/lockstep/test_lockstep_init.py::test_an_old_hook_command_is_upgraded_where_guard_is_set` ([`tests/lockstep/test_lockstep_init.py:253`](../../tests/lockstep/test_lockstep_init.py#L253))
-- Scenario `an-old-hook-command-stays-where-guard-is-not-set`: tested by `tests/lockstep/test_lockstep_init.py::test_an_old_hook_command_stays_where_guard_is_not_set` ([`tests/lockstep/test_lockstep_init.py:267`](../../tests/lockstep/test_lockstep_init.py#L267))
-- Scenario `a-custom-hook-command-is-left-alone`: tested by `tests/lockstep/test_lockstep_init.py::test_a_custom_hook_command_is_left_alone` ([`tests/lockstep/test_lockstep_init.py:278`](../../tests/lockstep/test_lockstep_init.py#L278))
+- Scenario `an-old-hook-command-stays-where-guard-is-not-set`: tested by `tests/lockstep/test_lockstep_init.py::test_an_old_hook_command_stays_where_guard_is_not_set` ([`tests/lockstep/test_lockstep_init.py:268`](../../tests/lockstep/test_lockstep_init.py#L268))
+- Scenario `a-custom-hook-command-is-left-alone`: tested by `tests/lockstep/test_lockstep_init.py::test_a_custom_hook_command_is_left_alone` ([`tests/lockstep/test_lockstep_init.py:279`](../../tests/lockstep/test_lockstep_init.py#L279))
 
 ## init writes the company planning plugin keys when planning skills is on
 
@@ -56,10 +56,10 @@ Implemented by:
 - Scenario `a-malformed-settings-file-exits-2`: tested by `tests/test_plugin_settings.py::test_a_malformed_settings_file_exits_2` ([`tests/test_plugin_settings.py:90`](../../tests/test_plugin_settings.py#L90))
 - Scenario `off-writes-nothing-and-keeps-what-exists`: tested by `tests/test_plugin_settings.py::test_off_writes_nothing_and_keeps_what_exists` ([`tests/test_plugin_settings.py:99`](../../tests/test_plugin_settings.py#L99))
 - Scenario `another-source-or-an-opt-out-is-a-conflict-left-as-it-is`: tested by `tests/test_plugin_settings.py::test_another_source_or_an_opt_out_is_a_conflict_left_as_it_is` ([`tests/test_plugin_settings.py:116`](../../tests/test_plugin_settings.py#L116))
-- Scenario `a-conflicting-source-does-not-turn-the-plugin-on`: tested by `tests/test_plugin_settings.py::test_a_conflicting_source_does_not_turn_the_plugin_on` ([`tests/test_plugin_settings.py:137`](../../tests/test_plugin_settings.py#L137))
-- Scenario `autoupdate-is-tolerated`: tested by `tests/test_plugin_settings.py::test_autoupdate_is_tolerated` ([`tests/test_plugin_settings.py:146`](../../tests/test_plugin_settings.py#L146))
-- Scenario `init-prints-the-codex-commands-and-the-install-line`: tested by `tests/test_plugin_settings.py::test_init_prints_the_codex_commands_and_the_install_line` ([`tests/test_plugin_settings.py:157`](../../tests/test_plugin_settings.py#L157)), `tests/test_plugin_settings.py::test_init_leaves_a_missing_or_symlinked_agents_md_alone` ([`tests/test_plugin_settings.py:177`](../../tests/test_plugin_settings.py#L177))
-- Scenario `a-bad-skills-value-stops-init`: tested by `tests/test_plugin_settings.py::test_a_bad_skills_value_stops_init` ([`tests/test_plugin_settings.py:190`](../../tests/test_plugin_settings.py#L190))
+- Scenario `a-conflicting-source-does-not-turn-the-plugin-on`: tested by `tests/test_plugin_settings.py::test_a_conflicting_source_does_not_turn_the_plugin_on` ([`tests/test_plugin_settings.py:139`](../../tests/test_plugin_settings.py#L139))
+- Scenario `autoupdate-is-tolerated`: tested by `tests/test_plugin_settings.py::test_autoupdate_is_tolerated` ([`tests/test_plugin_settings.py:148`](../../tests/test_plugin_settings.py#L148))
+- Scenario `init-prints-the-codex-commands-and-the-install-line`: tested by `tests/test_plugin_settings.py::test_init_prints_the_codex_commands_and_the_install_line` ([`tests/test_plugin_settings.py:159`](../../tests/test_plugin_settings.py#L159)), `tests/test_plugin_settings.py::test_init_leaves_a_missing_or_symlinked_agents_md_alone` ([`tests/test_plugin_settings.py:179`](../../tests/test_plugin_settings.py#L179))
+- Scenario `a-bad-skills-value-stops-init`: tested by `tests/test_plugin_settings.py::test_a_bad_skills_value_stops_init` ([`tests/test_plugin_settings.py:192`](../../tests/test_plugin_settings.py#L192))
 
 ## installed files name no machine and read their settings from lockstep yaml
 
