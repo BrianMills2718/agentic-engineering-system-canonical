@@ -128,10 +128,19 @@ def test_another_source_or_an_opt_out_is_a_conflict_left_as_it_is(tmp_path, caps
     assert status == "conflict" and any(key in n for n in notes)
     data = _settings(root)
     for section, value in existing.items():
-        assert data[section] == value  # never overwritten; the other key is still added
+        assert data[section] == value  # never overwritten
     assert init_repo(root) == 0
     out = capsys.readouterr().out
     assert "conflict planning.skills" in out and key in out
+
+
+@pytest.mark.req("lockstep-init/a-conflicting-source-does-not-turn-the-plugin-on")
+def test_a_conflicting_source_does_not_turn_the_plugin_on(tmp_path, capsys):
+    root = _repo(tmp_path)
+    _write_settings(root, {"extraKnownMarketplaces": {"inside-success": _wanted_source("Someone/else")}})
+    assert init_repo(root) == 0
+    assert "conflict planning.skills" in capsys.readouterr().out
+    assert PLUGIN not in _settings(root).get("enabledPlugins", {})
 
 
 @pytest.mark.req("lockstep-init/autoupdate-is-tolerated")
