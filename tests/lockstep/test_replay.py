@@ -260,6 +260,7 @@ def test_a_document_write_is_a_plan_write_and_a_generated_test_config_or_wiki_wr
         ("Write", {"file_path": str(repo / p), "content": "x\n"}, "File created successfully") for p in paths]))
     tools = [e for e in session_events(t, repo) if e["kind"] == "tool"]
     assert [(e["path"], e["plan_write"]) for e in tools] == [(p, p == paths[0]) for p in paths]
+    assert [e["plan_file"] for e in tools] == [p == paths[0] for p in paths]  # the page's plan-read rule, same files
 
 
 @pytest.mark.req("lockstep-guard/a-plan-write-is-marked-and-a-code-write-is-not")
