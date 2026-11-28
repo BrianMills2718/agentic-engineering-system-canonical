@@ -55,8 +55,10 @@ clean home folder (hidden tests 0/3 then 3/3, and 0/10 then 10/10) and merged wi
   inside a shell command is not counted. Step 9 (2026-11-27): `lockstep replay TRANSCRIPT [--repo] [--store]`
   serves a local page that steps through a Claude or Codex session: each edit hook hand-over is its own event before
   its write, requirement page and spec reads are marked, and each write shows its `lockstep reads` marks. File
-  versions show only when a recorder ran (`--store`); starting one for every session is parked. Next: the
-  remaining proofs (unplanned file caught, tests tied to the version, status written back), then the end-to-end run.
+  versions show only when a recorder ran (`--store`); starting one for every session is parked. Step 5 proven
+  (2026-11-27, [record](../docs/planning/runs/unplanned-file/2026-11-27.json)): on a fresh template copy, Claude and
+  Codex are refused an unplanned file under `fixed:` and warned elsewhere; Codex on an untrusted copy ran no guard
+  until agent-skills #624. Next: tests tied to the version, status written back, then the end-to-end run.
 
 - One plan checker (2026-11-25, Brian: "ia prpove yourr ecommednations though"): `lockstep plan check` runs Company
   Planning's validator the way `ship` does, instead of a copy of two of its checks; the copy and

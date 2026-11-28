@@ -1165,6 +1165,12 @@ layout:
     in Codex with hooks on; Codex hooks are off in everyday sessions, so the Codex result is mechanism-only.
   implements: []
   tests: []
+- path: docs/planning/runs/unplanned-file/2026-11-27.json
+  purpose: Live proof (Milestone 1 step 5) on a fresh template copy that an unplanned file is refused under a
+    fixed glob and warned about elsewhere, in Claude Code and in Codex, and that Codex ran no guard on an untrusted
+    copy until agent-skills #624.
+  implements: []
+  tests: []
 - path: docs/planning/runs/lockstep-acceptance/a1.json
   purpose: Retains A1 fresh-install command, generated files and seven compared setup outcomes; written artifacts are narrower
     evidence than active hook enforcement.
