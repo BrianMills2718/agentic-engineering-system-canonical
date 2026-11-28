@@ -16,8 +16,8 @@ Implemented by:
 
 - `copier.yml` — [`copier.yml:5`](../../copier.yml#L5)
 
-- Scenario `a-rendered-copy-has-both-hook-files`: tested by `tests/test_template_portable.py::test_a_rendered_copy_has_both_hook_files` ([`tests/test_template_portable.py:140`](../../tests/test_template_portable.py#L140))
-- Scenario `a-rendered-copy-s-decision-governs-a-real-file`: tested by `tests/test_template_portable.py::test_a_rendered_copy_s_decision_governs_a_real_file` ([`tests/test_template_portable.py:153`](../../tests/test_template_portable.py#L153))
+- Scenario `a-rendered-copy-has-both-hook-files`: tested by `tests/test_template_portable.py::test_a_rendered_copy_has_both_hook_files` ([`tests/test_template_portable.py:151`](../../tests/test_template_portable.py#L151))
+- Scenario `a-rendered-copy-s-decision-governs-a-real-file`: tested by `tests/test_template_portable.py::test_a_rendered_copy_s_decision_governs_a_real_file` ([`tests/test_template_portable.py:164`](../../tests/test_template_portable.py#L164))
 
 ## a copy runs its commit checks after a move and in every worktree
 
@@ -45,7 +45,7 @@ Implemented by:
 
 - `template/lockstep.yaml.jinja` — [`template/lockstep.yaml.jinja:2`](../../template/lockstep.yaml.jinja#L2)
 
-- Scenario `a-fresh-copy-has-its-homes-and-no-misplaced-document`: tested by `tests/test_template_portable.py::test_a_fresh_copy_has_its_homes_and_no_misplaced_document` ([`tests/test_template_portable.py:335`](../../tests/test_template_portable.py#L335))
+- Scenario `a-fresh-copy-has-its-homes-and-no-misplaced-document`: tested by `tests/test_template_portable.py::test_a_fresh_copy_has_its_homes_and_no_misplaced_document` ([`tests/test_template_portable.py:346`](../../tests/test_template_portable.py#L346))
 
 ## a fresh copy generates and checks its wiki
 
@@ -59,7 +59,7 @@ Implemented by:
 
 - `copier.yml` — [`copier.yml:11`](../../copier.yml#L11)
 
-- Scenario `a-fresh-copy-has-the-wiki-and-checks-it`: tested by `tests/test_template_portable.py::test_a_fresh_copy_has_the_wiki_and_checks_it` ([`tests/test_template_portable.py:307`](../../tests/test_template_portable.py#L307))
+- Scenario `a-fresh-copy-has-the-wiki-and-checks-it`: tested by `tests/test_template_portable.py::test_a_fresh_copy_has_the_wiki_and_checks_it` ([`tests/test_template_portable.py:318`](../../tests/test_template_portable.py#L318))
 
 ## a fresh copy ships its planned file layout
 
@@ -73,8 +73,8 @@ Implemented by:
 
 - `template/lockstep.yaml.jinja` — [`template/lockstep.yaml.jinja:1`](../../template/lockstep.yaml.jinja#L1)
 
-- Scenario `a-fresh-copy-refuses-an-unplanned-source-file`: tested by `tests/test_template_portable.py::test_a_fresh_copy_refuses_an_unplanned_source_file` ([`tests/test_template_portable.py:169`](../../tests/test_template_portable.py#L169))
-- Scenario `a-default-copy-with-no-remote-passes-make-check`: tested by `tests/test_template_portable.py::test_a_default_copy_with_no_remote_passes_make_check` ([`tests/test_template_portable.py:257`](../../tests/test_template_portable.py#L257))
+- Scenario `a-fresh-copy-refuses-an-unplanned-source-file`: tested by `tests/test_template_portable.py::test_a_fresh_copy_refuses_an_unplanned_source_file` ([`tests/test_template_portable.py:180`](../../tests/test_template_portable.py#L180))
+- Scenario `a-default-copy-with-no-remote-passes-make-check`: tested by `tests/test_template_portable.py::test_a_default_copy_with_no_remote_passes_make_check` ([`tests/test_template_portable.py:268`](../../tests/test_template_portable.py#L268))
 
 ## a fresh copy starts each session with the wiki index
 
@@ -88,7 +88,7 @@ Implemented by:
 
 - `copier.yml` — [`copier.yml:9`](../../copier.yml#L9)
 
-- Scenario `both-clients-get-the-index-at-session-start`: tested by `tests/test_template_portable.py::test_both_clients_get_the_index_at_session_start` ([`tests/test_template_portable.py:317`](../../tests/test_template_portable.py#L317))
+- Scenario `both-clients-get-the-index-at-session-start`: tested by `tests/test_template_portable.py::test_both_clients_get_the_index_at_session_start` ([`tests/test_template_portable.py:328`](../../tests/test_template_portable.py#L328))
 
 ## a repository made with the defaults works for anyone
 
@@ -144,7 +144,7 @@ Implemented by:
 
 - `template/lefthook.yml.jinja` — [`template/lefthook.yml.jinja:1`](../../template/lefthook.yml.jinja#L1)
 
-- Scenario `an-ignored-status-page-does-not-block-a-commit`: tested by `tests/test_template_portable.py::test_an_ignored_status_page_does_not_block_a_commit` ([`tests/test_template_portable.py:120`](../../tests/test_template_portable.py#L120))
+- Scenario `an-ignored-status-page-does-not-block-a-commit`: tested by `tests/test_template_portable.py::test_an_ignored_status_page_does_not_block_a_commit` ([`tests/test_template_portable.py:131`](../../tests/test_template_portable.py#L131))
 
 ## updating an older copy adds no layout plan
 
@@ -158,4 +158,4 @@ Implemented by:
 
 - `copier.yml` — [`copier.yml:13`](../../copier.yml#L13)
 
-- Scenario `an-update-of-an-older-copy-keeps-it-without-a-plan`: tested by `tests/test_template_portable.py::test_an_update_of_an_older_copy_keeps_it_without_a_plan` ([`tests/test_template_portable.py:201`](../../tests/test_template_portable.py#L201))
+- Scenario `an-update-of-an-older-copy-keeps-it-without-a-plan`: tested by `tests/test_template_portable.py::test_an_update_of_an_older_copy_keeps_it_without_a_plan` ([`tests/test_template_portable.py:212`](../../tests/test_template_portable.py#L212))

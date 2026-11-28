@@ -323,6 +323,8 @@ layout:
   - tests/lockstep/checks/test_lockstep_check_status.py
   - tests/lockstep/checks/test_lockstep_check_status_page.py
   - tests/lockstep/test_lockstep_decisions.py
+  exports:
+  - 'record_tree_cli(argv: list[str]) -> int'
 - path: src/lockstep/checks/test_first.py
   purpose: 'Test-first check: a test for a scenario new since the base revision must fail on the base source,'
   implements:
@@ -2362,36 +2364,28 @@ layout:
   purpose: Thin AES binding to Company Planning's source-bound review provider.
   implements: []
   tests: []
-- path: openspec/changes/archive/2026-11-28-document-homes/proposal.md
-  purpose: The document-homes OpenSpec change, archived; removed in the commit after the merge that archived it
-  implements: []
-  tests: []
-- path: openspec/changes/archive/2026-11-28-document-homes/tasks.md
-  purpose: The document-homes OpenSpec change, archived; removed in the commit after the merge that archived it
-  implements: []
-  tests: []
-- path: openspec/changes/archive/2026-11-28-document-homes/prior-art.json
-  purpose: The document-homes OpenSpec change, archived; removed in the commit after the merge that archived it
-  implements: []
-  tests: []
-- path: openspec/changes/archive/2026-11-28-document-homes/specs/lockstep-plan-format/spec.md
-  purpose: The document-homes OpenSpec change, archived; removed in the commit after the merge that archived it
-  implements: []
-  tests: []
-- path: openspec/changes/archive/2026-11-28-document-homes/specs/lockstep-guard/spec.md
-  purpose: The document-homes OpenSpec change, archived; removed in the commit after the merge that archived it
-  implements: []
-  tests: []
-- path: openspec/changes/archive/2026-11-28-document-homes/specs/portable-template/spec.md
-  purpose: The document-homes OpenSpec change, archived; removed in the commit after the merge that archived it
-  implements: []
-  tests: []
 - path: template/research/.gitkeep
   purpose: Keeps a fresh copy's empty research home; what belongs there is its `document_homes:` line in lockstep.yaml
   implements:
   - portable-template/a-fresh-copy-declares-where-each-kind-of-document-lives
   tests:
   - tests/test_template_portable.py
+- path: openspec/changes/archive/2026-11-28-results-at-the-tested-tree/prior-art.json
+  purpose: The results-at-the-tested-tree OpenSpec change, archived; removed in the commit after the merge that archived it
+  implements: []
+  tests: []
+- path: openspec/changes/archive/2026-11-28-results-at-the-tested-tree/proposal.md
+  purpose: The results-at-the-tested-tree OpenSpec change, archived; removed in the commit after the merge that archived it
+  implements: []
+  tests: []
+- path: openspec/changes/archive/2026-11-28-results-at-the-tested-tree/specs/lockstep-projection/spec.md
+  purpose: The results-at-the-tested-tree OpenSpec change, archived; removed in the commit after the merge that archived it
+  implements: []
+  tests: []
+- path: openspec/changes/archive/2026-11-28-results-at-the-tested-tree/tasks.md
+  purpose: The results-at-the-tested-tree OpenSpec change, archived; removed in the commit after the merge that archived it
+  implements: []
+  tests: []
 - path: src/pcw/__init__.py
   purpose: Aliases the pcw package path to lockstep so old module invocations and cog imports resolve without duplicate implementations.
   implements:
@@ -2414,6 +2408,11 @@ layout:
   purpose: Git pre-commit hook script that runs the lefthook pre-commit jobs.
   implements: []
   tests: []
+- path: template/.githooks/post-commit
+  purpose: Git post-commit hook script that runs the lefthook post-commit jobs (the results page for the new commit).
+  implements: []
+  tests:
+  - tests/test_template_portable.py
 - path: template/.githooks/pre-push
   purpose: Git pre-push hook script that runs the lefthook pre-push jobs.
   implements: []
@@ -2480,7 +2479,9 @@ layout:
   - portable-template/a-repository-made-with-the-defaults-works-for-anyone
   - portable-template/a-workspace-repository-keeps-the-shared-hooks
   - portable-template/the-commit-check-stages-rewritten-files-that-git-tracks
-  tests: []
+  - lockstep-projection/a-fresh-copy-rewrites-its-results-page-after-each-commit
+  tests:
+  - tests/test_template_portable.py
 - path: template/lockstep.yaml.jinja
   purpose: Copier template Lockstep layout file listing the planned source files and the document homes for a new package.
   implements:

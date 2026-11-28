@@ -111,6 +111,17 @@ def test_a_moved_copy_and_a_worktree_still_run_the_hooks(tmp_path):
     assert "HOOK-MARKER" in _commit(tree, "in-worktree")
 
 
+@pytest.mark.req("lockstep-projection/a-commit-in-a-fresh-copy-rewrites-the-results-page")
+def test_a_commit_in_a_fresh_copy_rewrites_the_results_page(tmp_path):
+    out = render(tmp_path)
+    script = out / ".githooks" / "post-commit"
+    assert os.access(script, os.X_OK) and "lefthook run post-commit" in script.read_text()
+    hooks = (out / "lefthook.yml").read_text()
+    assert "post-commit:" in hooks and "lockstep check project" in hooks.split("post-commit:", 1)[1]
+    make = (out / "Makefile").read_text()
+    assert make.count("lockstep record-tree") == 2  # after the last rewrite, and on a test failure
+
+
 def test_machine_bound_names_each_mention(tmp_path):
     (tmp_path / "AGENTS.md").write_text("Rules: `~/code2/AGENTS.md`\n")
     (tmp_path / "pyproject.toml").write_text(f'x = "{LOCKSTEP_URL}.git"\n')
