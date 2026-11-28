@@ -325,3 +325,28 @@ def test_a_write_inside_a_worktree_is_judged_by_its_plan(repo):
     finally:
         server.shutdown()
         server.server_close()
+
+
+def test_a_file_in_another_repository_is_outside_and_not_a_plan_write(repo, tmp_path_factory):
+    other = tmp_path_factory.mktemp("other")
+    (other / ".git").mkdir()
+    (other / "src").mkdir()
+    (other / "lockstep.yaml").write_text("governed: [src/]\nlayout: []\n")
+    t = _write(repo / "t.jsonl", _claude(
+        ("Write", {"file_path": str(other / "lockstep.yaml"), "content": "layout: []\n"}, "File created"),
+        ("Write", {"file_path": str(other / "src/x.py"), "content": "x = 1\n"}, "File created")))
+    tools = [e for e in session_events(t, repo) if e["kind"] == "tool"]
+    assert [(e["plan_write"], e.get("planned")) for e in tools] == [(False, "outside"), (False, "outside")]
+
+
+def test_status_for_an_unknown_checkout_is_404_and_a_bad_plan_is_not_a_crash(repo):
+    (repo / "lockstep.yaml").write_text("layout: [unclosed\n")
+    server = _serve(repo)
+    try:
+        port = server.server_address[1]
+        assert _get(port, "/api/status?checkout=../../etc/")[0] == 404
+        code, body = _get(port, "/api/plan?file=src/greet.py")
+        assert code == 200 and json.loads(body)["row"] is None
+    finally:
+        server.shutdown()
+        server.server_close()
