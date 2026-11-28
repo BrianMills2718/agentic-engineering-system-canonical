@@ -85,3 +85,35 @@ def test_code_that_writes_names_only_its_paths_not_its_keywords():
     from lockstep.shell_targets import shell_write_words
     assert shell_write_words("python -c \"import os; open('src/a.py','w').write(os.path.join('a','b'))\"") == ["src/a.py"]
     assert shell_write_words("python -c \"open('new.py','w').write('x')\"") == ["new.py"]
+
+
+# The shape the edit hook refused in the 2026-11-28 Sonnet end-to-end run: a script that writes only an
+# OpenSpec proposal, whose text names planned and unplanned source files.
+SONNET_SCRIPT = (
+    "python3 - <<'EOF'\nimport json, pathlib\nc = pathlib.Path(\"openspec/changes/add-greet\")\n"
+    "(c/\"specs/core\").mkdir(parents=True, exist_ok=True)\n"
+    "(c/\"proposal.md\").write_text(\"\"\"## Why\n\nTouches src/greeter/__init__.py and "
+    f"{NEW}.\n\"\"\")\nEOF"
+)
+
+
+@pytest.mark.req("lockstep-guard/a-python-script-whose-written-text-names-a-planned-file-is-not-refused")
+def test_a_python_script_whose_written_text_names_a_planned_file_is_not_refused(proj, block):
+    assert verdict(proj, SONNET_SCRIPT) != "deny"
+
+
+def test_python_code_writes_only_the_paths_its_write_calls_target():
+    from lockstep.shell_targets import shell_write_words
+    assert shell_write_words(SONNET_SCRIPT) == ["openspec/changes/add-greet/proposal.md"]
+    assert shell_write_words(
+        "python -c \"import shutil; shutil.copy('src/a.py', 'b/c.py')\"") == ["b/c.py"]
+
+
+@pytest.mark.parametrize("command", [
+    "python3 - <<'E'\nfrom pathlib import Path\np = Path('src/greeter') / '__init__.py'\np.write_text('x')\nE",
+    "python3 - <<'E'\nimport pathlib\nfor n in ['__init__.py']:\n    (pathlib.Path('src/greeter')/n).write_text('x')\nE",
+    "python3 - <<'E'\nn = input()\nopen(f'src/greeter/{n}', 'w').write('x  # src/greeter/__init__.py')\nE",
+    "python3 - <<'E'\nthis is not python, but it .write( src/greeter/__init__.py\nE",
+])
+def test_python_writes_of_a_planned_file_are_still_refused(proj, block, command):
+    assert verdict(proj, command) == "deny", command
