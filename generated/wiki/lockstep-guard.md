@@ -190,13 +190,14 @@ ID: `lockstep-guard/the-replay-marks-writes-to-the-plan`
 
 Status: **implemented and tested**
 
-Each replay event that wrote `lockstep.yaml` or a file under `openspec/changes/` or `openspec/specs/`, and was not refused, SHALL carry `plan_write: true`; every other tool event SHALL carry `plan_write: false`. The plan, code and wiki view SHALL light an "agent writes the plan" arrow for a plan write, and SHALL say for the whole session whether the first file the agent wrote was a plan file, naming that file and its time.
+Each replay event that wrote, and was not refused, `lockstep.yaml`, a file under `openspec/`, or an authored document (a file ending `.md`, `.rst`, `.txt`, `.adoc`, `.json` or `.c4`) of the checkout holding it SHALL carry `plan_write: true`, except a file under `wiki/`, `generated/`, `tests/`, `.claude/`, `.agents/`, `.codex/` or `.github/`, or outside the repository; every other tool event SHALL carry `plan_write: false`. Each tool event SHALL carry `plan_file`, true when its file is such a file, so the page marks a read of the plan by the same rule. The plan, code and wiki view SHALL light an "agent writes the plan" arrow for a plan write, and SHALL say for the whole session whether the first file the agent wrote was a plan file, naming that file and its time.
 
 Implemented by:
 
 - `lockstep.replay` — [`src/lockstep/replay.py:1`](../../src/lockstep/replay.py#L1)
 
-- Scenario `a-plan-write-is-marked-and-a-code-write-is-not`: tested by `tests/lockstep/test_replay.py::test_a_plan_write_is_marked_and_a_code_write_is_not` ([`tests/lockstep/test_replay.py:255`](../../tests/lockstep/test_replay.py#L255))
+- Scenario `a-plan-write-is-marked-and-a-code-write-is-not`: tested by `tests/lockstep/test_replay.py::test_a_plan_write_is_marked_and_a_code_write_is_not` ([`tests/lockstep/test_replay.py:266`](../../tests/lockstep/test_replay.py#L266))
+- Scenario `a-document-write-is-a-plan-write-and-a-generated-test-config-or-wiki-write-is-not`: tested by `tests/lockstep/test_replay.py::test_a_document_write_is_a_plan_write_and_a_generated_test_config_or_wiki_write_is_not` ([`tests/lockstep/test_replay.py:255`](../../tests/lockstep/test_replay.py#L255))
 
 ## the replay shows each write s plan standing requirement progress and the wiki read
 
@@ -210,6 +211,6 @@ Implemented by:
 
 - `lockstep.replay` — [`src/lockstep/replay.py:1`](../../src/lockstep/replay.py#L1)
 
-- Scenario `a-write-before-its-row-is-added-is-flagged`: tested by `tests/lockstep/test_replay.py::test_a_write_before_its_row_is_added_is_flagged` ([`tests/lockstep/test_replay.py:271`](../../tests/lockstep/test_replay.py#L271))
-- Scenario `a-write-inside-a-worktree-is-judged-by-that-worktree-s-plan`: tested by `tests/lockstep/test_replay.py::test_a_write_inside_a_worktree_is_judged_by_its_plan` ([`tests/lockstep/test_replay.py:304`](../../tests/lockstep/test_replay.py#L304))
-- Scenario `the-status-and-wiki-routes-answer`: tested by `tests/lockstep/test_replay.py::test_the_status_and_wiki_routes_answer` ([`tests/lockstep/test_replay.py:286`](../../tests/lockstep/test_replay.py#L286))
+- Scenario `a-write-before-its-row-is-added-is-flagged`: tested by `tests/lockstep/test_replay.py::test_a_write_before_its_row_is_added_is_flagged` ([`tests/lockstep/test_replay.py:282`](../../tests/lockstep/test_replay.py#L282))
+- Scenario `a-write-inside-a-worktree-is-judged-by-that-worktree-s-plan`: tested by `tests/lockstep/test_replay.py::test_a_write_inside_a_worktree_is_judged_by_its_plan` ([`tests/lockstep/test_replay.py:315`](../../tests/lockstep/test_replay.py#L315))
+- Scenario `the-status-and-wiki-routes-answer`: tested by `tests/lockstep/test_replay.py::test_the_status_and_wiki_routes_answer` ([`tests/lockstep/test_replay.py:297`](../../tests/lockstep/test_replay.py#L297))

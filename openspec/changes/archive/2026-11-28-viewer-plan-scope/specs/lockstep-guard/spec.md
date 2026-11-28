@@ -5,7 +5,8 @@
 Each replay event that wrote, and was not refused, `lockstep.yaml`, a file under `openspec/`, or an authored
 document (a file ending `.md`, `.rst`, `.txt`, `.adoc`, `.json` or `.c4`) of the checkout holding it SHALL carry
 `plan_write: true`, except a file under `wiki/`, `generated/`, `tests/`, `.claude/`, `.agents/`, `.codex/` or
-`.github/`, or outside the repository; every other tool event SHALL carry `plan_write: false`. The plan, code and
+`.github/`, or outside the repository; every other tool event SHALL carry `plan_write: false`. Each tool event SHALL
+carry `plan_file`, true when its file is such a file, so the page marks a read of the plan by the same rule. The plan, code and
 wiki view SHALL light an "agent writes the plan" arrow for a plan write, and SHALL say for the whole session whether
 the first file the agent wrote was a plan file, naming that file and its time.
 
@@ -27,4 +28,4 @@ inferred by agent.
 
 - **WHEN** a session writes `docs/architecture/greet.md`, `generated/files.md`, `tests/test_greet.py`,
   `pyproject.toml` and `wiki/index.md`
-- **THEN** only the first write's event has `plan_write` true
+- **THEN** only the first write's event has `plan_write` true, and only its `plan_file` is true
