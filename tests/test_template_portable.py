@@ -319,7 +319,10 @@ def test_both_clients_get_the_index_at_session_start(tmp_path):
     import json
 
     out = render(tmp_path)
-    index = (out / "generated/wiki/index.md").read_text(encoding="utf-8")
+    wiki = out / "generated/wiki/index.md"  # `make check` writes it; this render skips the copier tasks
+    wiki.parent.mkdir(parents=True, exist_ok=True)
+    index = "# Wiki\n\n- [greeter](greeter.md): says hello\n"
+    wiki.write_text(index, encoding="utf-8")
     for settings in (".claude/settings.json", ".codex/hooks.json"):
         groups = json.loads((out / settings).read_text(encoding="utf-8"))["hooks"]["SessionStart"]
         command = groups[0]["hooks"][0]["command"]

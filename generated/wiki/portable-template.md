@@ -62,6 +62,18 @@ Implemented by:
 - Scenario `a-fresh-copy-refuses-an-unplanned-source-file`: tested by `tests/test_template_portable.py::test_a_fresh_copy_refuses_an_unplanned_source_file` ([`tests/test_template_portable.py:169`](../../tests/test_template_portable.py#L169))
 - Scenario `a-default-copy-with-no-remote-passes-make-check`: tested by `tests/test_template_portable.py::test_a_default_copy_with_no_remote_passes_make_check` ([`tests/test_template_portable.py:257`](../../tests/test_template_portable.py#L257))
 
+## a fresh copy starts each session with the wiki index
+
+ID: `portable-template/a-fresh-copy-starts-each-session-with-the-wiki-index`
+
+Status: **unimplemented**
+
+A repository made with `copier copy` SHALL have a `SessionStart` hook in both `.claude/settings.json` and `.codex/hooks.json` that prints the text of `generated/wiki/index.md` as the session's added context (`hookSpecificOutput.additionalContext`, with `hookEventName` `SessionStart`), and prints nothing when that file does not exist.
+
+Implemented by: nothing yet
+
+- Scenario `both-clients-get-the-index-at-session-start`: tested by `tests/test_template_portable.py::test_both_clients_get_the_index_at_session_start` ([`tests/test_template_portable.py:317`](../../tests/test_template_portable.py#L317))
+
 ## a repository made with the defaults works for anyone
 
 ID: `portable-template/a-repository-made-with-the-defaults-works-for-anyone`

@@ -446,8 +446,12 @@ Generated from [lockstep.yaml](../lockstep.yaml); edit the source, not this bloc
 | [src/agentic_engineering_system/topology.py](../src/agentic_engineering_system/topology.py) | Governed-root topology check (`RU-AES-TOPOLOGY`, `SC-GF-003`). |
 | [src/agentic_engineering_system/trace_review.py](../src/agentic_engineering_system/trace_review.py) | Thin AES binding to Company Planning's source-bound review provider. |
 | [src/pcw/__init__.py](../src/pcw/__init__.py) | Aliases the pcw package path to lockstep so old module invocations and cog imports resolve without duplicate implementations. |
-| [template/.claude/settings.json](../template/.claude/settings.json) | Claude Code project settings template holding PreToolUse hook configuration for Edit, Write, Bash and related tools. |
-| [template/.codex/hooks.json](../template/.codex/hooks.json) | Codex project hooks template with PreToolUse hook configuration for apply_patch, shell and related tools. |
+| [openspec/changes/archive/2026-11-28-template-index-in-context/proposal.md](../openspec/changes/archive/2026-11-28-template-index-in-context/proposal.md) | The template-index-in-context OpenSpec change, archived; removed in the commit after the merge that archived it |
+| [openspec/changes/archive/2026-11-28-template-index-in-context/tasks.md](../openspec/changes/archive/2026-11-28-template-index-in-context/tasks.md) | The template-index-in-context OpenSpec change, archived; removed in the commit after the merge that archived it |
+| [openspec/changes/archive/2026-11-28-template-index-in-context/prior-art.json](../openspec/changes/archive/2026-11-28-template-index-in-context/prior-art.json) | The template-index-in-context OpenSpec change, archived; removed in the commit after the merge that archived it |
+| [openspec/changes/archive/2026-11-28-template-index-in-context/specs/portable-template/spec.md](../openspec/changes/archive/2026-11-28-template-index-in-context/specs/portable-template/spec.md) | The template-index-in-context OpenSpec change, archived; removed in the commit after the merge that archived it |
+| [template/.claude/settings.json](../template/.claude/settings.json) | Claude Code project settings template holding the PreToolUse edit hook and the SessionStart hook that hands over the wiki index. |
+| [template/.codex/hooks.json](../template/.codex/hooks.json) | Codex project hooks template holding the PreToolUse edit hook and the SessionStart hook that hands over the wiki index. |
 | [template/.doc-reachability-ignore](../template/.doc-reachability-ignore) | List of path globs (.claude, .agents, openspec/changes) excluded from the documentation reachability check in new repositories. |
 | [template/.githooks/pre-commit](../template/.githooks/pre-commit) | Git pre-commit hook script that runs the lefthook pre-commit jobs. |
 | [template/.githooks/pre-push](../template/.githooks/pre-push) | Git pre-push hook script that runs the lefthook pre-push jobs. |
