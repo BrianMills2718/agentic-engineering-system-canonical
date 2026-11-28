@@ -1,0 +1,23 @@
+{
+  "need": "lockstep init must not turn an edit guard from refusing to warning, nor turn a plugin on from a source the setting did not name.",
+  "searched": [
+    {
+      "place": "own",
+      "where": "src/lockstep/init_repo.py _has_guard, src/lockstep/side_file.py guard_mode, src/lockstep/checks/plugin_settings.py merge",
+      "query": "guard section, guard mode, plugin conflict",
+      "found": "guard_mode already reads an empty guard: as no mode; _has_guard looked only at the key. merge already detects the conflict but adds the other key anyway."
+    }
+  ],
+  "candidates": [
+    {
+      "name": "Reuse side_file.guard_mode in _has_guard; skip enabledPlugins in merge on a source conflict",
+      "url": "https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/main/src/lockstep/side_file.py",
+      "covers": "Both defects, with the readers that already exist.",
+      "misses": "Nothing.",
+      "verdict": "adopt",
+      "reason": "Two-line fixes in the existing code; no new tool."
+    }
+  ],
+  "decision": "adopt",
+  "decided": "2026-11-28"
+}
