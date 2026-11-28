@@ -198,7 +198,7 @@ Implemented by:
 
 - Scenario `a-plan-write-is-marked-and-a-code-write-is-not`: tested by `tests/lockstep/test_replay.py::test_a_plan_write_is_marked_and_a_code_write_is_not` ([`tests/lockstep/test_replay.py:267`](../../tests/lockstep/test_replay.py#L267))
 - Scenario `a-document-write-is-a-plan-write-and-a-generated-test-config-or-wiki-write-is-not`: tested by `tests/lockstep/test_replay.py::test_a_document_write_is_a_plan_write_and_a_generated_test_config_or_wiki_write_is_not` ([`tests/lockstep/test_replay.py:256`](../../tests/lockstep/test_replay.py#L256))
-- Scenario `excluded-folders-match-at-any-depth-inside-the-checkout`: tested by `tests/lockstep/test_replay.py::test_excluded_folders_match_at_any_depth_inside_the_checkout` ([`tests/lockstep/test_replay.py:386`](../../tests/lockstep/test_replay.py#L386))
+- Scenario `excluded-folders-match-at-any-depth-inside-the-checkout`: tested by `tests/lockstep/test_replay.py::test_excluded_folders_match_at_any_depth_inside_the_checkout` ([`tests/lockstep/test_replay.py:386`](../../tests/lockstep/test_replay.py#L386)), `tests/lockstep/test_replay.py::test_excluded_folder_names_match_in_any_letter_case` ([`tests/lockstep/test_replay.py:417`](../../tests/lockstep/test_replay.py#L417))
 - Scenario `a-spec-read-is-a-plan-read-and-a-requirement-read`: tested by `tests/lockstep/test_replay.py::test_a_spec_read_is_a_plan_read_and_a_requirement_read` ([`tests/lockstep/test_replay.py:402`](../../tests/lockstep/test_replay.py#L402))
 
 ## the replay shows each write s plan standing requirement progress and the wiki read
@@ -214,6 +214,6 @@ Implemented by:
 - `lockstep.replay` — [`src/lockstep/replay.py:1`](../../src/lockstep/replay.py#L1)
 
 - Scenario `a-write-before-its-row-is-added-is-flagged`: tested by `tests/lockstep/test_replay.py::test_a_write_before_its_row_is_added_is_flagged` ([`tests/lockstep/test_replay.py:283`](../../tests/lockstep/test_replay.py#L283))
-- Scenario `a-later-document-mention-does-not-downgrade-a-planned-write`: tested by `tests/lockstep/test_replay.py::test_a_later_document_mention_does_not_downgrade_a_planned_write` ([`tests/lockstep/test_replay.py:367`](../../tests/lockstep/test_replay.py#L367))
+- Scenario `a-later-document-mention-does-not-downgrade-a-planned-write`: tested by `tests/lockstep/test_replay.py::test_a_later_document_mention_does_not_downgrade_a_planned_write` ([`tests/lockstep/test_replay.py:367`](../../tests/lockstep/test_replay.py#L367)), `tests/lockstep/test_replay.py::test_a_multiedit_of_the_plan_whose_old_text_is_unseen_does_not_downgrade` ([`tests/lockstep/test_replay.py:424`](../../tests/lockstep/test_replay.py#L424))
 - Scenario `a-write-inside-a-worktree-is-judged-by-that-worktree-s-plan`: tested by `tests/lockstep/test_replay.py::test_a_write_inside_a_worktree_is_judged_by_its_plan` ([`tests/lockstep/test_replay.py:316`](../../tests/lockstep/test_replay.py#L316))
 - Scenario `the-status-and-wiki-routes-answer`: tested by `tests/lockstep/test_replay.py::test_the_status_and_wiki_routes_answer` ([`tests/lockstep/test_replay.py:298`](../../tests/lockstep/test_replay.py#L298))
