@@ -35,7 +35,24 @@ time; `pcw check` before the commit stays the guarantee.
 [[[cog import lockstep.cogtext as c; c.docstring("src:lockstep:hook.py", indent=0)]]]
 Plan (generated from lockstep.yaml layout and OpenSpec; edit the spec or the layout row, not this text):
 
-Implements: lockstep-guard/agents-get-requirement-text-from-the-shell-too, lockstep-guard/handing-over-text-never-approves-an-edit, lockstep-init/the-edit-guard-logs-outside-the-checkout, lockstep-package/lockstep-installs-from-aes-canonical, lockstep-guard/a-refusal-lists-the-files-the-plan-allows, lockstep-guard/an-unplanned-file-is-refused-where-the-plan-marks-it-fixed-and-warned-about-elsewhere
+Implements: lockstep-guard/the-edit-hook-names-the-home-of-a-misplaced-document, lockstep-guard/agents-get-requirement-text-from-the-shell-too, lockstep-guard/handing-over-text-never-approves-an-edit, lockstep-init/the-edit-guard-logs-outside-the-checkout, lockstep-package/lockstep-installs-from-aes-canonical, lockstep-guard/a-refusal-lists-the-files-the-plan-allows, lockstep-guard/an-unplanned-file-is-refused-where-the-plan-marks-it-fixed-and-warned-about-elsewhere
+
+### Requirement: The edit hook names the home of a misplaced document
+
+When `lockstep.yaml` declares `document_homes:` and an agent writes a Markdown file that sits under no home (the
+same rule as the layout check, for a file no layout row names and git does not ignore), the edit hook SHALL let the write through with a warning that names each home and
+what belongs there, and log `would_block`, unless the guard mode is `block`, where it SHALL refuse the write.
+
+Source: Brian, 2026-11-27 19:05: "research goes in one place. generated files go in another". Warn rather than
+refuse by default is inferred by agent from the guard's existing default (Brian, 2026-11-07, decision D7: Lockstep
+warns and blocks only what the plan marks fixed).
+
+#### Scenario: Writing a note outside every home is warned about
+
+- **GIVEN** `document_homes:` declaring `research/`, and guard mode `warn`
+- **WHEN** an agent writes `notes.md`
+- **THEN** the write goes through with a warning naming `research/` and what belongs there; writing
+  `research/notes.md` gives no such warning
 
 ### Requirement: Agents get requirement text from the shell too
 
@@ -586,10 +603,8 @@ def decide(call: dict) -> dict | None:
         hand = _plan_edit(call, root, rel, path)
         if hand:
             return _refuse_or_warn(root, [rel], {"file": rel, "why": "plan_edit"}, hand)
-        unplanned = unplanned_reason(root, rel)
-        if unplanned:
-            return _refuse_or_warn(root, [rel], {"file": rel, "why": "unplanned"}, _with_allowed(root, rel, unplanned),
-                                   spec_text or None)
+        if answer := _out_of_place(root, rel, spec_text, governed):
+            return answer
         art = artifact_for_path(root, rel)
         if art is None:
             if not spec_ids and not governing:
@@ -620,6 +635,18 @@ def decide(call: dict) -> dict | None:
                    **({"decisions": governing} if governing else {})})
         allowed.append(packet)
     return _out("allow", None, "\n\n".join(x for x in allowed if x)) if allowed else None
+
+
+def _out_of_place(root: Path, rel: str, spec_text: str, governed: str) -> dict | None:
+    """The answer for a file the plan does not declare, or a document outside every home (warn or refuse); else None."""
+    from lockstep.layout_plan import misplaced_document
+    if unplanned := unplanned_reason(root, rel):
+        return _refuse_or_warn(root, [rel], {"file": rel, "why": "unplanned"}, _with_allowed(root, rel, unplanned),
+                               spec_text or None)
+    home = misplaced_document(root, rel) if has_layout(root) and artifact_for_path(root, rel) is None else None
+    text = "\n\n".join(x for x in (spec_text, governed) if x) or None
+    return _refuse_or_warn(root, [rel], {"file": rel, "why": "document_home"}, home, text) if home and not _ignored(
+        root, rel) else None
 
 
 def _plan_edit(call: dict, root: Path, rel: str, path: Path) -> str | None:

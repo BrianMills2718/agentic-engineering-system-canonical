@@ -1,6 +1,7 @@
 """The layout plan: OpenSpec says what the code must do, `layout:` rows in lockstep.yaml say which files exist and why.
 
-Implements: lockstep-plan-format/the-plan-is-openspec-plus-layout-rows, lockstep-plan-format/a-layout-row-lists-what-its-file-implements
+Implements: lockstep-plan-format/the-plan-is-openspec-plus-layout-rows, lockstep-plan-format/a-layout-row-lists-what-its-file-implements,
+    lockstep-plan-format/a-document-outside-its-home-is-reported
 
 Requirement text (generated):
     lockstep-plan-format/the-plan-is-openspec-plus-layout-rows: In a repository whose
@@ -14,6 +15,14 @@ Requirement text (generated):
         layout problem, a layout row whose file names in an `Implements:` line a requirement that
         the row's `implements` list leaves out, naming the row's path and each missing requirement
         ID, so that the plan always names every requirement its code says it implements.
+    lockstep-plan-format/a-document-outside-its-home-is-reported: When `lockstep.yaml` declares
+        `document_homes:` (a mapping from a folder ending in `/`, or a file path, to what belongs
+        there), Lockstep SHALL report, as a layout problem, every tracked Markdown file that sits
+        under no declared home, naming the file and listing the homes. `README.md`, `AGENTS.md` and
+        `CLAUDE.md` anywhere (any letter case), files under a hidden folder or a `tests/` folder,
+        and a file a layout row names are not reported. A home written without its trailing `/` that
+        names a folder holds that folder. A `lockstep.yaml` without `document_homes:` is not
+        checked.
 
 This is the one plan format of the one-tool design (proposals/one-planning-tool/DESIGN.md, slice 2). A repository
 without `.aes/target.yaml` writes its plan as:
@@ -33,7 +42,27 @@ without `.aes/target.yaml` writes its plan as:
 [[[cog import lockstep.cogtext as c; c.docstring("src:lockstep:layout_plan.py", indent=0)]]]
 Plan (generated from lockstep.yaml layout and OpenSpec; edit the spec or the layout row, not this text):
 
-Implements: lockstep-plan-format/the-plan-is-openspec-plus-layout-rows, lockstep-plan-format/a-layout-row-lists-what-its-file-implements
+Implements: lockstep-plan-format/a-document-outside-its-home-is-reported, lockstep-plan-format/the-plan-is-openspec-plus-layout-rows, lockstep-plan-format/a-layout-row-lists-what-its-file-implements
+
+### Requirement: A document outside its home is reported
+
+When `lockstep.yaml` declares `document_homes:` (a mapping from a folder ending in `/`, or a file path, to what
+belongs there), Lockstep SHALL report, as a layout problem, every tracked Markdown file that sits under no declared
+home, naming the file and listing the homes. `README.md`, `AGENTS.md` and `CLAUDE.md` anywhere (any letter case), files under a
+hidden folder or a `tests/` folder, and a file a layout row names are not reported. A home written without its
+trailing `/` that names a folder holds that folder. A `lockstep.yaml` without `document_homes:` is not
+checked.
+
+Source: Brian, 2026-11-27 19:05: "like research goes in one place. generated files go in another". The closed list
+(a document must sit in a declared home, rather than its kind being guessed from its name) is inferred by agent: a
+document's kind cannot be read from its path, and prose meaning is not inferred with patterns.
+
+#### Scenario: A note outside every home is reported
+
+- **GIVEN** `document_homes:` declaring `research/` and `docs/architecture/`, and a committed `docs/notes.md`
+- **WHEN** the layout is checked
+- **THEN** the problem names `docs/notes.md` and lists `research/` and `docs/architecture/`; moved to
+  `research/notes.md`, it is not reported, and without `document_homes:` nothing is reported
 
 ### Requirement: The plan is OpenSpec plus layout rows
 
@@ -106,6 +135,11 @@ the 2026-11-28 measurement: 0 contradictions in a fresh template copy, 37 files 
 - **THEN** the problem names the row's path and `greeting/greet-by-name`, and the check blocks; with the ID restored, neither reports it
 
 Tested by: tests/lockstep/test_lockstep_layout_plan.py
+
+Declares (typed signatures, from the plan):
+  document_homes(root: Path) -> dict[str, str]
+  misplaced_document(root: Path, rel: str) -> str | None
+  misplaced_documents(root: Path) -> list[str]
 [[[end]]]
 """
 
@@ -166,8 +200,8 @@ def governed(root: Path) -> list[str]:
 
 
 def layout_problems(root: Path) -> list[str]:
-    """Each way the layout fails to be a plan: a row with no purpose, a repeated path, an unknown requirement, or a
-    row that leaves out a requirement its own file names in an `Implements:` line."""
+    """Each way the layout fails to be a plan: a row with no purpose, a repeated path, an unknown requirement, a row
+    that leaves out a requirement its own file names in an `Implements:` line, or a document outside every home."""
     problems: list[str] = []
     known = read_requirements(root)
     raw = _data(root).get("layout")
@@ -189,6 +223,7 @@ def layout_problems(root: Path) -> list[str]:
                 problems.append(f"{SIDE_FILE} layout row for {path} implements {ident}, which no OpenSpec spec or "
                                 "active change defines (openspec/specs/<capability>/spec.md)")
     problems += _rows_missing_their_code(root, raw)
+    problems += misplaced_documents(root)
     return problems
 
 
@@ -205,6 +240,53 @@ def _rows_missing_their_code(root: Path, raw: list) -> list[str]:
             problems.append(f"{SIDE_FILE} layout row for {path} leaves out {', '.join(missing)}, which the file says "
                             "it implements: add them to the row's `implements`, or drop the `Implements:` line")
     return problems
+
+
+NOT_DOCUMENTS = ("README.MD", "AGENTS.MD", "CLAUDE.MD")  # instruction and front files live where their tools look
+
+
+def document_homes(root: Path) -> dict[str, str]:
+    """`document_homes:` from lockstep.yaml: each home (a folder ending in `/`, or a file) and what belongs there."""
+    raw = _data(root).get("document_homes")
+    if not isinstance(raw, dict):
+        return {}
+    homes = {}
+    for key, what in raw.items():
+        home = str(key).strip().removeprefix("./").lstrip("/")
+        if home and not home.endswith("/") and (root / home).is_dir():
+            home += "/"  # a folder written without its trailing slash still holds its files
+        homes[home] = str(what or "").strip()
+    return homes
+
+
+def misplaced_document(root: Path, rel: str) -> str | None:
+    """Why the Markdown file `rel` sits under no declared document home, or None (also None with no homes)."""
+    homes = document_homes(root)
+    parts = rel.split("/")
+    if (not homes or not rel.lower().endswith(".md") or parts[-1].upper() in NOT_DOCUMENTS or "tests" in parts[:-1]
+            or any(part.startswith(".") for part in parts[:-1])):
+        return None
+    if any(rel == home or (home.endswith("/") and rel.startswith(home)) for home in homes):
+        return None
+    if any(isinstance(row, dict) and str(row.get("path") or "").strip() == rel for row in _data(root).get("layout") or []):
+        return None  # a file the plan declares is in its place
+    listed = "\n".join(f"- `{home}`: {what}" if what else f"- `{home}`" for home, what in homes.items())
+    return (f"{rel} sits outside every document home declared in {SIDE_FILE} `document_homes:`. "
+            f"Each kind of document has one home; move it to the one that fits, or declare a new home:\n{listed}")
+
+
+def misplaced_documents(root: Path) -> list[str]:
+    """One layout problem per tracked Markdown file outside every declared document home."""
+    if not document_homes(root):
+        return []
+    import subprocess
+
+    listed = subprocess.run(["git", "-C", str(root), "ls-files", "-z", "--", "*.md", "*.MD"], capture_output=True,
+                            text=True)
+    if listed.returncode != 0:
+        return [f"{SIDE_FILE} declares document_homes, but `git ls-files` failed in {root}, so no document was checked: "
+                + listed.stderr.strip()[:200]]
+    return [reason for rel in listed.stdout.split("\0") if rel and (reason := misplaced_document(root, rel))]
 
 
 def target_from_layout(root: Path) -> dict:

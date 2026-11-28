@@ -387,6 +387,7 @@ layout:
   purpose: 'Agent edit hook (Claude Code and Codex PreToolUse): warn about, or refuse, an edit to a file the plan does not
     declare (behavior 5.1)'
   implements:
+  - lockstep-guard/the-edit-hook-names-the-home-of-a-misplaced-document
   - lockstep-guard/agents-get-requirement-text-from-the-shell-too
   - lockstep-guard/handing-over-text-never-approves-an-edit
   - lockstep-init/the-edit-guard-logs-outside-the-checkout
@@ -422,10 +423,15 @@ layout:
   purpose: 'The layout plan: OpenSpec says what the code must do, `layout:` rows in lockstep.yaml say which files exist and
     why'
   implements:
+  - lockstep-plan-format/a-document-outside-its-home-is-reported
   - lockstep-plan-format/the-plan-is-openspec-plus-layout-rows
   - lockstep-plan-format/a-layout-row-lists-what-its-file-implements
   tests:
   - tests/lockstep/test_lockstep_layout_plan.py
+  exports:
+  - 'document_homes(root: Path) -> dict[str, str]'
+  - 'misplaced_document(root: Path, rel: str) -> str | None'
+  - 'misplaced_documents(root: Path) -> list[str]'
 - path: src/lockstep/linked_tests.py
   purpose: 'Check tests and criteria link both ways: every named test file exists, every test file is named'
   implements:
@@ -2356,22 +2362,36 @@ layout:
   purpose: Thin AES binding to Company Planning's source-bound review provider.
   implements: []
   tests: []
-- path: openspec/changes/archive/2026-11-28-layout-row-matches-code/proposal.md
-  purpose: The layout-row-matches-code OpenSpec change, archived; removed in the commit after the merge that archived it
+- path: openspec/changes/archive/2026-11-28-document-homes/proposal.md
+  purpose: The document-homes OpenSpec change, archived; removed in the commit after the merge that archived it
   implements: []
   tests: []
-- path: openspec/changes/archive/2026-11-28-layout-row-matches-code/tasks.md
-  purpose: The layout-row-matches-code OpenSpec change, archived; removed in the commit after the merge that archived it
+- path: openspec/changes/archive/2026-11-28-document-homes/tasks.md
+  purpose: The document-homes OpenSpec change, archived; removed in the commit after the merge that archived it
   implements: []
   tests: []
-- path: openspec/changes/archive/2026-11-28-layout-row-matches-code/prior-art.json
-  purpose: The layout-row-matches-code OpenSpec change, archived; removed in the commit after the merge that archived it
+- path: openspec/changes/archive/2026-11-28-document-homes/prior-art.json
+  purpose: The document-homes OpenSpec change, archived; removed in the commit after the merge that archived it
   implements: []
   tests: []
-- path: openspec/changes/archive/2026-11-28-layout-row-matches-code/specs/lockstep-plan-format/spec.md
-  purpose: The layout-row-matches-code OpenSpec change, archived; removed in the commit after the merge that archived it
+- path: openspec/changes/archive/2026-11-28-document-homes/specs/lockstep-plan-format/spec.md
+  purpose: The document-homes OpenSpec change, archived; removed in the commit after the merge that archived it
   implements: []
   tests: []
+- path: openspec/changes/archive/2026-11-28-document-homes/specs/lockstep-guard/spec.md
+  purpose: The document-homes OpenSpec change, archived; removed in the commit after the merge that archived it
+  implements: []
+  tests: []
+- path: openspec/changes/archive/2026-11-28-document-homes/specs/portable-template/spec.md
+  purpose: The document-homes OpenSpec change, archived; removed in the commit after the merge that archived it
+  implements: []
+  tests: []
+- path: template/research/.gitkeep
+  purpose: Keeps a fresh copy's empty research home; what belongs there is its `document_homes:` line in lockstep.yaml
+  implements:
+  - portable-template/a-fresh-copy-declares-where-each-kind-of-document-lives
+  tests:
+  - tests/test_template_portable.py
 - path: src/pcw/__init__.py
   purpose: Aliases the pcw package path to lockstep so old module invocations and cog imports resolve without duplicate implementations.
   implements:
@@ -2462,9 +2482,10 @@ layout:
   - portable-template/the-commit-check-stages-rewritten-files-that-git-tracks
   tests: []
 - path: template/lockstep.yaml.jinja
-  purpose: Copier template Lockstep layout file listing the planned source files for a new package.
+  purpose: Copier template Lockstep layout file listing the planned source files and the document homes for a new package.
   implements:
   - portable-template/a-fresh-copy-ships-its-planned-file-layout
+  - portable-template/a-fresh-copy-declares-where-each-kind-of-document-lives
   tests: []
 - path: template/mkdocs.yml.jinja
   purpose: Copier template MkDocs site config with search, mkdocstrings, llmstxt plugins and the docs navigation sections.

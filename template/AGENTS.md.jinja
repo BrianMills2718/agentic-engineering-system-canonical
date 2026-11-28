@@ -5,6 +5,10 @@ capability, each page showing its requirements, the code that implements them an
 project` writes it; never edit it). Then [docs/index.md](docs/index.md), which lists the architecture, diagram,
 requirements and decisions.{% if code2_workspace %} Workspace rules: `~/code2/AGENTS.md`.{% endif %}
 
+- Each kind of document has one home, listed with what belongs there under `document_homes:` in
+  `lockstep.yaml`: design in `docs/architecture/`, decisions in `docs/decisions/`, requirements and changes in
+  `openspec/`, research in `research/`, observations in `evidence/`, generator output in `generated/`. A Markdown
+  file anywhere else fails `make check`; move it, or declare a new home there.
 - Behavior changes go through OpenSpec (`openspec/changes/<name>/`), then archive with
   `openspec archive <name> --yes`.
 - Each change's `proposal.md` states its size on one line: `Plan size: small` (the change is the plan;

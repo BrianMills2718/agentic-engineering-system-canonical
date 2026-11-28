@@ -330,3 +330,24 @@ def test_both_clients_get_the_index_at_session_start(tmp_path):
         run = subprocess.run(["bash", "-c", command], cwd=out, env=env, capture_output=True, text=True, check=True)
         got = json.loads(run.stdout)["hookSpecificOutput"]
         assert got["hookEventName"] == "SessionStart" and index in got["additionalContext"], settings
+
+
+@pytest.mark.req("portable-template/a-fresh-copy-has-its-homes-and-no-misplaced-document")
+def test_a_fresh_copy_has_its_homes_and_no_misplaced_document(tmp_path):
+    import yaml
+
+    from lockstep.layout_plan import layout_problems
+
+    out = render(tmp_path)
+    homes = yaml.safe_load((out / "lockstep.yaml").read_text(encoding="utf-8"))["document_homes"]
+    assert "research/" in homes and "generated/" in homes
+    assert (out / "research").is_dir()
+    agents = (out / "AGENTS.md").read_text(encoding="utf-8")
+    assert "research/" in agents and "generated/" in agents
+    # what the skipped copier tasks would write: the docs site's copy of the specs and the generated wiki
+    for rel in ("docs/specs/core/spec.md", "generated/wiki/index.md"):
+        (out / rel).parent.mkdir(parents=True, exist_ok=True)
+        (out / rel).write_text("# x\n", encoding="utf-8")
+    _git(out, "init", "-q", "-b", "main")
+    _git(out, "add", "-A")
+    assert [p for p in layout_problems(out) if "outside every document home" in p] == []

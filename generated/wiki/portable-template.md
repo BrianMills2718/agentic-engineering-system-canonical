@@ -33,6 +33,20 @@ Implemented by:
 
 - Scenario `a-moved-copy-and-a-worktree-still-run-the-hooks`: tested by `tests/test_template_portable.py::test_a_moved_copy_and_a_worktree_still_run_the_hooks` ([`tests/test_template_portable.py:89`](../../tests/test_template_portable.py#L89))
 
+## a fresh copy declares where each kind of document lives
+
+ID: `portable-template/a-fresh-copy-declares-where-each-kind-of-document-lives`
+
+Status: **implemented and tested**
+
+A fresh copy of the template SHALL declare `document_homes:` in its `lockstep.yaml` (design in `docs/architecture/`, decisions in `docs/decisions/`, requirements and change proposals in `openspec/`, research in `research/`, retained observations in `evidence/`, generator output in `generated/` and the documentation site's generated copies, and its front pages), ship an empty `research/` folder, and list the homes in its AGENTS.md, so that its own `make check` reports no misplaced document when it is created.
+
+Implemented by:
+
+- `template/lockstep.yaml.jinja` — [`template/lockstep.yaml.jinja:2`](../../template/lockstep.yaml.jinja#L2)
+
+- Scenario `a-fresh-copy-has-its-homes-and-no-misplaced-document`: tested by `tests/test_template_portable.py::test_a_fresh_copy_has_its_homes_and_no_misplaced_document` ([`tests/test_template_portable.py:335`](../../tests/test_template_portable.py#L335))
+
 ## a fresh copy generates and checks its wiki
 
 ID: `portable-template/a-fresh-copy-generates-and-checks-its-wiki`

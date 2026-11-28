@@ -67,7 +67,7 @@ In a repository with OpenSpec specs and no layout plan, the edit hook SHALL answ
 Implemented by:
 
 - `lockstep.hook` — [`src/lockstep/hook.py:1`](../../src/lockstep/hook.py#L1)
-- `lockstep.hook._shell_spec_text` — [`src/lockstep/hook.py:445`](../../src/lockstep/hook.py#L445)
+- `lockstep.hook._shell_spec_text` — [`src/lockstep/hook.py:462`](../../src/lockstep/hook.py#L462)
 - `lockstep.openspec_text` — [`src/lockstep/openspec_text.py:1`](../../src/lockstep/openspec_text.py#L1)
 
 - Scenario `a-shell-command-on-an-implementing-file-gets-its-requirement-text`: tested by `tests/lockstep/test_lockstep_openspec_text.py::test_a_shell_command_on_an_implementing_file_gets_its_requirement_text` ([`tests/lockstep/test_lockstep_openspec_text.py:164`](../../tests/lockstep/test_lockstep_openspec_text.py#L164))
@@ -154,6 +154,20 @@ Implemented by:
 - Scenario `an-echo-redirect-creating-an-unplanned-file-is-refused`: tested by `tests/lockstep/test_lockstep_shell_targets.py::test_echo_redirect_creating_an_unplanned_file_is_refused` ([`tests/lockstep/test_lockstep_shell_targets.py:30`](../../tests/lockstep/test_lockstep_shell_targets.py#L30))
 - Scenario `a-python-one-liner-creating-an-unplanned-file-is-refused`: tested by `tests/lockstep/test_lockstep_shell_targets.py::test_python_one_liner_creating_an_unplanned_file_is_refused` ([`tests/lockstep/test_lockstep_shell_targets.py:35`](../../tests/lockstep/test_lockstep_shell_targets.py#L35))
 - Scenario `copying-a-planned-file-out-is-allowed`: tested by `tests/lockstep/test_lockstep_shell_targets.py::test_copying_a_planned_file_out_is_allowed` ([`tests/lockstep/test_lockstep_shell_targets.py:40`](../../tests/lockstep/test_lockstep_shell_targets.py#L40))
+
+## the edit hook names the home of a misplaced document
+
+ID: `lockstep-guard/the-edit-hook-names-the-home-of-a-misplaced-document`
+
+Status: **implemented and tested**
+
+When `lockstep.yaml` declares `document_homes:` and an agent writes a Markdown file that sits under no home (the same rule as the layout check, for a file no layout row names and git does not ignore), the edit hook SHALL let the write through with a warning that names each home and what belongs there, and log `would_block`, unless the guard mode is `block`, where it SHALL refuse the write.
+
+Implemented by:
+
+- `lockstep.hook` — [`src/lockstep/hook.py:1`](../../src/lockstep/hook.py#L1)
+
+- Scenario `writing-a-note-outside-every-home-is-warned-about`: tested by `tests/lockstep/test_lockstep_layout_plan.py::test_writing_a_note_outside_every_home_is_warned_about` ([`tests/lockstep/test_lockstep_layout_plan.py:412`](../../tests/lockstep/test_lockstep_layout_plan.py#L412))
 
 ## the replay has a plan code and wiki view
 
