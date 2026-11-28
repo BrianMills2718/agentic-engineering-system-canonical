@@ -266,3 +266,87 @@ def test_a_plan_write_is_marked_and_a_code_write_is_not(repo):
     finally:
         server.shutdown()
         server.server_close()
+
+
+@pytest.mark.req("lockstep-guard/a-write-before-its-row-is-added-is-flagged")
+def test_a_write_before_its_row_is_added_is_flagged(repo):
+    (repo / "lockstep.yaml").write_text(
+        "governed: [src/]\nlayout:\n- path: src/greet.py\n  purpose: Says hello\n- path: src/extra.py\n  purpose: Extra\n")
+    t = _write(repo / "t.jsonl", _claude(
+        ("Write", {"file_path": str(repo / "src/extra.py"), "content": "x = 1\n"}, "File created successfully"),
+        ("Edit", {"file_path": str(repo / "lockstep.yaml"), "old_string": "layout:\n",
+                  "new_string": "layout:\n- path: src/extra.py\n  purpose: Extra\n"}, "updated"),
+        ("Write", {"file_path": str(repo / "src/other.py"), "content": "y = 2\n"}, "File created successfully"),
+        ("Edit", {"file_path": str(repo / "src/greet.py"), "old_string": "hello", "new_string": "hi"}, "updated"),
+        ("Write", {"file_path": "/elsewhere/notes.txt", "content": "z\n"}, "File created successfully")))
+    writes = [e for e in session_events(t, repo) if e["kind"] == "tool"]
+    assert [e.get("planned") for e in writes] == ["row added later", None, "unplanned", "planned", "outside"]
+
+
+@pytest.mark.req("lockstep-guard/the-status-and-wiki-routes-answer")
+def test_the_status_and_wiki_routes_answer(repo):
+    (repo / "generated/wiki/index.md").write_text("# index\n")
+    server = _serve(repo)
+    try:
+        port = server.server_address[1]
+        status = json.loads(_get(port, "/api/status")[1])
+        req = status["requirements"]["greeter/the-greeter-says-hello"]
+        assert req["state"] and any(f.startswith("src/greet.py") for f in req["code"]) and "note" in status
+        wiki = json.loads(_get(port, "/api/wiki")[1])
+        assert wiki[0] == "generated/wiki/index.md" and "generated/wiki/greeter.md" in wiki
+        page = _get(port, "/")[1].decode()
+        assert 'id="svTrack"' in page and 'id="svWikiList"' in page and 'class="flag-unplanned"' in page
+    finally:
+        server.shutdown()
+        server.server_close()
+
+
+@pytest.mark.req("lockstep-guard/a-write-inside-a-worktree-is-judged-by-that-worktree-s-plan")
+def test_a_write_inside_a_worktree_is_judged_by_its_plan(repo):
+    wt = repo / "worktrees/feature"
+    (wt / "src").mkdir(parents=True)
+    (wt / ".git").write_text("gitdir: elsewhere\n")
+    (wt / "lockstep.yaml").write_text("governed: [src/]\nlayout:\n- path: src/a.py\n  purpose: A\n")
+    (wt / "generated/wiki").mkdir(parents=True)
+    (wt / "generated/wiki/index.md").write_text("# index\n")
+    t = _write(repo / "t.jsonl", _claude(
+        ("Write", {"file_path": str(wt / "lockstep.yaml"), "content": "layout:\n- path: src/a.py\n"}, "File created"),
+        ("Write", {"file_path": str(wt / "src/a.py"), "content": "a = 1\n"}, "File created"),
+        ("Write", {"file_path": str(wt / "src/b.py"), "content": "b = 1\n"}, "File created")))
+    tools = [e for e in session_events(t, repo) if e["kind"] == "tool"]
+    assert [(e["plan_write"], e.get("planned")) for e in tools] == [(True, None), (False, "planned"), (False, "unplanned")]
+    server = make_server(t, repo, None, 0)
+    threading.Thread(target=server.serve_forever, daemon=True).start()
+    try:
+        port = server.server_address[1]
+        assert json.loads(_get(port, "/api/data?session=main")[1])["checkout"] == "worktrees/feature/"
+        assert json.loads(_get(port, "/api/wiki?checkout=worktrees/feature/")[1]) == ["worktrees/feature/generated/wiki/index.md"]
+        assert _get(port, "/api/wiki?checkout=../../etc/")[0] == 404
+    finally:
+        server.shutdown()
+        server.server_close()
+
+
+def test_a_file_in_another_repository_is_outside_and_not_a_plan_write(repo, tmp_path_factory):
+    other = tmp_path_factory.mktemp("other")
+    (other / ".git").mkdir()
+    (other / "src").mkdir()
+    (other / "lockstep.yaml").write_text("governed: [src/]\nlayout: []\n")
+    t = _write(repo / "t.jsonl", _claude(
+        ("Write", {"file_path": str(other / "lockstep.yaml"), "content": "layout: []\n"}, "File created"),
+        ("Write", {"file_path": str(other / "src/x.py"), "content": "x = 1\n"}, "File created")))
+    tools = [e for e in session_events(t, repo) if e["kind"] == "tool"]
+    assert [(e["plan_write"], e.get("planned")) for e in tools] == [(False, "outside"), (False, "outside")]
+
+
+def test_status_for_an_unknown_checkout_is_404_and_a_bad_plan_is_not_a_crash(repo):
+    (repo / "lockstep.yaml").write_text("layout: [unclosed\n")
+    server = _serve(repo)
+    try:
+        port = server.server_address[1]
+        assert _get(port, "/api/status?checkout=../../etc/")[0] == 404
+        code, body = _get(port, "/api/plan?file=src/greet.py")
+        assert code == 200 and json.loads(body)["row"] is None
+    finally:
+        server.shutdown()
+        server.server_close()
