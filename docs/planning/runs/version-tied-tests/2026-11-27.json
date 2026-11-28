@@ -1,0 +1,36 @@
+{
+ "entry": "milestone-1-step-6",
+ "title": "Test results count only at the exact commit they ran on",
+ "run_at": "2026-11-28T03:30:00Z",
+ "lockstep_revision": "9a1138c79",
+ "verdict": "PASS",
+ "method": "The same fresh template copy as step 5 (project unplanned-proof). make check writes .code2check/junit.xml and .code2check/run.json ({commit, clean}); lockstep status reads them and reports each requirement and scenario against the current commit.",
+ "cases": [
+  {
+   "state": "make check passed at 83c3297, clean tree",
+   "status_header": "results: .code2check/junit.xml at 83c32978c4c0, clean tree",
+   "requirement": "passing",
+   "scenario": "passing"
+  },
+  {
+   "state": "one line added to src/unplanned_proof/core.py, not committed",
+   "status_header": "results: the tree has uncommitted changes since the results were recorded",
+   "requirement": "not run at this revision",
+   "scenario": "not run at this revision"
+  },
+  {
+   "state": "that change committed as 0f9dbe1, no new run",
+   "status_header": "results: results are from 83c32978c4c0, not the current commit 0f9dbe12051e",
+   "requirement": "not run at this revision",
+   "scenario": "not run at this revision"
+  },
+  {
+   "state": "the scenario's test changed to expect 9.9.9, committed as 6d3950d, make check run (exit 2)",
+   "status_header": "results: .code2check/junit.xml at 6d3950d05550, clean tree",
+   "requirement": "failing",
+   "scenario": "failing"
+  }
+ ],
+ "merge_side": "ship runs the repository's own check and merges only the commit that passed; its log names that commit (for example #1093 merged as 42dce46b9 after the check at that commit).",
+ "caveat": "lockstep status exits 0 even when a requirement is failing or not run; it reports, it does not gate. The gate is make check, which ship runs."
+}
