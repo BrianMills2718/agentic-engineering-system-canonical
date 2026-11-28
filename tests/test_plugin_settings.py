@@ -129,6 +129,8 @@ def test_another_source_or_an_opt_out_is_a_conflict_left_as_it_is(tmp_path, caps
     data = _settings(root)
     for section, value in existing.items():
         assert data[section] == value  # never overwritten
+    if key.startswith("enabledPlugins"):  # an opt-out still gets its missing marketplace entry
+        assert data["extraKnownMarketplaces"]["inside-success"] == _wanted_source()
     assert init_repo(root) == 0
     out = capsys.readouterr().out
     assert "conflict planning.skills" in out and key in out
@@ -235,6 +237,18 @@ def test_repository_is_compared_without_letter_case(tmp_path):
     _write_settings(root, {"extraKnownMarketplaces": {"inside-success": _wanted_source(MIRROR.lower())},
                            "enabledPlugins": {PLUGIN: True}})
     assert drift(root) == ([], [])
+
+
+@pytest.mark.req("lockstep-projection/a-conflicting-source-without-enabledplugins-names-the-source-to-fix")
+def test_a_conflicting_source_without_enabledplugins_names_the_source_to_fix(tmp_path, capsys):
+    root = _repo(tmp_path)  # mode block
+    _write_settings(root, {"extraKnownMarketplaces": {"inside-success": _wanted_source("Someone/else")}})
+    refusals, warnings = drift(root)
+    assert refusals == [] and len(warnings) == 1, (refusals, warnings)
+    assert "extraKnownMarketplaces.inside-success" in warnings[0] and "lockstep init" in warnings[0]
+    assert "has no enabledPlugins" not in warnings[0]
+    assert run(["project", "--repo", str(root)]) == 0
+    assert "refused: planning.skills" not in capsys.readouterr().out
 
 
 @pytest.mark.req("lockstep-projection/off-is-not-looked-at")

@@ -251,9 +251,10 @@ def _guard_commands(root: Path) -> list[str]:
 
 
 @pytest.mark.req("lockstep-init/an-old-hook-command-is-upgraded-where-guard-is-set")
-def test_an_old_hook_command_is_upgraded_where_guard_is_set(tmp_path, capsys):
+@pytest.mark.parametrize("guard", [True, "guard: {mode: warn}"])
+def test_an_old_hook_command_is_upgraded_where_guard_is_set(tmp_path, capsys, guard):
     root = _git_repo(tmp_path / "r")
-    _old_install(root, guard=True)
+    _old_install(root, guard=guard)
     init_repo(root, owner="Acme")
     commands = _guard_commands(root)
     assert len(commands) == 2 and not any("PCW_MODE" in c for c in commands), commands
@@ -265,7 +266,7 @@ def test_an_old_hook_command_is_upgraded_where_guard_is_set(tmp_path, capsys):
 
 
 @pytest.mark.req("lockstep-init/an-old-hook-command-stays-where-guard-is-not-set")
-@pytest.mark.parametrize("guard", [False, "guard:", "guard: {}"])
+@pytest.mark.parametrize("guard", [False, "guard:", "guard: {}", "guard: {mode: null}"])
 def test_an_old_hook_command_stays_where_guard_is_not_set(tmp_path, capsys, guard):
     root = _git_repo(tmp_path / "r")
     _old_install(root, guard=guard)
