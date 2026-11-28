@@ -2364,30 +2364,6 @@ layout:
   purpose: Thin AES binding to Company Planning's source-bound review provider.
   implements: []
   tests: []
-- path: openspec/changes/archive/2026-11-28-document-homes/proposal.md
-  purpose: The document-homes OpenSpec change, archived; removed in the commit after the merge that archived it
-  implements: []
-  tests: []
-- path: openspec/changes/archive/2026-11-28-document-homes/tasks.md
-  purpose: The document-homes OpenSpec change, archived; removed in the commit after the merge that archived it
-  implements: []
-  tests: []
-- path: openspec/changes/archive/2026-11-28-document-homes/prior-art.json
-  purpose: The document-homes OpenSpec change, archived; removed in the commit after the merge that archived it
-  implements: []
-  tests: []
-- path: openspec/changes/archive/2026-11-28-document-homes/specs/lockstep-plan-format/spec.md
-  purpose: The document-homes OpenSpec change, archived; removed in the commit after the merge that archived it
-  implements: []
-  tests: []
-- path: openspec/changes/archive/2026-11-28-document-homes/specs/lockstep-guard/spec.md
-  purpose: The document-homes OpenSpec change, archived; removed in the commit after the merge that archived it
-  implements: []
-  tests: []
-- path: openspec/changes/archive/2026-11-28-document-homes/specs/portable-template/spec.md
-  purpose: The document-homes OpenSpec change, archived; removed in the commit after the merge that archived it
-  implements: []
-  tests: []
 - path: template/research/.gitkeep
   purpose: Keeps a fresh copy's empty research home; what belongs there is its `document_homes:` line in lockstep.yaml
   implements:
