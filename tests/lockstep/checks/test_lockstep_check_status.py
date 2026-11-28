@@ -57,9 +57,9 @@ def commit_all(root: Path) -> str:
 
 
 def record(root: Path, commit: str, outcome: str = "pass", clean: bool = True) -> None:
-    """Write the test results and the run record `make check` would leave."""
-    write(root, ".code2check/junit.xml", junit(outcome))
+    """Write the run record and then the test results, in the order `make check` leaves them."""
     write(root, ".code2check/run.json", json.dumps({"commit": commit, "clean": clean}))
+    write(root, ".code2check/junit.xml", junit(outcome))
 
 
 @pytest.fixture
@@ -171,6 +171,20 @@ def test_a_tested_tree_that_differs_from_the_commit_is_not_used(linked):
     write(linked, "README.md", "changed after the run\n")
     commit_all(linked)
     assert report(linked).scenarios["core/it-works"].state == "not run at this revision"
+
+
+@pytest.mark.req("lockstep-projection/recording-the-tested-tree-leaves-the-index-alone")
+def test_recording_a_tree_without_a_run_from_make_check_is_refused(linked):
+    import os
+
+    commit_all(linked)
+    assert status.record_tree_cli(["--repo", str(linked)]) == 1          # no run record at all
+    record(linked, "abc", "pass", clean=False)
+    run = linked / ".code2check/run.json"
+    later = (linked / ".code2check/junit.xml").stat().st_mtime + 10
+    os.utime(run, (later, later))                                      # results older than the run: left over
+    assert status.record_tree_cli(["--repo", str(linked)]) == 1
+    assert "tree" not in json.loads(run.read_text())
 
 
 @pytest.mark.req("lockstep-projection/recording-the-tested-tree-leaves-the-index-alone")

@@ -19,7 +19,7 @@ check: docs-specs fast
 	printf '{"commit": "%s", "clean": %s}\n' "$$(git rev-parse HEAD)" "$$(test -z "$$(git status --porcelain)" && echo true || echo false)" > .code2check/run.json
 	@# On a test failure, still write generated/wiki/results.md (pass or fail per requirement) and record the tested
 	@# tree before stopping.
-	uv run pytest --junitxml=.code2check/junit.xml || { status=$$?; uv run lockstep check project; uv run lockstep record-tree; exit $$status; }
+	uv run pytest --junitxml=.code2check/junit.xml || { status=$$?; uv run lockstep check project; uv run lockstep record-tree || echo "record-tree: tree not recorded (see its message; an older Lockstep lacks it: uv lock --upgrade-package agentic-engineering-system); results then count only on a clean tree"; exit $$status; }
 	uv run lockstep check arch check
 	uv run lockstep check test-first --base origin/main
 	uv run lockstep check changed --base origin/main
@@ -30,7 +30,7 @@ check: docs-specs fast
 	if [ -z "$$base" ]; then echo "whole-tree check skipped: no commit yet"; else uv run lockstep check --repo . --base "$$base"; fi
 	uv run lockstep check project
 	@# The tree of the files just tested and regenerated: committing exactly these keeps the results for that commit.
-	uv run lockstep record-tree
+	uv run lockstep record-tree || echo "record-tree: tree not recorded (see its message; an older Lockstep lacks it: uv lock --upgrade-package agentic-engineering-system); results then count only on a clean tree"
 	uv run python -m lockstep.wiki_reach
 	uv run lockstep check docmeta
 	uv run zensical build --strict

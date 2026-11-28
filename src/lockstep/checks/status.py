@@ -34,6 +34,8 @@ Requirement text (generated):
         through `lockstep record-tree`, after its last step that rewrites files and also when a test
         fails: the tree of the tracked files and the untracked files git does not ignore, as they
         are on disk, built in a temporary index so that the repository's own index is not changed.
+        `lockstep record-tree` SHALL record nothing and exit 1 when there is no run record from
+        `make check`, or its test-result file is older than that record.
     lockstep-projection/a-plan-closes-requirement-ids-only-when-they-pass: `lockstep status` SHALL
         read the `Closes:` line of each plan and OpenSpec change and report each listed ID that is
         unimplemented, untested or not passing as open for that plan. It SHALL give a requirement or
@@ -85,7 +87,7 @@ Source: Brian, 2026-11-23: "i approve" (reading the existing `Closes:`, `Source:
 
 ### Requirement: Status reads test results from this revision
 
-`lockstep status` SHALL mark a scenario passing, failing or skipped only from a test-result file recorded at the current commit with a clean tree, or recorded on working files whose git tree equals the current commit's tree when nothing is uncommitted now, and SHALL mark it `not run at this revision` otherwise. `make check` SHALL record that git tree in `.code2check/run.json` as `tree`, through `lockstep record-tree`, after its last step that rewrites files and also when a test fails: the tree of the tracked files and the untracked files git does not ignore, as they are on disk, built in a temporary index so that the repository's own index is not changed.
+`lockstep status` SHALL mark a scenario passing, failing or skipped only from a test-result file recorded at the current commit with a clean tree, or recorded on working files whose git tree equals the current commit's tree when nothing is uncommitted now, and SHALL mark it `not run at this revision` otherwise. `make check` SHALL record that git tree in `.code2check/run.json` as `tree`, through `lockstep record-tree`, after its last step that rewrites files and also when a test fails: the tree of the tracked files and the untracked files git does not ignore, as they are on disk, built in a temporary index so that the repository's own index is not changed. `lockstep record-tree` SHALL record nothing and exit 1 when there is no run record from `make check`, or its test-result file is older than that record.
 
 Source: Brian, 2026-11-11: "i approve single tool desing re d4"; proposals/one-planning-tool/DESIGN.md, slice 6 ("Requirement text in docstrings" and "Status per requirement" rows). Brian, 2026-11-27 18:50: "Pass or fail only appears after make check on that exact commit, and it isn't written back into this page". The tree rule is inferred by agent from the 2026-11-28 isolated Haiku run on a fresh copy (commit 1fcf203), which ran `make check`, committed exactly what it tested, and was told its results were recorded with uncommitted changes.
 
@@ -304,23 +306,29 @@ def record_tree_cli(argv: list[str]) -> int:
             `.code2check/run.json` as `tree`, through `lockstep record-tree`, after its last step
             that rewrites files and also when a test fails: the tree of the tracked files and the
             untracked files git does not ignore, as they are on disk, built in a temporary index so
-            that the repository's own index is not changed.
+            that the repository's own index is not changed. `lockstep record-tree` SHALL record
+            nothing and exit 1 when there is no run record from `make check`, or its test-result
+            file is older than that record.
 
     Args:
         argv: `--repo PATH` (default: the current folder).
 
     Returns:
-        0 when recorded; 1 when git cannot compute the tree.
+        0 when recorded; 1 when there is no run record from `make check` with test results written after it,
+        or git cannot compute the tree.
     """
     ap = argparse.ArgumentParser(prog="lockstep record-tree", description="record the tested tree in " + str(RUN))
     ap.add_argument("--repo", type=Path, default=Path.cwd())
     root = ap.parse_args(argv).repo
+    path = root / RUN
+    run = json.loads(path.read_text()) if path.exists() else {}
+    if not run.get("commit") or not (root / RESULTS).exists() or (root / RESULTS).stat().st_mtime < path.stat().st_mtime:
+        print(f"record-tree: no {RUN} from make check with {RESULTS} written after it in {root}; nothing recorded")
+        return 1
     tree = _tested_tree(root)
     if not tree:
         print(f"record-tree: git could not compute the working tree in {root}")
         return 1
-    path = root / RUN
-    run = json.loads(path.read_text()) if path.exists() else {}
     run["tree"] = tree
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(run) + "\n")
