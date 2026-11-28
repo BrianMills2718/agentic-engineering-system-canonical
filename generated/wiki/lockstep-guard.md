@@ -143,10 +143,12 @@ ID: `lockstep-guard/shell-commands-are-judged-by-the-paths-they-write`
 
 Status: **implemented and tested**
 
-The edit hook SHALL find the files a shell command writes the way code2check's guard does: redirect and tee targets read as shell words, the files `mv`, `touch`, `sed -i` and the like write, only the destination of a copy (`cp`, `install`, `rsync`), and the paths named by code in the command (a `python -c`, a heredoc script) only when that code calls something that writes; a `cd` in the command SHALL be followed. In block mode it SHALL refuse a command that writes a file under a governed folder that the plan does not declare, and it SHALL NOT refuse a command that only reads a planned file.
+The edit hook SHALL find the files a shell command writes the way code2check's guard does: redirect and tee targets read as shell words, the files `mv`, `touch`, `sed -i` and the like write, only the destination of a copy (`cp`, `install`, `rsync`), and the paths named by code in the command (a `python -c`, a heredoc script) only when that code calls something that writes; for Python code that parses, only the paths its writing calls target (worked out from string literals, simple assignments and `Path` joins) SHALL count, and Python code whose write target cannot be worked out, or other code, SHALL count every path it names; a `cd` in the command SHALL be followed. In block mode it SHALL refuse a command that writes a file under a governed folder that the plan does not declare, and it SHALL NOT refuse a command that only reads a planned file.
 
 Implemented by:
 
+- `lockstep.python_writes` — [`src/lockstep/python_writes.py:1`](../../src/lockstep/python_writes.py#L1)
+- `lockstep.python_writes` — [`src/lockstep/python_writes.py:1`](../../src/lockstep/python_writes.py#L1)
 - `lockstep.shell_targets` — [`src/lockstep/shell_targets.py:1`](../../src/lockstep/shell_targets.py#L1)
 - `lockstep.shell_targets` — [`src/lockstep/shell_targets.py:1`](../../src/lockstep/shell_targets.py#L1)
 
@@ -154,6 +156,7 @@ Implemented by:
 - Scenario `an-echo-redirect-creating-an-unplanned-file-is-refused`: tested by `tests/lockstep/test_lockstep_shell_targets.py::test_echo_redirect_creating_an_unplanned_file_is_refused` ([`tests/lockstep/test_lockstep_shell_targets.py:30`](../../tests/lockstep/test_lockstep_shell_targets.py#L30))
 - Scenario `a-python-one-liner-creating-an-unplanned-file-is-refused`: tested by `tests/lockstep/test_lockstep_shell_targets.py::test_python_one_liner_creating_an_unplanned_file_is_refused` ([`tests/lockstep/test_lockstep_shell_targets.py:35`](../../tests/lockstep/test_lockstep_shell_targets.py#L35))
 - Scenario `copying-a-planned-file-out-is-allowed`: tested by `tests/lockstep/test_lockstep_shell_targets.py::test_copying_a_planned_file_out_is_allowed` ([`tests/lockstep/test_lockstep_shell_targets.py:40`](../../tests/lockstep/test_lockstep_shell_targets.py#L40))
+- Scenario `a-python-script-whose-written-text-names-a-planned-file-is-not-refused`: tested by `tests/lockstep/test_lockstep_shell_targets.py::test_a_python_script_whose_written_text_names_a_planned_file_is_not_refused` ([`tests/lockstep/test_lockstep_shell_targets.py:101`](../../tests/lockstep/test_lockstep_shell_targets.py#L101))
 
 ## the edit hook names the home of a misplaced document
 

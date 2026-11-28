@@ -8,7 +8,8 @@ file), and `written_paths` follows `cd`. This reads command text (code), never p
 A simple command writes a word when the word is its redirect or tee target, when the command is one that
 writes what it names (`mv`, `touch`, `truncate`, `sed -i`, `perl -i`, `dd of=`; a copy (`cp`, `install`,
 `rsync`) writes only its destination), or when code in it (a `python -c`, a heredoc script) calls
-something that writes, in which case every path it names counts. A command that only reads a file
+something that writes, in which case every path it names counts; for Python code that parses, only the
+paths its writing calls target count (`lockstep.python_writes`). A command that only reads a file
 (`cp planned /tmp/x`, `python -c "open(p).read()"`) writes nothing.
 
 Implements: lockstep-guard/shell-commands-are-judged-by-the-paths-they-write
@@ -18,10 +19,13 @@ Requirement text (generated):
         files a shell command writes the way code2check's guard does: redirect and tee targets read
         as shell words, the files `mv`, `touch`, `sed -i` and the like write, only the destination
         of a copy (`cp`, `install`, `rsync`), and the paths named by code in the command (a `python
-        -c`, a heredoc script) only when that code calls something that writes; a `cd` in the
-        command SHALL be followed. In block mode it SHALL refuse a command that writes a file under
-        a governed folder that the plan does not declare, and it SHALL NOT refuse a command that
-        only reads a planned file.
+        -c`, a heredoc script) only when that code calls something that writes; for Python code that
+        parses, only the paths its writing calls target (worked out from string literals, simple
+        assignments and `Path` joins) SHALL count, and Python code whose write target cannot be
+        worked out, or other code, SHALL count every path it names; a `cd` in the command SHALL be
+        followed. In block mode it SHALL refuse a command that writes a file under a governed folder
+        that the plan does not declare, and it SHALL NOT refuse a command that only reads a planned
+        file.
 
 [[[cog import lockstep.cogtext as c; c.docstring("src:lockstep:shell_targets.py", indent=0)]]]
 Plan (generated from lockstep.yaml layout and OpenSpec; edit the spec or the layout row, not this text):
@@ -33,11 +37,15 @@ Implements: lockstep-guard/shell-commands-are-judged-by-the-paths-they-write
 The edit hook SHALL find the files a shell command writes the way code2check's guard does: redirect and tee
 targets read as shell words, the files `mv`, `touch`, `sed -i` and the like write, only the destination of a
 copy (`cp`, `install`, `rsync`), and the paths named by code in the command (a `python -c`, a heredoc script)
-only when that code calls something that writes; a `cd` in the command SHALL be followed. In block mode it
+only when that code calls something that writes; for Python code that parses, only the paths its writing calls
+target (worked out from string literals, simple assignments and `Path` joins) SHALL count, and Python code whose
+write target cannot be worked out, or other code, SHALL count every path it names; a `cd` in the command SHALL be followed. In block mode it
 SHALL refuse a command that writes a file under a governed folder that the plan does not declare, and it
 SHALL NOT refuse a command that only reads a planned file.
 
 Source: Brian, 2026-11-11, "i approve single tool desing re d4" (proposals/one-planning-tool/DESIGN.md, slice 3: "Port code2check's shell-target parsing. Done when lifelike replays the four cases from lockstep#111").
+The Python narrowing is inferred by agent from the 2026-11-28 Sonnet end-to-end run, where a script writing
+only an OpenSpec proposal was refused because the proposal text named two planned files.
 
 #### Scenario: A heredoc creating an unplanned file is refused
 
@@ -63,6 +71,13 @@ Source: Brian, 2026-11-11, "i approve single tool desing re d4" (proposals/one-p
 - **WHEN** a shell command is `cp <governed>/rule.py /tmp/x`
 - **THEN** the hook allows it and hands over the plan text
 
+#### Scenario: A Python script whose written text names a planned file is not refused
+
+- **GIVEN** the same project, with a planned file `<governed>/rule.py`
+- **WHEN** a shell command is `python3 - <<'EOF'` with a script that writes `openspec/changes/x/proposal.md`
+  through `pathlib.Path` and whose written text names `<governed>/rule.py` and `<governed>/newfile.py`
+- **THEN** the hook does not deny it
+
 Tested by: tests/lockstep/test_lockstep_shell_targets.py
 [[[end]]]
 """
@@ -73,6 +88,8 @@ import os
 from pathlib import Path
 import re
 import shlex
+
+from lockstep.python_writes import python_write_paths
 
 # A heredoc operator (`<<EOF`, `<<-'EOF'`, not a `<<<` here-string); its body belongs to that command.
 _HEREDOC = re.compile(r"(?<!<)<<-?\s*(['\"]?)([A-Za-z_][\w-]*)\1")
@@ -258,7 +275,8 @@ def _by_segment(command: str) -> list[tuple[str, list[str]]]:
         head = _head(segment)
         targets = _redirect_targets(head) + command_writes(segment.split("\n", 1)[0])
         if _CODE_WRITES.search(segment):
-            targets += _code_paths(segment)
+            parsed = python_write_paths(segment)
+            targets += _code_paths(segment) if parsed is None else parsed
         out.append((segment, [w for w in dict.fromkeys(targets) if w and not w.startswith("-")]))
     return out
 

@@ -512,6 +512,15 @@ layout:
   implements:
   - lockstep-plan-format/the-plan-is-openspec-plus-layout-rows
   tests: []
+- path: src/lockstep/python_writes.py
+  purpose: Which paths Python code inside a shell command writes, read from the parsed code, for the shell parser
+  implements:
+  - lockstep-guard/shell-commands-are-judged-by-the-paths-they-write
+  tests:
+  - tests/lockstep/test_lockstep_shell_targets.py
+  exports:
+  - python_code
+  - python_write_paths
 - path: src/lockstep/shell_targets.py
   purpose: 'Which paths a shell command writes: the parser the edit hook judges shell commands by (behavior 5.1)'
   implements:
@@ -2384,6 +2393,22 @@ layout:
   tests: []
 - path: openspec/changes/archive/2026-11-28-results-at-the-tested-tree/tasks.md
   purpose: The results-at-the-tested-tree OpenSpec change, archived; removed in the commit after the merge that archived it
+  implements: []
+  tests: []
+- path: openspec/changes/archive/2026-11-28-python-code-writes-only-its-targets/proposal.md
+  purpose: The python-code-writes-only-its-targets OpenSpec change, archived; removed in the commit after the merge that archived it
+  implements: []
+  tests: []
+- path: openspec/changes/archive/2026-11-28-python-code-writes-only-its-targets/tasks.md
+  purpose: The python-code-writes-only-its-targets OpenSpec change, archived; removed in the commit after the merge that archived it
+  implements: []
+  tests: []
+- path: openspec/changes/archive/2026-11-28-python-code-writes-only-its-targets/prior-art.json
+  purpose: The python-code-writes-only-its-targets OpenSpec change, archived; removed in the commit after the merge that archived it
+  implements: []
+  tests: []
+- path: openspec/changes/archive/2026-11-28-python-code-writes-only-its-targets/specs/lockstep-guard/spec.md
+  purpose: The python-code-writes-only-its-targets OpenSpec change, archived; removed in the commit after the merge that archived it
   implements: []
   tests: []
 - path: src/pcw/__init__.py
