@@ -217,10 +217,10 @@ Implemented by:
 
 - `lockstep.checks.plugin_settings` — [`src/lockstep/checks/plugin_settings.py:1`](../../src/lockstep/checks/plugin_settings.py#L1)
 
-- Scenario `a-deleted-enabledplugins-entry-refuses-under-block-and-warns-under-warn`: tested by `tests/test_plugin_settings.py::test_a_deleted_enabledplugins_entry_refuses_under_block_and_warns_under_warn` ([`tests/test_plugin_settings.py:192`](../../tests/test_plugin_settings.py#L192))
-- Scenario `a-conflict-only-warns`: tested by `tests/test_plugin_settings.py::test_a_conflict_only_warns` ([`tests/test_plugin_settings.py:209`](../../tests/test_plugin_settings.py#L209))
-- Scenario `off-is-not-looked-at`: tested by `tests/test_plugin_settings.py::test_off_is_not_looked_at` ([`tests/test_plugin_settings.py:231`](../../tests/test_plugin_settings.py#L231))
-- Scenario `a-bad-skills-value-is-named-with-its-line-and-ship-ignores-it`: tested by `tests/test_plugin_settings.py::test_a_bad_skills_value_is_named_with_its_line_and_ship_ignores_it` ([`tests/test_plugin_settings.py:240`](../../tests/test_plugin_settings.py#L240))
+- Scenario `a-deleted-enabledplugins-entry-refuses-under-block-and-warns-under-warn`: tested by `tests/test_plugin_settings.py::test_a_deleted_enabledplugins_entry_refuses_under_block_and_warns_under_warn` ([`tests/test_plugin_settings.py:201`](../../tests/test_plugin_settings.py#L201))
+- Scenario `a-conflict-only-warns`: tested by `tests/test_plugin_settings.py::test_a_conflict_only_warns` ([`tests/test_plugin_settings.py:218`](../../tests/test_plugin_settings.py#L218))
+- Scenario `off-is-not-looked-at`: tested by `tests/test_plugin_settings.py::test_off_is_not_looked_at` ([`tests/test_plugin_settings.py:240`](../../tests/test_plugin_settings.py#L240))
+- Scenario `a-bad-skills-value-is-named-with-its-line-and-ship-ignores-it`: tested by `tests/test_plugin_settings.py::test_a_bad_skills_value_is_named_with_its_line_and_ship_ignores_it` ([`tests/test_plugin_settings.py:249`](../../tests/test_plugin_settings.py#L249))
 
 ## the pytest plugin ships as a pytest11 entry point
 
