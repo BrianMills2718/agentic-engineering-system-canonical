@@ -61,7 +61,7 @@ own events"); he told the agent to proceed without waiting.
 Tested by: tests/lockstep/test_replay.py
 
 Declares (typed signatures, from the plan):
-  session_events(transcript: Path, root: Path) -> list[dict]
+  session_events(transcript: Path, root: Path, agent: str='main') -> list[dict]
   make_server(transcript: Path, root: Path, store: Path | None, port: int, store_prefix: str = "") -> ThreadingHTTPServer
   main(argv: list[str] | None = None) -> int
 [[[end]]]

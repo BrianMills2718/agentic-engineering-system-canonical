@@ -99,6 +99,7 @@ Tested by: tests/lockstep/test_read_before_write.py
 
 Declares (typed signatures, from the plan):
   shell_reads(command: str, cwd: Path) -> list[Path]
+  records(transcript: Path) -> list[object]
   report(transcript: Path, root: Path) -> list[dict]
   main(argv: list[str] | None = None) -> int
 [[[end]]]

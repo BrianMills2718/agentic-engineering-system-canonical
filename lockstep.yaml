@@ -3139,6 +3139,7 @@ layout:
   - tests/lockstep/test_read_before_write.py
   exports:
   - 'shell_reads(command: str, cwd: Path) -> list[Path]'
+  - 'records(transcript: Path) -> list[object]'
   - 'report(transcript: Path, root: Path) -> list[dict]'
   - 'main(argv: list[str] | None = None) -> int'
 - path: tests/lockstep/test_read_before_write.py
@@ -3170,7 +3171,7 @@ layout:
   tests:
   - tests/lockstep/test_replay.py
   exports:
-  - 'session_events(transcript: Path, root: Path) -> list[dict]'
+  - "session_events(transcript: Path, root: Path, agent: str='main') -> list[dict]"
   - 'make_server(transcript: Path, root: Path, store: Path | None, port: int, store_prefix: str = "") -> ThreadingHTTPServer'
   - 'main(argv: list[str] | None = None) -> int'
 - path: src/lockstep/replay.html
