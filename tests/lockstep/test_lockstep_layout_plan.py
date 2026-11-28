@@ -123,6 +123,25 @@ def test_a_row_naming_an_unknown_requirement_or_no_purpose_is_reported(lay):
     assert any("tests/test_greet.py" in p and "purpose" in p for p in problems), problems
 
 
+@pytest.mark.req("lockstep-plan-format/a-row-that-leaves-out-its-file-s-requirement-is-reported")
+def test_a_row_that_leaves_out_its_files_requirement_is_reported(lay):
+    _layout(lay)
+    assert "Implements: greeting/greet-by-name" in (lay / "src/greeter/__init__.py").read_text()
+    sh("git add -A && git commit -q -m laid-out", lay)
+    assert layout_problems(lay) == []
+    text = (lay / "lockstep.yaml").read_text()
+    (lay / "lockstep.yaml").write_text(text.replace("implements: [greeting/greet-by-name]\n    tests:",
+                                                    "implements: []\n    tests:", 1))
+    sh("git add -A && git commit -q -m emptied", lay)
+    problems = layout_problems(lay)
+    assert any("src/greeter/__init__.py" in p and "greeting/greet-by-name" in p for p in problems), problems
+    assert check(lay)["decision"] == "block"
+    (lay / "lockstep.yaml").write_text(text)
+    sh("git add -A && git commit -q -m restored", lay)
+    assert layout_problems(lay) == []
+    assert check(lay)["decision"] == "allow", check(lay)
+
+
 @pytest.mark.req("lockstep-plan-format/an-aes-plan-is-still-read")
 def test_a_repository_with_an_aes_plan_is_read_as_before(proj):
     assert (proj / ".aes/target.yaml").is_file()

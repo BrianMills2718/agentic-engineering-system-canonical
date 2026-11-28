@@ -1,6 +1,6 @@
 """The layout plan: OpenSpec says what the code must do, `layout:` rows in lockstep.yaml say which files exist and why.
 
-Implements: lockstep-plan-format/the-plan-is-openspec-plus-layout-rows
+Implements: lockstep-plan-format/the-plan-is-openspec-plus-layout-rows, lockstep-plan-format/a-layout-row-lists-what-its-file-implements
 
 Requirement text (generated):
     lockstep-plan-format/the-plan-is-openspec-plus-layout-rows: In a repository whose
@@ -10,6 +10,10 @@ Requirement text (generated):
         and the requirement text from OpenSpec. A `governed:` entry ending in `/` covers every path
         under it, `.` covers the whole repository, and any other entry covers that one file or a
         folder of that name. A repository with `.aes/target.yaml` SHALL be read as before.
+    lockstep-plan-format/a-layout-row-lists-what-its-file-implements: Lockstep SHALL report, as a
+        layout problem, a layout row whose file names in an `Implements:` line a requirement that
+        the row's `implements` list leaves out, naming the row's path and each missing requirement
+        ID, so that the plan always names every requirement its code says it implements.
 
 This is the one plan format of the one-tool design (proposals/one-planning-tool/DESIGN.md, slice 2). A repository
 without `.aes/target.yaml` writes its plan as:
@@ -29,7 +33,7 @@ without `.aes/target.yaml` writes its plan as:
 [[[cog import lockstep.cogtext as c; c.docstring("src:lockstep:layout_plan.py", indent=0)]]]
 Plan (generated from lockstep.yaml layout and OpenSpec; edit the spec or the layout row, not this text):
 
-Implements: lockstep-plan-format/the-plan-is-openspec-plus-layout-rows
+Implements: lockstep-plan-format/the-plan-is-openspec-plus-layout-rows, lockstep-plan-format/a-layout-row-lists-what-its-file-implements
 
 ### Requirement: The plan is OpenSpec plus layout rows
 
@@ -84,6 +88,23 @@ Source: Brian, 2026-11-11, approving the one-tool design as written ("i approve 
 - **WHEN** Lockstep reads its plan
 - **THEN** the planned files come from `.aes/target.yaml` exactly as before
 
+### Requirement: A layout row lists what its file implements
+
+Lockstep SHALL report, as a layout problem, a layout row whose file names in an `Implements:` line a requirement
+that the row's `implements` list leaves out, naming the row's path and each missing requirement ID, so that the plan
+always names every requirement its code says it implements.
+
+Source: Brian, 2026-11-27 18:50: "The plan row (5) is empty: implements: [], tests: []. Here the link runs only
+through the docstring and the test marker, not through the plan. So the plan file can't tell you which requirements
+this file is meant to cover." The check form (report the contradiction, not every empty row) is inferred by agent from
+the 2026-11-28 measurement: 0 contradictions in a fresh template copy, 37 files in AES.
+
+#### Scenario: A row that leaves out its file's requirement is reported
+
+- **GIVEN** a laid-out file whose docstring says `Implements: greeting/greet-by-name` and whose row has `implements: []`
+- **WHEN** the layout is checked, and `lockstep check` runs on the committed tree
+- **THEN** the problem names the row's path and `greeting/greet-by-name`, and the check blocks; with the ID restored, neither reports it
+
 Tested by: tests/lockstep/test_lockstep_layout_plan.py
 [[[end]]]
 """
@@ -94,6 +115,7 @@ from pathlib import Path
 
 import yaml
 
+from lockstep.checks.markers import implementers
 from lockstep.openspec_text import read_requirements
 
 SIDE_FILE = "lockstep.yaml"
@@ -144,7 +166,8 @@ def governed(root: Path) -> list[str]:
 
 
 def layout_problems(root: Path) -> list[str]:
-    """Each way the layout fails to be a plan: a row with no purpose, a repeated path, an unknown requirement."""
+    """Each way the layout fails to be a plan: a row with no purpose, a repeated path, an unknown requirement, or a
+    row that leaves out a requirement its own file names in an `Implements:` line."""
     problems: list[str] = []
     known = read_requirements(root)
     raw = _data(root).get("layout")
@@ -165,6 +188,22 @@ def layout_problems(root: Path) -> list[str]:
             if ident not in known:
                 problems.append(f"{SIDE_FILE} layout row for {path} implements {ident}, which no OpenSpec spec or "
                                 "active change defines (openspec/specs/<capability>/spec.md)")
+    problems += _rows_missing_their_code(root, raw)
+    return problems
+
+
+def _rows_missing_their_code(root: Path, raw: list) -> list[str]:
+    """Rows whose file's `Implements:` lines name a requirement the row's `implements` leaves out."""
+    named: dict[str, set[str]] = {}
+    for ident, where, *_ in implementers(root):
+        named.setdefault(where.rsplit(":", 1)[0], set()).add(ident)
+    problems = []
+    for row in raw:
+        path = str(row.get("path") or "").strip() if isinstance(row, dict) else ""
+        missing = sorted(named.get(path, set()) - set(_list(row.get("implements")) if path else []))
+        if path and missing:
+            problems.append(f"{SIDE_FILE} layout row for {path} leaves out {', '.join(missing)}, which the file says "
+                            "it implements: add them to the row's `implements`, or drop the `Implements:` line")
     return problems
 
 
