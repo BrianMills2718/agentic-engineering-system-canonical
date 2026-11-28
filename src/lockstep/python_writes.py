@@ -234,7 +234,7 @@ def python_write_paths(segment: str) -> list[str] | None:
     try:
         code = python_code(segment)
         return None if code is None else _Reader(ast.parse(code)).written()
-    except Exception:  # noqa: BLE001  An unreadable script (_Unknown, RecursionError, ...) keeps the old rule.
+    except Exception:  # noqa: BLE001  # an unreadable script (RecursionError and the like) keeps the old rule
         return None
 
 
@@ -304,8 +304,8 @@ class _Reader:
             if isinstance(node, ast.Assign):
                 self._bind([t for t in targets if isinstance(t, ast.Name)], [node.value])
         elif isinstance(node, (ast.For, ast.comprehension)) and isinstance(node.target, ast.Name):
-            literal = isinstance(node.iter, (ast.List, ast.Tuple)) and node.iter.elts
-            self._bind([node.target], node.iter.elts if literal else [node.iter])  # type: ignore[attr-defined]
+            items = node.iter.elts if isinstance(node.iter, (ast.List, ast.Tuple)) and node.iter.elts else [node.iter]
+            self._bind([node.target], items)
         elif isinstance(node, ast.withitem) and isinstance(node.optional_vars, ast.Name):
             self._bind([node.optional_vars], [node.context_expr])
         else:
@@ -477,9 +477,10 @@ class _Reader:
 
     @staticmethod
     def _union(options: list[list[str] | None]) -> list[str] | None:
-        if not options or any(o is None for o in options):
+        known = [o for o in options if o is not None]
+        if not options or len(known) < len(options):
             return None
-        return list(dict.fromkeys(p for o in options for p in o))  # type: ignore[union-attr]
+        return list(dict.fromkeys(p for o in known for p in o))
 
 
 def _size(resolved: list) -> int:
