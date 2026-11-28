@@ -254,6 +254,10 @@ sessions. With `--store`, the page SHALL also show each file version a recorder 
 inside the package, so an install from git serves it. The session file SHALL be read again on each page refresh,
 so a running session can be followed.
 
+Source: Brian, 2026-11-27, plan doc "AES next steps: plan for discussion", Milestone 1 step 9 ("Replay viewer
+shows it all. The draft from today, moved into a git repository, with the hand-over and wiki reads shown as their
+own events"); he told the agent to proceed without waiting.
+
 #### Scenario: A Claude hand-over is its own event before its write
 
 - **WHEN** a Claude transcript holds an edit whose `hook_additional_context` attachment names the edited file
