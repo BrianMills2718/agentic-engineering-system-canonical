@@ -19,6 +19,20 @@ Implemented by:
 
 - Scenario `a-fixed-file-with-no-plan-copy-fails-the-check`: tested by `tests/lockstep/test_lockstep_layout_plan.py::test_a_fixed_file_with_no_plan_copy_fails_the_check` ([`tests/lockstep/test_lockstep_layout_plan.py:301`](../../tests/lockstep/test_lockstep_layout_plan.py#L301))
 
+## a fresh copy rewrites its results page after each commit
+
+ID: `lockstep-projection/a-fresh-copy-rewrites-its-results-page-after-each-commit`
+
+Status: **implemented and tested**
+
+A fresh copy of the template SHALL run `lockstep check project` from a tracked `post-commit` hook (`.githooks/post-commit`, a lefthook `post-commit` job), so that its git-ignored `generated/wiki/results.md` gives pass or fail for the new commit when the commit holds the files `make check` tested.
+
+Implemented by:
+
+- `template/lefthook.yml.jinja` — [`template/lefthook.yml.jinja:1`](../../template/lefthook.yml.jinja#L1)
+
+- Scenario `a-commit-in-a-fresh-copy-rewrites-the-results-page`: tested by `tests/test_template_portable.py::test_a_commit_in_a_fresh_copy_rewrites_the_results_page` ([`tests/test_template_portable.py:114`](../../tests/test_template_portable.py#L114))
+
 ## a plan closes requirement ids only when they pass
 
 ID: `lockstep-projection/a-plan-closes-requirement-ids-only-when-they-pass`
@@ -32,8 +46,8 @@ Implemented by:
 - `lockstep.checks.status` — [`src/lockstep/checks/status.py:1`](../../src/lockstep/checks/status.py#L1)
 - `lockstep.checks.status` — [`src/lockstep/checks/status.py:1`](../../src/lockstep/checks/status.py#L1)
 
-- Scenario `open-ids-of-a-plan-are-listed`: tested by `tests/lockstep/checks/test_lockstep_check_status.py::test_open_ids_of_a_plan_are_listed` ([`tests/lockstep/checks/test_lockstep_check_status.py:148`](../../tests/lockstep/checks/test_lockstep_check_status.py#L148)), `tests/lockstep/checks/test_lockstep_check_status.py::test_a_plan_with_passing_ids_has_none_open` ([`tests/lockstep/checks/test_lockstep_check_status.py:159`](../../tests/lockstep/checks/test_lockstep_check_status.py#L159)), `tests/lockstep/checks/test_lockstep_check_status.py::test_an_archived_change_drops_out_and_its_ids_still_resolve` ([`tests/lockstep/checks/test_lockstep_check_status.py:169`](../../tests/lockstep/checks/test_lockstep_check_status.py#L169))
-- Scenario `a-requirement-reworded-in-an-active-change-is-open-not-passing`: tested by `tests/lockstep/checks/test_lockstep_check_status.py::test_a_requirement_reworded_in_an_active_change_is_open_not_passing` ([`tests/lockstep/checks/test_lockstep_check_status.py:207`](../../tests/lockstep/checks/test_lockstep_check_status.py#L207))
+- Scenario `open-ids-of-a-plan-are-listed`: tested by `tests/lockstep/checks/test_lockstep_check_status.py::test_open_ids_of_a_plan_are_listed` ([`tests/lockstep/checks/test_lockstep_check_status.py:194`](../../tests/lockstep/checks/test_lockstep_check_status.py#L194)), `tests/lockstep/checks/test_lockstep_check_status.py::test_a_plan_with_passing_ids_has_none_open` ([`tests/lockstep/checks/test_lockstep_check_status.py:205`](../../tests/lockstep/checks/test_lockstep_check_status.py#L205)), `tests/lockstep/checks/test_lockstep_check_status.py::test_an_archived_change_drops_out_and_its_ids_still_resolve` ([`tests/lockstep/checks/test_lockstep_check_status.py:215`](../../tests/lockstep/checks/test_lockstep_check_status.py#L215))
+- Scenario `a-requirement-reworded-in-an-active-change-is-open-not-passing`: tested by `tests/lockstep/checks/test_lockstep_check_status.py::test_a_requirement_reworded_in_an_active_change_is_open_not_passing` ([`tests/lockstep/checks/test_lockstep_check_status.py:253`](../../tests/lockstep/checks/test_lockstep_check_status.py#L253))
 
 ## links show planned files and exports
 
@@ -46,7 +60,7 @@ In a repository whose `lockstep.yaml` has `layout:` rows, `docs/links.json` SHAL
 Implemented by:
 
 - `lockstep.checks.status` — [`src/lockstep/checks/status.py:1`](../../src/lockstep/checks/status.py#L1)
-- `lockstep.checks.status._layout_nodes` — [`src/lockstep/checks/status.py:503`](../../src/lockstep/checks/status.py#L503)
+- `lockstep.checks.status._layout_nodes` — [`src/lockstep/checks/status.py:600`](../../src/lockstep/checks/status.py#L600)
 
 - Scenario `a-planned-file-that-does-not-exist-yet-is-shown-as-planned`: tested by `tests/lockstep/checks/test_lockstep_check_links.py::test_a_planned_file_that_does_not_exist_yet_is_shown_as_planned` ([`tests/lockstep/checks/test_lockstep_check_links.py:124`](../../tests/lockstep/checks/test_lockstep_check_links.py#L124))
 - Scenario `a-laid-out-file-with-its-export-is-shown-as-existing`: tested by `tests/lockstep/checks/test_lockstep_check_links.py::test_a_laid_out_file_with_its_export_is_shown_as_existing` ([`tests/lockstep/checks/test_lockstep_check_links.py:133`](../../tests/lockstep/checks/test_lockstep_check_links.py#L133))
@@ -129,9 +143,9 @@ Implemented by:
 
 - `lockstep.checks.status` — [`src/lockstep/checks/status.py:1`](../../src/lockstep/checks/status.py#L1)
 - `lockstep.checks.status` — [`src/lockstep/checks/status.py:1`](../../src/lockstep/checks/status.py#L1)
-- `lockstep.checks.status.links` — [`src/lockstep/checks/status.py:420`](../../src/lockstep/checks/status.py#L420)
+- `lockstep.checks.status.links` — [`src/lockstep/checks/status.py:517`](../../src/lockstep/checks/status.py#L517)
 
-- Scenario `status-lists-implementers-and-tests`: tested by `tests/lockstep/checks/test_lockstep_check_status.py::test_status_lists_implementers_and_tests` ([`tests/lockstep/checks/test_lockstep_check_status.py:72`](../../tests/lockstep/checks/test_lockstep_check_status.py#L72)), `tests/lockstep/checks/test_lockstep_check_status.py::test_unlinked_items_say_so` ([`tests/lockstep/checks/test_lockstep_check_status.py:82`](../../tests/lockstep/checks/test_lockstep_check_status.py#L82)), `tests/lockstep/checks/test_lockstep_check_status.py::test_requirements_of_a_change_in_progress_are_listed` ([`tests/lockstep/checks/test_lockstep_check_status.py:180`](../../tests/lockstep/checks/test_lockstep_check_status.py#L180)), `tests/lockstep/checks/test_lockstep_check_status.py::test_cli_prints_table_json_and_result_line` ([`tests/lockstep/checks/test_lockstep_check_status.py:189`](../../tests/lockstep/checks/test_lockstep_check_status.py#L189))
+- Scenario `status-lists-implementers-and-tests`: tested by `tests/lockstep/checks/test_lockstep_check_status.py::test_status_lists_implementers_and_tests` ([`tests/lockstep/checks/test_lockstep_check_status.py:73`](../../tests/lockstep/checks/test_lockstep_check_status.py#L73)), `tests/lockstep/checks/test_lockstep_check_status.py::test_unlinked_items_say_so` ([`tests/lockstep/checks/test_lockstep_check_status.py:83`](../../tests/lockstep/checks/test_lockstep_check_status.py#L83)), `tests/lockstep/checks/test_lockstep_check_status.py::test_requirements_of_a_change_in_progress_are_listed` ([`tests/lockstep/checks/test_lockstep_check_status.py:226`](../../tests/lockstep/checks/test_lockstep_check_status.py#L226)), `tests/lockstep/checks/test_lockstep_check_status.py::test_cli_prints_table_json_and_result_line` ([`tests/lockstep/checks/test_lockstep_check_status.py:235`](../../tests/lockstep/checks/test_lockstep_check_status.py#L235))
 - Scenario `the-link-file-lists-the-whole-chain`: tested by `tests/lockstep/checks/test_lockstep_check_links.py::test_the_link_file_lists_the_whole_chain` ([`tests/lockstep/checks/test_lockstep_check_links.py:31`](../../tests/lockstep/checks/test_lockstep_check_links.py#L31))
 - Scenario `the-link-file-reads-plans-sources-and-quotes`: tested by `tests/lockstep/checks/test_lockstep_check_links.py::test_the_link_file_reads_plans_sources_and_quotes` ([`tests/lockstep/checks/test_lockstep_check_links.py:84`](../../tests/lockstep/checks/test_lockstep_check_links.py#L84))
 - Scenario `the-link-file-lists-decisions-and-what-they-govern`: tested by `tests/lockstep/test_lockstep_decisions.py::test_the_link_file_lists_decisions_and_what_they_govern` ([`tests/lockstep/test_lockstep_decisions.py:139`](../../tests/lockstep/test_lockstep_decisions.py#L139))
@@ -161,15 +175,18 @@ ID: `lockstep-projection/status-reads-test-results-from-this-revision`
 
 Status: **implemented and tested**
 
-`lockstep status` SHALL mark a scenario passing, failing or skipped only from a test-result file recorded at the current commit with a clean tree, and SHALL mark it `not run at this revision` otherwise.
+`lockstep status` SHALL mark a scenario passing, failing or skipped only from a test-result file recorded at the current commit with a clean tree, or recorded on working files whose git tree equals the current commit's tree when nothing is uncommitted now, and SHALL mark it `not run at this revision` otherwise. `make check` SHALL record that git tree in `.code2check/run.json` as `tree`, through `lockstep record-tree`, after its last step that rewrites files and also when a test fails: the tree of the tracked files and the untracked files git does not ignore, as they are on disk, built in a temporary index so that the repository's own index is not changed.
 
 Implemented by:
 
 - `lockstep.checks.status` — [`src/lockstep/checks/status.py:1`](../../src/lockstep/checks/status.py#L1)
 - `lockstep.checks.status` — [`src/lockstep/checks/status.py:1`](../../src/lockstep/checks/status.py#L1)
+- `lockstep.checks.status.record_tree_cli` — [`src/lockstep/checks/status.py:293`](../../src/lockstep/checks/status.py#L293)
 
-- Scenario `results-from-this-revision-set-pass-and-fail`: tested by `tests/lockstep/checks/test_lockstep_check_status.py::test_results_from_this_revision_set_pass_and_fail` ([`tests/lockstep/checks/test_lockstep_check_status.py:90`](../../tests/lockstep/checks/test_lockstep_check_status.py#L90)), `tests/lockstep/checks/test_lockstep_check_status.py::test_skipped_test_is_not_passing` ([`tests/lockstep/checks/test_lockstep_check_status.py:104`](../../tests/lockstep/checks/test_lockstep_check_status.py#L104)), `tests/lockstep/checks/test_lockstep_check_status.py::test_a_failing_case_after_a_skipped_one_is_failing` ([`tests/lockstep/checks/test_lockstep_check_status.py:111`](../../tests/lockstep/checks/test_lockstep_check_status.py#L111))
-- Scenario `results-from-another-revision-are-not-used`: tested by `tests/lockstep/checks/test_lockstep_check_status.py::test_results_from_another_revision_are_not_used` ([`tests/lockstep/checks/test_lockstep_check_status.py:121`](../../tests/lockstep/checks/test_lockstep_check_status.py#L121)), `tests/lockstep/checks/test_lockstep_check_status.py::test_results_from_a_dirty_tree_are_not_used` ([`tests/lockstep/checks/test_lockstep_check_status.py:133`](../../tests/lockstep/checks/test_lockstep_check_status.py#L133)), `tests/lockstep/checks/test_lockstep_check_status.py::test_uncommitted_edit_after_the_run_voids_results` ([`tests/lockstep/checks/test_lockstep_check_status.py:140`](../../tests/lockstep/checks/test_lockstep_check_status.py#L140))
+- Scenario `results-from-this-revision-set-pass-and-fail`: tested by `tests/lockstep/checks/test_lockstep_check_status.py::test_results_from_this_revision_set_pass_and_fail` ([`tests/lockstep/checks/test_lockstep_check_status.py:91`](../../tests/lockstep/checks/test_lockstep_check_status.py#L91)), `tests/lockstep/checks/test_lockstep_check_status.py::test_skipped_test_is_not_passing` ([`tests/lockstep/checks/test_lockstep_check_status.py:105`](../../tests/lockstep/checks/test_lockstep_check_status.py#L105)), `tests/lockstep/checks/test_lockstep_check_status.py::test_a_failing_case_after_a_skipped_one_is_failing` ([`tests/lockstep/checks/test_lockstep_check_status.py:112`](../../tests/lockstep/checks/test_lockstep_check_status.py#L112))
+- Scenario `results-from-another-revision-are-not-used`: tested by `tests/lockstep/checks/test_lockstep_check_status.py::test_results_from_another_revision_are_not_used` ([`tests/lockstep/checks/test_lockstep_check_status.py:122`](../../tests/lockstep/checks/test_lockstep_check_status.py#L122)), `tests/lockstep/checks/test_lockstep_check_status.py::test_results_from_a_dirty_tree_are_not_used` ([`tests/lockstep/checks/test_lockstep_check_status.py:134`](../../tests/lockstep/checks/test_lockstep_check_status.py#L134)), `tests/lockstep/checks/test_lockstep_check_status.py::test_uncommitted_edit_after_the_run_voids_results` ([`tests/lockstep/checks/test_lockstep_check_status.py:141`](../../tests/lockstep/checks/test_lockstep_check_status.py#L141))
+- Scenario `results-tested-on-the-files-that-were-then-committed-are-used`: tested by `tests/lockstep/checks/test_lockstep_check_status.py::test_results_tested_on_the_files_that_were_then_committed_are_used` ([`tests/lockstep/checks/test_lockstep_check_status.py:149`](../../tests/lockstep/checks/test_lockstep_check_status.py#L149)), `tests/lockstep/checks/test_lockstep_check_status.py::test_a_tested_tree_that_differs_from_the_commit_is_not_used` ([`tests/lockstep/checks/test_lockstep_check_status.py:165`](../../tests/lockstep/checks/test_lockstep_check_status.py#L165))
+- Scenario `recording-the-tested-tree-leaves-the-index-alone`: tested by `tests/lockstep/checks/test_lockstep_check_status.py::test_recording_the_tested_tree_leaves_the_index_alone` ([`tests/lockstep/checks/test_lockstep_check_status.py:176`](../../tests/lockstep/checks/test_lockstep_check_status.py#L176))
 
 ## the docs site shows coverage at its commit
 
@@ -182,7 +199,7 @@ Status: **implemented and tested**
 Implemented by:
 
 - `lockstep.checks.status` — [`src/lockstep/checks/status.py:1`](../../src/lockstep/checks/status.py#L1)
-- `lockstep.checks.status.markdown` — [`src/lockstep/checks/status.py:373`](../../src/lockstep/checks/status.py#L373)
+- `lockstep.checks.status.markdown` — [`src/lockstep/checks/status.py:470`](../../src/lockstep/checks/status.py#L470)
 
 - Scenario `status-page-lists-every-requirement-with-its-coverage-state`: tested by `tests/lockstep/checks/test_lockstep_check_status_page.py::test_status_page_lists_every_requirement_with_its_coverage_state` ([`tests/lockstep/checks/test_lockstep_check_status_page.py:39`](../../tests/lockstep/checks/test_lockstep_check_status_page.py#L39)), `tests/lockstep/checks/test_lockstep_check_status_page.py::test_no_page_without_a_docs_folder` ([`tests/lockstep/checks/test_lockstep_check_status_page.py:61`](../../tests/lockstep/checks/test_lockstep_check_status_page.py#L61)), `tests/lockstep/checks/test_lockstep_check_status_page.py::test_cli_status_md` ([`tests/lockstep/checks/test_lockstep_check_status_page.py:68`](../../tests/lockstep/checks/test_lockstep_check_status_page.py#L68))
 - Scenario `stale-status-page-fails-the-check`: tested by `tests/lockstep/checks/test_lockstep_check_status_page.py::test_stale_status_page_fails_the_check` ([`tests/lockstep/checks/test_lockstep_check_status_page.py:52`](../../tests/lockstep/checks/test_lockstep_check_status_page.py#L52))

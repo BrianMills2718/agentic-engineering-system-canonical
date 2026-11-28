@@ -481,6 +481,7 @@ _SUBCOMMANDS = {
     "init": ("lockstep.init_repo", "init_cli"),
     "plan": ("lockstep.plan_check", "plan_cli"),
     "reads": ("lockstep.read_before_write", "main"),
+    "record-tree": ("lockstep.checks.status", "record_tree_cli"),
     "replay": ("lockstep.replay", "main"),
     "status": ("lockstep.checks.cli", "run_status"),
     "show": ("lockstep.checks.cli", "run_show"),
@@ -492,7 +493,7 @@ def cli() -> int:
     (create the planned files), `plan check` (run Company Planning's plan validator), `accept write|check` and `run-plan`
     (hidden acceptance tests and a departure report for one OpenSpec plan), `check prior-art` (the prior-art record
     check `ship` runs), `status` (each
-    requirement's code, tests and result), `reads TRANSCRIPT` (each write in a session with what was read first) or `show FILE` (what a file must keep true)."""
+    requirement's code, tests and result), `reads TRANSCRIPT` (each write in a session with what was read first), `record-tree` (add the tested tree to `make check`'s run record) or `show FILE` (what a file must keep true)."""
     args = sys.argv[1:]
     if args and args[0] in _SUBCOMMANDS:  # commands that take the rest of the arguments as they are
         module, name = _SUBCOMMANDS[args[0]]

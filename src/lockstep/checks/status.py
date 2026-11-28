@@ -28,7 +28,12 @@ Requirement text (generated):
         written); a path target SHALL also be a `file` node.
     lockstep-projection/status-reads-test-results-from-this-revision: `lockstep status` SHALL mark a
         scenario passing, failing or skipped only from a test-result file recorded at the current
-        commit with a clean tree, and SHALL mark it `not run at this revision` otherwise.
+        commit with a clean tree, or recorded on working files whose git tree equals the current
+        commit's tree when nothing is uncommitted now, and SHALL mark it `not run at this revision`
+        otherwise. `make check` SHALL record that git tree in `.code2check/run.json` as `tree`,
+        through `lockstep record-tree`, after its last step that rewrites files and also when a test
+        fails: the tree of the tracked files and the untracked files git does not ignore, as they
+        are on disk, built in a temporary index so that the repository's own index is not changed.
     lockstep-projection/a-plan-closes-requirement-ids-only-when-they-pass: `lockstep status` SHALL
         read the `Closes:` line of each plan and OpenSpec change and report each listed ID that is
         unimplemented, untested or not passing as open for that plan. It SHALL give a requirement or
@@ -80,9 +85,9 @@ Source: Brian, 2026-11-23: "i approve" (reading the existing `Closes:`, `Source:
 
 ### Requirement: Status reads test results from this revision
 
-`lockstep status` SHALL mark a scenario passing, failing or skipped only from a test-result file recorded at the current commit with a clean tree, and SHALL mark it `not run at this revision` otherwise.
+`lockstep status` SHALL mark a scenario passing, failing or skipped only from a test-result file recorded at the current commit with a clean tree, or recorded on working files whose git tree equals the current commit's tree when nothing is uncommitted now, and SHALL mark it `not run at this revision` otherwise. `make check` SHALL record that git tree in `.code2check/run.json` as `tree`, through `lockstep record-tree`, after its last step that rewrites files and also when a test fails: the tree of the tracked files and the untracked files git does not ignore, as they are on disk, built in a temporary index so that the repository's own index is not changed.
 
-Source: Brian, 2026-11-11: "i approve single tool desing re d4"; proposals/one-planning-tool/DESIGN.md, slice 6 ("Requirement text in docstrings" and "Status per requirement" rows)
+Source: Brian, 2026-11-11: "i approve single tool desing re d4"; proposals/one-planning-tool/DESIGN.md, slice 6 ("Requirement text in docstrings" and "Status per requirement" rows). Brian, 2026-11-27 18:50: "Pass or fail only appears after make check on that exact commit, and it isn't written back into this page". The tree rule is inferred by agent from the 2026-11-28 isolated Haiku run on a fresh copy (commit 1fcf203), which ran `make check`, committed exactly what it tested, and was told its results were recorded with uncommitted changes.
 
 #### Scenario: Results from this revision set pass and fail
 
@@ -95,6 +100,19 @@ Source: Brian, 2026-11-11: "i approve single tool desing re d4"; proposals/one-p
 - **GIVEN** results recorded at an older commit
 - **WHEN** `lockstep status` runs
 - **THEN** scenarios are `not run at this revision`
+
+#### Scenario: Results tested on the files that were then committed are used
+
+- **GIVEN** results recorded with uncommitted changes, with the tree of those working files, and those files then committed unchanged
+- **WHEN** `lockstep status` runs
+- **THEN** scenarios are passing or failing as recorded, and the note says the tested tree matches the commit
+- **AND** after one more edit to a tracked file, scenarios are `not run at this revision`
+
+#### Scenario: Recording the tested tree leaves the index alone
+
+- **GIVEN** a repository with a staged change, an unstaged change and a new untracked file
+- **WHEN** `lockstep record-tree` runs
+- **THEN** `.code2check/run.json` keeps its `commit` and `clean` and gains `tree`, which equals the tree of a commit of all three files, and `git diff --cached` is the same as before
 
 ### Requirement: A plan closes requirement ids only when they pass
 
@@ -157,15 +175,22 @@ Source: Brian, 2026-11-23: "i approve", item (c) of `https://github.com/BrianMil
 - **THEN** both nodes have state `exists`
 
 Tested by: tests/lockstep/checks/test_lockstep_check_links.py, tests/lockstep/checks/test_lockstep_check_status.py, tests/lockstep/checks/test_lockstep_check_status_page.py, tests/lockstep/test_lockstep_decisions.py
+
+Declares (typed signatures, from the plan):
+  record_tree_cli(argv: list[str]) -> int
 [[[end]]]
 """
 
+import argparse
 from collections.abc import Callable
 from dataclasses import asdict, dataclass, field
 import json
+import os
 from pathlib import Path
 import re
+import shutil
 import subprocess
+import tempfile
 import xml.etree.ElementTree as ET
 
 from lockstep.checks.markers import implementers, req_markers
@@ -241,8 +266,83 @@ def _git(root: Path, *args: str) -> str:
     return done.stdout.strip() if done.returncode == 0 else ""
 
 
+def _tested_tree(root: Path) -> str:
+    """Return the git tree of the working files as they are on disk: tracked, and untracked files git does not ignore.
+
+    Builds the tree in a copy of the index, so the repository's own index and staged changes are not touched.
+
+    Args:
+        root: Repository root.
+
+    Returns:
+        The tree hash, or an empty string when git fails.
+    """
+    index = _git(root, "rev-parse", "--path-format=absolute", "--git-path", "index")
+    with tempfile.TemporaryDirectory() as tmp:
+        scratch = Path(tmp) / "index"
+        if index and Path(index).exists():
+            shutil.copyfile(index, scratch)
+        env = {**os.environ, "GIT_INDEX_FILE": str(scratch)}
+        for args in (["add", "-A"], ["write-tree"]):
+            done = subprocess.run(["git", "-C", str(root), *args], capture_output=True, text=True, env=env)
+            if done.returncode:
+                return ""
+        return done.stdout.strip()
+
+
+def record_tree_cli(argv: list[str]) -> int:
+    """`lockstep record-tree`: add the tested tree to the run record `make check` wrote.
+
+    Implements: lockstep-projection/status-reads-test-results-from-this-revision
+
+    Requirement text (generated):
+        lockstep-projection/status-reads-test-results-from-this-revision: `lockstep status` SHALL
+            mark a scenario passing, failing or skipped only from a test-result file recorded at the
+            current commit with a clean tree, or recorded on working files whose git tree equals the
+            current commit's tree when nothing is uncommitted now, and SHALL mark it `not run at
+            this revision` otherwise. `make check` SHALL record that git tree in
+            `.code2check/run.json` as `tree`, through `lockstep record-tree`, after its last step
+            that rewrites files and also when a test fails: the tree of the tracked files and the
+            untracked files git does not ignore, as they are on disk, built in a temporary index so
+            that the repository's own index is not changed.
+
+    Args:
+        argv: `--repo PATH` (default: the current folder).
+
+    Returns:
+        0 when recorded; 1 when git cannot compute the tree.
+    """
+    ap = argparse.ArgumentParser(prog="lockstep record-tree", description="record the tested tree in " + str(RUN))
+    ap.add_argument("--repo", type=Path, default=Path.cwd())
+    root = ap.parse_args(argv).repo
+    tree = _tested_tree(root)
+    if not tree:
+        print(f"record-tree: git could not compute the working tree in {root}")
+        return 1
+    path = root / RUN
+    run = json.loads(path.read_text()) if path.exists() else {}
+    run["tree"] = tree
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(run) + "\n")
+    print(f"record-tree: tested tree {tree[:12]} recorded in {RUN}")
+    return 0
+
+
+def _unusable(root: Path, run: dict, head: str) -> str:
+    """Return why the run record does not count for HEAD, or an empty string when it does."""
+    tree = run.get("tree")
+    if not (tree and tree == _git(root, "rev-parse", "HEAD^{tree}")):
+        if run.get("commit") != head:
+            return f"results are from {str(run.get('commit'))[:12]}, not the current commit {head[:12]}"
+        if not run.get("clean"):
+            return "results were recorded with uncommitted changes"
+    if _git(root, "status", "--porcelain"):
+        return "the tree has uncommitted changes since the results were recorded"
+    return ""
+
+
 def _results(root: Path) -> tuple[dict[tuple[str, str], str] | None, str]:
-    """Read the test results when they were recorded at the current commit on a clean tree.
+    """Read the test results when they were recorded at the current commit on a clean tree, or on the files it holds.
 
     Args:
         root: Repository root.
@@ -254,12 +354,8 @@ def _results(root: Path) -> tuple[dict[tuple[str, str], str] | None, str]:
         return None, f"no test results; run make check ({RESULTS} and {RUN})"
     run = json.loads((root / RUN).read_text())
     head = _git(root, "rev-parse", "HEAD")
-    if run.get("commit") != head:
-        return None, f"results are from {str(run.get('commit'))[:12]}, not the current commit {head[:12]}"
-    if not run.get("clean"):
-        return None, "results were recorded with uncommitted changes"
-    if _git(root, "status", "--porcelain"):
-        return None, "the tree has uncommitted changes since the results were recorded"
+    if why := _unusable(root, run, head):
+        return None, why
     outcomes: dict[tuple[str, str], str] = {}
     for case in ET.parse(root / RESULTS).iter("testcase"):
         key = (case.get("classname", ""), case.get("name", "").split("[")[0])
@@ -271,7 +367,8 @@ def _results(root: Path) -> tuple[dict[tuple[str, str], str] | None, str]:
             outcome = "passing"
         if key not in outcomes or _ORDER.index(outcome) < _ORDER.index(outcomes[key]):  # keep the worst case
             outcomes[key] = outcome
-    return outcomes, f"{RESULTS} at {head[:12]}, clean tree"
+    how = "clean tree" if run.get("commit") == head and run.get("clean") else "tested tree matches the commit"
+    return outcomes, f"{RESULTS} at {head[:12]}, {how}"
 
 
 def _test_state(node: str, outcomes: dict[tuple[str, str], str]) -> str:

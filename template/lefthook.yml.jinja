@@ -1,4 +1,4 @@
-{# Implements: portable-template/a-repository-made-with-the-defaults-works-for-anyone, portable-template/a-workspace-repository-keeps-the-shared-hooks, portable-template/the-commit-check-stages-rewritten-files-that-git-tracks #}
+{# Implements: portable-template/a-repository-made-with-the-defaults-works-for-anyone, portable-template/a-workspace-repository-keeps-the-shared-hooks, portable-template/the-commit-check-stages-rewritten-files-that-git-tracks, lockstep-projection/a-fresh-copy-rewrites-its-results-page-after-each-commit #}
 {% if code2_workspace -%}
 remotes:
   - git_url: git@github-personal:BrianMills2718/code2-workspace.git
@@ -30,6 +30,12 @@ pre-commit:
       # First rewrites generated docstring and plan blocks and stages them, as a formatter does. A rewritten file
       # git ignores (docs/status.md) is skipped: `git add` refuses an ignored path.
       run: uv run lockstep check project | sed -n 's/^rewrote //p' | while read -r f; do git check-ignore -q -- "$f" || git add -- "$f" || exit 1; done && make fast
+post-commit:
+  jobs:
+    # The commit now exists, so the ignored results page can say pass or fail for it: `make check` recorded the tree
+    # it tested, and a commit of exactly those files keeps the results.
+    - name: results-page
+      run: uv run lockstep check project > /dev/null
 pre-push:
   jobs:
     # The full check runs at merge (ship); a push runs only the fast one.

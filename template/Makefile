@@ -17,8 +17,9 @@ fast:
 check: docs-specs fast
 	mkdir -p .code2check && rm -f .code2check/junit.xml
 	printf '{"commit": "%s", "clean": %s}\n' "$$(git rev-parse HEAD)" "$$(test -z "$$(git status --porcelain)" && echo true || echo false)" > .code2check/run.json
-	@# On a test failure, still write generated/wiki/results.md (pass or fail per requirement) before stopping.
-	uv run pytest --junitxml=.code2check/junit.xml || { status=$$?; uv run lockstep check project; exit $$status; }
+	@# On a test failure, still write generated/wiki/results.md (pass or fail per requirement) and record the tested
+	@# tree before stopping.
+	uv run pytest --junitxml=.code2check/junit.xml || { status=$$?; uv run lockstep check project; uv run lockstep record-tree; exit $$status; }
 	uv run lockstep check arch check
 	uv run lockstep check test-first --base origin/main
 	uv run lockstep check changed --base origin/main
@@ -28,6 +29,8 @@ check: docs-specs fast
 	@base=$$(git merge-base origin/main HEAD 2>/dev/null || git rev-list --max-parents=0 HEAD 2>/dev/null | tail -n 1); \
 	if [ -z "$$base" ]; then echo "whole-tree check skipped: no commit yet"; else uv run lockstep check --repo . --base "$$base"; fi
 	uv run lockstep check project
+	@# The tree of the files just tested and regenerated: committing exactly these keeps the results for that commit.
+	uv run lockstep record-tree
 	uv run python -m lockstep.wiki_reach
 	uv run lockstep check docmeta
 	uv run zensical build --strict
