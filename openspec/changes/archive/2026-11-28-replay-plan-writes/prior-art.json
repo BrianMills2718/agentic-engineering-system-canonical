@@ -1,0 +1,29 @@
+{
+  "need": "Mark the replay events that wrote the plan (lockstep.yaml, an OpenSpec change or spec), light an 'agent writes the plan' arrow for them, and say whether the session wrote the plan first.",
+  "searched": [
+    {
+      "place": "own",
+      "where": "AES src/lockstep/replay.py and replay.html, src/lockstep/read_before_write.py, ~/code2/workspace/docs/capabilities.md",
+      "query": "plan write, plan first, write order in a session",
+      "found": "The replay already classifies requirement reads by path and lists every write with its marks; nothing marks a write as a plan write or reports the order of plan and code writes."
+    },
+    {
+      "place": "outside",
+      "where": "the claude-code-log, ClaudeCodeTranscriptViewer and codex-rollout-viewer projects already reviewed for the replay (2026-11-27 prior-art record)",
+      "query": "transcript viewers that mark plan or spec writes",
+      "found": "None knows which files are a project's plan."
+    }
+  ],
+  "candidates": [
+    {
+      "name": "lockstep replay events and page",
+      "url": "https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/main/src/lockstep/replay.py",
+      "covers": "Every write with its path and the shell writes lockstep reads finds; the plan, code and wiki view.",
+      "misses": "Which writes are to the plan.",
+      "verdict": "adopt",
+      "reason": "One field on the same events and one arrow on the same view."
+    }
+  ],
+  "decision": "adopt",
+  "decided": "2026-11-28"
+}

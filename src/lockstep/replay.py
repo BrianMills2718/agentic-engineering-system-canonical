@@ -9,7 +9,7 @@ versions come from a recorder's store (`--store`: `timeline.jsonl` plus `blobs/<
 [[[cog import lockstep.cogtext as c; c.docstring("src:lockstep:replay.py", indent=0)]]]
 Plan (generated from lockstep.yaml layout and OpenSpec; edit the spec or the layout row, not this text):
 
-Implements: lockstep-guard/a-session-replay-shows-each-hand-over-and-read-mark, lockstep-guard/the-replay-has-a-plan-code-and-wiki-view
+Implements: lockstep-guard/a-session-replay-shows-each-hand-over-and-read-mark, lockstep-guard/the-replay-has-a-plan-code-and-wiki-view, lockstep-guard/the-replay-marks-writes-to-the-plan
 
 ### Requirement: A session replay shows each hand-over and read mark
 
@@ -84,6 +84,24 @@ wiki page". The panes, the hook band and the plain-JSON route are inferred by ag
 - **WHEN** the page is served
 - **THEN** it holds a toggle that switches to the plan, code and wiki view, and the timeline view is shown first
 
+### Requirement: The replay marks writes to the plan
+
+Each replay event that wrote `lockstep.yaml` or a file under `openspec/changes/` or `openspec/specs/`, and was not
+refused, SHALL carry `plan_write: true`; every other tool event SHALL carry `plan_write: false`. The plan, code and
+wiki view SHALL light an "agent writes the plan" arrow for a plan write, and SHALL say for the whole session whether
+the first file the agent wrote was a plan file, naming that file and its time.
+
+Source: Brian, 2026-11-28: "ok the first thing i noticed is that the agent didnt write the plan first" (on the
+plan, code and wiki view of the step-5 proof session). Which paths count as the plan, the event field and the
+session line are inferred by agent from the layout rows (`lockstep.yaml`) and OpenSpec changes being where a plan is
+written.
+
+#### Scenario: A plan write is marked and a code write is not
+
+- **WHEN** a session writes `lockstep.yaml`, then `src/greet.py`
+- **THEN** the first write's event has `plan_write` true and the second's false
+- **AND** the page holds the "agent writes the plan" arrow and the plan-first line
+
 Tested by: tests/lockstep/test_replay.py
 
 Declares (typed signatures, from the plan):
@@ -113,6 +131,7 @@ from lockstep.read_before_write import (_dict, _dicts, _epoch, _handed_paths, _r
 CAP = 60_000  # characters of tool text kept per event
 _REQUIREMENT_DIRS = ("generated/wiki/", "openspec/specs/")
 _WRITE_TOOLS = {"Write", "Edit", "MultiEdit", "NotebookEdit", "Delete"}
+_PLAN_DIRS = ("openspec/changes/", "openspec/specs/")
 
 
 def _show(root: Path, path: object, here: Path) -> str:
@@ -125,6 +144,11 @@ def _show(root: Path, path: object, here: Path) -> str:
 
 def _is_requirement(rel: str) -> bool:
     return rel.startswith(_REQUIREMENT_DIRS)
+
+
+def _is_plan(rel: str) -> bool:
+    """`lockstep.yaml` or an OpenSpec change or spec: where a plan is written."""
+    return rel == "lockstep.yaml" or rel.startswith(_PLAN_DIRS)
 
 
 class _Events:
@@ -287,6 +311,8 @@ def _marks(events: list[dict], rows: list[dict]) -> None:
             mine = by_call.get(e["call"], [])
             e["marks"] = mine if e["tool"] in ("Bash", "Read") else [m for m in mine if m["file"] == e["path"]]
             e["writes"] = [m["file"] for m in e["marks"]]  # a shell call names no path; its writes are these
+            wrote = ([e["path"]] if e["tool"] in _WRITE_TOOLS else []) + e["writes"]
+            e["plan_write"] = not e.get("refused") and any(_is_plan(f) for f in wrote if f)
 
 
 def session_events(transcript: Path, root: Path, agent: str = "main") -> list[dict]:

@@ -82,7 +82,7 @@ footer { grid-column: 1 / 3; border-top: 1px solid var(--line); background: var(
 main.sys > .panes, main.sys > .thinking { display: none; }
 .sysview { --sv-bg: #faf8f3; --sv-ink: #1f2328; --sv-dim: #5d6670; --sv-blue: #1f6fb2; --sv-orange: #c25e00; --sv-grey: #6b7280;
   --sv-plan: #4b5d73; background: var(--sv-bg); color: var(--sv-ink); border-radius: 10px; padding: 12px 14px; overflow: auto; min-height: 0;
-  display: grid; grid-template-rows: auto auto auto minmax(260px, 1fr) auto auto auto auto; gap: 0; }
+  display: grid; grid-template-rows: auto auto auto auto minmax(260px, 1fr) auto auto auto auto; gap: 0; }
 .sysview[hidden] { display: none; }
 .sv-q { font-weight: 700; font-size: 14px; margin-bottom: 6px; }
 .sv-agent { display: flex; gap: 10px; align-items: center; justify-content: center; color: var(--sv-blue); }
@@ -156,10 +156,11 @@ main.sys > .panes, main.sys > .thinking { display: none; }
     <div class="thinking hand"><span class="lbl">Hand-over</span><span id="handsub" class="sub"></span><div id="hand"></div></div>
     <div id="sysview" class="sysview" hidden>
       <div class="sv-q">What is the agent doing, which plan row and requirement stand behind it, and what did the hooks do?</div>
+      <div id="svFirst" class="sv-sub"></div>
       <div class="sv-agent"><svg width="34" height="34" viewBox="0 0 34 34" aria-hidden="true"><rect x="5" y="9" width="24" height="19" rx="5" fill="none" stroke="currentColor" stroke-width="2.4"/><circle cx="13" cy="18" r="2.4" fill="currentColor"/><circle cx="21" cy="18" r="2.4" fill="currentColor"/><path d="M13 24h8M17 9V4" stroke="currentColor" stroke-width="2.2"/><circle cx="17" cy="3.5" r="2" fill="currentColor"/></svg>
         <div><b>AGENT: judgment.</b> <span id="svNow"></span><div id="svNote" class="sv-sub"></div></div></div>
       <div class="sv-arrows">
-        <div class="sv-slot"><span id="aPlan" class="sv-arr">agent reads the plan</span></div>
+        <div class="sv-slot"><span id="aPlan" class="sv-arr">agent reads the plan</span><span id="aPlanW" class="sv-arr" style="--c:var(--sv-orange)">agent writes the plan</span></div>
         <div class="sv-slot"><span id="aCodeR" class="sv-arr">reads the file</span><span id="aCodeW" class="sv-arr" style="--c:var(--sv-orange)">writes the file</span></div>
         <div class="sv-slot"><span id="aWiki" class="sv-arr">reads a requirement page or spec</span></div>
       </div>
@@ -419,6 +420,12 @@ async function renderSys(t, token) {
   const refusedText = tool && tool.refused && /not in the plan/.test(tool.result || "") ? tool.result : null;
   const writing = cur && cur.kind === "tool" && !tool.refused && (WRITE_TOOLS.has(tool.tool) || (tool.writes || []).length);
   const reqRead = cur && cur.kind === "tool" && tool.requirement_read;
+  const planW = !!(writing && tool.plan_write);
+  const wrote = e => e.kind === "tool" && !e.refused && (WRITE_TOOLS.has(e.tool) || (e.writes || []).length);
+  const first = D.events.find(wrote);
+  $("svFirst").textContent = !first ? "Plan first? This session wrote no file." :
+    `Plan first? ${first.plan_write ? "Yes" : "No"}: the first file the agent wrote was ${first.path || (first.writes || [])[0]} at ${mmss(first.t - t0)}` +
+    (first.plan_write ? "." : (D.events.some(e => wrote(e) && e.plan_write) ? ", and it wrote the plan later." : ", and it never wrote the plan."));
   // agent line
   $("svNow").textContent = cur ? (cur.kind === "tool" ? `${label(cur)} ${cur.path || cur.description || (cur.command || "").split("\n")[0]}` : `${label(cur)}${file ? " for " + file : ""}`) : "nothing yet";
   const n = lastBefore(e => e.kind === "note" || e.kind === "end", t);
@@ -426,7 +433,8 @@ async function renderSys(t, token) {
   // arrows
   $("aPlan").classList.toggle("on", !!(tool && isPlanRead(tool)));
   $("aCodeR").classList.toggle("on", !!(tool && !writing && !reqRead && !isPlanRead(tool) && file));
-  $("aCodeW").classList.toggle("on", !!writing);
+  $("aCodeW").classList.toggle("on", !!writing && !planW);
+  $("aPlanW").classList.toggle("on", planW);
   $("aWiki").classList.toggle("on", !!reqRead);
   $("bPlan").classList.toggle("on", !!(hand || warn || refusedText));
   $("bCode").classList.toggle("on", !!((writing && warn) || refusedText));
@@ -455,8 +463,11 @@ async function renderSys(t, token) {
     (hand ? `<div class="sv-card req"><div class="t">Handed to the agent with this step</div><pre>${esc(hand.text)}</pre></div>` :
      reqRead ? `<div class="sv-card"><div class="t">What it read</div><pre>${esc(stripLineNumbers(tool.result || "").split("\n").slice(0, 30).join("\n"))}</pre></div>` : "");
   // plan pane
-  $("svPlanBox").classList.toggle("on", !!(hand || warn || refusedText || (tool && isPlanRead(tool))));
+  $("svPlanBox").classList.toggle("on", !!(hand || warn || refusedText || planW || (tool && isPlanRead(tool))));
   if (!file) { $("svPlan").innerHTML = '<div class="dim">No file in this step, so no plan row to show.</div>'; }
+  else if (planW || (tool && isPlanRead(tool))) {
+    $("svPlan").innerHTML = `<div class="sv-card"><div class="t">the plan itself</div>The agent ${planW ? "wrote" : "read"} the plan file ${esc(file)}. What it ${planW ? "wrote" : "read"} is in the code pane.</div>`;
+  }
   else {
     const p = await planOf(file);
     if (token !== renderToken) return;
@@ -473,6 +484,7 @@ async function renderSys(t, token) {
   let cap = cur ? `${mmss(cur.t - t0)}: ` : "";
   if (!cur) cap = "Nothing has happened yet.";
   else if (cur.kind === "tool" && refusedText) cap += `The edit hook refused ${file}: no layout row in the plan names it. Nothing was written.`;
+  else if (planW) cap += `The agent wrote the plan: ${file}.`;
   else if (writing) cap += `The agent ${tool.tool === "Bash" ? "wrote with a shell command to" : "wrote"} ${file}.` + (ms && ms.length ? ` Before it: ${markText(ms)}.` : "") + (warn ? " The hook warned that the plan does not list it, and let it through." : "");
   else if (cur.kind === "handover") cap += `The edit hook handed the agent the requirement text for ${file || "the file"}, before the write.`;
   else if (cur.kind === "hook") cap += warn ? `The hook warned: ${file || "this file"} is not in the plan (warn mode).` : "A hook added context.";
