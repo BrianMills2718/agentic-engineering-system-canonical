@@ -35,7 +35,7 @@
    "output_tokens": 573,
    "reasoning_output_tokens": 0
   },
-  "caveat": "Brian's ~/.codex/config.toml has features.hooks = false (kept by agent-skills .rulesync/client-settings.jsonc, no recorded decision; origin 2026-11-14 not found in transcripts), and project hook files also need the project trusted. So in everyday Codex sessions no hook runs and the text does not arrive. This run turned hooks on for one run only; the trust entry it wrote was removed (config restored byte for byte)."
+  "caveat": "Brian's ~/.codex/config.toml has features.hooks = false (kept by agent-skills .rulesync/client-settings.jsonc, turned off on purpose in agent-skills #410, commit bc19ca4, 2026-09-29, per agent-skills docs/planning/open-questions.json), and project hook files also need the project trusted. So in everyday Codex sessions no hook runs and the text does not arrive. This run turned hooks on for one run only; the trust entry it wrote was removed (config restored byte for byte)."
  },
  "hook_log": [
   {
@@ -75,5 +75,20 @@
    "command": "apply_patch <<'PATCH'\n*** Begi"
   }
  ],
- "finding_session_folder": "Claude loads project hooks from the folder the session starts in. AES's hook log has no record after 2026-11-24 although this session edited AES on 2026-11-27 from a session started in ~/code2, so an agent working from a parent folder gets no hand-over."
+ "finding_session_folder": "Claude loads project hooks only from the folder the session starts in. AES's lockstep hook log has no record after 2026-11-24 although AES was edited on 2026-11-27 from a session started in ~/code2. Correction to the first version of this record: such an agent was not without hand-over; the global code2check hook still handed over requirement text on Edit and Write (it did so on 2026-11-27 for src/lockstep/checks/parts.py, ~/.local/state/code2check/hook-2026-11-27.log), but lockstep's shell hand-over, warnings and decision text did not arrive.",
+ "fix_parent_folder": {
+  "change": "agent-skills #623 (50dc0f6): the global code2check edit hook is replaced by lockstep-hook run through a pinned uvx (AES 36271ed27), same matchers, skipped when the project wires its own lockstep-hook, fail-open",
+  "command_test": "six cases (parent folder, own project hook, no uvx, bad pin, Codex in project, Codex elsewhere): 6 passed",
+  "live_run": {
+   "command": "claude -p --model haiku from the folder above <scratch>/handover, editing handover/src/greet.py",
+   "session_id": "83dc3cfe-ca7b-47d1-869f-d1daea467342",
+   "tool_calls": [
+    "Read handover/src/greet.py",
+    "Edit handover/src/greet.py"
+   ],
+   "transcript_evidence": "one hook_additional_context on PreToolUse:Edit holding ORCHID-5823; no code2check text",
+   "agent_quoted_word": true,
+   "cost_usd_measured": 0.00947605
+  }
+ }
 }

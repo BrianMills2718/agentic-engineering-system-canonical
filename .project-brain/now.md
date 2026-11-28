@@ -48,7 +48,7 @@ clean home folder (hidden tests 0/3 then 3/3, and 0/10 then 10/10) and merged wi
   committed pages stay coverage-only because a committed result is stale once committed. Step 3 (2026-11-27): the edit hook's requirement text
   was proven to reach the agent live in Claude Code and in Codex
   (`docs/planning/runs/edit-hook-handover/2026-11-27.json`). In everyday use Codex gets nothing,
-  because `features.hooks = false`, and Claude gets nothing when the session starts in a parent folder.
+  because `features.hooks = false`, and a Claude session started in a parent folder missed lockstep's text until agent-skills #623 ran the hook globally.
   Next: count read-before-write.
 
 - One plan checker (2026-11-25, Brian: "ia prpove yourr ecommednations though"): `lockstep plan check` runs Company
