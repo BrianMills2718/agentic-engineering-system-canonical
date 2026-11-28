@@ -78,6 +78,46 @@ footer { grid-column: 1 / 3; border-top: 1px solid var(--line); background: var(
 .track input::-moz-range-thumb { width: 4px; height: 34px; background: var(--note); border: 0; border-radius: 2px; }
 .legend span { margin-right: 12px; color: var(--dim); }
 .legend i { display: inline-block; width: 9px; height: 9px; border-radius: 2px; margin-right: 4px; vertical-align: -1px; }
+/* plan, code and wiki view (laid out like the hive-brain explainer's "Plan, code, wiki" tab; blue, orange, grey) */
+main.sys > .panes, main.sys > .thinking { display: none; }
+.sysview { --sv-bg: #faf8f3; --sv-ink: #1f2328; --sv-dim: #5d6670; --sv-blue: #1f6fb2; --sv-orange: #c25e00; --sv-grey: #6b7280;
+  --sv-plan: #4b5d73; background: var(--sv-bg); color: var(--sv-ink); border-radius: 10px; padding: 12px 14px; overflow: auto; min-height: 0;
+  display: grid; grid-template-rows: auto auto auto minmax(260px, 1fr) auto auto auto auto; gap: 0; }
+.sysview[hidden] { display: none; }
+.sv-q { font-weight: 700; font-size: 14px; margin-bottom: 6px; }
+.sv-agent { display: flex; gap: 10px; align-items: center; justify-content: center; color: var(--sv-blue); }
+.sv-agent b { letter-spacing: .02em; } .sv-agent .sv-sub { color: var(--sv-dim); max-width: 760px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.sv-arrows { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; height: 38px; }
+.sv-slot { display: flex; justify-content: center; gap: 18px; align-items: stretch; }
+.sv-arr { display: flex; align-items: center; gap: 5px; color: #9aa1a9; font-size: 11px; white-space: nowrap; }
+.sv-arr::before { content: ""; width: 0; height: 100%; border-left: 2px dashed currentColor; }
+.sv-arr.on { color: var(--c, var(--sv-blue)); font-weight: 700; }
+.sv-arr.on::before { border-left-width: 3px; animation: svflow .6s linear infinite; }
+@keyframes svflow { from { border-left-style: dashed; opacity: .55; } to { opacity: 1; } }
+.sv-panes { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; min-height: 0; }
+.sv-pane { background: #fff; border: 2px solid var(--b); border-radius: 10px; display: flex; flex-direction: column; min-height: 0; min-width: 0; }
+.sv-pane.plan { --b: var(--sv-plan); } .sv-pane.code { --b: var(--sv-orange); } .sv-pane.wiki { --b: var(--sv-blue); }
+.sv-pane.on { box-shadow: 0 0 0 3px color-mix(in srgb, var(--b) 30%, transparent); }
+.sv-h { font-weight: 700; color: var(--b, var(--sv-grey)); padding: 7px 10px 4px; font-size: 12.5px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.sv-body { padding: 2px 10px 10px; overflow: auto; flex: 1; min-height: 0; font: 11.5px/1.5 ui-monospace, Consolas, monospace; }
+.sv-body pre { margin: 0; white-space: pre-wrap; overflow-wrap: anywhere; }
+.sv-card { border: 1px solid #d5d9de; border-radius: 6px; padding: 6px 8px; margin: 6px 0; background: #fff; }
+.sv-card.req { border-left: 4px solid var(--sv-plan); background: #f4f6f9; }
+.sv-card.warnc { border-left: 4px solid var(--sv-orange); background: #fff6ee; color: #7a3b00; }
+.sv-card .t { font-weight: 700; font-family: system-ui, sans-serif; font-size: 11px; color: var(--sv-dim); text-transform: uppercase; letter-spacing: .03em; }
+.sv-body .dim { color: var(--sv-dim); } .sv-body .cur { background: #e7f0fa; outline: 1px solid var(--sv-blue); border-radius: 4px; }
+.sv-body .wl { padding: 2px 4px; display: flex; justify-content: space-between; gap: 8px; }
+.sv-band { border: 2px solid var(--sv-grey); background: #eef0f2; border-radius: 10px; padding: 0 8px 8px; }
+.sv-band .sv-h { color: #374151; }
+.sv-cards { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
+.sv-hc { background: #fff; border: 1px solid #c9ced4; border-radius: 7px; padding: 6px 8px; color: #8a9199; font-size: 11.5px; min-height: 46px; }
+.sv-hc b { display: block; color: inherit; font-size: 12px; }
+.sv-hc.on { color: var(--sv-ink); border: 2px solid var(--c); background: color-mix(in srgb, var(--c) 9%, #fff); }
+.sv-hc .x { display: block; margin-top: 3px; max-height: 54px; overflow: hidden; font-family: ui-monospace, Consolas, monospace; font-size: 10.5px; color: var(--sv-dim); }
+.sv-cap { margin-top: 10px; font-size: 13px; }
+.sv-key { margin-top: 6px; color: var(--sv-dim); font-size: 12px; }
+.sv-key b.a { color: var(--sv-blue); } .sv-key b.o { color: var(--sv-orange); } .sv-key b.g { color: var(--sv-grey); } .sv-key b.p { color: var(--sv-plan); }
+#viewtoggle.on { border-color: var(--write); color: var(--write); }
 </style>
 </head>
 <body>
@@ -86,6 +126,7 @@ footer { grid-column: 1 / 3; border-top: 1px solid var(--line); background: var(
     <h1>Session Replay</h1>
     <select id="build" title="Which session file to show (main, or a subagent)"></select>
     <span id="summary" class="pill" title="From lockstep reads: each write, and whether the file or its requirement page was read first"></span>
+    <button id="viewtoggle" title="Switch between the timeline view and the plan, code and wiki view">Plan, code, wiki view</button>
     <span class="grow"></span>
     <span id="status" class="pill">loading</span>
   </header>
@@ -107,6 +148,35 @@ footer { grid-column: 1 / 3; border-top: 1px solid var(--line); background: var(
     </div>
     <div class="thinking"><span class="lbl">Thinking</span><span id="note"></span><div id="notesub" class="sub"></div></div>
     <div class="thinking hand"><span class="lbl">Hand-over</span><span id="handsub" class="sub"></span><div id="hand"></div></div>
+    <div id="sysview" class="sysview" hidden>
+      <div class="sv-q">What is the agent doing, which plan row and requirement stand behind it, and what did the hooks do?</div>
+      <div class="sv-agent"><svg width="34" height="34" viewBox="0 0 34 34" aria-hidden="true"><rect x="5" y="9" width="24" height="19" rx="5" fill="none" stroke="currentColor" stroke-width="2.4"/><circle cx="13" cy="18" r="2.4" fill="currentColor"/><circle cx="21" cy="18" r="2.4" fill="currentColor"/><path d="M13 24h8M17 9V4" stroke="currentColor" stroke-width="2.2"/><circle cx="17" cy="3.5" r="2" fill="currentColor"/></svg>
+        <div><b>AGENT: judgment.</b> <span id="svNow"></span><div id="svNote" class="sv-sub"></div></div></div>
+      <div class="sv-arrows">
+        <div class="sv-slot"><span id="aPlan" class="sv-arr">agent reads the plan</span></div>
+        <div class="sv-slot"><span id="aCodeR" class="sv-arr">reads the file</span><span id="aCodeW" class="sv-arr" style="--c:var(--sv-orange)">writes the file</span></div>
+        <div class="sv-slot"><span id="aWiki" class="sv-arr">reads a requirement page or spec</span></div>
+      </div>
+      <div class="sv-panes">
+        <div id="svPlanBox" class="sv-pane plan"><div class="sv-h">PLAN: lockstep.yaml row and requirement text</div><div id="svPlan" class="sv-body"></div></div>
+        <div id="svCodeBox" class="sv-pane code"><div class="sv-h">CODE: <span id="svFile"></span></div><div id="svCode" class="sv-body"></div></div>
+        <div id="svWikiBox" class="sv-pane wiki"><div class="sv-h">WIKI: requirement pages and specs read so far</div><div id="svWiki" class="sv-body"></div></div>
+      </div>
+      <div class="sv-arrows">
+        <div class="sv-slot"><span id="bPlan" class="sv-arr" style="--c:var(--sv-grey)">the hook reads the plan</span></div>
+        <div class="sv-slot"><span id="bCode" class="sv-arr" style="--c:var(--sv-orange)">the hook lets the write through, or stops it</span></div>
+        <div class="sv-slot"><span id="bWiki" class="sv-arr" style="--c:var(--sv-blue)">requirement words handed to the agent</span></div>
+      </div>
+      <div class="sv-band"><div class="sv-h">HOOKS AND CHECKS: programmatic, no AI judgment</div>
+        <div class="sv-cards">
+          <div id="cHand" class="sv-hc" style="--c:var(--sv-blue)"><b>hands over the requirement text</b><span class="x"></span></div>
+          <div id="cRefuse" class="sv-hc" style="--c:var(--sv-orange)"><b>refuses files the plan does not list</b><span class="x"></span></div>
+          <div id="cWarn" class="sv-hc" style="--c:var(--sv-orange)"><b>warns: not in the plan (warn mode)</b><span class="x"></span></div>
+          <div id="cMarks" class="sv-hc" style="--c:var(--sv-grey)"><b>read before write: counted, never forced</b><span class="x"></span></div>
+        </div></div>
+      <div id="svCaption" class="sv-cap"></div>
+      <div class="sv-key"><b class="a">Blue</b>: the agent and what it reads. <b class="o">Orange</b>: writes, refusals and warnings. <b class="p">Slate</b>: the plan. <b class="g">Grey band</b>: hooks and checks, the same way every time. A lit arrow or card is what the current event did; step with the arrows above or play.</div>
+    </div>
   </main>
   <footer>
     <div class="tlrow">
@@ -299,8 +369,104 @@ async function render() {
   // thinking
   const n = lastBefore(e => e.kind === "note" || e.kind === "end", t);
   $("note").textContent = n ? (n.kind === "end" ? n.text + ": " + n.final : n.text) : "(no note yet)";
+  if (sysOn) renderSys(t, token);
   $("notesub").textContent = cur && cur.kind === "tool" ? `Now: ${label(cur)} ${cur.description || cur.path || cur.command.split("\n")[0]}` +
     (cur.think_ms ? ` · thought ${(cur.think_ms / 1000).toFixed(1)} s before this step` : "") : "";
+}
+
+
+// ---- plan, code and wiki view ----
+let sysOn = false;
+try { sysOn = localStorage.getItem("replay-view") === "sys"; } catch {}
+const plans = new Map();
+function planOf(path) {
+  if (!plans.has(path)) plans.set(path, fetch("/api/plan?file=" + encodeURIComponent(path)).then(r => r.ok ? r.json() : null).catch(() => null));
+  return plans.get(path);
+}
+function setView(on) {
+  sysOn = on; try { localStorage.setItem("replay-view", on ? "sys" : "timeline"); } catch {}
+  $("sysview").hidden = !on; document.querySelector("main").classList.toggle("sys", on);
+  $("viewtoggle").classList.toggle("on", on); $("viewtoggle").textContent = on ? "Timeline view" : "Plan, code, wiki view";
+  render();
+}
+$("viewtoggle").onclick = () => setView(!sysOn);
+const fileFromText = s => { const m = /(?:Requirement text for|Plan for) (\S+?)[,( ]/.exec(s || "") || /(\S+) is not in the plan/.exec(s || ""); return m ? m[1] : null; };
+function callTool(e) { return e.call ? D.events.find(x => x.kind === "tool" && x.call === e.call) : null; }
+const isPlanRead = e => e.kind === "tool" && !e.refused && /(^|\/)lockstep\.yaml$|^openspec\/changes\//.test(e.path || "");
+function lit(id, on, text) { $(id).classList.toggle("on", !!on); const x = $(id).querySelector(".x"); if (x) x.textContent = on && text ? text : ""; }
+async function renderSys(t, token) {
+  const cur = lastBefore(() => true, t);
+  const tool = cur ? (cur.kind === "tool" ? cur : callTool(cur)) : null;
+  const file = (tool && (tool.path || (tool.writes || [])[0])) || (cur && fileFromText(cur.text)) || null;
+  const call = tool ? tool.call : cur && cur.call;
+  const same = call ? D.events.filter(e => e.call === call && e.t <= t) : (cur ? [cur] : []);
+  const hand = same.find(e => e.kind === "handover"), hookTexts = same.filter(e => e.kind === "hook" || e.kind === "handover").map(e => e.text || "");
+  const warn = hookTexts.find(x => /would block/i.test(x));
+  const refusedText = tool && tool.refused && /not in the plan/.test(tool.result || "") ? tool.result : null;
+  const writing = tool && !tool.refused && (WRITE_TOOLS.has(tool.tool) || (tool.writes || []).length);
+  const reqRead = tool && tool.requirement_read;
+  // agent line
+  $("svNow").textContent = cur ? (cur.kind === "tool" ? `${label(cur)} ${cur.path || cur.description || (cur.command || "").split("\n")[0]}` : `${label(cur)}${file ? " for " + file : ""}`) : "nothing yet";
+  const n = lastBefore(e => e.kind === "note" || e.kind === "end", t);
+  $("svNote").textContent = n ? (n.kind === "end" ? n.text + ": " + n.final : n.text) : "";
+  // arrows
+  $("aPlan").classList.toggle("on", !!(tool && isPlanRead(tool)));
+  $("aCodeR").classList.toggle("on", !!(tool && !writing && !reqRead && !isPlanRead(tool) && file));
+  $("aCodeW").classList.toggle("on", !!writing);
+  $("aWiki").classList.toggle("on", !!reqRead);
+  $("bPlan").classList.toggle("on", !!(hand || warn || refusedText));
+  $("bCode").classList.toggle("on", !!((writing && warn) || refusedText));
+  $("bWiki").classList.toggle("on", !!hand);
+  // hook cards
+  lit("cHand", hand, hand && hand.text.split("\n").slice(0, 3).join(" "));
+  lit("cRefuse", refusedText, refusedText && refusedText.split("\n")[0]);
+  lit("cWarn", warn, warn && warn.split("\n")[0]);
+  const ms = tool && (tool.marks || []).filter(m => !file || m.file === file);
+  lit("cMarks", ms && ms.length, ms && ms.length ? markText(ms) : "");
+  // code pane
+  $("svFile").textContent = file || "(no file in this step)";
+  $("svCodeBox").classList.toggle("on", !!(writing || refusedText || (tool && file && !reqRead)));
+  let code = "";
+  if (tool && file) {
+    if (WRITE_TOOLS.has(tool.tool)) code = (tool.refused ? "(refused: not written)\n\n" : "") + (tool.diff ? tool.new : (tool.content || tool.new || ""));
+    else if (tool.tool === "Read") code = stripLineNumbers(tool.result || "");
+    else code = "$ " + (tool.command || "") + (tool.result ? "\n\n" + tool.result : "");
+  }
+  $("svCode").innerHTML = code ? `<pre>${esc(code.slice(0, 20000))}</pre>` : '<div class="dim">This step touches no file.</div>';
+  // wiki pane: every requirement page or spec read so far, the latest first
+  const rr = D.events.filter(e => e.t <= t && e.requirement_read);
+  $("svWikiBox").classList.toggle("on", !!reqRead || !!hand);
+  $("svWiki").innerHTML = (rr.length ? rr.slice().reverse().map(e => `<div class="wl${e === tool ? " cur" : ""}"><span>${esc(e.path || e.command || "")}</span><span class="dim">${mmss(e.t - t0)}</span></div>`).join("") :
+    '<div class="dim">No requirement page or spec read yet.</div>') +
+    (hand ? `<div class="sv-card req"><div class="t">Handed to the agent with this step</div><pre>${esc(hand.text)}</pre></div>` :
+     reqRead ? `<div class="sv-card"><div class="t">What it read</div><pre>${esc(stripLineNumbers(tool.result || "").split("\n").slice(0, 30).join("\n"))}</pre></div>` : "");
+  // plan pane
+  $("svPlanBox").classList.toggle("on", !!(hand || warn || refusedText || (tool && isPlanRead(tool))));
+  if (!file) { $("svPlan").innerHTML = '<div class="dim">No file in this step, so no plan row to show.</div>'; }
+  else {
+    const p = await planOf(file);
+    if (token !== renderToken) return;
+    if (!p) $("svPlan").innerHTML = '<div class="dim">Could not read the plan for this file.</div>';
+    else {
+      const scope = p.fixed ? "Under a fixed glob: the edit hook refuses an unplanned file here." : p.governed ? "Under a governed folder: an unplanned file here gets a warning." : "Outside every governed folder: the edit hook does not check this file.";
+      const row = p.row ? `<div class="sv-card"><div class="t">layout row</div><pre>path: ${esc(p.row.path)}\npurpose: ${esc(p.row.purpose || "")}\nimplements: ${esc((p.row.implements || []).join(", ") || "none")}\ntests: ${esc((p.row.tests || []).join(", ") || "none")}</pre></div>` :
+        `<div class="sv-card ${p.governed ? "warnc" : ""}"><div class="t">layout row</div>No layout row names ${esc(file)}.</div>`;
+      const reqs = p.requirements.map(r => `<div class="sv-card req"><div class="t">requirement ${esc(r.id)}</div><pre>${esc(r.text || "(no text found in openspec/specs)")}</pre></div>`).join("");
+      $("svPlan").innerHTML = row + reqs + `<div class="dim">${esc(scope)}</div>`;
+    }
+  }
+  // caption: the step in one plain sentence
+  let cap = cur ? `${mmss(cur.t - t0)}: ` : "";
+  if (!cur) cap = "Nothing has happened yet.";
+  else if (refusedText) cap += `The edit hook refused ${file}: no layout row in the plan names it. Nothing was written.`;
+  else if (writing) cap += `The agent ${tool.tool === "Bash" ? "wrote with a shell command to" : "wrote"} ${file}.` + (ms && ms.length ? ` Before it: ${markText(ms)}.` : "") + (warn ? " The hook warned that the plan does not list it, and let it through." : "");
+  else if (cur.kind === "handover") cap += `The edit hook handed the agent the requirement text for ${file || "the file"}, before the write.`;
+  else if (cur.kind === "hook") cap += warn ? `The hook warned: ${file || "this file"} is not in the plan (warn mode).` : "A hook added context.";
+  else if (reqRead) cap += `The agent read a requirement page or spec: ${tool.path || tool.command}.`;
+  else if (tool && isPlanRead(tool)) cap += `The agent read the plan: ${tool.path}.`;
+  else if (cur.kind === "tool") cap += `The agent ${label(cur).toLowerCase()} ${cur.path || cur.description || (cur.command || "").split("\n")[0]}.`;
+  else cap += cur.text ? cur.text.split("\n")[0] : label(cur);
+  $("svCaption").textContent = cap;
 }
 
 function renderTree(paths, reads, writes, t) {
@@ -358,6 +524,7 @@ $("tree").addEventListener("click", e => {
 });
 $("build").addEventListener("change", () => { pinned = null; follow = true; $("follow").checked = true; blobs.clear(); load(); });
 window.addEventListener("resize", drawMarks);
+if (sysOn) { $("sysview").hidden = false; document.querySelector("main").classList.add("sys"); $("viewtoggle").classList.add("on"); $("viewtoggle").textContent = "Timeline view"; }
 (async () => { await loadBuilds(); await load(); setInterval(async () => { if (loading) return; await loadBuilds(); await load(); }, 3000); })();
 </script>
 </body>

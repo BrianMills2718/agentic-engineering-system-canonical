@@ -60,7 +60,9 @@ clean home folder (hidden tests 0/3 then 3/3, and 0/10 then 10/10) and merged wi
   Codex are refused an unplanned file under `fixed:` and warned elsewhere; Codex on an untrusted copy ran no guard
   until agent-skills #624. Step 6 proven ([record](../docs/planning/runs/version-tied-tests/2026-11-27.json)):
   `lockstep status` shows passing only at the commit that ran, not run after an uncommitted or committed change,
-  and failing when a test fails. Next: step 7, status written back, then the end-to-end run.
+  and failing when a test fails. The replay page also has a plan, code and wiki view (toggle in its header, Brian
+  2026-11-28): the agent's step, the file's plan row and requirement text, its code, the requirement pages read, and
+  the hook cards it lit. Next: step 7, status written back, then the end-to-end run.
 
 - One plan checker (2026-11-25, Brian: "ia prpove yourr ecommednations though"): `lockstep plan check` runs Company
   Planning's validator the way `ship` does, instead of a copy of two of its checks; the copy and

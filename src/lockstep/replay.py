@@ -9,7 +9,7 @@ versions come from a recorder's store (`--store`: `timeline.jsonl` plus `blobs/<
 [[[cog import lockstep.cogtext as c; c.docstring("src:lockstep:replay.py", indent=0)]]]
 Plan (generated from lockstep.yaml layout and OpenSpec; edit the spec or the layout row, not this text):
 
-Implements: lockstep-guard/a-session-replay-shows-each-hand-over-and-read-mark
+Implements: lockstep-guard/a-session-replay-shows-each-hand-over-and-read-mark, lockstep-guard/the-replay-has-a-plan-code-and-wiki-view
 
 ### Requirement: A session replay shows each hand-over and read mark
 
@@ -58,6 +58,32 @@ own events"); he told the agent to proceed without waiting.
   session's events and file versions at `/api/data`, and a stored version at `/api/blob/<sha256>`; any other path
   or an unknown version answers 404
 
+### Requirement: The replay has a plan, code and wiki view
+
+The replay page SHALL offer a toggle between its timeline view and a plan, code and wiki view that steps through
+the same events with the same controls. That view SHALL show the agent's current step; for the file of that step,
+its `lockstep.yaml` layout row and the text of the requirements it implements (or that no row names it), its code,
+and the requirement pages and specs the agent has read so far; and a band of hook cards (hand-over, refusal,
+warning, read marks) marking the ones the current event shows. The server SHALL answer `/api/plan?file=<path>`
+with that layout row (or null), whether a governed folder and a `fixed:` glob cover the file, and each implemented
+requirement's id and text.
+
+Source: Brian, 2026-11-28: "can you create a version of the session replay (togglable) that looks more like
+file://wsl.localhost/Ubuntu-24.04/home/brian/code/inbox/ai-astronauts-hive-brain-explainer.html from the plan code
+wiki page". The panes, the hook band and the plain-JSON route are inferred by agent from that page's tab 7.
+
+#### Scenario: The plan route gives a file's row and requirement text
+
+- **WHEN** the page asks `/api/plan?file=src/greet.py` and `lockstep.yaml` has a layout row for it that implements
+  a requirement with text in `openspec/specs/`
+- **THEN** the answer holds that row, `governed` and `fixed` as the plan sets them, and the requirement's id and text
+- **AND** for a governed file no row names, `row` is null and `governed` is true
+
+#### Scenario: The page offers the view as a toggle
+
+- **WHEN** the page is served
+- **THEN** it holds a toggle that switches to the plan, code and wiki view, and the timeline view is shown first
+
 Tested by: tests/lockstep/test_replay.py
 
 Declares (typed signatures, from the plan):
@@ -73,7 +99,13 @@ import os
 import sys
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
+from fnmatch import fnmatch
 from urllib.parse import parse_qs, urlparse
+
+import yaml
+
+from lockstep.checks.markers import implementers
+from lockstep.checks.spec import read_plan
 
 from lockstep.read_before_write import (_dict, _dicts, _epoch, _handed_paths, _rel, _text, _transcripts, _unwrap,
                                         _rows, records, shell_reads)
@@ -313,6 +345,24 @@ class _Site:
         path = self.store / "blobs" / sha
         return path.read_bytes() if path.is_file() else None
 
+    def plan(self, rel: str) -> dict:
+        """The plan for one file: its layout row (or None), whether a governed folder and a fixed glob cover it,
+        and the id and text of each requirement its row or its docstring says it implements."""
+        side = self.root / "lockstep.yaml"
+        data = yaml.safe_load(side.read_text()) if side.is_file() else None
+        data = data if isinstance(data, dict) else {}
+        rows = [r for r in data.get("layout") or [] if isinstance(r, dict) and r.get("path") == rel]
+        row = rows[0] if rows else None
+        governed = any(rel.startswith(str(g)) for g in data.get("governed") or [])
+        fixed = any(fnmatch(rel, str(g)) for g in data.get("fixed") or [])
+        ids = [str(i) for i in (row or {}).get("implements") or []]
+        path = self.root / rel
+        if path.is_file() and path.resolve().is_relative_to(self.root.resolve()):
+            ids += [i for i, _, _ in implementers(self.root, only=path.resolve()) if i not in ids]
+        text = read_plan(self.root).text if ids else {}
+        return {"file": rel, "row": row, "governed": governed, "fixed": fixed,
+                "requirements": [{"id": i, "text": text.get(i, "")} for i in ids]}
+
     def answer(self, raw_path: str) -> tuple[bytes, str, int]:
         url = urlparse(raw_path)
         names = [name for name, _ in _transcripts(self.transcript)]
@@ -320,6 +370,9 @@ class _Site:
             return self.page, "text/html; charset=utf-8", 200
         if url.path == "/api/sessions":
             return json.dumps(names).encode(), "application/json", 200
+        if url.path == "/api/plan":
+            rel = (parse_qs(url.query).get("file") or [""])[0]
+            return json.dumps(self.plan(rel)).encode(), "application/json", 200
         if url.path == "/api/data":
             agent = (parse_qs(url.query).get("session") or [""])[0]
             if agent not in names:
