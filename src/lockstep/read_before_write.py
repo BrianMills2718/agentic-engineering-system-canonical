@@ -121,7 +121,9 @@ from lockstep.shell_targets import _CD, _head, _redirect_targets, command_writes
 
 _READERS = {"cat", "head", "tail", "nl", "less", "more", "bat", "sed", "grep", "rg", "awk", "wc", "diff"}
 _PATTERN_FIRST = {"grep", "rg", "awk", "sed"}  # the first plain word is a pattern or script, not a file
-_VALUE_FLAGS = {"-n", "-c", "-e", "-f", "-m", "-A", "-B", "-C", "--lines", "--bytes"}  # flags whose next word is a value
+# Per read command, the flags whose next word is a value, not a file (`sed -n` and `grep -n` take none).
+_VALUE_FLAGS = {"head": {"-n", "-c"}, "tail": {"-n", "-c"}, "grep": {"-e", "-f", "-m", "-A", "-B", "-C"},
+                "rg": {"-e", "-f", "-m", "-A", "-B", "-C", "-g", "-t"}, "sed": {"-e", "-f"}, "awk": {"-f", "-v"}}
 _EDIT_TOOLS = {"Edit", "MultiEdit", "Write", "NotebookEdit"}
 _MOVES = {"mv"}
 # The edit hook's own opening lines (lockstep.openspec_text.requirement_packet; lockstep.hook, the layout plan text):
@@ -173,7 +175,7 @@ def _segment_reads(segment: str, here: Path) -> list[Path]:
     for a in args:
         if skip:
             skip = False
-        elif a in _VALUE_FLAGS:
+        elif a in _VALUE_FLAGS.get(name, set()):
             skip = True
         elif not a.startswith("-"):
             plain.append(a)
@@ -215,7 +217,8 @@ def _shell_events(command: str, cwd: Path) -> list[dict]:
             continue
         out += [{"kind": "read", "path": p} for p in _segment_reads(segment, here)]
         # None: a shell write does not say whether it created the file; report() asks git.
-        out += [{"kind": "write", "path": p, "new": None} for p in _segment_writes(segment, here) if p.parent.is_dir()]
+        out += [{"kind": "write", "path": p, "new": None} for p in _segment_writes(segment, here)
+                if p.parent.is_dir() and not p.is_dir()]
     return out
 
 
@@ -252,6 +255,10 @@ def _epoch(value: object) -> float | None:
         except ValueError:
             return None
     return None
+
+
+def _dict(value: object) -> dict:
+    return value if isinstance(value, dict) else {}
 
 
 def _dicts(items: object) -> list[dict]:
@@ -293,15 +300,15 @@ def _codex_changes(changes: object, here: Path) -> list[dict]:
 
 
 def _codex_command(it: dict, here: Path) -> list[dict]:
-    """A rollout command: Codex's own read parse for reads, the shell parser for writes."""
+    """A rollout command: the shell parser's reads and writes in order, plus reads only Codex's own parse found."""
     if it.get("status") in ("declined", "rejected"):
         return []
     cmd = it.get("command")
     events = _shell_events(shlex.join(cmd) if isinstance(cmd, list) else str(cmd or ""), here)
     parsed = [p for p in _dicts(it.get("parsed_cmd")) if p.get("type") == "read" and isinstance(p.get("path"), str)]
-    if parsed:
-        events = [{"kind": "read", "path": here / p["path"]} for p in parsed] + [e for e in events if e["kind"] == "write"]
-    return events
+    found = {e["path"] for e in events if e["kind"] == "read"}
+    # Codex's own read parse adds reads the read-command list misses; the parser's events keep the command's order.
+    return [{"kind": "read", "path": here / p["path"]} for p in parsed if here / p["path"] not in found] + events
 
 
 class _Walk:
@@ -321,7 +328,7 @@ class _Walk:
     def record(self, r: object) -> None:
         if not isinstance(r, dict):
             return
-        payload = r.get("payload") if isinstance(r.get("payload"), dict) else {}
+        payload = _dict(r.get("payload"))
         if r.get("type") == "session_meta" and isinstance(payload.get("cwd"), str):
             self.cwd = Path(payload["cwd"])
         elif r.get("type") in ("assistant", "attachment", "user"):
@@ -331,17 +338,17 @@ class _Walk:
 
     def claude(self, r: dict) -> None:
         if r["type"] == "attachment":
-            att = r.get("attachment") if isinstance(r.get("attachment"), dict) else {}
+            att = _dict(r.get("attachment"))
             if att.get("type") == "hook_additional_context":
                 self.handed.setdefault(str(att.get("toolUseID", "")), set()).update(_handed_paths(att.get("content")))
             return
-        msg = r.get("message") if isinstance(r.get("message"), dict) else {}
+        msg = _dict(r.get("message"))
         blocks = _dicts(msg.get("content"))
         if r["type"] == "assistant":
             here = Path(r["cwd"]) if isinstance(r.get("cwd"), str) else self.cwd  # the shell's folder at the call
             for b in blocks:
                 if b.get("type") == "tool_use":
-                    inp = b.get("input") if isinstance(b.get("input"), dict) else {}
+                    inp = _dict(b.get("input"))
                     self.pending[str(b.get("id"))] = (str(b.get("name", "")), inp, here, _epoch(r.get("timestamp")))
             return
         for b in (b for b in blocks if b.get("type") == "tool_result"):
@@ -353,13 +360,13 @@ class _Walk:
     def codex(self, r: dict, payload: dict) -> None:
         t = r.get("type")
         if t == "item.completed":  # codex exec --json: no times and no hook text in this stream
-            it = r.get("item") if isinstance(r.get("item"), dict) else {}
+            it = _dict(r.get("item"))
             if it.get("type") == "command_execution":
                 self.add(_shell_events(str(it.get("command", "")), self.cwd), None, set())
             elif it.get("type") == "file_change":
                 self.add(_codex_changes(it.get("changes"), self.cwd), None, set())
         elif t == "event_msg" and payload.get("type") == "item_completed":  # codex rollout
-            it = payload.get("item") if isinstance(payload.get("item"), dict) else {}
+            it = _dict(payload.get("item"))
             here = Path(str(it.get("cwd") or self.cwd).removeprefix("file://"))
             at = _epoch(payload.get("started_at_ms")) or _epoch(r.get("timestamp"))
             if it.get("type") == "CommandExecution":
@@ -426,7 +433,7 @@ def _rows(agent: str, transcript: Path, root: Path) -> list[dict]:
             read.add(rel)
             continue
         new = ev["new"] if ev["new"] is not None else rel not in written and _created(root, rel, ev["at"])
-        handover = any(rel == h or rel.endswith("/" + h) for h in ev["handed"])
+        handover = any(rel == h or ("/" in h and rel.endswith("/" + h)) for h in ev["handed"])
         rows.append({"agent": agent, "file": rel, "new": new, "file_read_first": rel in read,
                      "context_read_first": bool(_context(root, rel) & read), "handover": handover})
         written.add(rel)
@@ -465,7 +472,7 @@ def main(argv: list[str] | None = None) -> int:
         print(f"{who}{row['file']}: {', '.join(m for m in marks if row[m]) or 'nothing read first'}")
     for row in rows:
         if row["unread"]:
-            print(f"WARN {row['file']}: written with neither the file nor its requirement page read first")
+            print(f"WARN {'' if row['agent'] == 'main' else row['agent'] + ' '}{row['file']}: written with neither the file nor its requirement page read first")
     n = {k: sum(r[k] for r in rows) for k in (*marks, "unread")}
     agents = len({r["agent"] for r in rows})
     print(f"RESULT writes={len(rows)} new={n['new']} file_read_first={n['file_read_first']} "

@@ -4,7 +4,7 @@ from pathlib import Path
 
 import pytest
 
-from lockstep.read_before_write import main, report
+from lockstep.read_before_write import main, report, shell_reads
 
 GREET = '"""Greeter.\n\nImplements: greeter/the-greeter-says-hello\n"""\n\n\ndef greet() -> str:\n    return "hello"\n'
 
@@ -334,3 +334,28 @@ def test_mv_writes_only_its_destination_and_a_delete_writes_nothing(repo):
     assert [r["file"] for r in rows] == ["src/hello.py"]
     assert _rows(repo, [{"type": "item.completed", "item": {"type": "file_change", "changes": [
         {"path": str(repo / "src/greet.py"), "kind": "delete"}]}}]) == []
+
+
+
+# Second review read (2026-11-27): the rewrite stopped counting reads with common flags.
+
+@pytest.mark.parametrize("cmd", ["sed -n '1,200p' src/greet.py", "grep -n greet src/greet.py", "grep -c greet src/greet.py",
+                                 "rg -n greet src/greet.py", "cat -n src/greet.py", "wc -c src/greet.py",
+                                 "head -n 20 src/greet.py", "tail -n 5 src/greet.py", "sed -n 5,9p README src/greet.py"])
+def test_reads_with_common_flags_count(repo, cmd):
+    assert repo / "src/greet.py" in shell_reads(cmd, repo)
+
+
+def test_a_flag_value_is_not_a_read(repo):
+    assert shell_reads("head -n 20 src/greet.py", repo) == [repo / "src/greet.py"]
+
+
+def test_a_codex_rollout_write_then_read_keeps_the_order(repo):
+    row, = _rows(repo, [{"type": "event_msg", "payload": {"type": "item_completed", "item": {
+        "type": "CommandExecution", "command": ["bash", "-lc", "printf y > src/greet.py && cat src/greet.py"],
+        "cwd": str(repo), "parsed_cmd": [{"type": "read", "path": "src/greet.py"}]}}}])
+    assert not row["file_read_first"]
+
+
+def test_a_folder_destination_is_not_a_written_file(repo):
+    assert _rows(repo, _claude(("Bash", {"command": f"cd {repo} && cp /tmp/x.py src/"}, ""))) == []
