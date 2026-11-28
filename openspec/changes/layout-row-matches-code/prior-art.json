@@ -1,0 +1,29 @@
+{
+  "need": "Refuse a Lockstep layout row that leaves out a requirement its own file says it implements.",
+  "searched": [
+    {
+      "place": "own",
+      "where": "src/lockstep/layout_plan.py layout_problems, src/lockstep/checks/markers.py implementers, src/lockstep/checks/status.py, ~/code2/workspace/docs/capabilities.md",
+      "query": "layout row implements check, Implements: line scanner",
+      "found": "layout_problems already checks each row's IDs exist; implementers already lists every Implements: line with its file. Nothing compares the two."
+    },
+    {
+      "place": "outside",
+      "where": "OpenSpec CLI validate; import-linter; pytest markers",
+      "query": "check a plan file against code annotations",
+      "found": "None reads Lockstep's layout rows; OpenSpec validates only specs and changes."
+    }
+  ],
+  "candidates": [
+    {
+      "name": "Extend layout_problems with the existing implementers scanner",
+      "url": "https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/main/src/lockstep/layout_plan.py",
+      "covers": "Both halves already exist in Lockstep; the comparison is a few lines.",
+      "misses": "Nothing needed here.",
+      "verdict": "adopt",
+      "reason": "Reuses the two existing readers; no new tool."
+    }
+  ],
+  "decision": "adopt",
+  "decided": "2026-11-28"
+}
