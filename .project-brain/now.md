@@ -58,7 +58,9 @@ clean home folder (hidden tests 0/3 then 3/3, and 0/10 then 10/10) and merged wi
   versions show only when a recorder ran (`--store`); starting one for every session is parked. Step 5 proven
   (2026-11-27, [record](../docs/planning/runs/unplanned-file/2026-11-27.json)): on a fresh template copy, Claude and
   Codex are refused an unplanned file under `fixed:` and warned elsewhere; Codex on an untrusted copy ran no guard
-  until agent-skills #624. Next: tests tied to the version, status written back, then the end-to-end run.
+  until agent-skills #624. Step 6 proven ([record](../docs/planning/runs/version-tied-tests/2026-11-27.json)):
+  `lockstep status` shows passing only at the commit that ran, not run after an uncommitted or committed change,
+  and failing when a test fails. Next: step 7, status written back, then the end-to-end run.
 
 - One plan checker (2026-11-25, Brian: "ia prpove yourr ecommednations though"): `lockstep plan check` runs Company
   Planning's validator the way `ship` does, instead of a copy of two of its checks; the copy and
