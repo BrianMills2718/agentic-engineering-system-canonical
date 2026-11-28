@@ -9,7 +9,7 @@ versions come from a recorder's store (`--store`: `timeline.jsonl` plus `blobs/<
 [[[cog import lockstep.cogtext as c; c.docstring("src:lockstep:replay.py", indent=0)]]]
 Plan (generated from lockstep.yaml layout and OpenSpec; edit the spec or the layout row, not this text):
 
-Implements: lockstep-guard/a-session-replay-shows-each-hand-over-and-read-mark, lockstep-guard/the-replay-has-a-plan-code-and-wiki-view, lockstep-guard/the-replay-marks-writes-to-the-plan
+Implements: lockstep-guard/a-session-replay-shows-each-hand-over-and-read-mark, lockstep-guard/the-replay-has-a-plan-code-and-wiki-view, lockstep-guard/the-replay-marks-writes-to-the-plan, lockstep-guard/the-replay-shows-each-write-s-plan-standing-requirement-progress-and-the-wiki-read
 
 ### Requirement: A session replay shows each hand-over and read mark
 
@@ -102,10 +102,55 @@ written.
 - **THEN** the first write's event has `plan_write` true and the second's false
 - **AND** the page holds the "agent writes the plan" arrow and the plan-first line
 
+### Requirement: The replay shows each write's plan standing, requirement progress and the wiki read
+
+Each replay write event other than a plan write SHALL carry `planned` (for a shell write, the worst standing of
+the files it wrote, in the order below): `planned` when a `lockstep.yaml` layout row names the written file
+and either no plan write in the session names it or one before this write does; `row added later` when a row names
+it and only plan writes after this one name it; `unplanned` when no row names it and a governed folder covers it; and
+`outside` otherwise. A plan write names a file when the text it wrote holds the file's path. The timeline SHALL flag
+an `unplanned` write in orange and a `row added later` write in grey. The server SHALL answer `/api/status` with
+the note on which test results were used and, for each requirement, its state from `lockstep status`, the files that
+implement it and the test files tagged with its scenarios; the plan, code and wiki view SHALL show for each
+requirement whether, by the current step, the session had written none of those files, its code, or its tests, and
+its state now. The server SHALL answer `/api/wiki` with the paths of the pages under `generated/wiki/`, index
+first; the wiki pane SHALL list them with the pages read so far highlighted. A file inside a git checkout under the
+repository (a worktree the agent made there) SHALL be judged, for the plan write and requirement read marks and for
+`planned`, against that checkout's `lockstep.yaml`, specs and wiki; the session data SHALL name the checkout most of
+its writes went to, and `/api/status` and `/api/wiki` SHALL take it as `?checkout=`, answering 404 for a folder that
+is not such a checkout.
+
+Source: Brian, 2026-11-28: "continue through all remainign hihg condience items", on the list holding viewer ideas 2
+(planned versus unplanned files, orange flag on an unplanned write), 5 (requirement status track) and 6 (the wiki as
+the agent saw it). The four standings, the route names and judging against the plan as it is now are inferred by
+agent from the layout rows and `lockstep status`.
+
+#### Scenario: A write before its row is added is flagged
+
+- **WHEN** a session writes `src/extra.py`, then writes `lockstep.yaml` with a row naming it, then writes
+  `src/other.py`, and the repository's `lockstep.yaml` names `src/extra.py` and governs `src/`
+- **THEN** the first write's `planned` is `row added later` and the third's is `unplanned`
+
+#### Scenario: A write inside a worktree is judged by that worktree's plan
+
+- **WHEN** a session works in `worktrees/feature/`, a git checkout inside the repository, writing its
+  `lockstep.yaml`, a file a row there names and a file no row names
+- **THEN** the first is a plan write, the second is `planned` and the third `unplanned`
+- **AND** the session data names `worktrees/feature/` and `/api/wiki?checkout=worktrees/feature/` lists its index
+
+#### Scenario: The status and wiki routes answer
+
+- **WHEN** the page asks `/api/status` and `/api/wiki` in a repository with an implemented requirement and a
+  generated wiki
+- **THEN** the status answer holds the requirement with its state and its implementing file, and the wiki answer
+  lists `generated/wiki/index.md` first
+- **AND** the page holds the requirement track and the wiki list
+
 Tested by: tests/lockstep/test_replay.py
 
 Declares (typed signatures, from the plan):
   session_events(transcript: Path, root: Path, agent: str='main') -> list[dict]
+  checkout_of(root: Path, rel: str) -> str
   make_server(transcript: Path, root: Path, store: Path | None, port: int, store_prefix: str = "") -> ThreadingHTTPServer
   main(argv: list[str] | None = None) -> int
 [[[end]]]
@@ -124,6 +169,7 @@ import yaml
 
 from lockstep.checks.markers import implementers
 from lockstep.checks.spec import read_plan
+from lockstep.checks.status import report as status_report
 
 from lockstep.read_before_write import (_dict, _dicts, _epoch, _handed_paths, _rel, _text, _transcripts, _unwrap,
                                         _rows, records, shell_reads)
@@ -142,12 +188,23 @@ def _show(root: Path, path: object, here: Path) -> str:
     return rel if rel is not None else path
 
 
-def _is_requirement(rel: str) -> bool:
-    return rel.startswith(_REQUIREMENT_DIRS)
+def _is_requirement(rel: str, root: Path) -> bool:
+    return rel[len(checkout_of(root, rel)):].startswith(_REQUIREMENT_DIRS)
 
 
-def _is_plan(rel: str) -> bool:
-    """`lockstep.yaml` or an OpenSpec change or spec: where a plan is written."""
+def checkout_of(root: Path, rel: str) -> str:
+    """The folder (with a trailing `/`) of the deepest git checkout under `root` that holds `rel`, such as a worktree
+    the agent made inside the repository; "" for the repository itself."""
+    parts = rel.split("/")[:-1]
+    for n in range(len(parts), 0, -1):
+        if (root / "/".join(parts[:n]) / ".git").exists():
+            return "/".join(parts[:n]) + "/"
+    return ""
+
+
+def _is_plan(rel: str, root: Path) -> bool:
+    """`lockstep.yaml` or an OpenSpec change or spec of the checkout holding the file: where a plan is written."""
+    rel = rel[len(checkout_of(root, rel)):]
     return rel == "lockstep.yaml" or rel.startswith(_PLAN_DIRS)
 
 
@@ -176,7 +233,7 @@ class _Events:
              "description": str(fields.get("description") or ""), "content": str(fields.get("content") or "")[:CAP],
              "old": str(fields.get("old") or "")[:CAP], "new": str(fields.get("new") or "")[:CAP],
              "result": str(fields.get("result") or "")[:CAP], "think_ms": fields.get("think_ms") or 0,
-             "requirement_read": tool not in _WRITE_TOOLS and any(_is_requirement(p) for p in [path, *reads] if p)}
+             "requirement_read": tool not in _WRITE_TOOLS and any(_is_requirement(p, self.root) for p in [path, *reads] if p)}
         self.out.append(e)
         self.by_call.setdefault(call, e)
         return e
@@ -301,7 +358,7 @@ class _Events:
             e["diff"] = bool(ch.get("unified_diff"))
 
 
-def _marks(events: list[dict], rows: list[dict]) -> None:
+def _marks(events: list[dict], rows: list[dict], root: Path) -> None:
     """Give each tool event the lockstep reads rows of its call: a shell call gets all of them, a file tool its file's."""
     by_call: dict[str, list[dict]] = {}
     for row in rows:
@@ -312,7 +369,44 @@ def _marks(events: list[dict], rows: list[dict]) -> None:
             e["marks"] = mine if e["tool"] in ("Bash", "Read") else [m for m in mine if m["file"] == e["path"]]
             e["writes"] = [m["file"] for m in e["marks"]]  # a shell call names no path; its writes are these
             wrote = ([e["path"]] if e["tool"] in _WRITE_TOOLS else []) + e["writes"]
-            e["plan_write"] = not e.get("refused") and any(_is_plan(f) for f in wrote if f)
+            e["plan_write"] = not e.get("refused") and any(_is_plan(f, root) for f in wrote if f)
+
+
+_WORST = ["unplanned", "row added later", "planned", "outside"]
+
+
+def _layout(root: Path) -> tuple[set[str], list[str]]:
+    """The paths the layout rows of `lockstep.yaml` name now, and its governed folders."""
+    side = root / "lockstep.yaml"
+    try:
+        data = yaml.safe_load(side.read_text()) if side.is_file() else None
+    except (OSError, yaml.YAMLError):
+        data = None
+    data = data if isinstance(data, dict) else {}
+    rows = {str(r.get("path")) for r in data.get("layout") or [] if isinstance(r, dict)}
+    return rows, [str(g) for g in data.get("governed") or []]
+
+
+def _standing(events: list[dict], root: Path) -> None:
+    """Give each write other than a plan write its `planned` standing against the layout rows as they are now,
+    with a row counted from the first plan write whose text holds the file's path."""
+    tools = [e for e in events if e["kind"] == "tool" and not e.get("refused")]
+    plan_text = [(i, e["content"] + e["new"]) for i, e in enumerate(tools) if e["plan_write"]]
+    for i, e in enumerate(tools):
+        wrote = ([e["path"]] if e["tool"] in _WRITE_TOOLS and e["path"] else []) + e["writes"]
+        if e["plan_write"] or not wrote:
+            continue
+        found = []
+        for f in wrote:
+            prefix = checkout_of(root, f)
+            rows, governed = _layout(root / prefix)
+            f = f[len(prefix):]
+            named = [j for j, text in plan_text if f in text]
+            if f not in rows:
+                found.append("unplanned" if any(f.startswith(g) for g in governed) else "outside")
+            else:
+                found.append("row added later" if named and min(named) > i else "planned")
+        e["planned"] = min(found, key=_WORST.index)
 
 
 def session_events(transcript: Path, root: Path, agent: str = "main") -> list[dict]:
@@ -323,7 +417,8 @@ def session_events(transcript: Path, root: Path, agent: str = "main") -> list[di
     walk = _Events(root)
     for record in records(files[agent]):
         walk.record(record)
-    _marks(walk.out, _rows(agent, files[agent], root))  # the rows lockstep reads gives this agent
+    _marks(walk.out, _rows(agent, files[agent], root), root)  # the rows lockstep reads gives this agent
+    _standing(walk.out, root)
     return walk.out
 
 
@@ -349,6 +444,16 @@ def _signature(transcript: Path) -> tuple:
     return tuple((p, p.stat().st_size, p.stat().st_mtime_ns) for _, p in _transcripts(transcript))
 
 
+def _main_checkout(events: list[dict], root: Path) -> str:
+    """The checkout most of the session's writes went to, so status and wiki are read where the work was."""
+    counts: dict[str, int] = {}
+    for e in events:
+        for f in ([e["path"]] if e.get("tool") in _WRITE_TOOLS and e.get("path") else []) + e.get("writes", []):
+            if not f.startswith("/"):
+                counts[checkout_of(root, f)] = counts.get(checkout_of(root, f), 0) + 1
+    return max(counts, key=lambda k: counts[k]) if counts else ""
+
+
 class _Site:
     """What the page asks for, answered from one session file; a session is read again only when its file changed."""
 
@@ -360,7 +465,8 @@ class _Site:
     def data(self, agent: str) -> bytes:
         sig = _signature(self.transcript)
         if agent not in self.cache or self.cache[agent][0] != sig:
-            body = {"session": agent, "events": session_events(self.transcript, self.root, agent),
+            events = session_events(self.transcript, self.root, agent)
+            body = {"session": agent, "events": events, "checkout": _main_checkout(events, self.root),
                     "changes": _changes(self.store, self.store_prefix)}
             self.cache[agent] = (sig, json.dumps(body).encode())
         return self.cache[agent][1]
@@ -371,10 +477,19 @@ class _Site:
         path = self.store / "blobs" / sha
         return path.read_bytes() if path.is_file() else None
 
-    def plan(self, rel: str) -> dict:
+    def _base(self, checkout: str) -> Path | None:
+        """The root of a checkout the session worked in: the repository, or a git checkout inside it."""
+        base = (self.root / checkout).resolve()
+        ok = checkout == "" or (checkout_of(self.root, checkout + "x") == checkout and base.is_relative_to(self.root.resolve()))
+        return base if ok else None
+
+    def plan(self, shown: str) -> dict:
         """The plan for one file: its layout row (or None), whether a governed folder and a fixed glob cover it,
-        and the id and text of each requirement its row or its docstring says it implements."""
-        side = self.root / "lockstep.yaml"
+        and the id and text of each requirement its row or its docstring says it implements, read from the
+        checkout that holds the file."""
+        prefix = checkout_of(self.root, shown)
+        root, rel = self.root / prefix, shown[len(prefix):]
+        side = root / "lockstep.yaml"
         data = yaml.safe_load(side.read_text()) if side.is_file() else None
         data = data if isinstance(data, dict) else {}
         rows = [r for r in data.get("layout") or [] if isinstance(r, dict) and r.get("path") == rel]
@@ -382,12 +497,36 @@ class _Site:
         governed = any(rel.startswith(str(g)) for g in data.get("governed") or [])
         fixed = any(fnmatch(rel, str(g)) for g in data.get("fixed") or [])
         ids = [str(i) for i in (row or {}).get("implements") or []]
-        path = self.root / rel
-        if path.is_file() and path.resolve().is_relative_to(self.root.resolve()):
-            ids += [i for i, _, _ in implementers(self.root, only=path.resolve()) if i not in ids]
-        text = read_plan(self.root).text if ids else {}
-        return {"file": rel, "row": row, "governed": governed, "fixed": fixed,
+        path = root / rel
+        if path.is_file() and path.resolve().is_relative_to(root.resolve()):
+            ids += [i for i, _, _ in implementers(root, only=path.resolve()) if i not in ids]
+        text = read_plan(root).text if ids else {}
+        return {"file": shown, "row": row, "governed": governed, "fixed": fixed,
                 "requirements": [{"id": i, "text": text.get(i, "")} for i in ids]}
+
+    def status(self, checkout: str) -> dict | None:
+        """Each requirement's state from `lockstep status` now in one checkout, with its implementing and test files
+        as the session's paths name them."""
+        root = self._base(checkout)
+        if root is None:
+            return None
+        result = status_report(root)
+        files = lambda where: sorted({checkout + f.rsplit(":", 1)[0] for f in where})  # noqa: E731
+        tests: dict[str, list[str]] = {}
+        for row in result.scenarios.values():
+            tests.setdefault(row.requirement, []).extend(row.files)
+        return {"note": result.results_note, "checkout": checkout, "requirements": {
+            i: {"state": r.state, "code": files(r.files), "tests": files(tests.get(i, []))}
+            for i, r in result.requirements.items()}}
+
+    def wiki(self, checkout: str) -> list[str] | None:
+        """The generated wiki pages of one checkout, index first, as the session's paths name them."""
+        root = self._base(checkout)
+        if root is None:
+            return None
+        base = root / "generated/wiki"
+        pages = sorted(checkout + p.relative_to(root).as_posix() for p in base.rglob("*.md")) if base.is_dir() else []
+        return sorted(pages, key=lambda p: p != checkout + "generated/wiki/index.md")
 
     def answer(self, raw_path: str) -> tuple[bytes, str, int]:
         url = urlparse(raw_path)
@@ -399,6 +538,12 @@ class _Site:
         if url.path == "/api/plan":
             rel = (parse_qs(url.query).get("file") or [""])[0]
             return json.dumps(self.plan(rel)).encode(), "application/json", 200
+        if url.path in ("/api/status", "/api/wiki"):
+            checkout = (parse_qs(url.query).get("checkout") or [""])[0]
+            found = self.status(checkout) if url.path == "/api/status" else self.wiki(checkout)
+            if found is None:
+                return b"unknown checkout", "text/plain", 404
+            return json.dumps(found).encode(), "application/json", 200
         if url.path == "/api/data":
             agent = (parse_qs(url.query).get("session") or [""])[0]
             if agent not in names:
