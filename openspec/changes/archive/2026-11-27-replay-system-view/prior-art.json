@@ -28,7 +28,7 @@
       "url": "https://github.com/BrianMills2718/agentic-engineering-system-canonical/blob/main/src/lockstep/replay.html",
       "covers": "Events, marks, hand-overs, stepping controls.",
       "misses": "The plan row and requirement text of a file.",
-      "verdict": "extend",
+      "verdict": "adopt",
       "reason": "The new view is a toggle on the same page and data."
     },
     {
