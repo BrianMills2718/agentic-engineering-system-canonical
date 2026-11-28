@@ -3159,10 +3159,27 @@ layout:
   - lockstep-guard/a-session-s-writes-are-listed-with-what-was-read-first
   - lockstep-guard/claude-and-codex-session-files-are-both-read
   tests: []
+- path: openspec/changes/archive/2026-11-27-replay-system-view/proposal.md
+  purpose: The replay-system-view OpenSpec change, archived; removed in the commit after the merge that archived it
+  implements: []
+  tests: []
+- path: openspec/changes/archive/2026-11-27-replay-system-view/tasks.md
+  purpose: The replay-system-view OpenSpec change, archived; removed in the commit after the merge that archived it
+  implements: []
+  tests: []
+- path: openspec/changes/archive/2026-11-27-replay-system-view/prior-art.json
+  purpose: The replay-system-view OpenSpec change, archived; removed in the commit after the merge that archived it
+  implements: []
+  tests: []
+- path: openspec/changes/archive/2026-11-27-replay-system-view/specs/lockstep-guard/spec.md
+  purpose: The replay-system-view OpenSpec change, archived; removed in the commit after the merge that archived it
+  implements: []
+  tests: []
 - path: src/lockstep/replay.py
   purpose: 'lockstep replay TRANSCRIPT: a local page that steps through one Claude or Codex session with each edit hook hand-over as its own event, requirement reads marked and the lockstep reads marks on each write'
   implements:
   - lockstep-guard/a-session-replay-shows-each-hand-over-and-read-mark
+  - lockstep-guard/the-replay-has-a-plan-code-and-wiki-view
   tests:
   - tests/lockstep/test_replay.py
   exports:
@@ -3170,13 +3187,14 @@ layout:
   - 'make_server(transcript: Path, root: Path, store: Path | None, port: int, store_prefix: str = "") -> ThreadingHTTPServer'
   - 'main(argv: list[str] | None = None) -> int'
 - path: src/lockstep/replay.html
-  purpose: The lockstep replay page (timeline, event list, file tree, reading and writing panes, hand-over and read marks), shipped as package data
+  purpose: The lockstep replay page (timeline, event list, file tree, reading and writing panes, hand-over and read marks, and a toggle to a plan, code and wiki view laid out like the hive-brain explainer), shipped as package data
   implements: []
   tests: []
 - path: tests/lockstep/test_replay.py
   purpose: Tests for lockstep replay, one per session-replay scenario of lockstep-guard
   implements:
   - lockstep-guard/a-session-replay-shows-each-hand-over-and-read-mark
+  - lockstep-guard/the-replay-has-a-plan-code-and-wiki-view
   tests: []
 - path: src/lockstep/layout_wiki.py
   purpose: Render the generated wiki of a layout repository (generated/wiki/index.md and one page per capability) from the requirements, Implements blocks, test tags and layout rows Lockstep already reads

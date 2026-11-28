@@ -211,3 +211,42 @@ def test_a_request_for_another_host_name_is_refused_and_a_bad_file_answers_500(r
     finally:
         server.shutdown()
         server.server_close()
+
+
+def _serve(repo: Path):
+    t = _write(repo / "t.jsonl", _claude(("Read", {"file_path": str(repo / "src/greet.py")}, "1\tGreeter")))
+    server = make_server(t, repo, None, 0)
+    threading.Thread(target=server.serve_forever, daemon=True).start()
+    return server
+
+
+@pytest.mark.req("lockstep-guard/the-plan-route-gives-a-file-s-row-and-requirement-text")
+def test_the_plan_route_gives_a_files_row_and_requirement_text(repo):
+    (repo / "lockstep.yaml").write_text(
+        "governed: [src/]\nfixed: [\"src/*\"]\nlayout:\n- path: src/greet.py\n  purpose: Says hello\n"
+        "  implements: [greeter/the-greeter-says-hello]\n  tests: [tests/test_greet.py]\n")
+    server = _serve(repo)
+    try:
+        port = server.server_address[1]
+        code, body = _get(port, "/api/plan?file=src/greet.py")
+        plan = json.loads(body)
+        assert code == 200 and plan["row"]["purpose"] == "Says hello"
+        assert plan["governed"] is True and plan["fixed"] is True
+        assert plan["requirements"] == [{"id": "greeter/the-greeter-says-hello", "text": "The greeter SHALL return `hello`."}]
+        other = json.loads(_get(port, "/api/plan?file=src/extra.py")[1])
+        assert other["row"] is None and other["governed"] is True and other["requirements"] == []
+    finally:
+        server.shutdown()
+        server.server_close()
+
+
+@pytest.mark.req("lockstep-guard/the-page-offers-the-view-as-a-toggle")
+def test_the_page_offers_the_view_as_a_toggle(repo):
+    server = _serve(repo)
+    try:
+        page = _get(server.server_address[1], "/")[1].decode()
+        assert 'id="viewtoggle"' in page and 'id="sysview"' in page
+        assert 'id="sysview" class="sysview" hidden' in page  # the timeline view is shown first
+    finally:
+        server.shutdown()
+        server.server_close()
