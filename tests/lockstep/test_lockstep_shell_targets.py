@@ -92,6 +92,7 @@ def test_code_that_writes_names_only_its_paths_not_its_keywords():
 SONNET_SCRIPT = (
     "python3 - <<'EOF'\nimport json, pathlib\nc = pathlib.Path(\"openspec/changes/add-greet\")\n"
     "(c/\"specs/core\").mkdir(parents=True, exist_ok=True)\n"
+    "t = 'a'.replace('a', 'src/greeter/__init__.py')\n"
     "(c/\"proposal.md\").write_text(\"\"\"## Why\n\nTouches src/greeter/__init__.py and "
     f"{NEW}.\n\"\"\")\nEOF"
 )
@@ -113,6 +114,7 @@ def test_python_code_writes_only_the_paths_its_write_calls_target():
     "python3 - <<'E'\nfrom pathlib import Path\np = Path('src/greeter') / '__init__.py'\np.write_text('x')\nE",
     "python3 - <<'E'\nimport pathlib\nfor n in ['__init__.py']:\n    (pathlib.Path('src/greeter')/n).write_text('x')\nE",
     "python3 - <<'E'\nn = input()\nopen(f'src/greeter/{n}', 'w').write('x  # src/greeter/__init__.py')\nE",
+    "python3 - <<'E'\nimport subprocess\nsubprocess.run(['cp', '/tmp/x', 'src/greeter/__init__.py'])\nopen('log.txt', 'w').write('x')\nE",
     "python3 - <<'E'\nthis is not python, but it .write( src/greeter/__init__.py\nE",
 ])
 def test_python_writes_of_a_planned_file_are_still_refused(proj, block, command):
