@@ -347,3 +347,60 @@ def test_a_rename_to_an_unplanned_name_is_refused(lay, monkeypatch, capsys):
     out = _hook(call, monkeypatch, capsys)
     assert out["permissionDecision"] == "deny"
     assert "src/greeter/renamed.py" in out["permissionDecisionReason"]
+
+
+HOMES = ('document_homes:\n  research/: "Research: sources, investigations and synthesis"\n'
+         '  docs/architecture/: "Design: what the system should be"\n')
+
+
+def _with_homes(proj: Path) -> None:
+    side = proj / "lockstep.yaml"
+    side.write_text(side.read_text() + HOMES)
+
+
+def _commit_all(proj: Path) -> None:
+    sh("git add -A && git commit -q -m docs", proj)
+
+
+def _home_problems(proj: Path) -> list[str]:
+    return [p for p in layout_problems(proj) if "outside every document home" in p]
+
+
+@pytest.mark.req("lockstep-plan-format/a-note-outside-every-home-is-reported")
+def test_a_note_outside_every_home_is_reported(lay):
+    (lay / "docs").mkdir()
+    (lay / "docs/notes.md").write_text("# Notes\n")
+    (lay / "README.md").write_text("# Greeter\n")          # instruction and front files are not documents
+    _commit_all(lay)
+    assert _home_problems(lay) == []                         # no `document_homes:`: not checked
+    _with_homes(lay)
+    _commit_all(lay)
+    found = _home_problems(lay)
+    assert len(found) == 1 and "docs/notes.md" in found[0]
+    assert "research/" in found[0] and "docs/architecture/" in found[0]
+    sh("mkdir -p research && git mv docs/notes.md research/notes.md && git commit -q -m move", lay)
+    assert _home_problems(lay) == []
+
+
+def _warn_hook(call: dict, monkeypatch, capsys) -> dict:
+    import io
+    monkeypatch.setenv("PCW_MODE", "warn")
+    monkeypatch.setattr(sys, "stdin", io.StringIO(json.dumps(call)))
+    monkeypatch.setattr(sys, "argv", ["lockstep-hook"])
+    assert hook.main() == 0
+    out = capsys.readouterr().out
+    return json.loads(out)["hookSpecificOutput"] if out.strip() else {}
+
+
+@pytest.mark.req("lockstep-guard/writing-a-note-outside-every-home-is-warned-about")
+def test_writing_a_note_outside_every_home_is_warned_about(lay, monkeypatch, capsys):
+    _with_homes(lay)
+    _commit_all(lay)
+    write = lambda rel: {"hook_event_name": "PreToolUse", "cwd": str(lay), "tool_name": "Write",
+                         "tool_input": {"file_path": str(lay / rel), "content": "# Notes\n"}}
+    out = _warn_hook(write("notes.md"), monkeypatch, capsys)
+    assert out.get("permissionDecision") != "deny"
+    text = out.get("additionalContext", "")
+    assert "research/" in text and "Research: sources, investigations and synthesis" in text
+    inside = _warn_hook(write("research/notes.md"), monkeypatch, capsys)
+    assert "document home" not in inside.get("additionalContext", "")
