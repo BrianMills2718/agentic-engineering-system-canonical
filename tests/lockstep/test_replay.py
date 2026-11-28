@@ -86,6 +86,7 @@ def test_a_codex_hand_over_is_its_own_event(repo):
     hand = _index(events, kind="handover")
     write = _index(events, kind="tool", call="fc-1")
     assert hand < write and events[hand]["call"] == "fc-1"
+    assert events[hand]["t"] <= events[write]["t"]  # the page orders by time
     assert events[write]["path"] == "src/greet.py" and "return \"hi\"" in events[write]["new"]
     mark, = events[write]["marks"]
     assert mark["handover"]
@@ -146,6 +147,67 @@ def test_the_page_and_data_are_served_locally(repo):
         assert _get(port, "/api/blob/" + "0" * 64)[0] == 404
         assert _get(port, "/api/data?session=nobody")[0] == 404
         assert _get(port, "/elsewhere")[0] == 404
+    finally:
+        server.shutdown()
+        server.server_close()
+
+
+def test_line_separators_inside_strings_and_a_half_written_last_line_are_read(repo):
+    recs = _claude(("Read", {"file_path": str(repo / "src/greet.py")}, "a b\x0cc"))
+    t = repo / "t.jsonl"
+    t.write_text("".join(json.dumps(r, ensure_ascii=False) + "\n" for r in recs) + '{"type": "assist')
+    events = session_events(t, repo)
+    assert [e["tool"] for e in events if e["kind"] == "tool"] == ["Read"]
+    assert report(t, repo) == []
+    t.write_text('{"type": "assist\n' + json.dumps(recs[0]) + "\n")
+    with pytest.raises(ValueError):
+        session_events(t, repo)
+
+
+def test_a_write_to_a_path_that_cannot_be_checked_is_not_a_crash(repo):
+    t = _write(repo / "t.jsonl", _claude(
+        ("Bash", {"command": "echo hi > /root/nope/x.sql"}, ""),
+        ("Bash", {"command": f"cd {repo} && echo hi > {'x' * 300}/y.py"}, "")))
+    assert [e["tool"] for e in session_events(t, repo) if e["kind"] == "tool"] == ["Bash", "Bash"]
+
+
+def test_a_refused_read_is_not_a_requirement_read(repo):
+    recs = _claude(("Read", {"file_path": str(repo / "openspec/specs/greeter/spec.md")}, "refused"))
+    recs[-1]["message"]["content"][0]["is_error"] = True
+    tool, = [e for e in session_events(_write(repo / "t.jsonl", recs), repo) if e["kind"] == "tool"]
+    assert tool["refused"] and not tool["requirement_read"]
+
+
+def test_a_shell_write_names_its_files(repo):
+    t = _write(repo / "t.jsonl", _claude(("Bash", {"command": f"cd {repo} && printf 'x' > src/greet.py"}, "")))
+    tool, = [e for e in session_events(t, repo) if e["kind"] == "tool"]
+    assert tool["writes"] == ["src/greet.py"]
+
+
+def _request(port: int, path: str, host: str) -> int:
+    req = urllib.request.Request(f"http://127.0.0.1:{port}{path}", headers={"Host": host})
+    try:
+        with urllib.request.urlopen(req, timeout=5) as r:
+            return r.status
+    except urllib.error.HTTPError as err:
+        return err.code
+
+
+def test_a_request_for_another_host_name_is_refused_and_a_bad_file_answers_500(repo):
+    t = _write(repo / "t.jsonl", _claude(("Read", {"file_path": str(repo / "src/greet.py")}, "1\tGreeter")))
+    store = repo / "store"
+    store.mkdir()
+    (store / "timeline.jsonl").write_text(json.dumps({"t": 1.0, "path": "on-1/repo/src/greet.py", "sha": "a", "op": "initial"})
+                                          + "\n" + json.dumps({"t": 1.0, "path": "on-1/log.txt", "sha": "b", "op": "initial"}) + "\n")
+    server = make_server(t, repo, store, 0, "on-1/repo/")
+    threading.Thread(target=server.serve_forever, daemon=True).start()
+    try:
+        port = server.server_address[1]
+        assert _request(port, "/api/sessions", "attacker.example:%d" % port) == 403
+        assert _request(port, "/api/sessions", "localhost:%d" % port) == 200
+        assert [c["path"] for c in json.loads(_get(port, "/api/data?session=main")[1])["changes"]] == ["src/greet.py"]
+        t.write_text('{"bad\n{"type": "user"}\n')
+        assert _get(port, "/api/data?session=main")[0] == 500
     finally:
         server.shutdown()
         server.server_close()

@@ -62,7 +62,7 @@ Tested by: tests/lockstep/test_replay.py
 
 Declares (typed signatures, from the plan):
   session_events(transcript: Path, root: Path) -> list[dict]
-  make_server(transcript: Path, root: Path, store: Path | None, port: int) -> ThreadingHTTPServer
+  make_server(transcript: Path, root: Path, store: Path | None, port: int, store_prefix: str = "") -> ThreadingHTTPServer
   main(argv: list[str] | None = None) -> int
 [[[end]]]
 """
@@ -76,11 +76,11 @@ from pathlib import Path
 from urllib.parse import parse_qs, urlparse
 
 from lockstep.read_before_write import (_dict, _dicts, _epoch, _handed_paths, _rel, _text, _transcripts, _unwrap,
-                                        report, shell_reads)
+                                        _rows, records, shell_reads)
 
 CAP = 60_000  # characters of tool text kept per event
 _REQUIREMENT_DIRS = ("generated/wiki/", "openspec/specs/")
-_WRITE_TOOLS = {"Write", "Edit", "MultiEdit", "NotebookEdit"}
+_WRITE_TOOLS = {"Write", "Edit", "MultiEdit", "NotebookEdit", "Delete"}
 
 
 def _show(root: Path, path: object, here: Path) -> str:
@@ -125,15 +125,16 @@ class _Events:
         self.by_call.setdefault(call, e)
         return e
 
-    def hook(self, t: float, content: object, call: str) -> None:
+    def hook(self, t: float, content: object, call: str, after: bool = False) -> None:
         """Hook text the client gave the agent: an edit hook hand-over when it names a file, else other hook context.
-        A Claude hand-over goes just before the call it came with."""
+        Claude hook text goes just before the call it came with (just after it for a PostToolUse hook)."""
         text = _text(content)
         if not text.strip():
             return
         e = {"t": t, "kind": "handover" if _handed_paths(content) else "hook", "call": call, "text": text[:CAP]}
         target = self.by_call.get(call) if call else None
-        self.out.insert(self.out.index(target) if target in self.out else len(self.out), e)
+        at = self.out.index(target) + after if target in self.out else len(self.out)
+        self.out.insert(at, e)
         if not call:
             self.codex_pending.append(e)
 
@@ -159,7 +160,8 @@ class _Events:
                 self.tool(t, str(c.get("name", "")), str(c.get("id", "")), here,
                           path=i.get("file_path") or i.get("notebook_path"), command=i.get("command"),
                           description=i.get("description"), content=i.get("content"), old=i.get("old_string"),
-                          new=i.get("new_string"), think_ms=think)
+                          new=i.get("new_string") or i.get("new_source") or "\n".join(
+                              str(x.get("new_string", "")) for x in _dicts(i.get("edits"))), think_ms=think)
                 if not (i.get("command") or i.get("file_path") or i.get("notebook_path")):
                     self.out[-1]["command"] = json.dumps(i)[:400]
 
@@ -169,12 +171,16 @@ class _Events:
             if e is not None:
                 e["result"] = _text(c.get("content"))[:CAP]
                 e["error"] = bool(c.get("is_error"))
+                if e["error"] and not (e["tool"] == "Bash" and e["result"].startswith("Exit code")):
+                    e["refused"] = True  # did not run: lockstep reads counts it as neither read nor write
+                    e["requirement_read"] = False
 
     def claude_attachment(self, r: dict, t: float) -> None:
         att = _dict(r.get("attachment"))
         if att.get("type") == "hook_additional_context":
             call = str(att.get("toolUseID", ""))
-            self.hook(self.by_call[call]["t"] if call in self.by_call else t, att.get("content"), call)
+            after = str(att.get("hookName", "")).startswith("PostToolUse")
+            self.hook(self.by_call[call]["t"] if call in self.by_call else t, att.get("content"), call, after)
 
     def claude_result(self, r: dict, t: float) -> None:
         self.out.append({"t": t, "kind": "end", "text": f"Session ended ({r.get('subtype')})",
@@ -212,6 +218,7 @@ class _Events:
         if kind in ("CommandExecution", "command_execution", "FileChange", "file_change"):
             for e in self.codex_pending:  # the hand-overs since the last call came with this one
                 e["call"] = call
+                e["t"] = min(e["t"], t)  # so the page, which orders by time, keeps it ahead of its call
             self.codex_pending = []
         if kind in ("CommandExecution", "command_execution"):
             cmd = it.get("command")
@@ -224,14 +231,18 @@ class _Events:
             self.codex_changes(it.get("changes"), t, call, here)
         elif kind == "agent_message" and str(it.get("text", "")).strip():
             self.out.append({"t": t, "kind": "note", "text": str(it["text"]), "think_ms": 0})
+        elif "toolcall" in str(kind).lower().replace("_", ""):  # MCP and agent calls: shown, never read or write
+            rest = {k: v for k, v in it.items() if k not in ("type", "id", "result", "output")}
+            self.tool(t, str(kind), call, here, command=json.dumps(rest)[:400], result=json.dumps(it.get("result") or it.get("output") or "")[:CAP])
 
     def codex_changes(self, changes: object, t: float, call: str, here: Path) -> None:
         items = list(changes.items()) if isinstance(changes, dict) else [(c.get("path"), c) for c in _dicts(changes)]
         for path, ch in items:
             ch = _dict(ch)
             kind = ch.get("type") or ch.get("kind")
-            self.tool(t, "Write" if kind == "add" else "Delete" if kind == "delete" else "Edit", call, here,
-                      path=ch.get("move_path") or path, new=ch.get("unified_diff") or ch.get("content"))
+            e = self.tool(t, "Write" if kind == "add" else "Delete" if kind == "delete" else "Edit", call, here,
+                          path=ch.get("move_path") or path, new=ch.get("unified_diff") or ch.get("content"))
+            e["diff"] = bool(ch.get("unified_diff"))
 
 
 def _marks(events: list[dict], rows: list[dict]) -> None:
@@ -243,6 +254,7 @@ def _marks(events: list[dict], rows: list[dict]) -> None:
         if e["kind"] == "tool":
             mine = by_call.get(e["call"], [])
             e["marks"] = mine if e["tool"] in ("Bash", "Read") else [m for m in mine if m["file"] == e["path"]]
+            e["writes"] = [m["file"] for m in e["marks"]]  # a shell call names no path; its writes are these
 
 
 def session_events(transcript: Path, root: Path, agent: str = "main") -> list[dict]:
@@ -251,32 +263,48 @@ def session_events(transcript: Path, root: Path, agent: str = "main") -> list[di
     root = Path(os.path.realpath(root))
     files = dict(_transcripts(transcript))
     walk = _Events(root)
-    for line in files[agent].read_text(encoding="utf-8").splitlines():
-        if line.strip():
-            walk.record(json.loads(line))
-    _marks(walk.out, [r for r in report(transcript, root) if r["agent"] == agent])
+    for record in records(files[agent]):
+        walk.record(record)
+    _marks(walk.out, _rows(agent, files[agent], root))  # the rows lockstep reads gives this agent
     return walk.out
 
 
-def _changes(store: Path | None) -> list[dict]:
-    """The recorder's file versions, paths relative to the folder it watched."""
+def _changes(store: Path | None, prefix: str = "") -> list[dict]:
+    """The recorder's file versions under `prefix` (the repository's path inside the watched folder), with paths
+    relative to the repository so they match the session's."""
     tl = store / "timeline.jsonl" if store else None
     if tl is None or not tl.exists():
         return []
     out = []
-    for line in tl.read_text(encoding="utf-8").splitlines():
+    for line in tl.read_text(encoding="utf-8").split("\n"):
         try:
             c = json.loads(line)
         except ValueError:
             continue
-        if isinstance(c, dict) and isinstance(c.get("path"), str):
-            out.append(c)
+        if isinstance(c, dict) and isinstance(c.get("path"), str) and c["path"].startswith(prefix):
+            out.append({**c, "path": c["path"][len(prefix):]})
     return out
 
 
-def make_server(transcript: Path, root: Path, store: Path | None, port: int) -> ThreadingHTTPServer:
-    """A server on 127.0.0.1:`port` (0 picks a free one) for one session file; call serve_forever() on it."""
+def _signature(transcript: Path) -> tuple:
+    """What changes when a session file or a subagent's grows: each file's size and modification time."""
+    return tuple((p, p.stat().st_size, p.stat().st_mtime_ns) for _, p in _transcripts(transcript))
+
+
+def make_server(transcript: Path, root: Path, store: Path | None, port: int, store_prefix: str = "") -> ThreadingHTTPServer:
+    """A server on 127.0.0.1:`port` (0 picks a free one) for one session file; call serve_forever() on it.
+    It answers only requests addressed to 127.0.0.1 or localhost, so a web page cannot reach it by renaming a host
+    (DNS rebinding), and it reads a session file again only when the file changed."""
     page = importlib.resources.files("lockstep").joinpath("replay.html").read_bytes()
+    cache: dict[str, tuple[tuple, bytes]] = {}
+
+    def data(agent: str) -> bytes:
+        sig = _signature(transcript)
+        if agent not in cache or cache[agent][0] != sig:
+            body = {"session": agent, "events": session_events(transcript, root, agent),
+                    "changes": _changes(store, store_prefix)}
+            cache[agent] = (sig, json.dumps(body).encode())
+        return cache[agent][1]
 
     class Handler(BaseHTTPRequestHandler):
         def send(self, body: bytes, ctype: str = "application/json", code: int = 200) -> None:
@@ -287,6 +315,15 @@ def make_server(transcript: Path, root: Path, store: Path | None, port: int) -> 
             self.wfile.write(body)
 
         def do_GET(self) -> None:
+            port_now = getattr(self.server, "server_port", 0)
+            if self.headers.get("Host") not in (f"127.0.0.1:{port_now}", f"localhost:{port_now}"):
+                return self.send(b"wrong host", "text/plain", 403)
+            try:
+                return self.answer()
+            except (OSError, ValueError) as exc:  # a session file being rewritten, or one that stopped parsing
+                return self.send(json.dumps({"error": str(exc)}).encode(), code=500)
+
+        def answer(self) -> None:
             url = urlparse(self.path)
             names = [name for name, _ in _transcripts(transcript)]
             if url.path in ("/", "/index.html"):
@@ -297,8 +334,7 @@ def make_server(transcript: Path, root: Path, store: Path | None, port: int) -> 
                 agent = (parse_qs(url.query).get("session") or [""])[0]
                 if agent not in names:
                     return self.send(b"unknown session", "text/plain", 404)
-                body = {"session": agent, "events": session_events(transcript, root, agent), "changes": _changes(store)}
-                return self.send(json.dumps(body).encode())
+                return self.send(data(agent))
             sha = url.path.removeprefix("/api/blob/")
             blob = store / "blobs" / sha if store and len(sha) == 64 and sha.isalnum() else None
             if blob is not None and blob.is_file():
@@ -317,6 +353,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("transcript", type=Path)
     parser.add_argument("--repo", type=Path, default=Path.cwd())
     parser.add_argument("--store", type=Path, default=None, help="a recorder's store: timeline.jsonl and blobs/")
+    parser.add_argument("--store-prefix", default="", help="the repository's path inside the folder the recorder watched, e.g. on-1/repo/")
     parser.add_argument("--port", type=int, default=8791)
     args = parser.parse_args(argv)
     try:
@@ -324,7 +361,7 @@ def main(argv: list[str] | None = None) -> int:
     except (OSError, ValueError) as exc:
         print(f"lockstep replay: cannot read {args.transcript}: {exc}", file=sys.stderr)
         return 2
-    server = make_server(args.transcript, args.repo, args.store, args.port)
+    server = make_server(args.transcript, args.repo, args.store, args.port, args.store_prefix)
     print(f"Session replay: http://127.0.0.1:{server.server_address[1]}/", flush=True)
     try:
         server.serve_forever()

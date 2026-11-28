@@ -128,6 +128,7 @@ const READ_TOOLS = new Set(["Read", "Grep", "Glob", "NotebookRead"]), WRITE_TOOL
 const RECENT = 300; // seconds: a file read or written this recently gets a dot
 
 function kindOf(e) {
+  if (e.refused) return "cmd";
   if (e.kind === "handover") return "hand";
   if (e.kind === "hook") return "hook";
   if (e.requirement_read) return "req";
@@ -137,7 +138,7 @@ function kindOf(e) {
   if (WRITE_TOOLS.has(e.tool)) return "write";
   return "cmd";
 }
-const label = e => e.kind === "note" ? "Note" : e.kind === "end" ? "End" : e.kind === "handover" ? "Hand-over" : e.kind === "hook" ? "Hook" :
+const label = e => e.refused ? "Refused " + e.tool : e.kind === "note" ? "Note" : e.kind === "end" ? "End" : e.kind === "handover" ? "Hand-over" : e.kind === "hook" ? "Hook" :
   (e.requirement_read ? "Req read" : ({ Read: "Read", Write: "Wrote", Edit: "Edited", Bash: "Ran", Grep: "Searched", Glob: "Listed", Delete: "Deleted" }[e.tool] || e.tool));
 const unread = e => (e.marks || []).some(m => m.unread);
 function markText(ms) {               // the lockstep reads marks of one write, in words
@@ -147,18 +148,22 @@ function markText(ms) {               // the lockstep reads marks of one write, 
 const clock = t => new Date(t * 1000).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit" });
 const mmss = s => { s = Math.max(0, Math.round(s)); const h = Math.floor(s / 3600), m = Math.floor(s % 3600 / 60), x = s % 60;
   return (h ? h + ":" + String(m).padStart(2, "0") : m) + ":" + String(x).padStart(2, "0"); };
-const esc = s => s.replace(/[&<>]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" }[c]));
+const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 
 async function loadBuilds() {
   const names = await (await fetch("/api/sessions")).json();
   const cur = $("build").value;
-  $("build").innerHTML = names.map(n => `<option>${n}</option>`).join("");
-  $("build").value = cur && names.includes(cur) ? cur : names[names.length - 1];
+  $("build").innerHTML = names.map(n => `<option>${esc(n)}</option>`).join("");
+  $("build").value = cur && names.includes(cur) ? cur : names.includes("main") ? "main" : names[0];
 }
+let loading = false;
 async function load() {
+  if (loading) return;
+  loading = true;
   try {
     const b = $("build").value; if (!b) return;
-    const d = await (await fetch("/api/data?session=" + encodeURIComponent(b))).json();
+    const r = await fetch("/api/data?session=" + encodeURIComponent(b)), d = await r.json();
+    if (!r.ok) { $("status").textContent = "cannot read the session file: " + (d.error || r.status); $("status").className = "pill"; return; }
     if (d.session !== $("build").value) return;
     d.events.sort((a, b) => a.t - b.t); d.changes.sort((a, b) => a.t - b.t);
     D = d;
@@ -168,6 +173,7 @@ async function load() {
     $("status").textContent = "updated " + clock(Date.now() / 1000); $("status").className = "pill live";
     render();
   } catch (err) { $("status").textContent = "cannot reach server"; $("status").className = "pill"; }
+  finally { loading = false; }
 }
 
 function stateAt(t) {               // path -> {sha, t} for every recorded file at time t
@@ -232,7 +238,7 @@ async function render() {
   $("atrel").textContent = follow ? "(latest)" : `(${mmss(t1 - t)} before latest)`;
   $("span").textContent = `${D.events.length} events · ${mmss(t1 - t0)} total · session ${b}`;
   const rows = D.events.flatMap(e => e.marks || []), seen = new Set(), uniq = rows.filter(m => { const k = m.call + m.file; return seen.has(k) ? false : seen.add(k); });
-  $("summary").textContent = `writes ${uniq.length} · not read first ${uniq.filter(m => m.unread).length} · hand-overs ${D.events.filter(e => e.kind === "handover").length} · requirement reads ${D.events.filter(e => e.requirement_read).length}`;
+  $("summary").textContent = `writes ${uniq.length} · not read first ${uniq.filter(m => m.unread).length} · writes with a hand-over ${uniq.filter(m => m.handover).length} (hand-over texts ${D.events.filter(e => e.kind === "handover").length}) · requirement reads ${D.events.filter(e => e.requirement_read).length}`;
   drawMarks();
   // events list (newest first), current = last event at or before t
   const cur = lastBefore(() => true, t);
@@ -240,13 +246,14 @@ async function render() {
   const evs = D.events.slice(-400).reverse();
   $("events").innerHTML = evs.map(e => {
     const k = kindOf(e), what = (e.kind === "note" || e.kind === "end" || e.kind === "handover" || e.kind === "hook") ? e.text : (e.path || e.description || e.command);
-    return `<div class="ev${e === cur ? " cur" : ""}${e.t > t ? "\" style=\"opacity:.35" : ""}" data-t="${e.t}"><span class="k ${k}">${label(e)}</span>` +
+    return `<div class="ev${e === cur ? " cur" : ""}${e.t > t ? "\" style=\"opacity:.35" : ""}" data-t="${e.t}"><span class="k ${k}">${esc(label(e))}</span>` +
       `<span class="p" title="${esc(String(what)).replace(/"/g, "&quot;")}">${unread(e) ? '<span class="warn">not read first </span>' : ""}${esc(String(what).split("\n")[0])}</span><span class="tm">${mmss(e.t - t0)}</span></div>`;
   }).join("");
   const curEl = $("events").querySelector(".cur"); if (curEl && !follow) curEl.scrollIntoView({ block: "nearest" });
   // tree with read/write dots
   const reads = new Map(), writes = new Map();
-  for (const e of D.events) { if (e.t > t) break; if (e.path) ((kindOf(e) === "read" || kindOf(e) === "req") ? reads : kindOf(e) === "write" ? writes : new Map()).set(e.path, e.t); }
+  for (const e of D.events) { if (e.t > t) break; if (e.path) ((kindOf(e) === "read" || kindOf(e) === "req") ? reads : kindOf(e) === "write" ? writes : new Map()).set(e.path, e.t);
+    if (!e.refused) for (const f of e.writes || []) writes.set(f, e.t); }
   for (const c of D.changes) { if (c.t > t) break; if (c.op !== "initial") writes.set(c.path, c.t); }
   const paths = new Set(st.keys()); for (const p of writes.keys()) if (p) paths.add(p); for (const p of reads.keys()) if (p && !p.startsWith("/")) paths.add(p);
   renderTree([...paths].sort(), reads, writes, t);
@@ -272,19 +279,23 @@ async function render() {
       $("wmeta").textContent = `v${vs.length} (${clock(now.t)})  +${added.size} lines`;
       showCode($("wcode"), text, wpath, added);
     } else {                       // no recorder copy: fall back to the Write/Edit call
-      const w = lastBefore(e => e.path === wpath && WRITE_TOOLS.has(e.tool), t);
+      const w = lastBefore(e => !e.refused && ((e.path === wpath && WRITE_TOOLS.has(e.tool)) || (e.writes || []).includes(wpath)), t);
       if (!w) { $("wmeta").textContent = ""; $("wcode").innerHTML = '<div class="empty">No recorded version at this time.</div>'; }
+      else if (!WRITE_TOOLS.has(w.tool)) { $("wmeta").textContent = `written by a shell command ${clock(w.t)}`;
+        showCode($("wcode"), "$ " + w.command, ""); }
+      else if (w.diff) { $("wmeta").textContent = `changed (diff) ${clock(w.t)}`;
+        const lines = w.new.split("\n"); showCode($("wcode"), w.new, "", new Set(lines.flatMap((l, i) => l.startsWith("+") ? [i] : []))); }
       else { const text = w.tool === "Write" ? (w.content || w.new) : w.new;
         $("wmeta").textContent = `${w.tool === "Write" ? "written" : "edited (new text only)"} ${clock(w.t)}`;
         showCode($("wcode"), text, wpath, new Set(text.split("\n").map((_, i) => i))); }
     }
   }
   // marks of the write shown, and the hand-over that came with it (else the latest one)
-  const wev = wpath ? lastBefore(e => e.kind === "tool" && e.path === wpath && (e.marks || []).length, t) : null;
+  const wev = wpath ? lastBefore(e => e.kind === "tool" && (e.marks || []).some(m => m.file === wpath), t) : null;
   $("wmarks").innerHTML = wev ? `<span class="${unread(wev) ? "warn" : ""}">Read before this write: ${esc(markText(wev.marks.filter(m => m.file === wpath)))}</span>` : "";
   const h = (wev && lastBefore(e => e.kind === "handover" && e.call && e.call === wev.call, t)) || lastBefore(e => e.kind === "handover", t);
   $("hand").textContent = h ? h.text : "(no hand-over yet: the edit hook gives requirement text when the agent edits a file that implements one)";
-  $("handsub").textContent = h ? `at ${clock(h.t)}` + (wev && h.call === wev.call ? ", with this write" : "") : "";
+  $("handsub").textContent = h ? `at ${clock(h.t)}` + (wev && h.call === wev.call ? ", with this write" : ", the latest one (none came with this write)") : "";
   // thinking
   const n = lastBefore(e => e.kind === "note" || e.kind === "end", t);
   $("note").textContent = n ? (n.kind === "end" ? n.text + ": " + n.final : n.text) : "(no note yet)";
@@ -347,7 +358,7 @@ $("tree").addEventListener("click", e => {
 });
 $("build").addEventListener("change", () => { pinned = null; follow = true; $("follow").checked = true; blobs.clear(); load(); });
 window.addEventListener("resize", drawMarks);
-(async () => { await loadBuilds(); await load(); setInterval(async () => { await loadBuilds(); load(); }, 3000); })();
+(async () => { await loadBuilds(); await load(); setInterval(async () => { if (loading) return; await loadBuilds(); await load(); }, 3000); })();
 </script>
 </body>
 </html>

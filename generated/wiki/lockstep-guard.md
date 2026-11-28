@@ -33,9 +33,9 @@ Implemented by:
 
 - Scenario `a-claude-hand-over-is-its-own-event-before-its-write`: tested by `tests/lockstep/test_replay.py::test_a_claude_hand_over_is_its_own_event` ([`tests/lockstep/test_replay.py:55`](../../tests/lockstep/test_replay.py#L55))
 - Scenario `a-codex-hand-over-is-its-own-event-before-its-write`: tested by `tests/lockstep/test_replay.py::test_a_codex_hand_over_is_its_own_event` ([`tests/lockstep/test_replay.py:71`](../../tests/lockstep/test_replay.py#L71))
-- Scenario `a-write-carries-the-read-before-write-marks`: tested by `tests/lockstep/test_replay.py::test_a_write_carries_the_read_marks` ([`tests/lockstep/test_replay.py:95`](../../tests/lockstep/test_replay.py#L95))
-- Scenario `a-requirement-page-read-is-marked`: tested by `tests/lockstep/test_replay.py::test_a_requirement_page_read_is_marked` ([`tests/lockstep/test_replay.py:105`](../../tests/lockstep/test_replay.py#L105))
-- Scenario `the-page-and-its-data-are-served-locally`: tested by `tests/lockstep/test_replay.py::test_the_page_and_data_are_served_locally` ([`tests/lockstep/test_replay.py:123`](../../tests/lockstep/test_replay.py#L123))
+- Scenario `a-write-carries-the-read-before-write-marks`: tested by `tests/lockstep/test_replay.py::test_a_write_carries_the_read_marks` ([`tests/lockstep/test_replay.py:96`](../../tests/lockstep/test_replay.py#L96))
+- Scenario `a-requirement-page-read-is-marked`: tested by `tests/lockstep/test_replay.py::test_a_requirement_page_read_is_marked` ([`tests/lockstep/test_replay.py:106`](../../tests/lockstep/test_replay.py#L106))
+- Scenario `the-page-and-its-data-are-served-locally`: tested by `tests/lockstep/test_replay.py::test_the_page_and_data_are_served_locally` ([`tests/lockstep/test_replay.py:124`](../../tests/lockstep/test_replay.py#L124))
 
 ## a session s writes are listed with what was read first
 

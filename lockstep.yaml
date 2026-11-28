@@ -3171,7 +3171,7 @@ layout:
   - tests/lockstep/test_replay.py
   exports:
   - 'session_events(transcript: Path, root: Path) -> list[dict]'
-  - 'make_server(transcript: Path, root: Path, store: Path | None, port: int) -> ThreadingHTTPServer'
+  - 'make_server(transcript: Path, root: Path, store: Path | None, port: int, store_prefix: str = "") -> ThreadingHTTPServer'
   - 'main(argv: list[str] | None = None) -> int'
 - path: src/lockstep/replay.html
   purpose: The lockstep replay page (timeline, event list, file tree, reading and writing panes, hand-over and read marks), shipped as package data

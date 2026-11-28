@@ -113,7 +113,7 @@ import os
 import shlex
 import subprocess
 import sys
-from functools import cache
+from functools import cache, lru_cache
 from pathlib import Path
 
 from lockstep.openspec_text import implemented_ids
@@ -208,6 +208,12 @@ def _segment_writes(segment: str, here: Path) -> list[Path]:
 
 def _shell_events(command: str, cwd: Path) -> list[dict]:
     """Reads and writes of one shell command, in the order its simple commands run, following `cd`."""
+    return [dict(ev) for ev in _shell_events_cached(command, cwd)]
+
+
+@lru_cache(maxsize=8192)
+def _shell_events_cached(command: str, cwd: Path) -> tuple[dict, ...]:
+    """The parse behind `_shell_events`, kept per command and folder: lockstep replay parses each command twice."""
     here, out = cwd, []
     for segment in segments(_unwrap(command)):
         cd = _CD.match(segment)
@@ -217,9 +223,17 @@ def _shell_events(command: str, cwd: Path) -> list[dict]:
             continue
         out += [{"kind": "read", "path": p} for p in _segment_reads(segment, here)]
         # None: a shell write does not say whether it created the file; report() asks git.
-        out += [{"kind": "write", "path": p, "new": None} for p in _segment_writes(segment, here)
-                if p.parent.is_dir() and not p.is_dir()]
-    return out
+        out += [{"kind": "write", "path": p, "new": None} for p in _segment_writes(segment, here) if _writable(p)]
+    return tuple(out)
+
+
+def _writable(p: Path) -> bool:
+    """A shell write target that names a file in an existing folder; a name too long or a folder we may not read
+    (`/root/x`) is not one we can measure."""
+    try:
+        return p.parent.is_dir() and not p.is_dir()
+    except OSError:
+        return False
 
 
 def shell_reads(command: str, cwd: Path) -> list[Path]:
@@ -420,11 +434,25 @@ def _transcripts(transcript: Path) -> list[tuple[str, Path]]:
     return [("main", transcript)] + [(p.stem, p) for p in subs]
 
 
+def records(transcript: Path) -> list[object]:
+    """The JSON records of a session file, one per line. Lines end at a newline only: a JSON string may hold U+2028
+    or a form feed. A last line that does not parse is skipped, as the client may still be writing it; a bad line
+    anywhere else raises ValueError."""
+    lines = [line for line in transcript.read_text(encoding="utf-8").split("\n") if line.strip()]
+    out = []
+    for n, line in enumerate(lines):
+        try:
+            out.append(json.loads(line))
+        except ValueError:
+            if n < len(lines) - 1:
+                raise
+    return out
+
+
 def _rows(agent: str, transcript: Path, root: Path) -> list[dict]:
     walk = _Walk(root)
-    for line in transcript.read_text(encoding="utf-8").splitlines():
-        if line.strip():
-            walk.record(json.loads(line))
+    for record in records(transcript):
+        walk.record(record)
     read: set[str] = set()
     written: set[str] = set()
     rows: list[dict] = []
