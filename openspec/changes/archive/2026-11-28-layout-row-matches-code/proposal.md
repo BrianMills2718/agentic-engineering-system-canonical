@@ -20,3 +20,5 @@ steps plan doc).
 ## Impact
 
 - `src/lockstep/layout_plan.py`, `tests/lockstep/test_lockstep_layout_plan.py`, `lockstep.yaml`.
+
+Plan size: small
