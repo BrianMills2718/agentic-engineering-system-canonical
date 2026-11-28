@@ -286,7 +286,7 @@ def make_server(transcript: Path, root: Path, store: Path | None, port: int) -> 
             self.end_headers()
             self.wfile.write(body)
 
-        def do_GET(self) -> None:  # noqa: N802 (the http.server name)
+        def do_GET(self) -> None:
             url = urlparse(self.path)
             names = [name for name, _ in _transcripts(transcript)]
             if url.path in ("/", "/index.html"):
