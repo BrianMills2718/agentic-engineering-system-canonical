@@ -14,7 +14,8 @@ In a layout repository whose `lockstep.yaml` says `generated_wiki: true` and who
 
 Implemented by:
 
-- `lockstep.checks.project._results_page` — [`src/lockstep/checks/project.py:454`](../../src/lockstep/checks/project.py#L454)
+- `lockstep.checks.project` — [`src/lockstep/checks/project.py:1`](../../src/lockstep/checks/project.py#L1)
+- `lockstep.checks.project._results_page` — [`src/lockstep/checks/project.py:478`](../../src/lockstep/checks/project.py#L478)
 - `lockstep.layout_wiki` — [`src/lockstep/layout_wiki.py:1`](../../src/lockstep/layout_wiki.py#L1)
 - `lockstep.layout_wiki.results_page` — [`src/lockstep/layout_wiki.py:242`](../../src/lockstep/layout_wiki.py#L242)
 
@@ -33,11 +34,26 @@ In a layout repository whose `lockstep.yaml` says `generated_wiki: true`, `locks
 Implemented by:
 
 - `lockstep.checks.project` — [`src/lockstep/checks/project.py:1`](../../src/lockstep/checks/project.py#L1)
-- `lockstep.checks.project._wiki` — [`src/lockstep/checks/project.py:418`](../../src/lockstep/checks/project.py#L418)
+- `lockstep.checks.project._wiki` — [`src/lockstep/checks/project.py:442`](../../src/lockstep/checks/project.py#L442)
 - `lockstep.layout_wiki` — [`src/lockstep/layout_wiki.py:1`](../../src/lockstep/layout_wiki.py#L1)
 
 - Scenario `a-capability-page-shows-requirement-code-and-tests`: tested by `tests/lockstep/test_lockstep_layout_wiki.py::test_capability_page_shows_requirement_code_and_tests` ([`tests/lockstep/test_lockstep_layout_wiki.py:127`](../../tests/lockstep/test_lockstep_layout_wiki.py#L127)), `tests/lockstep/test_lockstep_layout_wiki.py::test_page_of_a_removed_capability_is_removed` ([`tests/lockstep/test_lockstep_layout_wiki.py:147`](../../tests/lockstep/test_lockstep_layout_wiki.py#L147)), `tests/lockstep/test_lockstep_layout_wiki.py::test_old_page_is_kept_when_writing_fails` ([`tests/lockstep/test_lockstep_layout_wiki.py:195`](../../tests/lockstep/test_lockstep_layout_wiki.py#L195)), `tests/lockstep/test_lockstep_layout_wiki.py::test_capability_named_index_is_refused` ([`tests/lockstep/test_lockstep_layout_wiki.py:211`](../../tests/lockstep/test_lockstep_layout_wiki.py#L211))
 - Scenario `a-repository-without-the-switch-gets-no-pages`: tested by `tests/lockstep/test_lockstep_layout_wiki.py::test_repository_without_the_switch_gets_no_pages` ([`tests/lockstep/test_lockstep_layout_wiki.py:141`](../../tests/lockstep/test_lockstep_layout_wiki.py#L141)), `tests/lockstep/test_lockstep_layout_wiki.py::test_switch_that_is_not_a_boolean_is_refused` ([`tests/lockstep/test_lockstep_layout_wiki.py:219`](../../tests/lockstep/test_lockstep_layout_wiki.py#L219))
+
+## a layout row lists what its file implements
+
+ID: `lockstep-plan-format/a-layout-row-lists-what-its-file-implements`
+
+Status: **implemented and tested**
+
+Lockstep SHALL report, as a layout problem, a layout row whose file names in an `Implements:` line a requirement that the row's `implements` list leaves out, naming the row's path and each missing requirement ID, so that the plan always names every requirement its code says it implements.
+
+Implemented by:
+
+- `lockstep.layout_plan` — [`src/lockstep/layout_plan.py:1`](../../src/lockstep/layout_plan.py#L1)
+- `lockstep.layout_plan` — [`src/lockstep/layout_plan.py:1`](../../src/lockstep/layout_plan.py#L1)
+
+- Scenario `a-row-that-leaves-out-its-file-s-requirement-is-reported`: tested by `tests/lockstep/test_lockstep_layout_plan.py::test_a_row_that_leaves_out_its_files_requirement_is_reported` ([`tests/lockstep/test_lockstep_layout_plan.py:126`](../../tests/lockstep/test_lockstep_layout_plan.py#L126))
 
 ## a planned file without a cog plan copy is judged by its implements block
 
@@ -52,8 +68,8 @@ Implemented by:
 - `lockstep.check` — [`src/lockstep/check.py:1`](../../src/lockstep/check.py#L1)
 - `lockstep.stale_edit` — [`src/lockstep/stale_edit.py:1`](../../src/lockstep/stale_edit.py#L1)
 
-- Scenario `an-existing-file-with-a-current-implements-block-can-be-edited`: tested by `tests/lockstep/test_lockstep_layout_plan.py::test_a_file_written_before_its_layout_row_can_be_edited` ([`tests/lockstep/test_lockstep_layout_plan.py:189`](../../tests/lockstep/test_lockstep_layout_plan.py#L189))
-- Scenario `a-stale-implements-block-names-the-command-that-fixes-it`: tested by `tests/lockstep/test_lockstep_layout_plan.py::test_a_stale_implements_block_is_refused_until_lockstep_check_project_runs` ([`tests/lockstep/test_lockstep_layout_plan.py:202`](../../tests/lockstep/test_lockstep_layout_plan.py#L202))
+- Scenario `an-existing-file-with-a-current-implements-block-can-be-edited`: tested by `tests/lockstep/test_lockstep_layout_plan.py::test_a_file_written_before_its_layout_row_can_be_edited` ([`tests/lockstep/test_lockstep_layout_plan.py:208`](../../tests/lockstep/test_lockstep_layout_plan.py#L208))
+- Scenario `a-stale-implements-block-names-the-command-that-fixes-it`: tested by `tests/lockstep/test_lockstep_layout_plan.py::test_a_stale_implements_block_is_refused_until_lockstep_check_project_runs` ([`tests/lockstep/test_lockstep_layout_plan.py:221`](../../tests/lockstep/test_lockstep_layout_plan.py#L221))
 
 ## aes plans every tracked file
 
@@ -82,9 +98,9 @@ Implemented by:
 - `lockstep.check` — [`src/lockstep/check.py:1`](../../src/lockstep/check.py#L1)
 - `lockstep.symbol_gate` — [`src/lockstep/symbol_gate.py:1`](../../src/lockstep/symbol_gate.py#L1)
 
-- Scenario `the-commit-check-judges-an-implements-block-the-same-way`: tested by `tests/lockstep/test_lockstep_layout_plan.py::test_the_commit_check_allows_a_current_implements_block_and_blocks_a_stale_one` ([`tests/lockstep/test_lockstep_layout_plan.py:232`](../../tests/lockstep/test_lockstep_layout_plan.py#L232))
-- Scenario `an-undeclared-public-symbol-names-the-layout-exports`: tested by `tests/lockstep/test_lockstep_layout_plan.py::test_an_undeclared_public_function_points_to_the_layout_row` ([`tests/lockstep/test_lockstep_layout_plan.py:250`](../../tests/lockstep/test_lockstep_layout_plan.py#L250))
-- Scenario `a-refusal-points-to-lockstep-show-not-the-wiki`: tested by `tests/lockstep/test_lockstep_layout_plan.py::test_a_refusal_in_a_layout_repository_points_to_lockstep_show` ([`tests/lockstep/test_lockstep_layout_plan.py:297`](../../tests/lockstep/test_lockstep_layout_plan.py#L297))
+- Scenario `the-commit-check-judges-an-implements-block-the-same-way`: tested by `tests/lockstep/test_lockstep_layout_plan.py::test_the_commit_check_allows_a_current_implements_block_and_blocks_a_stale_one` ([`tests/lockstep/test_lockstep_layout_plan.py:251`](../../tests/lockstep/test_lockstep_layout_plan.py#L251))
+- Scenario `an-undeclared-public-symbol-names-the-layout-exports`: tested by `tests/lockstep/test_lockstep_layout_plan.py::test_an_undeclared_public_function_points_to_the_layout_row` ([`tests/lockstep/test_lockstep_layout_plan.py:269`](../../tests/lockstep/test_lockstep_layout_plan.py#L269))
+- Scenario `a-refusal-points-to-lockstep-show-not-the-wiki`: tested by `tests/lockstep/test_lockstep_layout_plan.py::test_a_refusal_in_a_layout_repository_points_to_lockstep_show` ([`tests/lockstep/test_lockstep_layout_plan.py:316`](../../tests/lockstep/test_lockstep_layout_plan.py#L316))
 
 ## generated wiki pages need no layout row
 
@@ -96,7 +112,8 @@ A file under `generated/wiki/` SHALL NOT be reported as unplanned in a layout re
 
 Implemented by:
 
-- `lockstep.unplanned_files.unplanned_reason` — [`src/lockstep/unplanned_files.py:111`](../../src/lockstep/unplanned_files.py#L111)
+- `lockstep.unplanned_files` — [`src/lockstep/unplanned_files.py:1`](../../src/lockstep/unplanned_files.py#L1)
+- `lockstep.unplanned_files.unplanned_reason` — [`src/lockstep/unplanned_files.py:123`](../../src/lockstep/unplanned_files.py#L123)
 
 - Scenario `a-generated-page-is-not-unplanned`: tested by `tests/lockstep/test_lockstep_layout_wiki.py::test_generated_page_is_not_unplanned` ([`tests/lockstep/test_lockstep_layout_wiki.py:178`](../../tests/lockstep/test_lockstep_layout_wiki.py#L178)), `tests/test_md_file_cap.py::test_generated_wiki_pages_are_not_counted_and_other_generated_names_stay_narrow` ([`tests/test_md_file_cap.py:485`](../../tests/test_md_file_cap.py#L485))
 
@@ -152,7 +169,7 @@ Status: **implemented and tested**
 Implemented by:
 
 - `lockstep.checks.project` — [`src/lockstep/checks/project.py:1`](../../src/lockstep/checks/project.py#L1)
-- `lockstep.checks.project.wiki_problems` — [`src/lockstep/checks/project.py:483`](../../src/lockstep/checks/project.py#L483)
+- `lockstep.checks.project.wiki_problems` — [`src/lockstep/checks/project.py:507`](../../src/lockstep/checks/project.py#L507)
 - `lockstep.layout_wiki` — [`src/lockstep/layout_wiki.py:1`](../../src/lockstep/layout_wiki.py#L1)
 
 - Scenario `a-stale-page-fails-the-check`: tested by `tests/lockstep/test_lockstep_layout_wiki.py::test_stale_page_fails_the_check_and_writes_nothing` ([`tests/lockstep/test_lockstep_layout_wiki.py:159`](../../tests/lockstep/test_lockstep_layout_wiki.py#L159)), `tests/lockstep/test_lockstep_layout_wiki.py::test_link_without_summary_is_reported` ([`tests/lockstep/test_lockstep_layout_wiki.py:168`](../../tests/lockstep/test_lockstep_layout_wiki.py#L168))
@@ -192,9 +209,9 @@ Implemented by:
 - `lockstep.unplanned_files` — [`src/lockstep/unplanned_files.py:1`](../../src/lockstep/unplanned_files.py#L1)
 
 - Scenario `the-layout-is-laid-out-with-first-docstrings`: tested by `tests/lockstep/test_lockstep_layout_plan.py::test_lockstep_layout_creates_each_file_with_its_requirement_criteria_and_tests` ([`tests/lockstep/test_lockstep_layout_plan.py:54`](../../tests/lockstep/test_lockstep_layout_plan.py#L54))
-- Scenario `an-unplanned-file-is-refused-against-the-layout`: tested by `tests/lockstep/test_lockstep_layout_plan.py::test_the_edit_hook_refuses_an_unplanned_file_and_names_the_layout` ([`tests/lockstep/test_lockstep_layout_plan.py:69`](../../tests/lockstep/test_lockstep_layout_plan.py#L69)), `tests/lockstep/test_lockstep_layout_plan.py::test_the_shell_guard_reads_the_layout_too` ([`tests/lockstep/test_lockstep_layout_plan.py:79`](../../tests/lockstep/test_lockstep_layout_plan.py#L79)), `tests/lockstep/test_lockstep_layout_plan.py::test_a_patch_is_refused_when_any_file_in_it_is_unplanned` ([`tests/lockstep/test_lockstep_layout_plan.py:307`](../../tests/lockstep/test_lockstep_layout_plan.py#L307)), `tests/lockstep/test_lockstep_layout_plan.py::test_a_rename_to_an_unplanned_name_is_refused` ([`tests/lockstep/test_lockstep_layout_plan.py:321`](../../tests/lockstep/test_lockstep_layout_plan.py#L321))
+- Scenario `an-unplanned-file-is-refused-against-the-layout`: tested by `tests/lockstep/test_lockstep_layout_plan.py::test_the_edit_hook_refuses_an_unplanned_file_and_names_the_layout` ([`tests/lockstep/test_lockstep_layout_plan.py:69`](../../tests/lockstep/test_lockstep_layout_plan.py#L69)), `tests/lockstep/test_lockstep_layout_plan.py::test_the_shell_guard_reads_the_layout_too` ([`tests/lockstep/test_lockstep_layout_plan.py:79`](../../tests/lockstep/test_lockstep_layout_plan.py#L79)), `tests/lockstep/test_lockstep_layout_plan.py::test_a_patch_is_refused_when_any_file_in_it_is_unplanned` ([`tests/lockstep/test_lockstep_layout_plan.py:326`](../../tests/lockstep/test_lockstep_layout_plan.py#L326)), `tests/lockstep/test_lockstep_layout_plan.py::test_a_rename_to_an_unplanned_name_is_refused` ([`tests/lockstep/test_lockstep_layout_plan.py:340`](../../tests/lockstep/test_lockstep_layout_plan.py#L340))
 - Scenario `a-planned-file-s-edit-hands-over-its-requirement`: tested by `tests/lockstep/test_lockstep_layout_plan.py::test_the_edit_hook_hands_over_the_openspec_requirement` ([`tests/lockstep/test_lockstep_layout_plan.py:91`](../../tests/lockstep/test_lockstep_layout_plan.py#L91))
 - Scenario `the-whole-tree-check-reads-the-layout`: tested by `tests/lockstep/test_lockstep_layout_plan.py::test_lockstep_check_allows_the_laid_out_tree_and_blocks_an_unplanned_file` ([`tests/lockstep/test_lockstep_layout_plan.py:103`](../../tests/lockstep/test_lockstep_layout_plan.py#L103))
 - Scenario `a-layout-row-must-name-real-requirements`: tested by `tests/lockstep/test_lockstep_layout_plan.py::test_a_row_naming_an_unknown_requirement_or_no_purpose_is_reported` ([`tests/lockstep/test_lockstep_layout_plan.py:114`](../../tests/lockstep/test_lockstep_layout_plan.py#L114))
 - Scenario `a-governed-entry-covers-what-it-names`: tested by `tests/lockstep/test_aes_plans_every_file.py::test_a_governed_entry_covers_what_it_names` ([`tests/lockstep/test_aes_plans_every_file.py:37`](../../tests/lockstep/test_aes_plans_every_file.py#L37))
-- Scenario `an-aes-plan-is-still-read`: tested by `tests/lockstep/test_lockstep_layout_plan.py::test_a_repository_with_an_aes_plan_is_read_as_before` ([`tests/lockstep/test_lockstep_layout_plan.py:126`](../../tests/lockstep/test_lockstep_layout_plan.py#L126))
+- Scenario `an-aes-plan-is-still-read`: tested by `tests/lockstep/test_lockstep_layout_plan.py::test_a_repository_with_an_aes_plan_is_read_as_before` ([`tests/lockstep/test_lockstep_layout_plan.py:145`](../../tests/lockstep/test_lockstep_layout_plan.py#L145))

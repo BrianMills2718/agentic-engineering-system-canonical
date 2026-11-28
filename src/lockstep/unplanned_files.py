@@ -10,7 +10,7 @@ fails on an undeclared one or a problem in the side file; it is part of `make ch
 [[[cog import lockstep.cogtext as c; c.docstring("src:lockstep:unplanned_files.py", indent=0)]]]
 Plan (generated from lockstep.yaml layout and OpenSpec; edit the spec or the layout row, not this text):
 
-Implements: lockstep-guard/a-refusal-lists-the-files-the-plan-allows, lockstep-plan-format/the-plan-is-openspec-plus-layout-rows
+Implements: lockstep-guard/a-refusal-lists-the-files-the-plan-allows, lockstep-plan-format/the-plan-is-openspec-plus-layout-rows, lockstep-plan-format/generated-wiki-pages-need-no-layout-row
 
 ### Requirement: A refusal lists the files the plan allows
 
@@ -76,6 +76,18 @@ Source: Brian, 2026-11-11, approving the one-tool design as written ("i approve 
 - **GIVEN** a repository with `.aes/target.yaml`
 - **WHEN** Lockstep reads its plan
 - **THEN** the planned files come from `.aes/target.yaml` exactly as before
+
+### Requirement: Generated wiki pages need no layout row
+
+A file under `generated/wiki/` SHALL NOT be reported as unplanned in a layout repository, and the Markdown file cap SHALL NOT count it.
+
+Source: Brian, 2026-11-17, "skip generated" (the cap); the layout-row exemption inferred by agent, since the pages change with the specs.
+
+#### Scenario: A generated page is not unplanned
+
+- **GIVEN** a layout repository governing `.` and a file `generated/wiki/index.md` with no layout row
+- **WHEN** the whole-tree rule judges it
+- **THEN** it is not reported as unplanned, and a file `generated/other.md` with no row still is
 [[[end]]] (sum: 9r1rl/pbTN)
 """
 

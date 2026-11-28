@@ -10,6 +10,10 @@ Requirement text (generated):
         and the requirement text from OpenSpec. A `governed:` entry ending in `/` covers every path
         under it, `.` covers the whole repository, and any other entry covers that one file or a
         folder of that name. A repository with `.aes/target.yaml` SHALL be read as before.
+    lockstep-plan-format/a-layout-row-lists-what-its-file-implements: Lockstep SHALL report, as a
+        layout problem, a layout row whose file names in an `Implements:` line a requirement that
+        the row's `implements` list leaves out, naming the row's path and each missing requirement
+        ID, so that the plan always names every requirement its code says it implements.
 
 This is the one plan format of the one-tool design (proposals/one-planning-tool/DESIGN.md, slice 2). A repository
 without `.aes/target.yaml` writes its plan as:
@@ -29,7 +33,7 @@ without `.aes/target.yaml` writes its plan as:
 [[[cog import lockstep.cogtext as c; c.docstring("src:lockstep:layout_plan.py", indent=0)]]]
 Plan (generated from lockstep.yaml layout and OpenSpec; edit the spec or the layout row, not this text):
 
-Implements: lockstep-plan-format/the-plan-is-openspec-plus-layout-rows
+Implements: lockstep-plan-format/the-plan-is-openspec-plus-layout-rows, lockstep-plan-format/a-layout-row-lists-what-its-file-implements
 
 ### Requirement: The plan is OpenSpec plus layout rows
 
@@ -83,6 +87,23 @@ Source: Brian, 2026-11-11, approving the one-tool design as written ("i approve 
 - **GIVEN** a repository with `.aes/target.yaml`
 - **WHEN** Lockstep reads its plan
 - **THEN** the planned files come from `.aes/target.yaml` exactly as before
+
+### Requirement: A layout row lists what its file implements
+
+Lockstep SHALL report, as a layout problem, a layout row whose file names in an `Implements:` line a requirement
+that the row's `implements` list leaves out, naming the row's path and each missing requirement ID, so that the plan
+always names every requirement its code says it implements.
+
+Source: Brian, 2026-11-27 18:50: "The plan row (5) is empty: implements: [], tests: []. Here the link runs only
+through the docstring and the test marker, not through the plan. So the plan file can't tell you which requirements
+this file is meant to cover." The check form (report the contradiction, not every empty row) is inferred by agent from
+the 2026-11-28 measurement: 0 contradictions in a fresh template copy, 37 files in AES.
+
+#### Scenario: A row that leaves out its file's requirement is reported
+
+- **GIVEN** a laid-out file whose docstring says `Implements: greeting/greet-by-name` and whose row has `implements: []`
+- **WHEN** the layout is checked, and `lockstep check` runs on the committed tree
+- **THEN** the problem names the row's path and `greeting/greet-by-name`, and the check blocks; with the ID restored, neither reports it
 
 Tested by: tests/lockstep/test_lockstep_layout_plan.py
 [[[end]]]

@@ -15,9 +15,9 @@ Status: **implemented and tested**
 Implemented by:
 
 - `lockstep.checks.project` — [`src/lockstep/checks/project.py:1`](../../src/lockstep/checks/project.py#L1)
-- `lockstep.checks.project.missing_copies` — [`src/lockstep/checks/project.py:321`](../../src/lockstep/checks/project.py#L321)
+- `lockstep.checks.project.missing_copies` — [`src/lockstep/checks/project.py:345`](../../src/lockstep/checks/project.py#L345)
 
-- Scenario `a-fixed-file-with-no-plan-copy-fails-the-check`: tested by `tests/lockstep/test_lockstep_layout_plan.py::test_a_fixed_file_with_no_plan_copy_fails_the_check` ([`tests/lockstep/test_lockstep_layout_plan.py:282`](../../tests/lockstep/test_lockstep_layout_plan.py#L282))
+- Scenario `a-fixed-file-with-no-plan-copy-fails-the-check`: tested by `tests/lockstep/test_lockstep_layout_plan.py::test_a_fixed_file_with_no_plan_copy_fails_the_check` ([`tests/lockstep/test_lockstep_layout_plan.py:301`](../../tests/lockstep/test_lockstep_layout_plan.py#L301))
 
 ## a plan closes requirement ids only when they pass
 
@@ -84,7 +84,7 @@ Implemented by:
 - Scenario `opening-quote-line-declarations-receive-canonical-text`: tested by `tests/lockstep/checks/test_lockstep_check_project.py::test_opening_quote_line_is_projected_without_losing_source` ([`tests/lockstep/checks/test_lockstep_check_project.py:13`](../../tests/lockstep/checks/test_lockstep_check_project.py#L13)), `tests/lockstep/checks/test_lockstep_check_project.py::test_inline_function_literal_keeps_unicode_prefix_and_following_statement` ([`tests/lockstep/checks/test_lockstep_check_project.py:36`](../../tests/lockstep/checks/test_lockstep_check_project.py#L36))
 - Scenario `projection-rewrites-the-block`: tested by `tests/lockstep/checks/test_lockstep_check_project.py::test_projection_writes_the_requirement_text_under_implements` ([`tests/lockstep/checks/test_lockstep_check_project.py:83`](../../tests/lockstep/checks/test_lockstep_check_project.py#L83)), `tests/lockstep/checks/test_lockstep_check_project.py::test_projection_rewrites_the_block` ([`tests/lockstep/checks/test_lockstep_check_project.py:102`](../../tests/lockstep/checks/test_lockstep_check_project.py#L102)), `tests/lockstep/checks/test_lockstep_check_project.py::test_module_docstring_and_long_text_wrap` ([`tests/lockstep/checks/test_lockstep_check_project.py:114`](../../tests/lockstep/checks/test_lockstep_check_project.py#L114)), `tests/lockstep/checks/test_lockstep_check_project.py::test_backslashes_are_escaped_in_a_plain_docstring` ([`tests/lockstep/checks/test_lockstep_check_project.py:200`](../../tests/lockstep/checks/test_lockstep_check_project.py#L200)), `tests/lockstep/checks/test_lockstep_check_project.py::test_backslashes_are_written_as_they_are_in_a_raw_docstring` ([`tests/lockstep/checks/test_lockstep_check_project.py:212`](../../tests/lockstep/checks/test_lockstep_check_project.py#L212))
 - Scenario `stale-requirement-text-fails-the-check`: tested by `tests/lockstep/checks/test_lockstep_check_project.py::test_stale_requirement_text_fails_the_check` ([`tests/lockstep/checks/test_lockstep_check_project.py:93`](../../tests/lockstep/checks/test_lockstep_check_project.py#L93)), `tests/lockstep/checks/test_lockstep_check_project.py::test_cli_check_exits_1_when_stale` ([`tests/lockstep/checks/test_lockstep_check_project.py:165`](../../tests/lockstep/checks/test_lockstep_check_project.py#L165))
-- Scenario `a-planned-file-s-plan-copy-follows-a-reworded-requirement`: tested by `tests/lockstep/test_lockstep_layout_plan.py::test_a_planned_file_s_plan_copy_follows_a_reworded_requirement` ([`tests/lockstep/test_lockstep_layout_plan.py:264`](../../tests/lockstep/test_lockstep_layout_plan.py#L264))
+- Scenario `a-planned-file-s-plan-copy-follows-a-reworded-requirement`: tested by `tests/lockstep/test_lockstep_layout_plan.py::test_a_planned_file_s_plan_copy_follows_a_reworded_requirement` ([`tests/lockstep/test_lockstep_layout_plan.py:283`](../../tests/lockstep/test_lockstep_layout_plan.py#L283))
 
 ## show prints what a file must keep true
 
