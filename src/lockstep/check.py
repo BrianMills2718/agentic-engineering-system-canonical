@@ -156,6 +156,7 @@ Source: Brian, 2026-11-11, approving the one-tool design as written ("i approve 
 from __future__ import annotations
 
 import argparse
+import importlib
 import json
 import re
 import subprocess
@@ -475,19 +476,26 @@ def main(argv: list[str] | None = None) -> int:
     return 1 if result["decision"] == "block" else 0
 
 
+_SUBCOMMANDS = {
+    "refresh": ("lockstep.doc_projection", "refresh_cli"),
+    "init": ("lockstep.init_repo", "init_cli"),
+    "plan": ("lockstep.plan_check", "plan_cli"),
+    "reads": ("lockstep.read_before_write", "main"),
+    "status": ("lockstep.checks.cli", "run_status"),
+    "show": ("lockstep.checks.cli", "run_show"),
+}
+
+
 def cli() -> int:
     """`lockstep <command>`: `init` (install Lockstep in a repository), `check` (the whole-tree plan check; `check <name>` runs one commit check), `layout`
     (create the planned files), `plan check` (run Company Planning's plan validator), `accept write|check` and `run-plan`
     (hidden acceptance tests and a departure report for one OpenSpec plan), `check prior-art` (the prior-art record
     check `ship` runs), `status` (each
-    requirement's code, tests and result) or `show FILE` (what a file must keep true)."""
+    requirement's code, tests and result), `reads TRANSCRIPT` (each write in a session with what was read first) or `show FILE` (what a file must keep true)."""
     args = sys.argv[1:]
-    if args and args[0] == "refresh":
-        from lockstep.doc_projection import refresh_cli
-        return refresh_cli(args[1:])
-    if args and args[0] == "init":
-        from lockstep.init_repo import init_cli
-        return init_cli(args[1:])
+    if args and args[0] in _SUBCOMMANDS:  # commands that take the rest of the arguments as they are
+        module, name = _SUBCOMMANDS[args[0]]
+        return int(getattr(importlib.import_module(module), name)(args[1:]))
     if args and args[0] == "layout":
         from lockstep.scaffold import layout
         return layout()
@@ -500,15 +508,6 @@ def cli() -> int:
     if args[:2] == ["check", "prior-art"]:
         from lockstep.prior_art import main as prior_art_main
         return prior_art_main(args[2:])
-    if args and args[0] == "plan":
-        from lockstep.plan_check import plan_cli
-        return plan_cli(args[1:])
-    if args and args[0] == "status":
-        from lockstep.checks.cli import run_status
-        return run_status(args[1:])
-    if args and args[0] == "show":
-        from lockstep.checks.cli import run_show
-        return run_show(args[1:])
     if not args or args[0] != "check":
         print("usage: pcw check --repo PATH [--base REF] [--json]", file=sys.stderr)
         return 2
