@@ -11,7 +11,7 @@ the template does not ship, and guesses a document's kind from its folder name.
 ## What Changes
 
 - `lockstep.yaml` may declare `document_homes:`: each home (a folder, or one file) with what belongs there.
-- When it does, `lockstep check project` reports every tracked Markdown file outside all homes (instruction files,
+- When it does, the whole-tree `lockstep check` (run by `make check`) reports every tracked Markdown file outside all homes (instruction files,
   hidden folders and `tests/` excepted), naming the file and the homes.
 - The edit hook warns when an agent writes such a file, and names the homes.
 - A fresh copy declares its homes and ships `research/README.md`; its AGENTS.md lists them.

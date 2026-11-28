@@ -11,7 +11,7 @@ planning:
 # `lockstep check project` writes generated/wiki/ (one page per capability: requirements, implementing code, tests) and
 # `--check` fails when it is stale.
 generated_wiki: true
-# Each kind of document has one home (wiki_methodology concern roots). `lockstep check project` reports a Markdown file
+# Each kind of document has one home (wiki_methodology concern roots). `lockstep check` (the whole-tree check `make check` runs) reports a Markdown file
 # outside every home, and the edit hook names the homes when an agent writes one elsewhere. README.md, AGENTS.md,
 # CLAUDE.md, hidden folders and tests/ are not documents for this rule.
 document_homes:

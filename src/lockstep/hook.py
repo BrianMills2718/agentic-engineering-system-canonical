@@ -40,7 +40,7 @@ Implements: lockstep-guard/the-edit-hook-names-the-home-of-a-misplaced-document,
 ### Requirement: The edit hook names the home of a misplaced document
 
 When `lockstep.yaml` declares `document_homes:` and an agent writes a Markdown file that sits under no home (the
-same rule as the layout check), the edit hook SHALL let the write through with a warning that names each home and
+same rule as the layout check, for a file no layout row names and git does not ignore), the edit hook SHALL let the write through with a warning that names each home and
 what belongs there, and log `would_block`, unless the guard mode is `block`, where it SHALL refuse the write.
 
 Source: Brian, 2026-11-27 19:05: "research goes in one place. generated files go in another". Warn rather than
@@ -603,13 +603,8 @@ def decide(call: dict) -> dict | None:
         hand = _plan_edit(call, root, rel, path)
         if hand:
             return _refuse_or_warn(root, [rel], {"file": rel, "why": "plan_edit"}, hand)
-        misplaced = _misplaced_document(root, rel)
-        if misplaced:
-            return _refuse_or_warn(root, [rel], {"file": rel, "why": "document_home"}, misplaced)
-        unplanned = unplanned_reason(root, rel)
-        if unplanned:
-            return _refuse_or_warn(root, [rel], {"file": rel, "why": "unplanned"}, _with_allowed(root, rel, unplanned),
-                                   spec_text or None)
+        if answer := _out_of_place(root, rel, spec_text, governed):
+            return answer
         art = artifact_for_path(root, rel)
         if art is None:
             if not spec_ids and not governing:
@@ -642,11 +637,16 @@ def decide(call: dict) -> dict | None:
     return _out("allow", None, "\n\n".join(x for x in allowed if x)) if allowed else None
 
 
-def _misplaced_document(root: Path, rel: str) -> str | None:
-    """A Markdown file written outside every `document_homes:` entry: why, with each home (layout plans only)."""
-    from lockstep.layout_plan import has_layout, misplaced_document
-
-    return misplaced_document(root, rel) if has_layout(root) else None
+def _out_of_place(root: Path, rel: str, spec_text: str, governed: str) -> dict | None:
+    """The answer for a file the plan does not declare, or a document outside every home (warn or refuse); else None."""
+    from lockstep.layout_plan import misplaced_document
+    if unplanned := unplanned_reason(root, rel):
+        return _refuse_or_warn(root, [rel], {"file": rel, "why": "unplanned"}, _with_allowed(root, rel, unplanned),
+                               spec_text or None)
+    home = misplaced_document(root, rel) if has_layout(root) and artifact_for_path(root, rel) is None else None
+    text = "\n\n".join(x for x in (spec_text, governed) if x) or None
+    return _refuse_or_warn(root, [rel], {"file": rel, "why": "document_home"}, home, text) if home and not _ignored(
+        root, rel) else None
 
 
 def _plan_edit(call: dict, root: Path, rel: str, path: Path) -> str | None:

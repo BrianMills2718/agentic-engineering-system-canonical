@@ -244,8 +244,9 @@ the 2026-11-28 measurement: 0 contradictions in a fresh template copy, 37 files 
 
 When `lockstep.yaml` declares `document_homes:` (a mapping from a folder ending in `/`, or a file path, to what
 belongs there), Lockstep SHALL report, as a layout problem, every tracked Markdown file that sits under no declared
-home, naming the file and listing the homes. `README.md`, `AGENTS.md` and `CLAUDE.md` anywhere, files under a hidden
-folder and files under `tests/` are not documents for this rule. A `lockstep.yaml` without `document_homes:` is not
+home, naming the file and listing the homes. `README.md`, `AGENTS.md` and `CLAUDE.md` anywhere (any letter case), files under a
+hidden folder or a `tests/` folder, and a file a layout row names are not reported. A home written without its
+trailing `/` that names a folder holds that folder. A `lockstep.yaml` without `document_homes:` is not
 checked.
 
 Source: Brian, 2026-11-27 19:05: "like research goes in one place. generated files go in another". The closed list

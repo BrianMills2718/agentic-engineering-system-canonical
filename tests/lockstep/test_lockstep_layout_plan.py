@@ -380,6 +380,23 @@ def test_a_note_outside_every_home_is_reported(lay):
     assert "research/" in found[0] and "docs/architecture/" in found[0]
     sh("mkdir -p research && git mv docs/notes.md research/notes.md && git commit -q -m move", lay)
     assert _home_problems(lay) == []
+    # not documents for the rule: a nested tests/ folder, a lower-case readme, a file the plan declares
+    for rel in ("src/greeter/tests/case.md", "docs/readme.md", "docs/planned.md"):
+        (lay / rel).parent.mkdir(parents=True, exist_ok=True)
+        (lay / rel).write_text("# x\n")
+    side = lay / "lockstep.yaml"
+    side.write_text(side.read_text().replace("layout:\n", "layout:\n  - path: docs/planned.md\n    purpose: a planned page\n", 1))
+    _commit_all(lay)
+    assert _home_problems(lay) == []
+
+
+def test_a_home_written_without_its_slash_still_holds_its_folder(lay):
+    side = lay / "lockstep.yaml"
+    side.write_text(side.read_text() + 'document_homes:\n  research: "Research"\n  openspec/: "Requirements"\n')
+    (lay / "research").mkdir()
+    (lay / "research/a.md").write_text("# a\n")
+    _commit_all(lay)
+    assert _home_problems(lay) == []
 
 
 def _warn_hook(call: dict, monkeypatch, capsys) -> dict:
@@ -403,4 +420,12 @@ def test_writing_a_note_outside_every_home_is_warned_about(lay, monkeypatch, cap
     text = out.get("additionalContext", "")
     assert "research/" in text and "Research: sources, investigations and synthesis" in text
     inside = _warn_hook(write("research/notes.md"), monkeypatch, capsys)
-    assert "document home" not in inside.get("additionalContext", "")
+    assert "outside every document home" not in inside.get("additionalContext", "")
+    (lay / ".gitignore").write_text((lay / ".gitignore").read_text() + "site/\n")
+    assert "outside every document home" not in _warn_hook(write("site/page.md"), monkeypatch, capsys).get(
+        "additionalContext", "")                                  # build output git ignores is not a document
+    refused = _hook(write("notes.md"), monkeypatch, capsys)      # block mode
+    assert refused["permissionDecision"] == "deny" and "research/" in refused["permissionDecisionReason"]
+    records = [json.loads(line) for f in hook.log_dir(lay).glob("hook-*.jsonl") for line in f.read_text().splitlines()]
+    mine = [r.get("decision") for r in records if r.get("why") == "document_home" and r.get("file") == "notes.md"]
+    assert "would_block" in mine and "deny" in mine

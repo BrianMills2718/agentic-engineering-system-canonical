@@ -161,13 +161,13 @@ ID: `lockstep-guard/the-edit-hook-names-the-home-of-a-misplaced-document`
 
 Status: **implemented and tested**
 
-When `lockstep.yaml` declares `document_homes:` and an agent writes a Markdown file that sits under no home (the same rule as the layout check), the edit hook SHALL let the write through with a warning that names each home and what belongs there, and log `would_block`, unless the guard mode is `block`, where it SHALL refuse the write.
+When `lockstep.yaml` declares `document_homes:` and an agent writes a Markdown file that sits under no home (the same rule as the layout check, for a file no layout row names and git does not ignore), the edit hook SHALL let the write through with a warning that names each home and what belongs there, and log `would_block`, unless the guard mode is `block`, where it SHALL refuse the write.
 
 Implemented by:
 
 - `lockstep.hook` — [`src/lockstep/hook.py:1`](../../src/lockstep/hook.py#L1)
 
-- Scenario `writing-a-note-outside-every-home-is-warned-about`: tested by `tests/lockstep/test_lockstep_layout_plan.py::test_writing_a_note_outside_every_home_is_warned_about` ([`tests/lockstep/test_lockstep_layout_plan.py:395`](../../tests/lockstep/test_lockstep_layout_plan.py#L395))
+- Scenario `writing-a-note-outside-every-home-is-warned-about`: tested by `tests/lockstep/test_lockstep_layout_plan.py::test_writing_a_note_outside_every_home_is_warned_about` ([`tests/lockstep/test_lockstep_layout_plan.py:412`](../../tests/lockstep/test_lockstep_layout_plan.py#L412))
 
 ## the replay has a plan code and wiki view
 

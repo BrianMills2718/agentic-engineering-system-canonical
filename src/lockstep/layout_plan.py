@@ -19,8 +19,10 @@ Requirement text (generated):
         `document_homes:` (a mapping from a folder ending in `/`, or a file path, to what belongs
         there), Lockstep SHALL report, as a layout problem, every tracked Markdown file that sits
         under no declared home, naming the file and listing the homes. `README.md`, `AGENTS.md` and
-        `CLAUDE.md` anywhere, files under a hidden folder and files under `tests/` are not documents
-        for this rule. A `lockstep.yaml` without `document_homes:` is not checked.
+        `CLAUDE.md` anywhere (any letter case), files under a hidden folder or a `tests/` folder,
+        and a file a layout row names are not reported. A home written without its trailing `/` that
+        names a folder holds that folder. A `lockstep.yaml` without `document_homes:` is not
+        checked.
 
 This is the one plan format of the one-tool design (proposals/one-planning-tool/DESIGN.md, slice 2). A repository
 without `.aes/target.yaml` writes its plan as:
@@ -46,8 +48,9 @@ Implements: lockstep-plan-format/a-document-outside-its-home-is-reported, lockst
 
 When `lockstep.yaml` declares `document_homes:` (a mapping from a folder ending in `/`, or a file path, to what
 belongs there), Lockstep SHALL report, as a layout problem, every tracked Markdown file that sits under no declared
-home, naming the file and listing the homes. `README.md`, `AGENTS.md` and `CLAUDE.md` anywhere, files under a hidden
-folder and files under `tests/` are not documents for this rule. A `lockstep.yaml` without `document_homes:` is not
+home, naming the file and listing the homes. `README.md`, `AGENTS.md` and `CLAUDE.md` anywhere (any letter case), files under a
+hidden folder or a `tests/` folder, and a file a layout row names are not reported. A home written without its
+trailing `/` that names a folder holds that folder. A `lockstep.yaml` without `document_homes:` is not
 checked.
 
 Source: Brian, 2026-11-27 19:05: "like research goes in one place. generated files go in another". The closed list
@@ -239,24 +242,34 @@ def _rows_missing_their_code(root: Path, raw: list) -> list[str]:
     return problems
 
 
-NOT_DOCUMENTS = ("README.md", "AGENTS.md", "CLAUDE.md")  # instruction and front files live where their tools look
+NOT_DOCUMENTS = ("README.MD", "AGENTS.MD", "CLAUDE.MD")  # instruction and front files live where their tools look
 
 
 def document_homes(root: Path) -> dict[str, str]:
     """`document_homes:` from lockstep.yaml: each home (a folder ending in `/`, or a file) and what belongs there."""
     raw = _data(root).get("document_homes")
-    return {str(k): str(v or "").strip() for k, v in raw.items()} if isinstance(raw, dict) else {}
+    if not isinstance(raw, dict):
+        return {}
+    homes = {}
+    for key, what in raw.items():
+        home = str(key).strip().removeprefix("./").lstrip("/")
+        if home and not home.endswith("/") and (root / home).is_dir():
+            home += "/"  # a folder written without its trailing slash still holds its files
+        homes[home] = str(what or "").strip()
+    return homes
 
 
 def misplaced_document(root: Path, rel: str) -> str | None:
     """Why the Markdown file `rel` sits under no declared document home, or None (also None with no homes)."""
     homes = document_homes(root)
     parts = rel.split("/")
-    if (not homes or not rel.lower().endswith(".md") or parts[-1] in NOT_DOCUMENTS or parts[0] == "tests"
+    if (not homes or not rel.lower().endswith(".md") or parts[-1].upper() in NOT_DOCUMENTS or "tests" in parts[:-1]
             or any(part.startswith(".") for part in parts[:-1])):
         return None
     if any(rel == home or (home.endswith("/") and rel.startswith(home)) for home in homes):
         return None
+    if any(isinstance(row, dict) and str(row.get("path") or "").strip() == rel for row in _data(root).get("layout") or []):
+        return None  # a file the plan declares is in its place
     listed = "\n".join(f"- `{home}`: {what}" if what else f"- `{home}`" for home, what in homes.items())
     return (f"{rel} sits outside every document home declared in {SIDE_FILE} `document_homes:`. "
             f"Each kind of document has one home; move it to the one that fits, or declare a new home:\n{listed}")
@@ -268,7 +281,11 @@ def misplaced_documents(root: Path) -> list[str]:
         return []
     import subprocess
 
-    listed = subprocess.run(["git", "-C", str(root), "ls-files", "-z", "--", "*.md"], capture_output=True, text=True)
+    listed = subprocess.run(["git", "-C", str(root), "ls-files", "-z", "--", "*.md", "*.MD"], capture_output=True,
+                            text=True)
+    if listed.returncode != 0:
+        return [f"{SIDE_FILE} declares document_homes, but `git ls-files` failed in {root}, so no document was checked: "
+                + listed.stderr.strip()[:200]]
     return [reason for rel in listed.stdout.split("\0") if rel and (reason := misplaced_document(root, rel))]
 
 
