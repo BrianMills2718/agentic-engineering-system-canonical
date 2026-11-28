@@ -481,13 +481,14 @@ _SUBCOMMANDS = {
     "init": ("lockstep.init_repo", "init_cli"),
     "plan": ("lockstep.plan_check", "plan_cli"),
     "reads": ("lockstep.read_before_write", "main"),
+    "replay": ("lockstep.replay", "main"),
     "status": ("lockstep.checks.cli", "run_status"),
     "show": ("lockstep.checks.cli", "run_show"),
 }
 
 
 def cli() -> int:
-    """`lockstep <command>`: `init` (install Lockstep in a repository), `check` (the whole-tree plan check; `check <name>` runs one commit check), `layout`
+    """`lockstep <command>`: `init` (install Lockstep in a repository), `replay` (step through a session on a local page), `check` (the whole-tree plan check; `check <name>` runs one commit check), `layout`
     (create the planned files), `plan check` (run Company Planning's plan validator), `accept write|check` and `run-plan`
     (hidden acceptance tests and a departure report for one OpenSpec plan), `check prior-art` (the prior-art record
     check `ship` runs), `status` (each

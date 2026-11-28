@@ -10,7 +10,7 @@
 :root {
   --bg: #0f1218; --panel: #161b24; --panel2: #1c2230; --line: #2a3242; --text: #d7dce5; --dim: #8a94a6;
   --read: #4c9bff; --read-bg: rgba(76,155,255,.14); --write: #ff9f43; --write-bg: rgba(255,159,67,.16);
-  --grey: #7d8799; --note: #c9b8ff;
+  --grey: #7d8799; --note: #c9b8ff; --hand: #c9b8ff;
 }
 * { box-sizing: border-box; }
 html, body { margin: 0; height: 100%; background: var(--bg); color: var(--text);
@@ -41,8 +41,10 @@ aside section { display: flex; flex-direction: column; min-height: 0; border-bot
 .ev.cur { background: #263049; border-left-color: var(--note); }
 .ev .k { font-weight: 600; } .ev .p { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--dim); }
 .ev .tm { color: var(--dim); text-align: right; font-variant-numeric: tabular-nums; }
+.k.read, .k.req { color: var(--read); } .k.hand, .k.hook { color: var(--hand); } .k.req { text-decoration: underline; }
+.warn { color: var(--write); font-weight: 600; }
 .k.read { color: var(--read); } .k.write { color: var(--write); } .k.cmd { color: var(--grey); } .k.note { color: var(--note); }
-main { display: grid; grid-template-rows: auto minmax(0, 1fr) auto; min-height: 0; min-width: 0; padding: 10px; gap: 10px; }
+main { display: grid; grid-template-rows: auto minmax(0, 1fr) auto auto; min-height: 0; min-width: 0; padding: 10px; gap: 10px; }
 .at { display: flex; gap: 10px; align-items: center; color: var(--dim); }
 .at b { color: var(--text); }
 .panes { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 10px; min-height: 0; }
@@ -60,6 +62,10 @@ pre.code .ln.add { background: var(--write-bg); box-shadow: inset 3px 0 var(--wr
 .thinking { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 8px 12px; max-height: 120px; overflow: auto; }
 .thinking .lbl { color: var(--note); font-weight: 600; margin-right: 8px; }
 .thinking .sub { color: var(--dim); margin-top: 3px; }
+.thinking.hand { max-height: 140px; white-space: pre-wrap; }
+.thinking.hand .lbl { color: var(--hand); }
+.marksline { padding: 5px 12px; border-bottom: 1px solid var(--line); color: var(--dim); overflow-wrap: anywhere; }
+.marksline:empty { display: none; }
 footer { grid-column: 1 / 3; border-top: 1px solid var(--line); background: var(--panel); padding: 8px 14px; }
 .tlrow { display: flex; align-items: center; gap: 10px; }
 .track { position: relative; flex: 1; height: 34px; }
@@ -78,7 +84,8 @@ footer { grid-column: 1 / 3; border-top: 1px solid var(--line); background: var(
 <div class="app">
   <header>
     <h1>Session Replay</h1>
-    <select id="build" title="Which build to show"></select>
+    <select id="build" title="Which session file to show (main, or a subagent)"></select>
+    <span id="summary" class="pill" title="From lockstep reads: each write, and whether the file or its requirement page was read first"></span>
     <span class="grow"></span>
     <span id="status" class="pill">loading</span>
   </header>
@@ -95,9 +102,11 @@ footer { grid-column: 1 / 3; border-top: 1px solid var(--line); background: var(
       <div class="pane"><div class="ph"><span class="tag read">Reading</span><span id="rname" class="fname"></span><span id="rmeta" class="meta"></span></div>
         <pre id="rcode" class="code"></pre></div>
       <div class="pane"><div class="ph"><span class="tag write">Writing</span><span id="wname" class="fname"></span><span id="wmeta" class="meta"></span></div>
+        <div id="wmarks" class="marksline"></div>
         <pre id="wcode" class="code"></pre></div>
     </div>
     <div class="thinking"><span class="lbl">Thinking</span><span id="note"></span><div id="notesub" class="sub"></div></div>
+    <div class="thinking hand"><span class="lbl">Hand-over</span><span id="handsub" class="sub"></span><div id="hand"></div></div>
   </main>
   <footer>
     <div class="tlrow">
@@ -107,7 +116,8 @@ footer { grid-column: 1 / 3; border-top: 1px solid var(--line); background: var(
       <label><input id="follow" type="checkbox" checked> Follow latest</label>
     </div>
     <div class="legend"><span><i style="background:var(--read)"></i>read</span><span><i style="background:var(--write)"></i>write / file change</span>
-      <span><i style="background:var(--grey)"></i>command</span><span><i style="background:var(--note)"></i>note</span><span id="span"></span></div>
+      <span><i style="background:var(--grey)"></i>command</span><span><i style="background:var(--note)"></i>note / hand-over (requirement text the edit hook gave the agent)</span>
+      <span>underlined blue: requirement page or spec read</span><span id="span"></span></div>
   </footer>
 </div>
 <script>
@@ -118,21 +128,29 @@ const READ_TOOLS = new Set(["Read", "Grep", "Glob", "NotebookRead"]), WRITE_TOOL
 const RECENT = 300; // seconds: a file read or written this recently gets a dot
 
 function kindOf(e) {
+  if (e.kind === "handover") return "hand";
+  if (e.kind === "hook") return "hook";
+  if (e.requirement_read) return "req";
   if (e.kind === "note") return "note";
   if (e.kind === "end") return "note";
   if (READ_TOOLS.has(e.tool)) return "read";
   if (WRITE_TOOLS.has(e.tool)) return "write";
   return "cmd";
 }
-const label = e => e.kind === "note" ? "Note" : e.kind === "end" ? "End" :
-  ({ Read: "Read", Write: "Wrote", Edit: "Edited", Bash: "Ran", Grep: "Searched", Glob: "Listed" }[e.tool] || e.tool);
+const label = e => e.kind === "note" ? "Note" : e.kind === "end" ? "End" : e.kind === "handover" ? "Hand-over" : e.kind === "hook" ? "Hook" :
+  (e.requirement_read ? "Req read" : ({ Read: "Read", Write: "Wrote", Edit: "Edited", Bash: "Ran", Grep: "Searched", Glob: "Listed", Delete: "Deleted" }[e.tool] || e.tool));
+const unread = e => (e.marks || []).some(m => m.unread);
+function markText(ms) {               // the lockstep reads marks of one write, in words
+  return ms.map(m => `${m.file}: ` + [m.new ? "new file" : m.file_read_first ? "file read first" : "file not read first",
+    m.context_read_first ? "requirement page read first" : "requirement page not read", m.handover ? "hand-over given" : "no hand-over"].join(", ")).join(" | ");
+}
 const clock = t => new Date(t * 1000).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit" });
 const mmss = s => { s = Math.max(0, Math.round(s)); const h = Math.floor(s / 3600), m = Math.floor(s % 3600 / 60), x = s % 60;
   return (h ? h + ":" + String(m).padStart(2, "0") : m) + ":" + String(x).padStart(2, "0"); };
 const esc = s => s.replace(/[&<>]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" }[c]));
 
 async function loadBuilds() {
-  const names = await (await fetch("/api/builds")).json();
+  const names = await (await fetch("/api/sessions")).json();
   const cur = $("build").value;
   $("build").innerHTML = names.map(n => `<option>${n}</option>`).join("");
   $("build").value = cur && names.includes(cur) ? cur : names[names.length - 1];
@@ -140,10 +158,9 @@ async function loadBuilds() {
 async function load() {
   try {
     const b = $("build").value; if (!b) return;
-    const d = await (await fetch("/api/data?build=" + encodeURIComponent(b))).json();
-    if (d.build !== $("build").value) return;
+    const d = await (await fetch("/api/data?session=" + encodeURIComponent(b))).json();
+    if (d.session !== $("build").value) return;
     d.events.sort((a, b) => a.t - b.t); d.changes.sort((a, b) => a.t - b.t);
-    d.changes = d.changes.filter(c => c.path.startsWith("repo/"));  // benchmark logs beside repo/ are not the agent's files
     D = d;
     const ts = [...d.events.map(e => e.t), ...d.changes.filter(c => c.op !== "initial").map(c => c.t)];
     t0 = ts.length ? Math.min(...ts) : 0; t1 = ts.length ? Math.max(...ts) : 1;
@@ -213,21 +230,23 @@ async function render() {
   $("slider").value = t1 > t0 ? Math.round((t - t0) / (t1 - t0) * 1000) : 1000;
   $("atclock").textContent = clock(t);
   $("atrel").textContent = follow ? "(latest)" : `(${mmss(t1 - t)} before latest)`;
-  $("span").textContent = `${D.events.length} events · ${mmss(t1 - t0)} total · build ${b}`;
+  $("span").textContent = `${D.events.length} events · ${mmss(t1 - t0)} total · session ${b}`;
+  const rows = D.events.flatMap(e => e.marks || []), seen = new Set(), uniq = rows.filter(m => { const k = m.call + m.file; return seen.has(k) ? false : seen.add(k); });
+  $("summary").textContent = `writes ${uniq.length} · not read first ${uniq.filter(m => m.unread).length} · hand-overs ${D.events.filter(e => e.kind === "handover").length} · requirement reads ${D.events.filter(e => e.requirement_read).length}`;
   drawMarks();
   // events list (newest first), current = last event at or before t
   const cur = lastBefore(() => true, t);
   $("ecount").textContent = D.events.length;
   const evs = D.events.slice(-400).reverse();
   $("events").innerHTML = evs.map(e => {
-    const k = kindOf(e), what = e.kind === "note" ? e.text : e.kind === "end" ? e.text : (e.path || e.description || e.command);
+    const k = kindOf(e), what = (e.kind === "note" || e.kind === "end" || e.kind === "handover" || e.kind === "hook") ? e.text : (e.path || e.description || e.command);
     return `<div class="ev${e === cur ? " cur" : ""}${e.t > t ? "\" style=\"opacity:.35" : ""}" data-t="${e.t}"><span class="k ${k}">${label(e)}</span>` +
-      `<span class="p" title="${esc(String(what)).replace(/"/g, "&quot;")}">${esc(String(what).split("\n")[0])}</span><span class="tm">${mmss(e.t - t0)}</span></div>`;
+      `<span class="p" title="${esc(String(what)).replace(/"/g, "&quot;")}">${unread(e) ? '<span class="warn">not read first </span>' : ""}${esc(String(what).split("\n")[0])}</span><span class="tm">${mmss(e.t - t0)}</span></div>`;
   }).join("");
   const curEl = $("events").querySelector(".cur"); if (curEl && !follow) curEl.scrollIntoView({ block: "nearest" });
   // tree with read/write dots
   const reads = new Map(), writes = new Map();
-  for (const e of D.events) { if (e.t > t) break; if (e.path) (kindOf(e) === "read" ? reads : kindOf(e) === "write" ? writes : new Map()).set(e.path, e.t); }
+  for (const e of D.events) { if (e.t > t) break; if (e.path) ((kindOf(e) === "read" || kindOf(e) === "req") ? reads : kindOf(e) === "write" ? writes : new Map()).set(e.path, e.t); }
   for (const c of D.changes) { if (c.t > t) break; if (c.op !== "initial") writes.set(c.path, c.t); }
   const paths = new Set(st.keys()); for (const p of writes.keys()) if (p) paths.add(p); for (const p of reads.keys()) if (p && !p.startsWith("/")) paths.add(p);
   renderTree([...paths].sort(), reads, writes, t);
@@ -255,11 +274,17 @@ async function render() {
     } else {                       // no recorder copy: fall back to the Write/Edit call
       const w = lastBefore(e => e.path === wpath && WRITE_TOOLS.has(e.tool), t);
       if (!w) { $("wmeta").textContent = ""; $("wcode").innerHTML = '<div class="empty">No recorded version at this time.</div>'; }
-      else { const text = w.tool === "Write" ? w.content : w.new;
+      else { const text = w.tool === "Write" ? (w.content || w.new) : w.new;
         $("wmeta").textContent = `${w.tool === "Write" ? "written" : "edited (new text only)"} ${clock(w.t)}`;
         showCode($("wcode"), text, wpath, new Set(text.split("\n").map((_, i) => i))); }
     }
   }
+  // marks of the write shown, and the hand-over that came with it (else the latest one)
+  const wev = wpath ? lastBefore(e => e.kind === "tool" && e.path === wpath && (e.marks || []).length, t) : null;
+  $("wmarks").innerHTML = wev ? `<span class="${unread(wev) ? "warn" : ""}">Read before this write: ${esc(markText(wev.marks.filter(m => m.file === wpath)))}</span>` : "";
+  const h = (wev && lastBefore(e => e.kind === "handover" && e.call && e.call === wev.call, t)) || lastBefore(e => e.kind === "handover", t);
+  $("hand").textContent = h ? h.text : "(no hand-over yet: the edit hook gives requirement text when the agent edits a file that implements one)";
+  $("handsub").textContent = h ? `at ${clock(h.t)}` + (wev && h.call === wev.call ? ", with this write" : "") : "";
   // thinking
   const n = lastBefore(e => e.kind === "note" || e.kind === "end", t);
   $("note").textContent = n ? (n.kind === "end" ? n.text + ": " + n.final : n.text) : "(no note yet)";
@@ -295,9 +320,11 @@ function drawMarks() {
   const c = $("marks"), w = c.clientWidth, h = c.clientHeight; c.width = w * devicePixelRatio; c.height = h * devicePixelRatio;
   const g = c.getContext("2d"); g.scale(devicePixelRatio, devicePixelRatio); g.clearRect(0, 0, w, h);
   const css = getComputedStyle(document.documentElement), col = { read: css.getPropertyValue("--read"), write: css.getPropertyValue("--write"),
-    cmd: css.getPropertyValue("--grey"), note: css.getPropertyValue("--note") };
+    cmd: css.getPropertyValue("--grey"), note: css.getPropertyValue("--note"), hand: css.getPropertyValue("--hand"),
+    hook: css.getPropertyValue("--grey"), req: css.getPropertyValue("--read") };
   const x = t => t1 > t0 ? (t - t0) / (t1 - t0) * (w - 16) + 8 : w - 8;
-  for (const e of D.events) { g.fillStyle = col[kindOf(e)]; g.fillRect(x(e.t), kindOf(e) === "note" ? 2 : 4, 2, 7); }
+  for (const e of D.events) { g.fillStyle = col[kindOf(e)]; g.fillRect(x(e.t), kindOf(e) === "note" ? 2 : 4, 2, kindOf(e) === "hand" ? 14 : 7); }
+  g.fillStyle = col.write; for (const e of D.events) if (unread(e)) g.fillRect(x(e.t) - 2, 18, 6, 5);
   g.fillStyle = col.write; for (const ch of D.changes) if (ch.op !== "initial") g.fillRect(x(ch.t), 26, 2, 6);
 }
 

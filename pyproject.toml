@@ -59,9 +59,9 @@ lockstep = "lockstep.checks.plugin"
 [tool.setuptools.packages.find]
 where = ["src"]
 
-# The prior-art record schema ships beside lockstep/prior_art.py.
+# The prior-art record schema ships beside lockstep/prior_art.py; the replay page beside lockstep/replay.py.
 [tool.setuptools.package-data]
-lockstep = ["*.json", "checks/prompts/helper_reuse/*.yaml"]
+lockstep = ["*.json", "*.html", "checks/prompts/helper_reuse/*.yaml"]
 
 [tool.setuptools_scm]
 # No tags yet: every commit builds as 0.1.devN+g<sha>, so a git-pinned consumer

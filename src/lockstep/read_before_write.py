@@ -321,9 +321,10 @@ class _Walk:
         self.handed: dict[str, set[str]] = {}  # Claude tool call -> files the edit hook gave requirement text for
         self.codex_handed: set[str] = set()  # Codex: hook text arrives as a developer message just before its call ends
 
-    def add(self, events: list[dict], at: float | None, handed: set[str]) -> None:
+    def add(self, events: list[dict], at: float | None, handed: set[str], call: str = "") -> None:
+        """Keep one call's events; `call` is its id (Claude tool_use id, Codex item id), which lockstep replay joins on."""
         for ev in events:
-            self.out.append({**ev, "at": at, "handed": handed if ev["kind"] == "write" else set()})
+            self.out.append({**ev, "at": at, "handed": handed if ev["kind"] == "write" else set(), "call": call})
 
     def record(self, r: object) -> None:
         if not isinstance(r, dict):
@@ -355,24 +356,26 @@ class _Walk:
             uid = str(b.get("tool_use_id"))
             name, inp, here, at = self.pending.pop(uid, ("", {}, self.cwd, None))
             # `at` is when the call was made: a commit inside the same call comes after the write
-            self.add(_claude_result(name, inp, b, here), at, self.handed.pop(uid, set()))
+            self.add(_claude_result(name, inp, b, here), at, self.handed.pop(uid, set()), uid)
 
     def codex(self, r: dict, payload: dict) -> None:
         t = r.get("type")
         if t == "item.completed":  # codex exec --json: no times and no hook text in this stream
             it = _dict(r.get("item"))
+            call = str(it.get("id", ""))
             if it.get("type") == "command_execution":
-                self.add(_shell_events(str(it.get("command", "")), self.cwd), None, set())
+                self.add(_shell_events(str(it.get("command", "")), self.cwd), None, set(), call)
             elif it.get("type") == "file_change":
-                self.add(_codex_changes(it.get("changes"), self.cwd), None, set())
+                self.add(_codex_changes(it.get("changes"), self.cwd), None, set(), call)
         elif t == "event_msg" and payload.get("type") == "item_completed":  # codex rollout
             it = _dict(payload.get("item"))
             here = Path(str(it.get("cwd") or self.cwd).removeprefix("file://"))
             at = _epoch(payload.get("started_at_ms")) or _epoch(r.get("timestamp"))
+            call = str(it.get("id", ""))
             if it.get("type") == "CommandExecution":
-                self.add(_codex_command(it, here), at, self.codex_handed)
+                self.add(_codex_command(it, here), at, self.codex_handed, call)
             elif it.get("type") == "FileChange":
-                self.add(_codex_changes(it.get("changes"), here), at, self.codex_handed)
+                self.add(_codex_changes(it.get("changes"), here), at, self.codex_handed, call)
             else:
                 return
             self.codex_handed = set()
@@ -434,7 +437,7 @@ def _rows(agent: str, transcript: Path, root: Path) -> list[dict]:
             continue
         new = ev["new"] if ev["new"] is not None else rel not in written and _created(root, rel, ev["at"])
         handover = any(rel == h or ("/" in h and rel.endswith("/" + h)) for h in ev["handed"])
-        rows.append({"agent": agent, "file": rel, "new": new, "file_read_first": rel in read,
+        rows.append({"agent": agent, "call": ev["call"], "file": rel, "new": new, "file_read_first": rel in read,
                      "context_read_first": bool(_context(root, rel) & read), "handover": handover})
         written.add(rel)
         if new:  # the session wrote the whole file, so later writes know it

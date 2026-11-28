@@ -85,7 +85,7 @@ def test_a_codex_hand_over_is_its_own_event(repo):
     events = session_events(t, repo)
     hand = _index(events, kind="handover")
     write = _index(events, kind="tool", call="fc-1")
-    assert hand < write
+    assert hand < write and events[hand]["call"] == "fc-1"
     assert events[write]["path"] == "src/greet.py" and "return \"hi\"" in events[write]["new"]
     mark, = events[write]["marks"]
     assert mark["handover"]
