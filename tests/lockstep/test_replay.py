@@ -266,3 +266,36 @@ def test_a_plan_write_is_marked_and_a_code_write_is_not(repo):
     finally:
         server.shutdown()
         server.server_close()
+
+
+@pytest.mark.req("lockstep-guard/a-write-before-its-row-is-added-is-flagged")
+def test_a_write_before_its_row_is_added_is_flagged(repo):
+    (repo / "lockstep.yaml").write_text(
+        "governed: [src/]\nlayout:\n- path: src/greet.py\n  purpose: Says hello\n- path: src/extra.py\n  purpose: Extra\n")
+    t = _write(repo / "t.jsonl", _claude(
+        ("Write", {"file_path": str(repo / "src/extra.py"), "content": "x = 1\n"}, "File created successfully"),
+        ("Edit", {"file_path": str(repo / "lockstep.yaml"), "old_string": "layout:\n",
+                  "new_string": "layout:\n- path: src/extra.py\n  purpose: Extra\n"}, "updated"),
+        ("Write", {"file_path": str(repo / "src/other.py"), "content": "y = 2\n"}, "File created successfully"),
+        ("Edit", {"file_path": str(repo / "src/greet.py"), "old_string": "hello", "new_string": "hi"}, "updated"),
+        ("Write", {"file_path": "/elsewhere/notes.txt", "content": "z\n"}, "File created successfully")))
+    writes = [e for e in session_events(t, repo) if e["kind"] == "tool"]
+    assert [e.get("planned") for e in writes] == ["row added later", None, "unplanned", "planned", "outside"]
+
+
+@pytest.mark.req("lockstep-guard/the-status-and-wiki-routes-answer")
+def test_the_status_and_wiki_routes_answer(repo):
+    (repo / "generated/wiki/index.md").write_text("# index\n")
+    server = _serve(repo)
+    try:
+        port = server.server_address[1]
+        status = json.loads(_get(port, "/api/status")[1])
+        req = status["requirements"]["greeter/the-greeter-says-hello"]
+        assert req["state"] and any(f.startswith("src/greet.py") for f in req["code"]) and "note" in status
+        wiki = json.loads(_get(port, "/api/wiki")[1])
+        assert wiki[0] == "generated/wiki/index.md" and "generated/wiki/greeter.md" in wiki
+        page = _get(port, "/")[1].decode()
+        assert 'id="svTrack"' in page and 'id="svWikiList"' in page and 'class="flag-unplanned"' in page
+    finally:
+        server.shutdown()
+        server.server_close()
