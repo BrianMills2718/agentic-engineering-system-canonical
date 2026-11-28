@@ -159,7 +159,7 @@ Implemented by:
 
 ID: `lockstep-guard/the-replay-has-a-plan-code-and-wiki-view`
 
-Status: **implemented, a scenario has no test**
+Status: **implemented and tested**
 
 The replay page SHALL offer a toggle between its timeline view and a plan, code and wiki view that steps through the same events with the same controls. That view SHALL show the agent's current step; for the file of that step, its `lockstep.yaml` layout row and the text of the requirements it implements (or that no row names it), its code, and the requirement pages and specs the agent has read so far; and a band of hook cards (hand-over, refusal, warning, read marks) marking the ones the current event shows. The server SHALL answer `/api/plan?file=<path>` with that layout row (or null), whether a governed folder and a `fixed:` glob cover the file, and each implemented requirement's id and text.
 
@@ -167,5 +167,5 @@ Implemented by:
 
 - `lockstep.replay` — [`src/lockstep/replay.py:1`](../../src/lockstep/replay.py#L1)
 
-- Scenario `the-plan-route-gives-a-file-s-row-and-requirement-text`: no test
+- Scenario `the-plan-route-gives-a-file-s-row-and-requirement-text`: tested by `tests/lockstep/test_replay.py::test_the_plan_route_gives_a_files_row_and_requirement_text` ([`tests/lockstep/test_replay.py:223`](../../tests/lockstep/test_replay.py#L223))
 - Scenario `the-page-offers-the-view-as-a-toggle`: tested by `tests/lockstep/test_replay.py::test_the_page_offers_the_view_as_a_toggle` ([`tests/lockstep/test_replay.py:243`](../../tests/lockstep/test_replay.py#L243))

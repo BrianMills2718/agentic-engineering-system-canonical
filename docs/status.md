@@ -121,7 +121,7 @@ which tests cover each scenario at this commit. For pass or fail, run `make chec
 | `lockstep-guard/a-session-s-writes-are-listed-with-what-was-read-first` | not run at this revision | `lockstep.read_before_write` (`src/lockstep/read_before_write.py:1`) |
 | `lockstep-guard/claude-and-codex-session-files-are-both-read` | not run at this revision | `lockstep.read_before_write` (`src/lockstep/read_before_write.py:1`) |
 | `lockstep-guard/a-session-replay-shows-each-hand-over-and-read-mark` | not run at this revision | `lockstep.replay` (`src/lockstep/replay.py:1`) |
-| `lockstep-guard/the-replay-has-a-plan-code-and-wiki-view` | untested | `lockstep.replay` (`src/lockstep/replay.py:1`) |
+| `lockstep-guard/the-replay-has-a-plan-code-and-wiki-view` | not run at this revision | `lockstep.replay` (`src/lockstep/replay.py:1`) |
 | `lockstep-init/init-installs-lockstep-in-a-repository-without-overwriting` | not run at this revision | `lockstep.init_repo` (`src/lockstep/init_repo.py:1`), `lockstep.init_repo` (`src/lockstep/init_repo.py:1`) |
 | `lockstep-init/installed-files-name-no-machine-and-read-their-settings-from-lockstep-yaml` | not run at this revision | `lockstep.init_repo` (`src/lockstep/init_repo.py:1`), `lockstep.init_repo` (`src/lockstep/init_repo.py:1`) |
 | `lockstep-init/the-edit-guard-logs-outside-the-checkout` | not run at this revision | `lockstep.hook` (`src/lockstep/hook.py:1`) |
@@ -486,7 +486,7 @@ which tests cover each scenario at this commit. For pass or fail, run `make chec
 | `lockstep-guard/a-write-carries-the-read-before-write-marks` | `lockstep-guard/a-session-replay-shows-each-hand-over-and-read-mark` | not run at this revision | `tests/lockstep/test_replay.py::test_a_write_carries_the_read_marks` |
 | `lockstep-guard/a-requirement-page-read-is-marked` | `lockstep-guard/a-session-replay-shows-each-hand-over-and-read-mark` | not run at this revision | `tests/lockstep/test_replay.py::test_a_requirement_page_read_is_marked` |
 | `lockstep-guard/the-page-and-its-data-are-served-locally` | `lockstep-guard/a-session-replay-shows-each-hand-over-and-read-mark` | not run at this revision | `tests/lockstep/test_replay.py::test_the_page_and_data_are_served_locally` |
-| `lockstep-guard/the-plan-route-gives-a-file-s-row-and-requirement-text` | `lockstep-guard/the-replay-has-a-plan-code-and-wiki-view` | untested | - |
+| `lockstep-guard/the-plan-route-gives-a-file-s-row-and-requirement-text` | `lockstep-guard/the-replay-has-a-plan-code-and-wiki-view` | not run at this revision | `tests/lockstep/test_replay.py::test_the_plan_route_gives_a_files_row_and_requirement_text` |
 | `lockstep-guard/the-page-offers-the-view-as-a-toggle` | `lockstep-guard/the-replay-has-a-plan-code-and-wiki-view` | not run at this revision | `tests/lockstep/test_replay.py::test_the_page_offers_the_view_as_a_toggle` |
 | `lockstep-init/fresh-repository-gets-all-four` | `lockstep-init/init-installs-lockstep-in-a-repository-without-overwriting` | not run at this revision | `tests/lockstep/test_lockstep_init.py::test_fresh_repository_gets_all_four`, `tests/lockstep/test_lockstep_init.py::test_init_counts_brian_source_lines_as_human_by_default_and_takes_a_pattern` |
 | `lockstep-init/a-second-run-changes-nothing` | `lockstep-init/init-installs-lockstep-in-a-repository-without-overwriting` | not run at this revision | `tests/lockstep/test_lockstep_init.py::test_a_second_run_changes_nothing`, `tests/lockstep/test_lockstep_init.py::test_an_existing_lockstep_yaml_is_never_overwritten` |
