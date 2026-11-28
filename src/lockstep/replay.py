@@ -291,20 +291,51 @@ def _signature(transcript: Path) -> tuple:
     return tuple((p, p.stat().st_size, p.stat().st_mtime_ns) for _, p in _transcripts(transcript))
 
 
+class _Site:
+    """What the page asks for, answered from one session file; a session is read again only when its file changed."""
+
+    def __init__(self, transcript: Path, root: Path, store: Path | None, store_prefix: str) -> None:
+        self.transcript, self.root, self.store, self.store_prefix = transcript, root, store, store_prefix
+        self.page = importlib.resources.files("lockstep").joinpath("replay.html").read_bytes()
+        self.cache: dict[str, tuple[tuple, bytes]] = {}
+
+    def data(self, agent: str) -> bytes:
+        sig = _signature(self.transcript)
+        if agent not in self.cache or self.cache[agent][0] != sig:
+            body = {"session": agent, "events": session_events(self.transcript, self.root, agent),
+                    "changes": _changes(self.store, self.store_prefix)}
+            self.cache[agent] = (sig, json.dumps(body).encode())
+        return self.cache[agent][1]
+
+    def blob(self, sha: str) -> bytes | None:
+        if not self.store or len(sha) != 64 or not sha.isalnum():
+            return None
+        path = self.store / "blobs" / sha
+        return path.read_bytes() if path.is_file() else None
+
+    def answer(self, raw_path: str) -> tuple[bytes, str, int]:
+        url = urlparse(raw_path)
+        names = [name for name, _ in _transcripts(self.transcript)]
+        if url.path in ("/", "/index.html"):
+            return self.page, "text/html; charset=utf-8", 200
+        if url.path == "/api/sessions":
+            return json.dumps(names).encode(), "application/json", 200
+        if url.path == "/api/data":
+            agent = (parse_qs(url.query).get("session") or [""])[0]
+            if agent not in names:
+                return b"unknown session", "text/plain", 404
+            return self.data(agent), "application/json", 200
+        blob = self.blob(url.path.removeprefix("/api/blob/"))
+        if blob is not None:
+            return blob, "text/plain; charset=utf-8", 200
+        return b"not found", "text/plain", 404
+
+
 def make_server(transcript: Path, root: Path, store: Path | None, port: int, store_prefix: str = "") -> ThreadingHTTPServer:
     """A server on 127.0.0.1:`port` (0 picks a free one) for one session file; call serve_forever() on it.
     It answers only requests addressed to 127.0.0.1 or localhost, so a web page cannot reach it by renaming a host
     (DNS rebinding), and it reads a session file again only when the file changed."""
-    page = importlib.resources.files("lockstep").joinpath("replay.html").read_bytes()
-    cache: dict[str, tuple[tuple, bytes]] = {}
-
-    def data(agent: str) -> bytes:
-        sig = _signature(transcript)
-        if agent not in cache or cache[agent][0] != sig:
-            body = {"session": agent, "events": session_events(transcript, root, agent),
-                    "changes": _changes(store, store_prefix)}
-            cache[agent] = (sig, json.dumps(body).encode())
-        return cache[agent][1]
+    site = _Site(transcript, root, store, store_prefix)
 
     class Handler(BaseHTTPRequestHandler):
         def send(self, body: bytes, ctype: str = "application/json", code: int = 200) -> None:
@@ -319,27 +350,9 @@ def make_server(transcript: Path, root: Path, store: Path | None, port: int, sto
             if self.headers.get("Host") not in (f"127.0.0.1:{port_now}", f"localhost:{port_now}"):
                 return self.send(b"wrong host", "text/plain", 403)
             try:
-                return self.answer()
+                return self.send(*site.answer(self.path))
             except (OSError, ValueError) as exc:  # a session file being rewritten, or one that stopped parsing
                 return self.send(json.dumps({"error": str(exc)}).encode(), code=500)
-
-        def answer(self) -> None:
-            url = urlparse(self.path)
-            names = [name for name, _ in _transcripts(transcript)]
-            if url.path in ("/", "/index.html"):
-                return self.send(page, "text/html; charset=utf-8")
-            if url.path == "/api/sessions":
-                return self.send(json.dumps(names).encode())
-            if url.path == "/api/data":
-                agent = (parse_qs(url.query).get("session") or [""])[0]
-                if agent not in names:
-                    return self.send(b"unknown session", "text/plain", 404)
-                return self.send(data(agent))
-            sha = url.path.removeprefix("/api/blob/")
-            blob = store / "blobs" / sha if store and len(sha) == 64 and sha.isalnum() else None
-            if blob is not None and blob.is_file():
-                return self.send(blob.read_bytes(), "text/plain; charset=utf-8")
-            return self.send(b"not found", "text/plain", 404)
 
         def log_message(self, *args: object) -> None:
             pass
