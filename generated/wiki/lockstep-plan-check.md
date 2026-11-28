@@ -21,6 +21,21 @@ Implemented by:
 - Scenario `a-repository-with-no-planning-package-cannot-be-checked`: tested by `tests/lockstep/test_lockstep_plan_check.py::test_a_repository_with_no_planning_package_cannot_be_checked` ([`tests/lockstep/test_lockstep_plan_check.py:73`](../../tests/lockstep/test_lockstep_plan_check.py#L73))
 - Scenario `work-unit-problems-are-added`: tested by `tests/lockstep/test_lockstep_plan_check.py::test_work_unit_problems_are_added` ([`tests/lockstep/test_lockstep_plan_check.py:81`](../../tests/lockstep/test_lockstep_plan_check.py#L81))
 
+## the validator can use an installed graph schema
+
+ID: `lockstep-plan-check/the-validator-can-use-an-installed-graph-schema`
+
+Status: **implemented and tested**
+
+When the operator sets a nonempty `SHIP_TYPED_GRAPH_SCHEMA`, both `ship` and `lockstep plan check` SHALL pass that local path as the value of the Company Planning validator's `--typed-graph-schema` option for the initial check and any freshness retry. An unset or empty variable SHALL leave the option absent so that the selected validator uses its own default. The validator SHALL continue to judge the graph.
+
+Implemented by:
+
+- `lockstep.plan_check` — [`src/lockstep/plan_check.py:1`](../../src/lockstep/plan_check.py#L1)
+- `lockstep.plan_check.validator_command` — [`src/lockstep/plan_check.py:272`](../../src/lockstep/plan_check.py#L272)
+
+- Scenario `both-validator-entry-points-use-the-installed-graph-schema`: tested by `tests/test_ship.py::test_installed_graph_schema_reaches_both_validator_runs` ([`tests/test_ship.py:2082`](../../tests/test_ship.py#L2082))
+
 ## the validator s source is set in lockstep yaml
 
 ID: `lockstep-plan-check/the-validator-s-source-is-set-in-lockstep-yaml`
@@ -32,7 +47,7 @@ Status: **implemented and tested**
 Implemented by:
 
 - `lockstep.plan_check` — [`src/lockstep/plan_check.py:1`](../../src/lockstep/plan_check.py#L1)
-- `lockstep.plan_check.fetch_planning_validator` — [`src/lockstep/plan_check.py:180`](../../src/lockstep/plan_check.py#L180)
+- `lockstep.plan_check.fetch_planning_validator` — [`src/lockstep/plan_check.py:193`](../../src/lockstep/plan_check.py#L193)
 
 - Scenario `a-configured-repository-is-the-source`: tested by `tests/lockstep/test_lockstep_plan_check.py::test_a_configured_repository_is_the_source` ([`tests/lockstep/test_lockstep_plan_check.py:151`](../../tests/lockstep/test_lockstep_plan_check.py#L151)), `tests/lockstep/test_lockstep_plan_check.py::test_two_first_uses_share_one_validator_cache` ([`tests/lockstep/test_lockstep_plan_check.py:198`](../../tests/lockstep/test_lockstep_plan_check.py#L198))
 - Scenario `an-environment-variable-overrides-a-configured-repository-with-a-warning`: tested by `tests/lockstep/test_lockstep_plan_check.py::test_an_environment_variable_overrides_a_configured_repository_with_a_warning` ([`tests/lockstep/test_lockstep_plan_check.py:161`](../../tests/lockstep/test_lockstep_plan_check.py#L161))
