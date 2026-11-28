@@ -299,3 +299,29 @@ def test_the_status_and_wiki_routes_answer(repo):
     finally:
         server.shutdown()
         server.server_close()
+
+
+@pytest.mark.req("lockstep-guard/a-write-inside-a-worktree-is-judged-by-that-worktree-s-plan")
+def test_a_write_inside_a_worktree_is_judged_by_its_plan(repo):
+    wt = repo / "worktrees/feature"
+    (wt / "src").mkdir(parents=True)
+    (wt / ".git").write_text("gitdir: elsewhere\n")
+    (wt / "lockstep.yaml").write_text("governed: [src/]\nlayout:\n- path: src/a.py\n  purpose: A\n")
+    (wt / "generated/wiki").mkdir(parents=True)
+    (wt / "generated/wiki/index.md").write_text("# index\n")
+    t = _write(repo / "t.jsonl", _claude(
+        ("Write", {"file_path": str(wt / "lockstep.yaml"), "content": "layout:\n- path: src/a.py\n"}, "File created"),
+        ("Write", {"file_path": str(wt / "src/a.py"), "content": "a = 1\n"}, "File created"),
+        ("Write", {"file_path": str(wt / "src/b.py"), "content": "b = 1\n"}, "File created")))
+    tools = [e for e in session_events(t, repo) if e["kind"] == "tool"]
+    assert [(e["plan_write"], e.get("planned")) for e in tools] == [(True, None), (False, "planned"), (False, "unplanned")]
+    server = make_server(t, repo, None, 0)
+    threading.Thread(target=server.serve_forever, daemon=True).start()
+    try:
+        port = server.server_address[1]
+        assert json.loads(_get(port, "/api/data?session=main")[1])["checkout"] == "worktrees/feature/"
+        assert json.loads(_get(port, "/api/wiki?checkout=worktrees/feature/")[1]) == ["worktrees/feature/generated/wiki/index.md"]
+        assert _get(port, "/api/wiki?checkout=../../etc/")[0] == 404
+    finally:
+        server.shutdown()
+        server.server_close()

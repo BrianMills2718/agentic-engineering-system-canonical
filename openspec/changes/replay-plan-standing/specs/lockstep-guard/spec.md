@@ -12,7 +12,11 @@ the note on which test results were used and, for each requirement, its state fr
 implement it and the test files tagged with its scenarios; the plan, code and wiki view SHALL show for each
 requirement whether, by the current step, the session had written none of those files, its code, or its tests, and
 its state now. The server SHALL answer `/api/wiki` with the paths of the pages under `generated/wiki/`, index
-first; the wiki pane SHALL list them with the pages read so far highlighted.
+first; the wiki pane SHALL list them with the pages read so far highlighted. A file inside a git checkout under the
+repository (a worktree the agent made there) SHALL be judged, for the plan write and requirement read marks and for
+`planned`, against that checkout's `lockstep.yaml`, specs and wiki; the session data SHALL name the checkout most of
+its writes went to, and `/api/status` and `/api/wiki` SHALL take it as `?checkout=`, answering 404 for a folder that
+is not such a checkout.
 
 Source: Brian, 2026-11-28: "continue through all remainign hihg condience items", on the list holding viewer ideas 2
 (planned versus unplanned files, orange flag on an unplanned write), 5 (requirement status track) and 6 (the wiki as
@@ -24,6 +28,13 @@ agent from the layout rows and `lockstep status`.
 - **WHEN** a session writes `src/extra.py`, then writes `lockstep.yaml` with a row naming it, then writes
   `src/other.py`, and the repository's `lockstep.yaml` names `src/extra.py` and governs `src/`
 - **THEN** the first write's `planned` is `row added later` and the third's is `unplanned`
+
+#### Scenario: A write inside a worktree is judged by that worktree's plan
+
+- **WHEN** a session works in `worktrees/feature/`, a git checkout inside the repository, writing its
+  `lockstep.yaml`, a file a row there names and a file no row names
+- **THEN** the first is a plan write, the second is `planned` and the third `unplanned`
+- **AND** the session data names `worktrees/feature/` and `/api/wiki?checkout=worktrees/feature/` lists its index
 
 #### Scenario: The status and wiki routes answer
 
