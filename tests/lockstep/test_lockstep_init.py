@@ -230,10 +230,14 @@ OLD_CLAUDE = 'cd "$CLAUDE_PROJECT_DIR" && PCW_MODE=block uvx --from {s} lockstep
 OLD_CODEX = "PCW_MODE=block uvx --from {s} lockstep-hook --client codex"
 
 
-def _old_install(root: Path, guard: bool, claude: str = OLD_CLAUDE) -> None:
-    """A repository an earlier `lockstep init` set up: the hardcoded PCW_MODE=block hook, with or without `guard:`."""
+def _old_install(root: Path, guard: bool | str, claude: str = OLD_CLAUDE) -> None:
+    """A repository an earlier `lockstep init` set up: the hardcoded PCW_MODE=block hook, with or without `guard:`.
+
+    `guard` True writes `guard: {mode: block}`; a string is written as the guard line itself.
+    """
     from lockstep.init_repo import SOURCE
-    (root / "lockstep.yaml").write_text("schema: lockstep.side.v1\n" + ("guard: {mode: block}\n" if guard else ""))
+    line = "guard: {mode: block}\n" if guard is True else f"{guard}\n" if guard else ""
+    (root / "lockstep.yaml").write_text("schema: lockstep.side.v1\n" + line)
     for rel, cmd in ((".claude/settings.json", claude), (".codex/hooks.json", OLD_CODEX)):
         (root / rel).parent.mkdir(parents=True, exist_ok=True)
         (root / rel).write_text(json.dumps({"hooks": {"PreToolUse": [
@@ -247,9 +251,10 @@ def _guard_commands(root: Path) -> list[str]:
 
 
 @pytest.mark.req("lockstep-init/an-old-hook-command-is-upgraded-where-guard-is-set")
-def test_an_old_hook_command_is_upgraded_where_guard_is_set(tmp_path, capsys):
+@pytest.mark.parametrize("guard", [True, "guard: {mode: warn}"])
+def test_an_old_hook_command_is_upgraded_where_guard_is_set(tmp_path, capsys, guard):
     root = _git_repo(tmp_path / "r")
-    _old_install(root, guard=True)
+    _old_install(root, guard=guard)
     init_repo(root, owner="Acme")
     commands = _guard_commands(root)
     assert len(commands) == 2 and not any("PCW_MODE" in c for c in commands), commands
@@ -261,9 +266,10 @@ def test_an_old_hook_command_is_upgraded_where_guard_is_set(tmp_path, capsys):
 
 
 @pytest.mark.req("lockstep-init/an-old-hook-command-stays-where-guard-is-not-set")
-def test_an_old_hook_command_stays_where_guard_is_not_set(tmp_path, capsys):
+@pytest.mark.parametrize("guard", [False, "guard:", "guard: {}", "guard: {mode: null}"])
+def test_an_old_hook_command_stays_where_guard_is_not_set(tmp_path, capsys, guard):
     root = _git_repo(tmp_path / "r")
-    _old_install(root, guard=False)
+    _old_install(root, guard=guard)
     init_repo(root, owner="Acme")
     commands = _guard_commands(root)
     assert len(commands) == 2 and all("PCW_MODE=block" in c for c in commands), commands

@@ -73,9 +73,9 @@ Source: Brian, 2026-11-11: "i approve single tool desing re d4"; proposals/one-p
 
 ### Requirement: Init upgrades its own old hook command only where lockstep.yaml sets the guard
 
-When a settings or hooks file holds the edit-guard command an earlier `lockstep init` wrote (exactly `PCW_MODE=block uvx --from <source> lockstep-hook`, with its client prefix or suffix), `lockstep init` SHALL rewrite that command to the current one when the repository's `lockstep.yaml` has a `guard:` section, and SHALL otherwise leave it unchanged and print a line saying to add `guard: {mode: block}` to `lockstep.yaml` and run `lockstep init` again. Any other Lockstep hook command SHALL be left unchanged.
+When a settings or hooks file holds the edit-guard command an earlier `lockstep init` wrote (exactly `PCW_MODE=block uvx --from <source> lockstep-hook`, with its client prefix or suffix), `lockstep init` SHALL rewrite that command to the current one when the repository's `lockstep.yaml` has a `guard:` section that sets `mode`, and SHALL otherwise leave it unchanged and print a line saying to add `guard: {mode: block}` to `lockstep.yaml` and run `lockstep init` again. Any other Lockstep hook command SHALL be left unchanged.
 
-Source: inferred by agent: dropping the hardcode without this would leave installed repositories with `PCW_MODE=block`, which wins over `guard.mode`, while rewriting it in a repository whose `lockstep.yaml` has no `guard:` would silently turn its refusals into warnings; the same exact-match rule `lockstep init` already uses for its lefthook command.
+Source: inferred by agent: dropping the hardcode without this would leave installed repositories with `PCW_MODE=block`, which wins over `guard.mode`, while rewriting it in a repository whose `lockstep.yaml` has no `guard:` would silently turn its refusals into warnings; the same exact-match rule `lockstep init` already uses for its lefthook command. Requiring `mode`, not the bare key, is inferred by agent (audit 2026-11-27, R2): an empty `guard:` line reads as no mode, so the hook falls back to `warn`, and rewriting the command there turned refusing into warning.
 
 #### Scenario: An old hook command is upgraded where guard is set
 
@@ -85,7 +85,7 @@ Source: inferred by agent: dropping the hardcode without this would leave instal
 
 #### Scenario: An old hook command stays where guard is not set
 
-- **GIVEN** `.claude/settings.json` holding the old `PCW_MODE=block` command and `lockstep.yaml` with no `guard:` section
+- **GIVEN** `.claude/settings.json` holding the old `PCW_MODE=block` command and `lockstep.yaml` with no `guard:` section, or a `guard:` line with nothing under it
 - **WHEN** `lockstep init` runs
 - **THEN** the command is unchanged and the output says to add `guard: {mode: block}`
 
@@ -112,6 +112,7 @@ from ruamel.yaml.error import YAMLError
 from lockstep.checks import plugin_settings
 from lockstep.checks.config import CHECK_NAMES, DEFAULT_OFF
 from lockstep.checks.sources import DEFAULT_HUMAN_PATTERN
+from lockstep.side_file import guard_mode
 
 SOURCE = "git+https://github.com/BrianMills2718/agentic-engineering-system-canonical"
 OWNER_PLACEHOLDER = "YOUR-GITHUB-OWNER"
@@ -247,12 +248,12 @@ def _install_hooks(path: Path, source: str, client: str, upgrade: bool = False, 
 
 
 def _has_guard(config: Path) -> bool:
-    """True when lockstep.yaml has a `guard:` section (an unreadable file counts as not having one)."""
+    """True when lockstep.yaml's `guard:` sets a mode (an empty `guard:` or an unreadable file counts as not set)."""
     try:
         data = YAML(typ="safe").load(config.read_text(encoding="utf-8")) if config.is_file() else None
     except (YAMLError, OSError, UnicodeDecodeError):  # unreadable: do not rewrite the hook
         return False
-    return isinstance(data, dict) and "guard" in data
+    return isinstance(data, dict) and guard_mode(data) is not None
 
 
 def _lefthook(path: Path, source: str) -> str:

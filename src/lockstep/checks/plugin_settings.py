@@ -11,9 +11,9 @@ Implements: lockstep-init/init-writes-the-company-planning-plugin-keys-when-plan
 
 ### Requirement: Init writes the Company Planning plugin keys when planning.skills is on
 
-When `planning.skills` in `lockstep.yaml` is `{mode: block|warn, marketplace: OWNER/REPO}`, `lockstep init` SHALL merge into `.claude/settings.json` the marketplace `inside-success` (`extraKnownMarketplaces.inside-success.source` = `{source: github, repo: OWNER/REPO}`) and `enabledPlugins."company-planning@inside-success": true`, keeping every other key, and SHALL print `wrote`, `skipped` (everything already matches) or `conflict` for `planning.skills`. It SHALL never overwrite an `inside-success` entry with another source or repository, nor an `enabledPlugins` value that is not `true` (a `false` is a person opting out); each is named in a `conflict` line and left as it is. Extra fields such as `autoUpdate` SHALL be kept and SHALL NOT count as a difference. A `.claude/settings.json` that is not valid JSON SHALL make init exit 2. With `mode: off` or no `skills` key it SHALL write and remove nothing for this setting. When on, it SHALL print the two Codex commands with the configured address (`codex plugin marketplace add OWNER/REPO`, `codex plugin add company-planning@inside-success`), reading and writing nothing in `~/.codex/`, and the Claude Code project commands: list marketplaces, register the configured `OWNER/REPO` with `--scope project` only when `inside-success` is absent, then run `claude plugin install company-planning@inside-success --scope project`; it SHALL add that line once to an existing, non-symlinked `AGENTS.md` under a `## Company Planning plugin` heading, and otherwise only print it. A `skills` value with an unknown mode or a marketplace that is not `owner/repo` (or missing when on) SHALL make init exit 2 naming the line. A fresh `lockstep.yaml` SHALL hold the key commented out.
+When `planning.skills` in `lockstep.yaml` is `{mode: block|warn, marketplace: OWNER/REPO}`, `lockstep init` SHALL merge into `.claude/settings.json` the marketplace `inside-success` (`extraKnownMarketplaces.inside-success.source` = `{source: github, repo: OWNER/REPO}`) and `enabledPlugins."company-planning@inside-success": true`, keeping every other key, and SHALL print `wrote`, `skipped` (everything already matches) or `conflict` for `planning.skills`. It SHALL never overwrite an `inside-success` entry with another source or repository, nor an `enabledPlugins` value that is not `true` (a `false` is a person opting out); each is named in a `conflict` line and left as it is. While `extraKnownMarketplaces.inside-success` names another source or repository, it SHALL NOT add the `enabledPlugins` entry, so the plugin is not turned on from a source the setting did not name; it SHALL still add a missing marketplace entry beside an opt-out `false`. Extra fields such as `autoUpdate` SHALL be kept and SHALL NOT count as a difference. A `.claude/settings.json` that is not valid JSON SHALL make init exit 2. With `mode: off` or no `skills` key it SHALL write and remove nothing for this setting. When on, it SHALL print the two Codex commands with the configured address (`codex plugin marketplace add OWNER/REPO`, `codex plugin add company-planning@inside-success`), reading and writing nothing in `~/.codex/`, and the Claude Code project commands: list marketplaces, register the configured `OWNER/REPO` with `--scope project` only when `inside-success` is absent, then run `claude plugin install company-planning@inside-success --scope project`; it SHALL add that line once to an existing, non-symlinked `AGENTS.md` under a `## Company Planning plugin` heading, and otherwise only print it. A `skills` value with an unknown mode or a marketplace that is not `owner/repo` (or missing when on) SHALL make init exit 2 naming the line. A fresh `lockstep.yaml` SHALL hold the key commented out.
 
-Source: Brian, 2026-11-25, the settings model adopted in docs/planning/next.goal.md ("Company Planning skills | per-person plugin install | slice 3": "the whole systm should be configurable so you can congfigure what is on or off"); slice 3 planned in full 2026-11-26 in docs/planning/next.goal.md, with one independent read. Inferred by agent: `off` is the default (this switch writes files), no default address (as slice 2), the AGENTS.md note goes only into an existing non-symlinked file (a symlinked AGENTS.md is another repository's source).
+Source: Brian, 2026-11-25, the settings model adopted in docs/planning/next.goal.md ("Company Planning skills | per-person plugin install | slice 3": "the whole systm should be configurable so you can congfigure what is on or off"); slice 3 planned in full 2026-11-26 in docs/planning/next.goal.md, with one independent read. Inferred by agent (audit 2026-11-27, R3): withholding `enabledPlugins` while the marketplace conflicts, since turning it on loaded the plugin from the other source. Inferred by agent: `off` is the default (this switch writes files), no default address (as slice 2), the AGENTS.md note goes only into an existing non-symlinked file (a symlinked AGENTS.md is another repository's source).
 
 #### Scenario: Block writes the keys and a second run skips them
 
@@ -51,6 +51,12 @@ Source: Brian, 2026-11-25, the settings model adopted in docs/planning/next.goal
 - **WHEN** `lockstep init` runs with skills on
 - **THEN** it prints `conflict planning.skills` with a line naming the key, and that value is unchanged
 
+#### Scenario: A conflicting source does not turn the plugin on
+
+- **GIVEN** a settings file whose `inside-success` names another repository and no `enabledPlugins` entry
+- **WHEN** `lockstep init` runs with skills on
+- **THEN** it prints `conflict planning.skills` and the settings file still has no `enabledPlugins` entry for the plugin
+
 #### Scenario: autoUpdate is tolerated
 
 - **GIVEN** the wanted `inside-success` entry with `autoUpdate: true` added
@@ -71,9 +77,9 @@ Source: Brian, 2026-11-25, the settings model adopted in docs/planning/next.goal
 
 ### Requirement: The project check reports Company Planning plugin drift
 
-`lockstep check project` SHALL compare `.claude/settings.json` in the working tree with `planning.skills` in `lockstep.yaml`, with no network, looking only at whether `extraKnownMarketplaces.inside-success.source` is `{source: github, repo: <marketplace>}` (repository compared without letter case) and `enabledPlugins."company-planning@inside-success"` is `true`. A missing key or file SHALL print a `refused:` line under `mode: block` (and make the check exit 1) and a `warning:` line under `warn`; under `off` or no `skills` key nothing SHALL be looked at. A conflict (another source or repository, or an `enabledPlugins` value that is not `true`, such as an opt-out `false`) SHALL only print a `warning:` line naming the key, whatever the mode. Each line SHALL name `lockstep init` as the fix. A bad `skills` value (unknown mode, marketplace not `owner/repo` or missing when on) SHALL be refused naming its line in `lockstep.yaml`, and SHALL also be named by the side-file check; `ship`'s `planning_modes` SHALL NOT validate `skills`, so it never stops a merge. The check adds no name to `checks:`.
+`lockstep check project` SHALL compare `.claude/settings.json` in the working tree with `planning.skills` in `lockstep.yaml`, with no network, looking only at whether `extraKnownMarketplaces.inside-success.source` is `{source: github, repo: <marketplace>}` (repository compared without letter case) and `enabledPlugins."company-planning@inside-success"` is `true`. A missing key or file SHALL print a `refused:` line under `mode: block` (and make the check exit 1) and a `warning:` line under `warn`; under `off` or no `skills` key nothing SHALL be looked at. A conflict (another source or repository, or an `enabledPlugins` value that is not `true`, such as an opt-out `false`) SHALL only print a `warning:` line naming the key, whatever the mode. While `extraKnownMarketplaces.inside-success` names another source or repository, a missing `enabledPlugins` entry SHALL NOT get a line of its own, since `lockstep init` withholds it until that source is fixed; the conflict's `warning:` line names the entry to change or remove before running `lockstep init`. Each line SHALL name `lockstep init` as the fix. A bad `skills` value (unknown mode, marketplace not `owner/repo` or missing when on) SHALL be refused naming its line in `lockstep.yaml`, and SHALL also be named by the side-file check; `ship`'s `planning_modes` SHALL NOT validate `skills`, so it never stops a merge. The check adds no name to `checks:`.
 
-Source: Brian, 2026-11-25, the settings model adopted in docs/planning/next.goal.md ("Company Planning skills | per-person plugin install | slice 3"); slice 3 planned in full 2026-11-26 in docs/planning/next.goal.md ("Drift check, inside `lockstep check project`", "Not a ship gate"). Inferred by agent: the check rides on `project` so the lefthook command init generates stays unchanged in existing repositories.
+Source: Brian, 2026-11-25, the settings model adopted in docs/planning/next.goal.md ("Company Planning skills | per-person plugin install | slice 3"); slice 3 planned in full 2026-11-26 in docs/planning/next.goal.md ("Drift check, inside `lockstep check project`", "Not a ship gate"). Inferred by agent (review of init-keeps-refusing, 2026-11-28): the missing `enabledPlugins` line is dropped under a source conflict because its advice, `lockstep init`, could not clear it. Inferred by agent: the check rides on `project` so the lefthook command init generates stays unchanged in existing repositories.
 
 #### Scenario: A deleted enabledPlugins entry refuses under block and warns under warn
 
@@ -86,6 +92,12 @@ Source: Brian, 2026-11-25, the settings model adopted in docs/planning/next.goal
 - **GIVEN** `.claude/settings.json` naming another `inside-success` repository, or `enabledPlugins` set to `false`
 - **WHEN** `lockstep check project` runs under `block`
 - **THEN** it prints a `warning:` line naming the key and the drift adds no failure
+
+#### Scenario: A conflicting source without enabledPlugins names the source to fix
+
+- **GIVEN** `.claude/settings.json` whose `inside-success` names another repository and no `enabledPlugins` entry
+- **WHEN** `lockstep check project` runs under `block`
+- **THEN** it prints one `warning:` line naming `extraKnownMarketplaces.inside-success` and `lockstep init`, no `refused:` line, and exits 0
 
 #### Scenario: Off is not looked at
 
@@ -244,12 +256,17 @@ def _load(path: Path) -> dict:
     return data
 
 
+def _source_conflict(conflicts: list[str]) -> bool:
+    """True when `extraKnownMarketplaces.inside-success` names another source than the setting."""
+    return any(c.startswith(f"extraKnownMarketplaces.{MARKETPLACE}") for c in conflicts)
+
+
 def merge(path: Path, wanted_setting: Setting) -> tuple[str, list[str]]:
     """Add the missing plugin keys to the settings file at `path`, keeping every other key.
 
     Returns:
         (`wrote` | `skipped` | `conflict`, notes). A conflicting value is never overwritten and is named in the notes;
-        a missing key beside it is still added. Under `off` nothing is read or written (`skipped`).
+        a missing key beside it is still added, except `enabledPlugins` while the marketplace names another source. Under `off` nothing is read or written (`skipped`).
 
     Raises:
         ValueError: The file is not a JSON object.
@@ -259,6 +276,8 @@ def merge(path: Path, wanted_setting: Setting) -> tuple[str, list[str]]:
     data = _load(path)
     missing, conflicts = _compare(data, wanted_setting.marketplace)
     keys = wanted(wanted_setting.marketplace)
+    if _source_conflict(conflicts):  # not turned on from another source
+        missing = [m for m in missing if not m.startswith("enabledPlugins.")]
     for dotted in missing:
         section, key = dotted.split(".", 1)
         block = data.get(section)
@@ -277,7 +296,7 @@ def drift(root: Path) -> tuple[list[str], list[str]]:
     """(refusals, warnings) for `lockstep check project`: `.claude/settings.json` against `planning.skills`.
 
     A bad setting is a refusal naming its line. A missing key refuses under block and warns under warn; a conflict
-    only warns; off looks at nothing.
+    only warns, and a source conflict hides the missing `enabledPlugins` line; off looks at nothing.
     """
     path = root / SIDE_FILE
     if not path.is_file():
@@ -293,6 +312,8 @@ def drift(root: Path) -> tuple[list[str], list[str]]:
     except ValueError as err:
         return [f"planning.skills: {SETTINGS} is not a JSON object ({err}){fix}"], []
     missing, conflicts = _compare(data, found.marketplace)
+    if _source_conflict(conflicts):  # init withholds enabledPlugins until the source is fixed; the warning says so
+        missing = [m for m in missing if not m.startswith("enabledPlugins.")]
     lines = [f"planning.skills: {SETTINGS} has no {m}{fix}" for m in missing]
     warnings = [f"planning.skills: {SETTINGS} {c}; lockstep init leaves it as it is (change it by hand, or run"
                 f" lockstep init after removing it)" for c in conflicts]
