@@ -105,7 +105,8 @@ def test_a_python_script_whose_written_text_names_a_planned_file_is_not_refused(
 
 def test_python_code_writes_only_the_paths_its_write_calls_target():
     from lockstep.shell_targets import shell_write_words
-    assert shell_write_words(SONNET_SCRIPT) == ["openspec/changes/add-greet/proposal.md"]
+    assert shell_write_words(SONNET_SCRIPT) == ["openspec/changes/add-greet/specs/core",
+                                               "openspec/changes/add-greet/proposal.md"]
     assert shell_write_words(
         "python -c \"import shutil; shutil.copy('src/a.py', 'b/c.py')\"") == ["b/c.py"]
 

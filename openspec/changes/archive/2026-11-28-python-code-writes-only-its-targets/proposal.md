@@ -9,11 +9,12 @@ Plan size: small
 
 ## What Changes
 
-- For Python code in a command (a `python -c` argument, or a heredoc fed to `python`), the hook reads the code
-  with Python's own parser and counts as written only the paths its writing calls target (`open(p, "w")`,
-  `p.write_text`, `shutil.copy(src, dst)`, and the like), following simple assignments and `Path` joins.
-- Code that does not parse, or whose write target cannot be worked out (an f-string path, say), keeps the old
-  rule: every path it names counts.
+- For Python code in a command (a `python -c` argument, or a heredoc Python reads as its program), the hook
+  reads the code with Python's own parser. Only when it can vouch for all of the code (every import, name, call
+  and keyword known, every write target worked out) does it count just the paths the writing calls target.
+- Anything else keeps the old rule, every path the code names: aliases, unknown calls, code that runs other
+  programs, bindings it does not follow, shell expansion, a crash while reading. The independent review of the
+  first version found 42 of 70 probes where narrowing missed a write; each is now a test.
 
 ## Impact
 
