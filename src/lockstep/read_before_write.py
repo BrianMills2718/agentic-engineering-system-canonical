@@ -16,12 +16,17 @@ Implements: lockstep-guard/a-session-s-writes-are-listed-with-what-was-read-firs
 default the current folder) with three marks: whether the session read that file before the write; whether it
 read the file's requirement context before the write, meaning the `generated/wiki/<capability>.md` page or the
 `openspec/specs/<capability>/spec.md` of a capability named by the file's `Implements:` lines; and whether the
-edit hook's requirement text was attached to that write. A write that created the file SHALL be marked `new`:
-the Write tool's result says so, a Codex file change says `add`, and for a shell write git had not yet recorded
-the file when the call was made. A file the session wrote whole (the Write tool, or a shell write that created it)
-counts as read for its later writes. It
+edit hook's requirement text named that file on that write. A write that created the file SHALL be marked `new`:
+the Write tool's result says so, a Codex file change says `add`, and for a shell write git had not recorded the
+file on any branch before the second the call was made (outside a git repository a shell write is taken as an
+overwrite, and an existing file git never saw is taken as new). A file the session wrote whole (the Write tool, or
+a shell write that created it) counts as read for its later writes. A call that failed before it ran (a refused
+edit, a hook denial) SHALL count as neither a read nor a write; a delete SHALL not count, and a move SHALL count
+only its destination. A Claude session's subagent files (`<session>/subagents/agent-*.jsonl`) SHALL be read too,
+each agent measured on its own reads. Requirement context is found for Python files only, from their docstrings.
+It
 SHALL print one warning line for each write to an existing file with neither read, end with
-`RESULT writes=N new=N file_read_first=N context_read_first=N handover=N unread=N`, give the same rows as JSON with
+`RESULT writes=N new=N file_read_first=N context_read_first=N handover=N unread=N agents=N`, give the same rows as JSON with
 `--json`, and exit 0 whatever it finds; an unreadable transcript SHALL exit 2.
 
 Source: Brian, 2026-11-27, plan doc "AES next steps: plan for discussion", Milestone 1 step 4 ("Read-before-write
@@ -69,8 +74,11 @@ Codex rollout file and a `codex exec --json` stream (command executions and file
 found from the command's read commands (`cat`, `head`, `tail`, `sed` without `-i`, `nl`, `less`, `grep`, `rg`) or,
 in a Codex rollout, from Codex's own `parsed_cmd` read entries. Shell writes SHALL be the sure ones the existing
 shell target parser finds (redirect and tee targets, and what `mv`, `sed -i` and the like write, in a folder that
-exists); paths that code inside a command merely names SHALL NOT count, because which of them the code writes is
-unknown. A relative path SHALL be read against the folder the call was made in.
+exists); paths that code inside a command merely names SHALL NOT count, because
+which of them the code writes is unknown. A command's reads and writes SHALL keep the order of its simple commands,
+and a Codex command's writes SHALL be found even when Codex parsed reads in it. A relative path SHALL be read
+against the folder the call was made in, and paths SHALL be compared after resolving symbolic links. A record that
+is not of a known shape SHALL be skipped, never stop the report.
 
 Source: Brian, 2026-11-27, core rule "Claude and Codex behave the same" (code2-workspace `agents/core.md`,
 Records); the list of read commands inferred by agent.
@@ -98,9 +106,10 @@ Declares (typed signatures, from the plan):
 from __future__ import annotations
 
 import argparse
-import json
-import os
 import datetime as dt
+import json
+import math
+import os
 import shlex
 import subprocess
 import sys
@@ -112,9 +121,12 @@ from lockstep.shell_targets import _CD, _head, _redirect_targets, command_writes
 
 _READERS = {"cat", "head", "tail", "nl", "less", "more", "bat", "sed", "grep", "rg", "awk", "wc", "diff"}
 _PATTERN_FIRST = {"grep", "rg", "awk", "sed"}  # the first plain word is a pattern or script, not a file
+_VALUE_FLAGS = {"-n", "-c", "-e", "-f", "-m", "-A", "-B", "-C", "--lines", "--bytes"}  # flags whose next word is a value
 _EDIT_TOOLS = {"Edit", "MultiEdit", "Write", "NotebookEdit"}
-# The edit hook's own opening lines (lockstep.openspec_text.requirement_packet; lockstep.hook, the layout plan text).
-_HANDOVER = ("Requirement text for ", "Plan for ")
+_MOVES = {"mv"}
+# The edit hook's own opening lines (lockstep.openspec_text.requirement_packet; lockstep.hook, the layout plan text):
+# "Requirement text for <path>, from OpenSpec ..." and "Plan for <path> (<artifact>), from ...".
+_HANDOVER = (("Requirement text for ", ", from "), ("Plan for ", " ("))
 _SHELLS = {"bash", "sh", "zsh", "/bin/bash", "/bin/sh", "/usr/bin/bash", "/bin/zsh"}
 
 
@@ -144,50 +156,72 @@ def _drop_redirects(words: list[str]) -> list[str]:
     return out
 
 
-def _sure_writes(command: str, cwd: Path) -> list[Path]:
-    """Files a shell command certainly writes: redirect and tee targets and what `mv`, `sed -i` and the like write,
-    following `cd`. Paths that code inside the command merely names are left out: the guard's parser counts them
-    all (it errs toward refusing), but a measure would count every string a script mentions."""
-    here, hits = cwd, []
-    for segment in segments(command):
-        cd = _CD.match(segment)
-        if cd:
-            step = Path(os.path.expanduser(cd.group(2)))
-            here = step if step.is_absolute() else here / step
-            continue
-        for word in _redirect_targets(_head(segment)) + command_writes(segment.split("\n", 1)[0]):
-            if word and not word.startswith("-") and word not in ("/dev/null", "&1", "&2"):
-                path = Path(os.path.expanduser(word))
-                hits.append(path if path.is_absolute() else here / path)
+def _segment_reads(segment: str, here: Path) -> list[Path]:
+    try:
+        lex = shlex.shlex(segment.split("\n", 1)[0], posix=True, punctuation_chars=True)
+        lex.whitespace_split = True
+        words = _drop_redirects(list(lex))
+    except ValueError:
+        return []
+    if not words or Path(words[0]).name not in _READERS:
+        return []
+    name, args = Path(words[0]).name, words[1:]
+    if name == "sed" and any(a.startswith("--in-place") or (a.startswith("-") and not a.startswith("--") and "i" in a)
+                             for a in args):
+        return []  # sed -i, -ni, --in-place: a write, not a read
+    plain, skip = [], False
+    for a in args:
+        if skip:
+            skip = False
+        elif a in _VALUE_FLAGS:
+            skip = True
+        elif not a.startswith("-"):
+            plain.append(a)
+    if name in _PATTERN_FIRST and not any(a in ("-e", "-f") for a in args):
+        plain = plain[1:]
+    return [p if p.is_absolute() else here / p for p in (Path(os.path.expanduser(w)) for w in plain)]
+
+
+def _segment_writes(segment: str, here: Path) -> list[Path]:
+    """Files a simple command certainly writes: redirect and tee targets and what `sed -i` and the like write; for
+    `mv`, only the destination. Paths that code inside the command merely names are left out: the guard's parser
+    counts them all (it errs toward refusing), but a measure would count every string a script mentions."""
+    first = segment.split("\n", 1)[0]
+    try:
+        words = shlex.split(first)
+    except ValueError:
+        words = []
+    if words[:2] == ["git", "mv"]:
+        words = words[1:]
+    named = command_writes(first)
+    if words and Path(words[0]).name in _MOVES:
+        named = named[-1:]
+    hits = []
+    for word in _redirect_targets(_head(segment)) + named:
+        if word and not word.startswith("-") and word not in ("/dev/null", "&1", "&2"):
+            path = Path(os.path.expanduser(word))
+            hits.append(path if path.is_absolute() else here / path)
     return hits
 
 
-def shell_reads(command: str, cwd: Path) -> list[Path]:
-    """The files a shell command reads with a read command, absolute, following `cd` between commands."""
-    here, hits = cwd, []
+def _shell_events(command: str, cwd: Path) -> list[dict]:
+    """Reads and writes of one shell command, in the order its simple commands run, following `cd`."""
+    here, out = cwd, []
     for segment in segments(_unwrap(command)):
         cd = _CD.match(segment)
         if cd:
             step = Path(os.path.expanduser(cd.group(2)))
             here = step if step.is_absolute() else here / step
             continue
-        try:
-            lex = shlex.shlex(segment.split("\n", 1)[0], posix=True, punctuation_chars=True)
-            lex.whitespace_split = True
-            words = _drop_redirects(list(lex))
-        except ValueError:
-            continue
-        if not words or Path(words[0]).name not in _READERS:
-            continue
-        name, plain = Path(words[0]).name, [w for w in words[1:] if not w.startswith("-")]
-        if name == "sed" and any(w.startswith("-i") for w in words[1:]):
-            continue
-        if name in _PATTERN_FIRST and not any(w in ("-e", "-f") for w in words[1:]):
-            plain = plain[1:]
-        for word in plain:
-            path = Path(os.path.expanduser(word))
-            hits.append(path if path.is_absolute() else here / path)
-    return hits
+        out += [{"kind": "read", "path": p} for p in _segment_reads(segment, here)]
+        # None: a shell write does not say whether it created the file; report() asks git.
+        out += [{"kind": "write", "path": p, "new": None} for p in _segment_writes(segment, here) if p.parent.is_dir()]
+    return out
+
+
+def shell_reads(command: str, cwd: Path) -> list[Path]:
+    """The files a shell command reads with a read command, absolute, following `cd` between commands."""
+    return [ev["path"] for ev in _shell_events(command, cwd) if ev["kind"] == "read"]
 
 
 def _text(content: object) -> str:
@@ -198,156 +232,216 @@ def _text(content: object) -> str:
     return ""
 
 
-def _handover(content: object) -> bool:
-    text = _text(content)
-    return any(marker in text for marker in _HANDOVER)
+def _handed_paths(content: object) -> set[str]:
+    """The files the edit hook handed requirement text for, from its own opening lines in `content`."""
+    hits = set()
+    for line in _text(content).splitlines():
+        for opening, end in _HANDOVER:
+            if line.startswith(opening) and end in line:
+                hits.add(line[len(opening):line.index(end, len(opening))])
+    return hits
 
 
-def _shell(out: list[dict], command: str, cwd: Path) -> None:
-    """Reads and writes of one shell command."""
-    out += [{"kind": "read", "path": p} for p in shell_reads(command, cwd)]
-    # None: a shell write does not say whether it created the file; report() asks git.
-    out += [{"kind": "write", "path": p, "new": None} for p in _sure_writes(_unwrap(command), cwd) if p.parent.is_dir()]
+def _epoch(value: object) -> float | None:
+    """A record's time as seconds since the epoch: an ISO string or milliseconds; None when absent or unreadable."""
+    if isinstance(value, (int, float)) and not isinstance(value, bool):
+        return value / 1000
+    if isinstance(value, str):
+        try:
+            return dt.datetime.fromisoformat(value.replace("Z", "+00:00")).timestamp()
+        except ValueError:
+            return None
+    return None
 
 
-def _mark(out: list[dict], start: int, handed: bool) -> None:
-    """Mark the hand-over on the writes one call added (`out[start:]`), when the hook gave that call requirement text."""
-    if handed:
-        out[start:] = [{**ev, "handover": True} if ev["kind"] == "write" else ev for ev in out[start:]]
+def _dicts(items: object) -> list[dict]:
+    return [i for i in items if isinstance(i, dict)] if isinstance(items, list) else []
 
 
-def _claude_result(out: list[dict], name: str, inp: dict, block: dict, cwd: Path) -> None:
+def _claude_result(name: str, inp: dict, block: dict, cwd: Path) -> list[dict]:
+    """Events of one finished Claude tool call. A call that failed before running (a refused edit, a hook denial)
+    gives none; a shell command that ran and exited non-zero still wrote what it wrote."""
+    result = _text(block.get("content"))
+    if block.get("is_error") and not (name == "Bash" and result.startswith("Exit code")):
+        return []
     path = inp.get("file_path") or inp.get("notebook_path")
-    if name == "Read" and path:
-        out.append({"kind": "read", "path": Path(path)})
-    elif name == "Write" and path and not block.get("is_error"):  # the session wrote the whole file, so it knows it
-        created = _text(block.get("content")).startswith("File created")
-        out += [{"kind": "write", "path": Path(path), "new": created}, {"kind": "read", "path": Path(path)}]
-    elif name in _EDIT_TOOLS and path and not block.get("is_error"):
-        out.append({"kind": "write", "path": Path(path), "new": False})
-    elif name == "Bash":
-        _shell(out, inp.get("command", ""), cwd)
+    if name == "Read" and isinstance(path, str):
+        return [{"kind": "read", "path": Path(path)}]
+    if name == "Write" and isinstance(path, str):  # the session wrote the whole file, so it knows it
+        return [{"kind": "write", "path": Path(path), "new": result.startswith("File created")},
+                {"kind": "read", "path": Path(path)}]
+    if name in _EDIT_TOOLS and isinstance(path, str):
+        return [{"kind": "write", "path": Path(path), "new": False}]
+    if name == "Bash" and isinstance(inp.get("command"), str):
+        return _shell_events(inp["command"], cwd)
+    return []
 
 
-def _codex_rollout_item(out: list[dict], it: dict, cwd: Path) -> None:
-    here = Path(str(it.get("cwd") or cwd).removeprefix("file://"))
-    if it.get("type") == "CommandExecution":
-        reads = [p for p in it.get("parsed_cmd") or [] if isinstance(p, dict) and p.get("type") == "read" and p.get("path")]
-        if reads:  # Codex's own read parse
-            out += [{"kind": "read", "path": here / p["path"]} for p in reads]
-        else:
-            cmd = it.get("command")
-            _shell(out, shlex.join(cmd) if isinstance(cmd, list) else str(cmd or ""), here)
-    elif it.get("type") == "FileChange":
-        for p, ch in (it.get("changes") or {}).items():
-            out.append({"kind": "write", "path": Path(p), "new": (ch or {}).get("type") == "add"})
-
-
-def _events(records: list[dict], cwd: Path) -> list[dict]:
-    """The session as ordered events: {"kind": "read"|"write", "path": Path, "new": bool, "handover": bool}."""
-    out: list[dict] = []
-    pending: dict[str, tuple[str, dict, Path, str | None]] = {}
-    handed: set[str] = set()  # Claude tool calls the edit hook gave requirement text for
-    codex_handed = False
-    for r in records:
-        before = len(out)
-        t, msg = r.get("type"), r.get("message") or {}
-        payload = r.get("payload") if isinstance(r.get("payload"), dict) else {}
-        content = msg.get("content") if isinstance(msg, dict) else None
-        if t == "session_meta" and payload.get("cwd"):
-            cwd = Path(payload["cwd"])
-        elif t == "assistant" and isinstance(content, list):  # Claude: transcript or stream-json
-            here = Path(r["cwd"]) if r.get("cwd") else cwd  # the shell's folder when the call was made
-            pending.update({b.get("id"): (b.get("name", ""), b.get("input") or {}, here, r.get("timestamp"))
-                            for b in content if isinstance(b, dict) and b.get("type") == "tool_use"})
-        elif t == "attachment":
-            att = r.get("attachment") or {}
-            if att.get("type") == "hook_additional_context" and _handover(att.get("content")):
-                handed.add(att.get("toolUseID", ""))
-        elif t == "user" and isinstance(content, list):
-            for b in content:
-                if isinstance(b, dict) and b.get("type") == "tool_result":
-                    name, inp, here, at = pending.pop(b.get("tool_use_id"), ("", {}, cwd, None))
-                    start = len(out)
-                    _claude_result(out, name, inp, b, here)
-                    _mark(out, start, b.get("tool_use_id") in handed)
-                    for ev in out[start:]:
-                        ev["at"] = at  # when the call was made: a commit inside the same call comes after the write
-        elif t == "item.completed":  # codex exec --json: hook text is not in this stream
-            it = r.get("item") or {}
-            if it.get("type") == "command_execution":
-                _shell(out, str(it.get("command", "")), cwd)
-            elif it.get("type") == "file_change":
-                out += [{"kind": "write", "path": Path(ch.get("path", "")), "new": ch.get("kind") == "add"}
-                        for ch in it.get("changes") or []]
-        elif t == "event_msg" and payload.get("type") == "item_completed":  # codex rollout
-            it = payload.get("item") or {}
-            if it.get("type") in ("CommandExecution", "FileChange"):
-                start = len(out)
-                _codex_rollout_item(out, it, cwd)
-                _mark(out, start, codex_handed)
-                codex_handed = False
-        elif (t == "response_item" and payload.get("type") == "message" and payload.get("role") == "developer"
-              and _handover(payload.get("content"))):
-            codex_handed = True  # codex: the hook's text is a developer message just before its call completes
-        for ev in out[before:]:
-            ev.setdefault("at", r.get("timestamp"))
+def _codex_changes(changes: object, here: Path) -> list[dict]:
+    """Codex file changes: a dict of path to change (rollout) or a list of {path, kind} (exec stream). A delete
+    writes nothing to measure; a move writes its destination."""
+    items = list(changes.items()) if isinstance(changes, dict) else [(c.get("path"), c) for c in _dicts(changes)]
+    out = []
+    for path, ch in items:
+        ch = ch if isinstance(ch, dict) else {}
+        kind = ch.get("type") or ch.get("kind")
+        target = ch.get("move_path") or path
+        if kind == "delete" or not isinstance(target, str) or not target:
+            continue
+        out.append({"kind": "write", "path": here / target, "new": kind == "add"})
     return out
 
 
+def _codex_command(it: dict, here: Path) -> list[dict]:
+    """A rollout command: Codex's own read parse for reads, the shell parser for writes."""
+    if it.get("status") in ("declined", "rejected"):
+        return []
+    cmd = it.get("command")
+    events = _shell_events(shlex.join(cmd) if isinstance(cmd, list) else str(cmd or ""), here)
+    parsed = [p for p in _dicts(it.get("parsed_cmd")) if p.get("type") == "read" and isinstance(p.get("path"), str)]
+    if parsed:
+        events = [{"kind": "read", "path": here / p["path"]} for p in parsed] + [e for e in events if e["kind"] == "write"]
+    return events
+
+
+class _Walk:
+    """Turns session records, in order, into read and write events (one walker per session file)."""
+
+    def __init__(self, cwd: Path) -> None:
+        self.out: list[dict] = []
+        self.cwd = cwd
+        self.pending: dict[str, tuple[str, dict, Path, float | None]] = {}  # Claude tool calls awaiting a result
+        self.handed: dict[str, set[str]] = {}  # Claude tool call -> files the edit hook gave requirement text for
+        self.codex_handed: set[str] = set()  # Codex: hook text arrives as a developer message just before its call ends
+
+    def add(self, events: list[dict], at: float | None, handed: set[str]) -> None:
+        for ev in events:
+            self.out.append({**ev, "at": at, "handed": handed if ev["kind"] == "write" else set()})
+
+    def record(self, r: object) -> None:
+        if not isinstance(r, dict):
+            return
+        payload = r.get("payload") if isinstance(r.get("payload"), dict) else {}
+        if r.get("type") == "session_meta" and isinstance(payload.get("cwd"), str):
+            self.cwd = Path(payload["cwd"])
+        elif r.get("type") in ("assistant", "attachment", "user"):
+            self.claude(r)
+        else:
+            self.codex(r, payload)
+
+    def claude(self, r: dict) -> None:
+        if r["type"] == "attachment":
+            att = r.get("attachment") if isinstance(r.get("attachment"), dict) else {}
+            if att.get("type") == "hook_additional_context":
+                self.handed.setdefault(str(att.get("toolUseID", "")), set()).update(_handed_paths(att.get("content")))
+            return
+        msg = r.get("message") if isinstance(r.get("message"), dict) else {}
+        blocks = _dicts(msg.get("content"))
+        if r["type"] == "assistant":
+            here = Path(r["cwd"]) if isinstance(r.get("cwd"), str) else self.cwd  # the shell's folder at the call
+            for b in blocks:
+                if b.get("type") == "tool_use":
+                    inp = b.get("input") if isinstance(b.get("input"), dict) else {}
+                    self.pending[str(b.get("id"))] = (str(b.get("name", "")), inp, here, _epoch(r.get("timestamp")))
+            return
+        for b in (b for b in blocks if b.get("type") == "tool_result"):
+            uid = str(b.get("tool_use_id"))
+            name, inp, here, at = self.pending.pop(uid, ("", {}, self.cwd, None))
+            # `at` is when the call was made: a commit inside the same call comes after the write
+            self.add(_claude_result(name, inp, b, here), at, self.handed.pop(uid, set()))
+
+    def codex(self, r: dict, payload: dict) -> None:
+        t = r.get("type")
+        if t == "item.completed":  # codex exec --json: no times and no hook text in this stream
+            it = r.get("item") if isinstance(r.get("item"), dict) else {}
+            if it.get("type") == "command_execution":
+                self.add(_shell_events(str(it.get("command", "")), self.cwd), None, set())
+            elif it.get("type") == "file_change":
+                self.add(_codex_changes(it.get("changes"), self.cwd), None, set())
+        elif t == "event_msg" and payload.get("type") == "item_completed":  # codex rollout
+            it = payload.get("item") if isinstance(payload.get("item"), dict) else {}
+            here = Path(str(it.get("cwd") or self.cwd).removeprefix("file://"))
+            at = _epoch(payload.get("started_at_ms")) or _epoch(r.get("timestamp"))
+            if it.get("type") == "CommandExecution":
+                self.add(_codex_command(it, here), at, self.codex_handed)
+            elif it.get("type") == "FileChange":
+                self.add(_codex_changes(it.get("changes"), here), at, self.codex_handed)
+            else:
+                return
+            self.codex_handed = set()
+        elif t == "response_item" and payload.get("role") == "developer":
+            self.codex_handed |= _handed_paths(payload.get("content"))
+
+
 def _rel(root: Path, path: Path) -> str | None:
-    full = Path(os.path.normpath(path if path.is_absolute() else root / path))
+    full = Path(os.path.realpath(path if path.is_absolute() else root / path))
     return full.relative_to(root).as_posix() if full.is_relative_to(root) else None
 
 
 def _context(root: Path, rel: str) -> set[str]:
-    """The paths whose reading counts as reading `rel`'s requirement context."""
+    """The paths whose reading counts as reading `rel`'s requirement context (Python files: their `Implements:`)."""
     caps = {i.split("/", 1)[0] for i in implemented_ids(root / rel)}
     return {f"generated/wiki/{c}.md" for c in caps} | {f"openspec/specs/{c}/spec.md" for c in caps}
 
 
 @cache
 def _added_at(root: Path, rel: str) -> float | None:
-    """When git first recorded `rel` (seconds since the epoch); None when git never did; 0 outside a git repository."""
-    run = subprocess.run(["git", "-C", str(root), "log", "--diff-filter=A", "--format=%ct", "--", rel],
+    """When git first recorded `rel` on any branch (seconds); None when git never did; 0 outside a git repository."""
+    run = subprocess.run(["git", "-C", str(root), "log", "--all", "--diff-filter=A", "--format=%ct", "--", rel],
                          capture_output=True, text=True, check=False)
     if run.returncode != 0:
         return 0.0  # no history to ask: take the file as already there
-    times = [int(t) for t in run.stdout.split()]
+    times = [int(t) for t in run.stdout.split() if t.isdigit()]
     return float(min(times)) if times else None
 
 
-def _created(root: Path, rel: str, at: str | None) -> bool:
-    """Whether a shell write at `at` created `rel`: git had not yet recorded the file at that moment."""
+def _created(root: Path, rel: str, at: float | None) -> bool:
+    """Whether a shell write at `at` created `rel`: git had not recorded the file before that second.
+    git keeps whole seconds, so a commit in the same second as the call still comes after it."""
     added = _added_at(root, rel)
-    if added is None or not at:
+    if added is None or at is None:
         return added is None
-    return dt.datetime.fromisoformat(at.replace("Z", "+00:00")).timestamp() < added
+    return math.floor(at) <= added
 
 
-def report(transcript: Path, root: Path) -> list[dict]:
-    """One row per write inside `root`, in session order. Raises OSError or ValueError on an unreadable file."""
-    root = Path(os.path.normpath(root.resolve()))
-    records = [json.loads(line) for line in transcript.read_text(encoding="utf-8").splitlines() if line.strip()]
+def _transcripts(transcript: Path) -> list[tuple[str, Path]]:
+    """The session file and, for a Claude session, its subagents' files (`<session>/subagents/agent-*.jsonl`)."""
+    subs = sorted((transcript.parent / transcript.stem / "subagents").glob("agent-*.jsonl"))
+    return [("main", transcript)] + [(p.stem, p) for p in subs]
+
+
+def _rows(agent: str, transcript: Path, root: Path) -> list[dict]:
+    walk = _Walk(root)
+    for line in transcript.read_text(encoding="utf-8").splitlines():
+        if line.strip():
+            walk.record(json.loads(line))
     read: set[str] = set()
     written: set[str] = set()
     rows: list[dict] = []
-    for ev in _events(records, root):
+    for ev in walk.out:
         rel = _rel(root, ev["path"])
         if rel is None:
             continue
         if ev["kind"] == "read":
             read.add(rel)
             continue
-        new = ev["new"] if ev["new"] is not None else rel not in written and _created(root, rel, ev.get("at"))
-        rows.append({"file": rel, "new": new, "file_read_first": rel in read,
-                     "context_read_first": bool(_context(root, rel) & read), "handover": ev.get("handover", False)})
+        new = ev["new"] if ev["new"] is not None else rel not in written and _created(root, rel, ev["at"])
+        handover = any(rel == h or rel.endswith("/" + h) for h in ev["handed"])
+        rows.append({"agent": agent, "file": rel, "new": new, "file_read_first": rel in read,
+                     "context_read_first": bool(_context(root, rel) & read), "handover": handover})
         written.add(rel)
         if new:  # the session wrote the whole file, so later writes know it
             read.add(rel)
     for row in rows:
         row["unread"] = not (row["new"] or row["file_read_first"] or row["context_read_first"])
     return rows
+
+
+def report(transcript: Path, root: Path) -> list[dict]:
+    """One row per write inside `root`, in session order, the main agent's first and then each subagent's (each agent
+    has its own context, so each is measured on its own reads). Raises OSError or ValueError on an unreadable file."""
+    root = Path(os.path.realpath(root))
+    return [row for agent, path in _transcripts(transcript) for row in _rows(agent, path, root)]
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -367,13 +461,15 @@ def main(argv: list[str] | None = None) -> int:
         return 0
     marks = ("new", "file_read_first", "context_read_first", "handover")
     for row in rows:
-        print(f"{row['file']}: {', '.join(m for m in marks if row[m]) or 'nothing read first'}")
+        who = "" if row["agent"] == "main" else f"[{row['agent']}] "
+        print(f"{who}{row['file']}: {', '.join(m for m in marks if row[m]) or 'nothing read first'}")
     for row in rows:
         if row["unread"]:
             print(f"WARN {row['file']}: written with neither the file nor its requirement page read first")
     n = {k: sum(r[k] for r in rows) for k in (*marks, "unread")}
+    agents = len({r["agent"] for r in rows})
     print(f"RESULT writes={len(rows)} new={n['new']} file_read_first={n['file_read_first']} "
-          f"context_read_first={n['context_read_first']} handover={n['handover']} unread={n['unread']}")
+          f"context_read_first={n['context_read_first']} handover={n['handover']} unread={n['unread']} agents={agents}")
     return 0
 
 

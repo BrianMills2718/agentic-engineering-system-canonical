@@ -235,3 +235,102 @@ def test_a_shell_write_creating_a_file_git_never_saw_is_new(repo):
 def test_a_sed_script_is_not_a_written_path(repo):
     rows = _rows(repo, _claude(("Bash", {"command": f"sed -i 's|a/b|c|' {repo}/src/greet.py"}, "")))
     assert [r["file"] for r in rows] == ["src/greet.py"]
+
+
+# Review findings (cold review of the first version, 2026-11-27): each is a case the first version got wrong.
+
+def test_a_repository_reached_through_a_symlink(repo, tmp_path_factory):
+    link = tmp_path_factory.mktemp("l") / "repo"
+    link.symlink_to(repo)
+    for root in (repo, link):
+        row, = _rows(root, _claude(("Edit", {"file_path": str(link / "src/greet.py")}, "updated")))
+        assert row["file"] == "src/greet.py"
+
+
+def test_a_codex_command_that_reads_and_writes_keeps_its_write(repo):
+    row, = _rows(repo, [{"type": "event_msg", "payload": {"type": "item_completed", "item": {
+        "type": "CommandExecution", "command": ["bash", "-lc", "cat README && printf y > src/greet.py"],
+        "cwd": str(repo), "parsed_cmd": [{"type": "read", "path": "README"}, {"type": "unknown"}]}}}])
+    assert row["file"] == "src/greet.py"
+
+
+@pytest.mark.parametrize("record", [[], None, 3, "x",
+                                    {"type": "assistant", "message": {"content": [{"type": "tool_use", "id": "a", "name": "Edit", "input": "s"}]}},
+                                    {"type": "item.completed", "item": {"type": "file_change", "changes": ["x"]}},
+                                    {"type": "event_msg", "payload": {"type": "item_completed", "item": {"type": "FileChange", "changes": {"p": "x"}}}},
+                                    {"type": "user", "message": "text"}, {"type": "assistant", "timestamp": "yesterday", "message": {"content": "hi"}}])
+def test_odd_records_never_crash(repo, record):
+    t = _write(repo / "t.jsonl", [record])
+    assert main([str(t), "--repo", str(repo)]) == 0
+
+
+def test_a_write_then_a_read_in_one_command_is_not_read_first(repo):
+    row, = _rows(repo, _claude(("Bash", {"command": f"cd {repo} && sed -i s/a/b/ src/greet.py && cat src/greet.py"}, "")))
+    assert not row["file_read_first"]
+
+
+@pytest.mark.parametrize("flag", ["--in-place", "-ni", "-i.bak"])
+def test_sed_in_place_is_not_a_read(repo, flag):
+    rows = _rows(repo, _claude(("Bash", {"command": f"cd {repo} && sed {flag} s/a/b/ src/greet.py"}, "")))
+    assert all(not r["file_read_first"] for r in rows)
+
+
+def test_a_failed_read_and_a_refused_command_count_for_nothing(repo):
+    recs = _claude(("Read", {"file_path": str(repo / "src/greet.py")}, "File does not exist"),
+                   ("Bash", {"command": f"printf x > {repo}/src/greet.py"}, "PreToolUse:Bash hook error: refused"),
+                   ("Edit", {"file_path": str(repo / "src/greet.py")}, "updated"))
+    for r in recs:
+        for b in r.get("message", {}).get("content", []) if isinstance(r.get("message"), dict) else []:
+            if b.get("type") == "tool_result" and b["tool_use_id"] in ("toolu_0", "toolu_1"):
+                b["is_error"] = True
+    rows = _rows(repo, recs)
+    assert [(r["file"], r["file_read_first"]) for r in rows] == [("src/greet.py", False)]
+
+
+def test_a_shell_command_that_exits_non_zero_still_wrote(repo):
+    recs = _claude(("Bash", {"command": f"printf x > {repo}/src/greet.py; false"}, "Exit code 1"))
+    recs[-1]["message"]["content"][0]["is_error"] = True
+    assert len(_rows(repo, recs)) == 1
+
+
+def test_a_create_and_commit_in_the_same_second_is_new(repo):
+    import subprocess
+    _git(repo, "init", "-q")
+    rec = _claude(("Bash", {"command": f"cd {repo} && printf x > src/fresh.py && git add src/fresh.py && git commit -qm x"}, ""))
+    (repo / "src/fresh.py").write_text("x")
+    _git(repo, "add", "src/fresh.py")
+    _git(repo, "-c", "user.email=t@t", "-c", "user.name=t", "commit", "-qm", "x")
+    ct = int(subprocess.run(["git", "-C", str(repo), "log", "-1", "--format=%ct"], capture_output=True, text=True).stdout)
+    import datetime as dt
+    rec[0]["timestamp"] = dt.datetime.fromtimestamp(ct + 0.5, dt.timezone.utc).isoformat()
+    row, = _rows(repo, rec)
+    assert row["new"]
+
+
+def test_a_hand_over_marks_only_the_file_it_names(repo):
+    (repo / "src/other.py").write_text("x")
+    rows = _rows(repo, _claude(("Bash", {"command": f"cd {repo} && printf y > src/greet.py; printf z > src/other.py"}, "",
+                                "Requirement text for src/greet.py, from OpenSpec (its docstring says Implements: x):")))
+    assert [(r["file"], r["handover"]) for r in rows] == [("src/greet.py", True), ("src/other.py", False)]
+
+
+def test_text_that_only_mentions_plan_for_is_not_a_hand_over(repo):
+    row, = _rows(repo, _claude(("Edit", {"file_path": str(repo / "src/greet.py")}, "updated",
+                                "See the Plan for discussion (doc), from Brian")))
+    assert not row["handover"]
+
+
+def test_subagent_transcripts_are_read_as_their_own_agents(repo):
+    main_t = _write(repo / "s1.jsonl", _claude(("Read", {"file_path": str(repo / "src/greet.py")}, "x")))
+    sub = repo / "s1" / "subagents"
+    sub.mkdir(parents=True)
+    _write(sub / "agent-abc.jsonl", _claude(("Edit", {"file_path": str(repo / "src/greet.py")}, "updated")))
+    row, = report(main_t, repo)
+    assert row["agent"] == "agent-abc" and not row["file_read_first"]  # the subagent did not read it itself
+
+
+def test_mv_writes_only_its_destination_and_a_delete_writes_nothing(repo):
+    rows = _rows(repo, _claude(("Bash", {"command": f"cd {repo} && mv src/greet.py src/hello.py"}, "")))
+    assert [r["file"] for r in rows] == ["src/hello.py"]
+    assert _rows(repo, [{"type": "item.completed", "item": {"type": "file_change", "changes": [
+        {"path": str(repo / "src/greet.py"), "kind": "delete"}]}}]) == []

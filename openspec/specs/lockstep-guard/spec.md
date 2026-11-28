@@ -162,12 +162,17 @@ which the template does for its package), and the order environment, then file, 
 default the current folder) with three marks: whether the session read that file before the write; whether it
 read the file's requirement context before the write, meaning the `generated/wiki/<capability>.md` page or the
 `openspec/specs/<capability>/spec.md` of a capability named by the file's `Implements:` lines; and whether the
-edit hook's requirement text was attached to that write. A write that created the file SHALL be marked `new`:
-the Write tool's result says so, a Codex file change says `add`, and for a shell write git had not yet recorded
-the file when the call was made. A file the session wrote whole (the Write tool, or a shell write that created it)
-counts as read for its later writes. It
+edit hook's requirement text named that file on that write. A write that created the file SHALL be marked `new`:
+the Write tool's result says so, a Codex file change says `add`, and for a shell write git had not recorded the
+file on any branch before the second the call was made (outside a git repository a shell write is taken as an
+overwrite, and an existing file git never saw is taken as new). A file the session wrote whole (the Write tool, or
+a shell write that created it) counts as read for its later writes. A call that failed before it ran (a refused
+edit, a hook denial) SHALL count as neither a read nor a write; a delete SHALL not count, and a move SHALL count
+only its destination. A Claude session's subagent files (`<session>/subagents/agent-*.jsonl`) SHALL be read too,
+each agent measured on its own reads. Requirement context is found for Python files only, from their docstrings.
+It
 SHALL print one warning line for each write to an existing file with neither read, end with
-`RESULT writes=N new=N file_read_first=N context_read_first=N handover=N unread=N`, give the same rows as JSON with
+`RESULT writes=N new=N file_read_first=N context_read_first=N handover=N unread=N agents=N`, give the same rows as JSON with
 `--json`, and exit 0 whatever it finds; an unreadable transcript SHALL exit 2.
 
 Source: Brian, 2026-11-27, plan doc "AES next steps: plan for discussion", Milestone 1 step 4 ("Read-before-write
@@ -215,8 +220,11 @@ Codex rollout file and a `codex exec --json` stream (command executions and file
 found from the command's read commands (`cat`, `head`, `tail`, `sed` without `-i`, `nl`, `less`, `grep`, `rg`) or,
 in a Codex rollout, from Codex's own `parsed_cmd` read entries. Shell writes SHALL be the sure ones the existing
 shell target parser finds (redirect and tee targets, and what `mv`, `sed -i` and the like write, in a folder that
-exists); paths that code inside a command merely names SHALL NOT count, because which of them the code writes is
-unknown. A relative path SHALL be read against the folder the call was made in.
+exists); paths that code inside a command merely names SHALL NOT count, because
+which of them the code writes is unknown. A command's reads and writes SHALL keep the order of its simple commands,
+and a Codex command's writes SHALL be found even when Codex parsed reads in it. A relative path SHALL be read
+against the folder the call was made in, and paths SHALL be compared after resolving symbolic links. A record that
+is not of a known shape SHALL be skipped, never stop the report.
 
 Source: Brian, 2026-11-27, core rule "Claude and Codex behave the same" (code2-workspace `agents/core.md`,
 Records); the list of read commands inferred by agent.
