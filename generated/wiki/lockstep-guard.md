@@ -31,11 +31,11 @@ Implemented by:
 
 - `lockstep.replay` — [`src/lockstep/replay.py:1`](../../src/lockstep/replay.py#L1)
 
-- Scenario `a-claude-hand-over-is-its-own-event-before-its-write`: tested by `tests/lockstep/test_replay.py::test_a_claude_hand_over_is_its_own_event` ([`tests/lockstep/test_replay.py:55`](../../tests/lockstep/test_replay.py#L55))
-- Scenario `a-codex-hand-over-is-its-own-event-before-its-write`: tested by `tests/lockstep/test_replay.py::test_a_codex_hand_over_is_its_own_event` ([`tests/lockstep/test_replay.py:71`](../../tests/lockstep/test_replay.py#L71))
-- Scenario `a-write-carries-the-read-before-write-marks`: tested by `tests/lockstep/test_replay.py::test_a_write_carries_the_read_marks` ([`tests/lockstep/test_replay.py:96`](../../tests/lockstep/test_replay.py#L96))
-- Scenario `a-requirement-page-read-is-marked`: tested by `tests/lockstep/test_replay.py::test_a_requirement_page_read_is_marked` ([`tests/lockstep/test_replay.py:106`](../../tests/lockstep/test_replay.py#L106))
-- Scenario `the-page-and-its-data-are-served-locally`: tested by `tests/lockstep/test_replay.py::test_the_page_and_data_are_served_locally` ([`tests/lockstep/test_replay.py:124`](../../tests/lockstep/test_replay.py#L124))
+- Scenario `a-claude-hand-over-is-its-own-event-before-its-write`: tested by `tests/lockstep/test_replay.py::test_a_claude_hand_over_is_its_own_event` ([`tests/lockstep/test_replay.py:56`](../../tests/lockstep/test_replay.py#L56))
+- Scenario `a-codex-hand-over-is-its-own-event-before-its-write`: tested by `tests/lockstep/test_replay.py::test_a_codex_hand_over_is_its_own_event` ([`tests/lockstep/test_replay.py:72`](../../tests/lockstep/test_replay.py#L72))
+- Scenario `a-write-carries-the-read-before-write-marks`: tested by `tests/lockstep/test_replay.py::test_a_write_carries_the_read_marks` ([`tests/lockstep/test_replay.py:97`](../../tests/lockstep/test_replay.py#L97))
+- Scenario `a-requirement-page-read-is-marked`: tested by `tests/lockstep/test_replay.py::test_a_requirement_page_read_is_marked` ([`tests/lockstep/test_replay.py:107`](../../tests/lockstep/test_replay.py#L107))
+- Scenario `the-page-and-its-data-are-served-locally`: tested by `tests/lockstep/test_replay.py::test_the_page_and_data_are_served_locally` ([`tests/lockstep/test_replay.py:125`](../../tests/lockstep/test_replay.py#L125))
 
 ## a session s writes are listed with what was read first
 
@@ -181,8 +181,8 @@ Implemented by:
 
 - `lockstep.replay` — [`src/lockstep/replay.py:1`](../../src/lockstep/replay.py#L1)
 
-- Scenario `the-plan-route-gives-a-file-s-row-and-requirement-text`: tested by `tests/lockstep/test_replay.py::test_the_plan_route_gives_a_files_row_and_requirement_text` ([`tests/lockstep/test_replay.py:223`](../../tests/lockstep/test_replay.py#L223))
-- Scenario `the-page-offers-the-view-as-a-toggle`: tested by `tests/lockstep/test_replay.py::test_the_page_offers_the_view_as_a_toggle` ([`tests/lockstep/test_replay.py:243`](../../tests/lockstep/test_replay.py#L243))
+- Scenario `the-plan-route-gives-a-file-s-row-and-requirement-text`: tested by `tests/lockstep/test_replay.py::test_the_plan_route_gives_a_files_row_and_requirement_text` ([`tests/lockstep/test_replay.py:224`](../../tests/lockstep/test_replay.py#L224))
+- Scenario `the-page-offers-the-view-as-a-toggle`: tested by `tests/lockstep/test_replay.py::test_the_page_offers_the_view_as_a_toggle` ([`tests/lockstep/test_replay.py:244`](../../tests/lockstep/test_replay.py#L244))
 
 ## the replay marks writes to the plan
 
@@ -190,13 +190,16 @@ ID: `lockstep-guard/the-replay-marks-writes-to-the-plan`
 
 Status: **implemented and tested**
 
-Each replay event that wrote `lockstep.yaml` or a file under `openspec/changes/` or `openspec/specs/`, and was not refused, SHALL carry `plan_write: true`; every other tool event SHALL carry `plan_write: false`. The plan, code and wiki view SHALL light an "agent writes the plan" arrow for a plan write, and SHALL say for the whole session whether the first file the agent wrote was a plan file, naming that file and its time.
+Each replay event that wrote, and was not refused, a plan file SHALL carry `plan_write: true`; every other tool event SHALL carry `plan_write: false`. A plan file is, by its path inside the checkout holding it (a leading `./` dropped, letter case ignored for names and endings): `lockstep.yaml`; a document (`.md`, `.json`, `.yaml`, `.yml`, `.txt`, `.rst`, `.adoc`, `.c4`) under `openspec/` other than `openspec/config.yaml`; or an authored document (`.md`, `.rst`, `.txt`, `.adoc`, `.json`, `.c4`) anywhere else. A file is not a plan file when it is outside the repository; when a folder on its path, at any depth, is `wiki`, `generated`, `tests`, `test`, `__tests__`, `fixtures`, `node_modules`, `.venv`, `venv`, `dist`, `build`, `coverage`, `__pycache__`, `.claude`, `.agents`, `.codex`, `.github`, `.vscode`, `.cursor` or `raw`, or holds `evidence/runs`; or when its name is `package.json`, `package-lock.json`, `tsconfig*.json`, `jsconfig.json`, `composer.json`, `requirements*.txt`, `constraints*.txt`, `CMakeLists.txt`, `LICENSE*` or `*.lock`. Each tool event SHALL carry `plan_file`, true when its file is such a file, so the page marks a read of the plan by the same rule. The plan, code and wiki view SHALL light an "agent writes the plan" arrow for a plan write, and SHALL say for the whole session whether the first file the agent wrote was a plan file, naming that file and its time.
 
 Implemented by:
 
 - `lockstep.replay` — [`src/lockstep/replay.py:1`](../../src/lockstep/replay.py#L1)
 
-- Scenario `a-plan-write-is-marked-and-a-code-write-is-not`: tested by `tests/lockstep/test_replay.py::test_a_plan_write_is_marked_and_a_code_write_is_not` ([`tests/lockstep/test_replay.py:255`](../../tests/lockstep/test_replay.py#L255))
+- Scenario `a-plan-write-is-marked-and-a-code-write-is-not`: tested by `tests/lockstep/test_replay.py::test_a_plan_write_is_marked_and_a_code_write_is_not` ([`tests/lockstep/test_replay.py:267`](../../tests/lockstep/test_replay.py#L267))
+- Scenario `a-document-write-is-a-plan-write-and-a-generated-test-config-or-wiki-write-is-not`: tested by `tests/lockstep/test_replay.py::test_a_document_write_is_a_plan_write_and_a_generated_test_config_or_wiki_write_is_not` ([`tests/lockstep/test_replay.py:256`](../../tests/lockstep/test_replay.py#L256))
+- Scenario `excluded-folders-match-at-any-depth-inside-the-checkout`: tested by `tests/lockstep/test_replay.py::test_excluded_folders_match_at_any_depth_inside_the_checkout` ([`tests/lockstep/test_replay.py:386`](../../tests/lockstep/test_replay.py#L386))
+- Scenario `a-spec-read-is-a-plan-read-and-a-requirement-read`: tested by `tests/lockstep/test_replay.py::test_a_spec_read_is_a_plan_read_and_a_requirement_read` ([`tests/lockstep/test_replay.py:402`](../../tests/lockstep/test_replay.py#L402))
 
 ## the replay shows each write s plan standing requirement progress and the wiki read
 
@@ -204,12 +207,13 @@ ID: `lockstep-guard/the-replay-shows-each-write-s-plan-standing-requirement-prog
 
 Status: **implemented and tested**
 
-Each replay write event other than a plan write SHALL carry `planned` (for a shell write, the worst standing of the files it wrote, in the order below): `planned` when a `lockstep.yaml` layout row names the written file and either no plan write in the session names it or one before this write does; `row added later` when a row names it and only plan writes after this one name it; `unplanned` when no row names it and a governed folder covers it; and `outside` otherwise. A plan write names a file when the text it wrote holds the file's path. The timeline SHALL flag an `unplanned` write in orange and a `row added later` write in grey. The server SHALL answer `/api/status` with the note on which test results were used and, for each requirement, its state from `lockstep status`, the files that implement it and the test files tagged with its scenarios; the plan, code and wiki view SHALL show for each requirement whether, by the current step, the session had written none of those files, its code, or its tests, and its state now. The server SHALL answer `/api/wiki` with the paths of the pages under `generated/wiki/`, index first; the wiki pane SHALL list them with the pages read so far highlighted. A file inside a git checkout under the repository (a worktree the agent made there) SHALL be judged, for the plan write and requirement read marks and for `planned`, against that checkout's `lockstep.yaml`, specs and wiki; the session data SHALL name the checkout most of its writes went to, and `/api/status` and `/api/wiki` SHALL take it as `?checkout=`, answering 404 for a folder that is not such a checkout.
+Each replay write event other than a plan write SHALL carry `planned` (for a shell write, the worst standing of the files it wrote, in the order below): `planned` when a `lockstep.yaml` layout row names the written file and no write of that checkout's `lockstep.yaml` after this one added the row; `row added later` when a row names it, no plan write before this one names it, and an edit of `lockstep.yaml` after this one added it (its new text holds the path and its old text does not; for a diff, an added line holds it). A later document mention, or a whole rewrite of `lockstep.yaml` whose earlier text the session does not show, never makes a write `row added later`; `unplanned` when no row names it and a governed folder covers it; and `outside` otherwise. A plan write names a file when the text it wrote holds the file's path. The timeline SHALL flag an `unplanned` write in orange and a `row added later` write in grey. The server SHALL answer `/api/status` with the note on which test results were used and, for each requirement, its state from `lockstep status`, the files that implement it and the test files tagged with its scenarios; the plan, code and wiki view SHALL show for each requirement whether, by the current step, the session had written none of those files, its code, or its tests, and its state now. The server SHALL answer `/api/wiki` with the paths of the pages under `generated/wiki/`, index first; the wiki pane SHALL list them with the pages read so far highlighted. A file inside a git checkout under the repository (a worktree the agent made there) SHALL be judged, for the plan write and requirement read marks and for `planned`, against that checkout's `lockstep.yaml`, specs and wiki; the session data SHALL name the checkout most of its writes went to, and `/api/status` and `/api/wiki` SHALL take it as `?checkout=`, answering 404 for a folder that is not such a checkout.
 
 Implemented by:
 
 - `lockstep.replay` — [`src/lockstep/replay.py:1`](../../src/lockstep/replay.py#L1)
 
-- Scenario `a-write-before-its-row-is-added-is-flagged`: tested by `tests/lockstep/test_replay.py::test_a_write_before_its_row_is_added_is_flagged` ([`tests/lockstep/test_replay.py:271`](../../tests/lockstep/test_replay.py#L271))
-- Scenario `a-write-inside-a-worktree-is-judged-by-that-worktree-s-plan`: tested by `tests/lockstep/test_replay.py::test_a_write_inside_a_worktree_is_judged_by_its_plan` ([`tests/lockstep/test_replay.py:304`](../../tests/lockstep/test_replay.py#L304))
-- Scenario `the-status-and-wiki-routes-answer`: tested by `tests/lockstep/test_replay.py::test_the_status_and_wiki_routes_answer` ([`tests/lockstep/test_replay.py:286`](../../tests/lockstep/test_replay.py#L286))
+- Scenario `a-write-before-its-row-is-added-is-flagged`: tested by `tests/lockstep/test_replay.py::test_a_write_before_its_row_is_added_is_flagged` ([`tests/lockstep/test_replay.py:283`](../../tests/lockstep/test_replay.py#L283))
+- Scenario `a-later-document-mention-does-not-downgrade-a-planned-write`: tested by `tests/lockstep/test_replay.py::test_a_later_document_mention_does_not_downgrade_a_planned_write` ([`tests/lockstep/test_replay.py:367`](../../tests/lockstep/test_replay.py#L367))
+- Scenario `a-write-inside-a-worktree-is-judged-by-that-worktree-s-plan`: tested by `tests/lockstep/test_replay.py::test_a_write_inside_a_worktree_is_judged_by_its_plan` ([`tests/lockstep/test_replay.py:316`](../../tests/lockstep/test_replay.py#L316))
+- Scenario `the-status-and-wiki-routes-answer`: tested by `tests/lockstep/test_replay.py::test_the_status_and_wiki_routes_answer` ([`tests/lockstep/test_replay.py:298`](../../tests/lockstep/test_replay.py#L298))

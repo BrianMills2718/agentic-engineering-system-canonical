@@ -2373,20 +2373,20 @@ layout:
   - portable-template/a-fresh-copy-declares-where-each-kind-of-document-lives
   tests:
   - tests/test_template_portable.py
-- path: openspec/changes/archive/2026-11-28-replay-plan-standing/prior-art.json
-  purpose: The replay-plan-standing OpenSpec change, archived; removed in the commit after the merge that archived it
+- path: openspec/changes/archive/2026-11-28-viewer-plan-scope/prior-art.json
+  purpose: The viewer-plan-scope OpenSpec change, archived; removed in the commit after the merge that archived it
   implements: []
   tests: []
-- path: openspec/changes/archive/2026-11-28-replay-plan-standing/proposal.md
-  purpose: The replay-plan-standing OpenSpec change, archived; removed in the commit after the merge that archived it
+- path: openspec/changes/archive/2026-11-28-viewer-plan-scope/proposal.md
+  purpose: The viewer-plan-scope OpenSpec change, archived; removed in the commit after the merge that archived it
   implements: []
   tests: []
-- path: openspec/changes/archive/2026-11-28-replay-plan-standing/specs/lockstep-guard/spec.md
-  purpose: The replay-plan-standing OpenSpec change, archived; removed in the commit after the merge that archived it
+- path: openspec/changes/archive/2026-11-28-viewer-plan-scope/specs/lockstep-guard/spec.md
+  purpose: The viewer-plan-scope OpenSpec change, archived; removed in the commit after the merge that archived it
   implements: []
   tests: []
-- path: openspec/changes/archive/2026-11-28-replay-plan-standing/tasks.md
-  purpose: The replay-plan-standing OpenSpec change, archived; removed in the commit after the merge that archived it
+- path: openspec/changes/archive/2026-11-28-viewer-plan-scope/tasks.md
+  purpose: The viewer-plan-scope OpenSpec change, archived; removed in the commit after the merge that archived it
   implements: []
   tests: []
 - path: src/pcw/__init__.py

@@ -86,15 +86,28 @@ wiki page". The panes, the hook band and the plain-JSON route are inferred by ag
 
 ### Requirement: The replay marks writes to the plan
 
-Each replay event that wrote `lockstep.yaml` or a file under `openspec/changes/` or `openspec/specs/`, and was not
-refused, SHALL carry `plan_write: true`; every other tool event SHALL carry `plan_write: false`. The plan, code and
+Each replay event that wrote, and was not refused, a plan file SHALL carry `plan_write: true`; every other tool
+event SHALL carry `plan_write: false`. A plan file is, by its path inside the checkout holding it (a leading `./`
+dropped, letter case ignored for names and endings): `lockstep.yaml`; a document (`.md`, `.json`, `.yaml`, `.yml`,
+`.txt`, `.rst`, `.adoc`, `.c4`) under `openspec/` other than `openspec/config.yaml`; or an authored document
+(`.md`, `.rst`, `.txt`, `.adoc`, `.json`, `.c4`) anywhere else. A file is not a plan file when it is outside the
+repository; when a folder on its path, at any depth, is `wiki`, `generated`, `tests`, `test`, `__tests__`,
+`fixtures`, `node_modules`, `.venv`, `venv`, `dist`, `build`, `coverage`, `__pycache__`, `.claude`, `.agents`,
+`.codex`, `.github`, `.vscode`, `.cursor` or `raw`, or holds `evidence/runs`; or when its name is
+`package.json`, `package-lock.json`, `tsconfig*.json`, `jsconfig.json`, `composer.json`, `requirements*.txt`,
+`constraints*.txt`, `CMakeLists.txt`, `LICENSE*` or `*.lock`. Each tool event SHALL
+carry `plan_file`, true when its file is such a file, so the page marks a read of the plan by the same rule. The plan, code and
 wiki view SHALL light an "agent writes the plan" arrow for a plan write, and SHALL say for the whole session whether
 the first file the agent wrote was a plan file, naming that file and its time.
 
 Source: Brian, 2026-11-28: "ok the first thing i noticed is that the agent didnt write the plan first" (on the
-plan, code and wiki view of the step-5 proof session). Which paths count as the plan, the event field and the
-session line are inferred by agent from the layout rows (`lockstep.yaml`) and OpenSpec changes being where a plan is
-written.
+plan, code and wiki view of the step-5 proof session); Brian, 2026-11-28, on what counts as the plan: "i think i
+thought of plan as actually all documentation/files that arent code (other than the navigational wiki) but maybe
+thats not best?", then "continue through all remainign hihg condience items". Inferred by agent: generated files,
+tests, dependency folders, raw source material, run evidence and config are left out although they are not code,
+because a tool or another person writes them, tests have their own stage on the requirement track, and config
+changes how code runs; the event field and the session line are
+inferred by agent.
 
 #### Scenario: A plan write is marked and a code write is not
 
@@ -102,12 +115,34 @@ written.
 - **THEN** the first write's event has `plan_write` true and the second's false
 - **AND** the page holds the "agent writes the plan" arrow and the plan-first line
 
+#### Scenario: A document write is a plan write and a generated, test, config or wiki write is not
+
+- **WHEN** a session writes `docs/architecture/greet.md`, `generated/files.md`, `tests/test_greet.py`,
+  `pyproject.toml` and `wiki/index.md`
+- **THEN** only the first write's event has `plan_write` true, and only its `plan_file` is true
+
+#### Scenario: Excluded folders match at any depth inside the checkout
+
+- **WHEN** the replay judges `docs/a.md`, `pkg/tests/notes.md`, `data/raw/source.txt`, `evidence/runs/r1/out.json`,
+  `web/package.json`, `requirements-dev.txt`, `openspec/config.yaml` and `openspec/changes/x/plan.yaml`, at the
+  repository root and inside a checkout under `.claude/worktrees/`
+- **THEN** only `docs/a.md` and `openspec/changes/x/plan.yaml` are plan files, in both places
+
+#### Scenario: A spec read is a plan read and a requirement read
+
+- **WHEN** a session reads `openspec/specs/greeter/spec.md`, then `generated/wiki/greeter.md`
+- **THEN** the first event has `plan_file` and `requirement_read` true, and the second only `requirement_read`
+- **AND** the page marks a plan read from `plan_file`
+
 ### Requirement: The replay shows each write's plan standing, requirement progress and the wiki read
 
 Each replay write event other than a plan write SHALL carry `planned` (for a shell write, the worst standing of
 the files it wrote, in the order below): `planned` when a `lockstep.yaml` layout row names the written file
-and either no plan write in the session names it or one before this write does; `row added later` when a row names
-it and only plan writes after this one name it; `unplanned` when no row names it and a governed folder covers it; and
+and no write of that checkout's `lockstep.yaml` after this one added the row; `row added later` when a row names
+it, no plan write before this one names it, and an edit of `lockstep.yaml` after this one added it (its new text
+holds the path and its old text does not; for a diff, an added line holds it). A later document mention, or a whole
+rewrite of `lockstep.yaml` whose earlier text the session does not show, never makes a write `row added later`;
+`unplanned` when no row names it and a governed folder covers it; and
 `outside` otherwise. A plan write names a file when the text it wrote holds the file's path. The timeline SHALL flag
 an `unplanned` write in orange and a `row added later` write in grey. The server SHALL answer `/api/status` with
 the note on which test results were used and, for each requirement, its state from `lockstep status`, the files that
@@ -123,13 +158,22 @@ is not such a checkout.
 Source: Brian, 2026-11-28: "continue through all remainign hihg condience items", on the list holding viewer ideas 2
 (planned versus unplanned files, orange flag on an unplanned write), 5 (requirement status track) and 6 (the wiki as
 the agent saw it). The four standings, the route names and judging against the plan as it is now are inferred by
-agent from the layout rows and `lockstep status`.
+agent from the layout rows and `lockstep status`. Keeping a write `planned` when only a later document or a whole
+rewrite names it is inferred by agent, after documents became plan writes: a row there at the session's start is
+not shown by such a write, so it does not prove the row was added.
 
 #### Scenario: A write before its row is added is flagged
 
 - **WHEN** a session writes `src/extra.py`, then writes `lockstep.yaml` with a row naming it, then writes
   `src/other.py`, and the repository's `lockstep.yaml` names `src/extra.py` and governs `src/`
 - **THEN** the first write's `planned` is `row added later` and the third's is `unplanned`
+
+#### Scenario: A later document mention does not downgrade a planned write
+
+- **WHEN** the repository's `lockstep.yaml` names `src/greet.py`, `src/extra.py` and `src/late.py`, and a session
+  writes `docs/notes.md` naming `src/extra.py`, then `src/extra.py`, `src/greet.py` and `src/late.py`, then
+  `docs/after.md` naming `src/greet.py` and `src/late.py`, then all of `lockstep.yaml` with a row for `src/late.py`
+- **THEN** each of the three code writes is `planned`
 
 #### Scenario: A write inside a worktree is judged by that worktree's plan
 
@@ -177,7 +221,13 @@ from lockstep.read_before_write import (_dict, _dicts, _epoch, _handed_paths, _r
 CAP = 60_000  # characters of tool text kept per event
 _REQUIREMENT_DIRS = ("generated/wiki/", "openspec/specs/")
 _WRITE_TOOLS = {"Write", "Edit", "MultiEdit", "NotebookEdit", "Delete"}
-_PLAN_DIRS = ("openspec/changes/", "openspec/specs/")
+_PLAN_DOCS = (".md", ".rst", ".txt", ".adoc", ".json", ".c4")  # authored documents: plan when outside the folders below
+_SPEC_DOCS = _PLAN_DOCS + (".yaml", ".yml")  # what counts under openspec/
+_NOT_PLAN_DIRS = {"wiki", "generated", "tests", "test", "__tests__", "fixtures", "node_modules", ".venv", "venv", "dist",
+                  "build", "coverage", "__pycache__", ".claude", ".agents", ".codex", ".github", ".vscode", ".cursor",
+                  "raw"}  # at any depth: navigation, tool output, tests, dependencies, source material, agent config
+_NOT_PLAN_NAMES = ("package.json", "package-lock.json", "tsconfig*.json", "jsconfig.json", "composer.json",
+                   "requirements*.txt", "constraints*.txt", "cmakelists.txt", "license*", "*.lock")  # lower case
 
 
 def _show(root: Path, path: object, here: Path) -> str:
@@ -205,9 +255,23 @@ def checkout_of(root: Path, rel: str) -> str:
 
 
 def _is_plan(rel: str, root: Path) -> bool:
-    """`lockstep.yaml` or an OpenSpec change or spec of the checkout holding the file: where a plan is written."""
+    """`lockstep.yaml`, an OpenSpec document or an authored document of the checkout holding the file, except under
+    a wiki, generated, test, dependency, raw-source, run-evidence or config folder at any depth, a dependency or
+    licence file, and any file outside the repository."""
+    rel = rel.removeprefix("./")
+    if rel.startswith(("/", "../")):
+        return False
     rel = rel[len(checkout_of(root, rel)):]
-    return rel == "lockstep.yaml" or rel.startswith(_PLAN_DIRS)
+    parts = rel.split("/")
+    name = parts[-1].lower()
+    if rel == "lockstep.yaml":
+        return True
+    if parts[0] == "openspec":
+        return rel != "openspec/config.yaml" and name.endswith(_SPEC_DOCS)
+    folders = parts[:-1]
+    if _NOT_PLAN_DIRS.intersection(folders) or any(a == "evidence" and b == "runs" for a, b in zip(folders, folders[1:])):
+        return False
+    return name.endswith(_PLAN_DOCS) and not any(fnmatch(name, g) for g in _NOT_PLAN_NAMES)
 
 
 class _Events:
@@ -372,6 +436,7 @@ def _marks(events: list[dict], rows: list[dict], root: Path) -> None:
             e["writes"] = [m["file"] for m in e["marks"]]  # a shell call names no path; its writes are these
             wrote = ([e["path"]] if e["tool"] in _WRITE_TOOLS else []) + e["writes"]
             e["plan_write"] = not e.get("refused") and any(_is_plan(f, root) for f in wrote if f)
+            e["plan_file"] = bool(e.get("path")) and _is_plan(e["path"], root)  # the page marks a read of it
 
 
 _WORST = ["unplanned", "row added later", "planned", "outside"]
@@ -394,12 +459,25 @@ def _layout(root: Path) -> tuple[set[str], list[str]]:
     return rows, [str(g) for g in data.get("governed") or []]
 
 
+def _adds(e: dict, f: str) -> bool:
+    """Whether an edit of `lockstep.yaml` added a line naming `f`: its new text holds it and its old text does not
+    (a diff: an added line holds it). A whole rewrite, whose earlier text is not shown, adds nothing."""
+    if e.get("diff"):
+        return any(line.startswith("+") and f in line for line in e["new"].splitlines())
+    if e["tool"] == "Write":
+        return False
+    return f in e["new"] and f not in e["old"]
+
+
 def _standing(events: list[dict], root: Path) -> None:
-    """Give each write other than a plan write its `planned` standing against the layout rows as they are now,
-    with a row counted from the first plan write whose text holds the file's path."""
+    """Give each write other than a plan write its `planned` standing against the layout rows as they are now: a row
+    counts from a plan write before it naming the file, and is `row added later` only when a later edit of
+    `lockstep.yaml` added it; a later document or a whole rewrite never downgrades a write."""
     layouts: dict[str, tuple[set[str], list[str]]] = {}
     tools = [e for e in events if e["kind"] == "tool" and not e.get("refused")]
     plan_text = [(i, e["content"] + e["new"]) for i, e in enumerate(tools) if e["plan_write"]]
+    adds = [(i, e) for i, e in enumerate(tools) if e["plan_write"] and e["tool"] in _WRITE_TOOLS and e["path"]
+            and e["path"][len(checkout_of(root, e["path"])):] == "lockstep.yaml"]
     for i, e in enumerate(tools):
         wrote = ([e["path"]] if e["tool"] in _WRITE_TOOLS and e["path"] else []) + e["writes"]
         if e["plan_write"] or not wrote:
@@ -411,11 +489,13 @@ def _standing(events: list[dict], root: Path) -> None:
                 layouts[prefix] = _layout(root / prefix)
             rows, governed = layouts[prefix]
             f = f[len(prefix):]
-            named = [j for j, text in plan_text if f in text]
             if f not in rows:
                 found.append("unplanned" if any(f.startswith(g) for g in governed) else "outside")
+            elif any(j < i and f in text for j, text in plan_text):
+                found.append("planned")
             else:
-                found.append("row added later" if named and min(named) > i else "planned")
+                added = any(j > i and checkout_of(root, a["path"]) == prefix and _adds(a, f) for j, a in adds)
+                found.append("row added later" if added else "planned")
         e["planned"] = min(found, key=_WORST.index)
 
 

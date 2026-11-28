@@ -1,6 +1,7 @@
 """`lockstep replay`: one session stepped through in order, with hand-overs and read marks (Milestone 1 step 9)."""
 import hashlib
 import json
+import os
 import threading
 import urllib.error
 import urllib.request
@@ -9,7 +10,7 @@ from pathlib import Path
 import pytest
 
 from lockstep.read_before_write import report
-from lockstep.replay import make_server, session_events
+from lockstep.replay import _is_plan, make_server, session_events
 
 GREET = '"""Greeter.\n\nImplements: greeter/the-greeter-says-hello\n"""\n\n\ndef greet() -> str:\n    return "hello"\n'
 HAND = ("Requirement text for src/greet.py, from OpenSpec (its docstring says Implements: "
@@ -252,6 +253,17 @@ def test_the_page_offers_the_view_as_a_toggle(repo):
         server.server_close()
 
 
+@pytest.mark.req("lockstep-guard/a-document-write-is-a-plan-write-and-a-generated-test-config-or-wiki-write-is-not")
+def test_a_document_write_is_a_plan_write_and_a_generated_test_config_or_wiki_write_is_not(repo):
+    paths = ["docs/architecture/greet.md", "generated/files.md", "tests/test_greet.py", "pyproject.toml",
+             "wiki/index.md"]
+    t = _write(repo / "t.jsonl", _claude(*[
+        ("Write", {"file_path": str(repo / p), "content": "x\n"}, "File created successfully") for p in paths]))
+    tools = [e for e in session_events(t, repo) if e["kind"] == "tool"]
+    assert [(e["path"], e["plan_write"]) for e in tools] == [(p, p == paths[0]) for p in paths]
+    assert [e["plan_file"] for e in tools] == [p == paths[0] for p in paths]  # the page's plan-read rule, same files
+
+
 @pytest.mark.req("lockstep-guard/a-plan-write-is-marked-and-a-code-write-is-not")
 def test_a_plan_write_is_marked_and_a_code_write_is_not(repo):
     t = _write(repo / "t.jsonl", _claude(
@@ -347,6 +359,56 @@ def test_status_for_an_unknown_checkout_is_404_and_a_bad_plan_is_not_a_crash(rep
         assert _get(port, "/api/status?checkout=../../etc/")[0] == 404
         code, body = _get(port, "/api/plan?file=src/greet.py")
         assert code == 200 and json.loads(body)["row"] is None
+    finally:
+        server.shutdown()
+        server.server_close()
+
+
+@pytest.mark.req("lockstep-guard/a-later-document-mention-does-not-downgrade-a-planned-write")
+def test_a_later_document_mention_does_not_downgrade_a_planned_write(repo):
+    (repo / "lockstep.yaml").write_text(
+        "governed: [src/]\nlayout:\n- path: src/greet.py\n  purpose: Says hello\n- path: src/extra.py\n  purpose: Extra\n"
+        "- path: src/late.py\n  purpose: Late\n")
+    t = _write(repo / "t.jsonl", _claude(
+        ("Write", {"file_path": str(repo / "docs/notes.md"), "content": "extra goes in src/extra.py\n"}, "File created"),
+        ("Write", {"file_path": str(repo / "src/extra.py"), "content": "x = 1\n"}, "File created"),
+        ("Edit", {"file_path": str(repo / "src/greet.py"), "old_string": "hello", "new_string": "hi"}, "updated"),
+        ("Write", {"file_path": str(repo / "src/late.py"), "content": "y = 1\n"}, "File created"),
+        ("Write", {"file_path": str(repo / "docs/after.md"), "content": "changed src/greet.py and src/late.py\n"},
+         "File created"),
+        ("Write", {"file_path": str(repo / "lockstep.yaml"), "content": "layout:\n- path: src/late.py\n"}, "File created")))
+    writes = [e for e in session_events(t, repo) if e["kind"] == "tool"]
+    # a document before the code write plans it; a row there at the start stays planned after a later mention;
+    # a full rewrite of lockstep.yaml whose earlier text is unseen does not prove the row was added
+    assert [e.get("planned") for e in writes] == [None, "planned", "planned", "planned", None, None]
+
+
+@pytest.mark.req("lockstep-guard/excluded-folders-match-at-any-depth-inside-the-checkout")
+def test_excluded_folders_match_at_any_depth_inside_the_checkout(repo):
+    wt = repo / ".claude/worktrees/x"
+    wt.mkdir(parents=True)
+    (wt / ".git").write_text("gitdir: elsewhere\n")
+    paths = {"docs/a.md": True, "./docs/b.MD": True, "pkg/tests/notes.md": False, "web/node_modules/x/README.md": False,
+             "data/raw/source.txt": False, "evidence/runs/r1/out.json": False, "evidence/summary.md": True,
+             "web/package.json": False, "tsconfig.base.json": False, "requirements-dev.txt": False, "LICENSE.md": False,
+             "openspec/config.yaml": False, "openspec/changes/x/.gitkeep": False, "openspec/changes/x/tool.py": False,
+             "openspec/changes/x/proposal.md": True, "openspec/changes/x/plan.yaml": True}
+    root = Path(os.path.realpath(repo))
+    for p, want in paths.items():
+        assert _is_plan(p, root) is want, p
+        assert _is_plan(".claude/worktrees/x/" + p.removeprefix("./"), root) is want, "worktree " + p
+
+
+@pytest.mark.req("lockstep-guard/a-spec-read-is-a-plan-read-and-a-requirement-read", existing=True)
+def test_a_spec_read_is_a_plan_read_and_a_requirement_read(repo):
+    t = _write(repo / "t.jsonl", _claude(
+        ("Read", {"file_path": str(repo / "openspec/specs/greeter/spec.md")}, "spec"),
+        ("Read", {"file_path": str(repo / "generated/wiki/greeter.md")}, "page")))
+    tools = [e for e in session_events(t, repo) if e["kind"] == "tool"]
+    assert [(e["plan_file"], e["requirement_read"]) for e in tools] == [(True, True), (False, True)]
+    server = _serve(repo)
+    try:
+        assert "e.plan_file" in _get(server.server_address[1], "/")[1].decode()  # the page's plan-read mark
     finally:
         server.shutdown()
         server.server_close()
