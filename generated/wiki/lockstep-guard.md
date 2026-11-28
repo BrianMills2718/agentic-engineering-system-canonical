@@ -169,3 +169,17 @@ Implemented by:
 
 - Scenario `the-plan-route-gives-a-file-s-row-and-requirement-text`: tested by `tests/lockstep/test_replay.py::test_the_plan_route_gives_a_files_row_and_requirement_text` ([`tests/lockstep/test_replay.py:223`](../../tests/lockstep/test_replay.py#L223))
 - Scenario `the-page-offers-the-view-as-a-toggle`: tested by `tests/lockstep/test_replay.py::test_the_page_offers_the_view_as_a_toggle` ([`tests/lockstep/test_replay.py:243`](../../tests/lockstep/test_replay.py#L243))
+
+## the replay marks writes to the plan
+
+ID: `lockstep-guard/the-replay-marks-writes-to-the-plan`
+
+Status: **implemented and tested**
+
+Each replay event that wrote `lockstep.yaml` or a file under `openspec/changes/` or `openspec/specs/`, and was not refused, SHALL carry `plan_write: true`; every other tool event SHALL carry `plan_write: false`. The plan, code and wiki view SHALL light an "agent writes the plan" arrow for a plan write, and SHALL say for the whole session whether the first file the agent wrote was a plan file, naming that file and its time.
+
+Implemented by:
+
+- `lockstep.replay` — [`src/lockstep/replay.py:1`](../../src/lockstep/replay.py#L1)
+
+- Scenario `a-plan-write-is-marked-and-a-code-write-is-not`: tested by `tests/lockstep/test_replay.py::test_a_plan_write_is_marked_and_a_code_write_is_not` ([`tests/lockstep/test_replay.py:255`](../../tests/lockstep/test_replay.py#L255))
