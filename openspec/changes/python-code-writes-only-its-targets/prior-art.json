@@ -1,0 +1,37 @@
+{
+  "need": "Tell which files a Python script inside a shell command writes, without counting paths that only appear in the text it writes.",
+  "searched": [
+    {
+      "place": "own",
+      "where": "src/lockstep/shell_targets.py, code2-template src/code2check/guard.py, ~/code2/workspace/docs/capabilities.md",
+      "query": "shell write targets, code writes",
+      "found": "The ported code2check rule counts every path-like word in writing code; nothing reads the code's structure."
+    },
+    {
+      "place": "outside",
+      "where": "Python standard library ast module; bashlex; Semgrep taint rules",
+      "query": "static analysis of file writes in python code",
+      "found": "ast parses the code exactly and is already installed; bashlex parses shell, not Python; Semgrep is a large dependency for one rule."
+    }
+  ],
+  "candidates": [
+    {
+      "name": "Python ast module",
+      "url": "https://docs.python.org/3/library/ast.html",
+      "covers": "Exact parse of the script, so calls and their arguments are known.",
+      "misses": "Resolving a path built at run time; those keep the old rule.",
+      "verdict": "adopt",
+      "reason": "Standard library, a few dozen lines of call matching on top."
+    },
+    {
+      "name": "Semgrep",
+      "url": "https://semgrep.dev",
+      "covers": "Pattern and taint rules over Python.",
+      "misses": "A heavy external binary in a hook that must answer in milliseconds.",
+      "verdict": "reject",
+      "reason": "Too slow and large for an edit hook."
+    }
+  ],
+  "decision": "combine",
+  "decided": "2026-11-28"
+}
