@@ -480,7 +480,7 @@ def cli() -> int:
     (create the planned files), `plan check` (run Company Planning's plan validator), `accept write|check` and `run-plan`
     (hidden acceptance tests and a departure report for one OpenSpec plan), `check prior-art` (the prior-art record
     check `ship` runs), `status` (each
-    requirement's code, tests and result) or `show FILE` (what a file must keep true)."""
+    requirement's code, tests and result), `reads TRANSCRIPT` (each write in a session with what was read first) or `show FILE` (what a file must keep true)."""
     args = sys.argv[1:]
     if args and args[0] == "refresh":
         from lockstep.doc_projection import refresh_cli
@@ -503,6 +503,9 @@ def cli() -> int:
     if args and args[0] == "plan":
         from lockstep.plan_check import plan_cli
         return plan_cli(args[1:])
+    if args and args[0] == "reads":
+        from lockstep.read_before_write import main as reads_main
+        return reads_main(args[1:])
     if args and args[0] == "status":
         from lockstep.checks.cli import run_status
         return run_status(args[1:])

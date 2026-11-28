@@ -49,7 +49,10 @@ clean home folder (hidden tests 0/3 then 3/3, and 0/10 then 10/10) and merged wi
   was proven to reach the agent live in Claude Code and in Codex
   (`docs/planning/runs/edit-hook-handover/2026-11-27.json`). In everyday use Codex gets nothing,
   because `features.hooks = false`, and a Claude session started in a parent folder missed lockstep's text until agent-skills #623 ran the hook globally.
-  Next: count read-before-write.
+  Step 4 (2026-11-27): `lockstep reads TRANSCRIPT` lists each write in a finished Claude or Codex session file
+  with whether the file, its `generated/wiki/` page or spec, or the hook's hand-over came first, and warns,
+  never blocks (spec `lockstep-read-before-write`). It counts only sure shell writes; an edit made by a script
+  inside a shell command is not counted. Next: step 5, the replay viewer shows it all.
 
 - One plan checker (2026-11-25, Brian: "ia prpove yourr ecommednations though"): `lockstep plan check` runs Company
   Planning's validator the way `ship` does, instead of a copy of two of its checks; the copy and

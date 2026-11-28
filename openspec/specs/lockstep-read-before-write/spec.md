@@ -1,4 +1,10 @@
-## ADDED Requirements
+# lockstep-read-before-write Specification
+
+## Purpose
+
+`lockstep reads TRANSCRIPT` measures, from a finished Claude Code or Codex session file, whether each write to a repository file came after the agent read that file or its requirement page; it reports and never blocks (Milestone 1 step 4 of the plan "AES next steps: plan for discussion").
+
+## Requirements
 
 ### Requirement: A session's writes are listed with what was read first
 
@@ -6,7 +12,10 @@
 default the current folder) with three marks: whether the session read that file before the write; whether it
 read the file's requirement context before the write, meaning the `generated/wiki/<capability>.md` page or the
 `openspec/specs/<capability>/spec.md` of a capability named by the file's `Implements:` lines; and whether the
-edit hook's requirement text was attached to that write. A write that created the file SHALL be marked `new`. It
+edit hook's requirement text was attached to that write. A write that created the file SHALL be marked `new`:
+the Write tool's result says so, a Codex file change says `add`, and for a shell write git had not yet recorded
+the file when the call was made. A file the session wrote whole (the Write tool, or a shell write that created it)
+counts as read for its later writes. It
 SHALL print one warning line for each write to an existing file with neither read, end with
 `RESULT writes=N new=N file_read_first=N context_read_first=N handover=N unread=N`, give the same rows as JSON with
 `--json`, and exit 0 whatever it finds; an unreadable transcript SHALL exit 2.
@@ -54,8 +63,10 @@ inferred by agent.
 `claude -p --output-format stream-json` stream (Read, Edit, MultiEdit, Write, NotebookEdit and Bash calls), and a
 Codex rollout file and a `codex exec --json` stream (command executions and file changes). Shell reads SHALL be
 found from the command's read commands (`cat`, `head`, `tail`, `sed` without `-i`, `nl`, `less`, `grep`, `rg`) or,
-in a Codex rollout, from Codex's own `parsed_cmd` read entries; shell writes SHALL be found by the existing shell
-target parser (`lockstep.shell_targets.written_paths`).
+in a Codex rollout, from Codex's own `parsed_cmd` read entries. Shell writes SHALL be the sure ones the existing
+shell target parser finds (redirect and tee targets, and what `mv`, `sed -i` and the like write, in a folder that
+exists); paths that code inside a command merely names SHALL NOT count, because which of them the code writes is
+unknown. A relative path SHALL be read against the folder the call was made in.
 
 Source: Brian, 2026-11-27, core rule "Claude and Codex behave the same" (code2-workspace `agents/core.md`,
 Records); the list of read commands inferred by agent.

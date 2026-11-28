@@ -1397,6 +1397,10 @@ layout:
     before writes, post-edit refresh and stale checking. This is the merged current capability specification.
   implements: []
   tests: []
+- path: openspec/specs/lockstep-read-before-write/spec.md
+  purpose: Requires lockstep reads to list each write in a Claude or Codex session file with whether the file or its requirement page was read first, as a report that never blocks. This is the merged current capability specification.
+  implements: []
+  tests: []
 - path: openspec/specs/lockstep-guard/spec.md
   purpose: Requires destination-aware shell-write checks that allow reads and refusal messages listing permitted files. This
     is the merged current capability specification.
@@ -3128,6 +3132,39 @@ layout:
 - path: wiki/system-model.md
   purpose: Maps current parts to code, contracts, configuration and storage while distinguishing retained compatibility from
     active ownership.
+  implements: []
+  tests: []
+- path: src/lockstep/read_before_write.py
+  purpose: 'lockstep reads TRANSCRIPT: each write a Claude or Codex session made to a repository file, with whether the file, its requirement page or spec, or the edit hook hand-over came first; a report, never a block'
+  implements:
+  - lockstep-read-before-write/a-session-s-writes-are-listed-with-what-was-read-first
+  - lockstep-read-before-write/claude-and-codex-session-files-are-both-read
+  tests:
+  - tests/lockstep/test_read_before_write.py
+  exports:
+  - 'shell_reads(command: str, cwd: Path) -> list[Path]'
+  - 'report(transcript: Path, root: Path) -> list[dict]'
+  - 'main(argv: list[str] | None = None) -> int'
+- path: tests/lockstep/test_read_before_write.py
+  purpose: Tests for lockstep reads, one per scenario of lockstep-read-before-write
+  implements:
+  - lockstep-read-before-write/a-session-s-writes-are-listed-with-what-was-read-first
+  - lockstep-read-before-write/claude-and-codex-session-files-are-both-read
+  tests: []
+- path: openspec/changes/archive/2026-11-27-read-before-write/proposal.md
+  purpose: The read-before-write OpenSpec change, archived; removed in the commit after the merge that archived it
+  implements: []
+  tests: []
+- path: openspec/changes/archive/2026-11-27-read-before-write/tasks.md
+  purpose: The read-before-write OpenSpec change, archived; removed in the commit after the merge that archived it
+  implements: []
+  tests: []
+- path: openspec/changes/archive/2026-11-27-read-before-write/prior-art.json
+  purpose: The read-before-write OpenSpec change, archived; removed in the commit after the merge that archived it
+  implements: []
+  tests: []
+- path: openspec/changes/archive/2026-11-27-read-before-write/specs/lockstep-read-before-write/spec.md
+  purpose: The read-before-write OpenSpec change, archived; removed in the commit after the merge that archived it
   implements: []
   tests: []
 - path: src/lockstep/layout_wiki.py
