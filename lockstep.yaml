@@ -3175,22 +3175,6 @@ layout:
   - lockstep-guard/a-session-s-writes-are-listed-with-what-was-read-first
   - lockstep-guard/claude-and-codex-session-files-are-both-read
   tests: []
-- path: openspec/changes/archive/2026-11-28-replay-plan-writes/proposal.md
-  purpose: The replay-plan-writes OpenSpec change, archived; removed in the commit after the merge that archived it
-  implements: []
-  tests: []
-- path: openspec/changes/archive/2026-11-28-replay-plan-writes/tasks.md
-  purpose: The replay-plan-writes OpenSpec change, archived; removed in the commit after the merge that archived it
-  implements: []
-  tests: []
-- path: openspec/changes/archive/2026-11-28-replay-plan-writes/prior-art.json
-  purpose: The replay-plan-writes OpenSpec change, archived; removed in the commit after the merge that archived it
-  implements: []
-  tests: []
-- path: openspec/changes/archive/2026-11-28-replay-plan-writes/specs/lockstep-guard/spec.md
-  purpose: The replay-plan-writes OpenSpec change, archived; removed in the commit after the merge that archived it
-  implements: []
-  tests: []
 - path: src/lockstep/replay.py
   purpose: 'lockstep replay TRANSCRIPT: a local page that steps through one Claude or Codex session with each edit hook hand-over as its own event, requirement reads marked and the lockstep reads marks on each write'
   implements:
