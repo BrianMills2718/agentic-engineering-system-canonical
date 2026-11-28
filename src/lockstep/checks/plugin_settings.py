@@ -250,6 +250,11 @@ def _load(path: Path) -> dict:
     return data
 
 
+def _source_conflict(conflicts: list[str]) -> bool:
+    """True when `extraKnownMarketplaces.inside-success` names another source than the setting."""
+    return any(c.startswith(f"extraKnownMarketplaces.{MARKETPLACE}") for c in conflicts)
+
+
 def merge(path: Path, wanted_setting: Setting) -> tuple[str, list[str]]:
     """Add the missing plugin keys to the settings file at `path`, keeping every other key.
 
@@ -265,7 +270,7 @@ def merge(path: Path, wanted_setting: Setting) -> tuple[str, list[str]]:
     data = _load(path)
     missing, conflicts = _compare(data, wanted_setting.marketplace)
     keys = wanted(wanted_setting.marketplace)
-    if any(c.startswith(f"extraKnownMarketplaces.{MARKETPLACE}") for c in conflicts):  # not on from another source
+    if _source_conflict(conflicts):  # not turned on from another source
         missing = [m for m in missing if not m.startswith("enabledPlugins.")]
     for dotted in missing:
         section, key = dotted.split(".", 1)
@@ -285,7 +290,7 @@ def drift(root: Path) -> tuple[list[str], list[str]]:
     """(refusals, warnings) for `lockstep check project`: `.claude/settings.json` against `planning.skills`.
 
     A bad setting is a refusal naming its line. A missing key refuses under block and warns under warn; a conflict
-    only warns; off looks at nothing.
+    only warns, and a source conflict hides the missing `enabledPlugins` line; off looks at nothing.
     """
     path = root / SIDE_FILE
     if not path.is_file():
@@ -301,6 +306,8 @@ def drift(root: Path) -> tuple[list[str], list[str]]:
     except ValueError as err:
         return [f"planning.skills: {SETTINGS} is not a JSON object ({err}){fix}"], []
     missing, conflicts = _compare(data, found.marketplace)
+    if _source_conflict(conflicts):  # init withholds enabledPlugins until the source is fixed; the warning says so
+        missing = [m for m in missing if not m.startswith("enabledPlugins.")]
     lines = [f"planning.skills: {SETTINGS} has no {m}{fix}" for m in missing]
     warnings = [f"planning.skills: {SETTINGS} {c}; lockstep init leaves it as it is (change it by hand, or run"
                 f" lockstep init after removing it)" for c in conflicts]
