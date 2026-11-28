@@ -2263,22 +2263,6 @@ layout:
   purpose: Aliases the pcw package path to lockstep so old module invocations and cog imports resolve without duplicate implementations.
   implements: []
   tests: []
-- path: openspec/changes/archive/2026-11-28-template-index-in-context/proposal.md
-  purpose: The template-index-in-context OpenSpec change, archived; removed in the commit after the merge that archived it
-  implements: []
-  tests: []
-- path: openspec/changes/archive/2026-11-28-template-index-in-context/tasks.md
-  purpose: The template-index-in-context OpenSpec change, archived; removed in the commit after the merge that archived it
-  implements: []
-  tests: []
-- path: openspec/changes/archive/2026-11-28-template-index-in-context/prior-art.json
-  purpose: The template-index-in-context OpenSpec change, archived; removed in the commit after the merge that archived it
-  implements: []
-  tests: []
-- path: openspec/changes/archive/2026-11-28-template-index-in-context/specs/portable-template/spec.md
-  purpose: The template-index-in-context OpenSpec change, archived; removed in the commit after the merge that archived it
-  implements: []
-  tests: []
 - path: template/.claude/settings.json
   purpose: Claude Code project settings template holding the PreToolUse edit hook and the SessionStart hook that hands over the wiki index.
   implements: []
