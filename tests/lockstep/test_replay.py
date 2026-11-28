@@ -412,3 +412,22 @@ def test_a_spec_read_is_a_plan_read_and_a_requirement_read(repo):
     finally:
         server.shutdown()
         server.server_close()
+
+
+@pytest.mark.req("lockstep-guard/excluded-folders-match-at-any-depth-inside-the-checkout")
+def test_excluded_folder_names_match_in_any_letter_case(repo):
+    root = Path(os.path.realpath(repo))
+    assert [_is_plan(p, root) for p in ["Tests/notes.md", "pkg/Wiki/x.md", "Generated/files.md", "docs/Notes.MD"]] == [
+        False, False, False, True]
+
+
+@pytest.mark.req("lockstep-guard/a-later-document-mention-does-not-downgrade-a-planned-write")
+def test_a_multiedit_of_the_plan_whose_old_text_is_unseen_does_not_downgrade(repo):
+    (repo / "lockstep.yaml").write_text("governed: [src/]\nlayout:\n- path: src/a.py\n  purpose: A\n")
+    t = _write(repo / "t.jsonl", _claude(
+        ("Write", {"file_path": str(repo / "src/a.py"), "content": "a = 1\n"}, "File created"),
+        ("MultiEdit", {"file_path": str(repo / "lockstep.yaml"), "edits": [
+            {"old_string": "- path: src/a.py\n  purpose: A\n", "new_string": "- path: src/a.py\n  purpose: The A\n"}]},
+         "updated")))
+    writes = [e for e in session_events(t, repo) if e["kind"] == "tool"]
+    assert [e.get("planned") for e in writes] == ["planned", None]

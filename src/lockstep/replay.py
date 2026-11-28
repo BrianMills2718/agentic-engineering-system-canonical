@@ -268,7 +268,7 @@ def _is_plan(rel: str, root: Path) -> bool:
         return True
     if parts[0] == "openspec":
         return rel != "openspec/config.yaml" and name.endswith(_SPEC_DOCS)
-    folders = parts[:-1]
+    folders = [x.lower() for x in parts[:-1]]
     if _NOT_PLAN_DIRS.intersection(folders) or any(a == "evidence" and b == "runs" for a, b in zip(folders, folders[1:])):
         return False
     return name.endswith(_PLAN_DOCS) and not any(fnmatch(name, g) for g in _NOT_PLAN_NAMES)
@@ -461,10 +461,10 @@ def _layout(root: Path) -> tuple[set[str], list[str]]:
 
 def _adds(e: dict, f: str) -> bool:
     """Whether an edit of `lockstep.yaml` added a line naming `f`: its new text holds it and its old text does not
-    (a diff: an added line holds it). A whole rewrite, whose earlier text is not shown, adds nothing."""
+    (a diff: an added line holds it). A whole rewrite or a MultiEdit, whose earlier text is not kept, adds nothing."""
     if e.get("diff"):
         return any(line.startswith("+") and f in line for line in e["new"].splitlines())
-    if e["tool"] == "Write":
+    if e["tool"] in ("Write", "MultiEdit"):
         return False
     return f in e["new"] and f not in e["old"]
 
