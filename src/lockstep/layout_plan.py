@@ -1,6 +1,6 @@
 """The layout plan: OpenSpec says what the code must do, `layout:` rows in lockstep.yaml say which files exist and why.
 
-Implements: lockstep-plan-format/the-plan-is-openspec-plus-layout-rows
+Implements: lockstep-plan-format/the-plan-is-openspec-plus-layout-rows, lockstep-plan-format/a-layout-row-lists-what-its-file-implements
 
 Requirement text (generated):
     lockstep-plan-format/the-plan-is-openspec-plus-layout-rows: In a repository whose
@@ -94,6 +94,7 @@ from pathlib import Path
 
 import yaml
 
+from lockstep.checks.markers import implementers
 from lockstep.openspec_text import read_requirements
 
 SIDE_FILE = "lockstep.yaml"
@@ -144,7 +145,8 @@ def governed(root: Path) -> list[str]:
 
 
 def layout_problems(root: Path) -> list[str]:
-    """Each way the layout fails to be a plan: a row with no purpose, a repeated path, an unknown requirement."""
+    """Each way the layout fails to be a plan: a row with no purpose, a repeated path, an unknown requirement, or a
+    row that leaves out a requirement its own file names in an `Implements:` line."""
     problems: list[str] = []
     known = read_requirements(root)
     raw = _data(root).get("layout")
@@ -165,6 +167,22 @@ def layout_problems(root: Path) -> list[str]:
             if ident not in known:
                 problems.append(f"{SIDE_FILE} layout row for {path} implements {ident}, which no OpenSpec spec or "
                                 "active change defines (openspec/specs/<capability>/spec.md)")
+    problems += _rows_missing_their_code(root, raw)
+    return problems
+
+
+def _rows_missing_their_code(root: Path, raw: list) -> list[str]:
+    """Rows whose file's `Implements:` lines name a requirement the row's `implements` leaves out."""
+    named: dict[str, set[str]] = {}
+    for ident, where, *_ in implementers(root):
+        named.setdefault(where.rsplit(":", 1)[0], set()).add(ident)
+    problems = []
+    for row in raw:
+        path = str(row.get("path") or "").strip() if isinstance(row, dict) else ""
+        missing = sorted(named.get(path, set()) - set(_list(row.get("implements")) if path else []))
+        if path and missing:
+            problems.append(f"{SIDE_FILE} layout row for {path} leaves out {', '.join(missing)}, which the file says "
+                            "it implements: add them to the row's `implements`, or drop the `Implements:` line")
     return problems
 
 

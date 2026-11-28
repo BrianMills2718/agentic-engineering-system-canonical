@@ -2356,6 +2356,22 @@ layout:
   purpose: Thin AES binding to Company Planning's source-bound review provider.
   implements: []
   tests: []
+- path: openspec/changes/archive/2026-11-28-layout-row-matches-code/proposal.md
+  purpose: The layout-row-matches-code OpenSpec change, archived; removed in the commit after the merge that archived it
+  implements: []
+  tests: []
+- path: openspec/changes/archive/2026-11-28-layout-row-matches-code/tasks.md
+  purpose: The layout-row-matches-code OpenSpec change, archived; removed in the commit after the merge that archived it
+  implements: []
+  tests: []
+- path: openspec/changes/archive/2026-11-28-layout-row-matches-code/prior-art.json
+  purpose: The layout-row-matches-code OpenSpec change, archived; removed in the commit after the merge that archived it
+  implements: []
+  tests: []
+- path: openspec/changes/archive/2026-11-28-layout-row-matches-code/specs/lockstep-plan-format/spec.md
+  purpose: The layout-row-matches-code OpenSpec change, archived; removed in the commit after the merge that archived it
+  implements: []
+  tests: []
 - path: src/pcw/__init__.py
   purpose: Aliases the pcw package path to lockstep so old module invocations and cog imports resolve without duplicate implementations.
   implements:
