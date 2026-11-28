@@ -519,7 +519,10 @@ class _Site:
         if root is None:
             return None
         result = status_report(root)
-        files = lambda where: sorted({checkout + f.rsplit(":", 1)[0] for f in where})  # noqa: E731
+
+        def files(where: list[str]) -> list[str]:
+            return sorted({checkout + f.rsplit(":", 1)[0] for f in where})
+
         tests: dict[str, list[str]] = {}
         for row in result.scenarios.values():
             tests.setdefault(row.requirement, []).extend(row.files)
