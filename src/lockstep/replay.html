@@ -117,6 +117,12 @@ main.sys > .panes, main.sys > .thinking { display: none; }
 .sv-cap { margin-top: 10px; font-size: 13px; }
 .sv-key { margin-top: 6px; color: var(--sv-dim); font-size: 12px; }
 .sv-key b.a { color: var(--sv-blue); } .sv-key b.o { color: var(--sv-orange); } .sv-key b.g { color: var(--sv-grey); } .sv-key b.p { color: var(--sv-plan); }
+.stepno { color: var(--text); font-variant-numeric: tabular-nums; white-space: nowrap; min-width: 92px; text-align: center; }
+.sv-step { display: flex; align-items: center; gap: 10px; margin-top: 10px; }
+.sv-step button { background: #fff; color: var(--sv-ink); border: 1px solid #b9c0c8; }
+.sv-step button:hover { border-color: var(--sv-blue); }
+.sv-stepno { font-weight: 700; font-variant-numeric: tabular-nums; min-width: 96px; text-align: center; }
+.sv-step + .sv-cap { margin-top: 6px; }
 #viewtoggle.on { border-color: var(--write); color: var(--write); }
 </style>
 </head>
@@ -174,12 +180,16 @@ main.sys > .panes, main.sys > .thinking { display: none; }
           <div id="cWarn" class="sv-hc" style="--c:var(--sv-orange)"><b>warns: not in the plan (warn mode)</b><span class="x"></span></div>
           <div id="cMarks" class="sv-hc" style="--c:var(--sv-grey)"><b>read before write: counted, never forced</b><span class="x"></span></div>
         </div></div>
+      <div class="sv-step"><button id="svBack" title="Back one step (left arrow key)">&#9664; Back</button><span id="svStepno" class="sv-stepno">Step - of -</span><button id="svNext" title="Next step (right arrow key)">Next &#9654;</button></div>
       <div id="svCaption" class="sv-cap"></div>
       <div class="sv-key"><b class="a">Blue</b>: the agent and what it reads. <b class="o">Orange</b>: writes, refusals and warnings. <b class="p">Slate</b>: the plan. <b class="g">Grey band</b>: hooks and checks, the same way every time. A lit arrow or card is what the current event did; step with the arrows above or play.</div>
     </div>
   </main>
   <footer>
     <div class="tlrow">
+      <button id="sback" title="Back one step (left arrow key)">&#9664; Back</button>
+      <span id="stepno" class="stepno">Step - of -</span>
+      <button id="snext" title="Next step (right arrow key)">Next &#9654;</button>
       <button id="play" title="Play from here">&#9654;</button>
       <select id="speed" title="Playback speed"><option value="1">1 event/s</option><option value="4">4/s</option><option value="12">12/s</option></select>
       <div class="track"><canvas id="marks"></canvas><input id="slider" type="range" min="0" max="1000" value="1000"></div>
@@ -256,6 +266,8 @@ async function blob(sha) {
   if (!blobs.has(sha)) blobs.set(sha, fetch("/api/blob/" + sha).then(r => r.ok ? r.text() : "(not stored)"));
   return blobs.get(sha);
 }
+let curIdx = null;                  // set by stepping, so two events at the same time stay two steps
+function curAt(t) { const e = curIdx !== null ? D.events[curIdx] : null; return e && e.t === t ? e : lastBefore(() => true, t); }
 function lastBefore(pred, t) { let x = null; for (const e of D.events) { if (e.t > t) break; if (pred(e)) x = e; } return x; }
 
 function diffAdded(a, b) {           // indexes of lines in b that are new relative to a
@@ -311,12 +323,14 @@ async function render() {
   $("summary").textContent = `writes ${uniq.length} · not read first ${uniq.filter(m => m.unread).length} · writes with a hand-over ${uniq.filter(m => m.handover).length} (hand-over texts ${D.events.filter(e => e.kind === "handover").length}) · requirement reads ${D.events.filter(e => e.requirement_read).length}`;
   drawMarks();
   // events list (newest first), current = last event at or before t
-  const cur = lastBefore(() => true, t);
+  const cur = curAt(t);
   $("ecount").textContent = D.events.length;
+  const stepText = `Step ${cur ? D.events.indexOf(cur) + 1 : 0} of ${D.events.length}`;
+  $("stepno").textContent = stepText; $("svStepno").textContent = stepText;
   const evs = D.events.slice(-400).reverse();
   $("events").innerHTML = evs.map(e => {
     const k = kindOf(e), what = (e.kind === "note" || e.kind === "end" || e.kind === "handover" || e.kind === "hook") ? e.text : (e.path || e.description || e.command);
-    return `<div class="ev${e === cur ? " cur" : ""}${e.t > t ? "\" style=\"opacity:.35" : ""}" data-t="${e.t}"><span class="k ${k}">${esc(label(e))}</span>` +
+    return `<div class="ev${e === cur ? " cur" : ""}${e.t > t ? "\" style=\"opacity:.35" : ""}" data-t="${e.t}" data-i="${D.events.indexOf(e)}"><span class="k ${k}">${esc(label(e))}</span>` +
       `<span class="p" title="${esc(String(what)).replace(/"/g, "&quot;")}">${unread(e) ? '<span class="warn">not read first </span>' : ""}${esc(String(what).split("\n")[0])}</span><span class="tm">${mmss(e.t - t0)}</span></div>`;
   }).join("");
   const curEl = $("events").querySelector(".cur"); if (curEl && !follow) curEl.scrollIntoView({ block: "nearest" });
@@ -395,7 +409,7 @@ function callTool(e) { return e.call ? D.events.find(x => x.kind === "tool" && x
 const isPlanRead = e => e.kind === "tool" && !e.refused && /(^|\/)lockstep\.yaml$|^openspec\/changes\//.test(e.path || "");
 function lit(id, on, text) { $(id).classList.toggle("on", !!on); const x = $(id).querySelector(".x"); if (x) x.textContent = on && text ? text : ""; }
 async function renderSys(t, token) {
-  const cur = lastBefore(() => true, t);
+  const cur = curAt(t);
   const tool = cur ? (cur.kind === "tool" ? cur : callTool(cur)) : null;
   const file = (tool && (tool.path || (tool.writes || [])[0])) || (cur && fileFromText(cur.text)) || null;
   const call = tool ? tool.call : cur && cur.call;
@@ -403,8 +417,8 @@ async function renderSys(t, token) {
   const hand = same.find(e => e.kind === "handover"), hookTexts = same.filter(e => e.kind === "hook" || e.kind === "handover").map(e => e.text || "");
   const warn = hookTexts.find(x => /would block/i.test(x));
   const refusedText = tool && tool.refused && /not in the plan/.test(tool.result || "") ? tool.result : null;
-  const writing = tool && !tool.refused && (WRITE_TOOLS.has(tool.tool) || (tool.writes || []).length);
-  const reqRead = tool && tool.requirement_read;
+  const writing = cur && cur.kind === "tool" && !tool.refused && (WRITE_TOOLS.has(tool.tool) || (tool.writes || []).length);
+  const reqRead = cur && cur.kind === "tool" && tool.requirement_read;
   // agent line
   $("svNow").textContent = cur ? (cur.kind === "tool" ? `${label(cur)} ${cur.path || cur.description || (cur.command || "").split("\n")[0]}` : `${label(cur)}${file ? " for " + file : ""}`) : "nothing yet";
   const n = lastBefore(e => e.kind === "note" || e.kind === "end", t);
@@ -458,7 +472,7 @@ async function renderSys(t, token) {
   // caption: the step in one plain sentence
   let cap = cur ? `${mmss(cur.t - t0)}: ` : "";
   if (!cur) cap = "Nothing has happened yet.";
-  else if (refusedText) cap += `The edit hook refused ${file}: no layout row in the plan names it. Nothing was written.`;
+  else if (cur.kind === "tool" && refusedText) cap += `The edit hook refused ${file}: no layout row in the plan names it. Nothing was written.`;
   else if (writing) cap += `The agent ${tool.tool === "Bash" ? "wrote with a shell command to" : "wrote"} ${file}.` + (ms && ms.length ? ` Before it: ${markText(ms)}.` : "") + (warn ? " The hook warned that the plan does not list it, and let it through." : "");
   else if (cur.kind === "handover") cap += `The edit hook handed the agent the requirement text for ${file || "the file"}, before the write.`;
   else if (cur.kind === "hook") cap += warn ? `The hook warned: ${file || "this file"} is not in the plan (warn mode).` : "A hook added context.";
@@ -505,18 +519,28 @@ function drawMarks() {
   g.fillStyle = col.write; for (const ch of D.changes) if (ch.op !== "initial") g.fillRect(x(ch.t), 26, 2, 6);
 }
 
-function jump(t) { follow = false; $("follow").checked = false; T = Math.min(Math.max(t, t0), t1); render(); }
+function jump(t) { curIdx = null; follow = false; $("follow").checked = false; T = Math.min(Math.max(t, t0), t1); render(); }
 $("slider").addEventListener("input", e => jump(t0 + (t1 - t0) * e.target.value / 1000));
 $("follow").addEventListener("change", e => { follow = e.target.checked; if (follow) { T = t1; render(); } });
-$("prev").onclick = () => { const e = [...D.events].reverse().find(e => e.t < T - 1e-6); if (e) jump(e.t); };
-$("next").onclick = () => { const e = D.events.find(e => e.t > T + 1e-6); if (e) jump(e.t); else { follow = true; $("follow").checked = true; T = t1; render(); } };
+function toStep(i) { if (i < 0 || i >= D.events.length) return; jump(D.events[i].t); curIdx = i; render(); }
+function stepBack() { const c = curAt(T); toStep(c ? D.events.indexOf(c) - 1 : -1); }
+function stepNext() { const c = curAt(T); toStep(c ? D.events.indexOf(c) + 1 : 0); }
+for (const id of ["sback", "svBack"]) $(id).onclick = () => { if (playing) $("play").click(); stepBack(); };
+for (const id of ["snext", "svNext"]) $(id).onclick = () => { if (playing) $("play").click(); stepNext(); };
+document.addEventListener("keydown", ev => {
+  if (ev.target.closest("input, select, textarea") || ev.altKey || ev.ctrlKey || ev.metaKey) return;
+  if (ev.key === "ArrowLeft") { ev.preventDefault(); if (playing) $("play").click(); stepBack(); }
+  if (ev.key === "ArrowRight") { ev.preventDefault(); if (playing) $("play").click(); stepNext(); }
+});
+$("prev").onclick = () => stepBack();
+$("next").onclick = () => stepNext();
 $("play").onclick = () => {
   if (playing) { clearInterval(playing); playing = null; $("play").innerHTML = "&#9654;"; return; }
   $("play").innerHTML = "&#10074;&#10074;";
-  playing = setInterval(() => { const e = D.events.find(e => e.t > T + 1e-6); if (!e) { $("play").click(); return; } jump(e.t); },
+  playing = setInterval(() => { const c = curAt(T), i = c ? D.events.indexOf(c) + 1 : 0; if (i >= D.events.length) { $("play").click(); return; } toStep(i); },
     1000 / Number($("speed").value));
 };
-$("events").addEventListener("click", e => { const row = e.target.closest(".ev"); if (row) jump(Number(row.dataset.t)); });
+$("events").addEventListener("click", e => { const row = e.target.closest(".ev"); if (row) toStep(Number(row.dataset.i)); });
 $("tree").addEventListener("click", e => {
   const d = e.target.closest("[data-dir]"), f = e.target.closest("[data-file]");
   if (d) { const k = d.dataset.dir; if (closed.has(k) || (closed.has(k.split("/").pop()) && !open.has(k))) { closed.delete(k); open.add(k); } else { closed.add(k); open.delete(k); } render(); }
