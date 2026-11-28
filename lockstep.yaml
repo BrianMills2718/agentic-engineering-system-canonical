@@ -206,6 +206,7 @@ layout:
   - lockstep-projection/a-fixed-planned-file-without-a-plan-copy-is-reported
   - lockstep-plan-format/a-layout-repository-generates-one-wiki-page-per-capability
   - lockstep-plan-format/project-check-fails-on-stale-or-unreachable-wiki-pages
+  - lockstep-plan-format/a-generated-wiki-shows-test-results-at-this-checkout
   tests:
   - tests/lockstep/checks/test_lockstep_check_plugin.py
   - tests/lockstep/checks/test_lockstep_check_project.py
@@ -422,6 +423,7 @@ layout:
     why'
   implements:
   - lockstep-plan-format/the-plan-is-openspec-plus-layout-rows
+  - lockstep-plan-format/a-layout-row-lists-what-its-file-implements
   tests:
   - tests/lockstep/test_lockstep_layout_plan.py
 - path: src/lockstep/linked_tests.py
@@ -562,6 +564,7 @@ layout:
   implements:
   - lockstep-guard/a-refusal-lists-the-files-the-plan-allows
   - lockstep-plan-format/the-plan-is-openspec-plus-layout-rows
+  - lockstep-plan-format/generated-wiki-pages-need-no-layout-row
   tests: []
 - path: src/lockstep/unplanned_symbols.py
   purpose: Report a top-level function or class the plan does not declare with its types (behavior 1.2)
@@ -758,7 +761,13 @@ layout:
   tests: []
 - path: copier.yml
   purpose: Copier questions and setup tasks for a new repository; files come from `template/`.
-  implements: []
+  implements:
+  - portable-template/a-copy-hands-an-editing-agent-the-requirement-text
+  - portable-template/a-copy-runs-its-commit-checks-after-a-move-and-in-every-worktree
+  - portable-template/a-fresh-copy-generates-and-checks-its-wiki
+  - portable-template/a-fresh-copy-starts-each-session-with-the-wiki-index
+  - portable-template/make-a-repository-from-this-repository
+  - portable-template/updating-an-older-copy-adds-no-layout-plan
   tests: []
 - path: docs/architecture/DOCUMENTATION.md
   purpose: Defines document authority and lifecycle, source-local summaries, generated and curated reading views, and the
@@ -1848,11 +1857,15 @@ layout:
   tests: []
 - path: scripts/archive_map.py
   purpose: Check that every entry in ~/archive is explained by the registry and flags archives holding the only copy of something.
-  implements: []
+  implements:
+  - workspace-map-check/offloaded-archive-entry-is-not-gone
+  - workspace-map-check/settings-come-from-config
   tests: []
 - path: scripts/audit_instruction_quality.py
   purpose: Audit the quality of active project instruction files, beyond whether they exist, pair with Codex, or are fresh.
-  implements: []
+  implements:
+  - instruction-audit/instruction-quality-findings-are-advisory
+  - instruction-audit/the-project-graph-comes-from-the-settings
   tests: []
 - path: scripts/branch_policy.py
   purpose: Helper functions for explicit branch-policy exceptions recorded in PROJECT_GRAPH.
@@ -1861,7 +1874,9 @@ layout:
 - path: scripts/build_project_activity.py
   purpose: Build project_activity.json, a snapshot of each PROJECT_GRAPH project's current git and open-PR state, read from
     git and GitHub.
-  implements: []
+  implements:
+  - project-activity-snapshot/last-commit-per-checkout
+  - project-activity-snapshot/settings-come-from-config
   tests: []
 - path: scripts/check_capability_aliases.py
   purpose: Check that the capability alias table only references IDs that exist in the catalogue, registry and candidate sources.
@@ -1870,20 +1885,32 @@ layout:
 - path: scripts/check_capability_consumption.py
   purpose: Detect real cross-project capability use from imports and compare it with declared depends_on and known_consumers
     lists.
-  implements: []
+  implements:
+  - project-graph-dependency-scan/graph-from-config
+  - project-graph-dependency-scan/undeclared-use-is-found
+  - project-graph-dependency-scan/write-only-adds
   tests: []
 - path: scripts/check_project_graph_taxonomy.py
   purpose: 'Validate PROJECT_GRAPH.json descriptive metadata: one-liners, portfolio areas, tags, duplicate ids and paths,
     GitHub remotes.'
-  implements: []
+  implements:
+  - project-graph-taxonomy/graph-path-is-configured
+  - project-graph-taxonomy/hard-errors-block
+  - project-graph-taxonomy/records-are-validated
   tests: []
 - path: scripts/client_manifest.py
   purpose: Write and check a manifest of Claude Code and Codex client settings on this machine, recording each setting's owner.
-  implements: []
+  implements:
+  - client-manifest/disk-is-compared-with-the-manifest
+  - client-manifest/every-setting-has-an-owner
+  - client-manifest/no-secret-values-are-written
+  - client-manifest/output-is-stable
+  - client-manifest/owned-settings-hold-no-value
   tests: []
 - path: scripts/concern_issue.py
   purpose: Open, update or close one keyed feedback concern as a GitHub Issue, the single register of open feedback concerns.
-  implements: []
+  implements:
+  - concern-issue/an-open-concern-s-title-follows-the-repository-s-current-status
   tests: []
 - path: scripts/concern_repair_agents.py
   purpose: Launch full-harness Claude Code or Codex agents to repair a feedback concern, with the same hooks, skills and instructions
@@ -1896,7 +1923,9 @@ layout:
   tests: []
 - path: scripts/concern_repair_feedback.py
   purpose: Select the oldest eligible repair concern (observe) and verify the repair agent's report mechanically (verify).
-  implements: []
+  implements:
+  - concern-repair-verifier/a-recurrence-proof-that-cannot-fail-does-not-count
+  - concern-repair-verifier/closure-needs-all-five-gates-judged-by-the-verifier
   tests: []
 - path: scripts/discovery_journey.py
   purpose: Run the ecosystem discovery journey for two capabilities and four failure exercises, writing one JSON receipt with
@@ -1905,7 +1934,10 @@ layout:
   tests: []
 - path: scripts/failed_unit_watch.py
   purpose: Turn each failed systemd user unit into one keyed concern issue so timer crashes are reported.
-  implements: []
+  implements:
+  - failed-unit-watch/issue-body-carries-one-line-not-the-log
+  - failed-unit-watch/settings-come-from-config
+  - failed-unit-watch/ssh-host-alias-remotes-find-their-repository
   tests: []
 - path: scripts/game_benchmark/fetch_game.py
   purpose: Downloads one A2Z GameSpec-Bench game (design document, contract, sprites) and checks every sha256.
@@ -1962,7 +1994,17 @@ layout:
 - path: scripts/hub_page.py
   purpose: Build the AES hub page listing decisions needed from the owner, broken services, record updates and changes, each
     source shown as checked or not checked.
-  implements: []
+  implements:
+  - hub-page/agent-work-is-not-needs-you
+  - hub-page/an-unread-source-is-not-checked
+  - hub-page/approvals-are-a-footer-count
+  - hub-page/broken-services-grouped-by-cause
+  - hub-page/links-to-each-source-page
+  - hub-page/moved-issues-are-matched-by-concern-key
+  - hub-page/needs-you-comes-first
+  - hub-page/page-goes-to-a-private-data-branch
+  - hub-page/records-updates-are-for-information
+  - hub-page/what-changed-since-the-last-run
   tests: []
 - path: scripts/lane_sweep.py
   purpose: Compatibility stub that forwards to the lockstep.lane_sweep module, which moved out of this folder on 2026-11-20.
@@ -1970,12 +2012,14 @@ layout:
   tests: []
 - path: scripts/learning_loop/alert.py
   purpose: File a failure of the feedback learning loop itself as a keyed concern.
-  implements: []
+  implements:
+  - feedback-loop-notices/loop-failures-are-concerns
   tests: []
 - path: scripts/learning_loop/collect_feedback.py
   purpose: Extracts feedback and human corrections from changed native transcripts into local report records; filing creates
     private feedback issues, while writing the older learnings register is opt-in.
-  implements: []
+  implements:
+  - learnings-register-frozen/the-collector-reads-the-frozen-copy-and-never-writes-to-a-register
   tests: []
 - path: scripts/learning_loop/effects.py
   purpose: Effect boundaries are explicit enforcement receipts, never issue-close dates.
@@ -1987,12 +2031,22 @@ layout:
   tests: []
 - path: scripts/learning_loop/external_ideas.py
   purpose: Watch configured subreddits and write a ranked daily digest of new posts, with a usefulness judge step.
-  implements: []
+  implements:
+  - external-idea-intake/a-daily-timer-runs-the-digest-with-the-project-profile
+  - external-idea-intake/a-project-profile-makes-the-digest-rank-by-usefulness-to-brian-s-projects
+  - external-idea-intake/every-run-is-traced-and-a-repeated-failure-is-reported-as-down
+  - external-idea-intake/output-stays-outside-the-repository-and-the-register-is-never-written
+  - external-idea-intake/posts-already-assessed-into-raw-sources-are-never-offered-again
+  - external-idea-intake/the-digest-ranks-new-posts-by-score-and-age-only
+  - external-idea-intake/the-profile-may-list-interests-and-the-judge-treats-them-like-projects
+  - external-idea-intake/the-watch-list-is-configuration-and-an-invalid-one-is-refused
   tests: []
 - path: scripts/learning_loop/external_judge.py
   purpose: 'Depth-aware usefulness judge for external ideas: a model decides useful, not useful or needs more, then fetches
     only what it asked for.'
-  implements: []
+  implements:
+  - external-idea-intake/the-profile-may-list-interests-and-the-judge-treats-them-like-projects
+  - external-idea-intake/the-usefulness-judge-reads-more-only-when-it-asks-to-and-only-what-it-asks-for
   tests: []
 - path: scripts/learning_loop/external_sources.yaml
   purpose: Configuration list of subreddits the feedback loop watches, with listing type, time window and limits for each.
@@ -2017,7 +2071,9 @@ layout:
   tests: []
 - path: scripts/learning_loop/notify.py
   purpose: Send the feedback loop's one Telegram phone message and report it sent only when Telegram accepts it.
-  implements: []
+  implements:
+  - feedback-loop-notices/a-caller-can-turn-off-the-link-preview
+  - feedback-loop-notices/a-message-counts-as-sent-only-on-telegram-acceptance
   tests: []
 - path: scripts/learning_loop/policies.py
   purpose: Is each workspace rule documented and observed? (plan aes-learning-loop, S8)
@@ -2025,7 +2081,8 @@ layout:
   tests: []
 - path: scripts/learning_loop/problems.py
   purpose: 'S3: group related feedback records into problems and analyse the recurring ones (PLAN.md, slice S3).'
-  implements: []
+  implements:
+  - feedback-loop-notices/the-loop-runs-without-project-meta
   tests: []
 - path: scripts/learning_loop/question_set_v2.json
   purpose: Defines a frozen failure-family choice question with 23 lettered families, inclusion/exclusion guidance and confidence
@@ -2111,11 +2168,21 @@ layout:
 - path: scripts/machine_manifest.py
   purpose: Write and check a manifest recording the source of every systemd user unit on this machine (git, AES job list,
     or local-only).
-  implements: []
+  implements:
+  - machine-manifest/every-script-outside-git-has-a-record
+  - machine-manifest/every-unit-has-a-source
+  - machine-manifest/install-never-deletes-or-writes-through-links
+  - machine-manifest/local-only-units-are-reported
+  - machine-manifest/missing-or-untracked-target-is-reported
+  - machine-manifest/no-environment-values-are-written
+  - machine-manifest/output-is-stable
+  - machine-manifest/repository-copies-can-be-compared
+  - machine-manifest/script-copies-can-be-compared-and-installed
   tests: []
 - path: scripts/md_file_cap.py
   purpose: Enforce the 100 tracked Markdown file cap per Brian-owned repository, with written exceptions.
-  implements: []
+  implements:
+  - project-graph-config/the-checks-read-the-graph-and-owner-from-the-person-s-own-files
   tests: []
 - path: scripts/notify_operator.py
   purpose: Send a condition to the operator side of the ecosystem through a CLI and shared stamps, replacing the old Windows
@@ -2128,7 +2195,10 @@ layout:
   tests: []
 - path: scripts/operator_notify_router.py
   purpose: Route one operator notification to whoever must act on it, recording it first and attempting each route.
-  implements: []
+  implements:
+  - operator-notify/an-open-legacy-concern-is-not-duplicated
+  - operator-notify/notices-route-by-who-must-act
+  - operator-notify/the-concern-repository-comes-from-the-settings
   tests: []
 - path: scripts/pane_diagrams.py
   purpose: Render LikeC4 model views into pane-width text diagrams and refuse output that is too wide or cuts labels.
@@ -2136,15 +2206,24 @@ layout:
   tests: []
 - path: scripts/plan_content.py
   purpose: Report whether a pushed commit changes plan content since a base, so the push hook and ship decide the same way.
-  implements: []
+  implements:
+  - ship/answer-the-plan-content-question-for-the-push-hook
   tests: []
 - path: scripts/project_graph_refresh.py
   purpose: Daily job that refreshes the project graph and its page, including registering new repositories.
-  implements: []
+  implements:
+  - project-graph-refresh/concern-body-carries-first-lines-and-log-path
+  - project-graph-refresh/failure-opens-one-concern
+  - project-graph-refresh/graph-lands-in-settings-repo
+  - project-graph-refresh/no-push-changes-nothing
+  - project-graph-refresh/page-goes-to-data-branch
+  - project-graph-refresh/step-log
   tests: []
 - path: scripts/project_graph_sync.py
   purpose: Register every GitHub repository missing from PROJECT_GRAPH.json as an unreviewed record.
-  implements: []
+  implements:
+  - project-graph-sync/missing-repositories-get-a-record
+  - project-graph-sync/settings-come-from-config
   tests: []
 - path: scripts/project_meta_docs_triage.py
   purpose: Read-only triage of each docs subfolder in a repository (file counts, churn, references) for the Project Meta retirement.
@@ -2156,15 +2235,22 @@ layout:
   tests: []
 - path: scripts/prune_merged_worktrees.py
   purpose: Remove a git worktree only when its branch is proven to have landed on the default branch.
-  implements: []
+  implements:
+  - prune-merged-worktrees/a-worktree-is-removed-only-on-proof-its-branch-landed
   tests: []
 - path: scripts/public_text.py
   purpose: Strip home paths, Windows user names, emails and IP addresses from text before it goes into a public GitHub issue.
-  implements: []
+  implements:
+  - failed-unit-watch/issue-body-carries-one-line-not-the-log
+  - project-graph-refresh/concern-body-carries-first-lines-and-log-path
   tests: []
 - path: scripts/refresh_canonical_checkouts.py
   purpose: Keep canonical checkouts exact, clean and on the advertised default branch, so they are not silently stale.
-  implements: []
+  implements:
+  - graph-checkout-refresh/graph-sweep-covers-registered-checkouts
+  - graph-checkout-refresh/never-discards-local-work
+  - graph-checkout-refresh/settings-come-from-config
+  - graph-checkout-refresh/stuck-checkouts-raise-a-concern
   tests: []
 - path: scripts/relationships.yaml
   purpose: Defines required-reading defaults and otherwise empty governance graphs, plus commented relationship and audit-policy
@@ -2177,7 +2263,9 @@ layout:
   tests: []
 - path: scripts/scan_doc_freshness_ecosystem.py
   purpose: Scan documentation freshness across the ecosystem using git last-commit dates rather than self-declared date headers.
-  implements: []
+  implements:
+  - instruction-audit/freshness-comes-from-git-history
+  - instruction-audit/the-project-graph-comes-from-the-settings
   tests: []
 - path: scripts/ship.py
   purpose: Compatibility stub that forwards to the lockstep.ship module, which moved out of this folder on 2026-11-20; ship
@@ -2186,16 +2274,22 @@ layout:
   tests: []
 - path: scripts/timers.py
   purpose: Render, check or install systemd user timers from one list of jobs with their schedules and reasons.
-  implements: []
+  implements:
+  - timer-config/each-job-in-the-list-becomes-a-service-and-a-timer-unit
+  - timer-config/installing-never-deletes
   tests: []
 - path: scripts/workspace_map.py
   purpose: Clutter check for ~/code, ~/projects and ~/code2 that exits non-zero when a folder needs action and writes a report.
-  implements: []
+  implements:
+  - workspace-map-check/settings-come-from-config
+  - workspace-map-check/undeclared-dependency-is-a-finding
   tests: []
 - path: scripts/workspace_map_alert.py
   purpose: Run the workspace check and notify the operator once per new problem, without alerting on a crash of the check
     itself.
-  implements: []
+  implements:
+  - workspace-map-check/alert-once-per-state-change
+  - workspace-map-check/crash-is-not-a-finding
   tests: []
 - path: src/agentic_engineering_system/__init__.py
   purpose: Canonical Agentic Engineering System package. Contains no executable definitions.
@@ -2207,7 +2301,8 @@ layout:
   tests: []
 - path: src/agentic_engineering_system/characterize.py
   purpose: Revision-bound characterization and target drift (`RU-AES-CHARACTERIZE`, `SC-GF-006`).
-  implements: []
+  implements:
+  - inert-characterization/git-inspection-is-inert
   tests: []
 - path: src/agentic_engineering_system/characterize_python.py
   purpose: Python AST characterization provider (`RU-AES-CHARACTERIZE`, `SC-GF-006`).
@@ -2224,7 +2319,9 @@ layout:
   tests: []
 - path: src/agentic_engineering_system/evidence.py
   purpose: Observations, freshness and criterion standing (`RU-AES-EVIDENCE`, `SC-GF-007`, `SC-GF-008`, decision D2).
-  implements: []
+  implements:
+  - required-evidence-inputs/literal-repository-path-coverage
+  - required-evidence-inputs/required-declared-input-coverage
   tests: []
 - path: src/agentic_engineering_system/hooks.py
   purpose: '`aes hooks install`: ship the consumer''s pre-commit gate (`RU-AES-DISTRIBUTION`).'
@@ -2261,7 +2358,8 @@ layout:
   tests: []
 - path: src/pcw/__init__.py
   purpose: Aliases the pcw package path to lockstep so old module invocations and cog imports resolve without duplicate implementations.
-  implements: []
+  implements:
+  - lockstep-package/the-old-pcw-names-keep-working
   tests: []
 - path: template/.claude/settings.json
   purpose: Claude Code project settings template holding the PreToolUse edit hook and the SessionStart hook that hands over the wiki index.
@@ -2342,11 +2440,15 @@ layout:
 - path: template/lefthook.yml.jinja
   purpose: Copier template lefthook config that pulls the shared workspace commit hooks when the repository is in the code2
     workspace.
-  implements: []
+  implements:
+  - portable-template/a-repository-made-with-the-defaults-works-for-anyone
+  - portable-template/a-workspace-repository-keeps-the-shared-hooks
+  - portable-template/the-commit-check-stages-rewritten-files-that-git-tracks
   tests: []
 - path: template/lockstep.yaml.jinja
   purpose: Copier template Lockstep layout file listing the planned source files for a new package.
-  implements: []
+  implements:
+  - portable-template/a-fresh-copy-ships-its-planned-file-layout
   tests: []
 - path: template/mkdocs.yml.jinja
   purpose: Copier template MkDocs site config with search, mkdocstrings, llmstxt plugins and the docs navigation sections.
