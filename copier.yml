@@ -6,6 +6,8 @@
 _subdirectory: template
 _min_copier_version: "9.4.0"
 _answers_file: .copier-answers.yml
+# Implements: portable-template/a-fresh-copy-starts-each-session-with-the-wiki-index
+# (the SessionStart hook in template/.claude/settings.json and template/.codex/hooks.json; JSON holds no comments.)
 # Implements: portable-template/a-fresh-copy-generates-and-checks-its-wiki
 # (template/lockstep.yaml.jinja sets generated_wiki; template/Makefile runs the wiki checks; template/AGENTS.md.jinja names the index.)
 # Implements: portable-template/updating-an-older-copy-adds-no-layout-plan

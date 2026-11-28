@@ -312,3 +312,21 @@ def test_a_fresh_copy_has_the_wiki_and_checks_it(tmp_path):
     assert "python -m lockstep.wiki_reach" in makefile and "lockstep check docmeta" in makefile
     for name in ("AGENTS.md", "docs/index.md"):
         assert "generated/wiki/index.md" in (out / name).read_text(encoding="utf-8")
+
+
+@pytest.mark.req("portable-template/both-clients-get-the-index-at-session-start")
+def test_both_clients_get_the_index_at_session_start(tmp_path):
+    import json
+
+    out = render(tmp_path)
+    wiki = out / "generated/wiki/index.md"  # `make check` writes it; this render skips the copier tasks
+    wiki.parent.mkdir(parents=True, exist_ok=True)
+    index = "# Wiki\n\n- [greeter](greeter.md): says hello\n"
+    wiki.write_text(index, encoding="utf-8")
+    for settings in (".claude/settings.json", ".codex/hooks.json"):
+        groups = json.loads((out / settings).read_text(encoding="utf-8"))["hooks"]["SessionStart"]
+        command = groups[0]["hooks"][0]["command"]
+        env = {**os.environ, "CLAUDE_PROJECT_DIR": str(out)}
+        run = subprocess.run(["bash", "-c", command], cwd=out, env=env, capture_output=True, text=True, check=True)
+        got = json.loads(run.stdout)["hookSpecificOutput"]
+        assert got["hookEventName"] == "SessionStart" and index in got["additionalContext"], settings

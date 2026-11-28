@@ -11,6 +11,17 @@
           }
         ]
       }
+    ],
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 -c \"import json,pathlib; p=pathlib.Path('generated/wiki/index.md'); print(json.dumps({'hookSpecificOutput': {'hookEventName': 'SessionStart', 'additionalContext': 'The project wiki index (generated/wiki/index.md), handed over at session start:\\n\\n' + p.read_text()}}) if p.is_file() else '')\"",
+            "timeout": 10
+          }
+        ]
+      }
     ]
   }
 }
