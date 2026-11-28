@@ -52,7 +52,11 @@ clean home folder (hidden tests 0/3 then 3/3, and 0/10 then 10/10) and merged wi
   Step 4 (2026-11-27): `lockstep reads TRANSCRIPT` lists each write in a finished Claude or Codex session file
   with whether the file, its `generated/wiki/` page or spec, or the hook's hand-over came first, and warns,
   never blocks (spec `lockstep-guard`). It counts only sure shell writes; an edit made by a script
-  inside a shell command is not counted. Next: step 5, the replay viewer shows it all.
+  inside a shell command is not counted. Step 9 (2026-11-27): `lockstep replay TRANSCRIPT [--repo] [--store]`
+  serves a local page that steps through a Claude or Codex session: each edit hook hand-over is its own event before
+  its write, requirement page and spec reads are marked, and each write shows its `lockstep reads` marks. File
+  versions show only when a recorder ran (`--store`); starting one for every session is parked. Next: the
+  remaining proofs (unplanned file caught, tests tied to the version, status written back), then the end-to-end run.
 
 - One plan checker (2026-11-25, Brian: "ia prpove yourr ecommednations though"): `lockstep plan check` runs Company
   Planning's validator the way `ship` does, instead of a copy of two of its checks; the copy and

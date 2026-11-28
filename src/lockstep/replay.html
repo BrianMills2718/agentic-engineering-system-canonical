@@ -1,0 +1,364 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Session Replay</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<style>
+:root {
+  --bg: #0f1218; --panel: #161b24; --panel2: #1c2230; --line: #2a3242; --text: #d7dce5; --dim: #8a94a6;
+  --read: #4c9bff; --read-bg: rgba(76,155,255,.14); --write: #ff9f43; --write-bg: rgba(255,159,67,.16);
+  --grey: #7d8799; --note: #c9b8ff; --hand: #c9b8ff;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; background: var(--bg); color: var(--text);
+  font: 13px/1.45 system-ui, -apple-system, "Segoe UI", sans-serif; }
+.app { display: grid; grid-template-columns: 300px minmax(0, 1fr); grid-template-rows: auto 1fr auto; height: 100vh; }
+header { grid-column: 1 / 3; display: flex; align-items: center; gap: 14px; padding: 8px 14px;
+  border-bottom: 1px solid var(--line); background: var(--panel); }
+header h1 { font-size: 15px; margin: 0; }
+header .grow { flex: 1; }
+select, button { background: var(--panel2); color: var(--text); border: 1px solid var(--line); border-radius: 6px;
+  padding: 4px 9px; font: inherit; cursor: pointer; }
+button:hover { border-color: var(--dim); }
+.pill { padding: 2px 9px; border-radius: 10px; border: 1px solid var(--line); color: var(--dim); }
+.pill.live { color: var(--write); border-color: var(--write); }
+aside { border-right: 1px solid var(--line); display: grid; grid-template-rows: 1fr 1fr; min-height: 0; background: var(--panel); }
+aside section { display: flex; flex-direction: column; min-height: 0; border-bottom: 1px solid var(--line); }
+.sechead { padding: 7px 12px; font-weight: 600; color: var(--dim); display: flex; justify-content: space-between; }
+.scroll { overflow: auto; flex: 1; min-height: 0; }
+.tree div { padding: 1px 8px; white-space: nowrap; cursor: pointer; display: flex; align-items: center; gap: 5px; }
+.tree div:hover { background: var(--panel2); }
+.tree .sel { background: #263049; }
+.tree .dir { color: var(--dim); }
+.dot { width: 7px; height: 7px; border-radius: 50%; display: inline-block; margin-left: auto; flex: none; }
+.dot.r { background: var(--read); } .dot.w { background: var(--write); }
+.ev { padding: 4px 10px; cursor: pointer; display: grid; grid-template-columns: 64px 1fr 58px; gap: 6px;
+  border-left: 3px solid transparent; }
+.ev:hover { background: var(--panel2); }
+.ev.cur { background: #263049; border-left-color: var(--note); }
+.ev .k { font-weight: 600; } .ev .p { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--dim); }
+.ev .tm { color: var(--dim); text-align: right; font-variant-numeric: tabular-nums; }
+.k.read, .k.req { color: var(--read); } .k.hand, .k.hook { color: var(--hand); } .k.req { text-decoration: underline; }
+.warn { color: var(--write); font-weight: 600; }
+.k.read { color: var(--read); } .k.write { color: var(--write); } .k.cmd { color: var(--grey); } .k.note { color: var(--note); }
+main { display: grid; grid-template-rows: auto minmax(0, 1fr) auto auto; min-height: 0; min-width: 0; padding: 10px; gap: 10px; }
+.at { display: flex; gap: 10px; align-items: center; color: var(--dim); }
+.at b { color: var(--text); }
+.panes { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 10px; min-height: 0; }
+.pane { min-width: 0; background: var(--panel); border: 1px solid var(--line); border-radius: 8px; display: flex; flex-direction: column; min-height: 0; }
+.pane .ph { padding: 8px 12px; border-bottom: 1px solid var(--line); display: flex; gap: 8px; align-items: center; }
+.tag { padding: 2px 8px; border-radius: 6px; font-weight: 600; }
+.tag.read { background: var(--read-bg); color: var(--read); } .tag.write { background: var(--write-bg); color: var(--write); }
+.pane .fname { font-family: ui-monospace, Consolas, monospace; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.pane .meta { margin-left: auto; color: var(--dim); white-space: nowrap; }
+pre.code { margin: 0; padding: 8px 0; font: 12px/1.5 ui-monospace, Consolas, monospace; overflow: auto; flex: 1; min-height: 0; }
+pre.code .ln { display: block; padding: 0 10px 0 0; white-space: pre; }
+pre.code .ln::before { content: attr(data-n); display: inline-block; width: 44px; padding-right: 10px; text-align: right; color: #566074; }
+pre.code .ln.add { background: var(--write-bg); box-shadow: inset 3px 0 var(--write); }
+.empty { color: var(--dim); padding: 14px; }
+.thinking { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 8px 12px; max-height: 120px; overflow: auto; }
+.thinking .lbl { color: var(--note); font-weight: 600; margin-right: 8px; }
+.thinking .sub { color: var(--dim); margin-top: 3px; }
+.thinking.hand { max-height: 140px; white-space: pre-wrap; }
+.thinking.hand .lbl { color: var(--hand); }
+.marksline { padding: 5px 12px; border-bottom: 1px solid var(--line); color: var(--dim); overflow-wrap: anywhere; }
+.marksline:empty { display: none; }
+footer { grid-column: 1 / 3; border-top: 1px solid var(--line); background: var(--panel); padding: 8px 14px; }
+.tlrow { display: flex; align-items: center; gap: 10px; }
+.track { position: relative; flex: 1; height: 34px; }
+.track canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+.track { background: var(--panel2); border-radius: 6px; }
+.track input { position: absolute; left: 0; right: 0; top: 0; height: 100%; width: 100%; margin: 0; background: transparent; -webkit-appearance: none; appearance: none; }
+.track input::-webkit-slider-runnable-track { background: transparent; height: 100%; }
+.track input::-moz-range-track { background: transparent; }
+.track input::-webkit-slider-thumb { -webkit-appearance: none; width: 4px; height: 34px; background: var(--note); border-radius: 2px; box-shadow: 0 0 0 2px rgba(201,184,255,.35); }
+.track input::-moz-range-thumb { width: 4px; height: 34px; background: var(--note); border: 0; border-radius: 2px; }
+.legend span { margin-right: 12px; color: var(--dim); }
+.legend i { display: inline-block; width: 9px; height: 9px; border-radius: 2px; margin-right: 4px; vertical-align: -1px; }
+</style>
+</head>
+<body>
+<div class="app">
+  <header>
+    <h1>Session Replay</h1>
+    <select id="build" title="Which session file to show (main, or a subagent)"></select>
+    <span id="summary" class="pill" title="From lockstep reads: each write, and whether the file or its requirement page was read first"></span>
+    <span class="grow"></span>
+    <span id="status" class="pill">loading</span>
+  </header>
+  <aside>
+    <section><div class="sechead">Files <span id="fcount"></span></div><div id="tree" class="scroll tree"></div></section>
+    <section><div class="sechead">Events <span id="ecount"></span></div><div id="events" class="scroll"></div></section>
+  </aside>
+  <main>
+    <div class="at">
+      <button id="prev" title="Previous event">&#8592;</button><button id="next" title="Next event">&#8594;</button>
+      <span>Viewing at <b id="atclock">-</b> <span id="atrel"></span></span>
+    </div>
+    <div class="panes">
+      <div class="pane"><div class="ph"><span class="tag read">Reading</span><span id="rname" class="fname"></span><span id="rmeta" class="meta"></span></div>
+        <pre id="rcode" class="code"></pre></div>
+      <div class="pane"><div class="ph"><span class="tag write">Writing</span><span id="wname" class="fname"></span><span id="wmeta" class="meta"></span></div>
+        <div id="wmarks" class="marksline"></div>
+        <pre id="wcode" class="code"></pre></div>
+    </div>
+    <div class="thinking"><span class="lbl">Thinking</span><span id="note"></span><div id="notesub" class="sub"></div></div>
+    <div class="thinking hand"><span class="lbl">Hand-over</span><span id="handsub" class="sub"></span><div id="hand"></div></div>
+  </main>
+  <footer>
+    <div class="tlrow">
+      <button id="play" title="Play from here">&#9654;</button>
+      <select id="speed" title="Playback speed"><option value="1">1 event/s</option><option value="4">4/s</option><option value="12">12/s</option></select>
+      <div class="track"><canvas id="marks"></canvas><input id="slider" type="range" min="0" max="1000" value="1000"></div>
+      <label><input id="follow" type="checkbox" checked> Follow latest</label>
+    </div>
+    <div class="legend"><span><i style="background:var(--read)"></i>read</span><span><i style="background:var(--write)"></i>write / file change</span>
+      <span><i style="background:var(--grey)"></i>command</span><span><i style="background:var(--note)"></i>note / hand-over (requirement text the edit hook gave the agent)</span>
+      <span>underlined blue: requirement page or spec read</span><span id="span"></span></div>
+  </footer>
+</div>
+<script>
+const $ = id => document.getElementById(id);
+let D = { events: [], changes: [] }, T = 0, t0 = 0, t1 = 1, follow = true, pinned = null, playing = null;
+const blobs = new Map(), open = new Set(), closed = new Set(["vendor", "assets", "repo/vendor", "repo/assets"]);
+const READ_TOOLS = new Set(["Read", "Grep", "Glob", "NotebookRead"]), WRITE_TOOLS = new Set(["Write", "Edit", "MultiEdit", "NotebookEdit"]);
+const RECENT = 300; // seconds: a file read or written this recently gets a dot
+
+function kindOf(e) {
+  if (e.refused) return "cmd";
+  if (e.kind === "handover") return "hand";
+  if (e.kind === "hook") return "hook";
+  if (e.requirement_read) return "req";
+  if (e.kind === "note") return "note";
+  if (e.kind === "end") return "note";
+  if (READ_TOOLS.has(e.tool)) return "read";
+  if (WRITE_TOOLS.has(e.tool)) return "write";
+  return "cmd";
+}
+const label = e => e.refused ? "Refused " + e.tool : e.kind === "note" ? "Note" : e.kind === "end" ? "End" : e.kind === "handover" ? "Hand-over" : e.kind === "hook" ? "Hook" :
+  (e.requirement_read ? "Req read" : ({ Read: "Read", Write: "Wrote", Edit: "Edited", Bash: "Ran", Grep: "Searched", Glob: "Listed", Delete: "Deleted" }[e.tool] || e.tool));
+const unread = e => (e.marks || []).some(m => m.unread);
+function markText(ms) {               // the lockstep reads marks of one write, in words
+  return ms.map(m => `${m.file}: ` + [m.new ? "new file" : m.file_read_first ? "file read first" : "file not read first",
+    m.context_read_first ? "requirement page read first" : "requirement page not read", m.handover ? "hand-over given" : "no hand-over"].join(", ")).join(" | ");
+}
+const clock = t => new Date(t * 1000).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit" });
+const mmss = s => { s = Math.max(0, Math.round(s)); const h = Math.floor(s / 3600), m = Math.floor(s % 3600 / 60), x = s % 60;
+  return (h ? h + ":" + String(m).padStart(2, "0") : m) + ":" + String(x).padStart(2, "0"); };
+const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+
+async function loadBuilds() {
+  const names = await (await fetch("/api/sessions")).json();
+  const cur = $("build").value;
+  $("build").innerHTML = names.map(n => `<option>${esc(n)}</option>`).join("");
+  $("build").value = cur && names.includes(cur) ? cur : names.includes("main") ? "main" : names[0];
+}
+let loading = false;
+async function load() {
+  if (loading) return;
+  loading = true;
+  try {
+    const b = $("build").value; if (!b) return;
+    const r = await fetch("/api/data?session=" + encodeURIComponent(b)), d = await r.json();
+    if (!r.ok) { $("status").textContent = "cannot read the session file: " + (d.error || r.status); $("status").className = "pill"; return; }
+    if (d.session !== $("build").value) return;
+    d.events.sort((a, b) => a.t - b.t); d.changes.sort((a, b) => a.t - b.t);
+    D = d;
+    const ts = [...d.events.map(e => e.t), ...d.changes.filter(c => c.op !== "initial").map(c => c.t)];
+    t0 = ts.length ? Math.min(...ts) : 0; t1 = ts.length ? Math.max(...ts) : 1;
+    if (follow) T = t1;
+    $("status").textContent = "updated " + clock(Date.now() / 1000); $("status").className = "pill live";
+    render();
+  } catch (err) { $("status").textContent = "cannot reach server"; $("status").className = "pill"; }
+  finally { loading = false; }
+}
+
+function stateAt(t) {               // path -> {sha, t} for every recorded file at time t
+  const s = new Map();
+  for (const c of D.changes) { if (c.t > t && c.op !== "initial") break; if (c.op === "delete") s.delete(c.path); else s.set(c.path, c); }  // files present when recording began count from the start
+  return s;
+}
+function versionsOf(path, t) { return D.changes.filter(c => c.path === path && (c.t <= t || c.op === "initial") && c.op !== "delete"); }
+async function blob(sha) {
+  if (!blobs.has(sha)) blobs.set(sha, fetch("/api/blob/" + sha).then(r => r.ok ? r.text() : "(not stored)"));
+  return blobs.get(sha);
+}
+function lastBefore(pred, t) { let x = null; for (const e of D.events) { if (e.t > t) break; if (pred(e)) x = e; } return x; }
+
+function diffAdded(a, b) {           // indexes of lines in b that are new relative to a
+  const A = a.split("\n"), B = b.split("\n"), added = new Set();
+  let p = 0; while (p < A.length && p < B.length && A[p] === B[p]) p++;
+  let q = 0; while (q < A.length - p && q < B.length - p && A[A.length - 1 - q] === B[B.length - 1 - q]) q++;
+  const a2 = A.slice(p, A.length - q), b2 = B.slice(p, B.length - q);
+  if (a2.length * b2.length > 3e6) { b2.forEach((_, i) => added.add(p + i)); return added; }
+  const L = Array.from({ length: a2.length + 1 }, () => new Uint16Array(b2.length + 1));
+  for (let i = a2.length - 1; i >= 0; i--) for (let j = b2.length - 1; j >= 0; j--)
+    L[i][j] = a2[i] === b2[j] ? L[i + 1][j + 1] + 1 : Math.max(L[i + 1][j], L[i][j + 1]);
+  let i = 0, j = 0;
+  while (j < b2.length) {
+    if (i < a2.length && a2[i] === b2[j]) { i++; j++; }
+    else if (i < a2.length && L[i + 1][j] >= L[i][j + 1]) i++;
+    else { added.add(p + j); j++; }
+  }
+  return added;
+}
+function langOf(path) {
+  const ext = (path.split(".").pop() || "").toLowerCase();
+  return { js: "javascript", mjs: "javascript", ts: "typescript", py: "python", md: "markdown", json: "json", html: "xml",
+    css: "css", yml: "yaml", yaml: "yaml", sh: "bash", toml: "ini" }[ext];
+}
+function showCode(el, text, path, added) {
+  const lang = langOf(path || "");
+  let html;
+  try { html = lang && text.length < 400000 ? hljs.highlight(text, { language: lang, ignoreIllegals: true }).value : esc(text); }
+  catch { html = esc(text); }
+  // split highlighted html into lines, closing and reopening spans across line breaks
+  const lines = [], stack = []; let cur = "";
+  for (const tok of html.split(/(<span[^>]*>|<\/span>|\n)/)) {
+    if (tok === "\n") { cur += "</span>".repeat(stack.length); lines.push(cur); cur = stack.join(""); }
+    else { if (tok.startsWith("<span")) stack.push(tok); else if (tok === "</span>") stack.pop(); cur += tok; }
+  }
+  lines.push(cur);
+  el.innerHTML = lines.map((l, i) => `<span class="ln${added && added.has(i) ? " add" : ""}" data-n="${i + 1}">${l || " "}</span>`).join("");
+  const first = added && added.size ? Math.min(...added) : -1;
+  if (first >= 0) { const n = el.children[first]; if (n) el.scrollTop = Math.max(0, n.offsetTop - el.clientHeight / 3); }
+}
+const stripLineNumbers = s => s.split("\n").map(l => l.replace(/^\s*\d+[\t→]/, "")).join("\n");
+
+let renderToken = 0;
+async function render() {
+  const token = ++renderToken, t = T, b = $("build").value;
+  const st = stateAt(t);
+  // slider and labels
+  $("slider").value = t1 > t0 ? Math.round((t - t0) / (t1 - t0) * 1000) : 1000;
+  $("atclock").textContent = clock(t);
+  $("atrel").textContent = follow ? "(latest)" : `(${mmss(t1 - t)} before latest)`;
+  $("span").textContent = `${D.events.length} events · ${mmss(t1 - t0)} total · session ${b}`;
+  const rows = D.events.flatMap(e => e.marks || []), seen = new Set(), uniq = rows.filter(m => { const k = m.call + m.file; return seen.has(k) ? false : seen.add(k); });
+  $("summary").textContent = `writes ${uniq.length} · not read first ${uniq.filter(m => m.unread).length} · writes with a hand-over ${uniq.filter(m => m.handover).length} (hand-over texts ${D.events.filter(e => e.kind === "handover").length}) · requirement reads ${D.events.filter(e => e.requirement_read).length}`;
+  drawMarks();
+  // events list (newest first), current = last event at or before t
+  const cur = lastBefore(() => true, t);
+  $("ecount").textContent = D.events.length;
+  const evs = D.events.slice(-400).reverse();
+  $("events").innerHTML = evs.map(e => {
+    const k = kindOf(e), what = (e.kind === "note" || e.kind === "end" || e.kind === "handover" || e.kind === "hook") ? e.text : (e.path || e.description || e.command);
+    return `<div class="ev${e === cur ? " cur" : ""}${e.t > t ? "\" style=\"opacity:.35" : ""}" data-t="${e.t}"><span class="k ${k}">${esc(label(e))}</span>` +
+      `<span class="p" title="${esc(String(what)).replace(/"/g, "&quot;")}">${unread(e) ? '<span class="warn">not read first </span>' : ""}${esc(String(what).split("\n")[0])}</span><span class="tm">${mmss(e.t - t0)}</span></div>`;
+  }).join("");
+  const curEl = $("events").querySelector(".cur"); if (curEl && !follow) curEl.scrollIntoView({ block: "nearest" });
+  // tree with read/write dots
+  const reads = new Map(), writes = new Map();
+  for (const e of D.events) { if (e.t > t) break; if (e.path) ((kindOf(e) === "read" || kindOf(e) === "req") ? reads : kindOf(e) === "write" ? writes : new Map()).set(e.path, e.t);
+    if (!e.refused) for (const f of e.writes || []) writes.set(f, e.t); }
+  for (const c of D.changes) { if (c.t > t) break; if (c.op !== "initial") writes.set(c.path, c.t); }
+  const paths = new Set(st.keys()); for (const p of writes.keys()) if (p) paths.add(p); for (const p of reads.keys()) if (p && !p.startsWith("/")) paths.add(p);
+  renderTree([...paths].sort(), reads, writes, t);
+  $("fcount").textContent = paths.size;
+  // reading pane
+  const r = lastBefore(e => e.kind === "tool" && (READ_TOOLS.has(e.tool) || e.tool === "Bash"), t);
+  if (!r) { $("rname").textContent = ""; $("rmeta").textContent = ""; $("rcode").innerHTML = '<div class="empty">Nothing read yet.</div>'; }
+  else if (r.tool === "Read") { $("rname").textContent = r.path; $("rmeta").textContent = clock(r.t); showCode($("rcode"), stripLineNumbers(r.result), r.path); }
+  else { $("rname").textContent = r.tool === "Bash" ? "$ " + (r.description || r.command.split("\n")[0]) : r.tool + " " + (r.path || r.command);
+    $("rmeta").textContent = clock(r.t); showCode($("rcode"), (r.tool === "Bash" ? "$ " + r.command + "\n\n" : "") + r.result, ""); }
+  // writing pane: pinned file, else the file most recently changed at or before t
+  let wpath = pinned, wt = 0;
+  if (!wpath) for (const [p, tt] of writes) if (tt >= wt) { wt = tt; wpath = p; }
+  $("wname").textContent = wpath || "";
+  if (!wpath) { $("wmeta").textContent = ""; $("wcode").innerHTML = '<div class="empty">Nothing written yet.</div>'; }
+  else {
+    const vs = versionsOf(wpath, t);
+    if (vs.length) {
+      const now = vs[vs.length - 1], before = vs.length > 1 ? vs[vs.length - 2] : null;
+      const [text, prev] = await Promise.all([blob(now.sha), before ? blob(before.sha) : Promise.resolve(null)]);
+      if (token !== renderToken) return;
+      const added = prev === null ? (now.op === "initial" ? new Set() : new Set(text.split("\n").map((_, i) => i))) : diffAdded(prev, text);
+      $("wmeta").textContent = `v${vs.length} (${clock(now.t)})  +${added.size} lines`;
+      showCode($("wcode"), text, wpath, added);
+    } else {                       // no recorder copy: fall back to the Write/Edit call
+      const w = lastBefore(e => !e.refused && ((e.path === wpath && WRITE_TOOLS.has(e.tool)) || (e.writes || []).includes(wpath)), t);
+      if (!w) { $("wmeta").textContent = ""; $("wcode").innerHTML = '<div class="empty">No recorded version at this time.</div>'; }
+      else if (!WRITE_TOOLS.has(w.tool)) { $("wmeta").textContent = `written by a shell command ${clock(w.t)}`;
+        showCode($("wcode"), "$ " + w.command, ""); }
+      else if (w.diff) { $("wmeta").textContent = `changed (diff) ${clock(w.t)}`;
+        const lines = w.new.split("\n"); showCode($("wcode"), w.new, "", new Set(lines.flatMap((l, i) => l.startsWith("+") ? [i] : []))); }
+      else { const text = w.tool === "Write" ? (w.content || w.new) : w.new;
+        $("wmeta").textContent = `${w.tool === "Write" ? "written" : "edited (new text only)"} ${clock(w.t)}`;
+        showCode($("wcode"), text, wpath, new Set(text.split("\n").map((_, i) => i))); }
+    }
+  }
+  // marks of the write shown, and the hand-over that came with it (else the latest one)
+  const wev = wpath ? lastBefore(e => e.kind === "tool" && (e.marks || []).some(m => m.file === wpath), t) : null;
+  $("wmarks").innerHTML = wev ? `<span class="${unread(wev) ? "warn" : ""}">Read before this write: ${esc(markText(wev.marks.filter(m => m.file === wpath)))}</span>` : "";
+  const h = (wev && lastBefore(e => e.kind === "handover" && e.call && e.call === wev.call, t)) || lastBefore(e => e.kind === "handover", t);
+  $("hand").textContent = h ? h.text : "(no hand-over yet: the edit hook gives requirement text when the agent edits a file that implements one)";
+  $("handsub").textContent = h ? `at ${clock(h.t)}` + (wev && h.call === wev.call ? ", with this write" : ", the latest one (none came with this write)") : "";
+  // thinking
+  const n = lastBefore(e => e.kind === "note" || e.kind === "end", t);
+  $("note").textContent = n ? (n.kind === "end" ? n.text + ": " + n.final : n.text) : "(no note yet)";
+  $("notesub").textContent = cur && cur.kind === "tool" ? `Now: ${label(cur)} ${cur.description || cur.path || cur.command.split("\n")[0]}` +
+    (cur.think_ms ? ` · thought ${(cur.think_ms / 1000).toFixed(1)} s before this step` : "") : "";
+}
+
+function renderTree(paths, reads, writes, t) {
+  const root = {};
+  for (const p of paths) { let n = root; for (const part of p.split("/")) n = n[part] = n[part] || {}; }
+  const rows = [];
+  (function walk(node, prefix, depth) {
+    const names = Object.keys(node).sort((a, b) => (Object.keys(node[b]).length > 0) - (Object.keys(node[a]).length > 0) || a.localeCompare(b));
+    for (const name of names) {
+      const full = prefix ? prefix + "/" + name : name, isDir = Object.keys(node[name]).length > 0 && !paths.includes(full);
+      const pad = 8 + depth * 14;
+      if (isDir) {
+        const shut = closed.has(full) || (closed.has(name) && !open.has(full));
+        rows.push(`<div class="dir" data-dir="${esc(full)}" style="padding-left:${pad}px">${shut ? "▸" : "▾"} ${esc(name)}</div>`);
+        if (!shut) walk(node[name], full, depth + 1);
+      } else {
+        const rw = writes.get(full), rr = reads.get(full);
+        const dot = rw && t - rw < RECENT ? '<span class="dot w" title="written recently"></span>' :
+          rr && t - rr < RECENT ? '<span class="dot r" title="read recently"></span>' : "";
+        rows.push(`<div class="${full === pinned ? "sel" : ""}" data-file="${esc(full)}" style="padding-left:${pad + 10}px">${esc(name)}${dot}</div>`);
+      }
+    }
+  })(root, "", 0);
+  $("tree").innerHTML = rows.join("");
+}
+
+function drawMarks() {
+  const c = $("marks"), w = c.clientWidth, h = c.clientHeight; c.width = w * devicePixelRatio; c.height = h * devicePixelRatio;
+  const g = c.getContext("2d"); g.scale(devicePixelRatio, devicePixelRatio); g.clearRect(0, 0, w, h);
+  const css = getComputedStyle(document.documentElement), col = { read: css.getPropertyValue("--read"), write: css.getPropertyValue("--write"),
+    cmd: css.getPropertyValue("--grey"), note: css.getPropertyValue("--note"), hand: css.getPropertyValue("--hand"),
+    hook: css.getPropertyValue("--grey"), req: css.getPropertyValue("--read") };
+  const x = t => t1 > t0 ? (t - t0) / (t1 - t0) * (w - 16) + 8 : w - 8;
+  for (const e of D.events) { g.fillStyle = col[kindOf(e)]; g.fillRect(x(e.t), kindOf(e) === "note" ? 2 : 4, 2, kindOf(e) === "hand" ? 14 : 7); }
+  g.fillStyle = col.write; for (const e of D.events) if (unread(e)) g.fillRect(x(e.t) - 2, 18, 6, 5);
+  g.fillStyle = col.write; for (const ch of D.changes) if (ch.op !== "initial") g.fillRect(x(ch.t), 26, 2, 6);
+}
+
+function jump(t) { follow = false; $("follow").checked = false; T = Math.min(Math.max(t, t0), t1); render(); }
+$("slider").addEventListener("input", e => jump(t0 + (t1 - t0) * e.target.value / 1000));
+$("follow").addEventListener("change", e => { follow = e.target.checked; if (follow) { T = t1; render(); } });
+$("prev").onclick = () => { const e = [...D.events].reverse().find(e => e.t < T - 1e-6); if (e) jump(e.t); };
+$("next").onclick = () => { const e = D.events.find(e => e.t > T + 1e-6); if (e) jump(e.t); else { follow = true; $("follow").checked = true; T = t1; render(); } };
+$("play").onclick = () => {
+  if (playing) { clearInterval(playing); playing = null; $("play").innerHTML = "&#9654;"; return; }
+  $("play").innerHTML = "&#10074;&#10074;";
+  playing = setInterval(() => { const e = D.events.find(e => e.t > T + 1e-6); if (!e) { $("play").click(); return; } jump(e.t); },
+    1000 / Number($("speed").value));
+};
+$("events").addEventListener("click", e => { const row = e.target.closest(".ev"); if (row) jump(Number(row.dataset.t)); });
+$("tree").addEventListener("click", e => {
+  const d = e.target.closest("[data-dir]"), f = e.target.closest("[data-file]");
+  if (d) { const k = d.dataset.dir; if (closed.has(k) || (closed.has(k.split("/").pop()) && !open.has(k))) { closed.delete(k); open.add(k); } else { closed.add(k); open.delete(k); } render(); }
+  if (f) { pinned = pinned === f.dataset.file ? null : f.dataset.file; render(); }
+});
+$("build").addEventListener("change", () => { pinned = null; follow = true; $("follow").checked = true; blobs.clear(); load(); });
+window.addEventListener("resize", drawMarks);
+(async () => { await loadBuilds(); await load(); setInterval(async () => { if (loading) return; await loadBuilds(); await load(); }, 3000); })();
+</script>
+</body>
+</html>

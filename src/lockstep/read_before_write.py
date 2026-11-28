@@ -99,6 +99,7 @@ Tested by: tests/lockstep/test_read_before_write.py
 
 Declares (typed signatures, from the plan):
   shell_reads(command: str, cwd: Path) -> list[Path]
+  records(transcript: Path) -> list[object]
   report(transcript: Path, root: Path) -> list[dict]
   main(argv: list[str] | None = None) -> int
 [[[end]]]
@@ -113,7 +114,7 @@ import os
 import shlex
 import subprocess
 import sys
-from functools import cache
+from functools import cache, lru_cache
 from pathlib import Path
 
 from lockstep.openspec_text import implemented_ids
@@ -208,6 +209,12 @@ def _segment_writes(segment: str, here: Path) -> list[Path]:
 
 def _shell_events(command: str, cwd: Path) -> list[dict]:
     """Reads and writes of one shell command, in the order its simple commands run, following `cd`."""
+    return [dict(ev) for ev in _shell_events_cached(command, cwd)]
+
+
+@lru_cache(maxsize=8192)
+def _shell_events_cached(command: str, cwd: Path) -> tuple[dict, ...]:
+    """The parse behind `_shell_events`, kept per command and folder: lockstep replay parses each command twice."""
     here, out = cwd, []
     for segment in segments(_unwrap(command)):
         cd = _CD.match(segment)
@@ -217,9 +224,17 @@ def _shell_events(command: str, cwd: Path) -> list[dict]:
             continue
         out += [{"kind": "read", "path": p} for p in _segment_reads(segment, here)]
         # None: a shell write does not say whether it created the file; report() asks git.
-        out += [{"kind": "write", "path": p, "new": None} for p in _segment_writes(segment, here)
-                if p.parent.is_dir() and not p.is_dir()]
-    return out
+        out += [{"kind": "write", "path": p, "new": None} for p in _segment_writes(segment, here) if _writable(p)]
+    return tuple(out)
+
+
+def _writable(p: Path) -> bool:
+    """A shell write target that names a file in an existing folder; a name too long or a folder we may not read
+    (`/root/x`) is not one we can measure."""
+    try:
+        return p.parent.is_dir() and not p.is_dir()
+    except OSError:
+        return False
 
 
 def shell_reads(command: str, cwd: Path) -> list[Path]:
@@ -321,9 +336,10 @@ class _Walk:
         self.handed: dict[str, set[str]] = {}  # Claude tool call -> files the edit hook gave requirement text for
         self.codex_handed: set[str] = set()  # Codex: hook text arrives as a developer message just before its call ends
 
-    def add(self, events: list[dict], at: float | None, handed: set[str]) -> None:
+    def add(self, events: list[dict], at: float | None, handed: set[str], call: str = "") -> None:
+        """Keep one call's events; `call` is its id (Claude tool_use id, Codex item id), which lockstep replay joins on."""
         for ev in events:
-            self.out.append({**ev, "at": at, "handed": handed if ev["kind"] == "write" else set()})
+            self.out.append({**ev, "at": at, "handed": handed if ev["kind"] == "write" else set(), "call": call})
 
     def record(self, r: object) -> None:
         if not isinstance(r, dict):
@@ -355,24 +371,26 @@ class _Walk:
             uid = str(b.get("tool_use_id"))
             name, inp, here, at = self.pending.pop(uid, ("", {}, self.cwd, None))
             # `at` is when the call was made: a commit inside the same call comes after the write
-            self.add(_claude_result(name, inp, b, here), at, self.handed.pop(uid, set()))
+            self.add(_claude_result(name, inp, b, here), at, self.handed.pop(uid, set()), uid)
 
     def codex(self, r: dict, payload: dict) -> None:
         t = r.get("type")
         if t == "item.completed":  # codex exec --json: no times and no hook text in this stream
             it = _dict(r.get("item"))
+            call = str(it.get("id", ""))
             if it.get("type") == "command_execution":
-                self.add(_shell_events(str(it.get("command", "")), self.cwd), None, set())
+                self.add(_shell_events(str(it.get("command", "")), self.cwd), None, set(), call)
             elif it.get("type") == "file_change":
-                self.add(_codex_changes(it.get("changes"), self.cwd), None, set())
+                self.add(_codex_changes(it.get("changes"), self.cwd), None, set(), call)
         elif t == "event_msg" and payload.get("type") == "item_completed":  # codex rollout
             it = _dict(payload.get("item"))
             here = Path(str(it.get("cwd") or self.cwd).removeprefix("file://"))
             at = _epoch(payload.get("started_at_ms")) or _epoch(r.get("timestamp"))
+            call = str(it.get("id", ""))
             if it.get("type") == "CommandExecution":
-                self.add(_codex_command(it, here), at, self.codex_handed)
+                self.add(_codex_command(it, here), at, self.codex_handed, call)
             elif it.get("type") == "FileChange":
-                self.add(_codex_changes(it.get("changes"), here), at, self.codex_handed)
+                self.add(_codex_changes(it.get("changes"), here), at, self.codex_handed, call)
             else:
                 return
             self.codex_handed = set()
@@ -417,11 +435,25 @@ def _transcripts(transcript: Path) -> list[tuple[str, Path]]:
     return [("main", transcript)] + [(p.stem, p) for p in subs]
 
 
+def records(transcript: Path) -> list[object]:
+    """The JSON records of a session file, one per line. Lines end at a newline only: a JSON string may hold U+2028
+    or a form feed. A last line that does not parse is skipped, as the client may still be writing it; a bad line
+    anywhere else raises ValueError."""
+    lines = [line for line in transcript.read_text(encoding="utf-8").split("\n") if line.strip()]
+    out = []
+    for n, line in enumerate(lines):
+        try:
+            out.append(json.loads(line))
+        except ValueError:
+            if n < len(lines) - 1:
+                raise
+    return out
+
+
 def _rows(agent: str, transcript: Path, root: Path) -> list[dict]:
     walk = _Walk(root)
-    for line in transcript.read_text(encoding="utf-8").splitlines():
-        if line.strip():
-            walk.record(json.loads(line))
+    for record in records(transcript):
+        walk.record(record)
     read: set[str] = set()
     written: set[str] = set()
     rows: list[dict] = []
@@ -434,7 +466,7 @@ def _rows(agent: str, transcript: Path, root: Path) -> list[dict]:
             continue
         new = ev["new"] if ev["new"] is not None else rel not in written and _created(root, rel, ev["at"])
         handover = any(rel == h or ("/" in h and rel.endswith("/" + h)) for h in ev["handed"])
-        rows.append({"agent": agent, "file": rel, "new": new, "file_read_first": rel in read,
+        rows.append({"agent": agent, "call": ev["call"], "file": rel, "new": new, "file_read_first": rel in read,
                      "context_read_first": bool(_context(root, rel) & read), "handover": handover})
         written.add(rel)
         if new:  # the session wrote the whole file, so later writes know it

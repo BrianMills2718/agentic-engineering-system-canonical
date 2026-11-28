@@ -23,6 +23,7 @@ the requirements or a claim that their tests passed today.
 | Planned files, purpose, requirements, tests and typed exports | [Plan format](../openspec/specs/lockstep-plan-format/spec.md) | [Layout and tests](../docs/architecture/LOCKSTEP.md#evidence-and-change-discipline) |
 | Edit-time boundaries | [Guard](../openspec/specs/lockstep-guard/spec.md) | [Hook](../src/lockstep/hook.py) |
 | Read-before-write, counted from a finished session file | [Read before write](../openspec/specs/lockstep-guard/spec.md) | [Report](../src/lockstep/read_before_write.py) |
+| Session replay: a session stepped through with hand-overs and read marks | [Session replay](../openspec/specs/lockstep-guard/spec.md) | [Page server](../src/lockstep/replay.py) |
 | Commit-time checks | [Checks](../openspec/specs/lockstep-checks/spec.md) | [Check implementation](../src/lockstep/checks/cli.py) |
 | Plan-package validation | [Plan check](../openspec/specs/lockstep-plan-check/spec.md) | [Plan checker](../src/lockstep/plan_check.py) |
 | Requirement copies and implementation coverage | [Projection and status](../openspec/specs/lockstep-projection/spec.md) | [Projector](../src/lockstep/checks/project.py), [status](../src/lockstep/checks/status.py) |
