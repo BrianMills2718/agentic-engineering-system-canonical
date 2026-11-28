@@ -19,6 +19,24 @@ Implemented by:
 
 - Scenario `a-refusal-lists-the-files-the-plan-allows`: tested by `tests/lockstep/test_lockstep_hook.py::test_a_refusal_lists_the_files_the_plan_does_allow` ([`tests/lockstep/test_lockstep_hook.py:399`](../../tests/lockstep/test_lockstep_hook.py#L399)), `tests/lockstep/test_lockstep_hook.py::test_the_list_is_capped_and_puts_the_same_folder_first` ([`tests/lockstep/test_lockstep_hook.py:410`](../../tests/lockstep/test_lockstep_hook.py#L410))
 
+## a session replay shows each hand over and read mark
+
+ID: `lockstep-guard/a-session-replay-shows-each-hand-over-and-read-mark`
+
+Status: **implemented and tested**
+
+`lockstep replay TRANSCRIPT [--repo PATH] [--store DIR] [--port N]` SHALL serve, on 127.0.0.1 only, a page that steps through one Claude Code or Codex session file in order: the agent's notes, each tool call with its result, each edit hook hand-over as an event of its own, and each read of a requirement page (`generated/wiki/`) or spec (`openspec/specs/`) marked as a requirement read. Each write SHALL carry the marks `lockstep reads` gives that write (file read first, requirement context read first, hand-over, unread), joined by the tool call that made it, so the page and the report never disagree. A Claude session's subagent files SHALL be offered as further sessions. With `--store`, the page SHALL also show each file version a recorder saved there (`timeline.jsonl` and `blobs/<sha256>`); without it, a write shows the text the call wrote. The page SHALL ship inside the package, so an install from git serves it. The session file SHALL be read again on each page refresh, so a running session can be followed.
+
+Implemented by:
+
+- `lockstep.replay` — [`src/lockstep/replay.py:1`](../../src/lockstep/replay.py#L1)
+
+- Scenario `a-claude-hand-over-is-its-own-event-before-its-write`: tested by `tests/lockstep/test_replay.py::test_a_claude_hand_over_is_its_own_event` ([`tests/lockstep/test_replay.py:55`](../../tests/lockstep/test_replay.py#L55))
+- Scenario `a-codex-hand-over-is-its-own-event-before-its-write`: tested by `tests/lockstep/test_replay.py::test_a_codex_hand_over_is_its_own_event` ([`tests/lockstep/test_replay.py:71`](../../tests/lockstep/test_replay.py#L71))
+- Scenario `a-write-carries-the-read-before-write-marks`: tested by `tests/lockstep/test_replay.py::test_a_write_carries_the_read_marks` ([`tests/lockstep/test_replay.py:95`](../../tests/lockstep/test_replay.py#L95))
+- Scenario `a-requirement-page-read-is-marked`: tested by `tests/lockstep/test_replay.py::test_a_requirement_page_read_is_marked` ([`tests/lockstep/test_replay.py:105`](../../tests/lockstep/test_replay.py#L105))
+- Scenario `the-page-and-its-data-are-served-locally`: tested by `tests/lockstep/test_replay.py::test_the_page_and_data_are_served_locally` ([`tests/lockstep/test_replay.py:123`](../../tests/lockstep/test_replay.py#L123))
+
 ## a session s writes are listed with what was read first
 
 ID: `lockstep-guard/a-session-s-writes-are-listed-with-what-was-read-first`
