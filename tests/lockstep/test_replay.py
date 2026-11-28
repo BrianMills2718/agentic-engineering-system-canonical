@@ -220,7 +220,7 @@ def _serve(repo: Path):
     return server
 
 
-@pytest.mark.req("lockstep-guard/the-plan-route-gives-a-files-row-and-requirement-text")
+@pytest.mark.req("lockstep-guard/the-plan-route-gives-a-file-s-row-and-requirement-text")
 def test_the_plan_route_gives_a_files_row_and_requirement_text(repo):
     (repo / "lockstep.yaml").write_text(
         "governed: [src/]\nfixed: [\"src/*\"]\nlayout:\n- path: src/greet.py\n  purpose: Says hello\n"
