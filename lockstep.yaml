@@ -2281,13 +2281,11 @@ layout:
   tests: []
 - path: template/.claude/settings.json
   purpose: Claude Code project settings template holding the PreToolUse edit hook and the SessionStart hook that hands over the wiki index.
-  implements:
-  - portable-template/a-fresh-copy-starts-each-session-with-the-wiki-index
+  implements: []
   tests: []
 - path: template/.codex/hooks.json
   purpose: Codex project hooks template holding the PreToolUse edit hook and the SessionStart hook that hands over the wiki index.
-  implements:
-  - portable-template/a-fresh-copy-starts-each-session-with-the-wiki-index
+  implements: []
   tests: []
 - path: template/.doc-reachability-ignore
   purpose: List of path globs (.claude, .agents, openspec/changes) excluded from the documentation reachability check in new

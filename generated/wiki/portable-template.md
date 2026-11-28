@@ -29,7 +29,7 @@ A repository made from the template SHALL hold tracked, executable `.githooks/pr
 
 Implemented by:
 
-- `copier.yml` — [`copier.yml:32`](../../copier.yml#L32)
+- `copier.yml` — [`copier.yml:34`](../../copier.yml#L34)
 
 - Scenario `a-moved-copy-and-a-worktree-still-run-the-hooks`: tested by `tests/test_template_portable.py::test_a_moved_copy_and_a_worktree_still_run_the_hooks` ([`tests/test_template_portable.py:89`](../../tests/test_template_portable.py#L89))
 
@@ -43,7 +43,7 @@ A repository made with `copier copy` SHALL set `generated_wiki: true` in its `lo
 
 Implemented by:
 
-- `copier.yml` — [`copier.yml:9`](../../copier.yml#L9)
+- `copier.yml` — [`copier.yml:11`](../../copier.yml#L11)
 
 - Scenario `a-fresh-copy-has-the-wiki-and-checks-it`: tested by `tests/test_template_portable.py::test_a_fresh_copy_has_the_wiki_and_checks_it` ([`tests/test_template_portable.py:307`](../../tests/test_template_portable.py#L307))
 
@@ -66,11 +66,13 @@ Implemented by:
 
 ID: `portable-template/a-fresh-copy-starts-each-session-with-the-wiki-index`
 
-Status: **unimplemented**
+Status: **implemented and tested**
 
 A repository made with `copier copy` SHALL have a `SessionStart` hook in both `.claude/settings.json` and `.codex/hooks.json` that prints the text of `generated/wiki/index.md` as the session's added context (`hookSpecificOutput.additionalContext`, with `hookEventName` `SessionStart`), and prints nothing when that file does not exist.
 
-Implemented by: nothing yet
+Implemented by:
+
+- `copier.yml` — [`copier.yml:9`](../../copier.yml#L9)
 
 - Scenario `both-clients-get-the-index-at-session-start`: tested by `tests/test_template_portable.py::test_both_clients_get_the_index_at_session_start` ([`tests/test_template_portable.py:317`](../../tests/test_template_portable.py#L317))
 
@@ -140,6 +142,6 @@ Status: **implemented and tested**
 
 Implemented by:
 
-- `copier.yml` — [`copier.yml:11`](../../copier.yml#L11)
+- `copier.yml` — [`copier.yml:13`](../../copier.yml#L13)
 
 - Scenario `an-update-of-an-older-copy-keeps-it-without-a-plan`: tested by `tests/test_template_portable.py::test_an_update_of_an_older_copy_keeps_it_without_a_plan` ([`tests/test_template_portable.py:201`](../../tests/test_template_portable.py#L201))

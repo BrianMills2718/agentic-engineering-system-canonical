@@ -176,13 +176,13 @@ which tests cover each scenario at this commit. For pass or fail, run `make chec
 | `portable-template/a-repository-made-with-the-defaults-works-for-anyone` | not run at this revision | `template/lefthook.yml.jinja` (`template/lefthook.yml.jinja:1`) |
 | `portable-template/a-workspace-repository-keeps-the-shared-hooks` | not run at this revision | `template/lefthook.yml.jinja` (`template/lefthook.yml.jinja:1`) |
 | `portable-template/make-a-repository-from-this-repository` | not run at this revision | `copier.yml` (`copier.yml:2`) |
-| `portable-template/a-copy-runs-its-commit-checks-after-a-move-and-in-every-worktree` | not run at this revision | `copier.yml` (`copier.yml:32`) |
+| `portable-template/a-copy-runs-its-commit-checks-after-a-move-and-in-every-worktree` | not run at this revision | `copier.yml` (`copier.yml:34`) |
 | `portable-template/the-commit-check-stages-rewritten-files-that-git-tracks` | not run at this revision | `template/lefthook.yml.jinja` (`template/lefthook.yml.jinja:1`) |
 | `portable-template/a-copy-hands-an-editing-agent-the-requirement-text` | not run at this revision | `copier.yml` (`copier.yml:5`) |
 | `portable-template/a-fresh-copy-ships-its-planned-file-layout` | not run at this revision | `template/lockstep.yaml.jinja` (`template/lockstep.yaml.jinja:1`) |
-| `portable-template/updating-an-older-copy-adds-no-layout-plan` | not run at this revision | `copier.yml` (`copier.yml:11`) |
-| `portable-template/a-fresh-copy-generates-and-checks-its-wiki` | not run at this revision | `copier.yml` (`copier.yml:9`) |
-| `portable-template/a-fresh-copy-starts-each-session-with-the-wiki-index` | unimplemented | - |
+| `portable-template/updating-an-older-copy-adds-no-layout-plan` | not run at this revision | `copier.yml` (`copier.yml:13`) |
+| `portable-template/a-fresh-copy-generates-and-checks-its-wiki` | not run at this revision | `copier.yml` (`copier.yml:11`) |
+| `portable-template/a-fresh-copy-starts-each-session-with-the-wiki-index` | not run at this revision | `copier.yml` (`copier.yml:9`) |
 | `prior-art-check/a-change-that-adds-a-requirement-carries-a-prior-art-record` | not run at this revision | `lockstep.prior_art` (`src/lockstep/prior_art.py:1`), `lockstep.prior_art` (`src/lockstep/prior_art.py:1`) |
 | `prior-art-check/a-candidate-cannot-be-left-undecided-and-the-decision-must-follow-from-the-candidates` | not run at this revision | `lockstep.prior_art` (`src/lockstep/prior_art.py:1`), `lockstep.prior_art` (`src/lockstep/prior_art.py:1`) |
 | `prior-art-check/only-a-change-that-adds-a-requirement-from-the-start-date-needs-a-record` | not run at this revision | `lockstep.prior_art` (`src/lockstep/prior_art.py:1`), `lockstep.prior_art` (`src/lockstep/prior_art.py:1`) |
