@@ -130,6 +130,7 @@ import itertools
 import os
 import re
 import shlex
+from collections.abc import Sequence
 
 _PYTHON = re.compile(r"(?:^|/)python(?:\d+(?:\.\d+)?)?$")
 _LIMIT = 64  # most paths one write target may stand for; more and the old rule applies
@@ -409,7 +410,7 @@ class _Reader:
         return []
 
     @staticmethod
-    def _open(path: list[ast.expr | None], mode_args: list[ast.expr], keywords: dict) -> list[ast.expr]:
+    def _open(path: Sequence[ast.expr | None], mode_args: list[ast.expr], keywords: dict) -> list[ast.expr]:
         mode = keywords.get("mode", mode_args[0] if mode_args else None)
         reads = mode is None or (isinstance(mode, ast.Constant) and isinstance(mode.value, str)
                                  and not set(mode.value) & set("wax+"))
@@ -468,10 +469,11 @@ class _Reader:
         return None
 
     def _product(self, parts: list[ast.expr], glue) -> list[str] | None:
-        resolved = [self._resolve(p) for p in parts]
-        if any(r is None for r in resolved) or _size(resolved) > _LIMIT:
+        maybe = [self._resolve(p) for p in parts]
+        resolved = [r for r in maybe if r is not None]
+        if len(resolved) < len(maybe) or _size(resolved) > _LIMIT:
             return None
-        return list(dict.fromkeys(glue(*combo) for combo in itertools.product(*resolved)))  # type: ignore[misc]
+        return list(dict.fromkeys(glue(*combo) for combo in itertools.product(*resolved)))
 
     @staticmethod
     def _union(options: list[list[str] | None]) -> list[str] | None:

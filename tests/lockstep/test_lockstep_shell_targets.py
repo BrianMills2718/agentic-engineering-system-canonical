@@ -241,17 +241,17 @@ def test_code_the_parser_cannot_vouch_for_is_still_refused(proj, block, command)
     assert verdict(proj, command) == "deny", command
 
 
-@pytest.mark.req("lockstep-guard/an-aliased-writer-keeps-the-every-path-rule")
+@pytest.mark.req("lockstep-guard/an-aliased-writer-keeps-the-every-path-rule", existing=True)
 def test_an_aliased_writer_keeps_the_every_path_rule(proj, block):
     assert verdict(proj, _h(f"import os as o; o.remove('{NEW}'); open('log.txt','w').write('x')")) == "deny"
 
 
-@pytest.mark.req("lockstep-guard/a-keyword-argument-target-is-counted")
+@pytest.mark.req("lockstep-guard/a-keyword-argument-target-is-counted", existing=True)
 def test_a_keyword_argument_target_is_counted(proj, block):
     assert verdict(proj, _h(f"import shutil; shutil.copy('/tmp/x', dst='{NEW}')")) == "deny"
 
 
-@pytest.mark.req("lockstep-guard/shell-expansion-in-python-text-keeps-the-every-path-rule")
+@pytest.mark.req("lockstep-guard/shell-expansion-in-python-text-keeps-the-every-path-rule", existing=True)
 @pytest.mark.parametrize("command", [
     "python3 - <<EOF\nopen('log.txt','w').write(\"$(cp /tmp/x " + NEW + ")\")\nEOF",
     "python3 -c \"open('log.txt','w').write('$(cp /tmp/x " + NEW + ")')\"",
