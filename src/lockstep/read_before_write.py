@@ -8,7 +8,7 @@ Milestone 1 step 4). It reads command text (code), never prose.
 [[[cog import lockstep.cogtext as c; c.docstring("src:lockstep:read_before_write.py", indent=0)]]]
 Plan (generated from lockstep.yaml layout and OpenSpec; edit the spec or the layout row, not this text):
 
-Implements: lockstep-read-before-write/a-session-s-writes-are-listed-with-what-was-read-first, lockstep-read-before-write/claude-and-codex-session-files-are-both-read
+Implements: lockstep-guard/a-session-s-writes-are-listed-with-what-was-read-first, lockstep-guard/claude-and-codex-session-files-are-both-read
 
 ### Requirement: A session's writes are listed with what was read first
 

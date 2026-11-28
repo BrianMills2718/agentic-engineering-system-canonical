@@ -19,6 +19,25 @@ Implemented by:
 
 - Scenario `a-refusal-lists-the-files-the-plan-allows`: tested by `tests/lockstep/test_lockstep_hook.py::test_a_refusal_lists_the_files_the_plan_does_allow` ([`tests/lockstep/test_lockstep_hook.py:399`](../../tests/lockstep/test_lockstep_hook.py#L399)), `tests/lockstep/test_lockstep_hook.py::test_the_list_is_capped_and_puts_the_same_folder_first` ([`tests/lockstep/test_lockstep_hook.py:410`](../../tests/lockstep/test_lockstep_hook.py#L410))
 
+## a session s writes are listed with what was read first
+
+ID: `lockstep-guard/a-session-s-writes-are-listed-with-what-was-read-first`
+
+Status: **implemented and tested**
+
+`lockstep reads TRANSCRIPT` SHALL list, in session order, each write to a file inside the repository (`--repo`, default the current folder) with three marks: whether the session read that file before the write; whether it read the file's requirement context before the write, meaning the `generated/wiki/<capability>.md` page or the `openspec/specs/<capability>/spec.md` of a capability named by the file's `Implements:` lines; and whether the edit hook's requirement text was attached to that write. A write that created the file SHALL be marked `new`: the Write tool's result says so, a Codex file change says `add`, and for a shell write git had not yet recorded the file when the call was made. A file the session wrote whole (the Write tool, or a shell write that created it) counts as read for its later writes. It SHALL print one warning line for each write to an existing file with neither read, end with `RESULT writes=N new=N file_read_first=N context_read_first=N handover=N unread=N`, give the same rows as JSON with `--json`, and exit 0 whatever it finds; an unreadable transcript SHALL exit 2.
+
+Implemented by:
+
+- `lockstep.read_before_write` — [`src/lockstep/read_before_write.py:1`](../../src/lockstep/read_before_write.py#L1)
+
+- Scenario `an-edit-after-reading-only-the-file-is-counted-and-not-warned`: tested by `tests/lockstep/test_read_before_write.py::test_an_edit_after_reading_only_the_file` ([`tests/lockstep/test_read_before_write.py:48`](../../tests/lockstep/test_read_before_write.py#L48))
+- Scenario `a-write-with-nothing-read-first-is-warned-but-not-blocked`: tested by `tests/lockstep/test_read_before_write.py::test_a_write_with_nothing_read_is_warned` ([`tests/lockstep/test_read_before_write.py:61`](../../tests/lockstep/test_read_before_write.py#L61))
+- Scenario `reading-the-wiki-page-counts-as-context`: tested by `tests/lockstep/test_read_before_write.py::test_reading_the_wiki_page_counts_as_context` ([`tests/lockstep/test_read_before_write.py:71`](../../tests/lockstep/test_read_before_write.py#L71))
+- Scenario `the-hand-over-is-marked`: tested by `tests/lockstep/test_read_before_write.py::test_the_hand_over_is_marked` ([`tests/lockstep/test_read_before_write.py:93`](../../tests/lockstep/test_read_before_write.py#L93))
+- Scenario `a-created-file-is-new-not-unread`: tested by `tests/lockstep/test_read_before_write.py::test_a_created_file_is_new` ([`tests/lockstep/test_read_before_write.py:101`](../../tests/lockstep/test_read_before_write.py#L101))
+- Scenario `an-unreadable-transcript-exits-2`: tested by `tests/lockstep/test_read_before_write.py::test_an_unreadable_transcript_exits_2` ([`tests/lockstep/test_read_before_write.py:111`](../../tests/lockstep/test_read_before_write.py#L111))
+
 ## agents get requirement text from the shell too
 
 ID: `lockstep-guard/agents-get-requirement-text-from-the-shell-too`
@@ -70,6 +89,21 @@ Implemented by:
 - Scenario `an-unknown-guard-mode-refuses-and-is-reported`: tested by `tests/lockstep/test_lockstep_hook.py::test_an_unknown_guard_mode_refuses_and_is_reported` ([`tests/lockstep/test_lockstep_hook.py:456`](../../tests/lockstep/test_lockstep_hook.py#L456))
 - Scenario `off-skips-a-fixed-file-edit-and-shell-write`: tested by `tests/lockstep/test_lockstep_hook.py::test_off_skips_a_fixed_file_edit_and_shell_write` ([`tests/lockstep/test_lockstep_hook.py:467`](../../tests/lockstep/test_lockstep_hook.py#L467))
 - Scenario `invalid-environment-mode-fails-closed`: tested by `tests/lockstep/test_lockstep_hook.py::test_invalid_environment_mode_fails_closed` ([`tests/lockstep/test_lockstep_hook.py:481`](../../tests/lockstep/test_lockstep_hook.py#L481))
+
+## claude and codex session files are both read
+
+ID: `lockstep-guard/claude-and-codex-session-files-are-both-read`
+
+Status: **implemented and tested**
+
+`lockstep reads` SHALL read the four session formats the agents write: a Claude Code transcript and a `claude -p --output-format stream-json` stream (Read, Edit, MultiEdit, Write, NotebookEdit and Bash calls), and a Codex rollout file and a `codex exec --json` stream (command executions and file changes). Shell reads SHALL be found from the command's read commands (`cat`, `head`, `tail`, `sed` without `-i`, `nl`, `less`, `grep`, `rg`) or, in a Codex rollout, from Codex's own `parsed_cmd` read entries. Shell writes SHALL be the sure ones the existing shell target parser finds (redirect and tee targets, and what `mv`, `sed -i` and the like write, in a folder that exists); paths that code inside a command merely names SHALL NOT count, because which of them the code writes is unknown. A relative path SHALL be read against the folder the call was made in.
+
+Implemented by:
+
+- `lockstep.read_before_write` — [`src/lockstep/read_before_write.py:1`](../../src/lockstep/read_before_write.py#L1)
+
+- Scenario `a-codex-exec-stream-is-read`: tested by `tests/lockstep/test_read_before_write.py::test_a_codex_exec_stream` ([`tests/lockstep/test_read_before_write.py:138`](../../tests/lockstep/test_read_before_write.py#L138))
+- Scenario `a-codex-rollout-uses-codex-s-own-read-parse`: tested by `tests/lockstep/test_read_before_write.py::test_a_codex_rollout` ([`tests/lockstep/test_read_before_write.py:149`](../../tests/lockstep/test_read_before_write.py#L149))
 
 ## handing over text never approves an edit
 

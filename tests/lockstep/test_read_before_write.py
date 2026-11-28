@@ -45,7 +45,7 @@ def _rows(repo: Path, records: list[dict]) -> list[dict]:
     return report(_write(repo / "t.jsonl", records), repo)
 
 
-@pytest.mark.req("lockstep-read-before-write/an-edit-after-reading-only-the-file-is-counted-and-not-warned")
+@pytest.mark.req("lockstep-guard/an-edit-after-reading-only-the-file-is-counted-and-not-warned")
 def test_an_edit_after_reading_only_the_file(repo, capsys):
     t = _write(repo / "t.jsonl", _claude(
         ("Read", {"file_path": str(repo / "src/greet.py")}, "1\tGreeter"),
@@ -58,7 +58,7 @@ def test_an_edit_after_reading_only_the_file(repo, capsys):
     assert (row["file"], row["file_read_first"], row["context_read_first"]) == ("src/greet.py", True, False)
 
 
-@pytest.mark.req("lockstep-read-before-write/a-write-with-nothing-read-first-is-warned-but-not-blocked")
+@pytest.mark.req("lockstep-guard/a-write-with-nothing-read-first-is-warned-but-not-blocked")
 def test_a_write_with_nothing_read_is_warned(repo, capsys):
     t = _write(repo / "t.jsonl", _claude(
         ("Bash", {"command": f"cd {repo} && printf 'x' > src/greet.py"}, "")))
@@ -68,7 +68,7 @@ def test_a_write_with_nothing_read_is_warned(repo, capsys):
     assert "unread=1" in out
 
 
-@pytest.mark.req("lockstep-read-before-write/reading-the-wiki-page-counts-as-context")
+@pytest.mark.req("lockstep-guard/reading-the-wiki-page-counts-as-context")
 def test_reading_the_wiki_page_counts_as_context(repo):
     row, = _rows(repo, _claude(
         ("Bash", {"command": f"cat {repo}/generated/wiki/greeter.md"}, "# greeter"),
@@ -90,7 +90,7 @@ def test_a_read_after_the_write_does_not_count(repo):
     assert not row["file_read_first"]
 
 
-@pytest.mark.req("lockstep-read-before-write/the-hand-over-is-marked")
+@pytest.mark.req("lockstep-guard/the-hand-over-is-marked")
 def test_the_hand_over_is_marked(repo):
     row, = _rows(repo, _claude(
         ("Edit", {"file_path": str(repo / "src/greet.py")}, "updated",
@@ -98,7 +98,7 @@ def test_the_hand_over_is_marked(repo):
     assert row["handover"]
 
 
-@pytest.mark.req("lockstep-read-before-write/a-created-file-is-new-not-unread")
+@pytest.mark.req("lockstep-guard/a-created-file-is-new-not-unread")
 def test_a_created_file_is_new(repo, capsys):
     t = _write(repo / "t.jsonl", _claude(
         ("Write", {"file_path": str(repo / "src/new_mod.py"), "content": "x"},
@@ -108,7 +108,7 @@ def test_a_created_file_is_new(repo, capsys):
     assert "WARN" not in out and "new=1" in out and "unread=0" in out
 
 
-@pytest.mark.req("lockstep-read-before-write/an-unreadable-transcript-exits-2")
+@pytest.mark.req("lockstep-guard/an-unreadable-transcript-exits-2")
 def test_an_unreadable_transcript_exits_2(repo):
     assert main([str(repo / "missing.jsonl"), "--repo", str(repo)]) == 2
 
@@ -135,7 +135,7 @@ def test_claude_stream_json_is_read(repo):
     assert row["file_read_first"]
 
 
-@pytest.mark.req("lockstep-read-before-write/a-codex-exec-stream-is-read")
+@pytest.mark.req("lockstep-guard/a-codex-exec-stream-is-read")
 def test_a_codex_exec_stream(repo):
     row, = _rows(repo, [
         {"type": "thread.started", "thread_id": "t"},
@@ -146,7 +146,7 @@ def test_a_codex_exec_stream(repo):
     assert row["file_read_first"]
 
 
-@pytest.mark.req("lockstep-read-before-write/a-codex-rollout-uses-codex-s-own-read-parse")
+@pytest.mark.req("lockstep-guard/a-codex-rollout-uses-codex-s-own-read-parse")
 def test_a_codex_rollout(repo):
     def item(it):
         return {"type": "event_msg", "payload": {"type": "item_completed", "item": it}}
