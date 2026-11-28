@@ -194,7 +194,9 @@ def _is_requirement(rel: str, root: Path) -> bool:
 
 def checkout_of(root: Path, rel: str) -> str:
     """The folder (with a trailing `/`) of the deepest git checkout under `root` that holds `rel`, such as a worktree
-    the agent made inside the repository; "" for the repository itself."""
+    the agent made inside the repository; "" for the repository itself and for a path outside it."""
+    if rel.startswith(("/", "../")):
+        return ""
     parts = rel.split("/")[:-1]
     for n in range(len(parts), 0, -1):
         if (root / "/".join(parts[:n]) / ".git").exists():
@@ -375,14 +377,19 @@ def _marks(events: list[dict], rows: list[dict], root: Path) -> None:
 _WORST = ["unplanned", "row added later", "planned", "outside"]
 
 
-def _layout(root: Path) -> tuple[set[str], list[str]]:
-    """The paths the layout rows of `lockstep.yaml` name now, and its governed folders."""
+def _plan_data(root: Path) -> dict:
+    """`lockstep.yaml` of a checkout as a mapping; empty when it is missing or unreadable."""
     side = root / "lockstep.yaml"
     try:
         data = yaml.safe_load(side.read_text()) if side.is_file() else None
     except (OSError, yaml.YAMLError):
         data = None
-    data = data if isinstance(data, dict) else {}
+    return data if isinstance(data, dict) else {}
+
+
+def _layout(root: Path) -> tuple[set[str], list[str]]:
+    """The paths the layout rows of `lockstep.yaml` name now, and its governed folders."""
+    data = _plan_data(root)
     rows = {str(r.get("path")) for r in data.get("layout") or [] if isinstance(r, dict)}
     return rows, [str(g) for g in data.get("governed") or []]
 
@@ -390,6 +397,7 @@ def _layout(root: Path) -> tuple[set[str], list[str]]:
 def _standing(events: list[dict], root: Path) -> None:
     """Give each write other than a plan write its `planned` standing against the layout rows as they are now,
     with a row counted from the first plan write whose text holds the file's path."""
+    layouts: dict[str, tuple[set[str], list[str]]] = {}
     tools = [e for e in events if e["kind"] == "tool" and not e.get("refused")]
     plan_text = [(i, e["content"] + e["new"]) for i, e in enumerate(tools) if e["plan_write"]]
     for i, e in enumerate(tools):
@@ -399,7 +407,9 @@ def _standing(events: list[dict], root: Path) -> None:
         found = []
         for f in wrote:
             prefix = checkout_of(root, f)
-            rows, governed = _layout(root / prefix)
+            if prefix not in layouts:
+                layouts[prefix] = _layout(root / prefix)
+            rows, governed = layouts[prefix]
             f = f[len(prefix):]
             named = [j for j, text in plan_text if f in text]
             if f not in rows:
@@ -489,9 +499,7 @@ class _Site:
         checkout that holds the file."""
         prefix = checkout_of(self.root, shown)
         root, rel = self.root / prefix, shown[len(prefix):]
-        side = root / "lockstep.yaml"
-        data = yaml.safe_load(side.read_text()) if side.is_file() else None
-        data = data if isinstance(data, dict) else {}
+        data = _plan_data(root)
         rows = [r for r in data.get("layout") or [] if isinstance(r, dict) and r.get("path") == rel]
         row = rows[0] if rows else None
         governed = any(rel.startswith(str(g)) for g in data.get("governed") or [])
