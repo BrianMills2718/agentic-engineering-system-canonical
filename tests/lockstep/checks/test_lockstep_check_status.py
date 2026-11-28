@@ -6,6 +6,7 @@ import subprocess
 
 import pytest
 
+from lockstep.checks import status
 from lockstep.checks.status import report
 from lockstep_checks_support import write, repo  # noqa: F401  (fixture)
 
@@ -143,6 +144,51 @@ def test_uncommitted_edit_after_the_run_voids_results(linked):
     record(linked, sha, "pass")
     write(linked, "src/pkg/other.py", "X = 1\n")
     assert report(linked).scenarios["core/it-works"].state == "not run at this revision"
+
+
+@pytest.mark.req("lockstep-projection/results-tested-on-the-files-that-were-then-committed-are-used")
+def test_results_tested_on_the_files_that_were_then_committed_are_used(linked):
+    old = commit_all(linked)
+    write(linked, "src/pkg/new.py", "X = 1\n")  # an untracked file, as an agent's new file is before its commit
+    write(linked, "README.md", "edited\n")
+    record(linked, old, "pass", clean=False)
+    assert status.record_tree_cli(["--repo", str(linked)]) == 0
+    new = commit_all(linked)
+    result = report(linked)
+    assert result.results_valid and new[:12] in result.results_note
+    assert "tested tree matches the commit" in result.results_note
+    assert result.scenarios["core/it-works"].state == "passing"
+    write(linked, "README.md", "edited again\n")
+    assert report(linked).scenarios["core/it-works"].state == "not run at this revision"
+
+
+@pytest.mark.req("lockstep-projection/results-tested-on-the-files-that-were-then-committed-are-used")
+def test_a_tested_tree_that_differs_from_the_commit_is_not_used(linked):
+    old = commit_all(linked)
+    write(linked, "README.md", "tested\n")
+    record(linked, old, "pass", clean=False)
+    assert status.record_tree_cli(["--repo", str(linked)]) == 0
+    write(linked, "README.md", "changed after the run\n")
+    commit_all(linked)
+    assert report(linked).scenarios["core/it-works"].state == "not run at this revision"
+
+
+@pytest.mark.req("lockstep-projection/recording-the-tested-tree-leaves-the-index-alone")
+def test_recording_the_tested_tree_leaves_the_index_alone(linked):
+    old = commit_all(linked)
+    write(linked, "README.md", "staged\n")
+    git(linked, "add", "README.md")
+    write(linked, "src/pkg/mod.py", IMPL + "\n# unstaged\n")
+    write(linked, "src/pkg/untracked.py", "Y = 2\n")
+    cached = git(linked, "diff", "--cached")
+    record(linked, old, "pass", clean=False)
+    assert status.record_tree_cli(["--repo", str(linked)]) == 0
+    assert git(linked, "diff", "--cached") == cached
+    assert "untracked.py" in git(linked, "status", "--porcelain")
+    run = json.loads((linked / ".code2check/run.json").read_text())
+    assert run["commit"] == old and run["clean"] is False
+    commit_all(linked)
+    assert run["tree"] == git(linked, "rev-parse", "HEAD^{tree}")
 
 
 @pytest.mark.req("lockstep-projection/open-ids-of-a-plan-are-listed")
