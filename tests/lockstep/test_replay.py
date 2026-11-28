@@ -252,6 +252,16 @@ def test_the_page_offers_the_view_as_a_toggle(repo):
         server.server_close()
 
 
+@pytest.mark.req("lockstep-guard/a-document-write-is-a-plan-write-and-a-generated-test-config-or-wiki-write-is-not")
+def test_a_document_write_is_a_plan_write_and_a_generated_test_config_or_wiki_write_is_not(repo):
+    paths = ["docs/architecture/greet.md", "generated/files.md", "tests/test_greet.py", "pyproject.toml",
+             "wiki/index.md"]
+    t = _write(repo / "t.jsonl", _claude(*[
+        ("Write", {"file_path": str(repo / p), "content": "x\n"}, "File created successfully") for p in paths]))
+    tools = [e for e in session_events(t, repo) if e["kind"] == "tool"]
+    assert [(e["path"], e["plan_write"]) for e in tools] == [(p, p == paths[0]) for p in paths]
+
+
 @pytest.mark.req("lockstep-guard/a-plan-write-is-marked-and-a-code-write-is-not")
 def test_a_plan_write_is_marked_and_a_code_write_is_not(repo):
     t = _write(repo / "t.jsonl", _claude(
