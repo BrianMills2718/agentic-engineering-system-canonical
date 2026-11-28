@@ -166,8 +166,8 @@ def governed(root: Path) -> list[str]:
 
 
 def layout_problems(root: Path) -> list[str]:
-    """Each way the layout fails to be a plan: a row with no purpose, a repeated path, an unknown requirement, or a
-    row that leaves out a requirement its own file names in an `Implements:` line."""
+    """Each way the layout fails to be a plan: a row with no purpose, a repeated path, an unknown requirement, a row
+    that leaves out a requirement its own file names in an `Implements:` line, or a document outside every home."""
     problems: list[str] = []
     known = read_requirements(root)
     raw = _data(root).get("layout")
@@ -189,6 +189,7 @@ def layout_problems(root: Path) -> list[str]:
                 problems.append(f"{SIDE_FILE} layout row for {path} implements {ident}, which no OpenSpec spec or "
                                 "active change defines (openspec/specs/<capability>/spec.md)")
     problems += _rows_missing_their_code(root, raw)
+    problems += misplaced_documents(root)
     return problems
 
 
@@ -205,6 +206,39 @@ def _rows_missing_their_code(root: Path, raw: list) -> list[str]:
             problems.append(f"{SIDE_FILE} layout row for {path} leaves out {', '.join(missing)}, which the file says "
                             "it implements: add them to the row's `implements`, or drop the `Implements:` line")
     return problems
+
+
+NOT_DOCUMENTS = ("README.md", "AGENTS.md", "CLAUDE.md")  # instruction and front files live where their tools look
+
+
+def document_homes(root: Path) -> dict[str, str]:
+    """`document_homes:` from lockstep.yaml: each home (a folder ending in `/`, or a file) and what belongs there."""
+    raw = _data(root).get("document_homes")
+    return {str(k): str(v or "").strip() for k, v in raw.items()} if isinstance(raw, dict) else {}
+
+
+def misplaced_document(root: Path, rel: str) -> str | None:
+    """Why the Markdown file `rel` sits under no declared document home, or None (also None with no homes)."""
+    homes = document_homes(root)
+    parts = rel.split("/")
+    if (not homes or not rel.lower().endswith(".md") or parts[-1] in NOT_DOCUMENTS or parts[0] == "tests"
+            or any(part.startswith(".") for part in parts[:-1])):
+        return None
+    if any(rel == home or (home.endswith("/") and rel.startswith(home)) for home in homes):
+        return None
+    listed = "\n".join(f"- `{home}`: {what}" if what else f"- `{home}`" for home, what in homes.items())
+    return (f"{rel} sits outside every document home declared in {SIDE_FILE} `document_homes:`. "
+            f"Each kind of document has one home; move it to the one that fits, or declare a new home:\n{listed}")
+
+
+def misplaced_documents(root: Path) -> list[str]:
+    """One layout problem per tracked Markdown file outside every declared document home."""
+    if not document_homes(root):
+        return []
+    import subprocess
+
+    listed = subprocess.run(["git", "-C", str(root), "ls-files", "-z", "--", "*.md"], capture_output=True, text=True)
+    return [reason for rel in listed.stdout.split("\0") if rel and (reason := misplaced_document(root, rel))]
 
 
 def target_from_layout(root: Path) -> dict:

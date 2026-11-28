@@ -350,7 +350,7 @@ def test_a_rename_to_an_unplanned_name_is_refused(lay, monkeypatch, capsys):
 
 
 HOMES = ('document_homes:\n  research/: "Research: sources, investigations and synthesis"\n'
-         '  docs/architecture/: "Design: what the system should be"\n')
+         '  docs/architecture/: "Design: what the system should be"\n  openspec/: "Requirements and change proposals"\n')
 
 
 def _with_homes(proj: Path) -> None:

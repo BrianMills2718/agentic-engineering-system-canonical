@@ -586,6 +586,9 @@ def decide(call: dict) -> dict | None:
         hand = _plan_edit(call, root, rel, path)
         if hand:
             return _refuse_or_warn(root, [rel], {"file": rel, "why": "plan_edit"}, hand)
+        misplaced = _misplaced_document(root, rel)
+        if misplaced:
+            return _refuse_or_warn(root, [rel], {"file": rel, "why": "document_home"}, misplaced)
         unplanned = unplanned_reason(root, rel)
         if unplanned:
             return _refuse_or_warn(root, [rel], {"file": rel, "why": "unplanned"}, _with_allowed(root, rel, unplanned),
@@ -620,6 +623,13 @@ def decide(call: dict) -> dict | None:
                    **({"decisions": governing} if governing else {})})
         allowed.append(packet)
     return _out("allow", None, "\n\n".join(x for x in allowed if x)) if allowed else None
+
+
+def _misplaced_document(root: Path, rel: str) -> str | None:
+    """A Markdown file written outside every `document_homes:` entry: why, with each home (layout plans only)."""
+    from lockstep.layout_plan import has_layout, misplaced_document
+
+    return misplaced_document(root, rel) if has_layout(root) else None
 
 
 def _plan_edit(call: dict, root: Path, rel: str, path: Path) -> str | None:
