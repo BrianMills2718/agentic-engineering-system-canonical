@@ -1,0 +1,50 @@
+{
+ "entry": "milestone-1-step-5",
+ "title": "An unplanned file is refused under fixed: and warned about elsewhere, in Claude Code and Codex",
+ "run_at": "2026-11-28T03:18:12Z",
+ "lockstep_revision": "9a1138c79",
+ "verdict": "PASS in Claude Code; PASS in Codex after agent-skills #624 (before it, Codex on an untrusted fresh copy ran no guard)",
+ "method": "Fresh copy of the AES template (uvx copier copy --trust --defaults from AES 9a1138c79, project unplanned-proof). Its lockstep.yaml governs src/unplanned_proof/ and marks it fixed:. One plan change added scripts/ as governed but not fixed. Each client was told to create two files no layout row names, src/unplanned_proof/extra.py (fixed) and scripts/hello.py (not fixed), not to retry a refused write, and to quote any hook message.",
+ "claude": {
+  "command": "claude -p --model haiku --permission-mode acceptEdits --output-format stream-json --verbose '<prompt>'",
+  "hook": "template .claude/settings.json PreToolUse Edit|Write|MultiEdit|NotebookEdit|Bash -> uv run --quiet lockstep-hook",
+  "session_id": "31ce7543-5d7c-4b95-b8e9-5834ff0de500",
+  "result": "extra.py refused (PreToolUse:Write hook error, the refusal lists the three planned files); hello.py written with the same text as a 'Lockstep would block this edit (warn mode)' warning; the agent quoted both",
+  "cost_usd_measured": 0.01016913
+ },
+ "codex_untrusted_before_fix": {
+  "command": "codex exec --enable hooks --dangerously-bypass-hook-trust -s workspace-write --json '<prompt>' </dev/null",
+  "thread_id": "01a22029-c88f-7241-bd1a-f5d7b596bf87",
+  "result": "FAIL: both files written, no hook message, no hook log row. Codex printed 'Untrusted project-local configuration is disabled', so the template's .codex/hooks.json did not load, and the global fallback (agent-skills #623) skipped because that file names lockstep-hook.",
+  "usage_measured": {
+   "input_tokens": 116038,
+   "cached_input_tokens": 93056,
+   "output_tokens": 634,
+   "reasoning_output_tokens": 75
+  }
+ },
+ "codex_trusted": {
+  "command": "codex exec --trust --enable hooks --dangerously-bypass-hook-trust -s workspace-write --json '<prompt>' </dev/null",
+  "thread_id": "01a2202a-ccba-72e2-84b7-d2d94b42e047",
+  "result": "PASS: extra.py refused by the project hook, hello.py written with the warning; the trust entry --trust wrote was removed afterwards (config.toml matched its backup)",
+  "usage_measured": {
+   "input_tokens": 114797,
+   "cached_input_tokens": 92032,
+   "output_tokens": 889,
+   "reasoning_output_tokens": 143
+  }
+ },
+ "codex_untrusted_after_fix": {
+  "fix": "agent-skills #624 (b65da97): the global Codex fallback stands down only when the project names lockstep-hook and ~/.codex/config.toml trusts it; three-case test with a stand-in uvx passed (untrusted+own hook runs, trusted+own hook skips, no own hook runs). Applied with scripts/rulesync_sync.sh apply; the live ~/.codex/hooks.json differs from its backup in that one line.",
+  "thread_id": "01a2202d-3da5-7a90-a9b5-b1239bc252c8",
+  "result": "PASS: extra.py refused by the global fallback, hello.py written with the warning",
+  "usage_measured": {
+   "input_tokens": 116454,
+   "cached_input_tokens": 93184,
+   "output_tokens": 783,
+   "reasoning_output_tokens": 37
+  }
+ },
+ "hook_log": "~/.local/state/lockstep/unplanned/hook-2026-11-27.jsonl: 8 rows; deny extra.py and would_block hello.py at 03:18:14 (Claude), 03:20:18/03:20:22 (Codex trusted), 03:22:56/03:22:59 (Codex after fix); no rows for the failing Codex run",
+ "caveat": "features.hooks = false in Brian's ~/.codex/config.toml (agent-skills #410, on purpose), so everyday Codex sessions run no hooks at all; each Codex run here turned hooks on for that run only. The warn message lists the planned files of the package folder even when the write is under scripts/."
+}
