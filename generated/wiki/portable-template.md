@@ -39,7 +39,7 @@ ID: `portable-template/a-fresh-copy-declares-where-each-kind-of-document-lives`
 
 Status: **implemented and tested**
 
-A fresh copy of the template SHALL declare `document_homes:` in its `lockstep.yaml` (design in `docs/architecture/`, decisions in `docs/decisions/`, requirements and change proposals in `openspec/`, research in `research/`, retained observations in `evidence/`, generator output in `generated/` and the documentation site's generated copies, and its front pages), ship `research/README.md` saying what belongs there, and list the homes in its AGENTS.md, so that its own `make check` reports no misplaced document when it is created.
+A fresh copy of the template SHALL declare `document_homes:` in its `lockstep.yaml` (design in `docs/architecture/`, decisions in `docs/decisions/`, requirements and change proposals in `openspec/`, research in `research/`, retained observations in `evidence/`, generator output in `generated/` and the documentation site's generated copies, and its front pages), ship an empty `research/` folder, and list the homes in its AGENTS.md, so that its own `make check` reports no misplaced document when it is created.
 
 Implemented by:
 

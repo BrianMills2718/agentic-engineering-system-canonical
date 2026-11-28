@@ -341,7 +341,7 @@ def test_a_fresh_copy_has_its_homes_and_no_misplaced_document(tmp_path):
     out = render(tmp_path)
     homes = yaml.safe_load((out / "lockstep.yaml").read_text(encoding="utf-8"))["document_homes"]
     assert "research/" in homes and "generated/" in homes
-    assert (out / "research/README.md").is_file()
+    assert (out / "research").is_dir()
     agents = (out / "AGENTS.md").read_text(encoding="utf-8")
     assert "research/" in agents and "generated/" in agents
     # what the skipped copier tasks would write: the docs site's copy of the specs and the generated wiki

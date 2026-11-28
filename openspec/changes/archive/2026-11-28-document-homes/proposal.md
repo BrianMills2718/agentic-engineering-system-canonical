@@ -14,7 +14,7 @@ the template does not ship, and guesses a document's kind from its folder name.
 - When it does, the whole-tree `lockstep check` (run by `make check`) reports every tracked Markdown file outside all homes (instruction files,
   hidden folders and `tests/` excepted), naming the file and the homes.
 - The edit hook warns when an agent writes such a file, and names the homes.
-- A fresh copy declares its homes and ships `research/README.md`; its AGENTS.md lists them.
+- A fresh copy declares its homes and ships an empty `research/` folder; its AGENTS.md lists them.
 - Component folders (decision 0003) and a generated requirements document (decision 0004) are not in this change:
   both decisions record no words of Brian's (`Source: inferred by agent`).
 
